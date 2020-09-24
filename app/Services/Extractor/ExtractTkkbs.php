@@ -1,0 +1,177 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Gabriel
+ * Date: 12. 12. 2019
+ * Time: 10:02
+ */
+
+namespace App\Services\Extractor;
+
+
+use App\Services\Extractor\Extractors;
+use App\Services\Form;
+use DOMDocument;
+use DOMXPath;
+use Imagick;
+
+
+class ExtractTkkbs extends Extractors
+{
+    protected $prefix = 'https://www.tkkbs.sk/';
+    protected $url = 'https://www.tkkbs.sk/search.php?rstext=pozvanka&rskde=tsl';
+    protected $organizationId = 101;
+
+
+    public function parseListUrl() {
+//        $url = "https://www.tkkbs.sk/search.php?rstext=pozvanka&rskde=tsl";
+        $html = file_get_contents($this->url);
+//        $html = file_get_contents($this->url);
+
+        //Instantiate the DOMDocument class.
+        $htmlDom = new DOMDocument;
+
+        //Parse the HTML of the page using DOMDocument::loadHTML
+        @$htmlDom->loadHTML($html);
+
+        //Extract the links from the HTML.
+        $links = $htmlDom->getElementsByTagName('a');
+
+        //Array that will contain our extracted links.
+        $extractedLinks = array();
+
+        //Loop through the DOMNodeList.
+        //We can do this because the DOMNodeList object is traversable.
+        foreach($links as $link){
+
+            //Get the link text.
+            $linkText = $link->nodeValue;
+            //Get the link in the href attribute.
+            $linkHref = $link->getAttribute('href');
+
+            if(stripos($linkHref ,'cisloclanku' ) == false ){
+                continue;
+            }
+
+            //Add the link to our $extractedLinks array.
+            $extractedLinks[] = array(
+                'title' =>$linkText,
+                'href' =>  $linkHref
+            );
+        }
+        $this->createEvent($extractedLinks);
+    }
+
+
+    public function parseEvent($href, $event) {
+        // $url = "https://www.ecav.sk/aktuality/pozvanky";
+        $html = file_get_contents($href);
+        // $html = file_get_contents('https://www.tkkbs.sk/view.php?cisloclanku=20191219020');
+
+        //Instantiate the DOMDocument class.
+        $htmlDom = new DOMDocument;
+
+        //Parse the HTML of the page using DOMDocument::loadHTML
+        @$htmlDom->loadHTML($html);
+
+        //Extract the links from the HTML.
+        $imgUrls = $htmlDom->getElementsByTagName('img');
+        $bodyText = $htmlDom->getElementsByTagName('span');
+
+        //Array that will contain our extracted links.
+        $extractedLinks = array();
+
+        //Loop through the DOMNodeList.
+        //We can do this because the DOMNodeList object is traversable.
+        foreach( $bodyText as $link){
+            //Get the link text.
+            $linkText = $link->nodeValue;
+
+            // validation
+            if($linkText == "\n"){
+                continue;
+            }
+
+            if($linkText == ""){
+                continue;
+            }
+
+            $extractedLinks[] = array(
+                'src' => $linkText
+            );
+        }
+
+        // array to string
+        $body = join(" ", $extractedLinks[2]);
+
+        // Remove first sentence
+        $moveSentence  = $this->first_sentence_move($body);
+
+        $event->update([
+            'body'      => $moveSentence,
+            'start_at' => $this->find_date($moveSentence)
+        ]);
+
+        // Generate paragraps in the event body
+        $this->paragraphGenerator($event);
+
+// ----------------------------  GET  IMAGE  ----------------------------------
+        //Loop through the DOMNodeList.
+        //We can do this because the DOMNodeList object is traversable.
+        foreach( $imgUrls as $link){
+            //Get the link in the href attribute.
+            $linkHref = $link->getAttribute('src');
+
+            $extractedLinks[] = array(
+                'image' => $linkHref
+            );
+        }
+
+        $lastArray = end($extractedLinks);
+
+        $toString = join(" ", $lastArray);
+//        dd($toString);
+
+        $url =  'https://www.tkkbs.sk' . $toString;
+
+
+//        print_r(end($extractedLinks));
+
+        (new Form($event, $url ))->getPictureEcavEvent();
+
+        $event->update([
+            'village_id' => $this->finderVillages($moveSentence)
+        ]);
+
+    }
+
+
+
+    //https://www.electrictoolbox.com/get-first-sentence-php/
+    public function first_sentence_move($content) {
+
+        // Remove "Bratislava 19. decembra (TK KBS)"
+        $extract = strpos($content, ')');
+        $firstSentence = substr($content, 0, $extract+2);
+
+        if($extract === false) {
+            return $content;
+        }
+
+        $body = str_replace($firstSentence, "", $content);
+
+        return $body . '<p class="text-right">'. $firstSentence . '</p>';
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+}

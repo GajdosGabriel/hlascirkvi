@@ -1,0 +1,39 @@
+$background-container: white;
+$background-body: #c7d0d1;
+
+$text-muted: #a3a1a1;
+$color-primary: #1e2e37;
+
+$background-nav: rgba(59,89,153 ,1);
+
+$color-secondary: #56616e;
+
+$gradnier-card: radial-gradient(rgba(94, 102, 103, 0.99), $color-secondary);
+
+// FONT VARIABLES
+//$font-primary: 'Nunito', sans-serif;
+//$font-display: 'Josefin Sans', sans-serif;
+
+$hover-color: rgba(87, 0, 87, 0.81);
+.text-muted{
+  color: $text-muted;
+}
+
+.lead{
+  font-size: 1.6rem;
+  color: $text-muted;
+  font-weight: 100;
+  padding: 1rem 0rem;
+}
+
+
+
+.fas {
+  color: $text-muted;
+}
+
+
+
+
+
+

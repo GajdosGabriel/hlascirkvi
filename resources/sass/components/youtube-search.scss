@@ -1,0 +1,13 @@
+.VideoGroup__wrapper{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 1rem ;
+
+}
+
+@media (max-width: 426px) {
+  .VideoGroup__wrapper{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}

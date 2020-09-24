@@ -1,0 +1,31 @@
+
+
+.verse-body{
+  padding: 2rem;
+grid-column: 2/ span 10;
+  font-size: 110%;
+}
+
+.verse-aside{
+  padding: 2rem;
+}
+
+
+  .datetime{
+    background: linear-gradient(#b80000, pink);
+    color: $background-container;
+    padding: 2rem;
+  }
+
+
+  .nav-button{
+    display: flex;
+    justify-content: space-between;
+  }
+
+.two-collums{
+  -webkit-columns: 300px 2;
+  -moz-columns: 300px 2;
+  columns: 300px 2;
+}
+

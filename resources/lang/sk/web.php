@@ -1,0 +1,100 @@
+<?php
+
+return [
+    'E-Mail Address' => 'Email',
+    'Password' => 'Heslo',
+    'Remember Me' => 'Neodhlasovať sa',
+    'first_name' => 'Meno',
+    'last_name' => 'Priezvisko',
+    'Forgot Your Password?' => 'Zabudnuté heslo?',
+    'Login' => 'Prihlásit',
+    'Register' => 'Registrácia',
+    'Logout' => 'Odhlásiť',
+    'Confirm Password' => 'Zopakovať heslo',
+    'Reset Password' => 'Resetovať heslo',
+    'Send Password Reset Link' => 'Zaslať email na zmenu hesla',
+
+    //    Navigation
+    'about' => 'Hlas cirkvi.sk',
+    'online_live' => 'Priame prenosy',
+    'radio_stations' => 'Rádia',
+    'radio_7' => 'Rádio 7',
+    'radio_lumen' => 'Rádio Lumen (pre mladých)',
+    'search' => 'Hľadať',
+    'no_record' => 'Bez záznamu',
+    'add_article' => 'Nový článok',
+    'profile' => 'Profil',
+    'select' => '--Vybrať--',
+
+    'users' => 'Uživatelia',
+    'categories' => 'Kategórie',
+    'adwertismes' => 'Reklamy',
+    'daily_reading' => 'Zamyslenia',
+
+    //    Buttons
+    'btn_back' => 'Späť',
+    'btn_save' => 'Uložiť',
+    'btn_edit' => 'Upraviť',
+    'btn_copy' => 'Kopírovať',
+    'btn_delete' => 'Zmazať',
+    'btn_cancel' => 'Zrušiť',
+    'btn_send' => 'Odoslať',
+    'btn_link_to_web' => 'Odkaz na web.',
+    'btn_unregister' => 'Odhlásiť sa',
+
+//    Generals
+    'picture' => 'Obrázok',
+    'author' => 'Autor',
+    'no_items' => 'Žiadné príspevky',
+    'all_categories' => 'Kategórie',
+    'login_thrue_fb' => 'Vstup cez Facebook.',
+
+    //    Events
+    'events_all' => 'Podujatia',
+    'events_user' => 'Moje podujatia',
+    'events_new' => 'Nové podujatie',
+    'events_new_add' => 'Pridať nové podujatie',
+    'events_next' => 'Ďalšie podujatia',
+    'events_empty' => 'Žiadne akcie',
+    'events_modul_title' => 'Pozvánky na podujatia',
+    'events_city' => 'Miesto konania:',
+    'events_actual_list' => 'Zoznam podujatí',
+    'events_save_update' => 'Upraviť pozvánku',
+    'events_create' => 'Vytvoriť akciu',
+    'events_deleted' => 'Akcia vymazaná',
+    'events_delete' => 'Vymazať podujatie?',
+    'events_title' => 'Názov podujatia',
+    'events_body' => 'Popis akcie',
+    'events_record_wants' => 'Nemôžem prísť, chcem nahrávku!',
+    'events_record_wants_send' => 'Požiadavka na nahrávku bola zaslaná!',
+    'events_record_wants_unsend' => 'Požiadavka nahrávky bola zrušená!',
+    'events_picture' => 'Vyberte jeden alebo viac obrázkov, jpg, png, pdf, doc, docx',
+    'events_appendFile' => 'Príloha, plagát, Pdf, Word, iné.',
+    'events_dateStart' => 'Deň a hodina začiatku akcie',
+    'events_dateEnd' => 'Koniec akcie',
+    'events_timeStart' => 'Hodina začiatku',
+    'events_street' => 'Ulica a číslo konania podujatia',
+    'events_region_of_event' => 'Miesto konania',
+    'events_clientwww' => 'Link na web alebo prihl. formulár',
+    'events_organizator' => 'Organizátor podujatia',
+    'events_registration' => 'Rezervácia miesta sa:',
+    'events_rezervation_recomended' => 'Rezervácia sa doporučuje!', // veta doproucuje sa
+    'events_rezervation_need' => 'Rezervovanie miesta sa vyžaduje.', // veta vyzaduje sa
+    'events_rezervation' => 'Rezervovať miesto',    // btn rezervovat
+    'events_rezervation_OK' => 'Ste prihlásený!', // btn uz som
+    'events_rezervation_unset' => 'Ste odhlásený!', // btn uz som
+    'events_registration_no_need' => 'Prihlasovanie je vypnuté.',
+    'events_entryFee' => 'Vstupné sa:',
+    'events_time_to_start' => 'Do začiatku podujatia zostáva ešte',
+    'events_published_now' => 'Zverejniť teraz ',
+    'events_published_later' => ' Zverejniť neskôr',
+    'events_users_no_subcribe' => 'Bez záznamu. Zdieľajte túto stránku na FB.',
+    'events_users_subcribe' => 'Prihlásený účastníci',
+    'events_users_finished' => 'Skončené',
+    'events_users_is_active' => 'Aktívna',
+    'events_users_no_active' => 'Neaktívna',
+    'events_fb' => 'Pomôžte s propagáciou podujatia, :-) ďakujeme!',
+    'events_info_panel' => 'Podrobné informácie',
+    'events_add_event' => 'Pridal: ',
+
+];

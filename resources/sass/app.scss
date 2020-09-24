@@ -1,0 +1,35 @@
+// Fonts
+//@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+
+// Variables
+//@import 'variables';
+
+// Bootstrap
+//@import '~bootstrap/scss/bootstrap';
+
+@import "abstract/variables";
+@import "abstract/utilities";
+@import "base/base";
+@import "components/pagination";
+@import "components/navigation";
+@import "components/footer";
+@import "components/event";
+@import "components/verses";
+@import "components/login";
+@import "components/messenger";
+@import "components/online-prenosy";
+@import "components/youtube-search";
+@import "components/table";
+@import "components/comment";
+@import "components/post";
+
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.pagination {
+    display: inline-block;
+}
