@@ -40,7 +40,7 @@
             </div>
 
             <div class="text-muted">
-                {{ html_entity_decode( strip_tags( \Illuminate\Support\Str::limit( $event->body, 250 ))) }}
+                {{ html_entity_decode( strip_tags( \Illuminate\Support\Str::limit( $event->body, 200 ))) }}
             </div>
         </div>
 

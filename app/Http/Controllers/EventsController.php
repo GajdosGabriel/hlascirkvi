@@ -54,7 +54,6 @@ class EventsController extends Controller
 
     public function store(StoreEventRequest $request)
     {
-//        dd($request->all());
         $request->save();
         return redirect('akcie');
     }

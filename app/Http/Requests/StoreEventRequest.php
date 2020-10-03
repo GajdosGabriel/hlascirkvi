@@ -34,7 +34,7 @@ class StoreEventRequest extends FormRequest
         $rules = [
             'title' => 'required|max:250',
             'start_at' => 'required|date|after:yesterday',
-//            'end_at' => 'required|date|after:yesterday',
+            'end_at' => 'required|date|after:yesterday',
             'organization_id' => 'required|integer|exists:organizations,id',
             'registration' => 'required',
             'entryFee' => 'required',

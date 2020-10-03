@@ -100,7 +100,7 @@ abstract class Extractors
             "júla",
             "augusta",
             "septembra",
-            "octóbera",
+            "októbra",
             "novembra",
             "decembra"
         );

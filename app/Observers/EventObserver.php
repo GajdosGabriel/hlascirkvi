@@ -45,6 +45,9 @@ class EventObserver
         (new EventImageGenerator($event))->checkIfEvent();
         }
 
+//        if($event->start_at)
+//        $event->update(['end_at' => $event->start_at->addHours(2)]);
+
     }
 
     /**

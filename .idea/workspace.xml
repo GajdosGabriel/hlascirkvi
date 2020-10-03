@@ -7,11 +7,17 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="hlascirkvi" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -143,6 +149,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
@@ -163,7 +170,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1600963897990</updated>
-      <workItem from="1600963904274" duration="293000" />
+      <workItem from="1600963904274" duration="1140000" />
+      <workItem from="1601051152823" duration="826000" />
+      <workItem from="1601492500342" duration="659000" />
+      <workItem from="1601704775150" duration="8694000" />
     </task>
     <servers />
   </component>
@@ -176,29 +186,41 @@
     </ignored-roots>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1864" height="271" key="GridCell.Tab.0.bottom" timestamp="1600964288023">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1601715448621">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1864" height="271" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1600964288023" />
-    <state width="1864" height="271" key="GridCell.Tab.0.center" timestamp="1600964288023">
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1601715448621" />
+    <state x="805" y="395" key="Github.ShareDialog" timestamp="1601715309812">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1864" height="271" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1600964288023" />
-    <state width="1864" height="271" key="GridCell.Tab.0.left" timestamp="1600964288023">
+    <state x="805" y="395" key="Github.ShareDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1601715309812" />
+    <state width="1864" height="271" key="GridCell.Tab.0.bottom" timestamp="1600967196835">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1864" height="271" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1600964288023" />
-    <state width="1864" height="271" key="GridCell.Tab.0.right" timestamp="1600964288023">
+    <state width="1864" height="271" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1600967196835" />
+    <state width="1864" height="271" key="GridCell.Tab.0.center" timestamp="1600967196835">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1864" height="271" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1600964288023" />
+    <state width="1864" height="271" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1600967196835" />
+    <state width="1864" height="271" key="GridCell.Tab.0.left" timestamp="1600967196834">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1864" height="271" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1600967196834" />
+    <state width="1864" height="271" key="GridCell.Tab.0.right" timestamp="1600967196835">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1864" height="271" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1600967196835" />
     <state x="352" y="82" key="SettingsEditor" timestamp="1600963955204">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1600963955204" />
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1600964171458">
+    <state x="92" y="92" width="1736" height="866" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1601714584926">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1600964171458" />
+    <state x="92" y="92" width="1736" height="866" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1601714584926" />
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1601711994056">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1601711994056" />
   </component>
 </project>

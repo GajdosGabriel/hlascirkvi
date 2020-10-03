@@ -8,13 +8,13 @@
 
 <div class="form-group">
     <label for="dateStart">{{ trans('web.events_dateStart') }}</label>
-    <input type="datetime-local" name="start_at" value="{{ old('start_at') ?? $event->start_at->format('Y-m-d\TH:i') }}" id="dateStart" class="form-control" required>
+    <input type="datetime" name="start_at" value="{{ old('start_at') ?? $event->start_at }}" id="dateStart" class="form-control" required>
 </div>
 
-{{--<div class="form-group">--}}
-    {{--<label for="dateend">{{ trans('web.events_dateEnd') }}</label>--}}
-    {{--<input type="datetime" name="end_at" value="{{ old('end_at') ?? $event->end_at->format('Y-m-d H:i') }}" id="dateend" class="form-control">--}}
-{{--</div>--}}
+<div class="form-group">
+    <label for="dateend">{{ trans('web.events_dateEnd') }}</label>
+    <input type="datetime" name="end_at" value="{{ old('end_at') ?? $event->end_at }}" id="dateend" class="form-control" required>
+</div>
 
 
 {{--<div class="form-group">--}}

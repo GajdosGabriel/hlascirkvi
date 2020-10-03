@@ -19,6 +19,11 @@ class Event extends Model implements ViewableContract
     protected $dates = ['end_at'];
 //    protected $with = ['village', 'organization'];
 
+    protected $casts = [
+        'start_at' => 'datetime:Y-m-d H:00',
+        'end_at' => 'datetime:Y-m-d H:00',
+    ];
+
     public function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
@@ -59,13 +64,6 @@ class Event extends Model implements ViewableContract
     {
         $this->attributes['body'] = cleanBody($value);
     }
-
-    public function setStartAtAttribute($value)
-    {
-        $this->attributes['start_at'] = $value;
-        $this->attributes['end_at'] = Carbon::create($value)->addHours(2);
-    }
-
 
     public function getStartAtAttribute($value)
     {
