@@ -16,13 +16,13 @@ class Event extends Model implements ViewableContract
     use Favoritable, SoftDeletes, Viewable;
     protected $guarded = [];
 
-    protected $dates = ['end_at'];
+
 //    protected $with = ['village', 'organization'];
 
-    protected $casts = [
-        'start_at' => 'datetime:Y-m-d H:00',
-        'end_at' => 'datetime:Y-m-d H:00',
-    ];
+//    protected $casts = [
+//        'start_at'  => 'datetime:Y-m-d H:i',
+//        'end_at'    => 'datetime:Y-m-d H:i',
+//    ];
 
     public function scopeFilter($query, $filters)
     {
