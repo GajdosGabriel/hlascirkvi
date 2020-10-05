@@ -36,12 +36,11 @@ class EventFilters extends Filters
 
 
         // Events
-
         if($this->request->district) return $this->getDistrict($this->request->district);
 
         if($this->request->event) return $this->getUnpublished($this->request->event);
 
-        return $this->builder->where('end_at', '>', Carbon::now())->wherePublished(1);
+        return $this->builder->where('start_at', '>', Carbon::now())->wherePublished(1);
 
     }
 

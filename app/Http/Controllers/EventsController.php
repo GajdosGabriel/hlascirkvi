@@ -24,7 +24,12 @@ class EventsController extends Controller
     public function index(EventFilters $filters)
     {
         $events = Event::filter($filters)->orderBy('end_at', 'asc')->paginate(30);
-        return view('events.index', compact('events'));
+        $currentlyEvents = Event::
+        where('start_at', '<=', Carbon::now())
+            ->where('end_at', '>=', Carbon::now())
+            ->wherePublished(1)->get();
+
+        return view('events.index', compact(['events', 'currentlyEvents']));
     }
 
     public function show($event)

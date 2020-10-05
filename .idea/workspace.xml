@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Filters/EventFilters.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Filters/EventFilters.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/events/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +185,7 @@
       <workItem from="1601492500342" duration="659000" />
       <workItem from="1601704775150" duration="11727000" />
       <workItem from="1601879164402" duration="3216000" />
-      <workItem from="1601885117596" duration="2495000" />
+      <workItem from="1601885117596" duration="8745000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -214,24 +215,43 @@
       <option name="project" value="LOCAL" />
       <updated>1601715531860</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Even start and end blade show">
+      <created>1601893015997</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1601893015997</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
     <MESSAGE value="Even start and end datetime" />
-    <option name="LAST_COMMIT_MESSAGE" value="Even start and end datetime" />
+    <MESSAGE value="Even start and end blade show" />
+    <option name="LAST_COMMIT_MESSAGE" value="Even start and end blade show" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1601715530796">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1601893014838">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1601715530796" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1601893014838" />
     <state x="805" y="395" key="Github.ShareDialog" timestamp="1601715309812">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -260,9 +280,9 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="92" y="92" width="1736" height="866" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1601714584926" />
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1601879807693">
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1601898785805">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1601879807693" />
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1601898785805" />
   </component>
 </project>
