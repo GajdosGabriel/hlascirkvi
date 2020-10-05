@@ -46,7 +46,18 @@
                         <span style="font-weight: bold">{{ ucfirst( localized_date('l', $event->start_at)) }} {{ localized_date('H.i', $event->start_at)  }} hod.</span>
                         <h5>{{ trans('web.events_city') }}
                                 {{ $event->village->fullname }}, {{ $event->street }}
-                            <br>Dňa: {{ $event->start_at->format('d. m. Y')}}, o {{ $event->start_at->format('H.i') }} hod.
+                            <br>
+{{--                            {{ $event->start_at->format('d. m. Y')}}, o {{ $event->start_at->format('H.i') }} hod.--}}
+{{--                            - {{ $event->end_at->format('d. m. Y')}}, o {{ $event->end_at->format('H.i') }} hod.--}}
+
+                            @if($event->start_at->diffInDays($event->end_at))
+                                {{ $event->start_at->format('d. m. Y')}},  {{ $event->start_at->format('H.i') }} hod.
+                                - {{ $event->end_at->format('d. m. Y')}},  {{ $event->end_at->format('H.i') }} hod.
+
+
+                            @else
+                                {{ $event->start_at->format('d. m. Y')}}, o {{ $event->start_at->format('H.i') }} - {{ $event->end_at->format('H.i') }} hod.
+                            @endif
                         </h5>
                     </div>
 
