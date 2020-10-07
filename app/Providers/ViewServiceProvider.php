@@ -77,6 +77,14 @@ class ViewServiceProvider extends ServiceProvider
                 ->orderBy('start_at','asc')->take(5)->get());
         });
 
+        //  Curently Events
+        view()->composer('events._current_events', function($view)
+        {
+            $view->with('currentlyEvents',Event::where('start_at', '<=', Carbon::now())
+                ->where('end_at', '>=', Carbon::now())
+                ->wherePublished(1)->get());
+        });
+
         //  District Events count
         view()->composer('events.districts_modul', function($view)
         {
