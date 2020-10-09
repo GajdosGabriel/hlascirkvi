@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/events/_current_events.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/ViewServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/ViewServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/session.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/session.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +192,7 @@
       <workItem from="1601968586802" duration="700000" />
       <workItem from="1602051613788" duration="1797000" />
       <workItem from="1602054650455" duration="19000" />
-      <workItem from="1602081413224" duration="571000" />
+      <workItem from="1602081413224" duration="694000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -241,7 +236,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601910337893</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Current event modul + VieServiceProvider">
+      <created>1602082029459</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1602082029459</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,13 +269,14 @@
     <MESSAGE value="Even start and end datetime" />
     <MESSAGE value="Even start and end blade show" />
     <MESSAGE value="Even display currently events" />
-    <option name="LAST_COMMIT_MESSAGE" value="Even display currently events" />
+    <MESSAGE value="Current event modul + VieServiceProvider" />
+    <option name="LAST_COMMIT_MESSAGE" value="Current event modul + VieServiceProvider" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1601910336965">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1602082028534">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1601910336965" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1602082028534" />
     <state x="805" y="395" key="Github.ShareDialog" timestamp="1601715309812">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

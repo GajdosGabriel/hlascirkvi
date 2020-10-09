@@ -23,7 +23,7 @@ class EventsController extends Controller
 
     public function index(EventFilters $filters)
     {
-        $events = Event::filter($filters)->orderBy('end_at', 'asc')->paginate(30);
+        $events = Event::filter($filters)->orderBy('start_at', 'asc')->paginate(30);
         return view('events.index', compact('events'));
     }
 
