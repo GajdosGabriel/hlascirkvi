@@ -64,7 +64,7 @@
 
                         <div class="page-pictures">
                             <div>
-                                @if (!$post->images)
+                                @if (! isset($post->images))
                                     @forelse($post->images as $image)
                                         <img class="rounded" style="width: 100%; margin-bottom: 2rem" src="{{ url($image->originalImageUrl) }}">
                                     @empty
