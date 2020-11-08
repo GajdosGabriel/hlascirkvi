@@ -35,7 +35,6 @@ class Post extends Model implements ViewableContract
         static::addGlobalScope('published', function (Builder $builder) {
             $builder->has('updaters');
         });
-
     }
 
     public function path() {

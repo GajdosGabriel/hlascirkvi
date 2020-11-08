@@ -4,8 +4,10 @@ namespace App\Observers;
 
 
 use App\Inspect\CleanBodyText;
+use App\Inspect\CleanerParagraphs;
 use App\Post;
-use Config;
+
+
 
 
 class PostObserver
@@ -46,7 +48,8 @@ class PostObserver
      */
     public function updated(Post $post)
     {
-        //
+        // Clean spam in body post celý odstavec
+        (new CleanerParagraphs($post))->cleanBody();
     }
 
     /**

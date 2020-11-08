@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Inspect/CleanerParagraphs.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Observers/PostObserver.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Observers/PostObserver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/TextCleaner/BodyCleaner.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,6 +196,16 @@
       <workItem from="1602051613788" duration="1797000" />
       <workItem from="1602054650455" duration="19000" />
       <workItem from="1602081413224" duration="694000" />
+      <workItem from="1602223568997" duration="195000" />
+      <workItem from="1602870402100" duration="111000" />
+      <workItem from="1603088552701" duration="165000" />
+      <workItem from="1603435097185" duration="1146000" />
+      <workItem from="1603879516908" duration="40000" />
+      <workItem from="1604346395787" duration="35000" />
+      <workItem from="1604768596502" duration="853000" />
+      <workItem from="1604817571270" duration="4373000" />
+      <workItem from="1604837540448" duration="4751000" />
+      <workItem from="1604849588938" duration="822000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -243,7 +256,28 @@
       <option name="project" value="LOCAL" />
       <updated>1602082029459</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Fix dispaly event index start at">
+      <created>1602223700959</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1602223700959</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Oprava $post messing show-b.blade.php">
+      <created>1603435510059</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1603435510059</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Text cleaner celého odstavca">
+      <created>1604850192669</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1604850192669</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,13 +304,20 @@
     <MESSAGE value="Even start and end blade show" />
     <MESSAGE value="Even display currently events" />
     <MESSAGE value="Current event modul + VieServiceProvider" />
-    <option name="LAST_COMMIT_MESSAGE" value="Current event modul + VieServiceProvider" />
+    <MESSAGE value="Fix dispaly event index start at" />
+    <MESSAGE value="Oprava $post messing show-b.blade.php" />
+    <MESSAGE value="Text cleaner celého odstavca" />
+    <option name="LAST_COMMIT_MESSAGE" value="Text cleaner celého odstavca" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1602082028534">
+    <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1604850325332">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1602082028534" />
+    <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1604850325332" />
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1604850191655">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1604850191655" />
     <state x="805" y="395" key="Github.ShareDialog" timestamp="1601715309812">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -297,6 +338,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1864" height="271" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1600967196835" />
+    <state x="713" y="299" key="NewPhpClassDialog" timestamp="1604850298887">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="713" y="299" key="NewPhpClassDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1604850298887" />
     <state x="352" y="82" key="SettingsEditor" timestamp="1600963955204">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -305,9 +350,9 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="92" y="92" width="1736" height="866" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1601714584926" />
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1601898785805">
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1604840443132">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1601898785805" />
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1604840443132" />
   </component>
 </project>

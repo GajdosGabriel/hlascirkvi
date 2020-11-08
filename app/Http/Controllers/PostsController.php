@@ -7,6 +7,7 @@ use App\Events\Posts\ViewCounter;
 use App\Messenger;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Services\CreditUser;
+use App\Services\TextCleaner\BodyCleaner;
 use Auth;
 use Event;
 use Illuminate\Http\Response;

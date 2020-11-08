@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\PostObserver;
+use App\Post;
 use App\Verse;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;

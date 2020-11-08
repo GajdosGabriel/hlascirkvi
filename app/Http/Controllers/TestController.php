@@ -28,6 +28,7 @@ class TestController extends Controller
             if (strpos($post->body, $frase)) {
 
                 $cleanBody = substr($post->body, 0, strpos($post->body, $frase));
+
                 $post = \DB::table('posts')->whereId($post->id)->first();
 
                 \DB::table('posts')->whereId($post->id)->update([
