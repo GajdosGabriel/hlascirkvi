@@ -16,7 +16,9 @@ class CleanerParagraphs
     // Text po týchto frázach bude odstránenýz post->body.
     protected $phrases = [
         "Podporte náš projekt: https://www.logos.tv/pomoc",
-        "Kliknite a prihláste sa na odber"
+        "Kliknite a prihláste sa na odber",
+        // Spoločenstvo dobrého pastiera 274
+        "================"
     ];
 
     public function __construct(Post $post)

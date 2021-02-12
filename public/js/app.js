@@ -3400,6 +3400,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['organization', 'post'],
@@ -5022,7 +5027,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.slide-fade-enter-active, .slide-fade-leave-to {\n    -webkit-transition: opacity .5s;\n    transition: opacity .5s;\n}\n.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n.navButton {\n    float: left;\n    margin-right: 1rem;\n    cursor: pointer;\n    padding: .4rem;\n    border-radius: .6rem;\n}\n.img-avatar {\n    max-width: 6rem;\n    border-radius: .5rem;\n    border: 1px solid black\n}\n.button {\n    cursor:pointer;\n    float: right;\n    font-size: 120%;\n    padding: 0rem 1.8rem;\n    border-radius: .5rem;\n    text-align: center;\n}\n.activeButton {\n    background: rgba(59,89,153 ,1);\n    color: white;\n}\n.buttonA {\n    background: red;\n    color: whitesmoke;\n}\n.buttonB {\n    background: silver;\n    color: #535353;\n}\n.Media {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-align: start;\n            align-items: flex-start;\n}\n.Media-figure {\n    margin-right: 1em;\n}\n.Media-body {\n    -webkit-box-flex: 1;\n            flex: 1;\n}\n\n\n", ""]);
+exports.push([module.i, "\n.slide-fade-enter-active, .slide-fade-leave-to {\n    -webkit-transition: opacity .5s;\n    transition: opacity .5s;\n}\n.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n.navButton {\n    float: left;\n    margin-right: 1rem;\n    cursor: pointer;\n    padding: .7rem .9rem;\n    border-radius: .6rem;\n}\n.img-avatar {\n    max-width: 6rem;\n    border-radius: .5rem;\n    border: 1px solid black\n}\n.button {\n    cursor:pointer;\n    float: right;\n    font-size: 120%;\n    padding: 0rem 1.8rem;\n    border-radius: .5rem;\n    text-align: center;\n}\n.activeButton {\n    background: rgba(59,89,153 ,1);\n    color: white;\n}\n.buttonA {\n    background: red;\n    color: whitesmoke;\n}\n.buttonB {\n    background: silver;\n    color: #535353;\n}\n.Media {\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-align: start;\n            align-items: flex-start;\n}\n.Media-figure {\n    margin-right: 1em;\n}\n.Media-body {\n    -webkit-box-flex: 1;\n            flex: 1;\n}\n\n\n", ""]);
 
 // exports
 
@@ -59758,47 +59763,84 @@ var render = function() {
                 }
               }),
           _vm._v(" "),
-          _c("div", { staticClass: "Media-body" }, [
-            _c("h2", {
-              domProps: { textContent: _vm._s(_vm.organization.title) }
-            }),
-            _vm._v(" "),
-            _vm.organization.person == 1
-              ? _c(
-                  "div",
-                  {
-                    staticClass: "navButton",
-                    class: { activeButton: _vm.showDescription },
-                    on: { click: _vm.toggle }
-                  },
-                  [_vm._v("Autor")]
-                )
-              : _c(
-                  "div",
-                  {
-                    staticClass: "navButton",
-                    class: { activeButton: _vm.showDescription },
-                    on: { click: _vm.toggle }
-                  },
-                  [_vm._v("Profil")]
-                ),
-            _vm._v(" "),
-            _vm.isVideoPage
-              ? _c(
-                  "a",
-                  {
-                    staticClass: "navButton",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function($event) {
-                        return _vm.openModal()
-                      }
-                    }
-                  },
-                  [_vm._v("Zapojiť sa")]
-                )
-              : _vm._e()
-          ])
+          _c(
+            "div",
+            { staticClass: "Media-body" },
+            [
+              _c("div", { staticStyle: { display: "inline-block" } }, [
+                _c("h2", {
+                  domProps: { textContent: _vm._s(_vm.organization.title) }
+                }),
+                _vm._v(" "),
+                _vm.organization.person == 1
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "navButton",
+                        class: { activeButton: _vm.showDescription },
+                        on: { click: _vm.toggle }
+                      },
+                      [_vm._v("Autor")]
+                    )
+                  : _c(
+                      "div",
+                      {
+                        staticClass: "navButton",
+                        class: { activeButton: _vm.showDescription },
+                        on: { click: _vm.toggle }
+                      },
+                      [_vm._v("Profil")]
+                    ),
+                _vm._v(" "),
+                _vm.isVideoPage
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "navButton",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.openModal()
+                          }
+                        }
+                      },
+                      [_vm._v("Zapojiť sa")]
+                    )
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("transition", { attrs: { name: "fade" } }, [
+                _vm.showDescription
+                  ? _c("div", [
+                      _vm.organization.description == null
+                        ? _c("div", [_vm._v("Profil je nevyplnený.")])
+                        : _vm._e(),
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.organization.description) +
+                          " "
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticStyle: {
+                            cursor: "pointer",
+                            "font-size": "75%",
+                            float: "left",
+                            "margin-right": "1rem"
+                          },
+                          on: { click: _vm.toggle }
+                        },
+                        [_vm._v("Zavrieť X")]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _c("div", [
@@ -59818,34 +59860,6 @@ var render = function() {
             on: { click: _vm.subscribe }
           })
         ])
-      ]),
-      _vm._v(" "),
-      _c("transition", { attrs: { name: "fade" } }, [
-        _vm.showDescription
-          ? _c("div", [
-              _vm.organization.description == null
-                ? _c("div", [_vm._v("Profil je nevyplnený.")])
-                : _vm._e(),
-              _vm._v(
-                "\n            " + _vm._s(_vm.organization.description) + " "
-              ),
-              _c("br"),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticStyle: {
-                    cursor: "pointer",
-                    "font-size": "75%",
-                    float: "left",
-                    "margin-right": "1rem"
-                  },
-                  on: { click: _vm.toggle }
-                },
-                [_vm._v("Zavrieť X")]
-              )
-            ])
-          : _vm._e()
       ])
     ],
     1

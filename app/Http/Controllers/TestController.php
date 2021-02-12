@@ -17,11 +17,23 @@ use Auth;
 class TestController extends Controller
 {
 
+
     public function test()
     {
-        $posts = \DB::table('posts')->whereOrganizationId(358)->get();
+        $posts = new EloquentPostRepository();
+
+      $posts =  $posts->getUnpublishedPosts()->sortByDesc('created_at')->groupBy('organization_id')->take(4);
+
+      dd($posts);
+    }
+
+
+
+    public function textClean()
+    {
+        $posts = \DB::table('posts')->get();
         $count = 0;
-        $frase = "Kliknite a prihláste sa na odber";
+        $frase = "================";
 
         foreach ($posts as $post) {
 

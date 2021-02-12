@@ -21,12 +21,26 @@
                 <i v-else style="font-size: 6rem; color: silver; float: left; margin-right: 1.1rem" class="far fa-image"></i>
 
                 <div class="Media-body">
+                    <div style="display: inline-block">
                         <h2 v-text="organization.title"></h2>
 
                         <div v-if="organization.person == 1" @click="toggle" class="navButton" :class="{'activeButton' :showDescription }">Autor</div>
                         <div v-else @click="toggle" class="navButton" :class="{'activeButton' :showDescription }" >Profil</div>
                         <!--<help-us></help-us>-->
                         <a v-if="isVideoPage" href="#" @click="openModal()" class="navButton">Zapojiť sa</a>
+                    </div>
+
+
+                    <transition name="fade">
+                        <div v-if="showDescription">
+                            <!--<textarea v-if="textform" name="" id=""style="width: 50vw" rows="7"></textarea>-->
+                            <div v-if="organization.description == null">Profil je nevyplnený.</div>
+                            {{ organization.description }} <br>
+
+                            <div @click="toggle" style="cursor: pointer; font-size: 75%; float: left; margin-right: 1rem">Zavrieť X</div>
+
+                        </div>
+                    </transition>
 
                 </div>
 
@@ -38,16 +52,7 @@
 
         </div>
     </div>
-        <transition name="fade">
-            <div v-if="showDescription">
-                <!--<textarea v-if="textform" name="" id=""style="width: 50vw" rows="7"></textarea>-->
-                <div v-if="organization.description == null">Profil je nevyplnený.</div>
-                {{ organization.description }} <br>
 
-                <div @click="toggle" style="cursor: pointer; font-size: 75%; float: left; margin-right: 1rem">Zavrieť X</div>
-
-            </div>
-        </transition>
 
     </div>
 
@@ -145,7 +150,7 @@
         float: left;
         margin-right: 1rem;
         cursor: pointer;
-        padding: .4rem;
+        padding: .7rem .9rem;
         border-radius: .6rem;
     }
     .img-avatar {
