@@ -21,6 +21,27 @@ abstract class Extractors
         $this->event = new EloquentEventRepository;
     }
 
+    protected function createPrayer($data)
+    {
+
+        foreach ($data as $item) {
+
+            // Find or create new record
+            if (DB::table('prayers')->whereBody($item['body'])->first()) {
+                continue;
+            }
+
+            DB::table('prayers')->insert([
+                'title' => '',
+                'body' => $item['body'],
+                'user_name' => $item['user'],
+                'created_at' => Carbon::now()->subHours(2)->toDateTimeString(),
+            ]);
+
+        }
+
+    }
+
     protected function createEvent($data)
     {
 

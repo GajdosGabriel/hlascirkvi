@@ -3,18 +3,18 @@
 namespace App\Console\Commands;
 
 
-use App\Services\Extractor\ExtractTkkbs;
+use App\Services\Extractor\ExtractPrayerWall;
 use Illuminate\Console\Command;
 
 
-class TkkbsExtractor extends Command
+class PrayerWall extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'tkkbs:extract';
+    protected $signature = 'prayer:extract';
 
     /**
      * The console command description.
@@ -40,6 +40,6 @@ class TkkbsExtractor extends Command
      */
     public function handle()
     {
-        (new ExtractTkkbs())->parseListUrl();
+        (new ExtractPrayerWall())->parseListUrl();
     }
 }

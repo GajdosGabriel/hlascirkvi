@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Organization;
 use App\Post;
 use App\Repositories\Eloquent\EloquentPostRepository;
+use App\Services\Extractor\ExtractPrayerWall;
 use App\Services\Extractor\ExtractTkkbs;
 use App\Event;
 use App\User;
@@ -20,9 +21,7 @@ class TestController extends Controller
 
     public function test()
     {
-        $posts = new EloquentPostRepository();
-
-      $posts =  $posts->getUnpublishedPosts()->sortByDesc('created_at')->groupBy('organization_id')->take(4);
+       $posts = (new ExtractPrayerWall())->parseListUrl();
 
       dd($posts);
     }

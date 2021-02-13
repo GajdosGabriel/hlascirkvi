@@ -16,11 +16,12 @@ use DOMXPath;
 use Imagick;
 
 
-class ExtractTkkbs extends Extractors
+class ExtractPrayerWall extends Extractors
 {
-    protected $prefix = 'https://www.tkkbs.sk/';
-    protected $url = 'https://www.tkkbs.sk/search.php?rstext=pozvanka&rskde=tsl';
-    protected $organizationId = 101;
+    protected $prefix = 'https://www.mojakomunita.sk/';
+//    protected $url = 'https://www.mojakomunita.sk/web/modlitba';
+    protected $url = 'https://www.zzm.sk/prosby-2/';
+    protected $organizationId = 1;
 
 
     public function parseListUrl() {
@@ -34,116 +35,54 @@ class ExtractTkkbs extends Extractors
         //Parse the HTML of the page using DOMDocument::loadHTML
         @$htmlDom->loadHTML($html);
 
-        //Extract the links from the HTML.
-        $links = $htmlDom->getElementsByTagName('a');
+        $finder = new DomXPath($htmlDom);
+        $classBody="gb-entry-content";
+//        $classname="entry-data-e";
+//        $classname="pBody";
+//        $classname="pHead";
+//        $classname="user-name";
+        $prayersBody = $finder->query("//*[contains(@class, '$classBody')]");
 
-        //Array that will contain our extracted links.
-        $extractedLinks = array();
+
+       $className="gb-author-name";
+       $prayersTitle = $finder->query("//*[contains(@class, '$className')]");
+
 
         //Loop through the DOMNodeList.
         //We can do this because the DOMNodeList object is traversable.
-        foreach($links as $link){
+        foreach($prayersTitle as $link){
 
             //Get the link text.
             $linkText = $link->nodeValue;
-            //Get the link in the href attribute.
-            $linkHref = $link->getAttribute('href');
 
-            if(stripos($linkHref ,'cisloclanku' ) == false ){
-                continue;
-            }
 
             //Add the link to our $extractedLinks array.
-            $extractedLinks[] = array(
-                'title' =>$linkText,
-                'href' =>  $linkHref
+            $extractedTitle[] = array(
+                'user' => trim(preg_replace('/\t/', '', $linkText))
             );
         }
-        $this->createEvent($extractedLinks);
-    }
 
 
-    public function parseEvent($href, $event) {
-        // $url = "https://www.ecav.sk/aktuality/pozvanky";
-        $html = file_get_contents($href);
-        // $html = file_get_contents('https://www.tkkbs.sk/view.php?cisloclanku=20191219020');
+        foreach($prayersBody as $link){
 
-        //Instantiate the DOMDocument class.
-        $htmlDom = new DOMDocument;
-
-        //Parse the HTML of the page using DOMDocument::loadHTML
-        @$htmlDom->loadHTML($html);
-
-        //Extract the links from the HTML.
-        $imgUrls = $htmlDom->getElementsByTagName('img');
-        $bodyText = $htmlDom->getElementsByTagName('span');
-
-        //Array that will contain our extracted links.
-        $extractedLinks = array();
-
-        //Loop through the DOMNodeList.
-        //We can do this because the DOMNodeList object is traversable.
-        foreach( $bodyText as $link){
             //Get the link text.
             $linkText = $link->nodeValue;
 
-            // validation
-            if($linkText == "\n"){
-                continue;
-            }
 
-            if($linkText == ""){
-                continue;
-            }
-
-            $extractedLinks[] = array(
-                'src' => $linkText
+            //Add the link to our $extractedLinks array.
+            $extractedBody[] = array(
+                'body' => trim(preg_replace('/\t/', '', $linkText))
             );
         }
 
-        // array to string
-        $body = join(" ", $extractedLinks[2]);
 
-        // Remove first sentence
-        $moveSentence  = $this->first_sentence_move($body);
+    //    return $extractedTitle;
+    //    return $extractedBody;
+    $merged = array_replace_recursive($extractedTitle,$extractedBody);
 
-        $event->update([
-            'body'      => $moveSentence,
-            'start_at' => $this->find_date($moveSentence)
-        ]);
-
-        // Generate paragraps in the event body
-        $this->paragraphGenerator($event);
-
-// ----------------------------  GET  IMAGE  ----------------------------------
-        //Loop through the DOMNodeList.
-        //We can do this because the DOMNodeList object is traversable.
-        foreach( $imgUrls as $link){
-            //Get the link in the href attribute.
-            $linkHref = $link->getAttribute('src');
-
-            $extractedLinks[] = array(
-                'image' => $linkHref
-            );
-        }
-
-        $lastArray = end($extractedLinks);
-
-        $toString = join(" ", $lastArray);
-//        dd($toString);
-
-        $url =  'https://www.tkkbs.sk' . $toString;
-
-
-//        print_r(end($extractedLinks));
-
-        (new Form($event, $url ))->getPictureEcavEvent();
-
-        $event->update([
-            'village_id' => $this->finderVillages($moveSentence)
-        ]);
-
+       $this->createPrayer($merged);
     }
+
 
 
 
