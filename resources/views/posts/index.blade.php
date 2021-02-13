@@ -97,6 +97,8 @@
 
             <div class="page-aside">
 
+                <prayer-card></prayer-card>
+
                 <news-rss></news-rss>
 
             @if(request()->is('/'))

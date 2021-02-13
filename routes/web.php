@@ -25,6 +25,12 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 
 Route::get('zamyslenia/{slug?}' , 'VersesController@index')->name('verses.index');
 
+Route::resources([
+    'prayers' => PrayerController::class
+]);
+
+
+
 Route::prefix('user/')->name('organization.')->group(function () {
     Route::get('{organization}/{slug}', 'UsersController@show')->name('show');
     Route::get('{user}/{slug}/posts', 'OrganizationsController@organizationPosts')->name('posts');

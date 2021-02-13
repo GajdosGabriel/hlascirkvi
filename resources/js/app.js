@@ -52,6 +52,7 @@ Vue.component('get-organization', require('./organizations/GetOrganization.vue')
 Vue.component('news-rss', require('./components/News-rss_0.vue').default);
 Vue.component('form-organization', require('./events/Form-org_0.vue').default);
 Vue.component('big-thing', require('./bigThink/big-thing_0.vue').default);
+Vue.component('prayer-card', require('./prayer/prayer-card.vue').default);
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);
 
 

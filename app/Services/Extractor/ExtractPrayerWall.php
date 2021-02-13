@@ -21,6 +21,7 @@ class ExtractPrayerWall extends Extractors
     protected $prefix = 'https://www.mojakomunita.sk/';
 //    protected $url = 'https://www.mojakomunita.sk/web/modlitba';
     protected $url = 'https://www.zzm.sk/prosby-2/';
+    // protected $url = 'https://www.zzm.sk/prosby-2/?pageNum=3';
     protected $organizationId = 1;
 
 

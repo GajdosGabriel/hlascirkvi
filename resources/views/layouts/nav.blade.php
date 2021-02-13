@@ -46,6 +46,7 @@
                 </div>
             </article-admin>
             <li><a href="{{ route('event.index') }}">Podujatia</a></li>
+            <li><a href="{{ route('prayers.index') }}">Modlitebný múr </a></li>
         </ul>
 
         <ul>
