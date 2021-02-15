@@ -6,7 +6,7 @@
 
                 <div class="level" style="cursor: pointer">
                     <h4>Modlitebný múr</h4>
-                     <i class="fas fa-praying-hands"></i>
+                     <i class="fas fa-praying-hands"  style="color: whitesmoke"></i>
                 </div>
 
                 <!-- <div class="level">
@@ -19,21 +19,14 @@
 
             <ul style="padding: 1rem">
                 <li v-for="prayer in prayers" :key="prayer.id">
-                    <div class="hover" style="line-height: initial; cursor: pointer;color: #5a5a5a">
-                        Pridal:
-                        <span style="font-weight: 600;">
-                        {{ prayer.user_name }}
-                        </span>
-                    </div>
-                    <div style="margin-bottom: .4rem">{{ prayer.body }}
-
-                    </div>
-                    <div style="margin-bottom: .5rem" class="date">{{ prayer.pubdate | dateTime }}</div>
+                    <prayer-item :prayer="prayer"></prayer-item>
                 </li>
+
             </ul>
         </div>
 
         <modal-new-prayer></modal-new-prayer>
+
     </section>
 </template>
 
@@ -41,10 +34,12 @@
     import moment from 'moment';
     import Axios from 'axios';
     import {bus} from "../app";
-    import modalNewPrayer from '../prayer/Modal';
+    import prayerItem from '../prayer/prayer-item';
+    import modalNewPrayer from '../prayer/ModalNewPrayer';
+
 
     export default {
-        components: { modalNewPrayer},
+        components: { prayerItem ,modalNewPrayer},
         data() {
             return {
                 prayers: null
@@ -67,13 +62,7 @@
         },
 
 
-        filters: {
-            dateTime: function (value) {
-                return moment(value).subtract(1, 'hours').format('lll');
-//                return moment(value).format('lll');
-//                return moment(value).format('LT D.M.Y');
-            }
-        },
+
 
     }
 </script>
