@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/SavePrayerRequest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/prayer/NewPrayerIndexPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PrayerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PrayerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/prayer/ModalNewPrayer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/ModalNewPrayer.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/prayer/ModalShowPrayer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/ModalShowPrayer.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/prayer/prayer-card.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/prayer-card.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/prayer/prayer-item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/prayer-item.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/Prayer/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Prayer/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Prayer/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/prayer/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,7 +251,7 @@
       <workItem from="1613326436488" duration="151000" />
       <workItem from="1613326792992" duration="1610000" />
       <workItem from="1613373881073" duration="7188000" />
-      <workItem from="1613384856220" duration="1924000" />
+      <workItem from="1613384856220" duration="3225000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -376,7 +365,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613374171924</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Prayer change to modlitby">
+      <created>1613386972965</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1613386972965</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -410,17 +406,18 @@
     <MESSAGE value="Prayer wall" />
     <MESSAGE value="Prayer save + modal" />
     <MESSAGE value="Prayer date time fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prayer date time fix" />
+    <MESSAGE value="Prayer change to modlitby" />
+    <option name="LAST_COMMIT_MESSAGE" value="Prayer change to modlitby" />
   </component>
   <component name="WindowStateProjectService">
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1613374627085">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613374627085" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613374170822">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613386971700">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613374170822" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613386971700" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613326585031">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
