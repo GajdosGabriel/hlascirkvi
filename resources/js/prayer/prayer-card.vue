@@ -5,16 +5,18 @@
             <div class="text-white cursor-pointer p-3 text-base" style="background: #6c6c6c" @click="openModal">
                 <div class="flex justify-between items-center cursor-pointer">
                     <h4>Modlitebný múr</h4>
-                     <i class="fas fa-praying-hands"  style="color: whitesmoke"></i>
+                    <i class="fas fa-praying-hands" style="color: whitesmoke"></i>
                 </div>
             </div>
 
             <ul class="mt-3">
-                <li v-for="prayer in prayers" :key="prayer.id"  class="hover:bg-gray-200">
+                <li v-for="prayer in prayers.data" :key="prayer.id" class="hover:bg-gray-200">
                     <prayer-item :prayer="prayer"></prayer-item>
                 </li>
             </ul>
         </div>
+
+        <pagination :data="prayers" @fetchUrl="paginator"></pagination>
 
         <modal-new-prayer></modal-new-prayer>
 
@@ -27,33 +29,44 @@
     import {bus} from "../app";
     import prayerItem from '../prayer/prayer-item';
     import modalNewPrayer from '../prayer/ModalNewPrayer';
+    import pagination from "./pagination";
 
 
     export default {
-        components: { prayerItem ,modalNewPrayer},
+        components: {prayerItem, modalNewPrayer, pagination},
         data() {
             return {
-                prayers: null
+                prayers: [],
+                url: '/modlitby/create?page=1'
             }
         },
 
         created() {
-
-            Axios.get('/modlitby/create').then(
-                (response) => {
-                    this.prayers = response.data.data
-                }
-            )
-
-        },
-        methods:{
-          openModal(){
-              bus.$emit('openModalPrayer', () => {true});
-          }
+            this.getPrayers();
         },
 
-
-
+        watch: {
+            url() {
+                this.getPrayers();
+            }
+        },
+        methods: {
+            getPrayers() {
+                Axios.get(this.url).then(
+                    (response) => {
+                        this.prayers = response.data
+                    }
+                )
+            },
+            openModal() {
+                bus.$emit('openModalPrayer', () => {
+                    true
+                });
+            },
+            paginator(url) {
+                this.url = url;
+            }
+        }
 
     }
 </script>

@@ -5,10 +5,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/prayer/pagination.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/pagination.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/prayer/prayer-card.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/prayer-card.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/prayer/prayer-item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/prayer-item.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,6 +254,9 @@
       <workItem from="1613373881073" duration="7188000" />
       <workItem from="1613384856220" duration="4065000" />
       <workItem from="1613402645869" duration="3715000" />
+      <workItem from="1613421410437" duration="1795000" />
+      <workItem from="1613423330955" duration="56000" />
+      <workItem from="1613457519721" duration="289000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -383,7 +384,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613401992187</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Prayer paginator">
+      <created>1613423375560</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1613423375560</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -421,17 +429,18 @@
     <MESSAGE value="Prayer date time fix" />
     <MESSAGE value="Prayer change to modlitby" />
     <MESSAGE value="Prayer save" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prayer save" />
+    <MESSAGE value="Prayer paginator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Prayer paginator" />
   </component>
   <component name="WindowStateProjectService">
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1613374627085">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613374627085" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613401991038">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613423371107">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613401991038" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613423371107" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613326585031">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -448,10 +457,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1613402618991" />
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613402656791">
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613457544471">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613402656791" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613457544471" />
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613377553264">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
