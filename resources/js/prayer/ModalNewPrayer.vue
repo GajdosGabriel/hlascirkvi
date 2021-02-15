@@ -14,7 +14,8 @@
                     <form @submit.prevent="savePrayer">
                         <div>
                             <label for="title" style="font-weight: bold;">Modlitba za</label>
-                            <input type="text" v-model="form.title" required autofocus style="padding: 5px" id="title" plaveholder="Nadpis modlitby">
+                            <input type="text" v-model="form.title" required autofocus style="padding: 5px" id="title"
+                                   plaveholder="Nadpis modlitby">
                             <span>Krátko o Vašom modltitbovom úmysle, napr: za uzdravenie manžela, za prácu a pod.</span>
                         </div>
 
@@ -32,16 +33,19 @@
                             <span>Pre ostatných, aby vedeli, ako Vás osloviť v modlitbe.</span>
                         </div>
 
-                        <div style="margin-top: 10px">
+                        <div style="margin-top: 10px" v-if="! authUser">
                             <label for="email" style="font-weight: bold;">Emailova adresa</label>
-                            <input type="email" v-model="form.email" required style="padding: 5px;  width: 100%" placeholder="emailová adresa" id="email">
+                            <input type="email" v-model="form.email" required style="padding: 5px;  width: 100%"
+                                   placeholder="emailová adresa" id="email">
                             <span>Email sa nikde nezverejňuje a je potrebný na overenie.
                             Zároveň, Vám budú doručené oznámenia, keď sa za Vás niekto pomodlí, alebo napíše.</span>
                         </div>
 
                         <div style="margin-top: 10px;  width: 100%;">
                             <button @click="toggle" class=" btn">Zružiť</button>
-                            <button type="submit" class=" btn" style="background: rgba(0,0,125,0.77); color: whitesmoke;  font-size: 15px">Uložiť</button>
+                            <button type="submit" class=" btn"
+                                    style="background: rgba(0,0,125,0.77); color: whitesmoke;  font-size: 15px">Uložiť
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -62,6 +66,7 @@
             return {
                 show: false,
                 annotation: false,
+                authUser: window.App.user,
                 form: {}
             }
         },
@@ -78,9 +83,14 @@
             },
 
             savePrayer: function () {
-                Axios.post('/prayers', this.form);
-                // this.form = {};
-                // this.show = false;
+                Axios.post('/modlitby', this.form).then(
+                    response => {
+                        this.form = {};
+                        this.show = false;
+                        window.location.reload()
+                    }
+
+                )
             }
         }
 

@@ -48,7 +48,7 @@
 
         created() {
 
-            Axios.get('/prayers/create').then(
+            Axios.get('/modlitby/create').then(
                 (response) => {
                     this.prayers = response.data.data
                 }

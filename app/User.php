@@ -51,6 +51,11 @@ class User extends Authenticatable
         return $this->hasMany(AddresBook::class);
     }
 
+    public function prayers() {
+        return $this->hasMany(Prayer::class);
+    }
+
+
     public function organizations() {
         return $this->belongsToMany(Organization::class);
     }

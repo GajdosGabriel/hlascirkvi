@@ -11,10 +11,9 @@
                 <div class="page-title">
                     <h2>  {{ $title ?? "Modlitebný múr" }}</h2>
 
-                    {{-- <a class="btn btn-small" href="{{ route('event.create') }}">
-                     <i class="fas fa-praying-hands"></i>
-                        Nová modlitba
-                    </a> --}}
+
+                    <new-prayer-index-page/>
+
                 </div>
 
 

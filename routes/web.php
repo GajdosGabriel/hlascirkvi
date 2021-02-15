@@ -26,7 +26,7 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 Route::get('zamyslenia/{slug?}' , 'VersesController@index')->name('verses.index');
 
 Route::resources([
-    'prayers' => PrayerController::class
+    'modlitby' => PrayerController::class
 ]);
 
 

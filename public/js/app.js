@@ -4275,6 +4275,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -4286,6 +4290,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       show: false,
       annotation: false,
+      authUser: window.App.user,
       form: {}
     };
   },
@@ -4301,8 +4306,13 @@ __webpack_require__.r(__webpack_exports__);
       this.show = !this.show;
     },
     savePrayer: function savePrayer() {
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/prayers', this.form); // this.form = {};
-      // this.show = false;
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/modlitby', this.form).then(function (response) {
+        _this2.form = {};
+        _this2.show = false;
+        window.location.reload();
+      });
     }
   }
 });
@@ -4369,8 +4379,53 @@ __webpack_require__.r(__webpack_exports__);
       this.show = !this.show;
     },
     savePrayer: function savePrayer() {
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('/prayers', this.form); // this.form = {};
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('modlitby', this.form); // this.form = {};
       // this.show = false;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ModalNewPrayer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalNewPrayer */ "./resources/js/prayer/ModalNewPrayer.vue");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    modalNewPrayer: _ModalNewPrayer__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      show: false
+    };
+  },
+  methods: {
+    openModal: function openModal() {
+      _app__WEBPACK_IMPORTED_MODULE_1__["bus"].$emit('openModalPrayer', function () {
+        true;
+      });
     }
   }
 });
@@ -4443,7 +4498,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/prayers/create').then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/modlitby/create').then(function (response) {
       _this.prayers = response.data.data;
     });
   },
@@ -4471,6 +4526,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../prayer/ModalShowPrayer */ "./resources/js/prayer/ModalShowPrayer.vue");
 /* harmony import */ var _ModalNewPrayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ModalNewPrayer */ "./resources/js/prayer/ModalNewPrayer.vue");
+//
 //
 //
 //
@@ -65441,49 +65497,51 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticStyle: { "margin-top": "10px" } }, [
-                    _c(
-                      "label",
-                      {
-                        staticStyle: { "font-weight": "bold" },
-                        attrs: { for: "email" }
-                      },
-                      [_vm._v("Emailova adresa")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.email,
-                          expression: "form.email"
-                        }
-                      ],
-                      staticStyle: { padding: "5px", width: "100%" },
-                      attrs: {
-                        type: "email",
-                        required: "",
-                        placeholder: "emailová adresa",
-                        id: "email"
-                      },
-                      domProps: { value: _vm.form.email },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                  !_vm.authUser
+                    ? _c("div", { staticStyle: { "margin-top": "10px" } }, [
+                        _c(
+                          "label",
+                          {
+                            staticStyle: { "font-weight": "bold" },
+                            attrs: { for: "email" }
+                          },
+                          [_vm._v("Emailova adresa")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.email,
+                              expression: "form.email"
+                            }
+                          ],
+                          staticStyle: { padding: "5px", width: "100%" },
+                          attrs: {
+                            type: "email",
+                            required: "",
+                            placeholder: "emailová adresa",
+                            id: "email"
+                          },
+                          domProps: { value: _vm.form.email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "email", $event.target.value)
+                            }
                           }
-                          _vm.$set(_vm.form, "email", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm._v(
-                        "Email sa nikde nezverejňuje a je potrebný na overenie.\n                        Zároveň, Vám budú doručené oznámenia, keď sa za Vás niekto pomodlí, alebo napíše."
-                      )
-                    ])
-                  ]),
+                        }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "Email sa nikde nezverejňuje a je potrebný na overenie.\n                        Zároveň, Vám budú doručené oznámenia, keď sa za Vás niekto pomodlí, alebo napíše."
+                          )
+                        ])
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -65506,7 +65564,7 @@ var render = function() {
                           },
                           attrs: { type: "submit" }
                         },
-                        [_vm._v("Uložiť")]
+                        [_vm._v("Uložiť\n                        ")]
                       )
                     ]
                   )
@@ -65561,6 +65619,49 @@ var render = function() {
         ])
       : _vm._e()
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=template&id=0b775654&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=template&id=0b775654& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-small",
+          attrs: { href: "#" },
+          on: { click: _vm.openModal }
+        },
+        [
+          _c("i", { staticClass: "fas fa-praying-hands" }),
+          _vm._v("\n        Nová modlitba\n    ")
+        ]
+      ),
+      _vm._v(" "),
+      _vm.show ? _c("modal-new-prayer") : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -65687,6 +65788,12 @@ var render = function() {
           staticClass: "fas fa-praying-hands",
           attrs: { title: "modlitbu" }
         }),
+        _vm._v(" "),
+        _vm.prayer.title
+          ? _c("div", { staticStyle: { "font-weight": "bold" } }, [
+              _vm._v(_vm._s(_vm.prayer.title))
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticStyle: { "margin-bottom": ".4rem" } }, [
           _vm._v(_vm._s(_vm.prayer.body))
@@ -78895,7 +79002,8 @@ Vue.component('get-organization', __webpack_require__(/*! ./organizations/GetOrg
 Vue.component('news-rss', __webpack_require__(/*! ./components/News-rss_0.vue */ "./resources/js/components/News-rss_0.vue")["default"]);
 Vue.component('form-organization', __webpack_require__(/*! ./events/Form-org_0.vue */ "./resources/js/events/Form-org_0.vue")["default"]);
 Vue.component('big-thing', __webpack_require__(/*! ./bigThink/big-thing_0.vue */ "./resources/js/bigThink/big-thing_0.vue")["default"]);
-Vue.component('prayer-card', __webpack_require__(/*! ./prayer/prayer-card.vue */ "./resources/js/prayer/prayer-card.vue")["default"]); // Vue.component('post-counter', require('./posts/Video-counter.vue').default);
+Vue.component('prayer-card', __webpack_require__(/*! ./prayer/prayer-card.vue */ "./resources/js/prayer/prayer-card.vue")["default"]);
+Vue.component('new-prayer-index-page', __webpack_require__(/*! ./prayer/NewPrayerIndexPage.vue */ "./resources/js/prayer/NewPrayerIndexPage.vue")["default"]); // Vue.component('post-counter', require('./posts/Video-counter.vue').default);
 
 var bus = new Vue();
 /**
@@ -81312,6 +81420,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalShowPrayer_vue_vue_type_template_id_af1dddf2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalShowPrayer_vue_vue_type_template_id_af1dddf2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/prayer/NewPrayerIndexPage.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/prayer/NewPrayerIndexPage.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _NewPrayerIndexPage_vue_vue_type_template_id_0b775654___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewPrayerIndexPage.vue?vue&type=template&id=0b775654& */ "./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=template&id=0b775654&");
+/* harmony import */ var _NewPrayerIndexPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewPrayerIndexPage.vue?vue&type=script&lang=js& */ "./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _NewPrayerIndexPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _NewPrayerIndexPage_vue_vue_type_template_id_0b775654___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _NewPrayerIndexPage_vue_vue_type_template_id_0b775654___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/prayer/NewPrayerIndexPage.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewPrayerIndexPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./NewPrayerIndexPage.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NewPrayerIndexPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=template&id=0b775654&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=template&id=0b775654& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewPrayerIndexPage_vue_vue_type_template_id_0b775654___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./NewPrayerIndexPage.vue?vue&type=template&id=0b775654& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/prayer/NewPrayerIndexPage.vue?vue&type=template&id=0b775654&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewPrayerIndexPage_vue_vue_type_template_id_0b775654___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NewPrayerIndexPage_vue_vue_type_template_id_0b775654___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

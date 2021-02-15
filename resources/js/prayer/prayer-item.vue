@@ -10,6 +10,7 @@
 
             <i class="fas fa-praying-hands" title="modlitbu"></i>
 
+            <div style="font-weight: bold" v-if="prayer.title">{{ prayer.title }}</div>
             <div style="margin-bottom: .4rem">{{ prayer.body }}</div>
             <div style="margin-bottom: .5rem" class="date">{{ prayer.created_at | dateTime }}</div>
         </div>

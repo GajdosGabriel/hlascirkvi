@@ -47,7 +47,7 @@
             },
 
             savePrayer: function () {
-                Axios.post('/prayers', this.form);
+                Axios.post('modlitby', this.form);
                 // this.form = {};
                 // this.show = false;
             }

@@ -21,3 +21,14 @@ use Illuminate\Http\Request;
 Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal');
 Route::get('test/test', 'TestController@test');
 Route::get('test/grecky', 'TestController@greckyMagazin');
+
+Route::get('artisan/run', function () {
+
+    \Artisan::call('cache:clear');
+    \Artisan::call('view:clear');
+    \Artisan::call('config:clear');
+    \Artisan::call('optimize:clear');
+
+    dd("All is cleared");
+
+});
