@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="hover" style="line-height: initial; cursor: pointer;color: #5a5a5a" @click="toggle">
+    <div class="px-6 py-2">
+        <div class="relative" @click="toggle">
 
                         <span style="font-weight: 600;">
                         {{ prayer.user_name }}
@@ -12,14 +12,14 @@
 
             <div style="font-weight: bold" v-if="prayer.title">{{ prayer.title }}</div>
             <div style="margin-bottom: .4rem">{{ prayer.body }}</div>
-            <div style="margin-bottom: .5rem" class="date">{{ prayer.created_at | dateTime }}</div>
+            <div class="absolute bottom-0 right-0">{{ prayer.created_at | dateTime }}</div>
         </div>
 
         <!-- Modal -->
         <div v-if="showModal" class="modal" id="modal-name">
             <div class="modal-sandbox"></div>
             <div class="modal-box">
-                <div class="modal-header level">
+                <div class="modal-header flex justify-between">
                     <h4>Modlitbová prosba</h4>
                     <div @click="toggle" class="close-modal">&#10006;</div>
                 </div>
@@ -35,9 +35,10 @@
                     <i class="fas fa-praying-hands"></i>
 
 
-                    <div style="margin-bottom: .4rem; font-size: 19px; margin-top: 15px; margin-bottom: 20px">{{
-                        prayer.body }}
-                    </div>
+                    <div class="mb-8">{{ prayer.body }}</div>
+
+                    <div class="mb-8" v-if="prayer.title">{{ prayer.title }}</div>
+
                     <div style="margin-bottom: .5rem" class="date">
                         <span style="font-weight: bold">Modlitba je stále aktuálna </span>
 
@@ -46,8 +47,8 @@
 
                 </div>
 
-                <div class="modal-header" >
-                    <button @click="toggle" style="color: whitesmoke; border-radius: 10px; border-color: whitesmoke; border-size: 1rem">Zavrieť</button>
+                <div class="bg-gray-600 p-10" >
+                    <button @click="toggle" class="text-gray-200 border-2 border-white hover:bg-gray-500 rounded-md">Zavrieť</button>
                 </div>
             </div>
         </div>

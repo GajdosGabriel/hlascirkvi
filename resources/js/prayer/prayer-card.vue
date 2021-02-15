@@ -1,27 +1,18 @@
 <template>
-    <section class="event">
+    <section class="border-2 border-gray-500 rouned-sm mb-8">
 
-        <div class="card">
-            <div style="padding: 1rem; background: #6c6c6c; color:white" @click="openModal">
-
-                <div class="level" style="cursor: pointer">
+        <div class="">
+            <div class="text-white cursor-pointer p-3 text-base" style="background: #6c6c6c" @click="openModal">
+                <div class="flex justify-between items-center cursor-pointer">
                     <h4>Modlitebný múr</h4>
                      <i class="fas fa-praying-hands"  style="color: whitesmoke"></i>
                 </div>
-
-                <!-- <div class="level">
-                    <a @click="domace('domov')" :class="{'active': isDomace }" class="menu">domáce</a>
-                    <a @click="domace('zahranicie')" :class="{active: isZahranicie }" class="menu">zahraničné</a>
-                    <a @click="domace('press')" :class="{active: isTlacove }" class="menu">tlačové</a>
-                </div> -->
-
             </div>
 
-            <ul style="padding: 1rem">
-                <li v-for="prayer in prayers" :key="prayer.id">
+            <ul class="mt-3">
+                <li v-for="prayer in prayers" :key="prayer.id"  class="hover:bg-gray-200">
                     <prayer-item :prayer="prayer"></prayer-item>
                 </li>
-
             </ul>
         </div>
 

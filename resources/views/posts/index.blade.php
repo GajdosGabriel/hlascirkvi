@@ -26,7 +26,7 @@
                     {{--  News section  --}}
 {{--                    @include('posts.news')--}}
 
-                    <div class="level">
+                    <div class="flex justify-between">
                         @switch(request()->input('posts'))
                             @case('recomended')
                             <h3>Obľúbené príspevky</h3>
