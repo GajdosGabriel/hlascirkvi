@@ -4661,6 +4661,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -65961,7 +65972,7 @@ var render = function() {
       "button",
       {
         staticClass:
-          "flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-2 border-gray-600 rounded-sm cursor-pointer",
+          "flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-1 border-gray-600 rounded-sm cursor-pointer",
         attrs: { disabled: !_vm.data.prev_page_url },
         on: {
           click: function($event) {
@@ -65976,7 +65987,7 @@ var render = function() {
       "div",
       {
         staticClass:
-          "flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-2 border-gray-600 rounded-sm"
+          "flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-1 border-gray-600 rounded-sm"
       },
       [
         _vm._v(
@@ -65993,7 +66004,7 @@ var render = function() {
       "button",
       {
         staticClass:
-          "flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-2 border-gray-600 rounded-sm cursor-pointer",
+          "flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-1 border-gray-600 rounded-sm cursor-pointer",
         attrs: { disabled: !_vm.data.next_page_url },
         on: {
           click: function($event) {
@@ -66155,34 +66166,56 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "px-6 py-2" }, [
-    _c("div", { staticClass: "relative", on: { click: _vm.passToModalShow } }, [
-      _c("span", { staticClass: "font-semibold" }, [
-        _vm._v(_vm._s(_vm.prayer.user_name) + " ")
-      ]),
-      _vm._v("\n\n        žiada o modlitbu\n\n        "),
-      _c("i", {
-        staticClass: "fas fa-praying-hands",
-        attrs: { title: "modlitbu" }
-      }),
-      _vm._v(" "),
-      _vm.prayer.title
-        ? _c("div", { staticClass: "font-semibold" }, [
-            _vm._v(_vm._s(_vm.prayer.title))
+  return _c(
+    "div",
+    {
+      staticClass:
+        "px-6 py-2 border-2 border-gray-500 my-6 rounded-md shadow-lg"
+    },
+    [
+      _c("div", { on: { click: _vm.passToModalShow } }, [
+        _c("div", { staticClass: "flex justify-between mb-4" }, [
+          _c("div", [
+            _c("span", { staticClass: "font-semibold" }, [
+              _vm._v(_vm._s(_vm.prayer.user_name) + " ")
+            ]),
+            _vm._v("\n                žiada o modlitbu\n                "),
+            _c("i", {
+              staticClass: "fas fa-praying-hands",
+              attrs: { title: "modlitbu" }
+            })
+          ]),
+          _vm._v(" "),
+          _c("span", [
+            _vm._v(
+              "dňa: " +
+                _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
+                " hod."
+            )
           ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticStyle: { "margin-bottom": ".4rem" } }, [
-        _vm._v(_vm._s(_vm.prayer.body))
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "absolute bottom-0 right-0 text-gray-400" }, [
-        _vm._v(
-          "dňa: " + _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) + " hod."
-        )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex" }, [
+          _c("img", {
+            staticClass: "h-20 mr-10",
+            attrs: { src: "images/prayed_hand.png" }
+          }),
+          _vm._v(" "),
+          _c("div", [
+            _vm.prayer.title
+              ? _c("div", { staticClass: "font-semibold" }, [
+                  _vm._v(_vm._s(_vm.prayer.title))
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("p", { staticStyle: { "margin-bottom": ".4rem" } }, [
+              _vm._v(_vm._s(_vm.prayer.body))
+            ])
+          ])
+        ])
       ])
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -66208,7 +66241,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "section",
-    { staticClass: "border-2 border-gray-500 rouned-sm mb-8" },
+    {},
     [
       _c("div", {}, [
         _c(

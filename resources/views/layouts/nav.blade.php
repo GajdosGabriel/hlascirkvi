@@ -46,7 +46,7 @@
                 </div>
             </article-admin>
             <li><a href="{{ route('event.index') }}">Podujatia</a></li>
-            <li><a href="{{ route('modlitby.index') }}">Modlitby <i style="color: whitesmoke" class="fas fa-praying-hands"></i></a></li>
+            <li><a href="{{ route('modlitby.index') }}"  class="nav-link radio"><i style="color: #dcdcdc" class="fas fa-praying-hands mr-2"></i>Modlitby</a></li>
         </ul>
 
         <ul>

@@ -1,16 +1,27 @@
 <template>
-    <div class="px-6 py-2">
-        <div class="relative" @click="passToModalShow">
+    <div class="px-6 py-2 border-2 border-gray-500 my-6 rounded-md shadow-lg">
+        <div @click="passToModalShow">
+            <div class="flex justify-between mb-4">
+                <div>
+                    <span class="font-semibold">{{ prayer.user_name }} </span>
+                    žiada o modlitbu
+                    <i class="fas fa-praying-hands" title="modlitbu"></i>
+                </div>
+               <span>dňa: {{ prayer.created_at | dateTime }} hod.</span>
+            </div>
 
-                        <span class="font-semibold">{{ prayer.user_name }} </span>
 
-            žiada o modlitbu
 
-            <i class="fas fa-praying-hands" title="modlitbu"></i>
+            <div class="flex">
+                <img :src="'images/prayed_hand.png'" class="h-20 mr-10">
+                <div>
+                    <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
+                    <p style="margin-bottom: .4rem">{{ prayer.body }}</p>
+                </div>
+            </div>
 
-            <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
-            <div style="margin-bottom: .4rem">{{ prayer.body }}</div>
-            <div class="absolute bottom-0 right-0 text-gray-400">dňa: {{ prayer.created_at | dateTime }} hod.</div>
+
+
         </div>
     </div>
 </template>
