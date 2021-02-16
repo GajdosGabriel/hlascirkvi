@@ -16,17 +16,8 @@
 
                 </div>
 
+                <prayers-index-page></prayers-index-page>
 
-                <prayer-card></prayer-card>
-
-                {{--  Upcoming events --}}
-                {{-- @forelse($events as $event)
-                    @include('events._list_items')
-                @empty
-                    bez podujatí
-                @endforelse --}}
-
-                {{-- {{ $events->links() }} --}}
             </div>
 
             <div class="page-aside">

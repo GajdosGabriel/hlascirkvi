@@ -1,5 +1,5 @@
 <template>
-    <div class="px-6 py-2">
+    <div class="px-6 py-2 text-base">
         <div class="relative" @click="toggle">
 
                         <span style="font-weight: 600;">
@@ -26,18 +26,19 @@
 
                 <div class="modal-body" style="font-size: 15px">
 
-                    <span style="font-weight: 600;">
+                    <span class="font-semibold">
                         {{ prayer.user_name }}
-                        </span>
+                    </span>
 
                     žiada o
 
                     <i class="fas fa-praying-hands"></i>
 
 
-                    <div class="mb-8">{{ prayer.body }}</div>
+                    <div class="mb-3 mt-6 font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
 
-                    <div class="mb-8" v-if="prayer.title">{{ prayer.title }}</div>
+                    <p class="mb-8">{{ prayer.body }}</p>
+
 
                     <div style="margin-bottom: .5rem" class="date">
                         <span style="font-weight: bold">Modlitba je stále aktuálna </span>
@@ -47,8 +48,10 @@
 
                 </div>
 
-                <div class="bg-gray-600 p-10" >
-                    <button @click="toggle" class="text-gray-200 border-2 border-white hover:bg-gray-500 rounded-md">Zavrieť</button>
+                <div class="bg-gray-600 p-10">
+                    <button @click="toggle" class="text-gray-200 border-2 border-white hover:bg-gray-500 rounded-md">
+                        Zavrieť
+                    </button>
                 </div>
             </div>
         </div>
@@ -59,7 +62,6 @@
 <script>
     import moment from "moment";
     import modalShowPrayer from '../prayer/ModalShowPrayer';
-    import modalNewPrayer from "./ModalNewPrayer";
 
     export default {
         props: ['prayer'],
@@ -78,7 +80,7 @@
         },
         filters: {
             dateTime: function (value) {
-               return moment(value).format('D.M.Y, h:mm');
+                return moment(value).format('D.M.Y, h:mm');
             }
         }
 

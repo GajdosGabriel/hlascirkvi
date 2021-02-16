@@ -11,7 +11,7 @@
 
             <ul class="mt-3">
                 <li v-for="prayer in prayers.data" :key="prayer.id" class="hover:bg-gray-200">
-                    <prayer-item :prayer="prayer"></prayer-item>
+                    <prayers-index-item :prayer="prayer"></prayers-index-item>
                 </li>
             </ul>
         </div>
@@ -19,7 +19,6 @@
         <pagination :data="prayers" @fetchUrl="paginator"></pagination>
 
         <modal-new-prayer></modal-new-prayer>
-
     </section>
 </template>
 
@@ -27,13 +26,13 @@
     import moment from 'moment';
     import Axios from 'axios';
     import {bus} from "../app";
-    import prayerItem from '../prayer/prayer-item';
-    import modalNewPrayer from '../prayer/ModalNewPrayer';
+    import prayersIndexItem from '../prayer/prayers-index-item';
     import pagination from "./pagination";
+    import modalNewPrayer from '../prayer/ModalNewPrayer';
 
 
     export default {
-        components: {prayerItem, modalNewPrayer, pagination},
+        components: {prayersIndexItem, pagination, modalNewPrayer},
         data() {
             return {
                 prayers: [],

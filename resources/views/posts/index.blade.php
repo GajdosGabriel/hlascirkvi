@@ -97,7 +97,7 @@
 
             <div class="page-aside">
 
-                <prayer-card></prayer-card>
+                <prayers-card></prayers-card>
 
                 <news-rss></news-rss>
 
