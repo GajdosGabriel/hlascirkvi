@@ -4332,6 +4332,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _messenger_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../messenger/form */ "./resources/js/messenger/form.vue");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
 //
 //
 //
@@ -4353,34 +4355,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    Form: _messenger_form__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
   data: function data() {
     return {
-      show: false,
-      annotation: false,
-      form: {}
+      prayer: ''
     };
   },
   created: function created() {
     var _this = this;
 
-    _app__WEBPACK_IMPORTED_MODULE_0__["bus"].$on('openModalPrayer', function () {
-      _this.show = true;
+    _app__WEBPACK_IMPORTED_MODULE_0__["bus"].$on('passToModalPrayer', function (prayer) {
+      _this.prayer = prayer;
     });
   },
   methods: {
     toggle: function toggle() {
-      this.show = !this.show;
-    },
-    savePrayer: function savePrayer() {
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('modlitby', this.form); // this.form = {};
-      // this.show = false;
+      this.prayer = '';
+    }
+  },
+  filters: {
+    dateTime: function dateTime(value) {
+      return moment__WEBPACK_IMPORTED_MODULE_3___default()(value).format('D.M.Y, h:mm');
     }
   }
 });
@@ -4481,6 +4501,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../prayer/ModalShowPrayer */ "./resources/js/prayer/ModalShowPrayer.vue");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
 //
 //
 //
@@ -4498,50 +4519,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4555,13 +4533,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    toggle: function toggle() {
-      this.showModal = !this.showModal;
+    passToModalShow: function passToModalShow() {
+      _app__WEBPACK_IMPORTED_MODULE_2__["bus"].$emit('passToModalPrayer', this.prayer);
     }
   },
   filters: {
     dateTime: function dateTime(value) {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).format('D.M.Y, h:mm');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).format('D.M.Y, H:mm');
     }
   }
 });
@@ -4582,6 +4560,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
 /* harmony import */ var _prayer_prayers_card_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../prayer/prayers-card-item */ "./resources/js/prayer/prayers-card-item.vue");
 /* harmony import */ var _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../prayer/ModalNewPrayer */ "./resources/js/prayer/ModalNewPrayer.vue");
+/* harmony import */ var _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../prayer/ModalShowPrayer */ "./resources/js/prayer/ModalShowPrayer.vue");
 //
 //
 //
@@ -4605,6 +4584,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
@@ -4612,7 +4593,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     prayersCardItem: _prayer_prayers_card_item__WEBPACK_IMPORTED_MODULE_2__["default"],
-    modalNewPrayer: _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_3__["default"]
+    modalNewPrayer: _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_3__["default"],
+    modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
@@ -4661,6 +4643,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../prayer/ModalShowPrayer */ "./resources/js/prayer/ModalShowPrayer.vue");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
 //
 //
 //
@@ -4678,47 +4661,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4726,19 +4669,14 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  data: function data() {
-    return {
-      showModal: false
-    };
-  },
   methods: {
-    toggle: function toggle() {
-      this.showModal = !this.showModal;
+    passToModalShow: function passToModalShow() {
+      _app__WEBPACK_IMPORTED_MODULE_2__["bus"].$emit('passToModalPrayer', this.prayer);
     }
   },
   filters: {
     dateTime: function dateTime(value) {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).format('D.M.Y, h:mm');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).format('D.M.Y, H:mm');
     }
   }
 });
@@ -4762,6 +4700,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _prayer_prayers_index_item__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../prayer/prayers-index-item */ "./resources/js/prayer/prayers-index-item.vue");
 /* harmony import */ var _pagination__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pagination */ "./resources/js/prayer/pagination.vue");
 /* harmony import */ var _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../prayer/ModalNewPrayer */ "./resources/js/prayer/ModalNewPrayer.vue");
+/* harmony import */ var _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../prayer/ModalShowPrayer */ "./resources/js/prayer/ModalShowPrayer.vue");
 //
 //
 //
@@ -4786,6 +4725,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
@@ -4796,7 +4737,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     prayersIndexItem: _prayer_prayers_index_item__WEBPACK_IMPORTED_MODULE_3__["default"],
     pagination: _pagination__WEBPACK_IMPORTED_MODULE_4__["default"],
-    modalNewPrayer: _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_5__["default"]
+    modalNewPrayer: _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_5__["default"],
+    modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   data: function data() {
     return {
@@ -65871,13 +65813,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.show
+    _vm.prayer
       ? _c("div", { staticClass: "modal", attrs: { id: "modal-name" } }, [
           _c("div", { staticClass: "modal-sandbox" }),
           _vm._v(" "),
           _c("div", { staticClass: "modal-box" }, [
-            _c("div", { staticClass: "modal-header level" }, [
-              _c("h4", [_vm._v("Pridať modlitebný úmysel")]),
+            _c("div", { staticClass: "modal-header flex justify-between" }, [
+              _c("h4", [_vm._v("Modlitbová prosba")]),
               _vm._v(" "),
               _c(
                 "div",
@@ -65886,7 +65828,64 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "modal-body" })
+            _c(
+              "div",
+              {
+                staticClass: "modal-body",
+                staticStyle: { "font-size": "15px" }
+              },
+              [
+                _c("span", { staticStyle: { "font-weight": "600" } }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.prayer.user_name) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v("\n\n                žiada o\n\n                "),
+                _c("i", { staticClass: "fas fa-praying-hands" }),
+                _vm._v(" "),
+                _vm.prayer.title
+                  ? _c("div", { staticClass: "mb-3 mt-6 font-semibold" }, [
+                      _vm._v(_vm._s(_vm.prayer.title))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("p", { staticClass: "mb-8" }, [
+                  _vm._v(_vm._s(_vm.prayer.body))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "date",
+                    staticStyle: { "margin-bottom": ".5rem" }
+                  },
+                  [
+                    _c("span", { staticStyle: { "font-weight": "bold" } }, [
+                      _vm._v("Modlitba je stále aktuálna ")
+                    ]),
+                    _vm._v(
+                      "\n\n                    Zverejnená dňa: " +
+                        _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
+                        "\n                "
+                    )
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "bg-gray-600 p-10" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "text-gray-200 border-2 border-white hover:bg-gray-500 rounded-md",
+                  on: { click: _vm.toggle }
+                },
+                [_vm._v("Zavrieť")]
+              )
+            ])
           ])
         ])
       : _vm._e()
@@ -66029,13 +66028,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "px-6 py-2 text-base" }, [
-    _c("div", { staticClass: "relative", on: { click: _vm.toggle } }, [
+    _c("div", { staticClass: "relative", on: { click: _vm.passToModalShow } }, [
       _c("span", { staticStyle: { "font-weight": "600" } }, [
-        _vm._v(
-          "\n                    " +
-            _vm._s(_vm.prayer.user_name) +
-            "\n                    "
-        )
+        _vm._v(_vm._s(_vm.prayer.user_name))
       ]),
       _vm._v("\n\n        žiada o modlitbu\n\n        "),
       _c("i", {
@@ -66054,86 +66049,11 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "absolute bottom-0 right-0" }, [
-        _vm._v(_vm._s(_vm._f("dateTime")(_vm.prayer.created_at)))
+        _vm._v(
+          "dňa: " + _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) + " hod."
+        )
       ])
-    ]),
-    _vm._v(" "),
-    _vm.showModal
-      ? _c("div", { staticClass: "modal", attrs: { id: "modal-name" } }, [
-          _c("div", { staticClass: "modal-sandbox" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-box" }, [
-            _c("div", { staticClass: "modal-header flex justify-between" }, [
-              _c("h4", [_vm._v("Modlitbová prosba")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "close-modal", on: { click: _vm.toggle } },
-                [_vm._v("✖")]
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "modal-body",
-                staticStyle: { "font-size": "15px" }
-              },
-              [
-                _c("span", { staticClass: "font-semibold" }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.prayer.user_name) +
-                      "\n                "
-                  )
-                ]),
-                _vm._v("\n\n                žiada o\n\n                "),
-                _c("i", { staticClass: "fas fa-praying-hands" }),
-                _vm._v(" "),
-                _vm.prayer.title
-                  ? _c("div", { staticClass: "mb-3 mt-6 font-semibold" }, [
-                      _vm._v(_vm._s(_vm.prayer.title))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("p", { staticClass: "mb-8" }, [
-                  _vm._v(_vm._s(_vm.prayer.body))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "date",
-                    staticStyle: { "margin-bottom": ".5rem" }
-                  },
-                  [
-                    _c("span", { staticStyle: { "font-weight": "bold" } }, [
-                      _vm._v("Modlitba je stále aktuálna ")
-                    ]),
-                    _vm._v(
-                      "\n\n                    Zverejnená dňa: " +
-                        _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
-                        "\n                "
-                    )
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "bg-gray-600 p-10" }, [
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "text-gray-200 border-2 border-white hover:bg-gray-500 rounded-md",
-                  on: { click: _vm.toggle }
-                },
-                [_vm._v("\n                    Zavrieť\n                ")]
-              )
-            ])
-          ])
-        ])
-      : _vm._e()
+    ])
   ])
 }
 var staticRenderFns = []
@@ -66188,7 +66108,9 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("modal-new-prayer")
+      _c("modal-new-prayer"),
+      _vm._v(" "),
+      _c("modal-show-prayer")
     ],
     1
   )
@@ -66234,13 +66156,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "px-6 py-2" }, [
-    _c("div", { staticClass: "relative", on: { click: _vm.toggle } }, [
-      _c("span", { staticStyle: { "font-weight": "600" } }, [
-        _vm._v(
-          "\n                    " +
-            _vm._s(_vm.prayer.user_name) +
-            "\n                    "
-        )
+    _c("div", { staticClass: "relative", on: { click: _vm.passToModalShow } }, [
+      _c("span", { staticClass: "font-semibold" }, [
+        _vm._v(_vm._s(_vm.prayer.user_name) + " ")
       ]),
       _vm._v("\n\n        žiada o modlitbu\n\n        "),
       _c("i", {
@@ -66249,7 +66167,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _vm.prayer.title
-        ? _c("div", { staticStyle: { "font-weight": "bold" } }, [
+        ? _c("div", { staticClass: "font-semibold" }, [
             _vm._v(_vm._s(_vm.prayer.title))
           ])
         : _vm._e(),
@@ -66258,87 +66176,12 @@ var render = function() {
         _vm._v(_vm._s(_vm.prayer.body))
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "absolute bottom-0 right-0" }, [
-        _vm._v(_vm._s(_vm._f("dateTime")(_vm.prayer.created_at)))
+      _c("div", { staticClass: "absolute bottom-0 right-0 text-gray-400" }, [
+        _vm._v(
+          "dňa: " + _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) + " hod."
+        )
       ])
-    ]),
-    _vm._v(" "),
-    _vm.showModal
-      ? _c("div", { staticClass: "modal", attrs: { id: "modal-name" } }, [
-          _c("div", { staticClass: "modal-sandbox" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-box" }, [
-            _c("div", { staticClass: "modal-header flex justify-between" }, [
-              _c("h4", [_vm._v("Modlitbová prosba")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "close-modal", on: { click: _vm.toggle } },
-                [_vm._v("✖")]
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "modal-body",
-                staticStyle: { "font-size": "15px" }
-              },
-              [
-                _c("span", { staticStyle: { "font-weight": "600" } }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.prayer.user_name) +
-                      "\n                    "
-                  )
-                ]),
-                _vm._v("\n\n                žiada o\n\n                "),
-                _c("i", { staticClass: "fas fa-praying-hands" }),
-                _vm._v(" "),
-                _c("div", { staticClass: "mb-8" }, [
-                  _vm._v(_vm._s(_vm.prayer.body))
-                ]),
-                _vm._v(" "),
-                _vm.prayer.title
-                  ? _c("div", { staticClass: "mb-8" }, [
-                      _vm._v(_vm._s(_vm.prayer.title))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "date",
-                    staticStyle: { "margin-bottom": ".5rem" }
-                  },
-                  [
-                    _c("span", { staticStyle: { "font-weight": "bold" } }, [
-                      _vm._v("Modlitba je stále aktuálna ")
-                    ]),
-                    _vm._v(
-                      "\n\n                    Zverejnená dňa: " +
-                        _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
-                        "\n                "
-                    )
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "bg-gray-600 p-10" }, [
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "text-gray-200 border-2 border-white hover:bg-gray-500 rounded-md",
-                  on: { click: _vm.toggle }
-                },
-                [_vm._v("Zavrieť")]
-              )
-            ])
-          ])
-        ])
-      : _vm._e()
+    ])
   ])
 }
 var staticRenderFns = []
@@ -66398,7 +66241,9 @@ var render = function() {
         on: { fetchUrl: _vm.paginator }
       }),
       _vm._v(" "),
-      _c("modal-new-prayer")
+      _c("modal-new-prayer"),
+      _vm._v(" "),
+      _c("modal-show-prayer")
     ],
     1
   )

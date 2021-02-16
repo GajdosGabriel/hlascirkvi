@@ -17,6 +17,7 @@
         </div>
 
         <modal-new-prayer></modal-new-prayer>
+        <modal-show-prayer></modal-show-prayer>
 
     </section>
 </template>
@@ -26,10 +27,11 @@
     import {bus} from "../app";
     import prayersCardItem from '../prayer/prayers-card-item';
     import modalNewPrayer from '../prayer/ModalNewPrayer';
+    import modalShowPrayer from '../prayer/ModalShowPrayer';
 
 
     export default {
-        components: {prayersCardItem, modalNewPrayer},
+        components: {prayersCardItem, modalNewPrayer, modalShowPrayer},
         data() {
             return {
                 prayers: [],

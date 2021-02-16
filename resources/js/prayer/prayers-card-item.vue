@@ -1,10 +1,8 @@
 <template>
     <div class="px-6 py-2 text-base">
-        <div class="relative" @click="toggle">
+        <div class="relative" @click="passToModalShow">
 
-                        <span style="font-weight: 600;">
-                        {{ prayer.user_name }}
-                        </span>
+            <span style="font-weight: 600;">{{ prayer.user_name }}</span>
 
             žiada o modlitbu
 
@@ -12,56 +10,15 @@
 
             <div style="font-weight: bold" v-if="prayer.title">{{ prayer.title }}</div>
             <div style="margin-bottom: .4rem">{{ prayer.body }}</div>
-            <div class="absolute bottom-0 right-0">{{ prayer.created_at | dateTime }}</div>
-        </div>
-
-        <!-- Modal -->
-        <div v-if="showModal" class="modal" id="modal-name">
-            <div class="modal-sandbox"></div>
-            <div class="modal-box">
-                <div class="modal-header flex justify-between">
-                    <h4>Modlitbová prosba</h4>
-                    <div @click="toggle" class="close-modal">&#10006;</div>
-                </div>
-
-                <div class="modal-body" style="font-size: 15px">
-
-                    <span class="font-semibold">
-                        {{ prayer.user_name }}
-                    </span>
-
-                    žiada o
-
-                    <i class="fas fa-praying-hands"></i>
-
-
-                    <div class="mb-3 mt-6 font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
-
-                    <p class="mb-8">{{ prayer.body }}</p>
-
-
-                    <div style="margin-bottom: .5rem" class="date">
-                        <span style="font-weight: bold">Modlitba je stále aktuálna </span>
-
-                        Zverejnená dňa: {{ prayer.created_at | dateTime }}
-                    </div>
-
-                </div>
-
-                <div class="bg-gray-600 p-10">
-                    <button @click="toggle" class="text-gray-200 border-2 border-white hover:bg-gray-500 rounded-md">
-                        Zavrieť
-                    </button>
-                </div>
-            </div>
+            <div class="absolute bottom-0 right-0">dňa: {{ prayer.created_at | dateTime }} hod.</div>
         </div>
     </div>
-
 </template>
 
 <script>
     import moment from "moment";
     import modalShowPrayer from '../prayer/ModalShowPrayer';
+    import {bus} from "../app";
 
     export default {
         props: ['prayer'],
@@ -74,13 +31,13 @@
         },
 
         methods: {
-            toggle() {
-                this.showModal = !this.showModal
+            passToModalShow() {
+                bus.$emit('passToModalPrayer', this.prayer);
             }
         },
         filters: {
             dateTime: function (value) {
-                return moment(value).format('D.M.Y, h:mm');
+                return moment(value).format('D.M.Y, H:mm');
             }
         }
 

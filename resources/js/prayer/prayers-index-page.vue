@@ -19,6 +19,7 @@
         <pagination :data="prayers" @fetchUrl="paginator"></pagination>
 
         <modal-new-prayer></modal-new-prayer>
+        <modal-show-prayer></modal-show-prayer>
     </section>
 </template>
 
@@ -29,10 +30,12 @@
     import prayersIndexItem from '../prayer/prayers-index-item';
     import pagination from "./pagination";
     import modalNewPrayer from '../prayer/ModalNewPrayer';
+    import modalShowPrayer from '../prayer/ModalShowPrayer';
+
 
 
     export default {
-        components: {prayersIndexItem, pagination, modalNewPrayer},
+        components: {prayersIndexItem, pagination, modalNewPrayer, modalShowPrayer},
         data() {
             return {
                 prayers: [],
