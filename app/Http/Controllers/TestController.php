@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Organization;
 use App\Post;
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Services\Extractor\ExtractPrayerWall;
+use App\Services\Extractor\ExtractZdruzenieMedaily;
+use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractTkkbs;
 use App\Event;
 use App\User;
@@ -21,9 +22,8 @@ class TestController extends Controller
 
     public function test()
     {
-       $posts = (new ExtractPrayerWall())->parseListUrl();
+       $posts = (new ExtractMojaKomunita())->parseListUrl();
 
-      dd($posts);
     }
 
 

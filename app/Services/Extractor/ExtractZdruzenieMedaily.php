@@ -16,7 +16,7 @@ use DOMXPath;
 use Imagick;
 
 
-class ExtractPrayerWall extends Extractors
+class ExtractZdruzenieMedaily extends Extractors
 {
     protected $prefix = 'https://www.mojakomunita.sk/';
 //    protected $url = 'https://www.mojakomunita.sk/web/modlitba';
@@ -38,10 +38,7 @@ class ExtractPrayerWall extends Extractors
 
         $finder = new DomXPath($htmlDom);
         $classBody="gb-entry-content";
-//        $classname="entry-data-e";
-//        $classname="pBody";
-//        $classname="pHead";
-//        $classname="user-name";
+
         $prayersBody = $finder->query("//*[contains(@class, '$classBody')]");
 
 

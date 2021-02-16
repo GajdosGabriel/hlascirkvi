@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/prayer/pagination.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/pagination.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/prayer/prayer-card.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/prayer-card.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/Extractor/Extractors.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/Extractor/Extractors.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,19 +164,19 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="ignore.virus.scanning.warn.message" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../verejnasprava" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Services/Extractor" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\www\hlascirkvi\resources\js\prayer" />
-      <recent name="C:\www\hlascirkvi\app\Console\Commands" />
-      <recent name="C:\www\hlascirkvi\app\Services\Extractor" />
-      <recent name="C:\www\hlascirkvi\resources\js\prayerWall" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\www\hlascirkvi\resources\views\events" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\www\hlascirkvi\app\Services\Extractor" />
+      <recent name="C:\www\hlascirkvi\resources\js\prayer" />
+      <recent name="C:\www\hlascirkvi\app\Console\Commands" />
+      <recent name="C:\www\hlascirkvi\resources\js\prayerWall" />
     </key>
   </component>
   <component name="RunManager">
@@ -256,7 +253,8 @@
       <workItem from="1613402645869" duration="3715000" />
       <workItem from="1613421410437" duration="1795000" />
       <workItem from="1613423330955" duration="56000" />
-      <workItem from="1613457519721" duration="289000" />
+      <workItem from="1613457519721" duration="7231000" />
+      <workItem from="1613466903044" duration="253000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -391,7 +389,21 @@
       <option name="project" value="LOCAL" />
       <updated>1613423375560</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Prayer paginator">
+      <created>1613457820010</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1613457820010</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Prayer prayers MojaKomunita">
+      <created>1613464329127</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1613464329127</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -430,17 +442,22 @@
     <MESSAGE value="Prayer change to modlitby" />
     <MESSAGE value="Prayer save" />
     <MESSAGE value="Prayer paginator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prayer paginator" />
+    <MESSAGE value="Prayer prayers MojaKomunita" />
+    <option name="LAST_COMMIT_MESSAGE" value="Prayer prayers MojaKomunita" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1613374627085">
+    <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613374627085" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613423371107">
+    <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463584639" />
+    <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1613463806401">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613423371107" />
+    <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613464327952">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613464327952" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613326585031">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -457,10 +474,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1613402618991" />
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613457544471">
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613466916312">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613457544471" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613466916312" />
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613377553264">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -469,9 +486,9 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="594" y="19" width="731" height="1011" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613377896251" />
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1613250735382">
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1613458577961">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613250735382" />
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613458577961" />
   </component>
 </project>

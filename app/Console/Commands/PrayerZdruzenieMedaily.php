@@ -3,18 +3,18 @@
 namespace App\Console\Commands;
 
 
-use App\Services\Extractor\ExtractPrayerWall;
+use App\Services\Extractor\ExtractZdruzenieMedaily;
 use Illuminate\Console\Command;
 
 
-class PrayerWall extends Command
+class PrayerZdruzenieMedaily extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'prayer:extract';
+    protected $signature = 'prayer:zdruzenieMedaily';
 
     /**
      * The console command description.
@@ -40,6 +40,6 @@ class PrayerWall extends Command
      */
     public function handle()
     {
-        (new ExtractPrayerWall())->parseListUrl();
+        (new ExtractZdruzenieMedaily())->parseListUrl();
     }
 }

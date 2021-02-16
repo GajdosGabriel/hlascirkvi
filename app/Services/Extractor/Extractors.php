@@ -32,7 +32,7 @@ abstract class Extractors
             }
 
             DB::table('prayers')->insert([
-                'title' => '',
+                'title' => $item['title'],
                 'body' => $item['body'],
                 'user_name' => $item['user'],
                 'created_at' => Carbon::now()->subHours(2)->toDateTimeString(),
