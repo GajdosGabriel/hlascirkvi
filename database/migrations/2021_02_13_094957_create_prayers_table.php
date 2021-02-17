@@ -17,7 +17,7 @@ class CreatePrayersTable extends Migration
 
             $table->bigIncrements('id');
             $table->string('title')->nullable();
-            $table->integer('user_id')->default(1);
+            $table->integer('user_id');
             $table->string('user_name')->nullable();
             $table->text('body');
             $table->softDeletes();

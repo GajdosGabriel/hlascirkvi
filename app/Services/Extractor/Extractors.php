@@ -35,6 +35,7 @@ abstract class Extractors
                 'title' => $item['title'],
                 'body' => $item['body'],
                 'user_name' => $item['user'],
+                'user_id' => 1,
                 'created_at' => Carbon::now()->subHours(2)->toDateTimeString(),
             ]);
 

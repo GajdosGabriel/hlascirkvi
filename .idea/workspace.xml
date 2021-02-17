@@ -3,8 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/Extractor/ExtractMojaKomunita.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/Extractor/ExtractMojaKomunita.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/Extractor/ExtractZdruzenieMedaily.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/Extractor/ExtractZdruzenieMedaily.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Services/Extractor/Extractors.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/Extractor/Extractors.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_02_13_094957_create_prayers_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_02_13_094957_create_prayers_table.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,7 +263,9 @@
       <workItem from="1613491383129" duration="627000" />
       <workItem from="1613497306941" duration="3357000" />
       <workItem from="1613544606054" duration="671000" />
-      <workItem from="1613545314174" duration="3093000" />
+      <workItem from="1613545314174" duration="3175000" />
+      <workItem from="1613551136155" duration="147000" />
+      <workItem from="1613555615996" duration="591000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -487,7 +491,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613547847776</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Prayer css icons ref">
+      <created>1613548969742</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1613548969742</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -546,10 +557,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613547846531">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613548968914">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613547846531" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613548968914" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

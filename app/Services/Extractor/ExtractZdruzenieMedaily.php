@@ -22,7 +22,7 @@ class ExtractZdruzenieMedaily extends Extractors
 //    protected $url = 'https://www.mojakomunita.sk/web/modlitba';
     protected $url = 'https://www.zzm.sk/prosby-2/';
     // protected $url = 'https://www.zzm.sk/prosby-2/?pageNum=3';
-    protected $organizationId = 1;
+
 
 
     public function parseListUrl() {
@@ -73,9 +73,6 @@ class ExtractZdruzenieMedaily extends Extractors
             );
         }
 
-
-    //    return $extractedTitle;
-    //    return $extractedBody;
     $merged = array_replace_recursive($extractedTitle,$extractedBody);
 
        $this->createPrayer($merged);

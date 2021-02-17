@@ -22,7 +22,7 @@ class ExtractMojaKomunita extends Extractors
 //    protected $url = 'https://www.mojakomunita.sk/web/modlitba';
     protected $url = 'https://www.mojakomunita.sk/web/modlitba';
     // protected $url = 'https://www.zzm.sk/prosby-2/?pageNum=3';
-    protected $organizationId = 1;
+
 
 
     public function parseListUrl()
