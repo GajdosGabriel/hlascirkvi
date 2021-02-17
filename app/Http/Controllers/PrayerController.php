@@ -20,6 +20,11 @@ class PrayerController extends Controller
         return Prayer::latest()->paginate(7);
     }
 
+    public function update(Prayer $modlitby, SavePrayerRequest $request)
+    {
+        $modlitby->update($request->all());
+    }
+
     public function store(SavePrayerRequest $request){
 
         if($request->email) {
@@ -27,6 +32,9 @@ class PrayerController extends Controller
         }
 
        auth()->user()->prayers()->create($request->all() );
+    }
 
+    public function destroy(Prayer $modlitby){
+        $modlitby->delete();
     }
 }

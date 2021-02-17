@@ -75,6 +75,11 @@
             bus.$on('openModalPrayer', () => {
                 this.show = true
             });
+
+            bus.$on('passToModalEdit', (prayer) => {
+                this.form = prayer;
+                this.show = true;
+            });
         },
 
         methods: {
@@ -83,13 +88,25 @@
             },
 
             savePrayer: function () {
+                // Update prayer
+                if (this.form.id){
+                    console.log(this.form);
+                    Axios.put('/modlitby/' + this.form.id , this.form)
+                        .then(response => {
+                            this.form = {};
+                            this.show = false;
+                            window.location.reload()
+                        }
+                    );
+                    return;
+                }
+                // Save prayer
                 Axios.post('/modlitby', this.form).then(
                     response => {
                         this.form = {};
                         this.show = false;
                         window.location.reload()
                     }
-
                 )
             }
         }
