@@ -76,12 +76,12 @@
 
                                 <div style="margin-top: -.8rem" class="card-body">
                                     <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
-                                        <h6 class="card-title" title="{{ $post->title }}">{{ Str::limit($post->title, 48) }}</h6>
+                                        <h6 class="text-md" title="{{ $post->title }}">{{ Str::limit($post->title, 48) }}</h6>
                                     </a>
                                 </div>
                             </div>
 
-                            <div class="card-footer">
+                            <div class="text-gray-500 text-md px-2 italic">
                                 <a href="{{ route('organization.show', [$post->organization->id, $post->organization->slug]) }}">{{ $post->organization->title }}</a>
                                 <time datetime="{{ $post->created_at }}">{{ $post->created_at->diffForHumans() }}</time>
                             </div>
