@@ -20,14 +20,24 @@
                     <i class="fas fa-praying-hands"></i>
 
 
-                    <div class="mb-3 mt-6 font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
+                    <div class="flex">
+                        <img :src="'images/prayed_hand.png'" class="h-20 mr-10">
+                        <div>
+                            <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
+                            <p style="margin-bottom: .4rem">{{ prayer.body }}</p>
+                        </div>
+                    </div>
 
-                    <p class="mb-8">{{ prayer.body }}</p>
-
-                    <div style="margin-bottom: .5rem" class="date">
-                        <span style="font-weight: bold">Modlitba je stále aktuálna </span>
-
-                        Zverejnená dňa: {{ prayer.created_at | dateTime }}
+                    <div class="flex mt-5">
+                       <span class="mr-3">Modlitba je stále aktuálna</span>
+                        <span class="text-base flex items-center">
+                   <svg class="h-6 w-6 mr-3 text-gray-500 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                            clip-rule="evenodd"/>
+                    </svg>
+                   dňa: {{ prayer.created_at | dateTime }} hod.
+               </span>
                     </div>
 
                 </div>
