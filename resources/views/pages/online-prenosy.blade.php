@@ -49,7 +49,9 @@
                             </div>
 
                             <div class="flex space-x-5">
+
                                 @include('posts.post-online')
+
                                 <div class="flex flex-col justify-between w-1/3">
                                     <div class="">
                                         <h5>Predchádzajúce prenosy</h5>

@@ -5582,7 +5582,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fa-disabled {\n    opacity: .6;\n    pointer-events: none;\n    color: red;\n}\n.fa-active {\n    color: red;\n}\n", ""]);
+exports.push([module.i, ".fa-disabled {\n  opacity: .6;\n  pointer-events: none;\n  color: red;\n}\n.fa-active {\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -5601,7 +5601,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.form-group{\n    padding: 0rem;\n}\n", ""]);
+exports.push([module.i, ".form-group{\n  padding: 0rem;\n}\n", ""]);
 
 // exports
 
@@ -5620,7 +5620,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.redText {\n    color: red;\n}\n", ""]);
+exports.push([module.i, ".redText {\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -5639,7 +5639,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.menu[data-v-32ceee34] {\n    cursor: pointer;\n    padding: 0rem .4rem;\n    border: 1px solid white;\n}\na[data-v-32ceee34]:hover {\n    border: 1px solid red;\n    color: red;\n    border-radius: .5rem;\n}\n.active[data-v-32ceee34] {\n    background: white;\n    /*color: whitesmoke;*/\n    border-radius: .5rem;\n    border: 1px solid red;\n}\n.date[data-v-32ceee34] {\n    color: #838383;\n    text-align: right;\n    font-style: italic;\n    font-size: 85%;\n}\n.hover[data-v-32ceee34]:hover {\n    cursor: pointer;\n    background: rgba(231, 231, 231, 0.38);\n}\n\n\n", ""]);
+exports.push([module.i, ".menu[data-v-32ceee34] {\n  cursor: pointer;\n  padding: 0rem .4rem;\n  border: 1px solid white;\n}\na[data-v-32ceee34]:hover {\n  border: 1px solid red;\n  color: red;\n  border-radius: .5rem;\n}\n.active[data-v-32ceee34] {\n  background: white;\n  /*color: whitesmoke;*/\n  border-radius: .5rem;\n  border: 1px solid red;\n}\n.date[data-v-32ceee34] {\n  color: #838383;\n  text-align: right;\n  font-style: italic;\n  font-size: 85%;\n}\n.hover[data-v-32ceee34]:hover {\n  cursor: pointer;\n  background: rgba(231, 231, 231, 0.38);\n}\n\n\n", ""]);
 
 // exports
 
@@ -5658,7 +5658,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.success[data-v-6a4ce154] {\n    z-index: 999;\n    position: fixed;\n    font-size: 111%;\n    color: whitesmoke;\n    right: 25px;\n    bottom: 4rem;\n    background: #53994f;\n    padding: 1.3rem;\n    border: .1rem solid #335530;\n    border-radius: .7rem;\n}\n.danger[data-v-6a4ce154] {\n    z-index: 999;\n    position: fixed;\n    font-size: 111%;\n    color: whitesmoke;\n    right: 25px;\n    bottom: 4rem;\n    background: #ff9393;\n    padding: 1.3rem;\n    border: .1rem solid #4d4d4d;\n    border-radius: .7rem;\n}\ni[data-v-6a4ce154] {\n    margin-right: 1.5rem;\n}\n.fade-enter-active[data-v-6a4ce154], .fade-leave-active[data-v-6a4ce154] {\n    transition: opacity .5s;\n}\n.fade-enter[data-v-6a4ce154], .fade-leave-to[data-v-6a4ce154] /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n", ""]);
+exports.push([module.i, ".success[data-v-6a4ce154] {\n  z-index: 999;\n  position: fixed;\n  font-size: 111%;\n  color: whitesmoke;\n  right: 25px;\n  bottom: 4rem;\n  background: #53994f;\n  padding: 1.3rem;\n  border: .1rem solid #335530;\n  border-radius: .7rem;\n}\n.danger[data-v-6a4ce154] {\n  z-index: 999;\n  position: fixed;\n  font-size: 111%;\n  color: whitesmoke;\n  right: 25px;\n  bottom: 4rem;\n  background: #ff9393;\n  padding: 1.3rem;\n  border: .1rem solid #4d4d4d;\n  border-radius: .7rem;\n}\ni[data-v-6a4ce154] {\n  margin-right: 1.5rem;\n}\n.fade-enter-active[data-v-6a4ce154], .fade-leave-active[data-v-6a4ce154] {\n  transition: opacity .5s;\n}\n.fade-enter[data-v-6a4ce154], .fade-leave-to[data-v-6a4ce154] /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -5677,7 +5677,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.left{ float: right}\n.fade-enter-active {\n    transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n.color-red{\n    color: red;\n}\n", ""]);
+exports.push([module.i, ".left{ float: right\n}\n.fade-enter-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n}\n.color-red{\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -5696,7 +5696,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.left{ float: right}\n.fade-enter-active {\n    transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n.color-red{\n    color: red;\n}\n", ""]);
+exports.push([module.i, ".left{ float: right\n}\n.fade-enter-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n}\n.color-red{\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -5715,7 +5715,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.left{ float: right}\n.messenger{\n    background: none;\n    padding: 0rem;\n}\n", ""]);
+exports.push([module.i, ".left{ float: right\n}\n.messenger{\n  background: none;\n  padding: 0rem;\n}\n", ""]);
 
 // exports
 
@@ -5734,7 +5734,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.inline[data-v-231a0254] {\n    display: inline-flex;\n}\nlabel[data-v-231a0254] {\n    background: #898989;\n    padding: 0 .5rem;\n    color: whitesmoke;\n}\n\n", ""]);
+exports.push([module.i, ".inline[data-v-231a0254] {\n  display: inline-flex;\n}\nlabel[data-v-231a0254] {\n  background: #898989;\n  padding: 0 .5rem;\n  color: whitesmoke;\n}\n\n", ""]);
 
 // exports
 
@@ -5753,7 +5753,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.slide-fade-enter-active, .slide-fade-leave-to {\n    transition: opacity .5s;\n}\n.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */\n{\n    opacity: 0;\n}\n\n/*.navButton {*/\n/*    float: left;*/\n/*    margin-right: 1rem;*/\n/*    cursor: pointer;*/\n/*    padding: .7rem .9rem;*/\n/*    border-radius: .6rem;*/\n/*}*/\n\n/*.img-avatar {*/\n/*    max-width: 6rem;*/\n/*    border-radius: .5rem;*/\n/*    border: 1px solid black*/\n/*}*/\n\n/*.button {*/\n/*    cursor: pointer;*/\n/*    float: right;*/\n/*    font-size: 120%;*/\n/*    padding: 0rem 1.8rem;*/\n/*    border-radius: .5rem;*/\n/*    text-align: center;*/\n/*}*/\n\n/*.activeButton {*/\n/*    background: rgba(59, 89, 153, 1);*/\n/*    color: white;*/\n/*}*/\n\n/*.buttonA {*/\n/*    background: red;*/\n/*    color: whitesmoke;*/\n\n/*}*/\n\n/*.buttonB {*/\n/*    background: silver;*/\n/*    color: #535353;*/\n/*}*/\n\n\n/*.Media {*/\n/*    display: flex;*/\n/*    align-items: flex-start;*/\n/*}*/\n\n/*.Media-figure {*/\n/*    margin-right: 1em;*/\n/*}*/\n\n/*.Media-body {*/\n/*    flex: 1;*/\n/*}*/\n\n\n", ""]);
+exports.push([module.i, ".slide-fade-enter-active, .slide-fade-leave-to {\n  transition: opacity .5s;\n}\n.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */\n{\n  opacity: 0;\n}\n\n/*.navButton {*/\n\n/*    float: left;*/\n\n/*    margin-right: 1rem;*/\n\n/*    cursor: pointer;*/\n\n/*    padding: .7rem .9rem;*/\n\n/*    border-radius: .6rem;*/\n\n/*}*/\n\n/*.img-avatar {*/\n\n/*    max-width: 6rem;*/\n\n/*    border-radius: .5rem;*/\n\n/*    border: 1px solid black*/\n\n/*}*/\n\n/*.button {*/\n\n/*    cursor: pointer;*/\n\n/*    float: right;*/\n\n/*    font-size: 120%;*/\n\n/*    padding: 0rem 1.8rem;*/\n\n/*    border-radius: .5rem;*/\n\n/*    text-align: center;*/\n\n/*}*/\n\n/*.activeButton {*/\n\n/*    background: rgba(59, 89, 153, 1);*/\n\n/*    color: white;*/\n\n/*}*/\n\n/*.buttonA {*/\n\n/*    background: red;*/\n\n/*    color: whitesmoke;*/\n\n/*}*/\n\n/*.buttonB {*/\n\n/*    background: silver;*/\n\n/*    color: #535353;*/\n\n/*}*/\n\n/*.Media {*/\n\n/*    display: flex;*/\n\n/*    align-items: flex-start;*/\n\n/*}*/\n\n/*.Media-figure {*/\n\n/*    margin-right: 1em;*/\n\n/*}*/\n\n/*.Media-body {*/\n\n/*    flex: 1;*/\n\n/*}*/\n\n\n", ""]);
 
 // exports
 
@@ -5772,7 +5772,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.left{ float: right}\n.fade-enter-active {\n    transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n.color-red{\n    color: red;\n}\n", ""]);
+exports.push([module.i, ".left{ float: right\n}\n.fade-enter-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n}\n.color-red{\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -5791,7 +5791,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n    transition: opacity 0.25s;\n}\n.fade-enter, .fade-leave-to {\n    opacity: 0;\n}\n.color-ddd{\n    color: #ffff55;\n}\n", ""]);
+exports.push([module.i, ".fade-enter-active, .fade-leave-active {\n  transition: opacity 0.25s;\n}\n.fade-enter, .fade-leave-to {\n  opacity: 0;\n}\n.color-ddd{\n  color: #ffff55;\n}\n", ""]);
 
 // exports
 
@@ -5810,7 +5810,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n[v-cloak] {\n    display: none;\n}\nli {\n    display: block;\n    transition-duration: 0.2s;\n}\nli:hover {\n    cursor: pointer;\n}\nul li ul {\n    visibility: hidden;\n    opacity: 0;\n    position: absolute;\n    transition: all 0.3s ease;\n    margin-top: 1rem;\n    left: 0;\n    display: none;\n}\nul li:hover > ul,\nul li ul:hover {\n    visibility: visible;\n    opacity: 1;\n    display: block;\n}\nul li ul li {\n    clear: both;\n    width: 100%;\n}\n\n", ""]);
+exports.push([module.i, "[v-cloak] {\n  display: none;\n}\nli {\n  display: block;\n  transition-duration: 0.2s;\n}\nli:hover {\n  cursor: pointer;\n}\nul li ul {\n  visibility: hidden;\n  opacity: 0;\n  position: absolute;\n  transition: all 0.3s ease;\n  margin-top: 1rem;\n  left: 0;\n  display: none;\n}\nul li:hover > ul,\nul li ul:hover {\n  visibility: visible;\n  opacity: 1;\n  display: block;\n}\nul li ul li {\n  clear: both;\n  width: 100%;\n}\n\n", ""]);
 
 // exports
 
@@ -5829,7 +5829,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.favorited {\n    color: #989898;\n}\n\n/*.grow { transition: all .2s ease-in-out; }*/\n/*.grow:hover { transform: scale(1.3); }*/\n.slide-fade-enter-active {\n    /*transition: all .3s ease;*/\n}\n.slide-fade-leave-active {\n    /*transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/\n}\n.slide-fade-enter, .slide-fade-leave-to\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n    /*transform: translateX(10px);*/\n    opacity: 0;\n}\n\n", ""]);
+exports.push([module.i, ".favorited {\n  color: #989898;\n}\n\n/*.grow { transition: all .2s ease-in-out; }*/\n\n/*.grow:hover { transform: scale(1.3); }*/\n.slide-fade-enter-active {\n  /*transition: all .3s ease;*/\n}\n.slide-fade-leave-active {\n  /*transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/\n}\n.slide-fade-enter, .slide-fade-leave-to\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n  /*transform: translateX(10px);*/\n  opacity: 0;\n}\n\n", ""]);
 
 // exports
 
@@ -5848,7 +5848,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n[v-cloak] {\n    display: none;\n}\n", ""]);
+exports.push([module.i, "[v-cloak] {\n  display: none;\n}\n", ""]);
 
 // exports
 
@@ -5867,7 +5867,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.menu[data-v-3ef3de6b] {\n    cursor: pointer;\n    padding: 0rem .4rem;\n    border: 1px solid white;\n}\na[data-v-3ef3de6b]:hover {\n    border: 1px solid red;\n    color: red;\n    border-radius: .5rem;\n}\n.active[data-v-3ef3de6b] {\n    background: white;\n    /*color: whitesmoke;*/\n    border-radius: .5rem;\n    border: 1px solid red;\n}\n.date[data-v-3ef3de6b] {\n    color: #838383;\n    text-align: right;\n    font-style: italic;\n    font-size: 85%;\n}\n.hover[data-v-3ef3de6b]:hover {\n    cursor: pointer;\n    background: rgba(231, 231, 231, 0.38);\n}\n\n\n", ""]);
+exports.push([module.i, ".menu[data-v-3ef3de6b] {\n  cursor: pointer;\n  padding: 0rem .4rem;\n  border: 1px solid white;\n}\na[data-v-3ef3de6b]:hover {\n  border: 1px solid red;\n  color: red;\n  border-radius: .5rem;\n}\n.active[data-v-3ef3de6b] {\n  background: white;\n  /*color: whitesmoke;*/\n  border-radius: .5rem;\n  border: 1px solid red;\n}\n.date[data-v-3ef3de6b] {\n  color: #838383;\n  text-align: right;\n  font-style: italic;\n  font-size: 85%;\n}\n.hover[data-v-3ef3de6b]:hover {\n  cursor: pointer;\n  background: rgba(231, 231, 231, 0.38);\n}\n\n\n", ""]);
 
 // exports
 
@@ -5886,7 +5886,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.menu[data-v-fd0d9276] {\n    cursor: pointer;\n    padding: 0rem .4rem;\n    border: 1px solid white;\n}\na[data-v-fd0d9276]:hover {\n    border: 1px solid red;\n    color: red;\n    border-radius: .5rem;\n}\n.active[data-v-fd0d9276] {\n    background: white;\n    /*color: whitesmoke;*/\n    border-radius: .5rem;\n    border: 1px solid red;\n}\n.date[data-v-fd0d9276] {\n    color: #838383;\n    text-align: right;\n    font-style: italic;\n    font-size: 85%;\n}\n.hover[data-v-fd0d9276]:hover {\n    cursor: pointer;\n    background: rgba(231, 231, 231, 0.38);\n}\n\n\n", ""]);
+exports.push([module.i, ".menu[data-v-fd0d9276] {\n  cursor: pointer;\n  padding: 0rem .4rem;\n  border: 1px solid white;\n}\na[data-v-fd0d9276]:hover {\n  border: 1px solid red;\n  color: red;\n  border-radius: .5rem;\n}\n.active[data-v-fd0d9276] {\n  background: white;\n  /*color: whitesmoke;*/\n  border-radius: .5rem;\n  border: 1px solid red;\n}\n.date[data-v-fd0d9276] {\n  color: #838383;\n  text-align: right;\n  font-style: italic;\n  font-size: 85%;\n}\n.hover[data-v-fd0d9276]:hover {\n  cursor: pointer;\n  background: rgba(231, 231, 231, 0.38);\n}\n\n\n", ""]);
 
 // exports
 
@@ -5905,7 +5905,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.favorited {\n    color: rgb(255, 49, 14);\n}\n.ul-style {\n    color: #7d7d7d; font-size: 85%; margin-top: -1rem; cursor: pointer\n}\n\n", ""]);
+exports.push([module.i, ".favorited {\n  color: rgb(255, 49, 14);\n}\n.ul-style {\n  color: #7d7d7d; font-size: 85%; margin-top: -1rem; cursor: pointer\n}\n\n", ""]);
 
 // exports
 
@@ -5924,7 +5924,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.box[data-v-4d823f55] {\n    margin: 2rem;\n}\n.card-body[data-v-4d823f55] {\n    display: flex;\n}\n.inline[data-v-4d823f55] {\n    display: inline-flex;\n}\n.form-group[data-v-4d823f55] {\n    padding: 1rem 0rem;\n}\nlabel[data-v-4d823f55] {\n    background: #898989;\n    padding: 0 .5rem;\n    color: whitesmoke;\n}\n.slide-fade-enter-active[data-v-4d823f55] {\n    transition: all .3s ease;\n}\n.slide-fade-leave-active[data-v-4d823f55] {\n    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter[data-v-4d823f55], .slide-fade-leave-to[data-v-4d823f55]\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n    transform: translateX(10px);\n    opacity: 0;\n}\n", ""]);
+exports.push([module.i, ".box[data-v-4d823f55] {\n  margin: 2rem;\n}\n.card-body[data-v-4d823f55] {\n  display: flex;\n}\n.inline[data-v-4d823f55] {\n  display: inline-flex;\n}\n.form-group[data-v-4d823f55] {\n  padding: 1rem 0rem;\n}\nlabel[data-v-4d823f55] {\n  background: #898989;\n  padding: 0 .5rem;\n  color: whitesmoke;\n}\n.slide-fade-enter-active[data-v-4d823f55] {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active[data-v-4d823f55] {\n  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.slide-fade-enter[data-v-4d823f55], .slide-fade-leave-to[data-v-4d823f55]\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n  transform: translateX(10px);\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -5943,7 +5943,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.left{ float: right}\n.fade-enter-active {\n    transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n.color-red{\n    color: red;\n}\n", ""]);
+exports.push([module.i, ".left{ float: right\n}\n.fade-enter-active {\n  transition: opacity .5s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n  opacity: 0;\n}\n.color-red{\n  color: red;\n}\n", ""]);
 
 // exports
 
@@ -5962,7 +5962,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n    transition: opacity 0.25s;\n}\n.fade-enter, .fade-leave-to {\n    opacity: 0;\n}\n.color-ddd{\n    color: #ffff55;\n}\n", ""]);
+exports.push([module.i, ".fade-enter-active, .fade-leave-active {\n  transition: opacity 0.25s;\n}\n.fade-enter, .fade-leave-to {\n  opacity: 0;\n}\n.color-ddd{\n  color: #ffff55;\n}\n", ""]);
 
 // exports
 
@@ -79611,6 +79611,17 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/css/app.css":
+/*!*******************************!*\
+  !*** ./resources/css/app.css ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -83273,26 +83284,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!***********************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/css/app.css ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! C:\www\hlascirkvi\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\www\hlascirkvi\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! C:\www\hlascirkvi\resources\css\app.css */"./resources/css/app.css");
 
 
 /***/ })

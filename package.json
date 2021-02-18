@@ -24,9 +24,15 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@tailwindcss/forms": "^0.2.1",
+        "@tailwindcss/typography": "^0.4.0",
+        "autoprefixer": "^9.8.6",
         "isotope-layout": "^3.0.6",
         "lazyload": "^2.0.0-rc.2",
         "moment": "^2.24.0",
+        "node-sass": "^5.0.0",
+        "postcss": "^7.0.35",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
         "vue-images-loaded": "^1.1.2"
     }
 }

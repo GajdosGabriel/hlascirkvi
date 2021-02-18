@@ -24,13 +24,14 @@
 @section('content')
 
 
+
     <page-header :organization="{{ $post->organization }}" :post="{{ $post }}"></page-header>
 
 
 
-    <div class="container mx-auto text-gray-600">
+    <div class="container mx-auto text-gray-600 grid grid-cols-12 gap-7">
         {{-- Header and video--}}
-        <div class="">
+        <div class="grid col-span-8">
 
             <div class="">
 
@@ -45,7 +46,6 @@
                             <time datetime="{{ $post->created_at }}">dňa: {{ $post->datetime }}</time>
                             | zobrazení: {{ $post->count_view }}
                         </div>
-
                     </div>
 
 
@@ -69,13 +69,12 @@
                             </div>
                         </article-admin>
                     @endcan
-
                 </div>
 
 
                 @if($post->video_id)
 
-                    <div class="plyr__video-embed" id="player">
+                    <div class="" id="player">
                         <iframe
                             src="https://www.youtube.com/embed/{{ $post->video_id }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
                             allowfullscreen
@@ -94,7 +93,7 @@
 
                 @endif
 
-                <div class="page-pictures">
+                <div class="">
                     <div>
                         @if (!$post->images)
                             @forelse($post->images as $image)
@@ -111,15 +110,14 @@
                 </div>
             </div>
 
-            <div class="page-aside-content">
+            <div class="">
                 <news-rss></news-rss>
             </div>
-
         </div>
 
         {{--Face Book and recomended--}}
-        <div class="page">
-            <div class="page-content">
+        <div class="">
+            <div class="">
                 {{--Nevedel som vyriešiť session vo vue tak zatiaľ tak kostrbato--}}
                 @if (Session::get($post->slug) == $post->id)
                     <a style="float: right" class="disabled" title="Video ste už doporúčali">Odporúčili ste</a>
@@ -158,7 +156,7 @@
         </div>
 
         {{--Body text--}}
-        <div class="page">
+        <div class="">
 
             <div class="page-content">
 
@@ -205,7 +203,7 @@
                         @endif
                     </div>
 
-                    <div class="comments">
+                    <div class="">
                         <div>{!! $post->body !!}</div>
 
                         @if (!$post->video_id)
@@ -234,7 +232,7 @@
                 </div>
             </div>
 
-            <div class="page-aside">
+            <div class="">
                 {{--                @include('messenger.index', ['user' => $post->user])--}}
                 {{--@include('users.user-card', ['user' => $post->user])--}}
                 @include('events.aside_modul')
@@ -244,7 +242,7 @@
         </div>
 
         {{--Comments--}}
-        <div class="page">
+        <div class="">
 
             <div class="page-content">
                 {{--<replies :data="{{ $post->comments }}"></replies>--}}
@@ -263,33 +261,25 @@
 
     {{--    All video belong to user --}}
 
-    <div class="container">
+    <div class="container mx-auto text-gray-600">
 
-        <div class="page">
+        <h3 class="text-2xl font-semibold my-6">{{ $post->organization->title }} všetky videa</h3>
 
-            <div class="page-content">
-                <h3>{{ $post->organization->title }} všetky videa</h3>
-                <div class="VideoGroup__wrapper">
-                    @forelse($posts as $post)
-                        @include('posts.post-card')
-                    @empty
-                        bez záznamu
-                    @endforelse
-                </div>
+        <div class="grid grid-cols-5 gap-7 w-8/12">
 
-                {{ $posts->links() }}
-            </div>
+            @forelse($posts as $post)
+                @include('posts.post-card')
+            @empty
+                bez záznamu
+            @endforelse
 
-            <div class="page-aside">
-
-                {{--<news-rss></news-rss>--}}
-
-
-            </div>
-
-
+            {{ $posts->links() }}
         </div>
 
+        <div class="page-aside">
+
+            {{--<news-rss></news-rss>--}}
+        </div>
     </div>
 
 
