@@ -1,30 +1,29 @@
 <template>
-    <section class="event">
+    <section class="border-2 rounded-sm">
 
         <div class="card">
-            <div  style="margin: 1rem;">
+            <div>
 
-                <div class="level">
+                <header class="flex justify-between bg-blue-300 p-2 items-center mb-2">
                     <h4>Aktuálne správy</h4>
                     <i class="fas fa-rss"></i>
-                </div>
+                </header>
 
-                <div class="level">
+                <div class="flex space-x-4 p-2">
                     <a @click="domace('domov')" :class="{'active': isDomace }" class="menu">domáce</a>
                     <a @click="domace('zahranicie')" :class="{active: isZahranicie }" class="menu">zahraničné</a>
                     <a @click="domace('press')" :class="{active: isTlacove }" class="menu">tlačové</a>
                 </div>
-
             </div>
 
-            <ul style="padding: 1rem">
+            <ul class="p-2">
                 <li v-for="(item, index) in itemWithActive" v-if="index <= 8" >
-                    <div @click="showItem(index)" class="hover" style="line-height: initial;font-weight: 600; cursor: pointer;color: #5a5a5a">{{ item.header }}</div>
-                    <div @click="showItem(index)" v-if="item.active" style="margin-bottom: .4rem">{{ item.body }}
+                    <div @click="showItem(index)" class="" style="line-height: initial;font-weight: 600; cursor: pointer;color: #5a5a5a">{{ item.header }}</div>
+                    <div @click="showItem(index)" v-if="item.active">{{ item.body }}
                         <br>
-                        <div class="date" style="font-style: italic" title="Tlačová kancelária konferencie biskupov Slovenska">Zdroj: TKKBS</div>
+                        <div class="" title="Tlačová kancelária konferencie biskupov Slovenska">Zdroj: TKKBS</div>
                     </div>
-                    <div style="margin-bottom: .5rem" class="date">{{ item.pubdate | dateTime }}</div>
+                    <div class="">{{ item.pubdate | dateTime }}</div>
                 </li>
             </ul>
 

@@ -1,5 +1,5 @@
-<nav>
-    <div style="max-width: 114rem" class="flex mx-auto justify-between py-2 flex-wrap">
+<nav class="bg-blue-800 text-gray-200">
+    <div style="max-width: 80rem" class="flex mx-auto justify-between py-2 flex-wrap">
         <ul class="my-2">
             <li>
                 <a href="{{ url('/') }}">
@@ -8,13 +8,13 @@
             </li>
         </ul>
 
-        <ul class="my-2">
+        <ul class="my-2 flex  space-x-4">
             <li>
                 <a class="flex items-center" href="{{ route('online-prenosy') }}">Nedeľné prenosy
 
                     @if( session()->has('countUnwatchedVideos') )
                         <div class="w-7 h-7 bg-red-500 text-white rounded-full flex justify-center items-center ml-1">
-                            {{ session()->get('countUnwatchedVideos') }}3
+                            {{ session()->get('countUnwatchedVideos') }}
                         </div>
                     @endif
                 </a>
@@ -22,12 +22,13 @@
             <li><a href="{{ route('konferencie.pute') }}">Vzdelávanie</a></li>
             {{--<li><a href="{{ route('zdravie') }}">Zdravie z Božej ruky</a></li>--}}
         </ul>
-        <ul class="my-2">
+
+        <ul class="my-2 flex space-x-4">
             {{--            <li><a href="{{ route('user.index') }}">Osobnosti</a></li>--}}
             <article-admin inline-template>
                 <div>
-                    <li @click="toggle()" class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link radio" href="#">
+                    <li @click="toggle()" class="border-2 rounded-md px-2">
+                        <a id="navbarDropdown" class="" href="#">
                             <i class="fa fa-volume-up"></i> Rádia
                             <i class="fas fa-caret-down"></i>
                         </a>
@@ -40,7 +41,7 @@
                                onClick="window.open('http://radio7.sk/live-vysielanie','pagename','resizable,height=500,width=470')">
                                 <div class="flex">
                                     Rádio 7 sk
-                                    <img class="h-8 ml-2" src="{{ asset('images/flag-sk.jpg') }}">
+                                    <img class="h-5 ml-2" src="{{ asset('images/flag-sk.jpg') }}">
                                 </div>
                             </a>
                         </li>
@@ -49,7 +50,7 @@
                                onClick="window.open('http://listen.play.cz/player.html?shortcut=radio7&format=&v=20200120','pagename','resizable,height=500,width=470')">
                                 <div class="flex">
                                     Rádio 7 cz
-                                    <img class="h-8 ml-2" src="{{ asset('images/flag-cz.jpg') }}">
+                                    <img class="h-5 ml-2" src="{{ asset('images/flag-cz.jpg') }}">
                                 </div>
                             </a></li>
                         <li class="p-2 px-6 hover:bg-gray-300">
@@ -71,8 +72,8 @@
                 </div>
             </article-admin>
             <li><a href="{{ route('event.index') }}">Podujatia</a></li>
-            <li><a href="{{ route('modlitby.index') }}" class="nav-link radio"><i style="color: #dcdcdc"
-                                                                                  class="fas fa-praying-hands mr-2"></i>Modlitby</a>
+            <li><a href="{{ route('modlitby.index') }}" class="nav-link radio">
+                    <i style="color: #dcdcdc" class="fas fa-praying-hands mr-2"></i>Modlitby</a>
             </li>
         </ul>
 
@@ -87,8 +88,8 @@
                 <ul class="">
 
                     <article-admin inline-template>
-                        <div class="relative">
-                            <li @click="toggle" class="nav-item dropdown">
+                        <div class="relative z-10">
+                            <li @click="toggle" class="">
                                 <a id="navbarDropdown" class="nav-link radio" href="#">
                                 <span
                                     href="{{ route('organization.profile', [auth()->user()->org_id, auth()->user()->slug]) }}"

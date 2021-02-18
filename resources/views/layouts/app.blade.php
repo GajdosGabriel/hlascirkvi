@@ -28,7 +28,7 @@
     {{-- https://github.com/aFarkas/lazysizes--}}
     <script src="{{ asset('js/lazysizes.min.js') }}" async=""></script>
     <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+{{--    <link href="{{ mix('css/app.css') }}" rel="stylesheet">--}}
     @yield('headerCSS')
 
 
