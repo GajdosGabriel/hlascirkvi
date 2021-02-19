@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title') <title>{{ 'Priame prenosy nedeľných služieb božích a omší.' }}</title> @endsection
 @section('content')
-    <div class="container mx-auto">
+    <div class="container mx-auto p-4">
 
         <h2 class="font-semibold text-2xl my-6">Nedeľné bohoslužby</h2>
 
@@ -15,13 +15,13 @@
                             {{-- Title + admin --}}
                             <div class="flex mb-4">
                                 <div>
-                                    <h4 style="font-weight: 600">{{ $post->title }}</h4>
+                                    <h4>{{ $post->title }}</h4>
                                     <span class="lead">
-                            Pridal:
-                            <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
-                                {{ $post->organization->title }}</a> |
-                            dňa: {{ date("d. M. Y", strtotime($post->created_at))  }}
-                        </span>
+                                        Pridal:
+                                        <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
+                                            {{ $post->organization->title }}</a> |
+                                        dňa: {{ date("d. M. Y", strtotime($post->created_at))  }}
+                                    </span>
                                 </div>
 
                                 @can('update', $post)
@@ -48,11 +48,14 @@
                                 @endcan
                             </div>
 
-                            <div class="flex space-x-5">
+                            {{-- Video + last items --}}
+                            <div class="grid grid-cols-12 gap-7">
 
-                                @include('posts.post-online')
+                                <div class="col-span-8">
+                                    @include('posts.post-online')
+                                </div>
 
-                                <div class="flex flex-col justify-between w-1/3">
+                                <div class="flex flex-col justify-between col-span-4">
                                     <div class="">
                                         <h5>Predchádzajúce prenosy</h5>
 

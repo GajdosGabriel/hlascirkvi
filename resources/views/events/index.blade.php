@@ -2,43 +2,39 @@
 @section('title') <title>{{ 'Kresťanské akcie' }}</title> @endsection
 @section('content')
 
-    <div class="container">
+    <div class="container mx-auto p-5">
+        @include('events._current_events')
+        <div class="flex">
 
-        <div class="page">
-
-            <div class="page-content">
-             @include('events._current_events')
-
-                <div class="page-title">
-                    <h2>  {{ $title ?? "Pozvánky na podujatia" }}</h2>
-
-                    <a class="btn btn-small" href="{{ route('event.create') }}"><i class="fas fa-plus"></i> Nové
-                        podujatie</a>
-                </div>
+        <div class="w-8/12 p-4 ">
 
 
-                {{--  Upcoming events --}}
-                @forelse($events as $event)
-                    @include('events._list_items')
-                @empty
-                    bez podujatí
-                @endforelse
+            <div class="flex flex justify-between">
+                <h2 class="font-semibold text-2xl">  {{ $title ?? "Pozvánky na podujatia" }}</h2>
 
-                {{ $events->links() }}
+                <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300" href="{{ route('event.create') }}"><i
+                        class="fas fa-plus"></i>
+                    Nové podujatie
+                </a>
             </div>
 
-            <div class="page-aside">
-                {{--@include('events.regions_modul')--}}
-                @include('events.districts_modul')
-                @include('events.finished_event_modul')
-            </div>
-            ,
+            {{--  Upcoming events --}}
+            @forelse($events as $event)
+                @include('events._list_items')
+            @empty
+                bez podujatí
+            @endforelse
 
-
+            {{ $events->links() }}
         </div>
 
+        <div class="w-4/12 p-4">
+            {{--@include('events.regions_modul')--}}
+            @include('events.districts_modul')
+            @include('events.finished_event_modul')
+        </div>
     </div>
-
+    </div>
 
 
 
