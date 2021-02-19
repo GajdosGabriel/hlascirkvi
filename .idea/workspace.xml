@@ -3,23 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/_current_events.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/_current_events.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/_list_items.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/_list_items.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/online-prenosy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/online-prenosy.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/post-online.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/post-online.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/comments/NewReply.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/comments/NewReply.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/comments/Reply.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/comments/Reply.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/bigthink/_form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/bigthink/_form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/events/aside_modul.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/aside_modul.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/footer.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/posts/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/prayer/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/prayer/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/vendor/pagination/bootstrap-4.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/vendor/pagination/bootstrap-4.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/verses/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/verses/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,7 +273,7 @@
       <workItem from="1613583224149" duration="1848000" />
       <workItem from="1613625199727" duration="17068000" />
       <workItem from="1613680660642" duration="2378000" />
-      <workItem from="1613734430872" duration="1607000" />
+      <workItem from="1613734430872" duration="4177000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -558,7 +548,21 @@
       <option name="project" value="LOCAL" />
       <updated>1613626411692</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Show page css">
+      <created>1613736340350</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1613736340350</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Show page css">
+      <created>1613736362811</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1613736362811</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -606,7 +610,8 @@
     <MESSAGE value="Prayer Update and delete" />
     <MESSAGE value="DropDown css" />
     <MESSAGE value="Navigation ref" />
-    <option name="LAST_COMMIT_MESSAGE" value="Navigation ref" />
+    <MESSAGE value="Show page css" />
+    <option name="LAST_COMMIT_MESSAGE" value="Show page css" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -621,10 +626,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613626410933">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613736361809">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613626410933" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613736361809" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

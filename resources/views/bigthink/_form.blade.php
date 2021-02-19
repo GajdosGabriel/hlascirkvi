@@ -2,7 +2,7 @@
 
     <big-thing inline-template>
 
-        <div style="margin-bottom: 2rem">
+        <div class="w-full">
 
             <h4 @click="showFormToggle" style="padding-right: 1rem; margin: 1rem 0rem">Veľké myšlienky z videa <i class="far fa-comment-dots"></i>
                 <span style="font-size: 70%; cursor: pointer">pridať myšlienku</span>
@@ -27,7 +27,7 @@
                 @csrf
 
                 <div class="form-group">
-                    <textarea name="body" rows="2" required placeholder="Napíšte myšlienku ktorá Vás oslovila z videa ...">
+                    <textarea class="w-full p-2 border-2 border-gray-400 rounded-md" name="body" rows="2" required placeholder="Napíšte myšlienku ktorá Vás oslovila z videa ...">
                         {{ old('body') }}
                     </textarea>
                 </div>

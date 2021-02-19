@@ -8,7 +8,7 @@
         <div v-if="!editComment" v-text="cakanaschvalenie" :class="redText"></div>
 
         <div v-if="editComment">
-        <textarea v-model="body" style="width: 100%" rows="3" placeholder="Pridajte nový komentár ..." required></textarea>
+        <textarea class="w-full p-2 border-2 border-gray-400 rounded-md" v-model="body" rows="3" placeholder="Pridajte nový komentár ..." required></textarea>
         </div>
 
         <div class="comment__footer level" v-if="canUpdate">

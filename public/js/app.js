@@ -63411,6 +63411,7 @@ var render = function() {
                 expression: "body"
               }
             ],
+            staticClass: "w-full p-2 border-2 border-gray-400 rounded-md",
             attrs: {
               rows: "2",
               placeholder: "Pridajte komentár ...",
@@ -63678,7 +63679,7 @@ var render = function() {
                 expression: "body"
               }
             ],
-            staticStyle: { width: "100%" },
+            staticClass: "w-full p-2 border-2 border-gray-400 rounded-md",
             attrs: {
               rows: "3",
               placeholder: "Pridajte nový komentár ...",

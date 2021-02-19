@@ -5,7 +5,7 @@
     <div  class="max-w-7xl mx-auto flex justify-around">
 
 
-        <div class="">
+        <div class="w-full">
             <h4 class="border-b-2 py-3 border-gray-300">O projekte</h4>
             <ul class="mt-2 space-y-1">
                 <li><a href="{{ route('register') }}">Založiť svoj blog</a></li>
@@ -15,7 +15,7 @@
             </ul>
         </div>
 
-        <div class="">
+        <div class="w-full">
             <h4 class="border-b-2 py-3 border-gray-300">Kontakt</h4>
             <ul class="mt-2 space-y-1">
                 <li><span class="fa fa-globe"></span>Trenčín, Slovensko</li>
@@ -25,11 +25,11 @@
 
         </div>
 
-        <div class="">
+        <div class="w-full">
             <h4 class="border-b-2 py-3 border-gray-300">Napíšte nám</h4>
-            <form method="post" action="{{ route('messengers.store') }}" class="w-full">
+            <form method="post" action="{{ route('messengers.store') }}" class="mt-4 relative">
                 {{ csrf_field() }}
-                <textarea name="body" rows="5" class="w-full rounded-md" required placeholder="Napíšte nám svoje podnety ... Ďakujeme" value="{{ old('body') }}"></textarea>
+                <textarea class="border-2 border-gray-500 rounded-md w-full p-2" name="body" rows="3" class="w-full rounded-md" required placeholder="Napíšte nám svoje podnety ... Ďakujeme" value="{{ old('body') }}"></textarea>
 
                 <div class="form-group">
 
@@ -38,7 +38,7 @@
                     <input type="number" name="iamHuman" placeholder="Zadajte číslo 5" style="opacity: .85;color: black; width: 35%" required>
                     @endif
 
-                        <button style="float: right" type="submit" class="px-2 p-1 border-2 text-sm rounded-sm mt-2">Odoslať <span class="glyphicon glyphicon-envelope"></span></button>
+                        <button type="submit" class="absolute right-0 px-2 p-1 border-2 text-sm rounded-sm mt-2 hover:bg-gray-700">Odoslať <span class="glyphicon glyphicon-envelope"></span></button>
                 </div>
 
             </form>
@@ -53,8 +53,6 @@
 
         </div>
     </div>
-    <div class="mx-auto m-5">Autor šablóny <span class="author">Gajdoš Gabriel</span> 2018 <a href="{{ url('/') }}" title="Hlas Cirkvi.sk">Hlas Cirkvi.sk</a></div>
-
-
+    <div class="text-sm mb-2 flex place-content-center">Autor šablóny Gajdoš Gabriel 2018 <a href="{{ url('/') }}" title="Hlas Cirkvi.sk">Hlas Cirkvi.sk</a></div>
 
 </footer>
