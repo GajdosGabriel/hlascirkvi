@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/verses/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/verses/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -268,7 +268,8 @@
       <workItem from="1613625199727" duration="17068000" />
       <workItem from="1613680660642" duration="2378000" />
       <workItem from="1613734430872" duration="4650000" />
-      <workItem from="1613744412112" duration="945000" />
+      <workItem from="1613744412112" duration="3158000" />
+      <workItem from="1613764208469" duration="1305000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -564,7 +565,21 @@
       <option name="project" value="LOCAL" />
       <updated>1613743943095</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Denné čítanie">
+      <created>1613745460339</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1613745460339</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Responsive">
+      <created>1613765433344</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1613765433344</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,7 +605,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Even start and end datetime" />
     <MESSAGE value="Even start and end blade show" />
     <MESSAGE value="Even display currently events" />
     <MESSAGE value="Current event modul + VieServiceProvider" />
@@ -614,7 +628,9 @@
     <MESSAGE value="Navigation ref" />
     <MESSAGE value="Show page css" />
     <MESSAGE value="form css" />
-    <option name="LAST_COMMIT_MESSAGE" value="form css" />
+    <MESSAGE value="Denné čítanie" />
+    <MESSAGE value="Responsive" />
+    <option name="LAST_COMMIT_MESSAGE" value="Responsive" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -629,10 +645,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613743941743">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613765431560">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613743941743" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613765431560" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -649,10 +665,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1613545288810" />
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613744414350">
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613764219689">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613744414350" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613764219689" />
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613638637775">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

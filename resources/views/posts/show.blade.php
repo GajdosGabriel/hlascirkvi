@@ -30,9 +30,9 @@
 
     <div class="container mx-auto text-gray-600">
 
-        <div class="flex">
+        <div class="md:flex">
             {{-- Header and video--}}
-            <div class="w-8/12 m-4">
+            <div class="md:w-8/12 m-4">
                 {{--  Title video--}}
                 <div>
                     <div class="flex justify-between my-5">
@@ -132,7 +132,7 @@
                 </div>
 
                 {{-- Body section --}}
-                <div class="grid grid-cols-8 gap-4">
+                <div class="md:grid grid-cols-8 gap-4">
                     {{-- Body plánované akcie --}}
                     <div class="grid col-span-2">
                         @if ($post->organization->person == 0)
@@ -173,7 +173,7 @@
                 </div>
             </div>
 
-            <div class="w-4/12 m-4">
+            <div class="md:w-4/12 m-4">
                 <news-rss></news-rss>
                 @include('events.aside_modul')
             </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="px-6 py-2 text-base">
+    <div class="px-4 py-2 text-base">
         <div class="relative" @click="passToModalShow">
 
             <div class="flex justify-between mb-2">
@@ -18,11 +18,11 @@
             </div>
 
 
-            <div style="font-weight: bold" v-if="prayer.title">{{ prayer.title }}</div>
-            <div style="margin-bottom: .4rem">{{ prayer.body }}</div>
+            <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
+            <div>{{ prayer.body }}</div>
 
-            <span class="text-base flex items-center">
-                   <svg class="h-6 w-6 mr-2 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg"
+            <span style="font-size: 12px" class="text-sm flex items-center justify-end">
+                   <svg class="h-4 w-4 mr-2 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd"
                             d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"

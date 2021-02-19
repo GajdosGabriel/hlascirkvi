@@ -1,5 +1,5 @@
 <template>
-    <section class="border-2 border-gray-500 rouned-sm mb-8">
+    <section class="border-2 border-gray-500 rounded-sm mb-8">
 
         <div class="">
             <div class="text-white cursor-pointer p-3 text-base" style="background: #6c6c6c" @click="openModal">

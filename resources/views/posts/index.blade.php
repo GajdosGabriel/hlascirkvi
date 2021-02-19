@@ -18,12 +18,12 @@
 @section('content')
     <div class="container mx-auto">
 
-        <div class="grid grid-cols-12 gap-7 p-5">
+        <div class="md:flex md:p-5">
 
-            <div class="grid col-span-8">
+            <div class="md:w-8/12 w-full">
                 @if(request()->is('/'))
 
-                    <div class="text-gray-600 flex justify-between mb-4 py-4">
+                    <div class="text-gray-600 md:flex justify-between mb-4 py-4">
                         @switch(request()->input('posts'))
                             @case('recomended')
                             <h3>Obľúbené príspevky</h3>
@@ -39,7 +39,7 @@
                             @default
 
 
-                            <h2 class="font-semibold text-2xl">Príspevky kresťanskej komunity</h2>
+                            <h2 class="font-semibold md:text-2xl ">Príspevky kresťanskej komunity</h2>
                         @endswitch
                         <div>
                             <a title="Doporučené našími čitateľmi" href="?posts=recomended" style="margin: .5rem"><i
@@ -56,7 +56,7 @@
                     @endif
                 @endif
 
-                <div class="grid grid-cols-4 gap-7">
+                <div class="md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                     @forelse($posts as $post)
                         @include('posts.post-card')
                     @empty
@@ -69,7 +69,7 @@
                 </div>
             </div>
 
-            <div class="grid col-span-4">
+            <div class="md:w-4/12 md:mx-6">
 
                 <prayers-card></prayers-card>
 
