@@ -1,8 +1,8 @@
 <template>
 
     <form @submit.prevent="sendComment">
-        <div style="padding: 1.3rem 0rem" class="form-group">
-            <textarea v-model="body" rows="3" placeholder="Ponúkam na akciu napr. dopravu, ubytovanie a iné ..." required></textarea>
+        <div class="form-group">
+            <textarea class="border-2 border-gray-500 rounded-md p-2 block w-full" v-model="body" rows="3" placeholder="Ponúkam na akciu napr. dopravu, ubytovanie a iné ..." required></textarea>
         </div>
 
         <div v-if="emptyBody" style="color: red;margin-top: -2rem;font-size: 90%;">
@@ -13,7 +13,7 @@
             <input type="email" v-model="email" placeholder="Email na odpoveď..." required> <br>
         </div>
 
-        <button style="float: right" class="btn">Uložiť</button>
+        <button class="px-2 border-2 border-gray-500 rounded-md mt-3">Uložiť</button>
 
     </form>
 

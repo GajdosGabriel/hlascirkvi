@@ -18,14 +18,14 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="container mx-auto p-4">
 
-        <div class="page">
+        <div class="md:flex">
 
-            <div class="event-content">
+            <div class="md:w-8/12 md:p-6 mb-5">
 
-                    <div class="page-header level">
-                        <h1>{{ $event->title }}</h1>
+                    <div class="flex justify-between mb-6">
+                        <h1 class="font-semibold text-2xl">{{ $event->title }}</h1>
                         @can('update', $event)
                         <article-admin inline-template>
                             <div v-cloak>
@@ -42,8 +42,8 @@
 
                     </div>
 
-                    <div class="event-content__info">
-                        <span style="font-weight: bold">{{ ucfirst( localized_date('l', $event->start_at)) }} {{ localized_date('H.i', $event->start_at)  }} hod.</span>
+                    <div class="border-2 rounded-md border-gray-500 p-4 mb-6 shadow-md">
+                        <span>{{ ucfirst( localized_date('l', $event->start_at)) }} {{ localized_date('H.i', $event->start_at)  }} hod.</span>
                         <h5>{{ trans('web.events_city') }}
                                 {{ $event->village->fullname }}, {{ $event->street }}
                             <br>
@@ -51,27 +51,25 @@
 {{--                            - {{ $event->end_at->format('d. m. Y')}}, o {{ $event->end_at->format('H.i') }} hod.--}}
 
                             @if($event->start_at->diffInDays($event->end_at))
-                                {{ $event->start_at->format('d. m. Y')}},  {{ $event->start_at->format('H.i') }} hod.
-                                - {{ $event->end_at->format('d. m. Y')}},  {{ $event->end_at->format('H.i') }} hod.
+                                Od:  {{ $event->start_at->format('d. m. Y')}},  {{ $event->start_at->format('H.i') }} hod.
+                                do: {{ $event->end_at->format('d. m. Y')}},  {{ $event->end_at->format('H.i') }} hod.
 
 
                             @else
-                                {{ $event->start_at->format('d. m. Y')}}, o {{ $event->start_at->format('H.i') }} - {{ $event->end_at->format('H.i') }} hod.
+                              Dňa:  {{ $event->start_at->format('d. m. Y')}}, o {{ $event->start_at->format('H.i') }} - {{ $event->end_at->format('H.i') }} hod.
                             @endif
                         </h5>
                     </div>
 
-                    <div class="event-content__body">
+                    <div class="flex flex-col">
 
                         {!! $event->body !!}
 
-                        <p style="text-align: right">Akciu zverejnil: {{ $event->organization->title }}</p>
+                        <p>Akciu zverejnil: {{ $event->organization->title }}</p>
 
                         @if ($event->images()->whereType('img')->exists())
                             @foreach($event->images()->whereType('img')->get() as $image)
-
                                 <img alt="{{ $image->title }}" data-src="{{ url($image->OriginalImageUrl) }}"  class="lazyload rounded"  data-sizes="auto">
-
                                 @break
                             @endforeach
                         @endif
@@ -85,7 +83,7 @@
                                 {{--data-show-faces="true">--}}
                         {{--</div>--}}
 
-                        <div style="margin: 2rem 0">
+                        <div>
                             @foreach($event->images as $image)
                                 @if ($image->mime == 'pdf' OR $image->mime =='doc' OR $image->mime =='docx' OR $image->mime == 'txt' )
                                     <a target="_blank" href="{{ route('events.download', [$image->url]) }}" alt="{{ $image->title }}">
@@ -124,20 +122,18 @@
                 </div>
 
 
-            <div class="event-aside">
+            <div class="md:w-4/12 md:p-6">
 
-                <div class="event-show__b">
+                <div class="">
                     @foreach($event->images()->whereType('card')->get() as $image)
-
-                        <img alt="{{ $image->title }}" data-src="{{ url($image->OriginalImageUrl) }}"  class="lazyload rounded"  data-sizes="auto">
-
+                        <img alt="{{ $image->title }}" data-src="{{ url($image->OriginalImageUrl) }}"  class="lazyload rounded mb-6"  data-sizes="auto">
                     @endforeach
                     {{--vizitka--}}
 
                     <div>
                         <a href="{{ route('event.record', [$event->id]) }}">
                             @if($event->isFavorited())
-                                <i style="color: green" class="fas fa-check"></i> Odoslaná žiadosť o nahrávku!
+                                <i class="fas fa-check"></i> Odoslaná žiadosť o nahrávku!
                             @else
                                 <i class="fas fa-volume-up"></i> Nemôžem prísť, chcem nahrávku.
                             @endif
@@ -145,7 +141,7 @@
                     </div>
 
                     {{--Prihlasovanie pre prihláseného usera--}}
-                    <div style="margin-bottom: 2rem">
+                    <div>
                         @if(auth()->check())
                             <a href="{{ route('event.subcribeToEvent', [$event->id]) }}">
                                 @if($event->isSubscribed())
@@ -186,7 +182,7 @@
                             <event-info-panel inline-template v-cloak>
 
                                 <div>
-                                    <div style="cursor: pointer;text-align: right;margin-top: -1.8rem;margin-bottom: 2rem;" @click="toggle">Upraviť</div>
+                                    <div @click="toggle">Upraviť</div>
                                     <form v-if="show" method="post" action="{{ route('event.eventInfoPanel', [$event->id, $event->slug]) }}" class="">
                                     @csrf {{ method_field('put') }}
 
@@ -257,7 +253,7 @@
                                 {{--<span><a href="#"> {{ $event->organization->title }}</a></span>--}}
                             {{--</div>--}}
 
-                            <div class="level">
+                            <div class="flex justify-between">
                                 <span>Registrácia:</span>
                                 @if($event->registration == 'yes')
                                         <span>Áno</span>
@@ -273,7 +269,7 @@
                             </div>
 
 
-                            <div class="level">
+                            <div class="flex justify-between">
                                 <span>Vstupné:</span>
                                 @if($event->entryFee == 'voluntarily')
                                     <span>Dobrovoľné</span>
@@ -287,7 +283,7 @@
                             </div>
 
                             @if(isset($event->user->phone))
-                                <div class="level">
+                                <div class="flex justify-between">
                                     <span>Tel.:</span>
                                     <span>{{ $event->user->phone  }}</span>
                                 </div>
@@ -297,8 +293,9 @@
 
                 @endif
 
-                        <event-comments-look :commentsoffer="{{ $commentsLook }}"></event-comments-look>
+
                     <div style="margin-top: 3rem">
+                        <event-comments-look :commentsoffer="{{ $commentsLook }}"></event-comments-look>
                         <event-comments-offer :commentsoffer="{{ $commentsOffer }}"></event-comments-offer>
                     </div>
 

@@ -1,4 +1,4 @@
-<nav class="bg-blue-900 text-gray-200">
+<nav class="bg-blue-900 text-gray-200 px-2 ">
     <div style="max-width: 80rem" class="flex mx-auto justify-between py-2 flex-wrap">
         <ul class="my-2">
             <li>

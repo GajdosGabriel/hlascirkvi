@@ -10,7 +10,7 @@
             </div>
 
             <ul class="mt-3">
-                <li v-for="prayer in prayers.data" :key="prayer.id" class="hover:bg-gray-200">
+                <li v-for="prayer in prayers.data" :key="prayer.id">
                     <prayers-card-item :prayer="prayer"></prayers-card-item>
                 </li>
             </ul>

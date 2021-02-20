@@ -1,20 +1,20 @@
 <template>
 
     <form @submit.prevent="sendComment">
-        <div style="padding: 1.3rem 0rem" class="form-group">
-            <textarea v-model="body" rows="3" placeholder="Hľadám na akciu, napr. dopravu, ubytovanie, pomoc s deťmi, sponzora a pod." required></textarea>
+        <div class="form-group">
+            <textarea class="border-2 border-gray-500 rounded-md p-2 block w-full" v-model="body" rows="3" placeholder="Hľadám na akciu, napr. dopravu, ubytovanie, pomoc s deťmi, sponzora a pod." required></textarea>
         </div>
 
         <div v-if="emptyBody" style="color: red;margin-top: -2rem;font-size: 90%;">
             <span>Text je príliš krátky min. 7 znakov.</span>
         </div>
 
-        <div v-if="showEmail" style="color: red;margin-top: -1rem;font-size: 100%;">
+        <div v-if="showEmail" >
             <input type="email" v-model="email" placeholder="Email na odpoveď..." required> <br>
             <!--<span>Uvedte svoj email, pre odpoveď!</span>-->
         </div>
 
-        <button style="float: right" class="btn">Uložiť</button>
+        <button class="px-2 border-2 border-gray-500 rounded-md mt-3">Uložiť</button>
 
     </form>
 </template>

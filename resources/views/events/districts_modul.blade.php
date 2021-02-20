@@ -1,10 +1,10 @@
 <div style="margin-bottom: 3rem">
     <h5 style="font-weight: bold">Okresy Slovenska</h5>
 
-    <ul>
+    <ul class="divide-y-2 divide-gray-200 divide-dashed">
         <li><a href="{{ route('event.index') }}"> @if(!request()->has('district')) <i style="color: #3b32b3" class="fas fa-check"></i> @endif Všetky regiony</a></li>
     @forelse($districts as $k => $v)
-            <li class="level">
+            <li class="flex justify-between">
                 @foreach($v as $item)
                     <a href="?district={{ $item->id  }}">
                         @if(request('district') == $item->id )  <i style="color: #3b32b3" class="fas fa-check"></i> @endif

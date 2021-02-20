@@ -2,7 +2,7 @@
     {{ localized_date('d. m. Y', $event->start_at) }}
     {{ localized_date('l', $event->start_at) }}
 </span>
-<div class="grid grid-cols-8 gap-4 mb-10">
+<div class="md:grid grid-cols-8 gap-4 mb-10">
     <div class="col-span-1">
         <a href="{{ route('event.show', [ $event->id, $event->slug]) }}">
             @if ($event->images()->whereType('img')->exists())

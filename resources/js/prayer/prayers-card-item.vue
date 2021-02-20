@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4 py-2 text-base">
+    <div class="px-4 py-2 text-base hover:bg-gray-100">
         <div class="relative" @click="passToModalShow">
 
             <div class="flex justify-between mb-2">

@@ -4318,63 +4318,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -64328,19 +64271,23 @@ var render = function() {
     "div",
     { staticClass: "comment" },
     [
-      _c("div", { staticClass: "level" }, [
+      _c("div", { staticClass: "flex justify-between" }, [
         _c("small", { domProps: { textContent: _vm._s(_vm.getShortName) } }),
         _vm._v(" "),
         _vm.canUpdate
-          ? _c("small", { on: { click: _vm.destroy } }, [
-              _c("a", [_vm._v("zmazať")])
-            ])
+          ? _c(
+              "small",
+              { staticClass: "cursor-pointer", on: { click: _vm.destroy } },
+              [_c("a", [_vm._v("zmazať")])]
+            )
           : _vm._e(),
         _vm._v(" "),
         _vm.singnedIn
-          ? _c("small", { on: { click: _vm.toggle } }, [
-              _c("a", [_vm._v("odpovedať")])
-            ])
+          ? _c(
+              "small",
+              { staticClass: "cursor-pointer", on: { click: _vm.toggle } },
+              [_c("a", [_vm._v("odpovedať")])]
+            )
           : _c("small", [
               _c("a", { attrs: { href: "/login" } }, [_vm._v("mám záujem")])
             ])
@@ -64368,10 +64315,11 @@ var render = function() {
                           expression: "body"
                         }
                       ],
-                      staticClass: "form",
+                      staticClass:
+                        "border-2 border-gray-500 rounded-md p-2 block w-full",
                       attrs: {
                         rows: "3",
-                        placeholder: "Text správy...",
+                        placeholder: "Text odpovede...",
                         required: ""
                       },
                       domProps: { value: _vm.body },
@@ -64393,7 +64341,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _c("div", { staticClass: "level" }, [
+                _c("div", { staticClass: "flex justify-between" }, [
                   _c(
                     "small",
                     {
@@ -64454,37 +64402,34 @@ var render = function() {
       }
     },
     [
-      _c(
-        "div",
-        { staticClass: "form-group", staticStyle: { padding: "1.3rem 0rem" } },
-        [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.body,
-                expression: "body"
-              }
-            ],
-            attrs: {
-              rows: "3",
-              placeholder:
-                "Hľadám na akciu, napr. dopravu, ubytovanie, pomoc s deťmi, sponzora a pod.",
-              required: ""
-            },
-            domProps: { value: _vm.body },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.body = $event.target.value
-              }
+      _c("div", { staticClass: "form-group" }, [
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.body,
+              expression: "body"
             }
-          })
-        ]
-      ),
+          ],
+          staticClass: "border-2 border-gray-500 rounded-md p-2 block w-full",
+          attrs: {
+            rows: "3",
+            placeholder:
+              "Hľadám na akciu, napr. dopravu, ubytovanie, pomoc s deťmi, sponzora a pod.",
+            required: ""
+          },
+          domProps: { value: _vm.body },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.body = $event.target.value
+            }
+          }
+        })
+      ]),
       _vm._v(" "),
       _vm.emptyBody
         ? _c(
@@ -64501,49 +64446,41 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _vm.showEmail
-        ? _c(
-            "div",
-            {
-              staticStyle: {
-                color: "red",
-                "margin-top": "-1rem",
-                "font-size": "100%"
-              }
-            },
-            [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.email,
-                    expression: "email"
-                  }
-                ],
-                attrs: {
-                  type: "email",
-                  placeholder: "Email na odpoveď...",
-                  required: ""
-                },
-                domProps: { value: _vm.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.email = $event.target.value
-                  }
+        ? _c("div", [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.email,
+                  expression: "email"
                 }
-              }),
-              _vm._v(" "),
-              _c("br")
-            ]
-          )
+              ],
+              attrs: {
+                type: "email",
+                placeholder: "Email na odpoveď...",
+                required: ""
+              },
+              domProps: { value: _vm.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.email = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("br")
+          ])
         : _vm._e(),
       _vm._v(" "),
-      _c("button", { staticClass: "btn", staticStyle: { float: "right" } }, [
-        _vm._v("Uložiť")
-      ])
+      _c(
+        "button",
+        { staticClass: "px-2 border-2 border-gray-500 rounded-md mt-3" },
+        [_vm._v("Uložiť")]
+      )
     ]
   )
 }
@@ -64580,37 +64517,33 @@ var render = function() {
       }
     },
     [
-      _c(
-        "div",
-        { staticClass: "form-group", staticStyle: { padding: "1.3rem 0rem" } },
-        [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.body,
-                expression: "body"
-              }
-            ],
-            attrs: {
-              rows: "3",
-              placeholder:
-                "Ponúkam na akciu napr. dopravu, ubytovanie a iné ...",
-              required: ""
-            },
-            domProps: { value: _vm.body },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.body = $event.target.value
-              }
+      _c("div", { staticClass: "form-group" }, [
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.body,
+              expression: "body"
             }
-          })
-        ]
-      ),
+          ],
+          staticClass: "border-2 border-gray-500 rounded-md p-2 block w-full",
+          attrs: {
+            rows: "3",
+            placeholder: "Ponúkam na akciu napr. dopravu, ubytovanie a iné ...",
+            required: ""
+          },
+          domProps: { value: _vm.body },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.body = $event.target.value
+            }
+          }
+        })
+      ]),
       _vm._v(" "),
       _vm.emptyBody
         ? _c(
@@ -64667,9 +64600,11 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("button", { staticClass: "btn", staticStyle: { float: "right" } }, [
-        _vm._v("Uložiť")
-      ])
+      _c(
+        "button",
+        { staticClass: "px-2 border-2 border-gray-500 rounded-md mt-3" },
+        [_vm._v("Uložiť")]
+      )
     ]
   )
 }
@@ -66520,7 +66455,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "px-4 py-2 text-base" }, [
+  return _c("div", { staticClass: "px-4 py-2 text-base hover:bg-gray-100" }, [
     _c("div", { staticClass: "relative", on: { click: _vm.passToModalShow } }, [
       _c("div", { staticClass: "flex justify-between mb-2" }, [
         _c("div", { staticClass: "flex" }, [
@@ -66647,7 +66582,7 @@ var render = function() {
           _vm._l(_vm.prayers.data, function(prayer) {
             return _c(
               "li",
-              { key: prayer.id, staticClass: "hover:bg-gray-200" },
+              { key: prayer.id },
               [_c("prayers-card-item", { attrs: { prayer: prayer } })],
               1
             )
@@ -66809,7 +66744,7 @@ var render = function() {
             _c(
               "svg",
               {
-                staticClass: "h-6 w-6 mr-3 text-gray-500 fill-current",
+                staticClass: "h-5 w-5 mr-1 text-gray-500 fill-current",
                 attrs: {
                   xmlns: "http://www.w3.org/2000/svg",
                   viewBox: "0 0 20 20",
@@ -66837,7 +66772,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "flex" }, [
           _c("img", {
-            staticClass: "h-20 mr-10",
+            staticClass: "h-10 mr-3 md:h-20 md:mr-10",
             attrs: { src: "images/prayed_hand.png" }
           }),
           _vm._v(" "),

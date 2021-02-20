@@ -4,9 +4,9 @@
 
     <div class="container mx-auto p-5">
         @include('events._current_events')
-        <div class="flex">
+        <div class="md:flex">
 
-        <div class="w-8/12 p-4 ">
+        <div class="md:w-8/12 md:p-4 ">
 
 
             <div class="flex flex justify-between">
@@ -28,7 +28,7 @@
             {{ $events->links() }}
         </div>
 
-        <div class="w-4/12 p-4">
+        <div class="md:w-4/12 p-4">
             {{--@include('events.regions_modul')--}}
             @include('events.districts_modul')
             @include('events.finished_event_modul')

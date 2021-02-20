@@ -1,10 +1,10 @@
 <template>
 
     <div  class="comment">
-        <div class="level">
+        <div class="flex justify-between">
             <small v-text="getShortName"></small>
-            <small v-if="canUpdate" @click="destroy"><a>zmazať</a></small>
-            <small v-if="singnedIn" @click="toggle"><a>odpovedať</a></small>
+            <small class="cursor-pointer" v-if="canUpdate" @click="destroy"><a>zmazať</a></small>
+            <small class="cursor-pointer" v-if="singnedIn" @click="toggle"><a>odpovedať</a></small>
             <small v-else><a href="/login">mám&nbsp;záujem</a></small>
         </div>
         <div v-text="data.body"></div>
@@ -13,12 +13,12 @@
             <div v-if="showMessenger">
                 <div class="messenger">
                     <div class="form-group" style="padding: 0rem">
-                        <textarea v-model="body" class="form" rows="3" placeholder="Text správy..." required></textarea>
+                        <textarea  v-model="body" class="border-2 border-gray-500 rounded-md p-2 block w-full" rows="3" placeholder="Text odpovede..." required></textarea>
                     </div>
 
                     <div v-if="errors.length" class="required">*** Vyplnte text</div>
 
-                    <div class="level">
+                    <div class="flex justify-between">
                         <small @click="toggle" style="color:black; cursor: pointer">Zavrieť X</small>
                         <button style="float: right" class="btn btn-small"  @click="sendmessage">Odoslať</button>
                     </div>
