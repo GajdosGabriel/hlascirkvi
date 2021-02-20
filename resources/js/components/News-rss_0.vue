@@ -9,7 +9,7 @@
                     <i class="fas fa-rss"></i>
                 </header>
 
-                <div class="flex space-x-4 p-2">
+                <div class="flex flex-wrap space-x-4 p-2">
                     <a @click="domace('domov')" :class="{'active': isDomace }" class="menu">domáce</a>
                     <a @click="domace('zahranicie')" :class="{active: isZahranicie }" class="menu">zahraničné</a>
                     <a @click="domace('press')" :class="{active: isTlacove }" class="menu">tlačové</a>

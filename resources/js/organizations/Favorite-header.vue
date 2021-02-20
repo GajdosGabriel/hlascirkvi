@@ -33,7 +33,7 @@
                             Profil
                         </button>
                         <!--<help-us></help-us>-->
-                        <button v-if="isVideoPage" @click="openModal()" class="px-2 hover:border-gray-400 border-2 rounded-md">Zapojiť sa</button>
+                        <button v-if="isVideoPage" @click="openModal" class="px-2 hover:border-gray-400 border-2 rounded-md">Zapojiť sa</button>
                     </div>
 
 
@@ -157,59 +157,5 @@
     {
         opacity: 0;
     }
-
-    /*.navButton {*/
-    /*    float: left;*/
-    /*    margin-right: 1rem;*/
-    /*    cursor: pointer;*/
-    /*    padding: .7rem .9rem;*/
-    /*    border-radius: .6rem;*/
-    /*}*/
-
-    /*.img-avatar {*/
-    /*    max-width: 6rem;*/
-    /*    border-radius: .5rem;*/
-    /*    border: 1px solid black*/
-    /*}*/
-
-    /*.button {*/
-    /*    cursor: pointer;*/
-    /*    float: right;*/
-    /*    font-size: 120%;*/
-    /*    padding: 0rem 1.8rem;*/
-    /*    border-radius: .5rem;*/
-    /*    text-align: center;*/
-    /*}*/
-
-    /*.activeButton {*/
-    /*    background: rgba(59, 89, 153, 1);*/
-    /*    color: white;*/
-    /*}*/
-
-    /*.buttonA {*/
-    /*    background: red;*/
-    /*    color: whitesmoke;*/
-
-    /*}*/
-
-    /*.buttonB {*/
-    /*    background: silver;*/
-    /*    color: #535353;*/
-    /*}*/
-
-
-    /*.Media {*/
-    /*    display: flex;*/
-    /*    align-items: flex-start;*/
-    /*}*/
-
-    /*.Media-figure {*/
-    /*    margin-right: 1em;*/
-    /*}*/
-
-    /*.Media-body {*/
-    /*    flex: 1;*/
-    /*}*/
-
 
 </style>

@@ -5242,7 +5242,6 @@ __webpack_require__.r(__webpack_exports__);
       errors: []
     };
   },
-  computed: {},
   methods: {
     close: function close() {
       this.$emit('closeModal', false);
@@ -5275,7 +5274,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
-//
 //
 //
 //
@@ -5986,7 +5984,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".slide-fade-enter-active, .slide-fade-leave-to {\n  transition: opacity .5s;\n}\n.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */\n{\n  opacity: 0;\n}\n\n/*.navButton {*/\n\n/*    float: left;*/\n\n/*    margin-right: 1rem;*/\n\n/*    cursor: pointer;*/\n\n/*    padding: .7rem .9rem;*/\n\n/*    border-radius: .6rem;*/\n\n/*}*/\n\n/*.img-avatar {*/\n\n/*    max-width: 6rem;*/\n\n/*    border-radius: .5rem;*/\n\n/*    border: 1px solid black*/\n\n/*}*/\n\n/*.button {*/\n\n/*    cursor: pointer;*/\n\n/*    float: right;*/\n\n/*    font-size: 120%;*/\n\n/*    padding: 0rem 1.8rem;*/\n\n/*    border-radius: .5rem;*/\n\n/*    text-align: center;*/\n\n/*}*/\n\n/*.activeButton {*/\n\n/*    background: rgba(59, 89, 153, 1);*/\n\n/*    color: white;*/\n\n/*}*/\n\n/*.buttonA {*/\n\n/*    background: red;*/\n\n/*    color: whitesmoke;*/\n\n/*}*/\n\n/*.buttonB {*/\n\n/*    background: silver;*/\n\n/*    color: #535353;*/\n\n/*}*/\n\n/*.Media {*/\n\n/*    display: flex;*/\n\n/*    align-items: flex-start;*/\n\n/*}*/\n\n/*.Media-figure {*/\n\n/*    margin-right: 1em;*/\n\n/*}*/\n\n/*.Media-body {*/\n\n/*    flex: 1;*/\n\n/*}*/\n\n\n", ""]);
+exports.push([module.i, ".slide-fade-enter-active, .slide-fade-leave-to {\n  transition: opacity .5s;\n}\n.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */\n{\n  opacity: 0;\n}\n\n", ""]);
 
 // exports
 
@@ -64132,7 +64130,7 @@ var render = function() {
       _c("div", [
         _vm._m(0),
         _vm._v(" "),
-        _c("div", { staticClass: "flex space-x-4 p-2" }, [
+        _c("div", { staticClass: "flex flex-wrap space-x-4 p-2" }, [
           _c(
             "a",
             {
@@ -65192,11 +65190,7 @@ var render = function() {
                       {
                         staticClass:
                           "px-2 hover:border-gray-400 border-2 rounded-md",
-                        on: {
-                          click: function($event) {
-                            return _vm.openModal()
-                          }
-                        }
+                        on: { click: _vm.openModal }
                       },
                       [_vm._v("Zapojiť sa")]
                     )
@@ -66884,7 +66878,7 @@ var render = function() {
               })
             ]),
             _vm._v(" "),
-            _vm.authUser.id == _vm.prayer.user_id
+            _vm.authUser && _vm.authUser.id == _vm.prayer.user_id
               ? _c("div", { staticClass: "relative" }, [
                   _c(
                     "div",

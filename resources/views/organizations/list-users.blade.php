@@ -3,7 +3,7 @@
 <section class="border-2 border-gray-500 rounded-sm mb-8">
 
     <div class="">
-        <div class="text-white cursor-pointer p-3 text-base" style="background: #6c6c6c" @click="openModal">
+        <div class="text-white cursor-pointer p-3 text-base" style="background: #6c6c6c">
             <div class="flex justify-between items-center cursor-pointer">
                 <h4>Kresťanské osobnosti</h4>
                 <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

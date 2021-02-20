@@ -20,6 +20,7 @@
 
         <div class="md:flex md:p-5">
 
+            {{--  Stlpec I. --}}
             <div class="md:w-6/12 w-full">
                 @if(request()->is('/'))
 
@@ -69,6 +70,7 @@
                 </div>
             </div>
 
+            {{--  Stlpec II. --}}
             <div class="md:w-3/12 md:mx-4">
 
                 <prayers-card></prayers-card>
@@ -92,6 +94,8 @@
                 {{--                @include('verses.credit-modul')--}}
                 {{--                    @include('posts.rss-zaloha-php')--}}
             </div>
+
+            {{--  Stlpec III. --}}
             <div class="md:w-3/12 md:mx-4">
 
                 <news-rss></news-rss>
@@ -106,7 +110,7 @@
                 @endif
 
                 {{--                @include('organizations.list-users')--}}
-                                @include('events.aside_modul')
+                @include('events.aside_modul')
                 {{--                @include('bigthink.aside_last_big_think')--}}
                 {{--                @include('posts.posts-history')--}}
                 {{--                @include('verses.credit-modul')--}}

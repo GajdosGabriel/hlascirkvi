@@ -9,7 +9,7 @@
                         <i class="fas fa-praying-hands" title="modlitbu"></i>
                     </div>
                     <!-- Nav menu-->
-                    <div class="relative" v-if="authUser.id == prayer.user_id">
+                    <div class="relative" v-if="authUser && authUser.id == prayer.user_id">
                         <div class="h-7 w-7 bg-gray-200 rounded-full" @click.stop="toggle">
                             <svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd"
