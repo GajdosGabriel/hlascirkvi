@@ -10,32 +10,30 @@
 
             @forelse( $events as $event)
                 <a href="{{ route('event.show', [$event->id, $event->slug]) }}">
-                    <div class="card-body" style="padding: .8rem 1rem">
-                        <div style="max-height: 6rem;overflow: hidden; min-height: 5rem;">
+                    <div class="card-body p-3 flex">
+
                             @if ($event->images()->whereType('img')->exists())
                                 @foreach($event->images()->whereType('img')->get() as $image)
-                                    {{--                                <img style="width: 6rem;float: left; margin-right: 3rem; " src="{{ url($image->OriginalImageUrl ) }}" title="Bez obrázka">--}}
-                                    <img style="width: 6rem;float: left; margin-right: 3rem; "
-                                         data-src="{{ url($image->ThumbImageUrl) }}" class="lazyload" data-sizes="auto"
+                                    <img data-src="{{ url($image->ThumbImageUrl) }}" class="lazyload w-24 mr-4 rounded-md" data-sizes="auto"
                                          title="Bez obrázka">
                                     @break
                                 @endforeach
                             @else
                                 @foreach($event->images()->whereType('card')->get() as $image)
-                                    <img style="width: 6rem;float: left; margin-right: 3rem; "
-                                         data-src="{{ url($image->OriginalImageUrl ) }}" class="lazyload"
+                                    <img data-src="{{ url($image->OriginalImageUrl ) }}" class="lazyload w-24 mr-4 rounded-md"
                                          data-sizes="auto" title="Bez obrázka">
                                     @break
                                 @endforeach
                             @endif
-                            <div style="line-height: 1.5rem;">
-                                <div style="font-weight: bold"
-                                     title="{{ $event->title }}">{{ Str::limit($event->title , 45, $end=' ...') }}</div>
+                            <div class="flex flex-col">
+                                <h4 class="font-semibold" title="{{ $event->title }}">
+                                    {{ Str::limit($event->title , 45, $end=' ...') }}
+                                </h4>
                                 <div>{{ $event->village->district->name }}</div>
                                 {{--                            <div>začiatok {{ $event->dateStart->diffForHumans() }}</div>--}}
                             </div>
                         </div>
-                    </div>
+
                 </a>
             @empty
                 <div class="card-body">{{ trans('web.events_empty') }}

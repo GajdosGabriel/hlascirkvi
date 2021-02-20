@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="" />
+    <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/events/aside_modul.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/aside_modul.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/organizations/list-users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/organizations/list-users.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -269,13 +274,7 @@
       <workItem from="1613764208469" duration="1463000" />
       <workItem from="1613797593311" duration="10342000" />
       <workItem from="1613822080230" duration="10044000" />
-    </task>
-    <task id="LOCAL-00005" summary="Even start and end blade show">
-      <created>1601893015997</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1601893015997</updated>
+      <workItem from="1613843909512" duration="1799000" />
     </task>
     <task id="LOCAL-00006" summary="Even display currently events">
       <created>1601910337893</created>
@@ -613,7 +612,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613838387840</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Login and register page">
+      <created>1613844008649</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1613844008649</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -679,10 +685,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613838386063">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613844007332">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613838386063" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613844007332" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -711,9 +717,9 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="594" y="19" width="731" height="1011" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613823016748" />
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1613578895877">
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1613844097663">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613578895877" />
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613844097663" />
   </component>
 </project>
