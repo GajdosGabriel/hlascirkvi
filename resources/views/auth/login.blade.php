@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container min-h-screen">
 
-    <login-0></login-0>
+    <login-card></login-card>
     {{--<div class="login">--}}
             {{--<div class="card">--}}
                 {{--<div class="card-header">{{ __('Login') }}</div>--}}

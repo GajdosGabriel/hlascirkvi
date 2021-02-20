@@ -16,14 +16,14 @@
                 </div>
             </div>
 
-            <ul class="p-2">
-                <li v-for="(item, index) in itemWithActive" v-if="index <= 8" >
+            <ul class="p-3 text-sm">
+                <li v-for="(item, index) in itemWithActive" :key="index" v-if="index <= 8" class="mb-3">
                     <div @click="showItem(index)" class="" style="line-height: initial;font-weight: 600; cursor: pointer;color: #5a5a5a">{{ item.header }}</div>
                     <div @click="showItem(index)" v-if="item.active">{{ item.body }}
                         <br>
                         <div class="" title="Tlačová kancelária konferencie biskupov Slovenska">Zdroj: TKKBS</div>
                     </div>
-                    <div class="">{{ item.pubdate | dateTime }}</div>
+                    <div class="text-xs itealic">{{ item.pubdate | dateTime }}</div>
                 </li>
             </ul>
 
@@ -53,7 +53,7 @@
 
         filters: {
             dateTime: function(value) {
-                return moment(value).subtract(1, 'hours').format('lll');
+                return moment(value).subtract(1, 'hours').format('D.M.Y, H:mm');
 //                return moment(value).format('lll');
 //                return moment(value).format('LT D.M.Y');
             }

@@ -36,7 +36,7 @@ Vue.component('user-card', require('./users/User-card.vue').default);
 Vue.component('organization-card', require('./organizations/Organization-card.vue').default);
 Vue.component('page-header', require('./organizations/Favorite-header.vue').default);
 Vue.component('bell', require('./users/Bell.vue').default);
-Vue.component('login-0', require('./users/Login/Login-0.vue').default);
+Vue.component('login-card', require('./users/Login/LoginCard.vue').default);
 Vue.component('youtube-dash', require('./youtube/YoutubeDash.vue').default);
 Vue.component('help-us', require('./posts/Help-us.vue').default);
 Vue.component('swith-filter', require('./posts/Swith-filter.vue').default);

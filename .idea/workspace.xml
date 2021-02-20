@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/prayer/prayers-card.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/prayers-card.vue" afterDir="false" />
-    </list>
+    <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -164,20 +161,20 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="ignore.virus.scanning.warn.message" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/js/users/Login" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\www\hlascirkvi\resources\views\events" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\www\hlascirkvi\resources\js\users\Login" />
       <recent name="C:\www\hlascirkvi\resources\views\vendor" />
       <recent name="C:\www\hlascirkvi\public\images" />
       <recent name="C:\www\hlascirkvi\resources\js\prayer" />
       <recent name="C:\www\hlascirkvi\app\Services\Extractor" />
-      <recent name="C:\www\hlascirkvi\app\Console\Commands" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\www\hlascirkvi\resources\views\events" />
     </key>
   </component>
   <component name="RunManager">
@@ -270,28 +267,8 @@
       <workItem from="1613734430872" duration="4650000" />
       <workItem from="1613744412112" duration="3158000" />
       <workItem from="1613764208469" duration="1463000" />
-      <workItem from="1613797593311" duration="9667000" />
-    </task>
-    <task id="LOCAL-00002" summary="Even start and end datetime">
-      <created>1601715468266</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1601715468266</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Even start and end datetime">
-      <created>1601715513098</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1601715513098</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Even start and end datetime">
-      <created>1601715531860</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1601715531860</updated>
+      <workItem from="1613797593311" duration="10342000" />
+      <workItem from="1613822080230" duration="10044000" />
     </task>
     <task id="LOCAL-00005" summary="Even start and end blade show">
       <created>1601893015997</created>
@@ -615,7 +592,28 @@
       <option name="project" value="LOCAL" />
       <updated>1613813097074</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Events css">
+      <created>1613813260598</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1613813260598</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Login and register page">
+      <created>1613832084113</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1613832084113</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Login and register page">
+      <created>1613838387840</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1613838387840</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -641,7 +639,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fix dispaly event index start at" />
     <MESSAGE value="Oprava $post messing show-b.blade.php" />
     <MESSAGE value="Text cleaner celého odstavca" />
     <MESSAGE value="Prayer wall" />
@@ -666,7 +663,8 @@
     <MESSAGE value="Modal" />
     <MESSAGE value="Modal prayer" />
     <MESSAGE value="Events css" />
-    <option name="LAST_COMMIT_MESSAGE" value="Events css" />
+    <MESSAGE value="Login and register page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Login and register page" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -681,10 +679,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613813095565">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613838386063">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613813095565" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613838386063" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -701,18 +699,18 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1613545288810" />
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613797624651">
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613843918896">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613797624651" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613843918896" />
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613638637775">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1050@0.0.1920.1050" timestamp="1613638637775" />
-    <state x="594" y="19" width="731" height="1011" key="find.popup" timestamp="1613811209473">
+    <state x="594" y="19" width="731" height="1011" key="find.popup" timestamp="1613823016748">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="594" y="19" width="731" height="1011" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613811209473" />
+    <state x="594" y="19" width="731" height="1011" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613823016748" />
     <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1613578895877">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
