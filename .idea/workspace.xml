@@ -4,8 +4,8 @@
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/prayer/ModalNewPrayer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/ModalNewPrayer.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/prayer/ModalShowPrayer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/ModalShowPrayer.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,7 +272,7 @@
       <workItem from="1613734430872" duration="4650000" />
       <workItem from="1613744412112" duration="3158000" />
       <workItem from="1613764208469" duration="1463000" />
-      <workItem from="1613797593311" duration="2622000" />
+      <workItem from="1613797593311" duration="4308000" />
     </task>
     <task id="LOCAL-00001" summary="Even start and end datetime">
       <created>1601715449817</created>
@@ -589,7 +589,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613765728019</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Modal">
+      <created>1613802727865</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1613802727865</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -615,7 +622,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Even start and end blade show" />
     <MESSAGE value="Even display currently events" />
     <MESSAGE value="Current event modul + VieServiceProvider" />
     <MESSAGE value="Fix dispaly event index start at" />
@@ -640,7 +646,8 @@
     <MESSAGE value="form css" />
     <MESSAGE value="Denné čítanie" />
     <MESSAGE value="Responsive" />
-    <option name="LAST_COMMIT_MESSAGE" value="Responsive" />
+    <MESSAGE value="Modal" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modal" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -655,10 +662,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613765727175">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613802726511">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613765727175" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613802726511" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

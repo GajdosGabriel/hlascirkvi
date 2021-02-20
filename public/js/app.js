@@ -4287,6 +4287,94 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4358,64 +4446,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -65762,242 +65792,368 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm.show
-      ? _c("div", { staticClass: "modal", attrs: { id: "modal-name" } }, [
-          _c("div", { staticClass: "modal-sandbox" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-box" }, [
-            _c("div", { staticClass: "modal-header level" }, [
-              _c("h4", [_vm._v("Pridať modlitebný úmysel")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "close-modal", on: { click: _vm.toggle } },
-                [_vm._v("✖")]
-              )
-            ]),
+  return _vm.show
+    ? _c("div", { staticClass: "fixed z-10 inset-0 overflow-y-auto" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+          },
+          [
+            _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.savePrayer($event)
-                    }
-                  }
-                },
-                [
-                  _c("div", [
+            _c(
+              "span",
+              {
+                staticClass:
+                  "hidden sm:inline-block sm:align-middle sm:h-screen",
+                attrs: { "aria-hidden": "true" }
+              },
+              [_vm._v("​")]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full",
+                attrs: {
+                  role: "dialog",
+                  "aria-modal": "true",
+                  "aria-labelledby": "modal-headline"
+                }
+              },
+              [
+                _c("div", { staticClass: "bg-blue-900 text-gray-300 p-4" }, [
+                  _c("div", { staticClass: "flex justify-between" }, [
                     _c(
-                      "label",
+                      "h3",
                       {
-                        staticStyle: { "font-weight": "bold" },
-                        attrs: { for: "title" }
+                        staticClass: "text-lg leading-6 font-medium",
+                        attrs: { id: "modal-headline" }
                       },
-                      [_vm._v("Modlitba za")]
+                      [
+                        _vm._v(
+                          "\n                        Pridať modlitebný úmysel\n                    "
+                        )
+                      ]
                     ),
                     _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.title,
-                          expression: "form.title"
-                        }
-                      ],
-                      staticStyle: { padding: "5px" },
-                      attrs: {
-                        type: "text",
-                        required: "",
-                        autofocus: "",
-                        id: "title",
-                        plaveholder: "Nadpis modlitby"
-                      },
-                      domProps: { value: _vm.form.title },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "title", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm._v(
-                        "Krátko o Vašom modltitbovom úmysle, napr: za uzdravenie manžela, za prácu a pod."
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticStyle: { "margin-top": "10px" } }, [
                     _c(
-                      "label",
+                      "div",
                       {
-                        staticStyle: { "font-weight": "bold" },
-                        attrs: { for: "body" }
+                        staticClass: "close-modal cursor-pointer",
+                        on: { click: _vm.toggle }
                       },
-                      [_vm._v("Viac o úmysle")]
-                    ),
-                    _vm._v(" "),
-                    _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.body,
-                          expression: "form.body"
-                        }
-                      ],
-                      staticStyle: { padding: "5px", width: "100%" },
-                      attrs: { required: "", rows: "5", id: "body" },
-                      domProps: { value: _vm.form.body },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "body", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm._v(
-                        "Tu napíšte viac o dôvode modlitby, aby Vám ostatní mohli lepšie porozumieť."
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticStyle: { "margin-top": "10px" } }, [
-                    _c(
-                      "label",
-                      {
-                        staticStyle: { "font-weight": "bold" },
-                        attrs: { for: "user_name" }
-                      },
-                      [_vm._v("Prezývka")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.user_name,
-                          expression: "form.user_name"
-                        }
-                      ],
-                      staticStyle: { padding: "5px" },
-                      attrs: {
-                        type: "text",
-                        required: "",
-                        id: "user_name",
-                        placeholder: "Prezývka"
-                      },
-                      domProps: { value: _vm.form.user_name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "user_name", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm._v(
-                        "Pre ostatných, aby vedeli, ako Vás osloviť v modlitbe."
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  !_vm.authUser
-                    ? _c("div", { staticStyle: { "margin-top": "10px" } }, [
-                        _c(
-                          "label",
-                          {
-                            staticStyle: { "font-weight": "bold" },
-                            attrs: { for: "email" }
-                          },
-                          [_vm._v("Emailova adresa")]
-                        ),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.email,
-                              expression: "form.email"
-                            }
-                          ],
-                          staticStyle: { padding: "5px", width: "100%" },
-                          attrs: {
-                            type: "email",
-                            required: "",
-                            placeholder: "emailová adresa",
-                            id: "email"
-                          },
-                          domProps: { value: _vm.form.email },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(_vm.form, "email", $event.target.value)
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("span", [
-                          _vm._v(
-                            "Email sa nikde nezverejňuje a je potrebný na overenie.\n                        Zároveň, Vám budú doručené oznámenia, keď sa za Vás niekto pomodlí, alebo napíše."
-                          )
-                        ])
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticStyle: { "margin-top": "10px", width: "100%" } },
-                    [
+                      [_vm._v("✖")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" },
+                  [
+                    _c("div", { staticClass: "sm:flex sm:items-start" }, [
                       _c(
-                        "button",
-                        { staticClass: " btn", on: { click: _vm.toggle } },
-                        [_vm._v("Zružiť")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
+                        "div",
                         {
-                          staticClass: " btn",
-                          staticStyle: {
-                            background: "rgba(0,0,125,0.77)",
-                            color: "whitesmoke",
-                            "font-size": "15px"
-                          },
-                          attrs: { type: "submit" }
+                          staticClass:
+                            "text-center sm:mt-0 sm:ml-4 sm:text-left"
                         },
-                        [_vm._v("Uložiť\n                        ")]
+                        [
+                          _c(
+                            "form",
+                            {
+                              on: {
+                                submit: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.savePrayer($event)
+                                }
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "flex flex-col" }, [
+                                _c(
+                                  "label",
+                                  {
+                                    staticStyle: { "font-weight": "bold" },
+                                    attrs: { for: "title" }
+                                  },
+                                  [_vm._v("Modlitba za")]
+                                ),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.title,
+                                      expression: "form.title"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "border-2 border-gray-400 rounded-md p-2",
+                                  attrs: {
+                                    type: "text",
+                                    required: "",
+                                    autofocus: "",
+                                    id: "title",
+                                    plaveholder: "Nadpis modlitby"
+                                  },
+                                  domProps: { value: _vm.form.title },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "title",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "text-sm italic" }, [
+                                  _vm._v(
+                                    "Krátko o Vašom modltitbovom úmysle, napr: za uzdravenie manžela, za prácu a pod."
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "flex flex-col mt-3 " },
+                                [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticStyle: { "font-weight": "bold" },
+                                      attrs: { for: "body" }
+                                    },
+                                    [_vm._v("Viac o úmysle")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("textarea", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.body,
+                                        expression: "form.body"
+                                      }
+                                    ],
+                                    staticClass:
+                                      "border-2 border-gray-400 rounded-md p-2",
+                                    attrs: {
+                                      required: "",
+                                      rows: "5",
+                                      id: "body"
+                                    },
+                                    domProps: { value: _vm.form.body },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "body",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "text-sm italic" },
+                                    [
+                                      _vm._v(
+                                        "Tu napíšte viac o dôvode modlitby, aby Vám ostatní mohli lepšie porozumieť."
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "flex flex-col mt-3 " },
+                                [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticStyle: { "font-weight": "bold" },
+                                      attrs: { for: "user_name" }
+                                    },
+                                    [_vm._v("Prezývka")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.form.user_name,
+                                        expression: "form.user_name"
+                                      }
+                                    ],
+                                    staticClass:
+                                      "border-2 border-gray-400 rounded-md p-2",
+                                    attrs: {
+                                      type: "text",
+                                      required: "",
+                                      id: "user_name",
+                                      placeholder: "Prezývka"
+                                    },
+                                    domProps: { value: _vm.form.user_name },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.form,
+                                          "user_name",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "text-sm italic" },
+                                    [
+                                      _vm._v(
+                                        "Pre ostatných, aby vedeli, ako Vás osloviť v modlitbe."
+                                      )
+                                    ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              !_vm.authUser
+                                ? _c("div", { staticClass: "flex flex-col" }, [
+                                    _c(
+                                      "label",
+                                      {
+                                        staticStyle: { "font-weight": "bold" },
+                                        attrs: { for: "email" }
+                                      },
+                                      [_vm._v("Emailova adresa")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.form.email,
+                                          expression: "form.email"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "border-2 border-gray-400 rounded-md p-2",
+                                      attrs: {
+                                        type: "email",
+                                        required: "",
+                                        placeholder: "emailová adresa",
+                                        id: "email"
+                                      },
+                                      domProps: { value: _vm.form.email },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.form,
+                                            "email",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      { staticClass: "text-sm italic" },
+                                      [
+                                        _vm._v(
+                                          "Email sa nikde nezverejňuje a je potrebný na overenie.\n                        Zároveň, Vám budú doručené oznámenia, keď sa za Vás niekto pomodlí, alebo napíše."
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
+                                  attrs: { type: "submit" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Uložiť\n                            "
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ]
                       )
-                    ]
-                  )
-                ]
-              )
-            ])
-          ])
-        ])
-      : _vm._e()
-  ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
+                        attrs: { type: "button" },
+                        on: { click: _vm.toggle }
+                      },
+                      [_vm._v("\n                    Zrušiť\n                ")]
+                    )
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+      ])
+    : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "fixed inset-0 transition-opacity",
+        attrs: { "aria-hidden": "true" }
+      },
+      [_c("div", { staticClass: "absolute inset-0 bg-gray-500 opacity-75" })]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -66052,6 +66208,32 @@ var render = function() {
                 }
               },
               [
+                _c("div", { staticClass: "bg-blue-900 text-gray-300 p-4" }, [
+                  _c("div", { staticClass: "flex justify-between" }, [
+                    _c(
+                      "h3",
+                      {
+                        staticClass: "text-lg leading-6 font-medium",
+                        attrs: { id: "modal-headline" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        Modlitbová prosba\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "close-modal cursor-pointer",
+                        on: { click: _vm.toggle }
+                      },
+                      [_vm._v("✖")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
                 _c(
                   "div",
                   { staticClass: "bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" },
@@ -66069,31 +66251,6 @@ var render = function() {
                             "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
                         },
                         [
-                          _c("div", { staticClass: " flex justify-between" }, [
-                            _c(
-                              "h3",
-                              {
-                                staticClass:
-                                  "text-lg leading-6 font-medium text-gray-900",
-                                attrs: { id: "modal-headline" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                Modlitbová prosba\n                            "
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "close-modal cursor-pointer",
-                                on: { click: _vm.toggle }
-                              },
-                              [_vm._v("✖")]
-                            )
-                          ]),
-                          _vm._v(" "),
                           _c("div", { staticClass: "mt-2" }, [
                             _c("p", { staticClass: "text-sm text-gray-500" }, [
                               _c(

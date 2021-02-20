@@ -2,16 +2,7 @@
     <!-- This example requires Tailwind CSS v2.0+ -->
     <div v-if="prayer" class="fixed z-10 inset-0 overflow-y-auto">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <!--
-              Background overlay, show/hide based on modal state.
 
-              Entering: "ease-out duration-300"
-                From: "opacity-0"
-                To: "opacity-100"
-              Leaving: "ease-in duration-200"
-                From: "opacity-100"
-                To: "opacity-0"
-            -->
             <div class="fixed inset-0 transition-opacity" aria-hidden="true">
                 <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
             </div>
@@ -22,20 +13,24 @@
             <div
                 class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
                 role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+
+                <div class="bg-blue-900 text-gray-300 p-4">
+                    <!--  Header  -->
+                    <div class="flex justify-between">
+                        <h3 class="text-lg leading-6 font-medium" id="modal-headline">
+                            Modlitbová prosba
+                        </h3>
+
+                        <div @click="toggle" class="close-modal cursor-pointer">&#10006;</div>
+                    </div>
+                </div>
+
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
 
                         <img :src="'images/prayed_hand.png'" class="h-20">
 
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                            <!--  Header  -->
-                            <div class=" flex justify-between">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                                    Modlitbová prosba
-                                </h3>
-
-                                <div @click="toggle" class="close-modal cursor-pointer">&#10006;</div>
-                            </div>
 
                             <div class="mt-2">
                                 <p class="text-sm text-gray-500">
@@ -81,59 +76,6 @@
         </div>
     </div>
 
-
-    <!--    <div>-->
-    <!--        &lt;!&ndash; Modal &ndash;&gt;-->
-    <!--        <div v-if="prayer" class="modal" id="modal-name">-->
-    <!--            <div class="modal-sandbox"></div>-->
-    <!--            <div class="modal-box">-->
-    <!--                <div class="modal-header flex justify-between">-->
-    <!--                    <h4>Modlitbová prosba</h4>-->
-    <!--                    <div @click="toggle" class="close-modal">&#10006;</div>-->
-    <!--                </div>-->
-
-    <!--                <div class="modal-body" style="font-size: 15px">-->
-
-    <!--                    <span style="font-weight: 600;">-->
-    <!--                        {{ prayer.user_name }}-->
-    <!--                        </span>-->
-
-    <!--                    žiada o-->
-
-    <!--                    <i class="fas fa-praying-hands"></i>-->
-
-
-    <!--                        <div class="flex">-->
-    <!--                            <img :src="'images/prayed_hand.png'" class="h-20 mr-10">-->
-    <!--                            <div>-->
-    <!--                                <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>-->
-    <!--                                <p style="margin-bottom: .4rem">{{ prayer.body }}</p>-->
-    <!--                            </div>-->
-    <!--                        </div>-->
-
-    <!--                    <div class="flex mt-5">-->
-    <!--                        <span class="mr-3">Modlitba je stále aktuálna</span>-->
-    <!--                        <span class="text-base flex items-center">-->
-    <!--                   <svg class="h-6 w-6 mr-3 text-gray-500 fill-current" xmlns="http://www.w3.org/2000/svg"-->
-    <!--                        viewBox="0 0 20 20" fill="currentColor">-->
-    <!--                      <path fill-rule="evenodd"-->
-    <!--                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"-->
-    <!--                            clip-rule="evenodd"/>-->
-    <!--                    </svg>-->
-    <!--                   dňa: {{ prayer.created_at | dateTime }} hod.-->
-    <!--               </span>-->
-    <!--                    </div>-->
-
-    <!--                </div>-->
-
-    <!--                <div class="bg-gray-600 p-10">-->
-    <!--                    <button @click="toggle" class="text-gray-200 border-2 border-white hover:bg-gray-500 rounded-md">-->
-    <!--                        Zavrieť-->
-    <!--                    </button>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
 </template>
 
 <script>
