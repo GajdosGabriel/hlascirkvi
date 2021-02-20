@@ -33,7 +33,6 @@
                             class="hover:bg-primary-dark w-full p-4 text-sm uppercase font-bold tracking-wider">
                             Vstúpiť
                         </button>
-
                     </div>
                 </form>
 
