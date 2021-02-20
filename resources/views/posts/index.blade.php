@@ -56,7 +56,7 @@
                     @endif
                 @endif
 
-                <div class="md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
+                <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                     @forelse($posts as $post)
                         @include('posts.post-card')
                     @empty
@@ -64,7 +64,7 @@
                     @endforelse
                 </div>
 
-                <div class=" flex justify-center mt-8 mb-4">
+                <div class="hidden md:block flex justify-center mt-8 mb-4">
                     {{ $posts->links() }}
                 </div>
             </div>
@@ -94,6 +94,7 @@
         </div>
 
     </div>
+
 
 
 @endsection

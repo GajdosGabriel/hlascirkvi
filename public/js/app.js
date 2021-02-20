@@ -4410,6 +4410,92 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -65933,112 +66019,215 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm.prayer
-      ? _c("div", { staticClass: "modal", attrs: { id: "modal-name" } }, [
-          _c("div", { staticClass: "modal-sandbox" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "modal-box" }, [
-            _c("div", { staticClass: "modal-header flex justify-between" }, [
-              _c("h4", [_vm._v("Modlitbová prosba")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "close-modal", on: { click: _vm.toggle } },
-                [_vm._v("✖")]
-              )
-            ]),
+  return _vm.prayer
+    ? _c("div", { staticClass: "fixed z-10 inset-0 overflow-y-auto" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+          },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass:
+                  "hidden sm:inline-block sm:align-middle sm:h-screen",
+                attrs: { "aria-hidden": "true" }
+              },
+              [_vm._v("​")]
+            ),
             _vm._v(" "),
             _c(
               "div",
               {
-                staticClass: "modal-body",
-                staticStyle: { "font-size": "15px" }
+                staticClass:
+                  "inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full",
+                attrs: {
+                  role: "dialog",
+                  "aria-modal": "true",
+                  "aria-labelledby": "modal-headline"
+                }
               },
               [
-                _c("span", { staticStyle: { "font-weight": "600" } }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.prayer.user_name) +
-                      "\n                    "
-                  )
-                ]),
-                _vm._v("\n\n                žiada o\n\n                "),
-                _c("i", { staticClass: "fas fa-praying-hands" }),
-                _vm._v(" "),
-                _c("div", { staticClass: "flex" }, [
-                  _c("img", {
-                    staticClass: "h-20 mr-10",
-                    attrs: { src: "images/prayed_hand.png" }
-                  }),
-                  _vm._v(" "),
-                  _c("div", [
-                    _vm.prayer.title
-                      ? _c("div", { staticClass: "font-semibold" }, [
-                          _vm._v(_vm._s(_vm.prayer.title))
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("p", { staticStyle: { "margin-bottom": ".4rem" } }, [
-                      _vm._v(_vm._s(_vm.prayer.body))
+                _c(
+                  "div",
+                  { staticClass: "bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" },
+                  [
+                    _c("div", { staticClass: "sm:flex sm:items-start" }, [
+                      _c("img", {
+                        staticClass: "h-20",
+                        attrs: { src: "images/prayed_hand.png" }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
+                        },
+                        [
+                          _c("div", { staticClass: " flex justify-between" }, [
+                            _c(
+                              "h3",
+                              {
+                                staticClass:
+                                  "text-lg leading-6 font-medium text-gray-900",
+                                attrs: { id: "modal-headline" }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                Modlitbová prosba\n                            "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "close-modal cursor-pointer",
+                                on: { click: _vm.toggle }
+                              },
+                              [_vm._v("✖")]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "mt-2" }, [
+                            _c("p", { staticClass: "text-sm text-gray-500" }, [
+                              _c(
+                                "span",
+                                { staticClass: "font-semibold mr-1" },
+                                [_vm._v(_vm._s(_vm.prayer.user_name))]
+                              ),
+                              _vm._v(
+                                "žiada o modlitbu\n                            "
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "mt-2" }, [
+                            _c(
+                              "p",
+                              {
+                                staticClass:
+                                  "text-sm text-gray-500 mr-2 font-semibold"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(_vm.prayer.title) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "mt-2" }, [
+                            _c("p", { staticClass: "text-gray-500" }, [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(_vm.prayer.body) +
+                                  "\n                            "
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "mt-3" }, [
+                            _c(
+                              "p",
+                              { staticClass: "text-sm text-gray-500 flex" },
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "mr-3 font-semibold" },
+                                  [_vm._v("Modlitba je stále aktuálna")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "svg",
+                                  {
+                                    staticClass:
+                                      "h-4 w-4 mr-1 text-gray-500 fill-current",
+                                    attrs: {
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      viewBox: "0 0 20 20",
+                                      fill: "currentColor"
+                                    }
+                                  },
+                                  [
+                                    _c("path", {
+                                      attrs: {
+                                        "fill-rule": "evenodd",
+                                        d:
+                                          "M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z",
+                                        "clip-rule": "evenodd"
+                                      }
+                                    })
+                                  ]
+                                ),
+                                _vm._v(
+                                  "\n                                dňa: " +
+                                    _vm._s(
+                                      _vm._f("dateTime")(_vm.prayer.created_at)
+                                    ) +
+                                    " hod.\n                            "
+                                )
+                              ]
+                            )
+                          ])
+                        ]
+                      )
                     ])
-                  ])
-                ]),
+                  ]
+                ),
                 _vm._v(" "),
-                _c("div", { staticClass: "flex mt-5" }, [
-                  _c("span", { staticClass: "mr-3" }, [
-                    _vm._v("Modlitba je stále aktuálna")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "text-base flex items-center" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+                  },
+                  [
                     _c(
-                      "svg",
+                      "button",
                       {
-                        staticClass: "h-6 w-6 mr-3 text-gray-500 fill-current",
-                        attrs: {
-                          xmlns: "http://www.w3.org/2000/svg",
-                          viewBox: "0 0 20 20",
-                          fill: "currentColor"
-                        }
+                        staticClass:
+                          "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
+                        attrs: { type: "button" },
+                        on: { click: _vm.toggle }
                       },
                       [
-                        _c("path", {
-                          attrs: {
-                            "fill-rule": "evenodd",
-                            d:
-                              "M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z",
-                            "clip-rule": "evenodd"
-                          }
-                        })
+                        _vm._v(
+                          "\n                    Zavrieť\n                "
+                        )
                       ]
-                    ),
-                    _vm._v(
-                      "\n               dňa: " +
-                        _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
-                        " hod.\n           "
                     )
-                  ])
-                ])
+                  ]
+                )
               ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "bg-gray-600 p-10" }, [
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "text-gray-200 border-2 border-white hover:bg-gray-500 rounded-md",
-                  on: { click: _vm.toggle }
-                },
-                [_vm._v("Zavrieť")]
-              )
-            ])
-          ])
-        ])
-      : _vm._e()
-  ])
+            )
+          ]
+        )
+      ])
+    : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "fixed inset-0 transition-opacity",
+        attrs: { "aria-hidden": "true" }
+      },
+      [_c("div", { staticClass: "absolute inset-0 bg-gray-500 opacity-75" })]
+    )
+  }
+]
 render._withStripped = true
 
 
