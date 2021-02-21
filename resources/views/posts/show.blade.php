@@ -37,7 +37,7 @@
                 <div>
                     <div class="flex justify-between my-5">
                         <div class="flex flex-col">
-                            <h1 class="text-2xl mb-2">{{ $post->title }}</h1>
+                            <h1 class="text-2xl mb-2 font-semibold">{{ $post->title }}</h1>
                             <div class="flex">
                                 <span> pridal: </span>
                                 <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
@@ -134,7 +134,7 @@
                 {{-- Body section --}}
                 <div class="md:grid grid-cols-8 gap-4">
                     {{-- Body plánované akcie --}}
-                    <div class="grid col-span-2">
+                    <div class="grid col-span-3">
                         @if ($post->organization->person == 0)
                             <div><span style="font-weight: 700">Plánované akcie {{ $post->organization->title }}</span>
                                 <ul>
@@ -153,7 +153,7 @@
 
                     </div>
 
-                    <div class="grid col-span-6">
+                    <div class="grid col-span-5">
                         <div>{!! $post->body !!}</div>
                         @include('bigthink._form')
                         <replies :data="{{ $post->comments }}"></replies>

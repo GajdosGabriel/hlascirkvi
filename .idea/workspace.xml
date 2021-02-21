@@ -2,22 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/js/navigation/RadioButton.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/posts/Article-admin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/posts/Article-admin.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/post-online.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/post-online.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/prayer/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/prayer/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OrganizationsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrganizationsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/organizations/show-b.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/show.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,13 +279,7 @@
       <workItem from="1613797593311" duration="10342000" />
       <workItem from="1613822080230" duration="10044000" />
       <workItem from="1613843909512" duration="1799000" />
-    </task>
-    <task id="LOCAL-00008" summary="Fix dispaly event index start at">
-      <created>1602223700959</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1602223700959</updated>
+      <workItem from="1613936645568" duration="557000" />
     </task>
     <task id="LOCAL-00009" summary="Oprava $post messing show-b.blade.php">
       <created>1603435510059</created>
@@ -635,7 +617,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613855013517</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Mix upgrade + radio button">
+      <created>1613935661938</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1613935661938</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -661,7 +650,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Prayer wall" />
     <MESSAGE value="Prayer save + modal" />
     <MESSAGE value="Prayer date time fix" />
     <MESSAGE value="Prayer change to modlitby" />
@@ -686,7 +674,8 @@
     <MESSAGE value="Login and register page" />
     <MESSAGE value="Reset heslá form" />
     <MESSAGE value="Flex wrap" />
-    <option name="LAST_COMMIT_MESSAGE" value="Flex wrap" />
+    <MESSAGE value="Mix upgrade + radio button" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mix upgrade + radio button" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -701,10 +690,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613855012071">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613935660397">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613855012071" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613935660397" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -725,10 +714,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="1865" height="590" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1613917790144" />
-    <state x="440" y="198" key="IDE.errors.dialog" timestamp="1613719206003">
+    <state x="440" y="198" key="IDE.errors.dialog" timestamp="1613935677451">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="440" y="198" key="IDE.errors.dialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613719206003" />
+    <state x="440" y="198" key="IDE.errors.dialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613935677451" />
     <state x="791" y="169" key="RollbackChangesDialog" timestamp="1613248562231">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -737,21 +726,21 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1613545288810" />
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613843918896">
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613936659681">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613843918896" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613936659681" />
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613638637775">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1050@0.0.1920.1050" timestamp="1613638637775" />
-    <state x="594" y="19" width="731" height="1011" key="find.popup" timestamp="1613853787578">
+    <state x="594" y="19" width="731" height="1011" key="find.popup" timestamp="1613937169719">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="594" y="19" width="731" height="1011" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613853787578" />
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1613844097663">
+    <state x="594" y="19" width="731" height="1011" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613937169719" />
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1613936967462">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613844097663" />
+    <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1613936967462" />
   </component>
 </project>

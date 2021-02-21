@@ -30,7 +30,7 @@ class OrganizationsController extends Controller
 
     public function organizationPosts(Organization $user, $slug)
     {
-        return view('organizations.show-b', ['posts' => $user->posts()->latest()->paginate(16), 'organization' => $user] );
+        return view('posts.index', ['posts' => $user->posts()->latest()->paginate(16), 'organization' => $user] );
     }
 
     public function edit(Organization $organization, $slug)

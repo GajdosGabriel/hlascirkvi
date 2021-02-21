@@ -53,7 +53,7 @@
                     </div>
                 @else
                     @if( !empty($organization) )
-                        <h3>{{ $organization->title }}</h3>
+                        <h2 class="font-semibold text-2xl mb-5 text-gray-700">{{ $organization->title }}</h2>
                     @endif
                 @endif
 
