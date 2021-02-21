@@ -21,7 +21,7 @@
         <div class="md:flex md:p-5">
 
             {{--  Stlpec I. --}}
-            <div class="md:w-6/12 w-full">
+            <div class="md:w-8/12 w-full">
                 @if(request()->is('/'))
 
                     <div class="text-gray-600 md:flex justify-between mb-4 py-4">
@@ -57,7 +57,7 @@
                     @endif
                 @endif
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 md:gap-7 grid-cols-2 gap-2">
+                <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                     @forelse($posts as $post)
                         @include('posts.post-card')
                     @empty
@@ -76,8 +76,6 @@
                 <prayers-card></prayers-card>
 
 
-                @include('organizations.list-users')
-
                 @if(request()->is('/'))
                     @include('verses.daily-modul')
                 @else
@@ -87,6 +85,7 @@
                     @endif
                 @endif
 
+                @include('organizations.list-users')
 
                 {{--                @include('events.aside_modul')--}}
                 {{--                @include('bigthink.aside_last_big_think')--}}
@@ -95,29 +94,7 @@
                 {{--                    @include('posts.rss-zaloha-php')--}}
             </div>
 
-            {{--  Stlpec III. --}}
-            <div class="md:w-3/12 md:mx-4">
-
-                <news-rss></news-rss>
-
-                @if(request()->is('/'))
-                    @include('verses.daily-modul')
-                @else
-                    @if( !empty($post->user) )
-                        <user-card :user="{{ $post->user }}"></user-card>
-                        @include('users.user-card', ['user' => $post->user])
-                    @endif
-                @endif
-
-                {{--                @include('organizations.list-users')--}}
-                @include('events.aside_modul')
-                {{--                @include('bigthink.aside_last_big_think')--}}
-                {{--                @include('posts.posts-history')--}}
-                {{--                @include('verses.credit-modul')--}}
-                {{--                    @include('posts.rss-zaloha-php')--}}
-            </div>
         </div>
-
     </div>
 
 

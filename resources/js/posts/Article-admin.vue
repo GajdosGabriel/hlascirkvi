@@ -27,9 +27,8 @@
 </script>
 
 <style>
-    [v-cloak] {
-        display: none;
-    }
+
+    [v-cloak] > * { display:none }
 
     li {
         display: block;

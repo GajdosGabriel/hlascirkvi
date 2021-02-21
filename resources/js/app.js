@@ -6,9 +6,9 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from 'vue';
 
-////Autorizovanie pre canUpdate
+//Autorizovanie pre canUpdate
 Vue.prototype.authorize = function(handler) {
     let user = window.App.user;
     return user ? handler(user) : false;
@@ -31,6 +31,7 @@ Vue.prototype.authorize = function(handler) {
 Vue.component('messenger-modul', require('./messenger/Messenger-modul.vue').default);
 Vue.component('favorite-post', require('./posts/Favorite-post.vue').default);
 Vue.component('notification', require('./components/Notification.vue').default);
+Vue.component('radio-button', require('./navigation/RadioButton.vue').default);
 Vue.component('video-item', require('./components/Video-Item.vue').default);
 Vue.component('user-card', require('./users/User-card.vue').default);
 Vue.component('organization-card', require('./organizations/Organization-card.vue').default);
