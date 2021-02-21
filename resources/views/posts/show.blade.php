@@ -302,7 +302,9 @@
                 bez záznamu
             @endforelse
 
-            {{ $posts->links() }}
+            <div class="hidden md:block flex justify-center my-8">
+                {{ $posts->links() }}
+            </div>
         </div>
 
         <div class="page-aside">

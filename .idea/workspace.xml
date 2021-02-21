@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OrganizationsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OrganizationsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/organizations/show-b.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/posts/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/show.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -279,28 +279,8 @@
       <workItem from="1613797593311" duration="10342000" />
       <workItem from="1613822080230" duration="10044000" />
       <workItem from="1613843909512" duration="1799000" />
-      <workItem from="1613936645568" duration="557000" />
-    </task>
-    <task id="LOCAL-00009" summary="Oprava $post messing show-b.blade.php">
-      <created>1603435510059</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1603435510059</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Text cleaner celého odstavca">
-      <created>1604850192669</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1604850192669</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Text cleaner celého odstavca">
-      <created>1604850485820</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1604850485820</updated>
+      <workItem from="1613936645568" duration="1300000" />
+      <workItem from="1613973447565" duration="465000" />
     </task>
     <task id="LOCAL-00012" summary="Prayer wall">
       <created>1613119778581</created>
@@ -624,7 +604,28 @@
       <option name="project" value="LOCAL" />
       <updated>1613935661938</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Users posts show">
+      <created>1613937285933</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1613937285933</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Users posts show">
+      <created>1613937436316</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1613937436316</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Správy rss css style">
+      <created>1613937988956</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1613937988956</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -650,8 +651,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Prayer save + modal" />
-    <MESSAGE value="Prayer date time fix" />
     <MESSAGE value="Prayer change to modlitby" />
     <MESSAGE value="Prayer save" />
     <MESSAGE value="Prayer paginator" />
@@ -675,7 +674,9 @@
     <MESSAGE value="Reset heslá form" />
     <MESSAGE value="Flex wrap" />
     <MESSAGE value="Mix upgrade + radio button" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mix upgrade + radio button" />
+    <MESSAGE value="Users posts show" />
+    <MESSAGE value="Správy rss css style" />
+    <option name="LAST_COMMIT_MESSAGE" value="Správy rss css style" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -690,10 +691,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613935660397">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613937987346">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613935660397" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613937987346" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -726,10 +727,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1613545288810" />
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613936659681">
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1613973449978">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613936659681" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613973449978" />
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1613638637775">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

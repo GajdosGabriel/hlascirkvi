@@ -65,9 +65,9 @@
                     @endforelse
                 </div>
 
-                <div class="hidden md:block flex justify-center mt-8 mb-4">
-                    {{ $posts->links() }}
-                </div>
+                    <div class="hidden md:block flex justify-center my-8">
+                        {{ $posts->links() }}
+                    </div>
             </div>
 
             {{--  Stlpec II. --}}
