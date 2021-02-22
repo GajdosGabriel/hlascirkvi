@@ -4632,6 +4632,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../prayer/ModalShowPrayer */ "./resources/js/prayer/ModalShowPrayer.vue");
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
+/* harmony import */ var _mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixins/filtersMixin */ "./resources/js/mixins/filtersMixin.js");
 //
 //
 //
@@ -4668,11 +4669,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['prayer'],
+  mixins: [_mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_3__.filterMixin],
   components: {
     modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_1__.default
   },
@@ -4684,11 +4687,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     passToModalShow: function passToModalShow() {
       _app__WEBPACK_IMPORTED_MODULE_2__.bus.$emit('passToModalPrayer', this.prayer);
-    }
-  },
-  filters: {
-    dateTime: function dateTime(value) {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).format('D.M.Y, H:mm');
     }
   }
 });
@@ -4799,6 +4797,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixins/filtersMixin */ "./resources/js/mixins/filtersMixin.js");
 //
 //
 //
@@ -4851,12 +4850,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['prayer'],
+  mixins: [_mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_4__.filterMixin],
   components: {
     modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_1__.default
   },
@@ -4884,20 +4885,6 @@ __webpack_require__.r(__webpack_exports__);
 
         window.location.reload();
       });
-    }
-  },
-  created: function created() {
-    var self = this;
-    window.addEventListener('click', function (e) {
-      // close dropdown when clicked outside
-      if (!self.$el.contains(e.target)) {
-        self.openDropDown = false;
-      }
-    });
-  },
-  filters: {
-    dateTime: function dateTime(value) {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).format('D.M.Y, H:mm');
     }
   }
 });
@@ -5982,6 +5969,30 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/mixins/filtersMixin.js":
+/*!*********************************************!*\
+  !*** ./resources/js/mixins/filtersMixin.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "filterMixin": () => (/* binding */ filterMixin)
+/* harmony export */ });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+
+var filterMixin = {
+  filters: {
+    dateTime: function dateTime(value) {
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).format('D.M.Y, H:mm');
+    }
+  }
+};
 
 /***/ }),
 
@@ -70588,11 +70599,11 @@ var render = function() {
               : _vm._e()
           ]),
           _vm._v(" "),
-          _c("span", { staticClass: "text-base flex items-center" }, [
+          _c("span", { staticClass: "text-sm flex items-center" }, [
             _c(
               "svg",
               {
-                staticClass: "h-5 w-5 mr-1 text-gray-500 fill-current",
+                staticClass: "h-4 w-4 mr-1 text-gray-500 fill-current",
                 attrs: {
                   xmlns: "http://www.w3.org/2000/svg",
                   viewBox: "0 0 20 20",

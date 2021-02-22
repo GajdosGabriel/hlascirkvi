@@ -38,9 +38,11 @@
     import moment from "moment";
     import modalShowPrayer from '../prayer/ModalShowPrayer';
     import {bus} from "../app";
+    import { filterMixin } from "../mixins/filtersMixin";
 
     export default {
         props: ['prayer'],
+        mixins:[ filterMixin ],
         components: {modalShowPrayer},
 
         data() {
@@ -52,11 +54,6 @@
         methods: {
             passToModalShow() {
                 bus.$emit('passToModalPrayer', this.prayer);
-            }
-        },
-        filters: {
-            dateTime: function (value) {
-                return moment(value).format('D.M.Y, H:mm');
             }
         }
 
