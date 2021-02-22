@@ -1,4 +1,4 @@
-<div class="border-2 rounded-sm mt-4">
+<div class="border-2 rounded-sm my-4">
     <header class="flex justify-between bg-blue-300 p-2 items-center">
         <span>Denné zamyslenie</span>
         <i class="fa fa-book" aria-hidden="true"></i>
