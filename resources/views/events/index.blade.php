@@ -2,15 +2,15 @@
 @section('title') <title>{{ 'Kresťanské akcie' }}</title> @endsection
 @section('content')
 
-    <div class="container mx-auto p-5">
+    <div class="page">
         @include('events._current_events')
         <div class="md:flex">
 
         <div class="md:w-8/12 md:p-4 ">
 
 
-            <div class="flex flex justify-between">
-                <h2 class="font-semibold text-2xl">  {{ $title ?? "Pozvánky na podujatia" }}</h2>
+            <div class="page_title">
+                <h2 class="text-2xl">  {{ $title ?? "Pozvánky na podujatia" }}</h2>
 
                 <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300" href="{{ route('event.create') }}"><i
                         class="fas fa-plus"></i>

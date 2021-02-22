@@ -5,6 +5,24 @@
 
 
 
+.card {
+    @apply border-2 border-gray-500 rounded-md mb-8;
+}
 
+.card_header {
+    @apply cursor-pointer p-3 text-base flex justify-between items-center font-semibold bg-blue-200;
+}
+
+.page {
+    @apply container mx-auto text-gray-700 min-h-screen md:py-10;
+}
+
+.page_title {
+    @apply text-gray-600 mb-4 py-4 md:flex justify-between font-semibold;
+}
+
+/*.page_title:md {*/
+/*    @apply ;*/
+/*}*/
 
 

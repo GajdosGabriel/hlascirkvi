@@ -28,14 +28,14 @@
     <page-header :organization="{{ $post->organization }}" :post="{{ $post }}"></page-header>
 
 
-    <div class="container mx-auto text-gray-600">
+    <div class="page">
 
         <div class="md:flex">
             {{-- Header and video--}}
             <div class="md:w-8/12 m-4">
                 {{--  Title video--}}
                 <div>
-                    <div class="flex justify-between my-5">
+                    <div class="page_title">
                         <div class="flex flex-col">
                             <h1 class="text-2xl mb-2 font-semibold">{{ $post->title }}</h1>
                             <div class="flex">

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title') <title>{{ 'Priame prenosy nedeľných služieb božích a omší.' }}</title> @endsection
 @section('content')
-    <div class="container mx-auto p-4">
+    <div class="page">
 
-        <h2 class="font-semibold text-2xl my-6">Nedeľné bohoslužby</h2>
+        <h2 class="page_title text-2xl">Nedeľné bohoslužby</h2>
 
         @foreach($posts as $k => $v)
             <div class="mb-12">
@@ -12,46 +12,50 @@
                     <div class="flex">
 
                         <div>
-                            {{-- Title + admin --}}
-                            <div class="flex mb-4">
-                                <div>
-                                    <h4>{{ $post->title }}</h4>
-                                    <span class="lead">
-                                        Pridal:
-                                        <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
-                                            {{ $post->organization->title }}</a> |
-                                        dňa: {{ date("d. M. Y", strtotime($post->created_at))  }}
-                                    </span>
-                                </div>
 
-                                @can('update', $post)
-                                    <article-admin inline-template>
-                                        <div v-cloak style="padding: 1rem; cursor: pointer;">
-                                            <i style="float: right" @click='toggle' title="Spravovať článok"
-                                               class="fas fa-ellipsis-v"></i>
-                                            <ul class="dropdown-menu" v-if="all">
-                                                <li><a href="{{ route('post.edit', [$post->id, $post->slug]) }}"
-                                                       class="dropdown-item">upraviť</a></li>
-                                                <li><a href="{{ route('post.delete', [$post->id]) }}"
-                                                       class="dropdown-item">zmazať</a>
-                                                </li>
-                                                @can('admin')
-                                                    <li><a href="{{ route('admin.youtubeBlocked', [$post->id]) }}">blokovať
-                                                            youtube</a></li>
-                                                    <li><a href="{{ route('post.toBuffer', [$post->id]) }}">Do
-                                                            buffer</a>
-                                                    </li>
-                                                @endcan
-                                            </ul>
-                                        </div>
-                                    </article-admin>
-                                @endcan
-                            </div>
 
                             {{-- Video + last items --}}
                             <div class="grid grid-cols-12 gap-7">
 
                                 <div class="col-span-8">
+
+                                    {{-- Title + admin --}}
+                                    <div class="page_title">
+                                        <div>
+                                            <h4 class="font-semibold">{{ $post->title }}</h4>
+                                            <span class="lead">
+                                        Pridal:
+                                        <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
+                                            {{ $post->organization->title }}</a> |
+                                        dňa: {{ date("d. M. Y", strtotime($post->created_at))  }}
+                                    </span>
+                                        </div>
+
+                                        @can('update', $post)
+                                            <article-admin inline-template>
+                                                <div v-cloak style="padding: 1rem; cursor: pointer;">
+                                                    <i style="float: right" @click='toggle' title="Spravovať článok"
+                                                       class="fas fa-ellipsis-v"></i>
+                                                    <ul class="dropdown-menu" v-if="all">
+                                                        <li><a href="{{ route('post.edit', [$post->id, $post->slug]) }}"
+                                                               class="dropdown-item">upraviť</a></li>
+                                                        <li><a href="{{ route('post.delete', [$post->id]) }}"
+                                                               class="dropdown-item">zmazať</a>
+                                                        </li>
+                                                        @can('admin')
+                                                            <li><a href="{{ route('admin.youtubeBlocked', [$post->id]) }}">blokovať
+                                                                    youtube</a></li>
+                                                            <li><a href="{{ route('post.toBuffer', [$post->id]) }}">Do
+                                                                    buffer</a>
+                                                            </li>
+                                                        @endcan
+                                                    </ul>
+                                                </div>
+                                            </article-admin>
+                                        @endcan
+                                    </div>
+
+
                                     @include('posts.post-online')
                                 </div>
 

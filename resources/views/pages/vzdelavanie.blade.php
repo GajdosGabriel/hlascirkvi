@@ -1,14 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto">
+    <div class="page">
 
-        <div class="grid grid-cols-12 gap-7 p-5">
+            <div class="md:w-8/12 w-full">
 
-            <div class="grid col-span-8">
-
-                <div class="grid col-span-8 mb-4 py-4">
-                    <h2 class="font-semibold text-2xl">
+                <div class="page_title">
+                    <h2 class="text-2xl">
                         Vzdelávanie a kurzy
                     </h2>
                 </div>
@@ -29,12 +27,9 @@
                             @include('posts.post-card')
                         @endforeach
                     @endforeach
-
                 </div>
-
-                </h2>
             </div>
 
 
-        </div>
+
 @endsection

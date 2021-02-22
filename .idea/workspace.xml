@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/verses/daily-modul.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/verses/daily-modul.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/vzdelavanie.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/vzdelavanie.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,21 +278,7 @@
       <workItem from="1613822080230" duration="10044000" />
       <workItem from="1613843909512" duration="1799000" />
       <workItem from="1613936645568" duration="1300000" />
-      <workItem from="1613973447565" duration="6272000" />
-    </task>
-    <task id="LOCAL-00017" summary="Prayer change to modlitby">
-      <created>1613386972965</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1613386972965</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Prayer save">
-      <created>1613401992187</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1613401992187</updated>
+      <workItem from="1613973447565" duration="10246000" />
     </task>
     <task id="LOCAL-00019" summary="Prayer paginator">
       <created>1613423375560</created>
@@ -623,7 +609,21 @@
       <option name="project" value="LOCAL" />
       <updated>1613982485210</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Footer responsive">
+      <created>1613982754588</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1613982754588</updated>
+    </task>
+    <task id="LOCAL-00067" summary="tailwinds apply groupe components">
+      <created>1613987438309</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1613987438309</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -649,7 +649,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Prayer prayers MojaKomunita" />
     <MESSAGE value="Prayer prayers vue refactoring" />
     <MESSAGE value="Prayer II. vue refactoring" />
     <MESSAGE value="Prayer item img + ref." />
@@ -674,7 +673,8 @@
     <MESSAGE value="Mixins filtersMixin.js" />
     <MESSAGE value="Prayer index page" />
     <MESSAGE value="Footer responsive" />
-    <option name="LAST_COMMIT_MESSAGE" value="Footer responsive" />
+    <MESSAGE value="tailwinds apply groupe components" />
+    <option name="LAST_COMMIT_MESSAGE" value="tailwinds apply groupe components" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -689,10 +689,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613982484503">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1613987436659">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613982484503" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1613987436659" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

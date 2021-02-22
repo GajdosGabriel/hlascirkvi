@@ -1,5 +1,5 @@
-<div class="border-2 rounded-sm my-4">
-    <header class="flex justify-between bg-blue-300 p-2 items-center">
+<section class="card">
+    <header class="card_header">
         <span>Denné zamyslenie</span>
         <i class="fa fa-book" aria-hidden="true"></i>
     </header>
@@ -13,4 +13,4 @@
             </p>
         @endif
     </div>
-</div>
+</section>

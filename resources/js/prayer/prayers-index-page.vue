@@ -1,8 +1,8 @@
 <template>
     <section class="">
 
-        <div class="flex justify-between items-center">
-            <h2 class="text-3xl font-semibold"> Modlitebný múr</h2>
+        <div class="page_title">
+            <h2> Modlitebný múr</h2>
 
             <button class="flex items-center px-2 py-1 border-2 border-gray-300 rounded-md hover:bg-blue-300"
                     @click="openModal">

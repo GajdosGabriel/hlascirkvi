@@ -1,20 +1,18 @@
 <template>
-    <section class="border-2 rounded-sm">
+    <section class="card">
 
-        <div class="card">
-            <div>
+        <header class="card_header">
+            <h4>Aktuálne správy</h4>
+            <i class="fas fa-rss"></i>
+        </header>
 
-                <header class="flex justify-between bg-blue-300 p-2 items-center mb-2">
-                    <h4>Aktuálne správy</h4>
-                    <i class="fas fa-rss"></i>
-                </header>
-
+        <div>
                 <div class="flex flex-wrap space-x-4 p-2">
                     <a @click="domace('domov')" :class="{'border-red-300 bg-red-600 text-gray-100': isDomace }" class="border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300">domáce</a>
                     <a @click="domace('zahranicie')" :class="{'border-red-300 bg-red-600 text-gray-100': isZahranicie }" class="border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300">zahraničné</a>
                     <a @click="domace('press')" :class="{'border-red-300 bg-red-600 text-gray-100': isTlacove }" class="border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300">tlačové</a>
                 </div>
-            </div>
+
 
             <ul class="p-3 text-sm">
                 <li v-for="(item, index) in itemWithActive" :key="index" v-if="index <= 8" class="mb-3">

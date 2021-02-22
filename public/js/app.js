@@ -2343,8 +2343,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -4663,8 +4661,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _prayer_prayers_card_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../prayer/prayers-card-item */ "./resources/js/prayer/prayers-card-item.vue");
 /* harmony import */ var _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../prayer/ModalNewPrayer */ "./resources/js/prayer/ModalNewPrayer.vue");
 /* harmony import */ var _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../prayer/ModalShowPrayer */ "./resources/js/prayer/ModalShowPrayer.vue");
-//
-//
 //
 //
 //
@@ -67382,63 +67378,57 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { staticClass: "border-2 rounded-sm" }, [
-    _c("div", { staticClass: "card" }, [
-      _c("div", [
-        _vm._m(0),
+  return _c("section", { staticClass: "card" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", [
+      _c("div", { staticClass: "flex flex-wrap space-x-4 p-2" }, [
+        _c(
+          "a",
+          {
+            staticClass:
+              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300",
+            class: { "border-red-300 bg-red-600 text-gray-100": _vm.isDomace },
+            on: {
+              click: function($event) {
+                return _vm.domace("domov")
+              }
+            }
+          },
+          [_vm._v("domáce")]
+        ),
         _vm._v(" "),
-        _c("div", { staticClass: "flex flex-wrap space-x-4 p-2" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300",
-              class: {
-                "border-red-300 bg-red-600 text-gray-100": _vm.isDomace
-              },
-              on: {
-                click: function($event) {
-                  return _vm.domace("domov")
-                }
-              }
+        _c(
+          "a",
+          {
+            staticClass:
+              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300",
+            class: {
+              "border-red-300 bg-red-600 text-gray-100": _vm.isZahranicie
             },
-            [_vm._v("domáce")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass:
-                "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300",
-              class: {
-                "border-red-300 bg-red-600 text-gray-100": _vm.isZahranicie
-              },
-              on: {
-                click: function($event) {
-                  return _vm.domace("zahranicie")
-                }
+            on: {
+              click: function($event) {
+                return _vm.domace("zahranicie")
               }
-            },
-            [_vm._v("zahraničné")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass:
-                "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300",
-              class: {
-                "border-red-300 bg-red-600 text-gray-100": _vm.isTlacove
-              },
-              on: {
-                click: function($event) {
-                  return _vm.domace("press")
-                }
+            }
+          },
+          [_vm._v("zahraničné")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass:
+              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300",
+            class: { "border-red-300 bg-red-600 text-gray-100": _vm.isTlacove },
+            on: {
+              click: function($event) {
+                return _vm.domace("press")
               }
-            },
-            [_vm._v("tlačové")]
-          )
-        ])
+            }
+          },
+          [_vm._v("tlačové")]
+        )
       ]),
       _vm._v(" "),
       _c(
@@ -67509,15 +67499,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "header",
-      { staticClass: "flex justify-between bg-blue-300 p-2 items-center mb-2" },
-      [
-        _c("h4", [_vm._v("Aktuálne správy")]),
-        _vm._v(" "),
-        _c("i", { staticClass: "fas fa-rss" })
-      ]
-    )
+    return _c("header", { staticClass: "card_header" }, [
+      _c("h4", [_vm._v("Aktuálne správy")]),
+      _vm._v(" "),
+      _c("i", { staticClass: "fas fa-rss" })
+    ])
   }
 ]
 render._withStripped = true
@@ -70195,17 +70181,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "section",
-    { staticClass: "border-2 border-gray-500 rounded-sm mb-8" },
+    { staticClass: "card" },
     [
       _c("div", {}, [
         _c(
-          "div",
+          "header",
           {
-            staticClass: "text-white cursor-pointer p-3 text-base",
-            staticStyle: { background: "#6c6c6c" },
+            staticClass: "card_header cursor-pointer",
             on: { click: _vm.openModal }
           },
-          [_vm._m(0)]
+          [
+            _c("h4", [_vm._v("Modlitebný múr")]),
+            _vm._v(" "),
+            _c("i", { staticClass: "fas fa-praying-hands" })
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -70230,25 +70219,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "flex justify-between items-center cursor-pointer" },
-      [
-        _c("h4", [_vm._v("Modlitebný múr")]),
-        _vm._v(" "),
-        _c("i", {
-          staticClass: "fas fa-praying-hands",
-          staticStyle: { color: "whitesmoke" }
-        })
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -70452,10 +70423,8 @@ var render = function() {
     "section",
     {},
     [
-      _c("div", { staticClass: "flex justify-between items-center" }, [
-        _c("h2", { staticClass: "text-3xl font-semibold" }, [
-          _vm._v(" Modlitebný múr")
-        ]),
+      _c("div", { staticClass: "page_title" }, [
+        _c("h2", [_vm._v(" Modlitebný múr")]),
         _vm._v(" "),
         _c(
           "button",

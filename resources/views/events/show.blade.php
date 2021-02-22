@@ -18,13 +18,13 @@
 
 @section('content')
 
-    <div class="container mx-auto p-4">
+    <div class="page">
 
         <div class="md:flex">
 
             <div class="md:w-8/12 md:p-6 mb-5">
 
-                    <div class="flex justify-between mb-6">
+                    <div class="page_title">
                         <h1 class="font-semibold text-2xl">{{ $event->title }}</h1>
                         @can('update', $event)
                         <article-admin inline-template>

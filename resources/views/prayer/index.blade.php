@@ -2,7 +2,7 @@
 @section('title') <title>{{ 'Modlitebný múr' }}</title> @endsection
 @section('content')
 
-    <div class="container mx-auto p-4 min-h-screen">
+    <div class="page">
 
         <div class="md:w-6/12">
 

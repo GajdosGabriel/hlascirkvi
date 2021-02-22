@@ -16,15 +16,15 @@
 @endsection
 
 @section('content')
-    <div class="container mx-auto">
+    <div class="page">
 
-        <div class="md:flex md:p-5">
+        <div class="md:flex">
 
             {{--  Stlpec I. --}}
             <div class="md:w-8/12 w-full">
                 @if(request()->is('/'))
 
-                    <div class="text-gray-600 md:flex justify-between mb-4 py-4">
+                    <div class="page_title">
                         @switch(request()->input('posts'))
                             @case('recomended')
                             <h3>Obľúbené príspevky</h3>

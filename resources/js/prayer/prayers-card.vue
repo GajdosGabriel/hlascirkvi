@@ -1,13 +1,11 @@
 <template>
-    <section class="border-2 border-gray-500 rounded-sm mb-8">
+    <section class="card">
 
         <div class="">
-            <div class="text-white cursor-pointer p-3 text-base" style="background: #6c6c6c" @click="openModal">
-                <div class="flex justify-between items-center cursor-pointer">
-                    <h4>Modlitebný múr</h4>
-                    <i class="fas fa-praying-hands" style="color: whitesmoke"></i>
-                </div>
-            </div>
+            <header class="card_header cursor-pointer" @click="openModal">
+                <h4>Modlitebný múr</h4>
+                <i class="fas fa-praying-hands"></i>
+            </header>
 
             <ul class="mt-3">
                 <li v-for="prayer in prayers.data" :key="prayer.id">
