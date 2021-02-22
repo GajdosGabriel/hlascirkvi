@@ -21,8 +21,20 @@
     @apply text-gray-600 mb-4 py-4 md:flex justify-between font-semibold;
 }
 
-/*.page_title:md {*/
-/*    @apply ;*/
-/*}*/
+/* Forms*/
+.form-group {
+    @apply mb-3 w-full;
+}
+.form-control {
+    @apply border-2 border-gray-300 rounded-md py-2 w-full px-2;
+}
+
+.btn {
+    @apply border-2 border-gray-300 py-2 rounded-md;
+}
+
+.btn:hover {
+    @apply bg-blue-300;
+}
 
 

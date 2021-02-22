@@ -108,6 +108,6 @@
     </div>
 </div>
 
-<div class="form-group">
-    <button type="submit" style="width: 100%" class="btn"> {{ $buttonText ?? trans('web.btn_save') }}</button>
+<div class="form-group my-5">
+    <button type="submit" class="btn w-full"> {{ $buttonText ?? trans('web.btn_save') }}</button>
 </div>
