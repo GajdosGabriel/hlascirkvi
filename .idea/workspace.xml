@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/auth/login.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/login.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -279,14 +279,8 @@
       <workItem from="1613843909512" duration="1799000" />
       <workItem from="1613936645568" duration="1300000" />
       <workItem from="1613973447565" duration="19417000" />
-      <workItem from="1614016180871" duration="242000" />
-    </task>
-    <task id="LOCAL-00026" summary="Prayer II. vue refactoring">
-      <created>1613483448964</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1613483448964</updated>
+      <workItem from="1614016180871" duration="1306000" />
+      <workItem from="1614023280587" duration="586000" />
     </task>
     <task id="LOCAL-00027" summary="Prayer II. vue refactoring">
       <created>1613484179486</created>
@@ -624,7 +618,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614010144533</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="admin">
+      <created>1614016558445</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1614016558445</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -726,10 +727,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1613545288810" />
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1614016190092">
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1614023283155">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614016190092" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614023283155" />
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1614009709910">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

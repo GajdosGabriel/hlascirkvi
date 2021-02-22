@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto p-8 min-h-screen">
+    <div class="page">
         <div class="mx-auto max-w-sm">
             <div class="py-10 text-center">
 

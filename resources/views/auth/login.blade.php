@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container min-h-screen">
+<div class="page">
 
     <login-card></login-card>
     {{--<div class="login">--}}
