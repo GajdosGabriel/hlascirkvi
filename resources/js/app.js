@@ -55,7 +55,6 @@ Vue.component('form-organization', require('./events/Form-org_0.vue').default);
 Vue.component('big-thing', require('./bigThink/big-thing_0.vue').default);
 Vue.component('prayers-card', require('./prayer/prayers-card.vue').default);
 Vue.component('prayers-index-page', require('./prayer/prayers-index-page.vue').default);
-Vue.component('new-prayer-index-page', require('./prayer/NewPrayerIndexPage.vue').default);
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);
 
 

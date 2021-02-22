@@ -1,5 +1,5 @@
 <template>
-    <div class="px-6 py-2 border-2 border-gray-500 my-6 rounded-md shadow-lg">
+    <div class="px-6 py-2 border-2 border-gray-400 my-6 rounded-md shadow-lg">
         <div @click="passToModalShow">
             <div class="flex flex-col mb-4">
                 <div class="flex justify-between">
@@ -51,7 +51,6 @@
 </template>
 
 <script>
-    import moment from "moment";
     import modalShowPrayer from '../prayer/ModalShowPrayer';
     import {bus} from "../app";
     import Axios from 'axios';

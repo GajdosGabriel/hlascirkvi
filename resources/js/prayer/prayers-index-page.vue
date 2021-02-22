@@ -1,13 +1,23 @@
 <template>
     <section class="">
 
-        <div class="">
-            <ul class="mt-3">
-                <li v-for="prayer in prayers.data" :key="prayer.id" class="hover:bg-gray-200">
-                    <prayers-index-item :prayer="prayer"></prayers-index-item>
-                </li>
-            </ul>
+        <div class="flex justify-between items-center">
+            <h2 class="text-3xl font-semibold"> Modlitebný múr</h2>
+
+            <button class="flex items-center px-2 py-1 border-2 border-gray-300 rounded-md hover:bg-blue-300"
+                    @click="openModal">
+                <i class="fas fa-praying-hands mr-1"></i>
+                <span>Nová modlitba</span>
+            </button>
         </div>
+
+
+        <ul class="mt-3">
+            <li v-for="prayer in prayers.data" :key="prayer.id" class="hover:bg-gray-200">
+                <prayers-index-item :prayer="prayer"></prayers-index-item>
+            </li>
+        </ul>
+
 
         <pagination :data="prayers" @fetchUrl="paginator"></pagination>
 
@@ -24,7 +34,6 @@
     import pagination from "./pagination";
     import modalNewPrayer from '../prayer/ModalNewPrayer';
     import modalShowPrayer from '../prayer/ModalShowPrayer';
-
 
 
     export default {
@@ -66,40 +75,4 @@
     }
 </script>
 
-<style scoped>
-    .menu {
-        cursor: pointer;
-        padding: 0rem .4rem;
-        border: 1px solid white;
 
-    }
-
-    a:hover {
-        border: 1px solid red;
-        color: red;
-        border-radius: .5rem;
-
-    }
-
-    .active {
-        background: white;
-        /*color: whitesmoke;*/
-        border-radius: .5rem;
-        border: 1px solid red;
-
-    }
-
-    .date {
-        color: #838383;
-        text-align: right;
-        font-style: italic;
-        font-size: 85%;
-    }
-
-    .hover:hover {
-        cursor: pointer;
-        background: rgba(231, 231, 231, 0.38);
-    }
-
-
-</style>
