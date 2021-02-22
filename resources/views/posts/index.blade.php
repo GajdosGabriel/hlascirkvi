@@ -27,15 +27,15 @@
                     <div class="page_title">
                         @switch(request()->input('posts'))
                             @case('recomended')
-                            <h3>Obľúbené príspevky</h3>
+                            <h3 class="text-2xl">Obľúbené príspevky</h3>
                             @break
 
                             @case('mostVisited')
-                            <h3>Podľa počtu zobrazení (všetky)</h3>
+                            <h3 class="text-2xl">Podľa počtu zobrazení (všetky)</h3>
                             @break
 
                             @case('trends')
-                            <h3>Trend sledovanosti za posledné 2 týždne</h3>
+                            <h3 class="text-2xl">Trend sledovanosti za posledné 2 týždne</h3>
                             @break
                             @default
 

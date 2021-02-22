@@ -2,8 +2,7 @@
 
     <div style="max-height: 11rem; overflow: hidden; position: relative">
         @if($post->favorites()->count() > 0)
-            <div style=" float: left;position: absolute;right: 0px;bottom: 0px;
-                                        z-index: 1000; background-color: #ad5092; padding: 5px;color: #FFFFFF;font-size: 70%">
+            <div class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200">
                 Doporúčené
             </div>
         @endif
