@@ -8,24 +8,24 @@
             </div>
         </transition>
 
-        <div class="flex justify-between">
-            <div class="flex">
+        <div class="md:flex justify-between">
+            <div class=" flex-1">
 
                 <!-- check if is person-->
-                <div v-if="organization.person == 1">
+                <div class="" v-if="organization.person == 1">
                     <img v-if="organization.avatar !== null" class="Media-figure img-avatar"
                          :src="this.domain + 'storage/users/' + organization.id + '/' + organization.avatar">
                     <img v-else class="Media-figure" style="max-width: 6rem" :src="this.domain + 'images/avatar.png'">
                 </div>
 
                 <!--Non Person picture-->
-                <i v-else style="font-size: 6rem; color: silver; float: left; margin-right: 1.1rem"
+                <i v-else  style="font-size: 6rem; color: silver; float: left; margin-right: 1.1rem"
                    class="far fa-image"></i>
 
-                <div class="Media-body">
-                    <h2 class="text-3xl font-semibold" v-text="organization.title"></h2>
+                <div class="flex justify-start flex-col">
+                    <h2 class="text-2xl font-semibold" v-text="organization.title"></h2>
 
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-4 my-2">
                         <button v-if="organization.person == 1" @click="toggle" class="px-2 hover:border-gray-500 border-2 rounded-ms"
                              :class="{'bg-blue-700' :showDescription }">Autor
                         </button>
@@ -57,7 +57,7 @@
             <div>
                 <!-- Button i-Memeber-->
                 <div v-show="buttonStatus" v-html="button" @click="subscribe" title="Budete dostávať nové príspevky!"
-                     :class="classButton" class="p-4 rounded-md cursor-pointer"></div>
+                     :class="classButton" class="p-4 rounded-md cursor-pointer flex justify-center"></div>
 
             </div>
         </div>
@@ -96,7 +96,7 @@
 
             button: function () {
                 if (this.favorited) {
-                    return this.buttonText = 'Zrušiť členstvo <i style="color: rgba(27, 136, 201, 0.67)" class="fas fa-check-circle"></i>'
+                    return this.buttonText = 'Zrušiť členstvo'
                 }
                 return this.buttonText = 'Sledovať kanál<br>' + this.organization.title
             },

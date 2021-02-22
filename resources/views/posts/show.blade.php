@@ -38,7 +38,7 @@
                     <div class="page_title">
                         <div class="flex flex-col">
                             <h1 class="text-2xl mb-2 font-semibold">{{ $post->title }}</h1>
-                            <div class="flex">
+                            <div class="">
                                 <span> pridal: </span>
                                 <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
                                     {{ $post->organization->title }}</a>

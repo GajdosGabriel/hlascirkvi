@@ -1,8 +1,8 @@
 <template>
     <div>
         <transition name="fade">
-            <div :class="addClass" v-if="banner">
-                <i class="fas fa-info-circle fa-lg"></i>
+            <div :class="addClass" v-if="banner" class="absolute flex items-center bottom-10 right-3 p-5 rounded-md border-2 border-gray-500">
+                <i class="fas fa-info-circle fa-lg mr-4"></i>
                 {{ body }}
             </div>
         </transition>
@@ -22,7 +22,7 @@
             }
         },
         created: function() {
-            bus.$on('flash', (data) => {
+            bus.$on('flex justify-between', (data) => {
                 this.showNotify(data);
             });
 
@@ -36,7 +36,7 @@
 
         computed: {
           addClass: function() {
-              return ['level', this.type ? 'danger' : 'success'];
+              return ['flex justify-between', this.type ? 'bg-red-300' : 'bg-green-300'];
           }
         },
 
@@ -60,35 +60,6 @@
 </script>
 
 <style scoped>
-    .success {
-        z-index: 999;
-        position: fixed;
-        font-size: 111%;
-        color: whitesmoke;
-        right: 25px;
-        bottom: 4rem;
-        background: #53994f;
-        padding: 1.3rem;
-        border: .1rem solid #335530;
-        border-radius: .7rem;
-    }
-    .danger {
-        z-index: 999;
-        position: fixed;
-        font-size: 111%;
-        color: whitesmoke;
-        right: 25px;
-        bottom: 4rem;
-        background: #ff9393;
-        padding: 1.3rem;
-        border: .1rem solid #4d4d4d;
-        border-radius: .7rem;
-    }
-
-    i {
-        margin-right: 1.5rem;
-    }
-
 
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
