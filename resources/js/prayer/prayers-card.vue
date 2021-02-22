@@ -1,18 +1,18 @@
 <template>
     <section class="card">
 
-        <div class="">
-            <header class="card_header cursor-pointer" @click="openModal">
-                <h4>Modlitebný múr</h4>
-                <i class="fas fa-praying-hands"></i>
-            </header>
+        <header class="card_header cursor-pointer" @click="openModal">
+            <h4>Modlitebný múr</h4>
+            <i class="fas fa-praying-hands"></i>
+        </header>
+
 
             <ul class="mt-3">
                 <li v-for="prayer in prayers.data" :key="prayer.id">
                     <prayers-card-item :prayer="prayer"></prayers-card-item>
                 </li>
             </ul>
-        </div>
+
 
         <modal-new-prayer></modal-new-prayer>
         <modal-show-prayer></modal-show-prayer>

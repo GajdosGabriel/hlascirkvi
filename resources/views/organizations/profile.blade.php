@@ -2,27 +2,27 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="page">
 
-        <div class="page">
+        <div class="">
 
             <div class="page-content">
 
-                <div class="level">
+                <div class="flex space-x-6 mb-5">
                     <div>
     {{--                    <a class="tag" href="{{ route('organization.profile', [auth()->id(), auth()->user()->slug]) }}">Profil</a>--}}
-                        <a class="tag" href="{{ route('organization.index', [ auth()->id(), auth()->user()->slug]) }}">Kanály</a>
-                        <a class="tag" href="{{ route('post.create') }}">Nový článok</a>
-                        <a class="tag" href="{{ route('event.create') }}">Nové Podujatie</a>
-                        <a class="tag" href="{{ route('addresBook.importContacts', [ auth()->id(), auth()->user()->slug] ) }}">Moje kontakty</a>
+                        <a class="cursor-pointer hover:text-gray-500 border-2 border-gray-500 hover:bg-blue-200 rounded-md px-2" href="{{ route('organization.index', [ auth()->id(), auth()->user()->slug]) }}">Kanály</a>
+                        <a class="cursor-pointer hover:text-gray-500 border-2 border-gray-500 hover:bg-blue-200 rounded-md px-2" href="{{ route('post.create') }}">Nový článok</a>
+                        <a class="cursor-pointer hover:text-gray-500 border-2 border-gray-500 hover:bg-blue-200 rounded-md px-2" href="{{ route('event.create') }}">Nové Podujatie</a>
+                        <a class="cursor-pointer hover:text-gray-500 border-2 border-gray-500 hover:bg-blue-200 rounded-md px-2" href="{{ route('addresBook.importContacts', [ auth()->id(), auth()->user()->slug] ) }}">Moje kontakty</a>
                     </div>
 
-                        <a href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
+                    <a class="cursor-pointer hover:text-gray-500 border-2 border-gray-500 hover:bg-blue-200 rounded-md px-2 text-red-600"
+                       href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
-                            {{ __('web.Logout') }}
-                        </a>
-
+                        {{ __('web.Logout') }}
+                    </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
@@ -46,7 +46,7 @@
 
             </div>
 
-            <div class="page-aside">
+            <div class="w-4/12">
                 <user-card :user="{{ $organization }}"></user-card>
 
                 @if(auth()->check())

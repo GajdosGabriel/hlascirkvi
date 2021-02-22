@@ -2,9 +2,9 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="page">
 
-        <div class="page">
+        <div class="">
 
             <div class="page-content">
 

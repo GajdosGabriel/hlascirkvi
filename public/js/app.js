@@ -70189,34 +70189,32 @@ var render = function() {
     "section",
     { staticClass: "card" },
     [
-      _c("div", {}, [
-        _c(
-          "header",
-          {
-            staticClass: "card_header cursor-pointer",
-            on: { click: _vm.openModal }
-          },
-          [
-            _c("h4", [_vm._v("Modlitebný múr")]),
-            _vm._v(" "),
-            _c("i", { staticClass: "fas fa-praying-hands" })
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "ul",
-          { staticClass: "mt-3" },
-          _vm._l(_vm.prayers.data, function(prayer) {
-            return _c(
-              "li",
-              { key: prayer.id },
-              [_c("prayers-card-item", { attrs: { prayer: prayer } })],
-              1
-            )
-          }),
-          0
-        )
-      ]),
+      _c(
+        "header",
+        {
+          staticClass: "card_header cursor-pointer",
+          on: { click: _vm.openModal }
+        },
+        [
+          _c("h4", [_vm._v("Modlitebný múr")]),
+          _vm._v(" "),
+          _c("i", { staticClass: "fas fa-praying-hands" })
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "mt-3" },
+        _vm._l(_vm.prayers.data, function(prayer) {
+          return _c(
+            "li",
+            { key: prayer.id },
+            [_c("prayers-card-item", { attrs: { prayer: prayer } })],
+            1
+          )
+        }),
+        0
+      ),
       _vm._v(" "),
       _c("modal-new-prayer"),
       _vm._v(" "),
@@ -70430,7 +70428,7 @@ var render = function() {
     {},
     [
       _c("div", { staticClass: "page_title" }, [
-        _c("h2", [_vm._v(" Modlitebný múr")]),
+        _c("h2", { staticClass: "text-2xl" }, [_vm._v(" Modlitebný múr")]),
         _vm._v(" "),
         _c(
           "button",

@@ -2,20 +2,21 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="page">
 
-        <div class="page">
+        <div class="page_title">
+            <h2 class="text-2xl">Admin panel</h2>
+        </div>
 
             <div class="page-content">
 
 
-                    <div>
+                    <div class="flex space-x-4">
                         @if( auth()->user()->hasRole('admin'))
-                            <h5>Admin panel</h5>
-                            <a class="tag" href="{{ route('admin.organization.index') }}">Všetky organizácie</a>
-                            <a class="tag" href="{{ route('admin.unpublished') }}">Buffer</a>
-                            <a class="tag" href="{{ route('admin.statistic', [ 'days' => 1]) }}">Štatistika</a>
-                            <a class="tag" href="{{ route('admin.user.index') }}">Užívatelia</a>
+                            <a class="cursor-pointer hover:text-gray-500 border-2 border-gray-500 hover:bg-blue-200 rounded-md px-2" href="{{ route('admin.organization.index') }}">Všetky organizácie</a>
+                            <a class="cursor-pointer hover:text-gray-500 border-2 border-gray-500 hover:bg-blue-200 rounded-md px-2" href="{{ route('admin.unpublished') }}">Buffer</a>
+                            <a class="cursor-pointer hover:text-gray-500 border-2 border-gray-500 hover:bg-blue-200 rounded-md px-2" href="{{ route('admin.statistic', [ 'days' => 1]) }}">Štatistika</a>
+                            <a class="cursor-pointer hover:text-gray-500 border-2 border-gray-500 hover:bg-blue-200 rounded-md px-2" href="{{ route('admin.user.index') }}">Užívatelia</a>
                         @endif
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -23,7 +24,7 @@
                     </div>
                 <div>
                     <h5>Service panel</h5>
-                    <a class="tag" href="{{ route('admin.images.index') }}">Images service</a>
+                    <a class="" href="{{ route('admin.images.index') }}">Images service</a>
                 </div>
 
 

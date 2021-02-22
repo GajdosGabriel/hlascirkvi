@@ -1,12 +1,9 @@
 <nav class="bg-blue-900 text-gray-200 px-2 ">
     <div style="max-width: 80rem" class="flex mx-auto justify-between py-2 flex-wrap">
-        <ul class="my-2">
-            <li>
-                <a href="{{ url('/') }}">
-                    Hlas Cirkvi
-                </a>
-            </li>
-        </ul>
+
+        <a class="my-2" href="{{ url('/') }}">
+            Hlas Cirkvi
+        </a>
 
         <ul class="my-2 flex  space-x-4">
             <li>
@@ -27,7 +24,7 @@
             <radio-button></radio-button>
             <li><a href="{{ route('event.index') }}">Podujatia</a></li>
             <li><a href="{{ route('modlitby.index') }}" class="nav-link radio">
-                <i class="fas fa-praying-hands mr-2 text-gray-300"></i>Modlitby</a>
+                    <i class="fas fa-praying-hands mr-2 text-gray-300"></i>Modlitby</a>
             </li>
         </ul>
 

@@ -2,7 +2,7 @@
     <section class="">
 
         <div class="page_title">
-            <h2> Modlitebný múr</h2>
+            <h2 class="text-2xl"> Modlitebný múr</h2>
 
             <button class="flex items-center px-2 py-1 border-2 border-gray-300 rounded-md hover:bg-blue-300"
                     @click="openModal">

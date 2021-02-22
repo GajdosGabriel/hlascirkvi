@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="page">
 
-        <div class="page">
+        <div class="flex">
 
-            <div class="page-content">
-                <h3>Buffer príspevky (Nezverenené)</h3>
-                <div class="VideoGroup__wrapper">
+            <div class="md:w-8/12 md:mr-5">
+                <h3 class="page_title text-2xl">Buffer príspevky (Nezverenené)</h3>
+                <div class="grid grid-cols-4 gap-5">
                     @forelse($posts as $post)
                         <div class="card card-flex">
                             <div>
@@ -25,24 +25,20 @@
                                 </div>
                             </div>
 
-                                <div class="card-footer">
-                                    {{ $post->organization->title }}
-                                    <time datetime="{{ $post->created_at }}">{{ $post->created_at->diffForHumans() }}</time>
+                            <div class="card-footer">
+                                {{ $post->organization->title }}
+                                <time datetime="{{ $post->created_at }}">{{ $post->created_at->diffForHumans() }}</time>
 
-                                    <div class="level">
-                                        <a href="{{ route('admin.bufferedVideosPublish', [$post->id]) }}">Zverejniť</a>
-                                        @can('admin')
+                                <div class="level">
+                                    <a href="{{ route('admin.bufferedVideosPublish', [$post->id]) }}">Zverejniť</a>
+                                    @can('admin')
                                         <a href="{{ route('admin.youtubeBlocked', [$post->id]) }}">Blokovať</a>
-                                        @endcan
-                                    </div>
-
+                                    @endcan
                                 </div>
-
-
-
+                            </div>
                         </div>
                     @empty
-                    bez záznamu
+                        bez záznamu
                     @endforelse
 
                 </div>
@@ -50,7 +46,7 @@
                 {{ $posts->links() }}
             </div>
 
-            <div class="page-aside">
+            <div class="md:w-3/12">
                 @include('admins.buffer.list-organizations')
             </div>
 
@@ -60,4 +56,4 @@
     </div>
 
 
-    @endsection
+@endsection
