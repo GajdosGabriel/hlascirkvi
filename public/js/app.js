@@ -3316,6 +3316,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/createdMixin */ "./resources/js/mixins/createdMixin.js");
 //
 //
 //
@@ -3362,24 +3363,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
   data: function data() {
     return {
-      all: false
+      open: false
     };
-  },
-  created: function created() {
-    var self = this;
-    window.addEventListener('click', function (e) {
-      // close dropdown when clicked outside
-      if (!self.$el.contains(e.target)) {
-        self.all = false;
-      }
-    });
   },
   methods: {
     toggle: function toggle() {
-      this.all = !this.all;
+      this.open = !this.open;
     }
   }
 });
@@ -3970,24 +3964,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/createdMixin */ "./resources/js/mixins/createdMixin.js");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
   data: function data() {
     return {
-      all: false
+      open: false
     };
-  },
-  created: function created() {
-    var self = this;
-    window.addEventListener('click', function (e) {
-      // close dropdown when clicked outside
-      if (!self.$el.contains(e.target)) {
-        self.all = false;
-      }
-    });
   },
   methods: {
     toggle: function toggle() {
-      this.all = !this.all;
+      this.open = !this.open;
     }
   }
 });
@@ -68397,7 +68385,7 @@ var render = function() {
       [_vm._m(0)]
     ),
     _vm._v(" "),
-    _vm.all
+    _vm.open
       ? _c(
           "ul",
           {

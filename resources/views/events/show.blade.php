@@ -28,14 +28,13 @@
                         <h1 class="font-semibold text-2xl">{{ $event->title }}</h1>
                         @can('update', $event)
                         <article-admin inline-template>
-                            <div v-cloak>
+                            <div v-cloak class="relative z-10">
                                 <i style="float: right; cursor: pointer " @click='toggle' title="Spravovať článok" class="fas fa-ellipsis-v"></i>
-                                <ul class="dropdown-menu" v-if="all">
+                                <ul  class="dropdown-menu" v-if="open">
                                     <a href="{{ route('event.edit', [$event->id, $event->slug]) }}" class="dropdown-item"><li>upraviť</li></a>
                                     <a href="{{ route('event.delete', [$event->id, $event->slug]) }}" class="dropdown-item"><li>zmazať</li></a>
                                     <a href="{{ route('event.admin', [$event->id, $event->slug]) }}" class="dropdown-item"><li>Administrácia</li></a>
                                 </ul>
-                                {{--<a class="btn" href="{{ URL::previous() }}"> <i class="fa fa-arrow-left"></i> Späť</a>--}}
                             </div>
                         </article-admin>
                         @endcan

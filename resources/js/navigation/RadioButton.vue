@@ -7,7 +7,7 @@
             </a>
         </li>
 
-        <ul v-cloak v-if="all" @click="toggle"
+        <ul v-cloak v-if="open" @click="toggle"
             class="absolute z-10 flex flex-col bg-white rounded-md border-2 border-gray-500 text-gray-700">
             <li class="p-2 px-6 hover:bg-gray-300">
                 <a title="Rádio 7 Slovenská redakcia" class="hover:text-gray-700 no-underline" href="#"
@@ -45,27 +45,19 @@
     </div>
 </template>
 <script>
+    import {createdMixin} from "../mixins/createdMixin";
+
     export default {
+        mixins:[createdMixin],
         data: function() {
             return {
-                all:false
+                open:false
             }
-        },
-
-        created: function() {
-            let self = this;
-
-            window.addEventListener('click', function(e){
-                // close dropdown when clicked outside
-                if (!self.$el.contains(e.target)){
-                    self.all = false
-                }
-            })
         },
 
         methods: {
             toggle: function() {
-                this.all = ! this.all;
+                this.open = ! this.open;
             }
 
         }

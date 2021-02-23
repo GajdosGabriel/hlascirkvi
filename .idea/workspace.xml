@@ -3,10 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Notification.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Notification.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/navigation/RadioButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/navigation/RadioButton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/posts/Article-admin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/posts/Article-admin.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/events/_list_items.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/_list_items.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/events/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/online-prenosy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/online-prenosy.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/form.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/show.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,15 +184,15 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\www\hlascirkvi\resources\views\events" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\www\hlascirkvi\resources\js\navigation" />
       <recent name="C:\www\hlascirkvi\resources\js\users\Login" />
       <recent name="C:\www\hlascirkvi\resources\views\vendor" />
       <recent name="C:\www\hlascirkvi\public\images" />
       <recent name="C:\www\hlascirkvi\resources\js\prayer" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\www\hlascirkvi\resources\views\events" />
     </key>
   </component>
   <component name="RunManager">
@@ -286,14 +294,7 @@
       <workItem from="1614023280587" duration="705000" />
       <workItem from="1614058823051" duration="2057000" />
       <workItem from="1614074563564" duration="4501000" />
-      <workItem from="1614099094020" duration="992000" />
-    </task>
-    <task id="LOCAL-00032" summary="Prayer css icons ref">
-      <created>1613547847776</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1613547847776</updated>
+      <workItem from="1614099094020" duration="5875000" />
     </task>
     <task id="LOCAL-00033" summary="Prayer css icons ref">
       <created>1613548969742</created>
@@ -631,7 +632,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614083886767</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="Notify css">
+      <created>1614100323240</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1614100323240</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -657,7 +665,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Show page css" />
     <MESSAGE value="form css" />
     <MESSAGE value="Denné čítanie" />
     <MESSAGE value="Responsive" />
@@ -682,7 +689,8 @@
     <MESSAGE value="login errors messsage" />
     <MESSAGE value="created mixins" />
     <MESSAGE value="Prayer notification" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prayer notification" />
+    <MESSAGE value="Notify css" />
+    <option name="LAST_COMMIT_MESSAGE" value="Notify css" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -697,10 +705,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614083322099" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614083886104">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614106649896">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614083886104" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614106649896" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -741,10 +749,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1050@0.0.1920.1050" timestamp="1614009709910" />
-    <state x="594" y="19" width="731" height="1011" key="find.popup" timestamp="1614083316680">
+    <state x="594" y="19" width="1076" height="1011" key="find.popup" timestamp="1614106668129">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="594" y="19" width="731" height="1011" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1614083316680" />
+    <state x="594" y="19" width="1076" height="1011" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1614106668129" />
     <state x="539" y="15" width="840" height="1034" key="search.everywhere.popup" timestamp="1614083158125">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

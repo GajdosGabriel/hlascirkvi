@@ -2,20 +2,21 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="page">
 
-        <div class="page">
+        <div class="w-8/12">
 
-            <div class="page-content">
+            <div class="page_title">
                 @include('layouts.errors')
-               <h2>Upraviť článok</h2>
-                <form method="post" action="{{ route('post.update', [$post->id]) }}" enctype="multipart/form-data">
-                    @csrf
-                    @include('posts.form')
-                </form>
+               <h2 class="text-2xl">Upraviť článok</h2>
             </div>
 
-            <div class="page-aside">
+            <form method="post" action="{{ route('post.update', [$post->id]) }}" enctype="multipart/form-data">
+                @csrf
+                @include('posts.form')
+            </form>
+
+            <div class="w-4/12">
                 aside
             </div>
 
@@ -24,8 +25,8 @@
 
     </div>
 
+    @include('posts.editor')
 
     @endsection
 
 
-@include('posts.editor')

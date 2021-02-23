@@ -1,25 +1,17 @@
 <script>
+    import {createdMixin} from "../mixins/createdMixin";
+
     export default {
+        mixins:[createdMixin],
         data: function() {
             return {
-                all:false
+                open:false
             }
-        },
-
-        created: function() {
-            let self = this;
-
-            window.addEventListener('click', function(e){
-                // close dropdown when clicked outside
-                if (!self.$el.contains(e.target)){
-                    self.all = false
-                }
-            })
         },
 
         methods: {
             toggle: function() {
-                this.all = ! this.all;
+                this.open = ! this.open;
             }
 
         }

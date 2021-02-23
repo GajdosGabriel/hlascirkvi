@@ -3,7 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.dropdown-menu {
+    @apply flex flex-col absolute right-0 border-2 border-gray-500 bg-white text-gray-500 rounded-md;
+}
+.dropdown-item {
+    @apply p-2 px-6 hover:bg-gray-300 hover:text-gray-700;
+}
 
 .card {
     @apply border-2 border-gray-500 rounded-md mb-8;

@@ -1,17 +1,17 @@
-<div class="form-header">
+<div class="flex mb-6">
 
     <div class="form-category {{ $errors->has('group_id') ? ' has-error' : '' }}">
         <label>Kategória</label>
-        <select name="updaters" required>
-            <option value="" selected disabled >Vybrať kategóriu</option>
+        <select name="updaters" required class="form-control">
+            <option value="" selected disabled>Vybrať kategóriu</option>
             @forelse(\App\Updater::all() as $updater)
                 @if( $updater->type == 'post')
                     <option class="option" value="{{ $updater->id }}"
                             @foreach($post['updaters'] as $up)
-                                @if($up->pivot->updater_id == $updater->id )
-                                selected
-                                @endif
-                            @endforeach
+                            @if($up->pivot->updater_id == $updater->id )
+                            selected
+                        @endif
+                        @endforeach
                     >
                         {{ $updater->title }}<br>
                         @endif
@@ -22,10 +22,11 @@
     </div>
 
 
-     {{--Video Link--}}
+    {{--Video Link--}}
     <div class="form-category">
         <label>Video YouTube</label>
-        <input type="text" name="video_id" value="{{ old('video_id') ?? $post->video_id }}" class="form-control" placeholder="Odkaz na video Youtube">
+        <input type="text" name="video_id" value="{{ old('video_id') ?? $post->video_id }}" class="form-control"
+               placeholder="Odkaz na video Youtube">
     </div>
 
     <div class="form-author">
@@ -35,19 +36,19 @@
             @if(auth()->user()->email == env('ADMIN_EMAIL'))
                 @foreach(\App\Organization::all() as $organization)
                     <option
-                            @if( isset($post->organization_id) AND $post->organization_id == $organization->id )
-                            selected
-                            @endif
-                            value="{{ $organization->id }}">{{ $organization->title }}
+                        @if( isset($post->organization_id) AND $post->organization_id == $organization->id )
+                        selected
+                        @endif
+                        value="{{ $organization->id }}">{{ $organization->title }}
                     </option>
                 @endforeach
             @else
                 @foreach(auth()->user()->organizations as $organization)
                     <option
-                            @if( isset($post->organization_id) AND $post->organization_id == $organization->id )
-                            selected
-                            @endif
-                            value="{{ $organization->id }}">{{ $organization->title }}
+                        @if( isset($post->organization_id) AND $post->organization_id == $organization->id )
+                        selected
+                        @endif
+                        value="{{ $organization->id }}">{{ $organization->title }}
                     </option>
                 @endforeach
             @endif
@@ -57,26 +58,27 @@
 
     {{--@can('admin')--}}
     {{--<div class="form-author">--}}
-        {{--<label>User - admin</label>--}}
-        {{--<select class="form-control" name="organization_id" required>--}}
-            {{--<option value="" selected disabled>Autor</option>--}}
-            {{--@foreach($users as $user)--}}
-                {{--<option--}}
-                        {{--@if( isset($post->organization_id) AND $post->organization_id == $organization->id )--}}
-                        {{--selected--}}
-                        {{--@endif--}}
-                        {{--value="{{ $organization->id }}">{{ $user->last_name . ' ' . $user->first_name }}</option>--}}
-            {{--@endforeach--}}
-        {{--</select>--}}
+    {{--<label>User - admin</label>--}}
+    {{--<select class="form-control" name="organization_id" required>--}}
+    {{--<option value="" selected disabled>Autor</option>--}}
+    {{--@foreach($users as $user)--}}
+    {{--<option--}}
+    {{--@if( isset($post->organization_id) AND $post->organization_id == $organization->id )--}}
+    {{--selected--}}
+    {{--@endif--}}
+    {{--value="{{ $organization->id }}">{{ $user->last_name . ' ' . $user->first_name }}</option>--}}
+    {{--@endforeach--}}
+    {{--</select>--}}
     {{--</div>--}}
     {{--@endcan--}}
 
 </div>
 
 
- {{--Title Field--}}
+{{--Title Field--}}
 <div class="form-title {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
-    <input type="text" name="title" class="form-control" placeholder="Nadpis ..." value="{{ old('body') ?? $post->title }}" required>
+    <input type="text" name="title" class="form-control" placeholder="Nadpis ..."
+           value="{{ old('body') ?? $post->title }}" required>
 </div>
 
 
@@ -92,15 +94,15 @@
 
 {{--Tags Field--}}
 {{--<div class="form-group">--}}
-    {{--@foreach(\App\Tag::all() as $tag)--}}
-        {{--<label class="checkbox-inline"></label>--}}
-        {{--{!! Form::checkbox('tags[]', $tag->id, null) !!}--}}
-        {{--{{ $tag->tag }}--}}
+{{--@foreach(\App\Tag::all() as $tag)--}}
+{{--<label class="checkbox-inline"></label>--}}
+{{--{!! Form::checkbox('tags[]', $tag->id, null) !!}--}}
+{{--{{ $tag->tag }}--}}
 
-    {{--@endforeach--}}
+{{--@endforeach--}}
 {{--</div>--}}
 
- {{--Add post Field--}}
+{{--Add post Field--}}
 <div class="level">
 
     <div class="form-file">

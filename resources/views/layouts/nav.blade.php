@@ -53,7 +53,7 @@
                                 </a>
                             </li>
 
-                            <ul v-cloak v-if="all" @click="toggle"
+                            <ul v-cloak v-if="open" @click="toggle"
                                 class="flex flex-col absolute right-0 border-2 border-gray-500 bg-white text-gray-500 rounded-md">
                                 @can('admin')
                                     <li class="p-2 px-6 hover:bg-gray-300 hover:text-gray-700">
