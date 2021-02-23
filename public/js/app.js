@@ -67558,6 +67558,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "sticky bottom-10 right-3" },
     [
       _c("transition", { attrs: { name: "fade" } }, [
         _vm.banner
@@ -67565,7 +67566,7 @@ var render = function() {
               "div",
               {
                 staticClass:
-                  "absolute flex items-center bottom-10 right-3 p-5 rounded-md border-2 border-gray-500",
+                  "flex items-center  p-5 rounded-md border-2 border-gray-500",
                 class: _vm.addClass
               },
               [

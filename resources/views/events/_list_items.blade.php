@@ -28,16 +28,19 @@
 
                 @can('update', $event)
                     <article-admin inline-template>
-                        <div v-cloak>
+                        <div v-cloak class="relative">
                             <i style="float: right; cursor: pointer " @click='toggle' title="Spravovať článok"
                                class="fas fa-ellipsis-v"></i>
-                            <ul class="dropdown-menu" v-if="all">
-                                <li><a href="{{ route('event.edit', [$event->id, $event->slug]) }}"
-                                       class="dropdown-item">upraviť</a></li>
-                                <li><a href="{{ route('event.delete', [$event->id, $event->slug]) }}"
-                                       class="dropdown-item">zmazať</a></li>
-                                <li><a href="{{ route('event.admin', [$event->id, $event->slug]) }}"
-                                       class="dropdown-item">Administrácia</a></li>
+                            <ul class="absolute right-0 border-2 border-gray-600 rounded-md bg-white" v-if="all">
+                                <li class="px-2 py-1 hover:bg-gray-200 hover:font-semibold">
+                                    <a href="{{ route('event.edit', [$event->id, $event->slug]) }}"
+                                       class="">upraviť</a></li>
+                                <li class="px-2 py-1 hover:bg-gray-200 ">
+                                    <a href="{{ route('event.delete', [$event->id, $event->slug]) }}"
+                                       class="hover:font-semibold">zmazať</a></li>
+                                <li class="px-2 py-1 hover:bg-gray-200 hover:font-semibold">
+                                    <a href="{{ route('event.admin', [$event->id, $event->slug]) }}"
+                                       class="">Administrácia</a></li>
                             </ul>
                             {{--<a class="btn" href="{{ URL::previous() }}"> <i class="fa fa-arrow-left"></i> Späť</a>--}}
                         </div>
