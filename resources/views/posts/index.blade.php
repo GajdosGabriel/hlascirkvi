@@ -71,7 +71,7 @@
             </div>
 
             {{--  Stlpec II. --}}
-            <div class="md:w-3/12 md:mx-4">
+            <div class="md:w-3/12 md:mx-7">
 
                 <prayers-card></prayers-card>
 

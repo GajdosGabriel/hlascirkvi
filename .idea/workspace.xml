@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/users/Login/Login-register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/users/Login/Login-register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -282,14 +282,8 @@
       <workItem from="1613973447565" duration="19417000" />
       <workItem from="1614016180871" duration="1306000" />
       <workItem from="1614023280587" duration="705000" />
-      <workItem from="1614058823051" duration="1259000" />
-    </task>
-    <task id="LOCAL-00028" summary="Prayer II. vue refactoring">
-      <created>1613484305278</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1613484305278</updated>
+      <workItem from="1614058823051" duration="2057000" />
+      <workItem from="1614074563564" duration="679000" />
     </task>
     <task id="LOCAL-00029" summary="Prayer item img + ref.">
       <created>1613500187427</created>
@@ -627,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614023997744</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="login errors messsage">
+      <created>1614060263962</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1614060263962</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -653,7 +654,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Prayer Update and delete" />
     <MESSAGE value="DropDown css" />
     <MESSAGE value="Navigation ref" />
     <MESSAGE value="Show page css" />
@@ -678,7 +678,8 @@
     <MESSAGE value="doporučene" />
     <MESSAGE value="admin" />
     <MESSAGE value="auth css" />
-    <option name="LAST_COMMIT_MESSAGE" value="auth css" />
+    <MESSAGE value="login errors messsage" />
+    <option name="LAST_COMMIT_MESSAGE" value="login errors messsage" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -693,10 +694,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613463806401" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614023996635">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614060262265">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614023996635" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614060262264" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -721,10 +722,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="440" y="198" key="IDE.errors.dialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613935677451" />
-    <state x="791" y="169" key="RollbackChangesDialog" timestamp="1613980721019">
+    <state x="791" y="169" key="RollbackChangesDialog" timestamp="1614075235521">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="791" y="169" key="RollbackChangesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613980721019" />
+    <state x="791" y="169" key="RollbackChangesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614075235521" />
     <state x="352" y="82" key="SettingsEditor" timestamp="1613545288810">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
