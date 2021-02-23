@@ -5,7 +5,7 @@ export const createdMixin = {
         window.addEventListener('click', function(e){
             // close dropdown when clicked outside
             if (!self.$el.contains(e.target)){
-                self.all = false
+                self.menuDropDown = false
             }
         })
     },

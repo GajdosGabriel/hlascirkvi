@@ -18,7 +18,7 @@
                             </svg>
                         </div>
                         <!-- Nav Drop Down menu-->
-                        <div v-if="openDropDown" class="absolute right-0 bg-white border-2 rounded-lg border-gray-300 flex flex-col">
+                        <div v-if="menuDropDown" class="absolute right-0 bg-white border-2 rounded-lg border-gray-300 flex flex-col">
                             <span class="hover:bg-gray-300 p-2" @click.stop="passToModalEdit">Upraviť</span>
                             <span class="hover:bg-gray-300 p-2" @click.stop="prayerDestroy">Zmazať</span>
                         </div>
@@ -55,16 +55,17 @@
     import {bus} from "../app";
     import Axios from 'axios';
     import  { filterMixin } from "../mixins/filtersMixin";
+    import  { createdMixin } from "../mixins/createdMixin";
 
 
     export default {
         props: ['prayer'],
-        mixins: [filterMixin],
+        mixins: [filterMixin, createdMixin],
         components: {modalShowPrayer},
 
         data() {
             return {
-                openDropDown: false,
+                menuDropDown: false,
                 authUser: window.App.user
             }
         },
@@ -79,7 +80,7 @@
             },
 
             toggle() {
-                this.openDropDown = !this.openDropDown
+                this.menuDropDown = !this.menuDropDown
             },
 
             prayerDestroy(){

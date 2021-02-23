@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/mixins/createdMixin.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/mixins/createdMixin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/prayer/prayers-index-item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/prayer/prayers-index-item.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,14 +283,7 @@
       <workItem from="1614016180871" duration="1306000" />
       <workItem from="1614023280587" duration="705000" />
       <workItem from="1614058823051" duration="2057000" />
-      <workItem from="1614074563564" duration="679000" />
-    </task>
-    <task id="LOCAL-00029" summary="Prayer item img + ref.">
-      <created>1613500187427</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1613500187427</updated>
+      <workItem from="1614074563564" duration="2224000" />
     </task>
     <task id="LOCAL-00030" summary="Prayer css icons ref">
       <created>1613546761258</created>
@@ -628,7 +621,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614060263962</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="login errors messsage">
+      <created>1614075254488</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1614075254488</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

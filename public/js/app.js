@@ -4745,6 +4745,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../mixins/filtersMixin */ "./resources/js/mixins/filtersMixin.js");
+/* harmony import */ var _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mixins/createdMixin */ "./resources/js/mixins/createdMixin.js");
 //
 //
 //
@@ -4797,19 +4798,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['prayer'],
-  mixins: [_mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_3__.filterMixin],
+  mixins: [_mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_3__.filterMixin, _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_4__.createdMixin],
   components: {
     modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_0__.default
   },
   data: function data() {
     return {
-      openDropDown: false,
+      menuDropDown: false,
       authUser: window.App.user
     };
   },
@@ -4821,7 +4823,7 @@ __webpack_require__.r(__webpack_exports__);
       _app__WEBPACK_IMPORTED_MODULE_1__.bus.$emit('passToModalEdit', this.prayer);
     },
     toggle: function toggle() {
-      this.openDropDown = !this.openDropDown;
+      this.menuDropDown = !this.menuDropDown;
     },
     prayerDestroy: function prayerDestroy() {
       var _this = this;
@@ -5927,6 +5929,31 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/mixins/createdMixin.js":
+/*!*********************************************!*\
+  !*** ./resources/js/mixins/createdMixin.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createdMixin": () => (/* binding */ createdMixin)
+/* harmony export */ });
+var createdMixin = {
+  created: function created() {
+    var self = this;
+    window.addEventListener('click', function (e) {
+      // close dropdown when clicked outside
+      if (!self.$el.contains(e.target)) {
+        self.menuDropDown = false;
+      }
+    });
+  }
+};
 
 /***/ }),
 
@@ -70309,7 +70336,7 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _vm.openDropDown
+                  _vm.menuDropDown
                     ? _c(
                         "div",
                         {
