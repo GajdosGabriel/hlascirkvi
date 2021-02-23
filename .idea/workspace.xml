@@ -3,18 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/navigation/RadioButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/navigation/RadioButton.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/posts/Article-admin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/posts/Article-admin.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/_list_items.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/_list_items.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/online-prenosy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/online-prenosy.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/form.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/form.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/events/_current_events.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/_current_events.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/events/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/index.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -294,21 +284,7 @@
       <workItem from="1614023280587" duration="705000" />
       <workItem from="1614058823051" duration="2057000" />
       <workItem from="1614074563564" duration="4501000" />
-      <workItem from="1614099094020" duration="5875000" />
-    </task>
-    <task id="LOCAL-00033" summary="Prayer css icons ref">
-      <created>1613548969742</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1613548969742</updated>
-    </task>
-    <task id="LOCAL-00034" summary="Prayer DB user_id ref.">
-      <created>1613556237810</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1613556237810</updated>
+      <workItem from="1614099094020" duration="7913000" />
     </task>
     <task id="LOCAL-00035" summary="Prayer Update and delete">
       <created>1613578869484</created>
@@ -639,7 +615,21 @@
       <option name="project" value="LOCAL" />
       <updated>1614100323240</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="drpDown refactoring">
+      <created>1614106688333</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1614106688333</updated>
+    </task>
+    <task id="LOCAL-00083" summary="drpDown refactoring">
+      <created>1614107307085</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1614107307085</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -665,7 +655,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="form css" />
     <MESSAGE value="Denné čítanie" />
     <MESSAGE value="Responsive" />
     <MESSAGE value="Modal" />
@@ -690,7 +679,8 @@
     <MESSAGE value="created mixins" />
     <MESSAGE value="Prayer notification" />
     <MESSAGE value="Notify css" />
-    <option name="LAST_COMMIT_MESSAGE" value="Notify css" />
+    <MESSAGE value="drpDown refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="drpDown refactoring" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -705,10 +695,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614083322099" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614106649896">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614107306199">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614106649896" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614107306199" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

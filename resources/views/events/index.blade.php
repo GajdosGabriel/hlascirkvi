@@ -6,7 +6,7 @@
         @include('events._current_events')
         <div class="md:flex">
 
-        <div class="md:w-8/12 md:p-4 ">
+        <div class="md:w-8/12 md:p-4 p-2">
 
 
             <div class="page_title">

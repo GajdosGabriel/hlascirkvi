@@ -54,20 +54,22 @@
                             </li>
 
                             <ul v-cloak v-if="open" @click="toggle"
-                                class="flex flex-col absolute right-0 border-2 border-gray-500 bg-white text-gray-500 rounded-md">
+                                class="dropdown-menu">
                                 @can('admin')
-                                    <li class="p-2 px-6 hover:bg-gray-300 hover:text-gray-700">
-                                        <a class="hover:text-gray-700"
-                                           href="{{ route('admin.home') }}">Admin</a>
+                                    <li class="dropdown-item">
+                                        <a href="{{ route('admin.home') }}">
+                                            Admin
+                                        </a>
                                     </li>
                                 @endcan
-                                <li class="p-2 px-6 hover:bg-gray-300">
-                                    <a class="hover:text-gray-700"
-                                       href="{{ route('organization.profile', [auth()->user()->org_id, auth()->user()->slug]) }}">Profil</a>
+                                <li class="dropdown-item">
+                                    <a href="{{ route('organization.profile', [auth()->user()->org_id, auth()->user()->slug]) }}">
+                                        Profil
+                                    </a>
                                 </li>
-                                {{--                                <li title="divider"></li>--}}
-                                <li class="p-2 px-6 hover:bg-gray-300 hover:text-gray-700">
-                                    <a class="hover:text-gray-700" href="{{ route('logout') }}"
+                                {{--   <li title="divider"></li>--}}
+                                <li class="dropdown-item">
+                                    <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
                                         {{ __('web.Logout') }}
