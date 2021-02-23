@@ -5084,6 +5084,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5096,7 +5099,7 @@ __webpack_require__.r(__webpack_exports__);
       iamHuman: '',
       rememberMe: true,
       loading: false,
-      errors: {},
+      errors: [],
       inputType: false
     };
   },
@@ -5147,7 +5150,7 @@ __webpack_require__.r(__webpack_exports__);
       }) //                .catch (error => this.errors = error.response.data);
       ["catch"](function (error) {
         _this.loading = false;
-        _this.errors = error.response.data;
+        _this.errors = error.response.data.errors;
 
         if (error.response.status == 422) {
           _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
@@ -70632,7 +70635,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", {
                   staticStyle: { color: "red" },
-                  domProps: { textContent: _vm._s(_vm.errors.errors) }
+                  domProps: { textContent: _vm._s(_vm.errors.first_name) }
                 })
               ]),
               _vm._v(" "),
@@ -70666,7 +70669,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", {
                   staticStyle: { color: "red" },
-                  domProps: { textContent: _vm._s(_vm.errors.errors) }
+                  domProps: { textContent: _vm._s(_vm.errors.last_name) }
                 })
               ]),
               _vm._v(" "),
@@ -70700,7 +70703,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", {
                   staticStyle: { color: "red" },
-                  domProps: { textContent: _vm._s(_vm.errors.errors) }
+                  domProps: { textContent: _vm._s(_vm.errors.email) }
                 })
               ]),
               _vm._v(" "),
@@ -70798,7 +70801,12 @@ var render = function() {
                           _vm.password = $event.target.value
                         }
                       }
-                    })
+                    }),
+                _vm._v(" "),
+                _c("div", {
+                  staticStyle: { color: "red" },
+                  domProps: { textContent: _vm._s(_vm.errors.password) }
+                })
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "mb-6" }, [
@@ -70921,7 +70929,14 @@ var render = function() {
                         )
                       ]
                     )
-                  : _vm._e()
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", {
+                  staticStyle: { color: "red" },
+                  domProps: {
+                    textContent: _vm._s(_vm.errors.password_confirmation)
+                  }
+                })
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "mb-6" }, [
@@ -70954,6 +70969,11 @@ var render = function() {
                       _vm.iamHuman = $event.target.value
                     }
                   }
+                }),
+                _vm._v(" "),
+                _c("div", {
+                  staticStyle: { color: "red" },
+                  domProps: { textContent: _vm._s(_vm.errors.iamHuman) }
                 })
               ]),
               _vm._v(" "),

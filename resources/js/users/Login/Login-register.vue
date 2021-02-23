@@ -19,23 +19,24 @@
                     <div class="mb-3">
                         <input v-model="first_name" type="text" class="border w-full p-3" name="email" placeholder="Meno"
                                required  autofocus>
-                        <div style="color: red" v-text="errors.errors"></div>
+                        <div style="color: red" v-text="errors.first_name"></div>
                     </div>
 
                     <div class="mb-3">
                         <input v-model="last_name" type="text" class="border w-full p-3" name="email" placeholder="Priezvisko"
                                required>
-                        <div style="color: red" v-text="errors.errors"></div>
+                        <div style="color: red" v-text="errors.last_name"></div>
                     </div>
 
                     <div class="mb-3">
                         <input v-model="email" type="email" class="border w-full p-3" name="email" placeholder="E-Mail"
                                required>
-                        <div style="color: red" v-text="errors.errors"></div>
+                        <div style="color: red" v-text="errors.email"></div>
                     </div>
                     <div class="mb-6">
                         <input v-model="password" :type="inputType ? 'text' : 'password'" class="border w-full p-3"
                                name="password" placeholder="Heslo ..." required>
+                        <div style="color: red" v-text="errors.password"></div>
                     </div>
 
                     <div class="mb-6">
@@ -43,11 +44,13 @@
                                 placeholder="Potvrdiť heslo" required>
                         <span v-if="password" @click.prevent="togglePassword" class="cursor-pointer" style="font-size: 80%; margin-top: -1rem"> {{ inputType ?
                             'Skryť' : 'Zobraziť' }} heslo</span>
+                        <div style="color: red" v-text="errors.password_confirmation"></div>
                     </div>
 
                     <div class="mb-6">
                         <span class="text-sm">Som človek  3+2 = </span>
                         <input type="number" v-model="iamHuman" placeholder="Zadajte číslo 5" class="border-2 text-sm w-full border-gray-200 rounded-md px-2 py-1" required>
+                        <div style="color: red" v-text="errors.iamHuman"></div>
                     </div>
 
                     <div class="flex">
@@ -85,7 +88,7 @@
                 iamHuman: '',
                 rememberMe: true,
                 loading: false,
-                errors: {},
+                errors: [],
                 inputType: false
 
             }
@@ -142,7 +145,7 @@
 
                     .catch(error => {
                         this.loading = false;
-                        this.errors = error.response.data;
+                        this.errors = error.response.data.errors;
 
                         if (error.response.status == 422) {
                             bus.$emit('flash', {body: 'Údaje nie sú správne. Skúste znova.'})
