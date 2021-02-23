@@ -38,7 +38,6 @@
                             </div>
                         </article-admin>
                         @endcan
-
                     </div>
 
                     <div class="border-2 rounded-md border-gray-500 p-4 mb-6 shadow-md">
@@ -52,8 +51,6 @@
                             @if($event->start_at->diffInDays($event->end_at))
                                 Od:  {{ $event->start_at->format('d. m. Y')}},  {{ $event->start_at->format('H.i') }} hod.
                                 do: {{ $event->end_at->format('d. m. Y')}},  {{ $event->end_at->format('H.i') }} hod.
-
-
                             @else
                               Dňa:  {{ $event->start_at->format('d. m. Y')}}, o {{ $event->start_at->format('H.i') }} - {{ $event->end_at->format('H.i') }} hod.
                             @endif
@@ -140,7 +137,7 @@
                     </div>
 
                     {{--Prihlasovanie pre prihláseného usera--}}
-                    <div>
+                    <div class="">
                         @if(auth()->check())
                             <a href="{{ route('event.subcribeToEvent', [$event->id]) }}">
                                 @if($event->isSubscribed())

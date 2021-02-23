@@ -1,7 +1,7 @@
 <nav class="bg-blue-900 text-gray-200 px-2 ">
     <div style="max-width: 80rem" class="flex mx-auto justify-between py-2 flex-wrap">
 
-        <a class="my-2" href="{{ url('/') }}">
+        <a class="my-2 font-semibold" href="{{ url('/') }}">
             Hlas Cirkvi
         </a>
 
@@ -40,33 +40,31 @@
 
                     <article-admin inline-template>
                         <div class="relative z-10">
-                            <li @click="toggle" class="">
-                                <a id="navbarDropdown" class="nav-link radio" href="#">
+                            <a id="navbarDropdown" class="nav-link radio" href="#">
+                                <li @click="toggle" class="">
                                 <span
                                     href="{{ route('organization.profile', [auth()->user()->org_id, auth()->user()->slug]) }}"
-                                    {{--id="navbarDropdown" --}}
                                     class="nav-link" href="#">
                                     {{ auth()->user()->fullname }}
-                                    {{--<i class="fas fa-caret-down"></i>--}}
                                 </span>
                                     <i class="fas fa-caret-down"></i>
-                                </a>
-                            </li>
+                                </li>
+                            </a>
 
                             <ul v-cloak v-if="open" @click="toggle"
                                 class="dropdown-menu">
                                 @can('admin')
-                                    <li class="dropdown-item">
-                                        <a href="{{ route('admin.home') }}">
+                                    <a href="{{ route('admin.home') }}">
+                                        <li class="dropdown-item">
                                             Admin
-                                        </a>
-                                    </li>
-                                @endcan
-                                <li class="dropdown-item">
-                                    <a href="{{ route('organization.profile', [auth()->user()->org_id, auth()->user()->slug]) }}">
-                                        Profil
+                                        </li>
                                     </a>
-                                </li>
+                                @endcan
+                                <a href="{{ route('organization.profile', [auth()->user()->org_id, auth()->user()->slug]) }}">
+                                    <li class="dropdown-item">
+                                        Profil
+                                    </li>
+                                </a>
                                 {{--   <li title="divider"></li>--}}
                                 <li class="dropdown-item">
                                     <a href="{{ route('logout') }}"

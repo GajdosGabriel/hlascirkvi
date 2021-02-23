@@ -56,7 +56,7 @@
 
         {{--------- Admin panel -------------------}}
         @can('update', $event)
-            <div class="footer-body">
+            <div class="flex space-x-1">
                 @if(! $event->displayStatus())
                     <div>{{ $event->count_view }} <label class="badge badge-default "
                                                          title="Podujatie sa skončilo"> {{ trans('web.events_users_finished') }}</label>

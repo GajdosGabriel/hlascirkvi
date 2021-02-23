@@ -52,30 +52,30 @@
                         @can('update', $post)
                             <article-admin inline-template>
                                 <div v-cloak class="relative z-10">
-                                    <i style="float: right"  @click='toggle' title="Spravovať článok"
+                                    <i style="float: right" @click='toggle' title="Spravovať článok"
                                        class="fas fa-ellipsis-v cursor-pointer"></i>
                                     <ul class="dropdown-menu" v-if="open">
-                                        <li class="dropdown-item">
-                                            <a href="{{ route('post.edit', [$post->id, $post->slug]) }}">
+                                        <a href="{{ route('post.edit', [$post->id, $post->slug]) }}">
+                                            <li class="dropdown-item">
                                                 upraviť
-                                            </a>
-                                        </li>
-                                        <li class="dropdown-item">
-                                            <a href="{{ route('post.delete', [$post->id]) }}">
+                                            </li>
+                                        </a>
+                                        <a href="{{ route('post.delete', [$post->id]) }}">
+                                            <li class="dropdown-item">
                                                 zmazať
-                                            </a>
-                                        </li>
+                                            </li>
+                                        </a>
                                         @can('admin')
-                                            <li class="dropdown-item">
-                                                <a href="{{ route('admin.youtubeBlocked', [$post->id]) }}">
+                                            <a href="{{ route('admin.youtubeBlocked', [$post->id]) }}">
+                                                <li class="dropdown-item">
                                                     blokovať youtube
-                                                </a>
-                                            </li>
-                                            <li class="dropdown-item">
-                                                <a href="{{ route('post.toBuffer', [$post->id]) }}">
+                                                </li>
+                                            </a>
+                                            <a href="{{ route('post.toBuffer', [$post->id]) }}">
+                                                <li class="dropdown-item">
                                                     Do buffer
-                                                </a>
-                                            </li>
+                                                </li>
+                                            </a>
                                         @endcan
                                     </ul>
                                 </div>

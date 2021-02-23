@@ -3,8 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/_current_events.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/_current_events.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/events/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/Notification.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Notification.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/events/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/posts/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/show.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,21 +286,8 @@
       <workItem from="1614023280587" duration="705000" />
       <workItem from="1614058823051" duration="2057000" />
       <workItem from="1614074563564" duration="4501000" />
-      <workItem from="1614099094020" duration="7913000" />
-    </task>
-    <task id="LOCAL-00035" summary="Prayer Update and delete">
-      <created>1613578869484</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1613578869484</updated>
-    </task>
-    <task id="LOCAL-00036" summary="Prayer Update and delete">
-      <created>1613578964591</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1613578964591</updated>
+      <workItem from="1614099094020" duration="8534000" />
+      <workItem from="1614143370621" duration="760000" />
     </task>
     <task id="LOCAL-00037" summary="DropDown css">
       <created>1613584617583</created>
@@ -629,7 +618,21 @@
       <option name="project" value="LOCAL" />
       <updated>1614107307085</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="drpDown refactoring">
+      <created>1614109265999</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1614109265999</updated>
+    </task>
+    <task id="LOCAL-00085" summary="drpDown refactoring">
+      <created>1614109836324</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1614109836324</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -695,10 +698,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614083322099" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614107306199">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614109835218">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614107306199" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614109835218" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -727,14 +730,14 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="791" y="169" key="RollbackChangesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614075235521" />
-    <state x="352" y="82" key="SettingsEditor" timestamp="1613545288810">
+    <state x="352" y="82" key="SettingsEditor" timestamp="1614144155593">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1613545288810" />
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1614099154065">
+    <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1614144155593" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1614144185104">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614099154065" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614144185104" />
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1614009709910">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
