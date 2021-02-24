@@ -1,13 +1,6 @@
 <template>
     <div class="container mx-auto text-gray-700 border-2 border-gray-300 p-5">
 
-        <!-- Modal -->
-        <transition name="slide-fade">
-            <div v-if="showLoginForm" class="modal">
-                <login-0 @closeModal="showLoginForm = false" style="margin-top:3rem"></login-0>
-            </div>
-        </transition>
-
         <div class="md:flex justify-between">
             <div class="flex">
 

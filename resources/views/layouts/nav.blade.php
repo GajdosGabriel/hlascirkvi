@@ -73,7 +73,7 @@
                                         {{ __('web.Logout') }}
                                     </a>
                                 </li>
-
+                            </ul>
                         </div>
                     </article-admin>
 

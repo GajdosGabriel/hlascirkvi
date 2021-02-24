@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="204f7299-2fee-48f2-beba-2cfe30b245b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/Extractor/Extractors.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/Extractor/Extractors.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/posts/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/posts/show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/events/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/events/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/nav.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,21 +287,9 @@
       <workItem from="1614074563564" duration="4501000" />
       <workItem from="1614099094020" duration="8534000" />
       <workItem from="1614143370621" duration="760000" />
-      <workItem from="1614144177486" duration="4698000" />
-    </task>
-    <task id="LOCAL-00041" summary="Show page css">
-      <created>1613736362811</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1613736362811</updated>
-    </task>
-    <task id="LOCAL-00042" summary="form css">
-      <created>1613743943095</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1613743943095</updated>
+      <workItem from="1614144177486" duration="8188000" />
+      <workItem from="1614157235996" duration="1888000" />
+      <workItem from="1614171871457" duration="2543000" />
     </task>
     <task id="LOCAL-00043" summary="Denné čítanie">
       <created>1613745460339</created>
@@ -634,7 +620,21 @@
       <option name="project" value="LOCAL" />
       <updated>1614148242604</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="extractor fix title">
+      <created>1614151006189</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1614151006189</updated>
+    </task>
+    <task id="LOCAL-00091" summary="post card css">
+      <created>1614154462310</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1614154462320</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -660,8 +660,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Modal" />
-    <MESSAGE value="Modal prayer" />
     <MESSAGE value="Events css" />
     <MESSAGE value="Login and register page" />
     <MESSAGE value="Reset heslá form" />
@@ -685,7 +683,9 @@
     <MESSAGE value="drpDown refactoring" />
     <MESSAGE value="nowrap css" />
     <MESSAGE value="post show css" />
-    <option name="LAST_COMMIT_MESSAGE" value="post show css" />
+    <MESSAGE value="extractor fix title" />
+    <MESSAGE value="post card css" />
+    <option name="LAST_COMMIT_MESSAGE" value="post card css" />
   </component>
   <component name="WindowStateProjectService">
     <state x="565" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1613463584639">
@@ -700,10 +700,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="627" y="223" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614083322099" />
-    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614148241970">
+    <state x="508" y="46" key="CommitChangelistDialog2" timestamp="1614154461275">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614148241970" />
+    <state x="508" y="46" key="CommitChangelistDialog2/0.0.1920.1050@0.0.1920.1050" timestamp="1614154461275" />
     <state x="690" y="223" key="FileChooserDialogImpl" timestamp="1613484930212">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -728,18 +728,18 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="440" y="198" key="IDE.errors.dialog/0.0.1920.1050@0.0.1920.1050" timestamp="1613935677451" />
-    <state x="791" y="169" key="RollbackChangesDialog" timestamp="1614075235521">
+    <state x="791" y="169" key="RollbackChangesDialog" timestamp="1614174442651">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="791" y="169" key="RollbackChangesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614075235521" />
+    <state x="791" y="169" key="RollbackChangesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614174442651" />
     <state x="352" y="82" key="SettingsEditor" timestamp="1614144155593">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="352" y="82" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1614144155593" />
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1614144185104">
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog" timestamp="1614171889881">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614144185104" />
+    <state x="606" y="312" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1614171889881" />
     <state x="738" y="422" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1614009709910">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

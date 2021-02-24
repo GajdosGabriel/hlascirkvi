@@ -3,7 +3,9 @@
 @section('content')
 
     <div class="page">
+
         @include('events._current_events')
+
         <div class="md:flex">
 
         <div class="md:w-8/12 md:p-4 p-2">
