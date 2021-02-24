@@ -22,7 +22,7 @@
 
         <ul class="my-2 flex space-x-4">
             <radio-button></radio-button>
-            <li class="border-2 rounded-md px-2"><a href="{{ route('modlitby.index') }}" class="nav-link radio">
+            <li class="border-2 rounded-md px-2 whitespace-nowrap"><a href="{{ route('modlitby.index') }}" class="nav-link radio">
                     <i class="fas fa-praying-hands mr-2 text-gray-300"></i>Modlitby</a>
             </li>
             <li><a href="{{ route('event.index') }}">Podujatia</a></li>

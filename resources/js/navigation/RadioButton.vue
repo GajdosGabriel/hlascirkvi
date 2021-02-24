@@ -1,6 +1,6 @@
 <template>
     <div>
-        <li @click="toggle" class="border-2 rounded-md px-2">
+        <li @click="toggle" class="border-2 rounded-md px-2 whitespace-nowrap">
             <a id="navbarDropdown" class="" href="#">
                 <i class="fa fa-volume-up"></i> Rádia
                 <i class="fas fa-caret-down"></i>

@@ -67546,7 +67546,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "sticky bottom-10 right-3" },
+    { staticClass: "fixed bottom-10 right-3" },
     [
       _c("transition", { attrs: { name: "fade" } }, [
         _vm.banner
@@ -68381,7 +68381,10 @@ var render = function() {
   return _c("div", [
     _c(
       "li",
-      { staticClass: "border-2 rounded-md px-2", on: { click: _vm.toggle } },
+      {
+        staticClass: "border-2 rounded-md px-2 whitespace-nowrap",
+        on: { click: _vm.toggle }
+      },
       [_vm._m(0)]
     ),
     _vm._v(" "),
@@ -69007,12 +69010,12 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "md:flex justify-between" }, [
-        _c("div", { staticClass: " flex-1" }, [
+        _c("div", { staticClass: "flex" }, [
           _vm.organization.person == 1
             ? _c("div", {}, [
                 _vm.organization.avatar !== null
                   ? _c("img", {
-                      staticClass: "Media-figure img-avatar",
+                      staticClass: "rounded-sm w-24 mr-6",
                       attrs: {
                         src:
                           this.domain +
@@ -69079,7 +69082,7 @@ var render = function() {
                       "button",
                       {
                         staticClass:
-                          "px-2 hover:border-gray-400 border-2 rounded-md",
+                          "px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap",
                         on: { click: _vm.openModal }
                       },
                       [_vm._v("Zapojiť sa")]

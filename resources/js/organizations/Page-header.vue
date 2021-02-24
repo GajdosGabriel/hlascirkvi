@@ -9,11 +9,11 @@
         </transition>
 
         <div class="md:flex justify-between">
-            <div class=" flex-1">
+            <div class="flex">
 
                 <!-- check if is person-->
                 <div class="" v-if="organization.person == 1">
-                    <img v-if="organization.avatar !== null" class="Media-figure img-avatar"
+                    <img v-if="organization.avatar !== null" class="rounded-sm w-24 mr-6"
                          :src="this.domain + 'storage/users/' + organization.id + '/' + organization.avatar">
                     <img v-else class="Media-figure" style="max-width: 6rem" :src="this.domain + 'images/avatar.png'">
                 </div>
@@ -33,7 +33,7 @@
                             Profil
                         </button>
                         <!--<help-us></help-us>-->
-                        <button v-if="isVideoPage" @click="openModal" class="px-2 hover:border-gray-400 border-2 rounded-md">Zapojiť sa</button>
+                        <button v-if="isVideoPage" @click="openModal" class="px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap">Zapojiť sa</button>
                     </div>
 
 
