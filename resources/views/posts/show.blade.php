@@ -145,7 +145,7 @@
                 {{-- Body section --}}
                 <div class="md:grid grid-cols-8 gap-4">
                     {{-- Body plánované akcie --}}
-                    <div class="grid col-span-3">
+                    <div class="md:grid col-span-3">
                         @if ($post->organization->person == 0)
                             <div><span style="font-weight: 700">Plánované akcie {{ $post->organization->title }}</span>
                                 <ul>

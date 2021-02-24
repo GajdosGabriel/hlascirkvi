@@ -32,7 +32,7 @@ abstract class Extractors
             }
 
             DB::table('prayers')->insert([
-                'title' => $item['title'],
+                'title' => isset($item['title'])  ? $item['title'] : '',
                 'body' => $item['body'],
                 'user_name' => $item['user'],
                 'user_id' => 1,
