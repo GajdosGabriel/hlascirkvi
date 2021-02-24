@@ -41,7 +41,7 @@
                     <article-admin inline-template>
                         <div class="relative z-10">
                             <a id="navbarDropdown" class="nav-link radio" href="#">
-                                <li @click="toggle" class="">
+                                <li @click="toggle" class="whitespace-nowrap">
                                 <span
                                     href="{{ route('organization.profile', [auth()->user()->org_id, auth()->user()->slug]) }}"
                                     class="nav-link" href="#">

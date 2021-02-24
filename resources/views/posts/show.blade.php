@@ -25,7 +25,7 @@
 
 
 
-    <page-header :organization="{{ $post->organization }}" :post="{{ $post }}"></page-header>
+    <organization-page-header :organization="{{ $post->organization }}" :post="{{ $post }}"></organization-page-header>
 
 
     <div class="page">
@@ -150,21 +150,22 @@
                             <div><span style="font-weight: 700">Plánované akcie {{ $post->organization->title }}</span>
                                 <ul>
                                     @forelse( $post->organization->events as $event)
-                                        <li><a href="{{ route('event.show', [$event->id, $event->slug]) }}">
+                                        <li>
+                                            <a href="{{ route('event.show', [$event->id, $event->slug]) }}">
                                                 <span
                                                     style="font-weight: bold">{{ $event->start_at->format('d. m. Y') }}</span>
                                                 {{ $event->title }}
-                                            </a></li>
+                                            </a>
+                                        </li>
                                     @empty
                                         <span class="text-muted" style="font-size: 85%">Spoločenstvo neplánuje žiadne akcie.</span>
                                     @endforelse
                                 </ul>
                             </div>
                         @endif
-
                     </div>
 
-                    <div class="grid col-span-5">
+                    <div class="md:grid col-span-5">
                         <div>{!! $post->body !!}</div>
                         @include('bigthink._form')
                         <replies :data="{{ $post->comments }}"></replies>

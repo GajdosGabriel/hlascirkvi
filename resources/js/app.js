@@ -35,7 +35,7 @@ Vue.component('radio-button', require('./navigation/RadioButton.vue').default);
 Vue.component('video-item', require('./components/Video-Item.vue').default);
 Vue.component('user-card', require('./users/User-card.vue').default);
 Vue.component('organization-card', require('./organizations/Organization-card.vue').default);
-Vue.component('page-header', require('./organizations/Page-header.vue').default);
+Vue.component('organization-page-header', require('./organizations/Organization-page-header.vue').default);
 Vue.component('bell', require('./users/Bell.vue').default);
 Vue.component('login-card', require('./users/Login/LoginCard.vue').default);
 Vue.component('youtube-dash', require('./youtube/YoutubeDash.vue').default);
