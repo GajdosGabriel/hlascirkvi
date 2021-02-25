@@ -3,7 +3,7 @@
         <form @submit.prevent="sendComment">
         <div class="form-group">
             <textarea class="w-full p-2 border-2 border-gray-400 rounded-md" v-model="body" rows="2" placeholder="Pridajte komentár ..." required></textarea>
-            <button style="float: right" class="btn btn-small">Uložiť</button>
+            <button style="float: right" class="btn">Uložiť</button>
         </div>
 
         <!-- Modal -->

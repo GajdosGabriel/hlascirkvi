@@ -1,6 +1,6 @@
 <template>
-    <div class="comment">
-        <div class="level">
+    <div class="comment text-gray-600 mb-6 shadow-md border-2 border-gray-100 p-3 rounded-md">
+        <div class="flex justify-between">
             <strong v-text="getShortName"></strong>
             <favorite :reply="data"></favorite>
         </div>
@@ -11,11 +11,11 @@
         <textarea class="w-full p-2 border-2 border-gray-400 rounded-md" v-model="body" rows="3" placeholder="Pridajte nový komentár ..." required></textarea>
         </div>
 
-        <div class="comment__footer level" v-if="canUpdate">
-            <a href="#" @click.prevent="editComment=true">Upraviť</a>
-            <a href="#" @click.prevent="destroy()">Zmazať</a>
+        <div class="flex justify-between mt-2" v-if="canUpdate">
+            <button class="btn"  @click.prevent="destroy()">Zmazať</button>
+            <button class="btn"  @click.prevent="editComment=true">Upraviť</button>
 
-            <a href="#" @click.prevent="updateComment" v-if="editComment" style="float: right" class="btn btn-small">Uložiť</a>
+            <button class="btn" @click.prevent="updateComment" v-if="editComment" style="float: right">Uložiť</button>
         </div>
     </div>
 

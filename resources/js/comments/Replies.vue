@@ -1,7 +1,7 @@
 <template>
     <div style="max-height: 53rem;overflow: auto;">
 
-        <div class="comments">
+        <div class="">
             <h4 @click="showForm">Komentáre <i class="far fa-comment-dots"></i> <span style="font-size: 70%; cursor: pointer">pridať nový</span></h4>
 
             <div v-for="(reply, index) in items">
