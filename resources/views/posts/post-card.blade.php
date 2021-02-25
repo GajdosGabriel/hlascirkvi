@@ -1,4 +1,4 @@
-<div class="border-2 border-gray-400 rounded-md shadow-md relative text-sm md:text-lg">
+<div class="border-2 border-gray-400 rounded-md shadow-md relative text-xs md:text-sm">
 
     <div style="max-height: 11rem; overflow: hidden; position: relative">
         @if($post->favorites()->count() > 0)
@@ -12,7 +12,7 @@
     </div>
 
     <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
-        <h6 class="pb-2 px-2  font-semibold mb-12" title="{{ $post->title }}">{{ Str::limit($post->title, 48) }}</h6>
+        <h6 class="pb-2 px-2 font-semibold mb-10" title="{{ $post->title }}">{{ Str::limit($post->title, 48) }}</h6>
     </a>
 
 

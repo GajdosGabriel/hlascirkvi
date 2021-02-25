@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Events\Posts\ViewCounter;
+use App\Http\Resources\PostResource;
 use App\Messenger;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Services\CreditUser;
@@ -42,9 +43,9 @@ class PostsController extends Controller
 
 
 
-    public function show($post, $slug, CreditUser $creditUser)
+    public function show(Post $post, $slug, CreditUser $creditUser)
     {
-        $post = $this->post->find($post);
+//        $post = $this->post->find($post);
 
 //        $cleanText = new CleanBodyText($post);
 //       $xxx = $cleanText->detect();
@@ -61,7 +62,11 @@ class PostsController extends Controller
         $posts = $this->post->postsBelongToOrganization($post->organization_id);
         $questions = (new Messenger)->scopeUserMessages($post->organization_id);
 
-        return view('posts.show', compact('post'))
+//        return $post;
+        return view('posts.show', [
+//            'post' => new PostResource($post)])
+            'post' => $post])
+
             ->with('messages' , $questions ?? null)
             ->with('posts' , $posts)
             ;

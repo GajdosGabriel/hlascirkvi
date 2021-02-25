@@ -100,6 +100,7 @@
 
                     </div>
                 </div>
+
                 {{--Video--}}
                 @if($post->video_id)
                     <div class="" id="player">
@@ -292,7 +293,7 @@
 
         <h3 class="text-2xl font-semibold mb-6">{{ $post->organization->title }} všetky videa</h3>
 
-        <div class="grid grid-cols-6 gap-7">
+        <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8  gap-4">
             @forelse($posts as $post)
                 @include('posts.post-card')
             @empty
