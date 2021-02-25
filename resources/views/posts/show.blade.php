@@ -193,12 +193,7 @@
     </div>
 
 
-
-
-
-
-
-
+    {{-- Image section --}}
     <div class="container mx-auto text-gray-600 grid grid-cols-12 gap-7">
         {{-- Header and video--}}
         <div class="grid col-span-8">
@@ -231,9 +226,7 @@
 
         {{--Body text--}}
         <div class="">
-
             <div class="page-content">
-
                 <div class="page-pictures">
                     <div>
                         @if (!$post->images)
@@ -261,12 +254,9 @@
 
 
                     </div>
-
-
                     <div>
-
                     </div>
-
+'
                 </div>
             </div>
 
@@ -291,38 +281,29 @@
                 {{--@include('users.user-card', ['user' => $post->user])--}}
 
             </div>
-
-
         </div>
+
     </div>
 
 
 
-
-
     {{--    All video belong to user --}}
-
     <div class="container mx-auto text-gray-600">
 
-        <h3 class="text-2xl font-semibold my-6">{{ $post->organization->title }} všetky videa</h3>
+        <h3 class="text-2xl font-semibold mb-6">{{ $post->organization->title }} všetky videa</h3>
 
-        <div class="grid grid-cols-5 gap-7 w-8/12">
-
+        <div class="grid grid-cols-6 gap-7">
             @forelse($posts as $post)
                 @include('posts.post-card')
             @empty
                 bez záznamu
             @endforelse
-
-            <div class="hidden md:block flex justify-center my-8">
-                {{ $posts->links() }}
-            </div>
         </div>
 
-        <div class="page-aside">
-
-            {{--<news-rss></news-rss>--}}
+        <div class="hidden md:block flex justify-center my-8">
+            {{ $posts->links() }}
         </div>
+
     </div>
 
 
