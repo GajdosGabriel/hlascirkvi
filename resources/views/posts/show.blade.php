@@ -139,14 +139,22 @@
                                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
                                class="fb-xfbml-parse-ignore">
                                 Zdieľať
-                            </a></div>
+                            </a>
+                        </div>
                     @endif
                 </div>
 
                 {{-- Body section --}}
-                <div class="md:grid grid-cols-8 gap-4">
+                <div class="w-full md:flex flex-row-reverse">
+
+                    <div class="md:w-8/12 m-2 md:p-2">
+                        <div>{!! $post->body !!}</div>
+                        @include('bigthink._form')
+                        <replies :data="{{ $post->comments }}"></replies>
+                    </div>
+
                     {{-- Body plánované akcie --}}
-                    <div class="md:grid col-span-3">
+                    <div class="md:w-4/12 m-2 md:p-2">
                         @if ($post->organization->person == 0)
                             <div><span style="font-weight: 700">Plánované akcie {{ $post->organization->title }}</span>
                                 <ul>
@@ -165,13 +173,6 @@
                             </div>
                         @endif
                     </div>
-
-                    <div class="md:grid col-span-5">
-                        <div>{!! $post->body !!}</div>
-                        @include('bigthink._form')
-                        <replies :data="{{ $post->comments }}"></replies>
-                    </div>
-
 
                     @if (!$post->video_id)
                         {{--// Facebook--}}

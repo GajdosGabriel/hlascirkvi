@@ -63,13 +63,9 @@ class PostsController extends Controller
         $questions = (new Messenger)->scopeUserMessages($post->organization_id);
 
 //        return $post;
-        return view('posts.show', [
-//            'post' => new PostResource($post)])
-            'post' => $post])
-
+        return view('posts.show', ['post' => $post])
             ->with('messages' , $questions ?? null)
-            ->with('posts' , $posts)
-            ;
+            ->with('posts' , $posts);
     }
 
 

@@ -1886,6 +1886,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['reply'],
@@ -66892,16 +66897,48 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("i", {
-      staticClass: "fas fa-heart fa-lg",
-      class: _vm.replyClass,
-      attrs: { title: "Hlasovať za komentár" },
-      on: {
-        click: function($event) {
-          return _vm.store(_vm.reply)
+    _c(
+      "div",
+      {
+        on: {
+          click: function($event) {
+            return _vm.store(_vm.reply)
+          }
         }
-      }
-    })
+      },
+      [
+        _c(
+          "svg",
+          {
+            staticClass: "h-5 w-5",
+            class: _vm.replyClass,
+            attrs: {
+              title: "Hlasovať za komentár",
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              stroke: "currentColor"
+            },
+            on: {
+              click: function($event) {
+                return _vm.store(_vm.reply)
+              }
+            }
+          },
+          [
+            _c("path", {
+              attrs: {
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "2",
+                d:
+                  "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              }
+            })
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = []
@@ -66968,7 +67005,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "button",
-            { staticClass: "btn btn-small", staticStyle: { float: "right" } },
+            { staticClass: "btn", staticStyle: { float: "right" } },
             [_vm._v("Uložiť")]
           )
         ]),
@@ -67118,9 +67155,9 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "comments" },
+        {},
         [
-          _c("h4", { on: { click: _vm.showForm } }, [
+          _c("h4", { staticClass: "mb-4", on: { click: _vm.showForm } }, [
             _vm._v("Komentáre "),
             _c("i", { staticClass: "far fa-comment-dots" }),
             _vm._v(" "),
@@ -67189,105 +67226,111 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "comment" }, [
-    _c(
-      "div",
-      { staticClass: "level" },
-      [
-        _c("strong", { domProps: { textContent: _vm._s(_vm.getShortName) } }),
-        _vm._v(" "),
-        _c("favorite", { attrs: { reply: _vm.data } })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    !_vm.editComment
-      ? _c("div", {
-          class: _vm.redText,
-          domProps: { textContent: _vm._s(_vm.cakanaschvalenie) }
-        })
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.editComment
-      ? _c("div", [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.body,
-                expression: "body"
-              }
-            ],
-            staticClass: "w-full p-2 border-2 border-gray-400 rounded-md",
-            attrs: {
-              rows: "3",
-              placeholder: "Pridajte nový komentár ...",
-              required: ""
-            },
-            domProps: { value: _vm.body },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.body = $event.target.value
-              }
-            }
+  return _c(
+    "div",
+    {
+      staticClass:
+        "comment text-gray-600 mb-6 shadow-md border-2 border-gray-100 p-3 rounded-md"
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "flex justify-between" },
+        [
+          _c("strong", { domProps: { textContent: _vm._s(_vm.getShortName) } }),
+          _vm._v(" "),
+          _c("favorite", { attrs: { reply: _vm.data } })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      !_vm.editComment
+        ? _c("div", {
+            class: _vm.redText,
+            domProps: { textContent: _vm._s(_vm.cakanaschvalenie) }
           })
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.canUpdate
-      ? _c("div", { staticClass: "comment__footer level" }, [
-          _c(
-            "a",
-            {
-              attrs: { href: "#" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  _vm.editComment = true
-                }
-              }
-            },
-            [_vm._v("Upraviť")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              attrs: { href: "#" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.destroy()
-                }
-              }
-            },
-            [_vm._v("Zmazať")]
-          ),
-          _vm._v(" "),
-          _vm.editComment
-            ? _c(
-                "a",
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.editComment
+        ? _c("div", [
+            _c("textarea", {
+              directives: [
                 {
-                  staticClass: "btn btn-small",
-                  staticStyle: { float: "right" },
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.updateComment($event)
-                    }
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.body,
+                  expression: "body"
+                }
+              ],
+              staticClass: "w-full p-2 border-2 border-gray-400 rounded-md",
+              attrs: {
+                rows: "3",
+                placeholder: "Pridajte nový komentár ...",
+                required: ""
+              },
+              domProps: { value: _vm.body },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                },
-                [_vm._v("Uložiť")]
-              )
-            : _vm._e()
-        ])
-      : _vm._e()
-  ])
+                  _vm.body = $event.target.value
+                }
+              }
+            })
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.canUpdate
+        ? _c("div", { staticClass: "flex justify-between mt-2" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.destroy()
+                  }
+                }
+              },
+              [_vm._v("Zmazať")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.editComment = true
+                  }
+                }
+              },
+              [_vm._v("Upraviť")]
+            ),
+            _vm._v(" "),
+            _vm.editComment
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "btn",
+                    staticStyle: { float: "right" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.updateComment($event)
+                      }
+                    }
+                  },
+                  [_vm._v("Uložiť")]
+                )
+              : _vm._e()
+          ])
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
