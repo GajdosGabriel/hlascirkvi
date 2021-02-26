@@ -18,7 +18,7 @@
                             </svg>
                         </div>
                         <!-- Nav Drop Down menu-->
-                        <div v-if="menuDropDown" class="absolute right-0 bg-white border-2 rounded-lg border-gray-300 flex flex-col">
+                        <div v-if="open" class="absolute right-0 bg-white border-2 rounded-lg border-gray-300 flex flex-col">
                             <span class="hover:bg-gray-300 p-2" @click.stop="passToModalEdit">Upraviť</span>
                             <span class="hover:bg-gray-300 p-2" @click.stop="prayerDestroy">Zmazať</span>
                         </div>
@@ -65,7 +65,7 @@
 
         data() {
             return {
-                menuDropDown: false,
+                open: false,
                 authUser: window.App.user
             }
         },
@@ -80,7 +80,7 @@
             },
 
             toggle() {
-                this.menuDropDown = !this.menuDropDown
+                this.open = ! this.open
             },
 
             prayerDestroy(){

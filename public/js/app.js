@@ -4797,7 +4797,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      menuDropDown: false,
+      open: false,
       authUser: window.App.user
     };
   },
@@ -4809,7 +4809,7 @@ __webpack_require__.r(__webpack_exports__);
       _app__WEBPACK_IMPORTED_MODULE_1__.bus.$emit('passToModalEdit', this.prayer);
     },
     toggle: function toggle() {
-      this.menuDropDown = !this.menuDropDown;
+      this.open = !this.open;
     },
     prayerDestroy: function prayerDestroy() {
       var _this = this;
@@ -70343,7 +70343,7 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _vm.menuDropDown
+                  _vm.open
                     ? _c(
                         "div",
                         {
