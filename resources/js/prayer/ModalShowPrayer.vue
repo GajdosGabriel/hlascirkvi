@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="mt-2">
-                                <p class="text-gray-500">
+                                <p class="text-gray-500 text-lg">
                                     {{ prayer.body }}
                                 </p>
                             </div>

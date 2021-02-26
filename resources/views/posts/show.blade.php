@@ -10,7 +10,7 @@
 @section('othermeta')
     <title>{{ $post->title }}</title>
     <meta property="fb:app_id" content="241173683337522"/>
-    <meta property="og:url" content="{{ route('post.show', [$post->id, $post->slug]) }}"/>
+    <meta property="og:url" content="{{ $post->url }}"/>
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="{{ $post->title }}"/>
     <meta property="og:description" content="{!! \Illuminate\Support\Str::limit($post->body, 130) !!}"/>
@@ -23,7 +23,9 @@
 
 @section('content')
 
-
+{{--    <div class="relative" style="padding-top: 56.25%">--}}
+{{--        <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube-nocookie.com/embed/FMrtSHAAPhM" frameborder="0" …></iframe>--}}
+{{--    </div>--}}
 
     <organization-page-header :organization="{{ $post->organization }}" :post="{{ $post }}"></organization-page-header>
 
@@ -41,7 +43,7 @@
                             <div class="">
                                 <span> pridal: </span>
                                 <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
-                                    {{ $post->organization->title }}</a>
+                                    {{ $post->organization_name }}</a>
                                 |
                                 <time datetime="{{ $post->created_at }}">dňa: {{ $post->datetime }}</time>
                                 | zobrazení: {{ $post->count_view }}

@@ -19,9 +19,10 @@ class Post extends Model implements ViewableContract
     use Favoritable, Notifiable, SoftDeletes, Viewable;
 
     protected $guarded = [];
+    protected $hidden = ['organization_id', 'blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['comments', 'favorites', 'organization', 'images'];
-    protected $appends = ['favoritesCount', 'isFavorited'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'organization_name', 'url'];
 
     protected static function boot()
     {
@@ -131,6 +132,15 @@ class Post extends Model implements ViewableContract
     public function getPersonAttribute() {
         if($this->user->organization) return $this->user->organization;
         return $this->user->fullname;
+    }
+
+    public function getOrganizationNameAttribute()
+    {
+        return $this->organization->title;
+    }
+    public function getUrlAttribute()
+    {
+        return route('post.show', [$this->title, $this->slug]);
     }
 
 

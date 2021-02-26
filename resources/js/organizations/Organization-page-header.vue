@@ -89,7 +89,7 @@
 
             button: function () {
                 if (this.favorited) {
-                    return this.buttonText = 'Zrušiť členstvo'
+                    return this.buttonText = 'Sledujete kanál'
                 }
                 return this.buttonText = 'Sledovať kanál<br>' + this.organization.title
             },

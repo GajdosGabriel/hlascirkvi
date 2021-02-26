@@ -45,7 +45,6 @@ class PostsController extends Controller
 
     public function show(Post $post, $slug, CreditUser $creditUser)
     {
-//        $post = $this->post->find($post);
 
 //        $cleanText = new CleanBodyText($post);
 //       $xxx = $cleanText->detect();

@@ -94,7 +94,6 @@
                                         </div>
                                         <a href="#">Chcem spoznať spoločenstvo</a>
                                     @endif
-
                                 </div>
                             </div>
                         </div>
