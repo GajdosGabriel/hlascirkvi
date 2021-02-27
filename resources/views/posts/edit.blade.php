@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="page">
-
+        @include('organizations._profil-menu')
         <div class="w-8/12">
 
             <div class="page_title">

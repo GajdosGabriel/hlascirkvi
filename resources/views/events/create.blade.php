@@ -7,6 +7,7 @@
 @section('content')
 
     <div class="page">
+        @include('organizations._profil-menu')
         <form method="post" action="{{ route('event.store') }}" class="flex" enctype="multipart/form-data">  @csrf
 
             <div class="page-content">

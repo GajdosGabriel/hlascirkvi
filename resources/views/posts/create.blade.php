@@ -2,21 +2,21 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="page">
+        @include('organizations._profil-menu')
+        <div class="">
 
-        <div class="page">
-
-            <div class="page-content">
+            <div class="p-2">
                 @include('layouts.errors')
-               <h2>Vytvoriť článok</h2>
-                <form method="post" action="{{ route('post.store') }}" enctype="multipart/form-data">
+               <h2 class="page_title">Vytvoriť článok</h2>
+                <form class="md:w-8/12" method="post" action="{{ route('post.store') }}" enctype="multipart/form-data">
                     @csrf
                     @include('posts.form')
                 </form>
             </div>
 
             <div class="page-aside">
-                aside
+{{--                aside--}}
             </div>
 
 

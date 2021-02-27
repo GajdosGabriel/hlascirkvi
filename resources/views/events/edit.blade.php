@@ -7,6 +7,7 @@
 @section('content')
 
     <div class="page">
+        @include('organizations._profil-menu')
 
         <form method="post" action="{{ route('event.update', [$event->id, $event->slug]) }}" class="flex" enctype="multipart/form-data">
             {{ method_field('PATCH') }} @csrf

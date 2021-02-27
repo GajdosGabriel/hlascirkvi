@@ -76,7 +76,7 @@
 
 
 {{--Title Field--}}
-<div class="form-title {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
+<div class="form-group {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
     <input type="text" name="title" class="form-control" placeholder="Nadpis ..."
            value="{{ old('body') ?? $post->title }}" required>
 </div>
@@ -105,12 +105,12 @@
 {{--Add post Field--}}
 <div class="level">
 
-    <div class="form-file">
+    <div class="form-group">
         <label>Obrázok</label>
         <input type="file" name="picture[]" multiple class="form-control" accept="image/*">
     </div>
 
-    <div>
+    <div class="flex justify-between">
         <a href="{{ url(URL::previous()) }}">späť</a>
         <button type="submit" class="btn btn-primary">Uložiť</button>
     </div>

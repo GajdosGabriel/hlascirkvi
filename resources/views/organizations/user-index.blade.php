@@ -2,32 +2,34 @@
 
 @section('content')
 
-    <div class="container">
+    <div class="page">
+        @include('organizations._profil-menu')
+        <div class="p-2 flex">
 
-        <div class="page">
-
-            <div class="page-content">
+            <div class="md:w-8/12">
 
                 <div>
-                    <a class="tag" href="{{ route('organization.profile', [auth()->id(), auth()->user()->slug]) }}">Späť</a>
+                    <a class="tag"
+                       href="{{ route('organization.profile', [auth()->id(), auth()->user()->slug]) }}">Späť</a>
                 </div>
 
-                <h3>Vaše kanály</h3>
+                <h3 class="page_title">Vaše kanály</h3>
 
-               @include('organizations._organization-table')
+                @include('organizations._organization-table')
 
             </div>
 
-            <div class="page-aside">
+            <div class="w-4/12">
 
                 <new-organization inline-template>
                     <div>
                         <h4 style="margin: 2rem 0rem; cursor: pointer" @click="toggle">Nová organizácia
-                        <i v-if="!showForm" class="far fa-plus-square"></i>
-                        <i v-if="showForm" class="far fa-minus-square"></i>
+                            <i v-if="!showForm" class="far fa-plus-square"></i>
+                            <i v-if="showForm" class="far fa-minus-square"></i>
                         </h4>
 
-                        <form method="post" action="{{ route('organization.store', [auth()->user()->id] ) }}" v-if="showForm">
+                        <form method="post" action="{{ route('organization.store', [auth()->user()->id] ) }}"
+                              v-if="showForm">
                             @csrf
                             <div class="form-group">
                                 <label>Meno novej organizácie</label>
@@ -62,7 +64,8 @@
 
                             <div class="form-group">
                                 <label>Telefón</label>
-                                <input type="number" name="phone" name="name" placeholder="Potrebné v prípade vytvorenia akcie">
+                                <input type="number" name="phone" name="name"
+                                       placeholder="Potrebné v prípade vytvorenia akcie">
                             </div>
 
 
@@ -70,19 +73,18 @@
                             @forelse(\App\Updater::all() as $updater)
                                 @if( $updater->type == 'denomination')
                                     <input type="radio" required name="updaters[]" value="{{ $updater->id }}"
-                                           {{--@foreach($organization['updaters'] as $up)--}}
-                                           {{--@if($up->pivot->updater_id == $updater->id )--}}
-                                           {{--checked--}}
-                                           {{--@endif--}}
-                                           {{--Žiadne položky--}}
-                                            {{--@endforeach--}}
+                                        {{--@foreach($organization['updaters'] as $up)--}}
+                                        {{--@if($up->pivot->updater_id == $updater->id )--}}
+                                        {{--checked--}}
+                                        {{--@endif--}}
+                                        {{--Žiadne položky--}}
+                                        {{--@endforeach--}}
                                     >
                                     {{ $updater->title }}<br>
                                 @endif
                             @empty
                                 žiadny tag
                             @endforelse
-
 
 
                             <div class="form-group" style="text-align: right">
@@ -92,7 +94,7 @@
                         </form>
                     </div>
                 </new-organization>
-{{--                <new-organization :user="{{ auth()->user() }}"></new-organization>--}}
+                {{--                <new-organization :user="{{ auth()->user() }}"></new-organization>--}}
 
             </div>
 
@@ -102,4 +104,4 @@
     </div>
 
 
-    @endsection
+@endsection
