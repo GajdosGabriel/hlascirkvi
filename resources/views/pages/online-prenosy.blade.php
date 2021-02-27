@@ -3,32 +3,32 @@
 @section('content')
     <div class="page">
 
-        <h2 class="page_title text-2xl">Nedeľné bohoslužby</h2>
+        <h2 class="page_title text-2xl p-2">Nedeľné bohoslužby</h2>
 
         @foreach($posts as $k => $v)
-            <div class="mb-12">
+            <div class="mb-12 grid grid-cols-12 gap-7 p-2">
 
                 @foreach($v as $post)
-                    <div class="flex">
+                    <div class="col-span-12 md:col-span-8">
 
                         <div>
 
-
                             {{-- Video + last items --}}
-                            <div class="grid grid-cols-12 gap-7">
+                            <div class="">
 
-                                <div class="col-span-8">
+                                <div class="">
 
-                                    {{-- Title + admin --}}
+                                    {{--    Title + admin--}}
                                     <div class="page_title">
                                         <div>
-                                            <h4 class="font-semibold">{{ $post->title }}</h4>
-                                            <span class="lead">
-                                        Pridal:
-                                        <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
-                                            {{ $post->organization->title }}</a> |
-                                        dňa: {{ date("d. M. Y", strtotime($post->created_at))  }}
-                                    </span>
+                                            <h4 class="font-semibold md:text-2xl">{{ $post->title }}</h4>
+                                            <div class="text-gray-400">
+                                            Pridal:
+                                            <a   href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
+                                                {{ $post->organization_name }}
+                                            </a> |
+                                            dňa: {{ date("d. M. Y", strtotime($post->created_at))  }}
+                                            </div>
                                         </div>
 
                                         @can('update', $post)
@@ -37,20 +37,24 @@
                                                     <i style="float: right" @click='toggle' title="Spravovať článok"
                                                        class="fas fa-ellipsis-v cursor-pointer"></i>
                                                     <ul class="dropdown-menu" v-if="open">
-                                                        <li class="dropdown-item"><a href="{{ route('post.edit', [$post->id, $post->slug]) }}"
-                                                               >upraviť
+                                                        <li class="dropdown-item"><a
+                                                                href="{{ route('post.edit', [$post->id, $post->slug]) }}"
+                                                            >upraviť
                                                             </a>
                                                         </li>
-                                                        <li class="dropdown-item"><a href="{{ route('post.delete', [$post->id]) }}"
-                                                               >zmazať
+                                                        <li class="dropdown-item"><a
+                                                                href="{{ route('post.delete', [$post->id]) }}"
+                                                            >zmazať
                                                             </a>
                                                         </li>
                                                         @can('admin')
-                                                            <li class="dropdown-item"><a href="{{ route('admin.youtubeBlocked', [$post->id]) }}">
+                                                            <li class="dropdown-item"><a
+                                                                    href="{{ route('admin.youtubeBlocked', [$post->id]) }}">
                                                                     blokovať youtube
                                                                 </a>
                                                             </li>
-                                                            <li class="dropdown-item"><a href="{{ route('post.toBuffer', [$post->id]) }}">
+                                                            <li class="dropdown-item"><a
+                                                                    href="{{ route('post.toBuffer', [$post->id]) }}">
                                                                     Do buffer
                                                                 </a>
                                                             </li>
@@ -65,15 +69,15 @@
                                     @include('posts.post-online')
                                 </div>
 
-                                <div class="flex flex-col justify-between col-span-4">
+                                <div class="flex flex-col justify-between col-span-4 mt-5">
                                     <div class="">
-                                        <h5>Predchádzajúce prenosy</h5>
+                                        <h5 class="font-semibold text-lg">Predchádzajúce prenosy</h5>
 
                                         @foreach($v as $post)
                                             <div>
                                                 <i class="far fa-dot-circle"></i>
 
-                                                <a href="{{ route('post.show', [$post->id, $post->slug ] ) }}">
+                                                <a href="{{ $post->url }}">
                                                     {{ $post->title }}
                                                 </a>
 
@@ -97,8 +101,6 @@
                                 </div>
                             </div>
                         </div>
-
-{{--                        <messenger></messenger>--}}
                     </div>
                     @break
                 @endforeach

@@ -140,7 +140,7 @@ class Post extends Model implements ViewableContract
     }
     public function getUrlAttribute()
     {
-        return route('post.show', [$this->title, $this->slug]);
+        return route('post.show', [$this->id, $this->slug]);
     }
 
 
