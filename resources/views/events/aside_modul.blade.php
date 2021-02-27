@@ -10,7 +10,7 @@
         <div class="border-2 border-gray-300 rounded-sm">
 
             @forelse( $events as $event)
-                <a href="{{ route('event.show', [$event->id, $event->slug]) }}">
+                <a href="{{ $event->url }}">
                     <div class="card-body p-3 flex">
 
                         @if ($event->images()->whereType('img')->exists())

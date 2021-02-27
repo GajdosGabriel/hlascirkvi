@@ -15,6 +15,7 @@ class Event extends Model implements ViewableContract
 {
     use Favoritable, SoftDeletes, Viewable;
     protected $guarded = [];
+    protected $appends = ['url'];
 
 
 //    protected $with = ['village', 'organization'];
@@ -111,6 +112,11 @@ class Event extends Model implements ViewableContract
 
     public function activeSubscribed() {
         return $this->eventSubscribe()->whereActive(1)->count();
+    }
+
+    public function getUrlAttribute()
+    {
+        return route('event.show', [$this->id, $this->slug]);
     }
 
 

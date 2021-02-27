@@ -22,7 +22,7 @@ class TestController extends Controller
 
     public function test()
     {
-       $posts = (new ExtractZdruzenieMedaily())->parseListUrl();
+       $posts = (new ExtractMojaKomunita())->parseListUrl();
 
     }
 

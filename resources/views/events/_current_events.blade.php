@@ -6,7 +6,7 @@
             <i class="far fa-dot-circle"
                style="font-size: 80% ;color: silver; margin-right: .7rem;margin-top: .4rem"></i>
 
-            <a class="hover:text-gray-900" href="{{ route('event.show', [ $event->id, $event->slug]) }}">{{ $event->title }}</a>
+            <a class="hover:text-gray-900" href="{{ $event->url }}">{{ $event->title }}</a>
         </div>
     @empty
         Aktuálne neprebieha žiadna akcia

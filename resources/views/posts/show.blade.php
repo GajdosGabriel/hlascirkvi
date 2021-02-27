@@ -159,7 +159,7 @@
                                 <ul>
                                     @forelse( $post->organization->events as $event)
                                         <li>
-                                            <a href="{{ route('event.show', [$event->id, $event->slug]) }}">
+                                            <a href="{{ $event->url }}">
                                                 <span
                                                     style="font-weight: bold">{{ $event->start_at->format('d. m. Y') }}</span>
                                                 {{ $event->title }}

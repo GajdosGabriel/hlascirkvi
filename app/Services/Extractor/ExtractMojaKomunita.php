@@ -91,11 +91,15 @@ class ExtractMojaKomunita extends Extractors
             );
         }
 
+
         //   Merge all arrays;
         $merged = array_replace_recursive($extractedUser, $extractedBody, $extractedTitle);
 
-        // Remove user from Title
+//        dd($merged);
+        // Pri ďakokvných modlitbách (iné html) chýba body a user
         foreach ($merged as $item){
+            if (! isset($item['body'])) {continue;}
+
             $toSave[] = array(
                 'user' => $item['user'],
                 'title' => str_replace( $item['user'], '', $item['title']),

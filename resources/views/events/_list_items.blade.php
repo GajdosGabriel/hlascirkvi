@@ -4,7 +4,7 @@
 </p>
 <div class="md:grid grid-cols-8 gap-4 mb-10">
     <div class="col-span-1">
-        <a href="{{ route('event.show', [ $event->id, $event->slug]) }}">
+        <a href="{{ $event->url }}">
             @if ($event->images()->whereType('img')->exists())
                 @foreach($event->images()->whereType('img')->get() as $image)
                     <img data-src="{{ url($image->ThumbImageUrl) }}" class="lazyload rounded w-full" data-sizes="auto"
@@ -24,7 +24,7 @@
     <div class="col-span-5">
         <div class="post-header">
             <div class="title level">
-                <h5 class="text-lg font-semibold"><a href="{{ route('event.show', [ $event->id, $event->slug]) }}">{{ $event->title }}</a></h5>
+                <h5 class="text-lg font-semibold"><a href="{{ $event->url }}">{{ $event->title }}</a></h5>
 
                 @can('update', $event)
                     <article-admin inline-template>
