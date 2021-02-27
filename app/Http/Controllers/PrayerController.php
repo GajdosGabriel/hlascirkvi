@@ -20,7 +20,7 @@ class PrayerController extends Controller
 
     public function create()
     {
-        return Prayer::latest()->paginate(7);
+        return Prayer::orderBy('created_at', 'desc')->paginate(7);
     }
 
     public function update(Prayer $modlitby, SavePrayerRequest $request)
