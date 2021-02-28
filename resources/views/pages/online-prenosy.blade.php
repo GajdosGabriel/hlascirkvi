@@ -21,7 +21,7 @@
                                     {{--    Title + admin--}}
                                     <div class="page_title">
                                         <div>
-                                            <h4 class="font-semibold md:text-2xl">{{ $post->title }}</h4>
+                                            <h4 class="font-semibold md:text-lg">{{ $post->title }}</h4>
                                             <div class="text-gray-400">
                                                 Pridal:
                                                 <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">

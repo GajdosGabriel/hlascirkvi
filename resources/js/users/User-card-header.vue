@@ -1,6 +1,6 @@
 <template>
 
-    <div class="card-header" style="display: block; font-size: 85%">
+    <div class="bg-blue-800 p-2 text-gray-100">
             <div v-html="user.title"></div>
 
             <!--<transition name="fade">-->

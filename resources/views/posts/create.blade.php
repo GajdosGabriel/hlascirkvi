@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
+    @include('organizations._profil-menu')
     <div class="page">
-        @include('organizations._profil-menu')
+
         <div class="">
 
             <div class="p-2">

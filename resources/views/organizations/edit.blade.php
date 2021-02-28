@@ -2,17 +2,15 @@
 
 @section('content')
 
-    <div class="container" xmlns="http://www.w3.org/1999/html">
+    <div class="page">
+        @include('organizations._profil-menu')
+        <div class="">
 
-        <div class="page">
+            <div class="w-6/12">
 
-            <div class="page-content">
 
-                <div>
-                    <a class="tag" href="{{ route('organization.index', [ auth()->id(), auth()->user()->slug]) }}">Späť</a>
-                </div>
 
-                <h3>Upraviť {{ $organization->title }}</h3>
+                <h3 class="font-semibold">Upraviť {{ $organization->title }}</h3>
 
                 <form method="post" action="{{ route('organization.update', [$organization->id]) }}">
                     @csrf @method('PUT')

@@ -1,11 +1,17 @@
 <template>
 
-    <div>
-        <div class="level" style="background:rgb(59, 89, 153); color: wheat; margin-top: -.8rem;padding: .7rem 1rem;">
-            <strong @click="toggle" style="cursor: pointer">O autorovi</strong>
+    <div class="bg-blue-800 p-2">
 
-            <i v-if="singnedIn" @click="toggleMessage" class="far fa-envelope" title="Správa pre autora" style="cursor: pointer"></i>
-            <i v-else else @click="annotation=true" class="far fa-envelope" title="Správa pre autora" style="cursor: pointer"></i>
+<!--        <svg class="h20 w-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">-->
+<!--            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />-->
+<!--        </svg>-->
+
+        <div class="flex space-x-4 text-gray-100  items-center">
+            <strong @click="toggle" class="cursor-pointer">O autorovi</strong>
+
+            <svg v-if="singnedIn" @click="toggleMessage" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
         </div>
 
         <transition name="fade">

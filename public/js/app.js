@@ -5482,6 +5482,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['user'],
@@ -5635,6 +5641,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _User_card_header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./User-card-header.vue */ "./resources/js/users/User-card-header.vue");
 /* harmony import */ var _User_card_footer_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./User-card-footer.vue */ "./resources/js/users/User-card-footer.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -71617,51 +71627,49 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "bg-blue-800 p-2" },
     [
-      _c(
-        "div",
-        {
-          staticClass: "level",
-          staticStyle: {
-            background: "rgb(59, 89, 153)",
-            color: "wheat",
-            "margin-top": "-.8rem",
-            padding: ".7rem 1rem"
-          }
-        },
-        [
-          _c(
-            "strong",
-            { staticStyle: { cursor: "pointer" }, on: { click: _vm.toggle } },
-            [_vm._v("O autorovi")]
-          ),
-          _vm._v(" "),
-          _vm.singnedIn
-            ? _c("i", {
-                staticClass: "far fa-envelope",
-                staticStyle: { cursor: "pointer" },
-                attrs: { title: "Správa pre autora" },
+      _c("div", { staticClass: "flex space-x-4 text-gray-100  items-center" }, [
+        _c(
+          "strong",
+          { staticClass: "cursor-pointer", on: { click: _vm.toggle } },
+          [_vm._v("O autorovi")]
+        ),
+        _vm._v(" "),
+        _vm.singnedIn
+          ? _c(
+              "svg",
+              {
+                staticClass: "w-5 h-5",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  stroke: "currentColor"
+                },
                 on: { click: _vm.toggleMessage }
-              })
-            : _c("i", {
-                staticClass: "far fa-envelope",
-                staticStyle: { cursor: "pointer" },
-                attrs: { else: "", title: "Správa pre autora" },
-                on: {
-                  click: function($event) {
-                    _vm.annotation = true
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-width": "2",
+                    d:
+                      "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   }
-                }
-              })
-        ]
-      ),
+                })
+              ]
+            )
+          : _vm._e()
+      ]),
       _vm._v(" "),
       _c("transition", { attrs: { name: "fade" } }, [
         _vm.annotation
           ? _c("small", [
               _c("a", { attrs: { href: "/auth/facebook" } }, [
                 _vm._v(
-                  "\n                Najprv sa registrujte cez Facebook\n            "
+                  "\n                    Najprv sa registrujte cez Facebook\n                "
                 )
               ])
             ])
@@ -71685,9 +71693,9 @@ var render = function() {
             },
             [
               _vm._v(
-                "\n                " +
+                "\n                    " +
                   _vm._s(_vm.user.description) +
-                  "\n            "
+                  "\n                "
               ),
               _c(
                 "div",
@@ -71791,10 +71799,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "card-header",
-      staticStyle: { display: "block", "font-size": "85%" }
-    },
+    { staticClass: "bg-blue-800 p-2 text-gray-100" },
     [
       _c("div", { domProps: { innerHTML: _vm._s(_vm.user.title) } }),
       _vm._v(" "),
@@ -71840,27 +71845,26 @@ var render = function() {
     "div",
     { staticClass: "card" },
     [
-      _c("span", {
-        staticStyle: { float: "right", "margin-right": "1rem" },
-        domProps: { textContent: _vm._s(_vm.user.title) }
-      }),
+      _c("user-card-header", { attrs: { user: _vm.user } }),
       _vm._v(" "),
-      _vm.user.avatar
-        ? _c("img", {
-            staticStyle: { width: "50%" },
-            attrs: {
-              src:
-                this.domain +
-                "storage/users/" +
-                _vm.user.id +
-                "/" +
-                _vm.user.avatar
-            }
-          })
-        : _c("img", {
-            staticStyle: { width: "40%" },
-            attrs: { src: this.domain + "images/avatar.png" }
-          }),
+      _c("div", [
+        _vm.user.avatar
+          ? _c("img", {
+              staticStyle: { width: "50%" },
+              attrs: {
+                src:
+                  this.domain +
+                  "storage/users/" +
+                  _vm.user.id +
+                  "/" +
+                  _vm.user.avatar
+              }
+            })
+          : _c("img", {
+              staticStyle: { width: "40%" },
+              attrs: { src: this.domain + "images/avatar.png" }
+            })
+      ]),
       _vm._v(" "),
       _c("user-card-footer", { attrs: { user: _vm.user } })
     ],

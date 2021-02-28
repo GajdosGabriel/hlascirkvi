@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-
+    @include('organizations._profil-menu')
     <div class="page">
 
         <div class="p-2">
 
-            @include('organizations._profil-menu')
+
 
             <div class="md:w-8/12">
 

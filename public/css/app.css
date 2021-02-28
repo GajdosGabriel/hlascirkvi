@@ -31464,6 +31464,7 @@ video {
   margin-left: auto;
   margin-right: auto;
   min-height: 100vh;
+  padding: 0.5rem;
   --tw-text-opacity: 1;
   color: rgba(55, 65, 81, var(--tw-text-opacity));
 }
