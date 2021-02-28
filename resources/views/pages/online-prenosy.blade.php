@@ -23,11 +23,11 @@
                                         <div>
                                             <h4 class="font-semibold md:text-2xl">{{ $post->title }}</h4>
                                             <div class="text-gray-400">
-                                            Pridal:
-                                            <a   href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
-                                                {{ $post->organization_name }}
-                                            </a> |
-                                            dňa: {{ date("d. M. Y", strtotime($post->created_at))  }}
+                                                Pridal:
+                                                <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
+                                                    {{ $post->organization_name }}
+                                                </a> |
+                                                dňa: {{ date("d. M. Y", strtotime($post->created_at))  }}
                                             </div>
                                         </div>
 
@@ -65,11 +65,10 @@
                                         @endcan
                                     </div>
 
-
                                     @include('posts.post-online')
                                 </div>
 
-                                <div class="flex flex-col justify-between col-span-4 mt-5">
+                                <div class="md:flex justify-between col-span-4 mt-5">
                                     <div class="">
                                         <h5 class="font-semibold text-lg">Predchádzajúce prenosy</h5>
 
@@ -87,16 +86,20 @@
                                     </div>
 
                                     @if ($post->organization->person == 0)
-                                        <div><span>Plánované akcie</span>
-                                            <ul>
-                                                @forelse($post->organization->events as $event)
-                                                    <li>{{ $event->title }}</li>
-                                                @empty
-                                                    <span class="" style="font-size: 85%">Spoločenstvo neplánuje žiadne akcie.</span>
-                                                @endforelse
-                                            </ul>
+                                        <div class="flex flex-col justify-between">
+                                            <div>
+                                                <span class="font-semibold">Plánované akcie</span>
+                                                <ul>
+                                                    @forelse($post->organization->events as $event)
+                                                        <li>{{ $event->title }}</li>
+                                                    @empty
+                                                        <span class="" style="font-size: 85%">Spoločenstvo neplánuje žiadne akcie.</span>
+                                                    @endforelse
+                                                </ul>
+                                            </div>
+
+                                            <a href="#">Chcem spoznať spoločenstvo</a>
                                         </div>
-                                        <a href="#">Chcem spoznať spoločenstvo</a>
                                     @endif
                                 </div>
                             </div>

@@ -70275,7 +70275,7 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _c("div", [_vm._v(_vm._s(_vm.prayer.body))]),
+      _c("div", {}, [_vm._v(_vm._s(_vm.prayer.body))]),
       _vm._v(" "),
       _c("div", { staticClass: "flex justify-between mb-2" }, [
         _c("div", { staticClass: "flex items-center" }, [
@@ -70306,41 +70306,34 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c(
-          "span",
-          {
-            staticClass: "text-sm flex items-center",
-            staticStyle: { "font-size": "12px" }
-          },
-          [
-            _c(
-              "svg",
-              {
-                staticClass: "h-4 w-4 mr-2 text-gray-400 fill-current",
+        _c("span", { staticClass: "text-xs flex items-center" }, [
+          _c(
+            "svg",
+            {
+              staticClass: "h-4 w-4 mr-2 text-gray-400 fill-current",
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                viewBox: "0 0 20 20",
+                fill: "currentColor"
+              }
+            },
+            [
+              _c("path", {
                 attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  viewBox: "0 0 20 20",
-                  fill: "currentColor"
+                  "fill-rule": "evenodd",
+                  d:
+                    "M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z",
+                  "clip-rule": "evenodd"
                 }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z",
-                    "clip-rule": "evenodd"
-                  }
-                })
-              ]
-            ),
-            _vm._v(
-              "\n               " +
-                _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
-                " hod.\n            "
-            )
-          ]
-        )
+              })
+            ]
+          ),
+          _vm._v(
+            "\n               " +
+              _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
+              " hod.\n            "
+          )
+        ])
       ])
     ])
   ])
