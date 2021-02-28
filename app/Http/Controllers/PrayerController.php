@@ -18,11 +18,6 @@ class PrayerController extends Controller
         return view('prayer.index');
     }
 
-    public function create()
-    {
-        return Prayer::orderBy('created_at', 'desc')->paginate(7);
-    }
-
     public function update(Prayer $modlitby, SavePrayerRequest $request)
     {
         $modlitby->update($request->all());

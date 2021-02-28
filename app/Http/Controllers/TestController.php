@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Organization;
 use App\Post;
+use App\Prayer;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Services\Extractor\ExtractMojaKomunita;
@@ -22,7 +23,14 @@ class TestController extends Controller
 
     public function test()
     {
-       $posts = (new ExtractMojaKomunita())->parseListUrl();
+//       $prayers =  Prayer::all();
+////
+////       foreach ($prayers as $prayer){
+////           $prayer->update([
+////               'created_at' =>  Carbon::createFromFormat('Y-m-d H:i:s',$prayer->created_at)->addMinute(rand(3,49))->toDateTimeString()
+////           ]);
+////       }
+//       $posts = (new ExtractMojaKomunita())->parseListUrl();
 
     }
 
@@ -122,12 +130,12 @@ class TestController extends Controller
             $splitText[] = substr($text, 0);
         }
 
-        foreach ($splitText as $text) {
-            $post->update([
-                'body' => $post->body . '<p>' . $text . '</p>'
-            ]);
-
-        }
+//        foreach ($splitText as $text) {
+//            $text->update([
+//                'body' => $post->body . '<p>' . $text . '</p>'
+//            ]);
+//
+//        }
 
 
         return $splitText;

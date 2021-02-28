@@ -18,8 +18,7 @@
             </li>
         </ul>
 
-
-        <pagination :data="prayers" @fetchUrl="paginator"></pagination>
+        <pagination :meta="meta" :links="links" @fetchUrl="paginator"></pagination>
 
         <modal-new-prayer></modal-new-prayer>
         <modal-show-prayer></modal-show-prayer>
@@ -27,7 +26,6 @@
 </template>
 
 <script>
-    import moment from 'moment';
     import Axios from 'axios';
     import {bus} from "../app";
     import prayersIndexItem from '../prayer/prayers-index-item';
@@ -40,8 +38,10 @@
         components: {prayersIndexItem, pagination, modalNewPrayer, modalShowPrayer},
         data() {
             return {
+                links: '',
+                meta: '',
                 prayers: [],
-                url: '/modlitby/create?page=1'
+                url: '/api/modlitby?page=1'
             }
         },
 
@@ -58,7 +58,9 @@
             getPrayers() {
                 Axios.get(this.url).then(
                     (response) => {
-                        this.prayers = response.data
+                        this.prayers = response.data;
+                        this.meta = response.data.meta;
+                        this.links = response.data.links;
                     }
                 )
             },

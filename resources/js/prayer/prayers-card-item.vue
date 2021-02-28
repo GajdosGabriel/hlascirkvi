@@ -1,10 +1,17 @@
 <template>
     <div class="px-4 py-2 text-base hover:bg-gray-100">
-        <div class="relative" @click="passToModalShow">
+        <div @click="passToModalShow">
+            <div class="flex justify-between">
+                <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
+                <div class="font-semibold" v-else>žiadam o modlitbu</div>
+                <i class="fas fa-praying-hands text-gray-400" title="modlitbu"></i>
+            </div>
+            <div>{{ prayer.body }}</div>
 
             <div class="flex justify-between mb-2">
-                <div class="flex">
-                    <svg class="h-6 w-6 mr-1 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg"
+
+                <div class="flex items-center">
+                    <svg class="h-4 w-4 mr-1 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                               d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
@@ -12,16 +19,11 @@
                     </svg>
 
                     <span class="font-semibold mr-1">{{ prayer.user_name }}</span>
-                    žiada o modlitbu
+
                 </div>
-                <i class="fas fa-praying-hands" title="modlitbu"></i>
-            </div>
 
 
-            <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
-            <div>{{ prayer.body }}</div>
-
-            <span style="font-size: 12px" class="text-sm flex items-center justify-end">
+                <span style="font-size: 12px" class="text-sm flex items-center">
                    <svg class="h-4 w-4 mr-2 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd"
@@ -29,7 +31,8 @@
                             clip-rule="evenodd"/>
                     </svg>
                    {{ prayer.created_at | dateTime }} hod.
-            </span>
+                </span>
+            </div>
         </div>
     </div>
 </template>
@@ -38,11 +41,11 @@
     import moment from "moment";
     import modalShowPrayer from '../prayer/ModalShowPrayer';
     import {bus} from "../app";
-    import { filterMixin } from "../mixins/filtersMixin";
+    import {filterMixin} from "../mixins/filtersMixin";
 
     export default {
         props: ['prayer'],
-        mixins:[ filterMixin ],
+        mixins: [filterMixin],
         components: {modalShowPrayer},
 
         data() {

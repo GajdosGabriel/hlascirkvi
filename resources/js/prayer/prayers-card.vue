@@ -33,7 +33,7 @@
         data() {
             return {
                 prayers: [],
-                url: '/modlitby/create?page=1'
+                url: '/api/modlitby?page=1'
             }
         },
 

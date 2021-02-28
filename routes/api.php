@@ -22,6 +22,12 @@ Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal');
 Route::get('test/test', 'TestController@test');
 Route::get('test/grecky', 'TestController@greckyMagazin');
 
+Route::apiResources([
+    'modlitby' => Api\PrayerController::class,
+]);
+
+
+
 Route::get('artisan/run', function () {
 
     \Artisan::call('cache:clear');
