@@ -6,6 +6,7 @@ use App\Organization;
 use App\Post;
 use App\Prayer;
 use App\Repositories\Eloquent\EloquentPostRepository;
+use App\Services\Buffer;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractTkkbs;
@@ -23,6 +24,8 @@ class TestController extends Controller
 
     public function test()
     {
+
+        (new Buffer())->handler();
 //       $prayers =  Prayer::all();
 ////
 ////       foreach ($prayers as $prayer){

@@ -39,19 +39,19 @@ class Buffer
         $countOfUsers = $this->post->getUnpublishedPosts()->groupBy('organization_id')->count() -1;
 
 
-        $usersId = $this->idLastUsers($countOfUsers);
+        $usersId = $this->idLastPublishedOrganizations($countOfUsers);
 
+//        dd($usersId);
         $this->getBufferPost($usersId);
     }
 
     /*
      * Vyberie posledných zverejnených userov ale -1
      */
-    public function idLastUsers($countOfUsers)
+    public function idLastPublishedOrganizations($countOfUsers)
     {
-       return Post::whereHas('organization', function ($query) {
-           $query->wherePerson(1);
-       })->latest()->take($countOfUsers)->get()->pluck('organization_id');
+      return  $this->post->postsByUpdater(15)
+       ->latest()->take($countOfUsers)->get()->pluck('organization_id');
     }
 
     /*
