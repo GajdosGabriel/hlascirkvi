@@ -37,7 +37,7 @@ class PostObserver
 
     public function creating(Post $post)
     {
-        //
+
     }
 
     /**

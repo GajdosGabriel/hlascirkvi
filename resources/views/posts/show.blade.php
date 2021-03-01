@@ -186,6 +186,8 @@
                 </div>
             </div>
 
+
+            {{-- Aside section --}}
             <div class="md:w-4/12">
                 <news-rss></news-rss>
                 @include('events.aside_modul')

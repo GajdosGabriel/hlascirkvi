@@ -47,7 +47,10 @@ class CleanBodyText
 
     public function handle()
     {
-        $this->post->update( ['body' => str_replace($this->invalitWords ,'', $this->post->body)] );
+        $this->post->update( [
+            'body' => str_replace($this->invalitWords ,'', $this->post->body),
+            'title' => cleanTitle($this->post->title)
+        ]);
     }
 
 

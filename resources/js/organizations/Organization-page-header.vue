@@ -15,11 +15,11 @@
                 <i v-else  style="font-size: 6rem; color: silver; float: left; margin-right: 1.1rem"
                    class="far fa-image"></i>
 
-                <div class="flex justify-start flex-col">
+                <div class="flex justify-start flex-col justify-between">
                     <h2 class="text-2xl font-semibold" v-text="organization.title"></h2>
 
                     <div class="flex space-x-4 my-2">
-                        <button v-if="organization.person == 1" @click="toggle" class="px-2 hover:border-gray-500 border-2 rounded-ms"
+                        <button v-if="organization.person == 1" @click="toggle" class="px-2 hover:border-gray-500 border-2 rounded-sm"
                              :class="{'bg-blue-700' :showDescription }">Autor
                         </button>
                         <button v-else @click="toggle" class="px-2 hover:border-gray-400 border-2 rounded-md" :class="{'bg-blue-700' :showDescription }">
@@ -27,6 +27,7 @@
                         </button>
                         <!--<help-us></help-us>-->
                         <button v-if="isVideoPage" @click="openModal" class="px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap">Zapojiť sa</button>
+                        <a :href="/user/ + organization.id + '/'+ organization.slug + '/posts' " class="px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap">Všetky videa</a>
                     </div>
 
 

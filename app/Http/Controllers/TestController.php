@@ -25,16 +25,41 @@ class TestController extends Controller
     public function test()
     {
 
-        (new Buffer())->handler();
+//        (new Buffer())->handler();
 //       $prayers =  Prayer::all();
-////
-////       foreach ($prayers as $prayer){
-////           $prayer->update([
-////               'created_at' =>  Carbon::createFromFormat('Y-m-d H:i:s',$prayer->created_at)->addMinute(rand(3,49))->toDateTimeString()
-////           ]);
-////       }
+//
+//       foreach ($prayers as $prayer){
+//           $prayer->update([
+//               'created_at' =>  Carbon::createFromFormat('Y-m-d H:i:s',$prayer->created_at)->addMinute(rand(3,49))->toDateTimeString()
+//           ]);
+//       }
 //       $posts = (new ExtractMojaKomunita())->parseListUrl();
 
+    }
+
+
+
+    public function cleanTitle()
+    {
+
+        $posts = \DB::table('posts')->get();
+        $count = 0;
+        $frase = "&amp;";
+
+        foreach ($posts as $post) {
+
+            if (strpos($post->title, $frase)) {
+
+                $post = \DB::table('posts')->whereId($post->id)->first();
+
+               $xxx = \DB::table('posts')->whereId($post->id)->update([
+                    'title' => cleanTitle($post->title)
+                ]);
+                $count++;
+            }
+
+        }
+        echo $count;
     }
 
 

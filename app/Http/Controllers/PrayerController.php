@@ -18,6 +18,11 @@ class PrayerController extends Controller
         return view('prayer.index');
     }
 
+    public function create()
+    {
+        //
+    }
+
     public function update(Prayer $modlitby, SavePrayerRequest $request)
     {
         $modlitby->update($request->all());

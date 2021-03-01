@@ -12,7 +12,11 @@ function cleanTitle($titleText)
 {
     // Remove &nbsp space characters
     $titleText = str_replace("&quot;", ' ', $titleText);
-    return str_replace("&nbsp;", ' ', $titleText);
+    $titleText = str_replace("&amp;", '', $titleText);
+    $titleText = str_replace("&nbsp;", ' ', $titleText);
+    // Reome white space
+    $titleText = preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $titleText);
+    return $titleText;
 }
 
 
@@ -21,9 +25,9 @@ function cleanTitle($titleText)
  *
  * Translate date according to locale settings
  *
- * @param  	string 	$format
- * @param  	string 	$date
- * @return 	string
+ * @param string $format
+ * @param string $date
+ * @return    string
  */
 function localized_date($format, $date)
 {
@@ -46,52 +50,52 @@ function localized_date($format, $date)
     ) {
         // Load date language lines
         $keys = array(
-            'January'   => __('date.january'),
-            'February'  => __('date.february'),
-            'March'     => __('date.march'),
-            'April'     => __('date.april'),
-            'May'       => __('date.may'),
-            'June'      => __('date.june'),
-            'July'      => __('date.july'),
-            'August'    => __('date.august'),
+            'January' => __('date.january'),
+            'February' => __('date.february'),
+            'March' => __('date.march'),
+            'April' => __('date.april'),
+            'May' => __('date.may'),
+            'June' => __('date.june'),
+            'July' => __('date.july'),
+            'August' => __('date.august'),
             'September' => __('date.september'),
-            'October'   => __('date.october'),
-            'November'  => __('date.november'),
-            'December'  => __('date.december'),
+            'October' => __('date.october'),
+            'November' => __('date.november'),
+            'December' => __('date.december'),
 
-            'Jan'       => __('date.jan'),
-            'Feb'       => __('date.feb'),
-            'Mar'       => __('date.mar'),
-            'Apr'       => __('date.apr'),
-            'May'       => __('date.may'),
-            'Jun'       => __('date.jun'),
-            'Jul'       => __('date.jul'),
-            'Aug'       => __('date.aug'),
-            'Sep'       => __('date.sep'),
-            'Oct'       => __('date.oct'),
-            'Nov'       => __('date.nov'),
-            'Dec'       => __('date.dec'),
+            'Jan' => __('date.jan'),
+            'Feb' => __('date.feb'),
+            'Mar' => __('date.mar'),
+            'Apr' => __('date.apr'),
+            'May' => __('date.may'),
+            'Jun' => __('date.jun'),
+            'Jul' => __('date.jul'),
+            'Aug' => __('date.aug'),
+            'Sep' => __('date.sep'),
+            'Oct' => __('date.oct'),
+            'Nov' => __('date.nov'),
+            'Dec' => __('date.dec'),
 
-            'Monday'    => __('date.monday'),
-            'Tuesday'   => __('date.tuesday'),
+            'Monday' => __('date.monday'),
+            'Tuesday' => __('date.tuesday'),
             'Wednesday' => __('date.wednesday'),
-            'Thursday'  => __('date.thursday'),
-            'Friday'    => __('date.friday'),
-            'Saturday'  => __('date.saturday'),
-            'Sunday'    => __('date.sunday'),
+            'Thursday' => __('date.thursday'),
+            'Friday' => __('date.friday'),
+            'Saturday' => __('date.saturday'),
+            'Sunday' => __('date.sunday'),
 
-            'Mon'       => __('date.mon'),
-            'Tue'       => __('date.tue'),
-            'Wed'       => __('date.wed'),
-            'Thu'       => __('date.thu'),
-            'Fri'       => __('date.fri'),
-            'Sat'       => __('date.sat'),
-            'Sun'       => __('date.sun'),
+            'Mon' => __('date.mon'),
+            'Tue' => __('date.tue'),
+            'Wed' => __('date.wed'),
+            'Thu' => __('date.thu'),
+            'Fri' => __('date.fri'),
+            'Sat' => __('date.sat'),
+            'Sun' => __('date.sun'),
 
-            'AM'        => __('date.am_uppercase'),
-            'PM'        => __('date.pm_uppercase'),
-            'am'        => __('date.am_lowercase'),
-            'pm'        => __('date.pm_lowercase')
+            'AM' => __('date.am_uppercase'),
+            'PM' => __('date.pm_uppercase'),
+            'am' => __('date.am_lowercase'),
+            'pm' => __('date.pm_lowercase')
         );
 
         // Translate date
@@ -102,17 +106,18 @@ function localized_date($format, $date)
 }
 
 # url_get_contents function by Andy Langton: https://andylangton.co.uk/
-function url_get_contents($url,$useragent='cURL',$headers=false,
-                          $follow_redirects=false,$debug=false) {
+function url_get_contents($url, $useragent = 'cURL', $headers = false,
+                          $follow_redirects = false, $debug = false)
+{
 
 # initialise the CURL library
     $ch = curl_init();
 
 # specify the URL to be retrieved
-    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_URL, $url);
 
 # we want to get the contents of the URL and store it in a variable
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
 # specify the useragent: this is a required courtesy to site owners
     curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
@@ -121,28 +126,26 @@ function url_get_contents($url,$useragent='cURL',$headers=false,
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
 # return headers as requested
-    if ($headers==true){
-        curl_setopt($ch, CURLOPT_HEADER,1);
+    if ($headers == true) {
+        curl_setopt($ch, CURLOPT_HEADER, 1);
     }
 
 # only return headers
-    if ($headers=='headers only') {
-        curl_setopt($ch, CURLOPT_NOBODY ,1);
+    if ($headers == 'headers only') {
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
     }
 
 # follow redirects - note this is disabled by default in most PHP installs from 4.4.4 up
-    if ($follow_redirects==true) {
+    if ($follow_redirects == true) {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     }
 
 # if debugging, return an array with CURL's debug info and the URL contents
-    if ($debug==true) {
-        $result['contents']=curl_exec($ch);
-        $result['info']=curl_getinfo($ch);
-    }
-
-# otherwise just return the contents as a variable
-    else $result=curl_exec($ch);
+    if ($debug == true) {
+        $result['contents'] = curl_exec($ch);
+        $result['info'] = curl_getinfo($ch);
+    } # otherwise just return the contents as a variable
+    else $result = curl_exec($ch);
 
 # free resources
     curl_close($ch);
