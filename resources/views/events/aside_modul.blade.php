@@ -11,29 +11,32 @@
 
             @forelse( $events as $event)
                 <a href="{{ $event->url }}">
-                    <div class="card-body p-3 flex">
-
-                        @if ($event->images()->whereType('img')->exists())
-                            @foreach($event->images()->whereType('img')->get() as $image)
-                                <img data-src="{{ url($image->ThumbImageUrl) }}" class="lazyload w-24 mr-4 rounded-md"
-                                     data-sizes="auto"
-                                     title="Bez obrázka">
-                                @break
-                            @endforeach
-                        @else
-                            @foreach($event->images()->whereType('card')->get() as $image)
-                                <img data-src="{{ url($image->OriginalImageUrl ) }}"
-                                     class="lazyload w-24 mr-4 rounded-md"
-                                     data-sizes="auto" title="Bez obrázka">
-                                @break
-                            @endforeach
-                        @endif
-                        <div class="flex flex-col">
-                            <h4 class="font-semibold" title="{{ $event->title }}">
-                                {{ Str::limit($event->title , 45, $end=' ...') }}
-                            </h4>
-                            <div>{{ $event->village->district->name }}</div>
-                            {{--                            <div>začiatok {{ $event->dateStart->diffForHumans() }}</div>--}}
+                    <div class="card-body p-3 grid grid-cols-6 gap-3">
+                        <div class="col-span-2">
+                            @if ($event->images()->whereType('img')->exists())
+                                @foreach($event->images()->whereType('img')->get() as $image)
+                                    <img data-src="{{ url($image->ThumbImageUrl) }}" class="lazyload mr-4 rounded-md"
+                                         data-sizes="auto"
+                                         title="Bez obrázka">
+                                    @break
+                                @endforeach
+                            @else
+                                @foreach($event->images()->whereType('card')->get() as $image)
+                                    <img data-src="{{ url($image->OriginalImageUrl ) }}"
+                                         class="lazyload mr-4 rounded-md"
+                                         data-sizes="auto" title="Bez obrázka">
+                                    @break
+                                @endforeach
+                            @endif
+                        </div>
+                        <div class="col-span-4">
+                            <div class="flex flex-col">
+                                <h4 class="font-semibold" title="{{ $event->title }}">
+                                    {{ Str::limit($event->title , 45, $end=' ...') }}
+                                </h4>
+                                <div>{{ $event->village->district->name }}</div>
+                                {{--                            <div>začiatok {{ $event->dateStart->diffForHumans() }}</div>--}}
+                            </div>
                         </div>
                     </div>
 
@@ -47,16 +50,34 @@
             @endforelse
 
             @if($events->count() > 0)
-                <div class="flex justify-between mx-2 mb-2">
+                <div class="flex justify-between mx-2 mb-2 text-sm">
 
-                    <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('event.create') }}">
-                        <strong><i class="fas fa-plus"></i> Pridať akciu</strong>
-                    </a>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
 
-                    <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('event.index') }}">
-                        <strong>{{ trans('web.events_next') }} <i class="fa fa-arrow-right"
-                                                                  aria-hidden="true"></i></strong>
-                    </a>
+                        <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('event.create') }}">
+                            Pridať akciu
+                        </a>
+                    </div>
+                    <div class="flex items-center">
+                        <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('event.index') }}">
+                            {{ trans('web.events_next') }}
+                        </a>
+                        <svg class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                  d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                                  clip-rule="evenodd"/>
+                            <path fill-rule="evenodd"
+                                  d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+
+                    </div>
                 </div>
             @endif
 

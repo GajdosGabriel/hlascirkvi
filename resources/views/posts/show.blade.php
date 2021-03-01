@@ -146,7 +146,7 @@
                 {{-- Body section --}}
                 <div class="w-full md:flex flex-row-reverse">
 
-                    <div class="md:w-8/12 m-2 md:p-2">
+                    <div class="md:w-8/12 md:m-2 md:p-2">
                         <div>{!! $post->body !!}</div>
                         @include('bigthink._form')
                         <replies :data="{{ $post->comments }}"></replies>
@@ -186,7 +186,7 @@
                 </div>
             </div>
 
-            <div class="md:w-4/12 m-4">
+            <div class="md:w-4/12">
                 <news-rss></news-rss>
                 @include('events.aside_modul')
             </div>
@@ -257,39 +257,19 @@
                     </div>
                     <div>
                     </div>
-'
+
                 </div>
             </div>
 
-            <div class="">
-                {{--                @include('messenger.index', ['user' => $post->user])--}}
-                {{--@include('users.user-card', ['user' => $post->user])--}}
-
-            </div>
-
-
         </div>
 
-        {{--Comments--}}
-        <div class="">
-
-            <div class="page-content">
-                {{--<replies :data="{{ $post->comments }}"></replies>--}}
-            </div>
-
-            <div class="page-aside">
-                {{--                @include('messenger.index', ['user' => $post->user])--}}
-                {{--@include('users.user-card', ['user' => $post->user])--}}
-
-            </div>
-        </div>
 
     </div>
 
 
 
     {{--    All video belong to user --}}
-    <div class="container mx-auto text-gray-600">
+    <div class="page">
 
         <h3 class="text-2xl font-semibold mb-6">{{ $post->organization->title }} všetky videa</h3>
 
