@@ -8,9 +8,6 @@
             <ul class="mt-2 space-y-1">
                 <li><a href="{{ route('register') }}">Založiť svoj blog</a></li>
                 <li><a href="{{ route('event.index') }}">Pridať novú akciu</a></li>
-                <li><a href="#">
-                        <help-us></help-us>
-                    </a></li>
                 <li><a href="{{ route('gdpr') }}">Ochrana osobných údajov</a></li>
             </ul>
         </div>

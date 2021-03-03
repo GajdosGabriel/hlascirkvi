@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Messenger;
 use App\Notifications\Messengers\ComingNewMessage;
+use App\User;
 
 class MessengerObserver
 {
@@ -15,12 +16,15 @@ class MessengerObserver
      */
     public function created(Messenger $messenger)
     {
-        session()->flash('flash', 'Správa bola odoslaná!');
 
-        foreach($messenger->organization as $user)
-        {
+       $user = User::whereId($messenger->requested_user)->first();
+
+//        foreach($messenger->organization as $user)
+//        {
             $user->notify(new ComingNewMessage($messenger));
-        }
+//        }
+
+        session()->flash('flash', 'Správa bola odoslaná!');
 
     }
 

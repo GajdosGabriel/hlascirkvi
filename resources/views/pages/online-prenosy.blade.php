@@ -25,7 +25,7 @@
                                             <div class="text-gray-400">
                                                 Pridal:
                                                 <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
-                                                    {{ $post->organization_name }}
+                                                    {{ $post->organization->title }}
                                                 </a> |
                                                 dňa: {{ date("d. M. Y", strtotime($post->created_at))  }}
                                             </div>

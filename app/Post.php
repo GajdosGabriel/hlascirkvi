@@ -22,7 +22,7 @@ class Post extends Model implements ViewableContract
     protected $hidden = ['organization_id', 'blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['comments', 'favorites', 'organization', 'images'];
-    protected $appends = ['favoritesCount', 'isFavorited', 'organization_name', 'url'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'createdAtHuman'];
 
     protected static function boot()
     {
@@ -58,6 +58,10 @@ class Post extends Model implements ViewableContract
         return $this->morphMany(Comment::class, 'commentable')->with('user');
     }
 
+    public function images() {
+        return $this->morphMany(Image::class, 'fileable');
+    }
+
     public function addComment($comment) {
         if( auth()->check()) {
             $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->id()]));
@@ -78,11 +82,6 @@ class Post extends Model implements ViewableContract
         }
         return $this->bigThinks()->create(array_merge($comment, ['organization_id' => $idUser]));
 
-    }
-
-
-    public function images() {
-        return $this->morphMany(Image::class, 'fileable');
     }
 
 
@@ -134,14 +133,30 @@ class Post extends Model implements ViewableContract
         return $this->user->fullname;
     }
 
-    public function getOrganizationNameAttribute()
-    {
-        return $this->organization->title;
-    }
     public function getUrlAttribute()
     {
         return route('post.show', [$this->id, $this->slug]);
     }
+
+    public function getCreatedAtHumanAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
+
+    public function getThumbImageAttribute()
+    {
+        $image = $this->images->first();
+        if ($image) {
+            return url($image->ThumbImageUrl) ;
+        }
+
+        if ($this->organization->avatar){
+            return Storage::url('organizations/'. $this->organization->id. '/' . $this->organization->avatar);
+        }
+
+        return url('images/foto.jpg');
+    }
+
 
 
 

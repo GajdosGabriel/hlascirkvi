@@ -18,7 +18,7 @@
 
     <div class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm">
         <a href="{{ route('organization.show', [$post->organization->id, $post->organization->slug]) }}">
-            {{ $post->organization_name }}
+            {{ $post->organization->title }}
         </a>
         <time datetime="{{ $post->created_at }}">{{ $post->created_at->diffForHumans() }}</time>
     </div>

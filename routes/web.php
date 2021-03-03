@@ -169,3 +169,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/gdpr', 'HomeController@gdpr')->name('gdpr');
 Route::get('akcia/finished', 'EventsController@finished')->name('event.finished');
+

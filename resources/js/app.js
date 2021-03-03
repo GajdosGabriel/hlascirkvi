@@ -39,7 +39,6 @@ Vue.component('organization-page-header', require('./organizations/Organization-
 Vue.component('bell', require('./users/Bell.vue').default);
 Vue.component('login-card', require('./users/Login/LoginCard.vue').default);
 Vue.component('youtube-dash', require('./youtube/YoutubeDash.vue').default);
-Vue.component('help-us', require('./posts/Help-us.vue').default);
 Vue.component('swith-filter', require('./posts/Swith-filter.vue').default);
 Vue.component('article-admin', require('./posts/Article-admin.vue').default);
 Vue.component('replies', require('./comments/Replies.vue').default);
@@ -55,6 +54,8 @@ Vue.component('form-organization', require('./events/Form-org_0.vue').default);
 Vue.component('big-thing', require('./bigThink/big-thing_0.vue').default);
 Vue.component('prayers-card', require('./prayer/prayers-card.vue').default);
 Vue.component('prayers-index-page', require('./prayer/prayers-index-page.vue').default);
+Vue.component('post-card', require('./posts/card/card.vue').default);
+// Vue.component('posts-card', require('./posts/card/posts.vue').default);
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);
 
 

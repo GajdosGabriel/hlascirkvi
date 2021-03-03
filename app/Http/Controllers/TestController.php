@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Messenger;
 use App\Organization;
 use App\Post;
 use App\Prayer;
@@ -15,6 +16,7 @@ use App\User;
 use Carbon\Carbon;
 use Config;
 use DB;
+use http\Message;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -24,6 +26,9 @@ class TestController extends Controller
 
     public function test()
     {
+        $message = Messenger::whereId(11)->first();
+
+        dd($message->person->fullname);
 
 //        (new Buffer())->handler();
 //       $prayers =  Prayer::all();

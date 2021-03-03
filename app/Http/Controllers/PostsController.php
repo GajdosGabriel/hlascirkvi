@@ -34,18 +34,18 @@ class PostsController extends Controller
         $this->middleware('auth')->except('index', 'show' , 'showVideo', 'recommended');
     }
 
-//    public function index(Spam $spam)
     public function index(PostFilters $filters)
     {
         $posts = $this->post->postsByUpdater(15)->filter($filters)->paginate(28);
+
         return view('posts.index', compact('posts'));
+//        return view('posts.index');
     }
 
 
 
     public function show(Post $post, $slug, CreditUser $creditUser)
     {
-
 //        $cleanText = new CleanBodyText($post);
 //       $xxx = $cleanText->detect();
 ////       $cleanText->save();

@@ -6,7 +6,7 @@
                 <div class="font-semibold" v-else>žiadam o modlitbu</div>
                 <i class="fas fa-praying-hands text-gray-400" title="modlitbu"></i>
             </div>
-            <div class="">{{ prayer.body }}</div>
+            <div class="text-sm">{{ prayer.body }}</div>
 
             <div class="flex justify-between mb-2">
 

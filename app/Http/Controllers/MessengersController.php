@@ -17,7 +17,7 @@ class MessengersController extends Controller
 
        Messenger::create([
             'user_id' => $request->input('user_id', 1),
-            'requested_organization' => $request->input('requested_organization', 1),
+            'requested_user' => $request->input('requested_organization', 1),
             'body' => $request->input('body')
         ]);
 

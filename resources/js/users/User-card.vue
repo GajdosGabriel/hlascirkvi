@@ -4,7 +4,7 @@
 <!--        <span v-text="user.title"></span>-->
         <div>
 
-        <img v-if="user.avatar" style="width: 50%" :src=" this.domain + 'storage/users/' + user.id + '/' + user.avatar">
+        <img v-if="user.avatar" style="width: 50%" :src=" this.domain + 'storage/organizations/' + user.id + '/' + user.avatar">
         <img v-else style="width: 40%" :src="this.domain + 'images/avatar.png'">
         </div>
 

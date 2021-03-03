@@ -14,7 +14,7 @@ class ComingNewMessage extends Notification
 
 
     protected $message;
-    public function __construct($message)
+    public function __construct(Messenger $message)
     {
         $this->message = $message;
     }
@@ -26,7 +26,7 @@ class ComingNewMessage extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -38,13 +38,13 @@ class ComingNewMessage extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject( $this->message->user->fullName . ', má novú správu')
+            ->subject( 'Nová správa - spolupráca/')
             ->greeting('Dobrý deň,')
-            ->line($this->message->person->full_name . ' Vám posiela túto správu: ')
+            ->line($this->message->person->fullname . ' Vám posiela túto správu: ')
             ->line($this->message->body)
-            ->line('Správa bola zaslaná prostretníctvom CirkevOnline.sk - Kresťanský portál.')
+            ->line('Správa bola zaslaná prostretníctvom HlasCirkvi.sk - Kresťanský portál.')
             ->action('Odpovedať na správu', url('/'))
-            ->line('Ďakujeme že na otázku skoro odpoviete!');
+            ->line('Ďakujeme za skorú odpoveď!');
     }
 
     /**
@@ -56,9 +56,9 @@ class ComingNewMessage extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->message->person->fullName . ' Vám poslal správu ',
-            'link' => 'url link'
-            //            'link' => $this->post->path()
+            'message' => $this->message->person->fullname . ' Vám poslal správu ',
+//            'link' => 'url link'
+                        'link' => $this->post->path()
         ];
     }
 }

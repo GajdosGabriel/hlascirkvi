@@ -18,10 +18,10 @@ class Messenger extends Model
         return $this->belongsTo(Organization::class);
     }
 
-//    public function person()
-//    {
-//        return $this->belongsTo(User::class, 'user_id');
-//    }
+    public function person()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function scopeUserMessages($user)
     {

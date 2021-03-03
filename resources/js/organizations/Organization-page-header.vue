@@ -1,61 +1,66 @@
 <template>
-    <div class="container mx-auto text-gray-700 border-2 border-gray-300 p-5">
 
-        <div class="md:flex justify-between">
-            <div class="flex">
+    <div class="md:flex justify-between text-gray-700 mb-6 border-b-2 border-gray-400">
+        <div class="flex">
 
-                <!-- check if is person-->
-                <div class="" v-if="organization.person == 1">
-                    <img v-if="organization.avatar !== null" class="rounded-sm w-24 mr-6"
-                         :src="this.domain + 'storage/users/' + organization.id + '/' + organization.avatar">
-                    <img v-else class="Media-figure" style="max-width: 6rem" :src="this.domain + 'images/avatar.png'">
-                </div>
+            <!-- check if is person-->
+            <div class="mr-4 mb-4" v-if="organization.person == 1">
+                <img v-if="organization.avatar !== null" class="rounded-full w-24 mr-6"
+                     :src="this.domain + 'storage/organizations/' + organization.id + '/' + organization.avatar">
+                <img v-else class="Media-figure" style="max-width: 4rem" :src="this.domain + 'images/avatar.png'">
 
                 <!--Non Person picture-->
-                <i v-else  style="font-size: 6rem; color: silver; float: left; margin-right: 1.1rem"
+                <i v-else style="font-size: 4rem; color: silver; float: left; margin-right: 1.1rem"
                    class="far fa-image"></i>
-
-                <div class="flex justify-start flex-col justify-between">
-                    <h2 class="text-2xl font-semibold" v-text="organization.title"></h2>
-
-                    <div class="flex space-x-4 my-2">
-                        <button v-if="organization.person == 1" @click="toggle" class="px-2 hover:border-gray-500 border-2 rounded-sm"
-                             :class="{'bg-blue-700' :showDescription }">Autor
-                        </button>
-                        <button v-else @click="toggle" class="px-2 hover:border-gray-400 border-2 rounded-md" :class="{'bg-blue-700' :showDescription }">
-                            Profil
-                        </button>
-                        <!--<help-us></help-us>-->
-                        <button v-if="isVideoPage" @click="openModal" class="px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap">Zapojiť sa</button>
-                        <a :href="/user/ + organization.id + '/'+ organization.slug + '/posts' " class="px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap">Všetky videa</a>
-                    </div>
+            </div>
 
 
-                    <transition name="fade">
-                        <div v-if="showDescription">
-                            <!--<textarea v-if="textform" name="" id=""style="width: 50vw" rows="7"></textarea>-->
-                            <div v-if="organization.description == null">Profil je nevyplnený.</div>
-                            {{ organization.description }} <br>
+            <div class="flex justify-start flex-col justify-between">
+                <h2 class="text-2xl font-semibold" v-text="organization.title"></h2>
 
-                            <div @click="toggle"
-                                 style="cursor: pointer; font-size: 75%; float: left; margin-right: 1rem">Zavrieť X
-                            </div>
-
-                        </div>
-                    </transition>
-
+                <div class="flex space-x-4 my-2">
+                    <button v-if="organization.person == 1" @click="toggle"
+                            class="px-2 hover:border-gray-500 border-2 rounded-sm"
+                            :class="{'bg-blue-700' :showDescription }">Autor
+                    </button>
+                    <button v-else @click="toggle" class="px-2 hover:border-gray-400 border-2 rounded-md"
+                            :class="{'bg-blue-700' :showDescription }">
+                        Profil
+                    </button>
+                    <!--<help-us></help-us>-->
+                    <button v-if="isVideoPage" @click="openModal"
+                            class="px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap">Zapojiť sa
+                    </button>
+                    <a :href="/user/ + organization.id + '/'+ organization.slug + '/posts' "
+                       class="px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap">Všetky videa</a>
                 </div>
 
+
+                <transition name="fade">
+                    <div v-if="showDescription">
+                        <!--<textarea v-if="textform" name="" id=""style="width: 50vw" rows="7"></textarea>-->
+                        <div v-if="organization.description == null">Profil je nevyplnený.</div>
+                        {{ organization.description }} <br>
+
+                        <div @click="toggle"
+                             style="cursor: pointer; font-size: 75%; float: left; margin-right: 1rem">Zavrieť X
+                        </div>
+
+                    </div>
+                </transition>
+
             </div>
 
-            <div>
-                <!-- Button i-Memeber-->
-                <div v-show="buttonStatus" v-html="button" @click="subscribe" title="Budete dostávať nové príspevky!"
-                     :class="classButton" class="p-4 rounded-md cursor-pointer flex justify-center"></div>
-
-            </div>
         </div>
 
+        <div>
+            <!-- Button i-Memeber-->
+            <div v-show="buttonStatus" v-html="button" @click="subscribe" title="Budete dostávať nové príspevky!"
+                 :class="classButton" class="p-2 rounded-md cursor-pointer flex justify-center"></div>
+
+        </div>
+
+        <modal></modal>
 
     </div>
 
@@ -63,9 +68,11 @@
 
 <script>
     import {bus} from '../app';
+    import modal from '../organizations/Organization-page-modal'
 
     export default {
         props: ['organization', 'post'],
+        components:{modal},
         data: function () {
             return {
                 domain: window.App.baseUrl,
@@ -92,7 +99,7 @@
                 if (this.favorited) {
                     return this.buttonText = 'Sledujete kanál'
                 }
-                return this.buttonText = 'Sledovať kanál<br>' + this.organization.title
+                return this.buttonText = 'Sledovať kanál ' + this.organization.title
             },
 
             classButton: function () {
@@ -136,7 +143,7 @@
             },
 
             openModal: function () {
-                bus.$emit('openModal');
+                bus.$emit('openModalHelpUs');
             }
         }
     }

@@ -24,6 +24,7 @@ Route::get('test/grecky', 'TestController@greckyMagazin');
 
 Route::apiResources([
     'modlitby' => Api\PrayerController::class,
+    'posts' => Api\PostController::class,
 ]);
 
 
