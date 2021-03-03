@@ -48,31 +48,36 @@
 
                     </div>
                 </transition>
-
             </div>
-
         </div>
 
-        <div>
+        <div class="relative">
             <!-- Button i-Memeber-->
             <div v-show="buttonStatus" v-html="button" @click="subscribe" title="Budete dostávať nové príspevky!"
-                 :class="classButton" class="p-2 rounded-md cursor-pointer flex justify-center"></div>
+                 :class="classButton" class="p-2 rounded-md cursor-pointer flex justify-center">
 
+            </div>
+            <!-- Login Form-->
+            <div v-if="open" class="absolute z-10 bg-white border-2 border-gray-400 p-2 rounded-md">
+                <input type="email" class="form-control mb-3" placeholder="Vložte email">
+                <button class="btn btn-primary w-full">Sledovať kanál</button>
+            </div>
         </div>
 
         <modal></modal>
-
     </div>
 
 </template>
 
 <script>
     import {bus} from '../app';
-    import modal from '../organizations/Organization-page-modal'
+    import modal from '../organizations/Organization-page-modal';
+    import { createdMixin } from "../mixins/createdMixin";
 
     export default {
         props: ['organization', 'post'],
-        components:{modal},
+        components: {modal},
+        mixins:[createdMixin],
         data: function () {
             return {
                 domain: window.App.baseUrl,
@@ -83,7 +88,7 @@
                 buttonText: '',
                 buttonStatus: true,
                 registrationLink: false,
-                showLoginForm: false
+                open: false
             }
         },
         computed: {
@@ -113,7 +118,8 @@
                 this.showDescription = !this.showDescription;
             },
             toggleLogin: function () {
-                this.showLoginForm = !this.showLoginForm;
+                // alert('Vytvorte si účet alebo prihláste sa.');
+                this.open = !this.open;
             },
 
             toggleFavorited: function () {

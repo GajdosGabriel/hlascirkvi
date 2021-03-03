@@ -11,18 +11,13 @@ class MessengerObserver
     /**
      * Handle the messenger "created" event.
      *
-     * @param  \App\Messenger  $messenger
+     * @param \App\Messenger $messenger
      * @return void
      */
     public function created(Messenger $messenger)
     {
 
-       $user = User::whereId($messenger->requested_user)->first();
-
-//        foreach($messenger->organization as $user)
-//        {
-            $user->notify(new ComingNewMessage($messenger));
-//        }
+        $messenger->requestedUser->notify(new ComingNewMessage($messenger));
 
         session()->flash('flash', 'Správa bola odoslaná!');
 
@@ -31,7 +26,7 @@ class MessengerObserver
     /**
      * Handle the messenger "updated" event.
      *
-     * @param  \App\Messenger  $messenger
+     * @param \App\Messenger $messenger
      * @return void
      */
     public function updated(Messenger $messenger)
@@ -42,7 +37,7 @@ class MessengerObserver
     /**
      * Handle the messenger "deleted" event.
      *
-     * @param  \App\Messenger  $messenger
+     * @param \App\Messenger $messenger
      * @return void
      */
     public function deleted(Messenger $messenger)
@@ -53,7 +48,7 @@ class MessengerObserver
     /**
      * Handle the messenger "restored" event.
      *
-     * @param  \App\Messenger  $messenger
+     * @param \App\Messenger $messenger
      * @return void
      */
     public function restored(Messenger $messenger)
@@ -64,7 +59,7 @@ class MessengerObserver
     /**
      * Handle the messenger "force deleted" event.
      *
-     * @param  \App\Messenger  $messenger
+     * @param \App\Messenger $messenger
      * @return void
      */
     public function forceDeleted(Messenger $messenger)

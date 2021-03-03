@@ -28,7 +28,7 @@ class TestController extends Controller
     {
         $message = Messenger::whereId(11)->first();
 
-        dd($message->person->fullname);
+        dd($message->requestedUser->fullname);
 
 //        (new Buffer())->handler();
 //       $prayers =  Prayer::all();

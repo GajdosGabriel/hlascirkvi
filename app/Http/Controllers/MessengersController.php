@@ -13,7 +13,7 @@ class MessengersController extends Controller
 {
 
 
-    public function toAdmin(StoreMessengerRequest $request) {
+    public function toAdmin(Request $request) {
 
        Messenger::create([
             'user_id' => $request->input('user_id', 1),

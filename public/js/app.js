@@ -3837,6 +3837,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
 /* harmony import */ var _organizations_Organization_page_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../organizations/Organization-page-modal */ "./resources/js/organizations/Organization-page-modal.vue");
+/* harmony import */ var _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/createdMixin */ "./resources/js/mixins/createdMixin.js");
 //
 //
 //
@@ -3905,6 +3906,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3912,6 +3917,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     modal: _organizations_Organization_page_modal__WEBPACK_IMPORTED_MODULE_1__.default
   },
+  mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_2__.createdMixin],
   data: function data() {
     return {
       domain: window.App.baseUrl,
@@ -3921,7 +3927,7 @@ __webpack_require__.r(__webpack_exports__);
       buttonText: '',
       buttonStatus: true,
       registrationLink: false,
-      showLoginForm: false
+      open: false
     };
   },
   computed: {
@@ -3947,7 +3953,8 @@ __webpack_require__.r(__webpack_exports__);
       this.showDescription = !this.showDescription;
     },
     toggleLogin: function toggleLogin() {
-      this.showLoginForm = !this.showLoginForm;
+      // alert('Vytvorte si účet alebo prihláste sa.');
+      this.open = !this.open;
     },
     toggleFavorited: function toggleFavorited() {
       this.favorited = !this.favorited;
@@ -69421,7 +69428,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("div", [
+      _c("div", { staticClass: "relative" }, [
         _c("div", {
           directives: [
             {
@@ -69436,7 +69443,27 @@ var render = function() {
           attrs: { title: "Budete dostávať nové príspevky!" },
           domProps: { innerHTML: _vm._s(_vm.button) },
           on: { click: _vm.subscribe }
-        })
+        }),
+        _vm._v(" "),
+        _vm.open
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "absolute z-10 bg-white border-2 border-gray-400 p-2 rounded-md"
+              },
+              [
+                _c("input", {
+                  staticClass: "form-control mb-3",
+                  attrs: { type: "email", placeholder: "Vložte email" }
+                }),
+                _vm._v(" "),
+                _c("button", { staticClass: "btn btn-primary w-full" }, [
+                  _vm._v("Sledovať kanál")
+                ])
+              ]
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("modal")

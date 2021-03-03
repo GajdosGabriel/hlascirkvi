@@ -35,8 +35,8 @@ class Kernel extends ConsoleKernel
 
 
 //        $schedule->command('PublisherBufferVideo')->everyMinute();
-        $schedule->command('PublisherBufferVideo')->twiceDaily(7, 17);
-//        $schedule->command('PublisherBufferVideo')->hourly();
+//        $schedule->command('PublisherBufferVideo')->twiceDaily(7, 17);
+        $schedule->command('PublisherBufferVideo')->hourly();
 
 
         $schedule->command('UserSearchByChannelAndPlaylist')->sundays()

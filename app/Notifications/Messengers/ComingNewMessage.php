@@ -38,9 +38,9 @@ class ComingNewMessage extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject( 'Nová správa - spolupráca/')
+            ->subject( $this->message->requestedUser->fullname . ' Nová správa - spolupráca/')
             ->greeting('Dobrý deň,')
-            ->line($this->message->person->fullname . ' Vám posiela túto správu: ')
+            ->line($this->message->senderUser->fullname . ' Vám posiela túto správu: ')
             ->line($this->message->body)
             ->line('Správa bola zaslaná prostretníctvom HlasCirkvi.sk - Kresťanský portál.')
             ->action('Odpovedať na správu', url('/'))
@@ -56,7 +56,7 @@ class ComingNewMessage extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->message->person->fullname . ' Vám poslal správu ',
+            'message' => $this->message->senderUser->fullname . ' Vám poslal správu ',
 //            'link' => 'url link'
                         'link' => $this->post->path()
         ];

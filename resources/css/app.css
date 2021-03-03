@@ -39,11 +39,14 @@
 }
 
 .btn {
-    @apply border-2 border-gray-300 px-2 rounded-md;
+    @apply border-2 border-gray-300 px-5 py-2 rounded-md;
 }
 
+.btn-primary {
+    @apply bg-blue-700 text-white;
+}
 .btn:hover {
-    @apply bg-blue-300;
+    @apply bg-blue-600;
 }
 
 
