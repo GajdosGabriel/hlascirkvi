@@ -34,13 +34,14 @@
 
                     @if(auth()->guest())
                         <label>Som človek 3+2 = </label>
-                        <input class="px-2 rounded-sm" type="number" name="iamHuman" placeholder="Zadajte číslo 5"
+                        <input class="px-2 rounded-sm text-gray-800" type="number" name="iamHuman" placeholder="Zadajte číslo 5"
                                required>
                     @endif
 
                     <button type="submit"
                             class="absolute right-0 px-2 p-1 border-2 text-sm rounded-sm mt-2 hover:bg-gray-700">Odoslať
-                        <span class="glyphicon glyphicon-envelope"></span></button>
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </button>
                 </div>
 
             </form>

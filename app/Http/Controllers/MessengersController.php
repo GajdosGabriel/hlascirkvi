@@ -13,7 +13,7 @@ class MessengersController extends Controller
 {
 
 
-    public function toAdmin(Request $request) {
+    public function toAdmin(StoreMessengerRequest $request) {
 
        Messenger::create([
             'user_id' => $request->input('user_id', 1),
@@ -24,11 +24,12 @@ class MessengersController extends Controller
         return back();
     }
 
+
     public function store(StoreMessengerRequest $request, Organization $organization) {
 
        $message = Messenger::create([
             'user_id' => auth()->user()->id,
-            'requested_organization' => $organization->id,
+            'requested_user' => $organization->id,
             'body' => $request->input('body')
         ]);
 

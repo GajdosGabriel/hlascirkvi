@@ -3956,6 +3956,11 @@ __webpack_require__.r(__webpack_exports__);
       // alert('Vytvorte si účet alebo prihláste sa.');
       this.open = !this.open;
     },
+    closeLoginInfo: function closeLoginInfo() {
+      if (this.open == true) {
+        this.open = false;
+      }
+    },
     toggleFavorited: function toggleFavorited() {
       this.favorited = !this.favorited;
     },
@@ -69306,7 +69311,8 @@ var render = function() {
     "div",
     {
       staticClass:
-        "md:flex justify-between text-gray-700 mb-6 border-b-2 border-gray-400"
+        "md:flex justify-between text-gray-700 mb-6 border-b-2 border-gray-400",
+      on: { click: _vm.closeLoginInfo }
     },
     [
       _c("div", { staticClass: "flex" }, [
@@ -69442,7 +69448,12 @@ var render = function() {
           class: _vm.classButton,
           attrs: { title: "Budete dostávať nové príspevky!" },
           domProps: { innerHTML: _vm._s(_vm.button) },
-          on: { click: _vm.subscribe }
+          on: {
+            click: function($event) {
+              $event.stopPropagation()
+              return _vm.subscribe($event)
+            }
+          }
         }),
         _vm._v(" "),
         _vm.open
@@ -69450,17 +69461,21 @@ var render = function() {
               "div",
               {
                 staticClass:
-                  "absolute z-10 bg-white border-2 border-gray-400 p-2 rounded-md"
+                  "absolute z-10 bg-white border-2 border-gray-400 p-2 rounded-md text-center"
               },
               [
-                _c("input", {
-                  staticClass: "form-control mb-3",
-                  attrs: { type: "email", placeholder: "Vložte email" }
-                }),
+                _c("p", { staticClass: "pb-4" }, [
+                  _vm._v("Prihláste sa, alebo zaregistrujte.")
+                ]),
                 _vm._v(" "),
-                _c("button", { staticClass: "btn btn-primary w-full" }, [
-                  _vm._v("Sledovať kanál")
-                ])
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-primary w-full",
+                    attrs: { href: "/login" }
+                  },
+                  [_vm._v("Pokračovať")]
+                )
               ]
             )
           : _vm._e()

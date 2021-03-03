@@ -1,6 +1,6 @@
 <template>
 
-    <div class="md:flex justify-between text-gray-700 mb-6 border-b-2 border-gray-400">
+    <div @click="closeLoginInfo" class="md:flex justify-between text-gray-700 mb-6 border-b-2 border-gray-400">
         <div class="flex">
 
             <!-- check if is person-->
@@ -53,14 +53,14 @@
 
         <div class="relative">
             <!-- Button i-Memeber-->
-            <div v-show="buttonStatus" v-html="button" @click="subscribe" title="Budete dostávať nové príspevky!"
+            <div v-show="buttonStatus" v-html="button" @click.stop="subscribe" title="Budete dostávať nové príspevky!"
                  :class="classButton" class="p-2 rounded-md cursor-pointer flex justify-center">
 
             </div>
             <!-- Login Form-->
-            <div v-if="open" class="absolute z-10 bg-white border-2 border-gray-400 p-2 rounded-md">
-                <input type="email" class="form-control mb-3" placeholder="Vložte email">
-                <button class="btn btn-primary w-full">Sledovať kanál</button>
+            <div v-if="open" class="absolute z-10 bg-white border-2 border-gray-400 p-2 rounded-md text-center">
+                <p class="pb-4">Prihláste sa, alebo zaregistrujte.</p>
+                <a :href="'/login'" class="btn btn-primary w-full">Pokračovať</a>
             </div>
         </div>
 
@@ -122,6 +122,11 @@
                 this.open = !this.open;
             },
 
+            closeLoginInfo(){
+              if (this.open == true) {
+                  this.open = false
+              }
+            },
             toggleFavorited: function () {
                 this.favorited = !this.favorited;
             },
