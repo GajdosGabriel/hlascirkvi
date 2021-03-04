@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container mx-auto p-8">
+    <div class="container mx-auto md:p-8">
         <div class="mx-auto max-w-sm">
             <div class="py-10 text-center">
 
@@ -30,7 +30,7 @@
 
                     <div class="flex">
                         <button type="submit"
-                            class="hover:bg-primary-dark w-full p-4 text-sm uppercase font-bold tracking-wider">
+                            class="hover:bg-primary-dark w-full p-4 text-sm uppercase font-bold tracking-wider border">
                             Vstúpiť
                         </button>
                     </div>

@@ -24,22 +24,23 @@
 
         <div class="w-full">
             <h4 class="border-b-2 py-3 border-gray-300 font-semibold">Napíšte nám</h4>
-            <form method="post" action="{{ route('messengers.store') }}" class="mt-4 relative">
+            <form method="post" action="{{ route('messengers.store') }}" class="my-4">
                 {{ csrf_field() }}
                 <textarea class="border-2 border-gray-500 rounded-md w-full p-2" name="body" rows="3"
                           class="w-full rounded-md" required placeholder="Napíšte nám svoje podnety ... Ďakujeme"
                           value="{{ old('body') }}"></textarea>
 
-                <div class="form-group">
+                <div class="form-group md:flex items-center mt-4">
 
                     @if(auth()->guest())
                         <label>Som človek 3+2 = </label>
-                        <input class="px-2 rounded-sm text-gray-800" type="number" name="iamHuman" placeholder="Zadajte číslo 5"
+                        <input class="mx-2 rounded-sm text-gray-800" type="number" name="iamHuman"
+                               placeholder="Zadajte číslo 5"
                                required>
                     @endif
 
                     <button type="submit"
-                            class="absolute right-0 px-2 p-1 border-2 text-sm rounded-sm mt-2 hover:bg-gray-700">Odoslať
+                            class="px-2 p-1 border-2 text-sm rounded-sm mt-2 hover:bg-gray-700">Odoslať
                         <span class="glyphicon glyphicon-envelope"></span>
                     </button>
                 </div>
@@ -56,8 +57,11 @@
 
         </div>
     </div>
-    <div class="text-sm mb-2 flex place-content-center">Autor šablóny Gajdoš Gabriel 2018 <a href="{{ url('/') }}"
-                                                                                             title="Hlas Cirkvi.sk">Hlas
-            Cirkvi.sk</a></div>
+
+    <div class="flex w-full justify-center">
+        <div class="text-sm my-2">Autor šablóny Gajdoš Gabriel 2018
+            <a href="{{ url('/') }}" title="Hlas Cirkvi.sk">Hlas Cirkvi.sk</a>
+        </div>
+    </div>
 
 </footer>

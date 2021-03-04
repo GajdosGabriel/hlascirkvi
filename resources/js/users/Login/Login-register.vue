@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container mx-auto p-8">
+    <div class="container mx-auto md:p-8">
         <div class="mx-auto max-w-sm">
             <div class="py-10 text-center">
 
@@ -55,7 +55,7 @@
 
                     <div class="flex">
                         <button type="submit"
-                            class="hover:bg-primary-dark border-2 rounded-sm w-full p-4 text-sm uppercase font-bold tracking-wider">
+                            class="hover:bg-primary-dark hover:bg-gray-100 border-2 rounded-sm w-full p-4 text-sm uppercase font-bold tracking-wider">
                             Registrovať sa
                         </button>
 
@@ -63,7 +63,7 @@
                 </form>
 
                 <div class="border-t px-10 py-6">
-                    <div class="flex justify-between">
+                    <div class="md:flex justify-between">
                         <a class="font-bold text-primary hover:text-primary-dark no-underline" href="/login">Späť</a>
                         <a href="/auth/facebook" class="text-grey-darkest hover:text-black no-underline">Registrácia pomocou Facebooku</a>
                     </div>

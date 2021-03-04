@@ -69352,8 +69352,7 @@ var render = function() {
                 ? _c(
                     "button",
                     {
-                      staticClass:
-                        "px-2 hover:border-gray-500 border-2 rounded-sm",
+                      staticClass: "btn-small btn-default",
                       class: { "bg-blue-700": _vm.showDescription },
                       on: { click: _vm.toggle }
                     },
@@ -69362,9 +69361,8 @@ var render = function() {
                 : _c(
                     "button",
                     {
-                      staticClass:
-                        "px-2 hover:border-gray-400 border-2 rounded-md",
-                      class: { "bg-blue-700": _vm.showDescription },
+                      staticClass: "btn-small btn-default",
+                      class: { "bg-blue-300": _vm.showDescription },
                       on: { click: _vm.toggle }
                     },
                     [_vm._v("\n                    Profil\n                ")]
@@ -69374,8 +69372,7 @@ var render = function() {
                 ? _c(
                     "button",
                     {
-                      staticClass:
-                        "px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap",
+                      staticClass: "btn-small btn-default whitespace-nowrap",
                       on: { click: _vm.openModal }
                     },
                     [_vm._v("Zapojiť sa\n                ")]
@@ -69385,8 +69382,7 @@ var render = function() {
               _c(
                 "a",
                 {
-                  staticClass:
-                    "px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap",
+                  staticClass: "btn-small btn-default whitespace-nowrap",
                   attrs: {
                     href:
                       /user/ +
@@ -69471,7 +69467,7 @@ var render = function() {
                 _c(
                   "a",
                   {
-                    staticClass: "btn btn-primary w-full",
+                    staticClass: "btn btn-primary w-full mb-2",
                     attrs: { href: "/login" }
                   },
                   [_vm._v("Pokračovať")]
@@ -71172,7 +71168,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container mx-auto p-8" }, [
+  return _c("div", { staticClass: "container mx-auto md:p-8" }, [
     _c("div", { staticClass: "mx-auto max-w-sm" }, [
       _c("div", { staticClass: "py-10 text-center" }),
       _vm._v(" "),
@@ -71594,7 +71590,7 @@ var staticRenderFns = [
         "button",
         {
           staticClass:
-            "hover:bg-primary-dark border-2 rounded-sm w-full p-4 text-sm uppercase font-bold tracking-wider",
+            "hover:bg-primary-dark hover:bg-gray-100 border-2 rounded-sm w-full p-4 text-sm uppercase font-bold tracking-wider",
           attrs: { type: "submit" }
         },
         [
@@ -71610,7 +71606,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "border-t px-10 py-6" }, [
-      _c("div", { staticClass: "flex justify-between" }, [
+      _c("div", { staticClass: "md:flex justify-between" }, [
         _c(
           "a",
           {
@@ -71657,7 +71653,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container mx-auto p-8" },
+    { staticClass: "container mx-auto md:p-8" },
     [
       _vm.closeCard
         ? _c("div", { staticClass: "mx-auto max-w-sm" }, [
@@ -71780,7 +71776,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container mx-auto p-8" }, [
+  return _c("div", { staticClass: "container mx-auto md:p-8" }, [
     _c("div", { staticClass: "mx-auto max-w-sm" }, [
       _c("div", { staticClass: "py-10 text-center" }),
       _vm._v(" "),
@@ -71982,7 +71978,7 @@ var staticRenderFns = [
         "button",
         {
           staticClass:
-            "hover:bg-primary-dark w-full p-4 text-sm uppercase font-bold tracking-wider",
+            "hover:bg-primary-dark w-full p-4 text-sm uppercase font-bold tracking-wider border",
           attrs: { type: "submit" }
         },
         [_vm._v("\n                        Vstúpiť\n                    ")]

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container mx-auto p-8">
+    <div class="container mx-auto md:p-8">
         <div v-if="closeCard" class="mx-auto max-w-sm">
             <div class="py-10 text-center">
 

@@ -20,19 +20,19 @@
 
                 <div class="flex space-x-4 my-2">
                     <button v-if="organization.person == 1" @click="toggle"
-                            class="px-2 hover:border-gray-500 border-2 rounded-sm"
+                            class="btn-small btn-default"
                             :class="{'bg-blue-700' :showDescription }">Autor
                     </button>
-                    <button v-else @click="toggle" class="px-2 hover:border-gray-400 border-2 rounded-md"
-                            :class="{'bg-blue-700' :showDescription }">
+                    <button v-else @click="toggle" class="btn-small btn-default"
+                            :class="{'bg-blue-300' :showDescription }">
                         Profil
                     </button>
                     <!--<help-us></help-us>-->
                     <button v-if="isVideoPage" @click="openModal"
-                            class="px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap">Zapojiť sa
+                            class="btn-small btn-default whitespace-nowrap">Zapojiť sa
                     </button>
                     <a :href="/user/ + organization.id + '/'+ organization.slug + '/posts' "
-                       class="px-2 hover:border-gray-400 border-2 rounded-md whitespace-nowrap">Všetky videa</a>
+                       class="btn-small btn-default whitespace-nowrap">Všetky videa</a>
                 </div>
 
 
@@ -60,7 +60,7 @@
             <!-- Login Form-->
             <div v-if="open" class="absolute z-10 bg-white border-2 border-gray-400 p-2 rounded-md text-center">
                 <p class="pb-4">Prihláste sa, alebo zaregistrujte.</p>
-                <a :href="'/login'" class="btn btn-primary w-full">Pokračovať</a>
+                <a :href="'/login'" class="btn btn-primary w-full mb-2">Pokračovať</a>
             </div>
         </div>
 

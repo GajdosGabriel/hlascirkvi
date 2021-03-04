@@ -42,11 +42,19 @@
     @apply border-2 border-gray-300 px-5 py-2 rounded-md;
 }
 
+.btn-small {
+    @apply text-sm border-2 border-gray-300 px-2 rounded-md;
+}
+
 .btn-primary {
     @apply bg-blue-700 text-white;
 }
-.btn:hover {
-    @apply bg-blue-600;
+.btn-default {
+    @apply bg-white text-gray-700 hover:bg-blue-200;
 }
+
+/*.btn:hover {*/
+/*    @apply bg-blue-600;*/
+/*}*/
 
 
