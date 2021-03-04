@@ -48,13 +48,13 @@
                                                             </a>
                                                         </li>
                                                         @can('admin')
+{{--                                                            <li class="dropdown-item"><a--}}
+{{--                                                                    href="#">--}}
+{{--                                                                    blokovať youtube--}}
+{{--                                                                </a>--}}
+{{--                                                            </li>--}}
                                                             <li class="dropdown-item"><a
-                                                                    href="{{ route('admin.youtubeBlocked', [$post->id]) }}">
-                                                                    blokovať youtube
-                                                                </a>
-                                                            </li>
-                                                            <li class="dropdown-item"><a
-                                                                    href="{{ route('post.toBuffer', [$post->id]) }}">
+                                                                <a href="{{ route('post.toBuffer', [$post->id]) }}">
                                                                     Do buffer
                                                                 </a>
                                                             </li>

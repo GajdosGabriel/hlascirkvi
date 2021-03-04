@@ -52,7 +52,7 @@
 
                 {{--Video--}}
                 @if($post->video_id)
-                    <div class="" id="player">
+                    <div class="aspect-w-16 aspect-h-9" id="player">
                         <iframe
                             src="https://www.youtube.com/embed/{{ $post->video_id }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
                             allowfullscreen
@@ -101,11 +101,14 @@
                                         </li>
                                     </a>
                                     @can('admin')
-                                        <a href="{{ route('admin.youtubeBlocked', [$post->id]) }}">
-                                            <li class="dropdown-item">
-                                                blokovať youtube
-                                            </li>
-                                        </a>
+{{--                                        <form action="{{ route('posts.update', [$post->id]) }}">--}}
+{{--                                            @csrf--}}
+{{--                                            <input type="hidden" name="youtube_blocked" value="1">--}}
+{{--                                            <li class="dropdown-item">--}}
+{{--                                               <button type="submit">blokovať youtube</button>--}}
+{{--                                            </li>--}}
+{{--                                        </form>--}}
+
                                         <a href="{{ route('post.toBuffer', [$post->id]) }}">
                                             <li class="dropdown-item">
                                                 Do buffer
@@ -298,7 +301,12 @@
 
 @section('script')
 
-    <script src="https://cdn.plyr.io/3.5.3/plyr.js"></script>
+<script>
+    import Form from "../../js/messenger/form";
+    export default {
+        components: {Form}
+    }
+</script>
     <script defer>
         const player = new Plyr('#player');
     </script>
