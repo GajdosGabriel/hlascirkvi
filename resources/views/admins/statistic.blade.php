@@ -12,7 +12,7 @@
                     <a class="tag" href="{{ route('organization.profile', [auth()->id(), auth()->user()->slug]) }}">Späť</a>
                 </div>
 
-                <div class="level">
+                <div class="flex">
                     <h3>Štatistika návštev - unikátne view</h3>
                     <div>
                         <a href="{{ route('admin.statistic', ['days' => 1]) }}">Dnes</a>

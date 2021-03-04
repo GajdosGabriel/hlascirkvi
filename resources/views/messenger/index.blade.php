@@ -2,7 +2,7 @@
 <section class="module">
     <div class="top-bar">
 
-        <div class="level">
+        <div class="flex">
             <h1>Správa pre  ...</h1>
             <span>X</span>
         </div>

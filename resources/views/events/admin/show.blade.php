@@ -12,7 +12,7 @@
 
             <div class="event-content">
 
-                <div class="page-header level">
+                <div class="page-header flex">
                     <h3>Prihlásený na: {{ $event->title }}</h3>
                 </div>
 

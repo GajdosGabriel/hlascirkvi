@@ -239,7 +239,7 @@
                         <div class="card-header">{{ trans('web.events_info_panel') }}</div>
                         <div class="card-body">
 
-                        <div class="level">
+                        <div class="flex">
                             <span>Pridal:</span>
                             <span>{{ $event->organization->title }}</span>
                         </div>

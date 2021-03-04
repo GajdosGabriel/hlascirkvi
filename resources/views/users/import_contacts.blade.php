@@ -14,7 +14,7 @@
 
 
 
-                <div class="level">
+                <div class="flex">
                     <h3> {{ $user->fullName }}</h3>
                 </div>
 

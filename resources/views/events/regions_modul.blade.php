@@ -4,7 +4,7 @@
     <ul>
         <li><a href="{{ route('event.index') }}"> @if(!request()->has('region')) <i style="color: #3b32b3" class="fas fa-check"></i> @endif Všetky regiony</a></li>
     @forelse(\App\Region::all() as $region)
-            <li class="level">
+            <li class="flex">
                 <a href="?region={{ $region->slug }}"> @if(request('region') == $region->slug) <i style="color: #3b32b3" class="fas fa-check"></i> @endif {{ $region->title }}</a>
                 <span>{{ \App\Event::activeEvents()->where('village_id', $region->id)->get()->count() }}</span>
             </li>

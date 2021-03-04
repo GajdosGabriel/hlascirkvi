@@ -75,7 +75,7 @@
 
 
                         <div class="form-group">
-                            <div class="level">
+                            <div class="flex">
                                 <a title="Registrácia cez Facebook">
                                     Registrácia cez FB
                                 </a>

@@ -21,7 +21,7 @@
 
 
         @can('admin')
-            <li class="level">
+            <li class="flex">
                 <a href="?event=unpublished"> @if(request()->has('unpublished')) <i style="color: #3b32b3" class="fas fa-check"></i> @endif
                     Nepublikované
                 </a>

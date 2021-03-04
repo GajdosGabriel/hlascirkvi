@@ -23,7 +23,7 @@
 
     <div class="col-span-5">
         <div class="post-header">
-            <div class="title level">
+            <div class="title flex">
                 <h5 class="text-lg font-semibold"><a href="{{ $event->url }}">{{ $event->title }}</a></h5>
 
                 @can('update', $event)

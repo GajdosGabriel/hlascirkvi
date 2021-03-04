@@ -3,7 +3,7 @@
     <div class="card" style="padding: 1rem">
 
         <div>
-            <div class="level" style="margin-bottom: 1rem;">
+            <div class="flex" style="margin-bottom: 1rem;">
             <h4>Bleskové správy</h4>
             <i class="fas fa-rss"></i>
             </div>

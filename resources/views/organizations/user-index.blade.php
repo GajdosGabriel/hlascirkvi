@@ -2,16 +2,12 @@
 
 @section('content')
 
+    @include('organizations._profil-menu')
     <div class="page">
-        @include('organizations._profil-menu')
-        <div class="p-2 flex">
 
-            <div class="md:w-8/12">
+        <div class="flex">
 
-                <div>
-                    <a class="tag"
-                       href="{{ route('organization.profile', [auth()->id(), auth()->user()->slug]) }}">Späť</a>
-                </div>
+            <div class="md:w-8/12 md:mr-5">
 
                 <h3 class="page_title">Vaše kanály</h3>
 

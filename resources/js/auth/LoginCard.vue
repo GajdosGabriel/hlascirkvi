@@ -38,7 +38,7 @@
 
 </template>
 <script>
-    import {bus} from '../../app';
+    import {bus} from '../app';
     import LoginForm from './LoginForm.vue';
     import LoginRegister from './Login-register.vue';
 

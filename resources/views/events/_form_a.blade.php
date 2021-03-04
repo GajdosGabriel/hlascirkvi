@@ -30,7 +30,7 @@
     </div>
 
 <h4 style="margin-top: 2rem">Príloha alebo obrázok</h4>
-    <div class="level">
+    <div class="flex">
         <div class="form-group">
             <label id="picture"><strong>{{ trans('web.events_picture') }}</strong></label>
             <input id="picture" type="file" name="picture[]" multiple placeholder="Obrázok" accept="image/*,application/pdf,application/doc,application/docx" class="form-control">

@@ -10,7 +10,7 @@
 
             @forelse($post->bigThinks as $think)
                 <div style="margin-bottom: .4rem">
-                    <div class="level">
+                    <div class="flex">
                         <div><span style="margin-right: .7rem;" >{{ $loop->index + 1 }}</span>  {{ $think->body }}</div>
                     <div style="color: #a0a0a0; font-size: 80%;">{{ $think->organization->anonymizer() }}</div>
                     </div>

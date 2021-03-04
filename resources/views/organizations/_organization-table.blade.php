@@ -1,5 +1,5 @@
-<table>
-    <thead>
+<table class="table-auto border-2 border-gray-400 rounded-md w-full">
+    <thead class="bg-gray-500 text-white">
     <tr>
         <th style="width: 7%">Id</th>
         <th>Názov</th>
@@ -12,10 +12,10 @@
     </tr>
     </thead>
 
-    <tbody>
+    <tbody class="">
     @forelse($organizations as $organization)
-        <tr>
-            <td>{{ $loop->iteration }}</td>
+        <tr class="border-2 border-gray-300">
+            <td class="pl-4">{{ $loop->iteration }}</td>
             <td>
                 <a href="{{ route('organization.profile', [ $organization->id, $organization->slug]) }}">
                     {{ $organization->title }}
@@ -75,7 +75,7 @@
                     </a>
                 @endforeach
             </td>
-            <td class="level">
+            <td class="flex space-x-3 items-center px-2">
                 <a href="{{ route('organization.edit', [ $organization->id, $organization->slug]) }}">
                     <i title="Upraviť" class="fas fa-edit"></i>
                 </a>

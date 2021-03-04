@@ -1,7 +1,7 @@
 
 <div class="card">
 
-    <div class="level card-header" style="border-bottom: .1rem solid silver; padding-bottom: .5rem; margin-bottom: 2rem">
+    <div class="flex card-header" style="border-bottom: .1rem solid silver; padding-bottom: .5rem; margin-bottom: 2rem">
         <span style="font-weight: 600">Rezervácia miesta</span>
     </div>
     <div class="card-body">

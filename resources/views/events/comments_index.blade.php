@@ -2,7 +2,7 @@
 <span>Hľadám na akciu:</span>
     @forelse($commentsLook as $comment)
         <span class="comment">
-            <div class="level">
+            <div class="flex">
 
                     <small> {{ $comment->user->Fullname }}: </small>
 

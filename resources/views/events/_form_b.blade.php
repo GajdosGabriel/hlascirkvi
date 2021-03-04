@@ -89,7 +89,7 @@
     </select>
 </div>
 
-<div class="level">
+<div class="flex">
     <div class="inline">
         <label>{{ trans('web.events_published_now') }}</label>
         <input type="radio" value="1"

@@ -103,7 +103,7 @@
 {{--</div>--}}
 
 {{--Add post Field--}}
-<div class="level">
+<div class="flex">
 
     <div class="form-group">
         <label>Obrázok</label>

@@ -18,18 +18,18 @@
                                     </a>
                                 </div>
 
-                                <div style="margin-top: -1.2rem" class="card-body">
+                                <div class="card-body">
                                     <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
                                         <strong class="card-title">{{ $post->title }}</strong>
                                     </a>
                                 </div>
                             </div>
 
-                            <div class="card-footer">
+                            <div class="card-footer text-sm">
                                 {{ $post->organization->title }}
                                 <time datetime="{{ $post->created_at }}">{{ $post->created_at->diffForHumans() }}</time>
 
-                                <div class="level">
+                                <div class="flex justify-between">
                                     <a href="{{ route('admin.bufferedVideosPublish', [$post->id]) }}">Zverejniť</a>
                                     @can('admin')
                                         <a href="{{ route('admin.youtubeBlocked', [$post->id]) }}">Blokovať</a>
