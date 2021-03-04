@@ -12,25 +12,29 @@
             </a>
         </div>
 
-        <a :href="post.url">
-            <h6 class="pb-2 px-2 font-semibold mb-10" :title="post.title">{{ post.title }}</h6>
-        </a>
 
+        <h6 class="pb-2 px-2 font-semibold mb-10" :title="post.title">
+            <a :href="post.url">{{ post.title }}</a>
+        </h6>
 
         <div class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm">
             <a :href="'/user/' + post.organization.id + '/' +  post.organization.slug"
                v-text="post.organization.title">
             </a>
             <time :datetime="post.created_at">{{ post.createdAtHuman }}</time>
-        </div>
 
+            <published-blocked v-if="!post.hasUpdater" :post="post"/>
+        </div>
     </div>
 
 </template>
 
 <script>
+    import publishedBlocked from "./publishedBlocked";
+
     export default {
         props: ['post'],
+        components: {publishedBlocked}
 
     }
 </script>

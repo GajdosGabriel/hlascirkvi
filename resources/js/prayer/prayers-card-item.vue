@@ -4,26 +4,29 @@
             <div class="flex justify-between">
                 <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
                 <div class="font-semibold" v-else>žiadam o modlitbu</div>
-                <i class="fas fa-praying-hands text-gray-400" title="modlitbu"></i>
             </div>
-            <div class="text-sm">{{ prayer.body }}</div>
 
-            <div class="flex justify-between mb-2">
+            <div class="flex">
+                <div class="">
 
-                <div class="flex items-center">
-                    <svg class="h-4 w-4 mr-1 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                              clip-rule="evenodd"/>
-                    </svg>
+                    <div class="text-sm">{{ prayer.body }}</div>
 
-                    <span class="font-semibold mr-1">{{ prayer.user_name }}</span>
+                    <div class="flex mb-2">
 
-                </div>
+                        <div class="flex items-center">
+                            <svg class="h-4 w-4 mr-1 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+
+                            <span class="font-semibold mr-1">{{ prayer.user_name }}</span>
+
+                        </div>
 
 
-                <span class="text-xs flex items-center">
+                        <span class="text-xs flex items-center">
                    <svg class="h-4 w-4 mr-2 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd"
@@ -32,7 +35,17 @@
                     </svg>
                    {{ prayer.created_at | dateTime }} hod.
                 </span>
+                    </div>
+                </div>
+
+                <div class="w-16 ml-6 flex flex-col text-2xl items-center">
+                    <i class="fas fa-praying-hands text-gray-400" title="modlitbu"></i>
+                    <span class="text-gray-900">4</span>
+                    <button class="btn-small text-xsp">Podporiť</button>
+                </div>
             </div>
+
+
         </div>
     </div>
 </template>

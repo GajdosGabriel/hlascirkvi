@@ -22,7 +22,7 @@ class Post extends Model implements ViewableContract
     protected $hidden = ['organization_id', 'blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['comments', 'favorites', 'organization', 'images'];
-    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'createdAtHuman'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'createdAtHuman', 'hasUpdater'];
 
     protected static function boot()
     {
@@ -141,6 +141,11 @@ class Post extends Model implements ViewableContract
     public function getCreatedAtHumanAttribute()
     {
         return $this->created_at->diffForHumans();
+    }
+
+    public function getHasUpdaterAttribute()
+    {
+        return $this->updaters()->exists();
     }
 
     public function getThumbImageAttribute()

@@ -28,7 +28,8 @@ class Post extends JsonResource
             'createdAtHuman' => $this->createdAtHuman,
             'thumbImage' => $this->thumbImage,
 //            'images' => Image::collection($this->images),
-            'organization' => new Organization($this->organization)
+            'organization' => new Organization($this->organization),
+            'hasUpdater' => $this->hasUpdater
         ];
     }
 }

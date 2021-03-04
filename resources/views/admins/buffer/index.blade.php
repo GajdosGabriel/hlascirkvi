@@ -3,44 +3,19 @@
 @section('content')
 
     <div class="page">
-
-        <div class="flex">
-
-            <div class="md:w-8/12 md:mr-5">
+        <div class="md:flex">
+            {{--  Stlpec I. --}}
+            <div class="md:w-8/12 m-6">
                 <h3 class="page_title text-2xl">Buffer príspevky (Nezverenené)</h3>
-                <div class="grid grid-cols-4 gap-5">
+
+                <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                     @forelse($posts as $post)
-                        <div class="card card-flex">
-                            <div>
-                                <div style="max-height: 13rem; overflow: hidden">
-                                    <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
-                                        @include('posts.image')
-                                    </a>
-                                </div>
 
-                                <div class="card-body">
-                                    <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
-                                        <strong class="card-title">{{ $post->title }}</strong>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="card-footer text-sm">
-                                {{ $post->organization->title }}
-                                <time datetime="{{ $post->created_at }}">{{ $post->created_at->diffForHumans() }}</time>
-
-                                <div class="flex justify-between">
-                                    <a href="{{ route('admin.bufferedVideosPublish', [$post->id]) }}">Zverejniť</a>
-                                    @can('admin')
-                                        <a href="{{ route('admin.youtubeBlocked', [$post->id]) }}">Blokovať</a>
-                                    @endcan
-                                </div>
-                            </div>
-                        </div>
+                        <post-card :post="{{ $post }}"></post-card>
+                        {{--                        @include('posts.post-card')--}}
                     @empty
                         bez záznamu
                     @endforelse
-
                 </div>
 
                 {{ $posts->links() }}
