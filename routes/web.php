@@ -149,9 +149,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkAdmin'])->nam
     Route::get('index', 'AdminsController@indexOrganization')->name('organization.index');
     Route::get('index/user', 'AdminsController@indexUser')->name('user.index');
     Route::get('buffered/videos', 'BuffersController@indexBufferedVideos')->name('unpublished');
-    Route::post('publish/buffer/', 'BuffersController@bufferedVideosPublish')->name('bufferedVideosPublish');
     Route::get('statistic/{days}', 'AdminsController@statistic')->name('statistic');
-    Route::post('youtubeBlocked/blocked', 'BuffersController@youtubeBlocked')->name('youtubeBlocked');
 
     Route::get('images/index', 'ImagesController@index')->name('images.index');
     Route::get('images/destroy', 'ImagesController@destroy')->name('images.destroy');

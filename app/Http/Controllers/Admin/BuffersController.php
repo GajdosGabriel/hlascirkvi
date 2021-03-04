@@ -32,21 +32,5 @@ class BuffersController extends Controller
         return view('admins.buffer.index', ['posts' => $posts, 'users' => $users]);
     }
 
-    public function youtubeBlocked(Request $request)
-    {
-        Post::withoutGlobalScope('published')->whereId($request->post)->first()->update(['youtube_blocked' => 1]);
-
-        return redirect()->route('admin.unpublished')
-            ->with(session()->flash('flash', 'Vídeo je blokované!'));
-    }
-
-    // Ručné zverejnenie videa
-    public function bufferedVideosPublish(Request $request)
-    {
-        $this->posts->findAndPublishPost($request->post, $idUpdater = 15);
-
-        session()->flash('flash', 'Príspevok zverejnený!');
-        return back();
-    }
 
 }

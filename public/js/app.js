@@ -4793,13 +4793,13 @@ __webpack_require__.r(__webpack_exports__);
   props: ['post'],
   methods: {
     publishVideo: function publishVideo() {
-      axios.post('/admin/publish/buffer', {
-        post: this.post.id
+      axios.put('/api/posts/' + this.post.id, {
+        idUpdater: 15
       }).then(location.reload());
     },
     youtubeBlocked: function youtubeBlocked() {
-      axios.post('/admin/youtubeBlocked/blocked', {
-        post: this.post.id
+      axios.put('/api/posts/' + this.post.id, {
+        youtube_blocked: 1
       }).then(location.reload());
     }
   }
