@@ -25,7 +25,7 @@
                         </div>
 
 
-                        <span class="text-xs flex items-center">
+                        <span class="text-xs flex items-center  flex-shrink-0">
                    <svg class="h-4 w-4 mr-2 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd"

@@ -27,7 +27,7 @@
 
             </div>
 
-            <div class="w-4/12">
+            <div class="md:w-4/12">
                 <user-card :user="{{ $organization }}"></user-card>
 
                 @if(auth()->check())

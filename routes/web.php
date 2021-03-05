@@ -113,10 +113,7 @@ Route::prefix('akcie/')->name('event.')->group(function () {
 
 //    Prayer
 Route::prefix('/modlitby/')->group(function () {
-    Route::middleware('auth')->group(function () {
-        Route::get('favorites/{prayer}/add', 'FavoritesController@favoritePrayer');
-    });
-
+    Route::post('favorites/{prayer}/add', 'FavoritesController@favoritePrayer');
 });
 
 

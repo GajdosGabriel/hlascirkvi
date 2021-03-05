@@ -6,6 +6,7 @@ use App\Organization;
 use App\Post;
 use App\Event;
 use App\Prayer;
+use App\Repository\User\UserRegistration;
 use App\User;
 use App\Comment;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class FavoritesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('favoritePrayer');
     }
 
     public function favoritePosts(Post $post) {
@@ -44,7 +45,11 @@ class FavoritesController extends Controller
         return redirect()->route('event.show', [$event->id, $event->slug]);
     }
 
-    public function favoritePrayer(Prayer $prayer) {
+    public function favoritePrayer(Prayer $prayer, Request $request) {
+        if($request->email) {
+            (new UserRegistration)->commentCheckIfUserAccountExist($request);
+        }
+
         $prayer->favorite();
         session()->flash('flash', 'Sledovanie potvrdené!');
     }

@@ -36,7 +36,8 @@ class Buffer
         /*
         * Spočíta userov v buffer ktorí čakajú na zverenenie ale -1
         */
-        $countOfUsers = $this->post->getUnpublishedPosts()->groupBy('organization_id')->count() -1;
+        $countOfUsers = $this->post->getUnpublishedPosts()->groupBy('organization_id')->count();
+//        $countOfUsers = $this->post->getUnpublishedPosts()->groupBy('organization_id')->count() -1;
 
 
         $usersId = $this->idLastPublishedOrganizations($countOfUsers);

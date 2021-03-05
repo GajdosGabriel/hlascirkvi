@@ -23,18 +23,18 @@
             </a>
             <time :datetime="post.created_at">{{ post.createdAtHuman }}</time>
 
-            <published-blocked v-if="!post.hasUpdater" :post="post"/>
+            <card-published-blocked v-if="!post.hasUpdater" :post="post"/>
         </div>
     </div>
 
 </template>
 
 <script>
-    import publishedBlocked from "./publishedBlocked";
+    import cardPublishedBlocked from "./card-publishedBlocked";
 
     export default {
         props: ['post'],
-        components: {publishedBlocked}
+        components: {cardPublishedBlocked}
 
     }
 </script>

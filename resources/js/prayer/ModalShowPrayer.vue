@@ -64,16 +64,33 @@
                                 </p>
                             </div>
 
-                            <div class="mt-4 text-center w-full">
-                                <button v-if="!open" @click="saveFavorites" class="btn btn-primary">
+                            <!-- Email for Login-->
+                            <form v-if="!isAuth" @submit.prevent="saveFavorites">
+                                <div v-if="open" class="mt-4 text-center w-full">
+                                    <p class="font-semibold mb-2">Nie ste prihlásený. Vložte svoj email, ktorý email
+                                        <br> ktorý nebude nikde zverejnený. Pripojite sa k modlitbe.
+                                    </p>
+
+                                    <div class="mb-3">
+                                        <input v-model="email" type="email"
+                                               class="border w-full p-2 border-2 border-gray-700 rounded" name="email"
+                                               placeholder="E-Mail" required>
+                                    </div>
+                                </div>
+
+                                <button v-if="open" type="submit" class="btn btn-primary mt-2">
                                     Pripojiť sa k modlitbe
                                 </button>
-                                <!-- Login Form-->
-                                <div v-if="open" class="bg-white border-2 border-gray-400 p-2 rounded-md text-center">
-                                    <p class="pb-4">Prihláste sa, alebo zaregistrujte. Email nebude nikde zverejnený.</p>
-                                    <a :href="'/login'" class="btn btn-primary w-full mb-2">Pokračovať</a>
-                                </div>
-                            </div>
+
+                                <button v-else @click="open = true" class="btn btn-primary mt-2">
+                                    Pripojiť sa k modlitbe
+                                </button>
+                            </form>
+
+                            <button v-if="isAuth" @click="saveFavorites" class="btn btn-primary mt-2">
+                                Pripojiť sa k modlitbe
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -91,17 +108,22 @@
 
 <script>
     import {bus} from '../app';
-    import { filterMixin } from "../mixins/filtersMixin";
+    import {filterMixin} from "../mixins/filtersMixin";
 
     export default {
-        mixins:[ filterMixin],
+        mixins: [filterMixin],
         data: function () {
             return {
                 prayer: '',
                 open: false,
+                email: '',
             }
         },
-
+        computed: {
+            isAuth() {
+                return window.App.signedIn
+            }
+        },
         created: function () {
             bus.$on('passToModalPrayer', (prayer) => {
                 this.prayer = prayer
@@ -113,12 +135,12 @@
                 this.prayer = '';
             },
 
-            saveFavorites: function() {
-                if (! window.App.signedIn) {
-                    this.open = true;
-                    return
-                }
-                axios.get('/modlitby/favorites/' + this.prayer.id +'/add' );
+            saveFavorites: function () {
+                axios.post('/modlitby/favorites/' + this.prayer.id + '/add', {email: this.email})
+                    .then((response) => {
+                            this.prayer = null
+                        }
+                    )
             },
 
         }
