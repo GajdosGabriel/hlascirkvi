@@ -1,5 +1,5 @@
 <template>
-    <div class="border-2 border-gray-400 rounded-md shadow-md relative text-xs md:text-sm">
+    <div class="border-2 border-gray-400 rounded-md shadow-md relative md:text-sm">
 
         <div style="max-height: 11rem; overflow: hidden; position: relative">
             <div v-if="post.favoritesCount"

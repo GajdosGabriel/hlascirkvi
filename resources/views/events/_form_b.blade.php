@@ -89,7 +89,7 @@
     </select>
 </div>
 
-<div class="flex">
+<div class="flex justify-between my-3">
     <div class="inline">
         <label>{{ trans('web.events_published_now') }}</label>
         <input type="radio" value="1"
@@ -109,5 +109,5 @@
 </div>
 
 <div class="form-group my-5">
-    <button type="submit" class="btn w-full"> {{ $buttonText ?? trans('web.btn_save') }}</button>
+    <button type="submit" class="btn btn-primary w-full"> {{ $buttonText ?? trans('web.btn_save') }}</button>
 </div>

@@ -4,7 +4,6 @@
         <a class="my-2 font-semibold" href="{{ url('/') }}">
             Hlas Cirkvi
         </a>
-
         <ul class="my-2 flex  space-x-4">
             <li>
                 <a class="flex items-center" href="{{ route('online-prenosy') }}">Nedeľné prenosy

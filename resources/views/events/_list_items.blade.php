@@ -23,7 +23,7 @@
 
     <div class="col-span-5">
         <div class="post-header">
-            <div class="title flex">
+            <div class="title flex justify-between">
                 <h5 class="text-lg font-semibold"><a href="{{ $event->url }}">{{ $event->title }}</a></h5>
 
                 @can('update', $event)
@@ -32,15 +32,22 @@
                             <i style="float: right; cursor: pointer " @click='toggle' title="Spravovať článok"
                                class="fas fa-ellipsis-v"></i>
                             <ul class="absolute right-0 border-2 border-gray-600 rounded-md bg-white" v-if="open">
-                                <li class="px-2 py-1 hover:bg-gray-200 hover:font-semibold">
-                                    <a href="{{ route('event.edit', [$event->id, $event->slug]) }}"
-                                       class="">upraviť</a></li>
-                                <li class="px-2 py-1 hover:bg-gray-200 ">
-                                    <a href="{{ route('event.delete', [$event->id, $event->slug]) }}"
-                                       class="hover:font-semibold">zmazať</a></li>
-                                <li class="px-2 py-1 hover:bg-gray-200 hover:font-semibold">
-                                    <a href="{{ route('event.admin', [$event->id, $event->slug]) }}"
-                                       class="">Administrácia</a></li>
+                                <a href="{{ route('event.edit', [$event->id, $event->slug]) }}" class="">
+                                    <li class="px-2 py-1 hover:bg-gray-200 hover:font-semibold">
+                                        upraviť
+                                    </li>
+                                </a>
+                                <a href="{{ route('event.delete', [$event->id, $event->slug]) }}"
+                                   class="hover:font-semibold">
+                                    <li class="px-2 py-1 hover:bg-gray-200 ">
+                                        zmazať
+                                    </li>
+                                </a>
+                                <a href="{{ route('event.admin', [$event->id, $event->slug]) }}" class="">
+                                    <li class="px-2 py-1 hover:bg-gray-200 hover:font-semibold">
+                                        Administrácia
+                                    </li>
+                                </a>
                             </ul>
                             {{--<a class="btn" href="{{ URL::previous() }}"> <i class="fa fa-arrow-left"></i> Späť</a>--}}
                         </div>

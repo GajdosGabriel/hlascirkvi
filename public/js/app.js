@@ -70841,7 +70841,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "border-2 border-gray-400 rounded-md shadow-md relative text-xs md:text-sm"
+        "border-2 border-gray-400 rounded-md shadow-md relative md:text-sm"
     },
     [
       _c(
@@ -71822,7 +71822,7 @@ var staticRenderFns = [
         _c("span", { staticClass: "text-gray-900" }, [_vm._v("4")]),
         _vm._v(" "),
         _c("button", { staticClass: "btn-small text-xsp" }, [
-          _vm._v("Podporiť")
+          _vm._v("Pripojiť")
         ])
       ]
     )

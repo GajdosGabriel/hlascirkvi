@@ -41,7 +41,7 @@
                 <div class="w-16 ml-6 flex flex-col text-2xl items-center">
                     <i class="fas fa-praying-hands text-gray-400" title="modlitbu"></i>
                     <span class="text-gray-900">4</span>
-                    <button class="btn-small text-xsp">Podporiť</button>
+                    <button class="btn-small text-xsp">Pripojiť</button>
                 </div>
             </div>
 

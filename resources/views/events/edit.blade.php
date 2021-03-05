@@ -8,21 +8,22 @@
     @include('organizations._profil-menu')
     <div class="page">
 
-        <form method="post" action="{{ route('event.update', [$event->id, $event->slug]) }}" class="flex" enctype="multipart/form-data">
+        <form method="post" action="{{ route('event.update', [$event->id, $event->slug]) }}" class="md:flex"
+              enctype="multipart/form-data">
             {{ method_field('PATCH') }} @csrf
 
-            <div class="page-content m-5">
-                <div class="page_title">
-                    <h2>Upraviť podujatie <a href="{{url()->previous()}}"></a></h2>
+            <div class="page-content md:m-5">
+                <div class="flex justify-between">
+                    <h2 class="page_title text-lg">Upraviť podujatie</h2>
                     <a class="btn" href="{{ URL::previous() }}"><i class="fa fa-arrow-left"></i> Späť</a>
                 </div>
-                    @include('events._form_a')
+                @include('events._form_a')
             </div>
 
-                <div class="page-aside m-5">
-                    @include('events._form_b')
+            <div class="page-aside md:m-5">
+                @include('events._form_b')
 
-                </div>
+            </div>
 
         </form>
     </div>
