@@ -8,7 +8,6 @@
 
             <div class="flex">
                 <div class="">
-
                     <div class="text-sm">{{ prayer.body }}</div>
 
                     <div class="flex mb-2">
@@ -38,14 +37,12 @@
                     </div>
                 </div>
 
-                <div class="w-16 ml-6 flex flex-col text-2xl items-center">
+                <div class="w-16 ml-2 md:ml-6 flex flex-col text-2xl items-center">
                     <i class="fas fa-praying-hands text-gray-400" title="modlitbu"></i>
-                    <span class="text-gray-900">4</span>
-                    <button class="btn-small text-xsp">Pripojiť</button>
+                    <span :class="visibleFavoritesCounter" class="text-gray-900">{{ prayer.favoritesCount }}</span>
+                    <button class="btn-small text-xsp">Modlitba</button>
                 </div>
             </div>
-
-
         </div>
     </div>
 </template>
@@ -66,7 +63,11 @@
                 showModal: false
             }
         },
-
+        computed:{
+            visibleFavoritesCounter(){
+                return this.prayer.favoritesCount ? '' : 'invisible'
+            }
+        },
         methods: {
             passToModalShow() {
                 bus.$emit('passToModalPrayer', this.prayer);

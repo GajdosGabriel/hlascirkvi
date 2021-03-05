@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Organization;
 use App\Post;
 use App\Event;
+use App\Prayer;
 use App\User;
 use App\Comment;
 use Illuminate\Http\Request;
@@ -41,6 +42,11 @@ class FavoritesController extends Controller
     public function storeEventsRecords(Event $event) {
         $event->favorite();
         return redirect()->route('event.show', [$event->id, $event->slug]);
+    }
+
+    public function favoritePrayer(Prayer $prayer) {
+        $prayer->favorite();
+        session()->flash('flash', 'Sledovanie potvrdené!');
     }
 
 

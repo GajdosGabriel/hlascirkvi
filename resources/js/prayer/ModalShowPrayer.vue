@@ -63,6 +63,17 @@
                                     dňa: {{ prayer.created_at | dateTime }} hod.
                                 </p>
                             </div>
+
+                            <div class="mt-4 text-center w-full">
+                                <button v-if="!open" @click="saveFavorites" class="btn btn-primary">
+                                    Pripojiť sa k modlitbe
+                                </button>
+                                <!-- Login Form-->
+                                <div v-if="open" class="bg-white border-2 border-gray-400 p-2 rounded-md text-center">
+                                    <p class="pb-4">Prihláste sa, alebo zaregistrujte. Email nebude nikde zverejnený.</p>
+                                    <a :href="'/login'" class="btn btn-primary w-full mb-2">Pokračovať</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,15 +91,14 @@
 
 <script>
     import {bus} from '../app';
-    import Form from "../messenger/form";
-    import Axios from 'axios';
-    import moment from "moment";
-
+    import { filterMixin } from "../mixins/filtersMixin";
 
     export default {
+        mixins:[ filterMixin],
         data: function () {
             return {
                 prayer: '',
+                open: false,
             }
         },
 
@@ -101,14 +111,16 @@
         methods: {
             toggle: function () {
                 this.prayer = '';
-            }
+            },
 
-        },
-        filters: {
-            dateTime: function (value) {
-                return moment(value).format('D.M.Y, h:mm');
-            }
+            saveFavorites: function() {
+                if (! window.App.signedIn) {
+                    this.open = true;
+                    return
+                }
+                axios.get('/modlitby/favorites/' + this.prayer.id +'/add' );
+            },
+
         }
-
     }
 </script>

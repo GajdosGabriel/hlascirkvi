@@ -4972,11 +4972,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
-/* harmony import */ var _messenger_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../messenger/form */ "./resources/js/messenger/form.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/filtersMixin */ "./resources/js/mixins/filtersMixin.js");
 //
 //
 //
@@ -5057,14 +5053,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mixins: [_mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_1__.filterMixin],
   data: function data() {
     return {
-      prayer: ''
+      prayer: '',
+      open: false
     };
   },
   created: function created() {
@@ -5077,11 +5084,14 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     toggle: function toggle() {
       this.prayer = '';
-    }
-  },
-  filters: {
-    dateTime: function dateTime(value) {
-      return moment__WEBPACK_IMPORTED_MODULE_3___default()(value).format('D.M.Y, h:mm');
+    },
+    saveFavorites: function saveFavorites() {
+      if (!window.App.signedIn) {
+        this.open = true;
+        return;
+      }
+
+      axios.get('/modlitby/favorites/' + this.prayer.id + '/add');
     }
   }
 });
@@ -5203,9 +5213,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -5220,6 +5227,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       showModal: false
     };
+  },
+  computed: {
+    visibleFavoritesCounter: function visibleFavoritesCounter() {
+      return this.prayer.favoritesCount ? '' : 'invisible';
+    }
   },
   methods: {
     passToModalShow: function passToModalShow() {
@@ -71530,7 +71542,55 @@ var render = function() {
                                 )
                               ]
                             )
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "mt-4 text-center w-full" },
+                            [
+                              !_vm.open
+                                ? _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-primary",
+                                      on: { click: _vm.saveFavorites }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                Pripojiť sa k modlitbe\n                            "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.open
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "bg-white border-2 border-gray-400 p-2 rounded-md text-center"
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pb-4" }, [
+                                        _vm._v(
+                                          "Prihláste sa, alebo zaregistrujte. Email nebude nikde zverejnený."
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "a",
+                                        {
+                                          staticClass:
+                                            "btn btn-primary w-full mb-2",
+                                          attrs: { href: "/login" }
+                                        },
+                                        [_vm._v("Pokračovať")]
+                                      )
+                                    ]
+                                  )
+                                : _vm._e()
+                            ]
+                          )
                         ]
                       )
                     ])
@@ -71800,34 +71860,36 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(0)
+        _c(
+          "div",
+          {
+            staticClass: "w-16 ml-2 md:ml-6 flex flex-col text-2xl items-center"
+          },
+          [
+            _c("i", {
+              staticClass: "fas fa-praying-hands text-gray-400",
+              attrs: { title: "modlitbu" }
+            }),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass: "text-gray-900",
+                class: _vm.visibleFavoritesCounter
+              },
+              [_vm._v(_vm._s(_vm.prayer.favoritesCount))]
+            ),
+            _vm._v(" "),
+            _c("button", { staticClass: "btn-small text-xsp" }, [
+              _vm._v("Modlitba")
+            ])
+          ]
+        )
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "w-16 ml-6 flex flex-col text-2xl items-center" },
-      [
-        _c("i", {
-          staticClass: "fas fa-praying-hands text-gray-400",
-          attrs: { title: "modlitbu" }
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "text-gray-900" }, [_vm._v("4")]),
-        _vm._v(" "),
-        _c("button", { staticClass: "btn-small text-xsp" }, [
-          _vm._v("Pripojiť")
-        ])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

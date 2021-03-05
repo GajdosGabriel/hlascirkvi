@@ -20,7 +20,9 @@ class Prayer extends JsonResource
             'user_id' => $this->user_id,
             'user_name' => $this->user_name,
             'body' => $this->body,
-            'created_at' => $this->created_at
+            'favoritesCount' => $this->favoritesCount,
+            'isFavorited' => $this->isFavorited,
+            'created_at' => $this->created_at,
         ];
     }
 }

@@ -23,12 +23,11 @@ Route::get('/auth/{service}', 'Auth\AuthController@redirectToProvider')
 Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallback')
     ->where('service', '(github|facebook|google|twitter|linkedin|bitbucket)');
 
-Route::get('zamyslenia/{slug?}' , 'VersesController@index')->name('verses.index');
+Route::get('zamyslenia/{slug?}', 'VersesController@index')->name('verses.index');
 
 Route::resources([
     'modlitby' => PrayerController::class
 ]);
-
 
 
 Route::prefix('user/')->name('organization.')->group(function () {
@@ -64,7 +63,6 @@ Route::prefix('post/')->name('post.')->group(function () {
 
     });
 });
-
 
 
 //    Route::get('/users', 'UsersController@index')->name('users.index');
@@ -113,35 +111,38 @@ Route::prefix('akcie/')->name('event.')->group(function () {
 
 });
 
+//    Prayer
+Route::prefix('/modlitby/')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('favorites/{prayer}/add', 'FavoritesController@favoritePrayer');
+    });
+
+});
+
 
 Route::get('storage/{filepath?}', 'EventsController@download')->name('events.download');
 //Route::post('akcia/{event}/subscriptions', 'EventSubscriptionController@store')->name('event.subscriptions');
 //Route::post('akcia/{event}/records', 'EventRecordsController@store')->name('records.store');
 
 
-
 Route::post('bigThink/post/{post}/{slug}', 'BigThinksController@store')->name('bigThink.store');
 Route::post('store/message', 'MessengersController@toAdmin')->name('messengers.store');
-
-
-
 
 
 Route::get('users/{user}/favorites/user', 'FavoritesController@favoriteUsers')->name('favorites.users');
 
 
-    // Comments
+// Comments
 Route::prefix('comment/')->name('comment.')->group(function () {
     Route::post('post/{post}/{slug}', 'CommentsController@store')->name('store');
 
     Route::middleware('auth')->group(function () {
-    Route::put('{comment}/update/comment', 'CommentsController@updateComment')->name('update');
-    Route::get('{comment}/delete/comment', 'CommentsController@destroyComment')->name('destroy');
-    Route::get('{comment}/favorites/comment', 'FavoritesController@favoriteComments');
+        Route::put('{comment}/update/comment', 'CommentsController@updateComment')->name('update');
+        Route::get('{comment}/delete/comment', 'CommentsController@destroyComment')->name('destroy');
+        Route::get('{comment}/favorites/comment', 'FavoritesController@favoriteComments');
 
     });
 });
-
 
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkAdmin'])->namespace('Admin')->group(function () {
