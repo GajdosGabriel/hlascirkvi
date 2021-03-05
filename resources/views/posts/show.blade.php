@@ -29,7 +29,8 @@
         <div class="md:flex">
             {{-- Header and video--}}
             <div class="md:w-8/12">
-                <organization-page-header :organization="{{ $post->organization }}" :post="{{ $post }}"></organization-page-header>
+                <organization-page-header :organization="{{ $post->organization }}"
+                                          :post="{{ $post }}"></organization-page-header>
 
                 <div>
 
@@ -52,7 +53,7 @@
 
                 {{--Video--}}
                 @if($post->video_id)
-                    <div class="aspect-w-16 aspect-h-9" id="player">
+                    <div  id="player">
                         <iframe
                             src="https://www.youtube.com/embed/{{ $post->video_id }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
                             allowfullscreen
@@ -101,13 +102,13 @@
                                         </li>
                                     </a>
                                     @can('admin')
-{{--                                        <form action="{{ route('posts.update', [$post->id]) }}">--}}
-{{--                                            @csrf--}}
-{{--                                            <input type="hidden" name="youtube_blocked" value="1">--}}
-{{--                                            <li class="dropdown-item">--}}
-{{--                                               <button type="submit">blokovať youtube</button>--}}
-{{--                                            </li>--}}
-{{--                                        </form>--}}
+                                        {{--                                        <form action="{{ route('posts.update', [$post->id]) }}">--}}
+                                        {{--                                            @csrf--}}
+                                        {{--                                            <input type="hidden" name="youtube_blocked" value="1">--}}
+                                        {{--                                            <li class="dropdown-item">--}}
+                                        {{--                                               <button type="submit">blokovať youtube</button>--}}
+                                        {{--                                            </li>--}}
+                                        {{--                                        </form>--}}
 
                                         <a href="{{ route('post.toBuffer', [$post->id]) }}">
                                             <li class="dropdown-item">
@@ -122,9 +123,6 @@
                 </div>
 
 
-
-
-
                 {{-- Body section --}}
                 <div class="w-full md:flex flex-row-reverse">
 
@@ -134,7 +132,8 @@
                         {{-- Social button--}}
                         <div>
                             @if (Session::get($post->slug) == $post->id)
-                                <a style="float: right" class="disabled" title="Video ste už doporúčali">Odporúčili ste</a>
+                                <a style="float: right" class="disabled" title="Video ste už doporúčali">Odporúčili
+                                    ste</a>
                             @else
                                 @if ($post->video_id)
                                     <favorite-post :post="{{ $post }}"></favorite-post>
@@ -145,7 +144,8 @@
                             @if ($post->video_id)
                                 {{--// Facebook--}}
                                 <div id="fb-root" style="padding-top: 0.4rem"></div>
-                                <div class="fb-share-button" data-href="{{ route('post.show', [$post->id, $post->slug]) }}"
+                                <div class="fb-share-button"
+                                     data-href="{{ route('post.show', [$post->id, $post->slug]) }}"
                                      data-layout="button" data-size="small">
                                     <a target="_blank"
                                        href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
@@ -300,19 +300,12 @@
 
 
 @section('script')
-
-<script>
-    import Form from "../../js/messenger/form";
-    export default {
-        components: {Form}
-    }
-</script>
+    <script src="https://cdn.plyr.io/3.5.3/plyr.js"></script>
     <script defer>
         const player = new Plyr('#player');
     </script>
     <script async defer crossorigin="anonymous"
             src="https://connect.facebook.net/sk_SK/sdk.js#xfbml=1&version=v5.0&appId=500741757380226"></script>
-
 
 @endsection
 
