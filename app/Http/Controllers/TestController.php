@@ -26,9 +26,18 @@ class TestController extends Controller
 
     public function test()
     {
-        $message = Messenger::whereId(11)->first();
+//        $users = User::all();
+//
+//        foreach ($users as $user){
+//            $user->update([
+//                'api_token' => bin2hex(openssl_random_pseudo_bytes(30))
+//                ]);
+//        }
 
-        dd($message->requestedUser->fullname);
+//        bin2hex(openssl_random_pseudo_bytes(16))
+//        $message = Messenger::whereId(11)->first();
+
+//        dd($message->requestedUser->fullname);
 
 //        (new Buffer())->handler();
 //       $prayers =  Prayer::all();

@@ -18,6 +18,8 @@ class UserObserver
 
         $firstName = FirstName::whereName($user->first_name)->orderBy('count', 'desc')->first();
 
+        $user->api_token = bin2hex(openssl_random_pseudo_bytes(30));
+
         if ($firstName) {
             $user->vocative = $firstName->vocative;
             $user->gender = $firstName->gender;

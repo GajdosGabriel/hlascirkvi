@@ -45,6 +45,8 @@
                     <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
                     <p style="margin-bottom: .4rem">{{ prayer.body }}</p>
                 </div>
+
+                <favorites-count :prayer="prayer"></favorites-count>
             </div>
         </div>
     </div>
@@ -52,6 +54,7 @@
 
 <script>
     import modalShowPrayer from '../prayer/ModalShowPrayer';
+    import favoritesCount from "./components/favoritesCount";
     import {bus} from "../app";
     import Axios from 'axios';
     import  { filterMixin } from "../mixins/filtersMixin";
@@ -61,7 +64,7 @@
     export default {
         props: ['prayer'],
         mixins: [filterMixin, createdMixin],
-        components: {modalShowPrayer},
+        components: {modalShowPrayer, favoritesCount},
 
         data() {
             return {

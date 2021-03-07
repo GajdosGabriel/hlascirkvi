@@ -37,35 +37,27 @@
                     </div>
                 </div>
 
-                <div class="w-16 ml-2 md:ml-6 flex flex-col text-2xl items-center">
-                    <i class="fas fa-praying-hands text-gray-400" title="modlitbu"></i>
-                    <span :class="visibleFavoritesCounter" class="text-gray-900">{{ prayer.favoritesCount }}</span>
-                    <button class="btn-small text-xsp">Modlitba</button>
-                </div>
+                <favorites-count :prayer="prayer"></favorites-count>
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import moment from "moment";
     import modalShowPrayer from '../prayer/ModalShowPrayer';
+    import favoritesCount from "./components/favoritesCount";
     import {bus} from "../app";
     import {filterMixin} from "../mixins/filtersMixin";
 
     export default {
         props: ['prayer'],
         mixins: [filterMixin],
-        components: {modalShowPrayer},
+        components: {modalShowPrayer, favoritesCount},
 
         data() {
             return {
                 showModal: false
-            }
-        },
-        computed:{
-            visibleFavoritesCounter(){
-                return this.prayer.favoritesCount ? '' : 'invisible'
             }
         },
         methods: {
