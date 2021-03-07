@@ -54,7 +54,7 @@
         <div class="relative">
             <!-- Button i-Memeber-->
             <div v-show="buttonStatus" v-html="button" @click.stop="subscribe" title="Budete dostávať nové príspevky!"
-                 :class="classButton" class="p-2 rounded-md cursor-pointer flex justify-center">
+                 :class="classButton" class="p-2 rounded-md cursor-pointer flex justify-center hover:bg-red-700">
 
             </div>
             <!-- Login Form-->

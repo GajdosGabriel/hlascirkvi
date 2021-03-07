@@ -53,7 +53,7 @@
 
                 {{--Video--}}
                 @if($post->video_id)
-                    <div  id="player">
+                    <div id="player">
                         <iframe
                             src="https://www.youtube.com/embed/{{ $post->video_id }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
                             allowfullscreen
@@ -70,58 +70,88 @@
                 @endif
 
 
-                {{--  Title video--}}
-                <div class="page_title mt-3">
-                    <div class="flex flex-col items-start">
-                        <h1 class="text-lg font-semibold">{{ $post->title }}</h1>
-                        <div class="text-sm text-gray-400">
-                            <span> pridal: </span>
-                            <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
-                                {{ $post->organization->title }}</a>
-                            |
-                            <time datetime="{{ $post->created_at }}">dňa: {{ $post->datetime }}</time>
-                            | zobrazení: {{ $post->count_view }}
+                <div class="lg:flex justify-between">
+                    {{--  Title video--}}
+                    <div class="page_title mt-3">
+                        <div class="flex flex-col items-start flex-shrink-0">
+                            <h1 class="text-lg font-semibold">{{ $post->title }}</h1>
+                            <div class="text-sm text-gray-400">
+                                <span> pridal: </span>
+                                <a href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
+                                    {{ $post->organization->title }}</a>
+                                |
+                                <time datetime="{{ $post->created_at }}">dňa: {{ $post->datetime }}</time>
+                                | zobrazení: {{ $post->count_view }}
+                            </div>
                         </div>
-                    </div>
 
 
-                    @can('update', $post)
-                        <article-admin inline-template>
-                            <div v-cloak class="relative z-10">
-                                <i style="float: right" @click='toggle' title="Spravovať článok"
-                                   class="fas fa-ellipsis-v cursor-pointer"></i>
-                                <ul class="dropdown-menu" v-if="open">
-                                    <a href="{{ route('post.edit', [$post->id, $post->slug]) }}">
-                                        <li class="dropdown-item">
-                                            upraviť
-                                        </li>
-                                    </a>
-                                    <a href="{{ route('post.delete', [$post->id]) }}">
-                                        <li class="dropdown-item">
-                                            zmazať
-                                        </li>
-                                    </a>
-                                    @can('admin')
-                                        {{--                                        <form action="{{ route('posts.update', [$post->id]) }}">--}}
-                                        {{--                                            @csrf--}}
-                                        {{--                                            <input type="hidden" name="youtube_blocked" value="1">--}}
-                                        {{--                                            <li class="dropdown-item">--}}
-                                        {{--                                               <button type="submit">blokovať youtube</button>--}}
-                                        {{--                                            </li>--}}
-                                        {{--                                        </form>--}}
-
-                                        <a href="{{ route('post.toBuffer', [$post->id]) }}">
+                        @can('update', $post)
+                            <article-admin inline-template>
+                                <div v-cloak class="relative z-10">
+                                    <i style="float: right" @click='toggle' title="Spravovať článok"
+                                       class="fas fa-ellipsis-v cursor-pointer"></i>
+                                    <ul class="dropdown-menu" v-if="open">
+                                        <a href="{{ route('post.edit', [$post->id, $post->slug]) }}">
                                             <li class="dropdown-item">
-                                                Do buffer
+                                                upraviť
                                             </li>
                                         </a>
-                                    @endcan
-                                </ul>
-                            </div>
-                        </article-admin>
-                    @endcan
-                </div>
+                                        <a href="{{ route('post.delete', [$post->id]) }}">
+                                            <li class="dropdown-item">
+                                                zmazať
+                                            </li>
+                                        </a>
+                                        @can('admin')
+                                            {{--                                        <form action="{{ route('posts.update', [$post->id]) }}">--}}
+                                            {{--                                            @csrf--}}
+                                            {{--                                            <input type="hidden" name="youtube_blocked" value="1">--}}
+                                            {{--                                            <li class="dropdown-item">--}}
+                                            {{--                                               <button type="submit">blokovať youtube</button>--}}
+                                            {{--                                            </li>--}}
+                                            {{--                                        </form>--}}
 
+                                            <a href="{{ route('post.toBuffer', [$post->id]) }}">
+                                                <li class="dropdown-item">
+                                                    Do buffer
+                                                </li>
+                                            </a>
+                                        @endcan
+                                    </ul>
+                                </div>
+                            </article-admin>
+                        @endcan
+                    </div>
+
+                    {{-- Social button--}}
+                    <div class="flex space-x-2 mt-3">
+
+                        @if ($post->video_id)
+                            {{--// Facebook--}}
+                            <div id="fb-root"></div>
+                            <div class="fb-share-button"
+                                 data-href="{{ route('post.show', [$post->id, $post->slug]) }}"
+                                 data-layout="button" data-size="small">
+                                <a target="_blank"
+                                   href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                                   class="fb-xfbml-parse-ignore">
+                                    Zdieľať
+                                </a>
+                            </div>
+                        @endif
+
+                        @if (Session::get($post->slug) == $post->id)
+                            <a style="float: right" class="disabled" title="Video ste už doporúčali">Odporúčili
+                                ste</a>
+                        @else
+                            @if ($post->video_id)
+                                <favorite-post :post="{{ $post }}"></favorite-post>
+                                {{--<recomend-video :data="{{ $post }}"></recomend-video>--}}
+                            @endif
+                        @endif
+
+                    </div>
+                </div>
 
                 {{-- Body section --}}
                 <div class="w-full md:flex flex-row-reverse">
@@ -129,32 +159,6 @@
                     <div class="md:w-8/12 md:p-2">
                         <div>{!! $post->body !!}</div>
 
-                        {{-- Social button--}}
-                        <div>
-                            @if (Session::get($post->slug) == $post->id)
-                                <a style="float: right" class="disabled" title="Video ste už doporúčali">Odporúčili
-                                    ste</a>
-                            @else
-                                @if ($post->video_id)
-                                    <favorite-post :post="{{ $post }}"></favorite-post>
-                                    {{--<recomend-video :data="{{ $post }}"></recomend-video>--}}
-                                @endif
-                            @endif
-
-                            @if ($post->video_id)
-                                {{--// Facebook--}}
-                                <div id="fb-root" style="padding-top: 0.4rem"></div>
-                                <div class="fb-share-button"
-                                     data-href="{{ route('post.show', [$post->id, $post->slug]) }}"
-                                     data-layout="button" data-size="small">
-                                    <a target="_blank"
-                                       href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
-                                       class="fb-xfbml-parse-ignore">
-                                        Zdieľať
-                                    </a>
-                                </div>
-                            @endif
-                        </div>
 
                         @include('bigthink._form')
                         <replies :data="{{ $post->comments }}"></replies>

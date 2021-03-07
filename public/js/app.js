@@ -68860,7 +68860,7 @@ var render = function() {
           "a",
           {
             staticClass:
-              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300",
+              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300",
             class: { "border-red-300 bg-red-600 text-gray-100": _vm.isDomace },
             on: {
               click: function($event) {
@@ -68875,7 +68875,7 @@ var render = function() {
           "a",
           {
             staticClass:
-              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300",
+              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300",
             class: {
               "border-red-300 bg-red-600 text-gray-100": _vm.isZahranicie
             },
@@ -68892,7 +68892,7 @@ var render = function() {
           "a",
           {
             staticClass:
-              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300",
+              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300",
             class: { "border-red-300 bg-red-600 text-gray-100": _vm.isTlacove },
             on: {
               click: function($event) {
@@ -70572,7 +70572,8 @@ var render = function() {
               expression: "buttonStatus"
             }
           ],
-          staticClass: "p-2 rounded-md cursor-pointer flex justify-center",
+          staticClass:
+            "p-2 rounded-md cursor-pointer flex justify-center hover:bg-red-700",
           class: _vm.classButton,
           attrs: { title: "Budete dostávať nové príspevky!" },
           domProps: { innerHTML: _vm._s(_vm.button) },
@@ -70912,10 +70913,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "grow",
-      staticStyle: { cursor: "pointer", padding: ".7rem", float: "right" }
-    },
+    { staticClass: "grow", staticStyle: { cursor: "pointer" } },
     [
       _c("div", {
         class: _vm.isFavorited,
@@ -71861,7 +71859,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "w-16 ml-2 md:ml-6 flex flex-col text-2xl items-center" },
+    { staticClass: "w-16 ml-2 md:ml-6 flex md:flex-col text-2xl items-center" },
     [
       _c("i", {
         staticClass: "fas fa-praying-hands text-gray-400",

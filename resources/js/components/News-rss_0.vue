@@ -8,9 +8,9 @@
 
         <div>
                 <div class="flex flex-wrap space-x-4 p-2">
-                    <a @click="domace('domov')" :class="{'border-red-300 bg-red-600 text-gray-100': isDomace }" class="border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300">domáce</a>
-                    <a @click="domace('zahranicie')" :class="{'border-red-300 bg-red-600 text-gray-100': isZahranicie }" class="border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300">zahraničné</a>
-                    <a @click="domace('press')" :class="{'border-red-300 bg-red-600 text-gray-100': isTlacove }" class="border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:border-red-300">tlačové</a>
+                    <a @click="domace('domov')" :class="{'border-red-300 bg-red-600 text-gray-100': isDomace }" class="border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300">domáce</a>
+                    <a @click="domace('zahranicie')" :class="{'border-red-300 bg-red-600 text-gray-100': isZahranicie }" class="border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300">zahraničné</a>
+                    <a @click="domace('press')" :class="{'border-red-300 bg-red-600 text-gray-100': isTlacove }" class="border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300">tlačové</a>
                 </div>
 
 

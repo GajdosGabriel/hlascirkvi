@@ -1,5 +1,5 @@
 <template>
-    <div class="grow" style="cursor: pointer; padding: .7rem; float: right">
+    <div class="grow" style="cursor: pointer;">
 
            <div style="border-radius: .3rem;background-color: rgb(173, 80, 146);color: whitesmoke; padding: 0rem .4rem" @click="pressRecomendedButton" :class="isFavorited" v-text="recommended"></div>
 
