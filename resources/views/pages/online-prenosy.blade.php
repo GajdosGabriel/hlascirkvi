@@ -20,7 +20,7 @@
 
                                     {{--    Title + admin--}}
                                     <div class="page_title">
-                                        <div>
+                                        <div class="flex flex-col items-start">
                                             <h4 class="font-semibold md:text-lg">{{ $post->title }}</h4>
                                             <div class="text-gray-400">
                                                 Pridal:

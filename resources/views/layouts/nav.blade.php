@@ -10,7 +10,7 @@
 
                     @if( session()->has('countUnwatchedVideos') )
                         <div class="w-5 h-5 bg-red-500 text-white rounded-full flex justify-center items-center ml-1">
-                            {{ session()->get('countUnwatchedVideos') }}
+                           <span class="pb-1">{{ session()->get('countUnwatchedVideos') }}</span>
                         </div>
                     @endif
                 </a>

@@ -2,6 +2,7 @@
     <div class="px-6 py-2 border-2 border-gray-400 my-6 rounded-md shadow-lg">
         <div @click="passToModalShow">
             <div class="flex flex-col mb-4">
+
                 <div class="flex justify-between">
                     <div>
                         <span class="font-semibold">{{ prayer.user_name }} </span>
@@ -39,11 +40,13 @@
             </div>
 
 
-            <div class="flex">
-                <img :src="'images/prayed_hand.png'" class="h-10 mr-3 md:h-20 md:mr-10">
-                <div>
+            <div class="md:flex justify-between ">
+                <div class="flex">
+                    <img :src="'images/prayed_hand.png'" class="h-10 mr-3 md:h-20 md:mr-10">
+                    <div class="flex flex-col">
                     <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
                     <p style="margin-bottom: .4rem">{{ prayer.body }}</p>
+                    </div>
                 </div>
 
                 <favorites-count :prayer="prayer"></favorites-count>

@@ -5445,6 +5445,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -72326,22 +72329,24 @@ var render = function() {
         _vm._v(" "),
         _c(
           "div",
-          { staticClass: "flex" },
+          { staticClass: "md:flex justify-between " },
           [
-            _c("img", {
-              staticClass: "h-10 mr-3 md:h-20 md:mr-10",
-              attrs: { src: "images/prayed_hand.png" }
-            }),
-            _vm._v(" "),
-            _c("div", [
-              _vm.prayer.title
-                ? _c("div", { staticClass: "font-semibold" }, [
-                    _vm._v(_vm._s(_vm.prayer.title))
-                  ])
-                : _vm._e(),
+            _c("div", { staticClass: "flex" }, [
+              _c("img", {
+                staticClass: "h-10 mr-3 md:h-20 md:mr-10",
+                attrs: { src: "images/prayed_hand.png" }
+              }),
               _vm._v(" "),
-              _c("p", { staticStyle: { "margin-bottom": ".4rem" } }, [
-                _vm._v(_vm._s(_vm.prayer.body))
+              _c("div", { staticClass: "flex flex-col" }, [
+                _vm.prayer.title
+                  ? _c("div", { staticClass: "font-semibold" }, [
+                      _vm._v(_vm._s(_vm.prayer.title))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("p", { staticStyle: { "margin-bottom": ".4rem" } }, [
+                  _vm._v(_vm._s(_vm.prayer.body))
+                ])
               ])
             ]),
             _vm._v(" "),

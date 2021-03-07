@@ -72,7 +72,7 @@
 
                 {{--  Title video--}}
                 <div class="page_title mt-3">
-                    <div class="flex flex-col">
+                    <div class="flex flex-col items-start">
                         <h1 class="text-lg font-semibold">{{ $post->title }}</h1>
                         <div class="text-sm text-gray-400">
                             <span> pridal: </span>
