@@ -5445,9 +5445,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -72203,17 +72200,39 @@ var render = function() {
       _c("div", { on: { click: _vm.passToModalShow } }, [
         _c("div", { staticClass: "flex flex-col mb-4" }, [
           _c("div", { staticClass: "flex justify-between" }, [
-            _c("div", [
-              _c("span", { staticClass: "font-semibold" }, [
+            _c("div", { staticClass: "flex" }, [
+              _c("span", { staticClass: "font-semibold mr-2" }, [
                 _vm._v(_vm._s(_vm.prayer.user_name) + " ")
               ]),
-              _vm._v(
-                "\n                    žiada o modlitbu\n                    "
-              ),
-              _c("i", {
-                staticClass: "fas fa-praying-hands",
-                attrs: { title: "modlitbu" }
-              })
+              _vm._v(" "),
+              _c("span", { staticClass: "text-sm flex items-center" }, [
+                _c(
+                  "svg",
+                  {
+                    staticClass: "h-4 w-4 mr-1 text-gray-500 fill-current",
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      viewBox: "0 0 20 20",
+                      fill: "currentColor"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z",
+                        "clip-rule": "evenodd"
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(
+                  "\n                        dňa: " +
+                    _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
+                    " hod.\n                    "
+                )
+              ])
             ]),
             _vm._v(" "),
             _vm.authUser && _vm.authUser.id == _vm.prayer.user_id
@@ -72293,35 +72312,6 @@ var render = function() {
                     : _vm._e()
                 ])
               : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "text-sm flex items-center" }, [
-            _c(
-              "svg",
-              {
-                staticClass: "h-4 w-4 mr-1 text-gray-500 fill-current",
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  viewBox: "0 0 20 20",
-                  fill: "currentColor"
-                }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z",
-                    "clip-rule": "evenodd"
-                  }
-                })
-              ]
-            ),
-            _vm._v(
-              "\n               dňa: " +
-                _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
-                " hod.\n           "
-            )
           ])
         ]),
         _vm._v(" "),
@@ -72340,7 +72330,9 @@ var render = function() {
                   ? _c("div", { staticClass: "font-semibold" }, [
                       _vm._v(_vm._s(_vm.prayer.title))
                     ])
-                  : _vm._e(),
+                  : _c("div", { staticClass: "font-semibold" }, [
+                      _vm._v("Prosba o modlitbu")
+                    ]),
                 _vm._v(" "),
                 _c("p", { staticStyle: { "margin-bottom": ".4rem" } }, [
                   _vm._v(_vm._s(_vm.prayer.body))
