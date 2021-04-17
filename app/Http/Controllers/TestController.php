@@ -26,6 +26,13 @@ class TestController extends Controller
 
     public function test()
     {
+
+        // (new ExtractTkkbs())->parseListUrl();
+        // $event = Event::findOrFail(100);
+        // (new ExtractTkkbs())->parseEvent( 'https://www.tkkbs.sk/view.php?cisloclanku=20210414030', $event);
+
+
+
 //        $users = User::all();
 //
 //        foreach ($users as $user){

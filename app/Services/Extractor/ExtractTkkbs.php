@@ -76,7 +76,7 @@ class ExtractTkkbs extends Extractors
 
         //Extract the links from the HTML.
         $imgUrls = $htmlDom->getElementsByTagName('img');
-        $bodyText = $htmlDom->getElementsByTagName('span');
+        $bodyText = $htmlDom->getElementsByTagName('p');
 
         //Array that will contain our extracted links.
         $extractedLinks = array();
@@ -101,11 +101,15 @@ class ExtractTkkbs extends Extractors
             );
         }
 
+
+
         // array to string
-        $body = join(" ", $extractedLinks[2]);
+        $body = join(" ", $extractedLinks[0]);
 
         // Remove first sentence
         $moveSentence  = $this->first_sentence_move($body);
+
+
 
         $event->update([
             'body'      => $moveSentence,
@@ -120,24 +124,26 @@ class ExtractTkkbs extends Extractors
         //We can do this because the DOMNodeList object is traversable.
         foreach( $imgUrls as $link){
             //Get the link in the href attribute.
+            $linkImg = $link->nodeValue;
             $linkHref = $link->getAttribute('src');
 
-            $extractedLinks[] = array(
+            $extractedSrcLinks[] = array(
                 'image' => $linkHref
             );
         }
 
-        $lastArray = end($extractedLinks);
-
-        $toString = join(" ", $lastArray);
-//        dd($toString);
-
-        $url =  'https://www.tkkbs.sk' . $toString;
+        // Remove first img src image
+    $imgLinks = array_slice($extractedSrcLinks, 1);
+    //   dd(  $imgLinks = array_slice($extractedSrcLinks, 1) );
 
 
-//        print_r(end($extractedLinks));
+    // Save images from url event
+        foreach( $imgLinks as $link)
+        {
+            $url =  'https://www.tkkbs.sk/' . $link['image'];
 
-        (new Form($event, $url ))->getPictureEcavEvent();
+            (new Form($event, $url ))->getPictureEcavEvent();
+        }
 
         $event->update([
             'village_id' => $this->finderVillages($moveSentence)
