@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use App\Organization;
 use App\Repositories\Eloquent\EloquentPostRepository;
 
+use App\Filters\EventFilters;
+
 
 
 class ViewServiceProvider extends ServiceProvider
@@ -73,8 +75,7 @@ class ViewServiceProvider extends ServiceProvider
         //  Active Events
         view()->composer('events.aside_modul', function($view)
         {
-            $view->with('events', Event::where('end_at', '>', Carbon::now())->wherePublished(1)
-                ->orderBy('start_at','asc')->take(5)->get());
+            $view->with('events', Event::where('start_at', '>', Carbon::now())->wherePublished(1)->orderBy('start_at', 'asc')->take(5)->get());
         });
 
         //  Curently Events
