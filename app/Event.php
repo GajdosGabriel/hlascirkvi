@@ -18,6 +18,7 @@ class Event extends Model implements ViewableContract
     protected $appends = ['url'];
 
 
+
 //    protected $with = ['village', 'organization'];
 
 //    protected $casts = [

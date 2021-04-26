@@ -30,7 +30,7 @@ class EventsController extends Controller
     public function show($event)
     {
         $event = $this->event->find($event);
-//        dd($event->isAdmin);
+    //    dd($event);
 
         event(new ViewCounter($event));
 

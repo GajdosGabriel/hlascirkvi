@@ -11,6 +11,8 @@ class Image extends Model
 
     protected $guarded = [];
 
+
+
     public function fileable()
     {
         return $this->morphTo();
@@ -25,6 +27,5 @@ class Image extends Model
     {
         return "storage/{$this->url}";
     }
-
 
 }
