@@ -95,7 +95,7 @@
                                 </div>
                             </event-picture-viewer>
 
-                            {{-- @break --}}
+                            @break
                         @endforeach
                     @endif
 

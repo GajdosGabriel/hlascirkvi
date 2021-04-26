@@ -19,10 +19,11 @@
                         Zrušiť x
                     </div>
 
-                    <img class="h-full rounded cursor-pointer" alt="{{ $image->title }}"
-                        src="{{ url($image->ThumbImageUrl) }}" @click="showModal"
+                    <img class="rounded cursor-pointer" alt="{{ $image->title }}"
+                    :class="{'h-full' : showButton}"
+                        src="{{ url($image->OriginalImageUrl) }}" @click="showModal"
                     @click="showModal"
-                    class="h-full rounded cursor-pointer">
+                  >
                 </div>
             </event-picture-viewer>
 
