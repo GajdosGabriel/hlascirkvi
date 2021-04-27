@@ -5,7 +5,7 @@
 
             <!-- check if is person-->
             <div class="mr-4 mb-4" v-if="organization.person == 1">
-                <img v-if="organization.avatar !== null" class="rounded-full w-24 mr-6"
+                <img v-if="organization.avatar !== null" class="rounded-full w-16 mr-6"
                      :src="this.domain + 'storage/organizations/' + organization.id + '/' + organization.avatar">
                 <img v-else class="Media-figure" style="max-width: 4rem" :src="this.domain + 'images/avatar.png'">
 
@@ -15,24 +15,20 @@
             </div>
 
 
-            <div class="flex justify-start flex-col justify-between">
+            <div class="">
                 <h2 class="text-2xl font-semibold" v-text="organization.title"></h2>
 
-                <div class="flex space-x-4 my-2">
-                    <button v-if="organization.person == 1" @click="toggle"
-                            class="btn-small btn-default"
-                            :class="{'bg-blue-700' :showDescription }">Autor
-                    </button>
+                <div class="flex">
+                    <a href="#" v-if="organization.person == 1"
+                    @click="toggle"
+                            class="hover:text-blue-500 hover:underline"
+                            :class="{'bg-blue-500 text-gray-200 rounded-sm px-2' :showDescription }">
+                            Autor
+                    </a>
                     <button v-else @click="toggle" class="btn-small btn-default"
                             :class="{'bg-blue-300' :showDescription }">
                         Profil
                     </button>
-                    <!--<help-us></help-us>-->
-                    <button v-if="isVideoPage" @click="openModal"
-                            class="btn-small btn-default whitespace-nowrap">Zapojiť sa
-                    </button>
-                    <a :href="/user/ + organization.id + '/'+ organization.slug + '/posts' "
-                       class="btn-small btn-default whitespace-nowrap">Všetky videa</a>
                 </div>
 
 
@@ -64,7 +60,7 @@
             </div>
         </div>
 
-        <modal></modal>
+        <!-- <modal></modal> -->
     </div>
 
 </template>
@@ -153,9 +149,9 @@
                 }
             },
 
-            openModal: function () {
-                bus.$emit('openModalHelpUs');
-            }
+            // openModal: function () {
+            //     bus.$emit('openModalHelpUs');
+            // }
         }
     }
 </script>

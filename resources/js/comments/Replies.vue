@@ -2,7 +2,7 @@
     <div style="max-height: 53rem;overflow: auto;">
 
         <div class="">
-            <h4 @click="showForm" class="mb-4">Komentáre <i class="far fa-comment-dots"></i> <span style="font-size: 70%; cursor: pointer">pridať nový</span></h4>
+            <h4 @click="showForm" class="mb-4 font-semibold mt-2">Komentáre <i class="far fa-comment-dots"></i> <span style="font-size: 70%; cursor: pointer">pridať nový</span></h4>
 
             <div v-for="(reply, index) in items" >
                <reply :data="reply" @deleted="remove(index)"></reply>
