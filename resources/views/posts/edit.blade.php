@@ -3,7 +3,7 @@
 @section('content')
     @include('organizations._profil-menu')
     <div class="page">
-        <div class="w-8/12">
+        <div class="md:w-8/12">
 
             <div class="page_title">
                 @include('layouts.errors')
@@ -14,14 +14,11 @@
                 @csrf
                 @include('posts.form')
             </form>
-
-            <div class="w-4/12">
-                aside
-            </div>
-
-
         </div>
 
+        <div class="md:w-4/12">
+            aside
+        </div>
     </div>
 
     @include('posts.editor')

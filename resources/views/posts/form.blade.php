@@ -1,6 +1,6 @@
-<div class="flex mb-6">
+<div class="md:flex mb-6">
 
-    <div class="form-category {{ $errors->has('group_id') ? ' has-error' : '' }}">
+    <div class="form-category md:pr-2 {{ $errors->has('group_id') ? ' has-error' : '' }}">
         <label>Kategória</label>
         <select name="updaters" required class="form-control">
             <option value="" selected disabled>Vybrať kategóriu</option>
@@ -23,7 +23,7 @@
 
 
     {{--Video Link--}}
-    <div class="form-category">
+    <div class="form-category md:pr-2">
         <label>Video YouTube</label>
         <input type="text" name="video_id" value="{{ old('video_id') ?? $post->video_id }}" class="form-control"
                placeholder="Odkaz na video Youtube">
@@ -77,7 +77,7 @@
 
 {{--Title Field--}}
 <div class="form-group {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
-    <input type="text" name="title" class="form-control" placeholder="Nadpis ..."
+    <input type="text" name="title" class="" placeholder="Nadpis ..."
            value="{{ old('body') ?? $post->title }}" required>
 </div>
 
@@ -103,7 +103,7 @@
 {{--</div>--}}
 
 {{--Add post Field--}}
-<div class="flex">
+<div class="">
 
     <div class="form-group">
         <label>Obrázok</label>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="flex justify-between">
-        <a href="{{ url(URL::previous()) }}">späť</a>
+        <a href="{{ url(URL::previous()) }}" class="btn">späť</a>
         <button type="submit" class="btn btn-primary">Uložiť</button>
     </div>
 
