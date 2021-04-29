@@ -14,40 +14,48 @@ class Organization extends Model
     protected $guarded = [];
 
 
-    protected $appends = ['favoritesCount', 'isFavorited'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'initialName'];
 
 
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 
-    public function messengers() {
+    public function messengers()
+    {
         return $this->hasMany(Messenger::class);
     }
 
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(User::class);
     }
 
-    public function updaters() {
+    public function updaters()
+    {
         return $this->belongsToMany(Updater::class);
     }
 
-    public function region() {
+    public function region()
+    {
         return $this->belongsTo(Region::class);
     }
 
-    public function events() {
+    public function events()
+    {
         return $this->hasMany(Event::class);
     }
 
-    public function images() {
+    public function images()
+    {
         return $this->morphMany(Image::class, 'fileable');
     }
 
-    public function bigThings() {
+    public function bigThings()
+    {
         return $this->hasMany(BigThink::class);
     }
 
@@ -68,10 +76,29 @@ class Organization extends Model
         $this->attributes['phone_numeric'] = $phone_numeric;
     }
 
-    public function anonymizer() {
-       return strtok($this->title , " ");
+    public function anonymizer()
+    {
+        return strtok($this->title, " ");
     }
 
 
+    // Inicialy mena
+    public function getInitialNameAttribute()
+    {
+        //The strtoupper() function converts a string to uppercase.
+        $name  = strtoupper($this->title);
+        //prefixes that needs to be removed from the name
+        $remove = ['.', 'MRS', 'MISS', 'MS', 'MASTER', 'DR', 'MR'];
+        $nameWithoutPrefix = str_replace($remove, " ", $name);
 
+        $words = explode(" ", $nameWithoutPrefix);
+
+        //this will give you the first word of the $words array , which is the first name
+        $firtsName = reset($words);
+
+        //this will give you the last word of the $words array , which is the last name
+        $lastName  = end($words);
+
+        return substr($firtsName, 0, 1) . '' . substr($lastName, 0, 1); // this will echo the first letter of your last name
+    }
 }

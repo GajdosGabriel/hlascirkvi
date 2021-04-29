@@ -4333,7 +4333,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -70530,27 +70529,35 @@ var render = function() {
     },
     [
       _c("div", { staticClass: "flex" }, [
-        _vm.organization.person == 1
-          ? _c("div", { staticClass: "mr-4 mb-4" }, [
-              _vm.organization.avatar !== null
-                ? _c("img", {
-                    staticClass: "rounded-full w-16 mr-6",
-                    attrs: {
-                      src:
-                        this.domain +
-                        "storage/organizations/" +
-                        _vm.organization.id +
-                        "/" +
-                        _vm.organization.avatar
-                    }
-                  })
-                : _c("img", {
-                    staticClass: "Media-figure",
-                    staticStyle: { "max-width": "4rem" },
-                    attrs: { src: this.domain + "images/avatar.png" }
-                  })
-            ])
-          : _vm._e(),
+        _c("div", { staticClass: "mr-4 mb-4" }, [
+          _vm.organization.avatar
+            ? _c("img", {
+                staticClass: "rounded-full w-16 mr-6",
+                attrs: {
+                  src:
+                    this.domain +
+                    "storage/organizations/" +
+                    _vm.organization.id +
+                    "/" +
+                    _vm.organization.avatar
+                }
+              })
+            : _c(
+                "div",
+                {
+                  staticClass:
+                    "h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
+                },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.organization.initialName) +
+                      "\n            "
+                  )
+                ]
+              ),
+          _vm._v(">\n        ")
+        ]),
         _vm._v(" "),
         _c(
           "div",

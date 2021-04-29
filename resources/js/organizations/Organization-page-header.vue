@@ -4,14 +4,13 @@
         <div class="flex">
 
             <!-- check if is person-->
-            <div class="mr-4 mb-4" v-if="organization.person == 1">
-                <img v-if="organization.avatar !== null" class="rounded-full w-16 mr-6"
+            <div class="mr-4 mb-4">
+                <img v-if="organization.avatar" class="rounded-full w-16 mr-6"
                      :src="this.domain + 'storage/organizations/' + organization.id + '/' + organization.avatar">
-                <img v-else class="Media-figure" style="max-width: 4rem" :src="this.domain + 'images/avatar.png'">
 
-                <!--Non Person picture-->
-                <i v-else style="font-size: 4rem; color: silver; float: left; margin-right: 1.1rem"
-                   class="far fa-image"></i>
+                <div v-else class="h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl">
+                    {{ organization.initialName }}
+                </div>>
             </div>
 
 

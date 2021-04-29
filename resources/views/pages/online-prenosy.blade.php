@@ -53,9 +53,9 @@
 {{--                                                                    blokovať youtube--}}
 {{--                                                                </a>--}}
 {{--                                                            </li>--}}
-                                                            <li class="dropdown-item"><a
-                                                                <a href="{{ route('post.toBuffer', [$post->id]) }}">
-                                                                    Do buffer
+                                                            <li class="dropdown-item">
+                                                                <a href="{{ route('post.toBuffer', [$post->id]) }}" class="whitespace-nowrap">
+                                                                    To buffer
                                                                 </a>
                                                             </li>
                                                         @endcan

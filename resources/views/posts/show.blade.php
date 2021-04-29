@@ -32,7 +32,6 @@
                 </organization-page-header>
 
                 <div>
-
                     <div class="">
                         <div>
                             @if (!$post->images)
