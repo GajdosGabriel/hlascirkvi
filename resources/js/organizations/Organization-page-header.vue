@@ -5,12 +5,12 @@
 
             <!-- check if is person-->
             <div class="mr-4 mb-4">
-                <img v-if="organization.avatar" class="rounded-full w-16 mr-6"
+                <img v-if="organization.avatar" class="rounded-full w-16"
                      :src="this.domain + 'storage/organizations/' + organization.id + '/' + organization.avatar">
 
                 <div v-else class="h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl">
                     {{ organization.initialName }}
-                </div>>
+                </div>
             </div>
 
 

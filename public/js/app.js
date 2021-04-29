@@ -70532,7 +70532,7 @@ var render = function() {
         _c("div", { staticClass: "mr-4 mb-4" }, [
           _vm.organization.avatar
             ? _c("img", {
-                staticClass: "rounded-full w-16 mr-6",
+                staticClass: "rounded-full w-16",
                 attrs: {
                   src:
                     this.domain +
@@ -70555,8 +70555,7 @@ var render = function() {
                       "\n            "
                   )
                 ]
-              ),
-          _vm._v(">\n        ")
+              )
         ]),
         _vm._v(" "),
         _c(
