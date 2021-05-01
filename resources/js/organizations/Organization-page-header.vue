@@ -18,16 +18,12 @@
                 <h2 class="text-2xl font-semibold" v-text="organization.title"></h2>
 
                 <div class="flex">
-                    <a href="#" v-if="organization.person == 1"
+                    <a href="#"
                     @click="toggle"
-                            class="hover:text-blue-500 hover:underline"
+                            class="hover:text-blue-"
                             :class="{'bg-blue-500 text-gray-200 rounded-sm px-2' :showDescription }">
-                            Autor
+                            Profil
                     </a>
-                    <button v-else @click="toggle" class="btn-small btn-default"
-                            :class="{'bg-blue-300' :showDescription }">
-                        Profil
-                    </button>
                 </div>
 
 

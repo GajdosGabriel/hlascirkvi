@@ -4329,10 +4329,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -70565,33 +70561,19 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("div", { staticClass: "flex" }, [
-              _vm.organization.person == 1
-                ? _c(
-                    "a",
-                    {
-                      staticClass: "hover:text-blue-500 hover:underline",
-                      class: {
-                        "bg-blue-500 text-gray-200 rounded-sm px-2":
-                          _vm.showDescription
-                      },
-                      attrs: { href: "#" },
-                      on: { click: _vm.toggle }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Autor\n                "
-                      )
-                    ]
-                  )
-                : _c(
-                    "button",
-                    {
-                      staticClass: "btn-small btn-default",
-                      class: { "bg-blue-300": _vm.showDescription },
-                      on: { click: _vm.toggle }
-                    },
-                    [_vm._v("\n                    Profil\n                ")]
-                  )
+              _c(
+                "a",
+                {
+                  staticClass: "hover:text-blue-",
+                  class: {
+                    "bg-blue-500 text-gray-200 rounded-sm px-2":
+                      _vm.showDescription
+                  },
+                  attrs: { href: "#" },
+                  on: { click: _vm.toggle }
+                },
+                [_vm._v("\n                        Profil\n                ")]
+              )
             ]),
             _vm._v(" "),
             _c("transition", { attrs: { name: "fade" } }, [
