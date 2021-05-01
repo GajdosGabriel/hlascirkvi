@@ -17,12 +17,12 @@
                 <form @submit.prevent="attemptLogin" class="bg-grey-lightest px-10 py-10">
 
                     <div class="mb-3">
-                        <input v-model="email" type="email" class="border w-full p-3" name="email" placeholder="E-Mail"
+                        <input v-model="email" type="email" class="border-2 border-gray-300 w-full p-3 " name="email" placeholder="E-Mail"
                                required autofocus>
                         <div style="color: red" v-text="errors.errors"></div>
                     </div>
                     <div class="mb-6">
-                        <input v-model="password" :type="inputType ? 'text' : 'password'" class="border w-full p-3"
+                        <input v-model="password" :type="inputType ? 'text' : 'password'" class="border-2 border-gray-300 w-full p-3"
                                name="password" placeholder="Heslo ..." required>
                         <a href="#" @click.prevent="togglePassword" style="font-size: 80%; margin-top: -1rem"> {{ inputType ?
                             'Skryť' : 'Zobraziť' }} heslo</a>
@@ -30,7 +30,7 @@
 
                     <div class="flex">
                         <button type="submit"
-                            class="hover:bg-primary-dark w-full p-4 text-sm uppercase font-bold tracking-wider border">
+                            class="hover:bg-gray-200 w-full p-4 text-sm uppercase font-bold tracking-wider border-2 border-gray-300">
                             Vstúpiť
                         </button>
                     </div>

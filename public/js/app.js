@@ -67496,7 +67496,7 @@ var render = function() {
                       expression: "first_name"
                     }
                   ],
-                  staticClass: "border w-full p-3",
+                  staticClass: "border-2 border-gray-300 w-full p-3",
                   attrs: {
                     type: "text",
                     name: "email",
@@ -67531,7 +67531,7 @@ var render = function() {
                       expression: "last_name"
                     }
                   ],
-                  staticClass: "border w-full p-3",
+                  staticClass: "border-2 border-gray-300 w-full p-3",
                   attrs: {
                     type: "text",
                     name: "email",
@@ -67565,7 +67565,7 @@ var render = function() {
                       expression: "email"
                     }
                   ],
-                  staticClass: "border w-full p-3",
+                  staticClass: "border-2 border-gray-300 w-full p-3",
                   attrs: {
                     type: "email",
                     name: "email",
@@ -67600,7 +67600,7 @@ var render = function() {
                           expression: "password"
                         }
                       ],
-                      staticClass: "border w-full p-3",
+                      staticClass: "border-2 border-gray-300 w-full p-3",
                       attrs: {
                         name: "password",
                         placeholder: "Heslo ...",
@@ -67644,7 +67644,7 @@ var render = function() {
                           expression: "password"
                         }
                       ],
-                      staticClass: "border w-full p-3",
+                      staticClass: "border-2 border-gray-300 w-full p-3",
                       attrs: {
                         name: "password",
                         placeholder: "Heslo ...",
@@ -67667,7 +67667,7 @@ var render = function() {
                           expression: "password"
                         }
                       ],
-                      staticClass: "border w-full p-3",
+                      staticClass: "border-2 border-gray-300 w-full p-3",
                       attrs: {
                         name: "password",
                         placeholder: "Heslo ...",
@@ -67702,7 +67702,7 @@ var render = function() {
                           expression: "password_confirmation"
                         }
                       ],
-                      staticClass: "border w-full p-3",
+                      staticClass: "border-2 border-gray-300 w-full p-3",
                       attrs: {
                         placeholder: "Potvrdiť heslo",
                         required: "",
@@ -67746,7 +67746,7 @@ var render = function() {
                           expression: "password_confirmation"
                         }
                       ],
-                      staticClass: "border w-full p-3",
+                      staticClass: "border-2 border-gray-300 w-full p-3",
                       attrs: {
                         placeholder: "Potvrdiť heslo",
                         required: "",
@@ -67770,7 +67770,7 @@ var render = function() {
                           expression: "password_confirmation"
                         }
                       ],
-                      staticClass: "border w-full p-3",
+                      staticClass: "border-2 border-gray-300 w-full p-3",
                       attrs: {
                         placeholder: "Potvrdiť heslo",
                         required: "",
@@ -67836,7 +67836,7 @@ var render = function() {
                     }
                   ],
                   staticClass:
-                    "border-2 text-sm w-full border-gray-200 rounded-md px-2 py-1",
+                    "border-2 border-gray-300 w-full text-sm w-fullrounded-md px-2 py-1",
                   attrs: {
                     type: "number",
                     placeholder: "Zadajte číslo 5",
@@ -67879,7 +67879,7 @@ var staticRenderFns = [
         "button",
         {
           staticClass:
-            "hover:bg-primary-dark hover:bg-gray-100 border-2 rounded-sm w-full p-4 text-sm uppercase font-bold tracking-wider",
+            "hover:bg-primary-dark hover:bg-gray-100 border-2 rounded-sm w-full p-4 text-sm uppercase font-bold tracking-wider border-gray-300",
           attrs: { type: "submit" }
         },
         [
@@ -68104,7 +68104,7 @@ var render = function() {
                       expression: "email"
                     }
                   ],
-                  staticClass: "border w-full p-3",
+                  staticClass: "border-2 border-gray-300 w-full p-3 ",
                   attrs: {
                     type: "email",
                     name: "email",
@@ -68140,7 +68140,7 @@ var render = function() {
                           expression: "password"
                         }
                       ],
-                      staticClass: "border w-full p-3",
+                      staticClass: "border-2 border-gray-300 w-full p-3",
                       attrs: {
                         name: "password",
                         placeholder: "Heslo ...",
@@ -68184,7 +68184,7 @@ var render = function() {
                           expression: "password"
                         }
                       ],
-                      staticClass: "border w-full p-3",
+                      staticClass: "border-2 border-gray-300 w-full p-3",
                       attrs: {
                         name: "password",
                         placeholder: "Heslo ...",
@@ -68207,7 +68207,7 @@ var render = function() {
                           expression: "password"
                         }
                       ],
-                      staticClass: "border w-full p-3",
+                      staticClass: "border-2 border-gray-300 w-full p-3",
                       attrs: {
                         name: "password",
                         placeholder: "Heslo ...",
@@ -68267,7 +68267,7 @@ var staticRenderFns = [
         "button",
         {
           staticClass:
-            "hover:bg-primary-dark w-full p-4 text-sm uppercase font-bold tracking-wider border",
+            "hover:bg-gray-200 w-full p-4 text-sm uppercase font-bold tracking-wider border-2 border-gray-300",
           attrs: { type: "submit" }
         },
         [_vm._v("\n                        Vstúpiť\n                    ")]

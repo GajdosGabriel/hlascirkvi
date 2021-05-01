@@ -17,30 +17,30 @@
                 <form @submit.prevent="attemptRegister" class="bg-grey-lightest px-10 py-10">
 
                     <div class="mb-3">
-                        <input v-model="first_name" type="text" class="border w-full p-3" name="email" placeholder="Meno"
+                        <input v-model="first_name" type="text" class="border-2 border-gray-300 w-full p-3" name="email" placeholder="Meno"
                                required  autofocus>
                         <div style="color: red" v-text="errors.first_name"></div>
                     </div>
 
                     <div class="mb-3">
-                        <input v-model="last_name" type="text" class="border w-full p-3" name="email" placeholder="Priezvisko"
+                        <input v-model="last_name" type="text" class="border-2 border-gray-300 w-full p-3" name="email" placeholder="Priezvisko"
                                required>
                         <div style="color: red" v-text="errors.last_name"></div>
                     </div>
 
                     <div class="mb-3">
-                        <input v-model="email" type="email" class="border w-full p-3" name="email" placeholder="E-Mail"
+                        <input v-model="email" type="email" class="border-2 border-gray-300 w-full p-3" name="email" placeholder="E-Mail"
                                required>
                         <div style="color: red" v-text="errors.email"></div>
                     </div>
                     <div class="mb-6">
-                        <input v-model="password" :type="inputType ? 'text' : 'password'" class="border w-full p-3"
+                        <input v-model="password" :type="inputType ? 'text' : 'password'" class="border-2 border-gray-300 w-full p-3"
                                name="password" placeholder="Heslo ..." required>
                         <div style="color: red" v-text="errors.password"></div>
                     </div>
 
                     <div class="mb-6">
-                        <input v-model="password_confirmation" :type="inputType ? 'text' : 'password'" class="border w-full p-3"
+                        <input v-model="password_confirmation" :type="inputType ? 'text' : 'password'" class="border-2 border-gray-300 w-full p-3"
                                 placeholder="Potvrdiť heslo" required>
                         <span v-if="password" @click.prevent="togglePassword" class="cursor-pointer" style="font-size: 80%; margin-top: -1rem"> {{ inputType ?
                             'Skryť' : 'Zobraziť' }} heslo</span>
@@ -49,13 +49,13 @@
 
                     <div class="mb-6">
                         <span class="text-sm">Som človek  3+2 = </span>
-                        <input type="number" v-model="iamHuman" placeholder="Zadajte číslo 5" class="border-2 text-sm w-full border-gray-200 rounded-md px-2 py-1" required>
+                        <input type="number" v-model="iamHuman" placeholder="Zadajte číslo 5" class="border-2 border-gray-300 w-full text-sm w-fullrounded-md px-2 py-1" required>
                         <div style="color: red" v-text="errors.iamHuman"></div>
                     </div>
 
                     <div class="flex">
                         <button type="submit"
-                            class="hover:bg-primary-dark hover:bg-gray-100 border-2 rounded-sm w-full p-4 text-sm uppercase font-bold tracking-wider">
+                            class="hover:bg-primary-dark hover:bg-gray-100 border-2 rounded-sm w-full p-4 text-sm uppercase font-bold tracking-wider border-gray-300">
                             Registrovať sa
                         </button>
 
