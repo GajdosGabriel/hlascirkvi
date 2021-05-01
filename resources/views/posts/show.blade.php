@@ -28,7 +28,7 @@
         <div class="md:flex">
             {{-- Header and video --}}
             <div class="md:w-8/12">
-                <organization-page-header :organization="{{ $post->organization }}" :post="{{ $post }}">
+                <organization-page-header :organization="{{ $post->organization }}">
                 </organization-page-header>
 
                 <div>

@@ -53,7 +53,8 @@
                     </div>
                 @else
                     @if( !empty($organization) )
-                        <h2 class="font-semibold text-2xl mb-5 text-gray-700">{{ $organization->title }}</h2>
+                    <organization-page-header :organization="{{ $organization }}">
+                    </organization-page-header>
                     @endif
                 @endif
 

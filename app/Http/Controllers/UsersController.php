@@ -25,7 +25,8 @@ class UsersController extends Controller
         return view('users.index', compact('users'));
     }
 
-    public function show(Organization $organization, $slug) {
+    public function show(Organization $organization, $slug)
+    {
         return view('posts.index', ['posts' => $organization->posts()->latest()->paginate(), 'organization' => $organization]);
     }
 

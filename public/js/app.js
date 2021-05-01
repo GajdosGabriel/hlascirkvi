@@ -4337,7 +4337,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['organization', 'post'],
+  props: ['organization'],
   components: {
     modal: _organizations_Organization_page_modal__WEBPACK_IMPORTED_MODULE_1__.default
   },
@@ -4357,9 +4357,6 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     signedIn: function signedIn() {
       return window.App.signedIn;
-    },
-    isVideoPage: function isVideoPage() {
-      return this.post.video_id !== null;
     },
     button: function button() {
       if (this.favorited) {

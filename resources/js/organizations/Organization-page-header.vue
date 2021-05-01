@@ -70,7 +70,7 @@
     import { createdMixin } from "../mixins/createdMixin";
 
     export default {
-        props: ['organization', 'post'],
+        props: ['organization'],
         components: {modal},
         mixins:[createdMixin],
         data: function () {
@@ -90,11 +90,6 @@
             signedIn: function () {
                 return window.App.signedIn;
             },
-
-            isVideoPage: function () {
-                return this.post.video_id !== null
-            },
-
             button: function () {
                 if (this.favorited) {
                     return this.buttonText = 'Sledujete kanál'
