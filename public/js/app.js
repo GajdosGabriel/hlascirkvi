@@ -1917,11 +1917,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2106,11 +2101,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -67459,8 +67449,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container mx-auto md:p-8" }, [
     _c("div", { staticClass: "mx-auto max-w-sm" }, [
-      _c("div", { staticClass: "py-10 text-center" }),
-      _vm._v(" "),
       _c(
         "div",
         { staticClass: "bg-white rounded shadow border-gray-300 border-2" },
@@ -68067,8 +68055,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container mx-auto md:p-8" }, [
     _c("div", { staticClass: "mx-auto max-w-sm" }, [
-      _c("div", { staticClass: "py-10 text-center" }),
-      _vm._v(" "),
       _c(
         "div",
         { staticClass: "bg-white rounded shadow border-gray-300 border-2" },

@@ -2,11 +2,6 @@
 
     <div class="container mx-auto md:p-8">
         <div class="mx-auto max-w-sm">
-            <div class="py-10 text-center">
-
-            </div>
-
-            <!-- ... -->
 
             <div class="bg-white rounded shadow border-gray-300 border-2">
                 <div class="border-b py-8 font-bold text-black text-center text-xl tracking-widest uppercase">
