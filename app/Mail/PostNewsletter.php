@@ -30,6 +30,6 @@ class PostNewsletter extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.posts', ['posts' => $this->posts]);
+        return $this->view('emails.posts', ['posts' => $this->posts]);
     }
 }
