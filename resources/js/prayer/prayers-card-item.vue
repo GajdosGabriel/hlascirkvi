@@ -20,7 +20,7 @@
                                       clip-rule="evenodd"/>
                             </svg>
 
-                            <span class="font-semibold mr-1">{{ prayer.user_name }}</span>
+                            <span class="font-semibold mr-1 whitespace-nowrap">{{ prayer.user_name }}</span>
 
                         </div>
 
