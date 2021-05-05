@@ -4,9 +4,12 @@ namespace App\Console\Commands;
 
 use App\Post;
 use App\User;
+use App\Event;
+use App\Prayer;
 use App\Mail\PostNewsletter;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+
 
 class PostNewslleter extends Command
 {
@@ -41,10 +44,10 @@ class PostNewslleter extends Command
      */
     public function handle()
     {
-        $posts = Post::latest()->take(20)->get();
+        $posts = Post::latest()->take(5)->get();
+        $events = Event::latest()->take(5)->get();
+        $prayers = Prayer::latest()->take(5)->get();
 
-
-
-        Mail::to(User::first())->send(new PostNewsletter($posts));
+        Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));
     }
 }

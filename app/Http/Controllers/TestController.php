@@ -26,11 +26,13 @@ use Illuminate\Support\Facades\Mail;
 class TestController extends Controller
 {
     public function newsletter() {
-        $posts = \App\Post::latest()->take(20)->get();
+        $posts = \App\Post::latest()->take(5)->get();
+        $events = Event::latest()->take(5)->get();
+        $prayers = Prayer::latest()->take(5)->get();
 
         // Mail::to(User::first())->send(new PostNewsletter($posts));
 
-       return new PostNewsletter($posts);
+       return new PostNewsletter($posts, $events, $prayers);
 
     }
 
