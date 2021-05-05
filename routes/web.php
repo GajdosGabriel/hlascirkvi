@@ -1,13 +1,6 @@
 <?php
 
 
-//
-//Route::get('mail', function () {
-//    $posts = \App\Post::latest()->take(20)->get();
-//
-//    return new App\Mail\PostNewsletter($posts);
-//
-//});
 
 Auth::routes();
 

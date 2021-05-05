@@ -5,15 +5,16 @@ Podľa počtu sledovaní.
 
 @forelse($posts as $post)
 <div  style="text-align: center; margin-bottom: 20px">
-    <div >
+
         <a  href="{{ route('post.show', [$post->id, $post->slug]) }}">
-        @include('posts.image')
+            dddddddddd
+        {{-- @include('posts.image') --}}
         </a>
-    </div>
+
 
     <div style="margin-top: -.8rem">
         <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
-        <h5 title="{{ $post->title }}">{{ $loop->index +1 }}. {{ str_limit($post->title, 40) }}</h5>
+        <h5 title="{{ $post->title }}">{{ $loop->index +1 }}. {{ $post->title }}</h5>
         </a>
     </div>
 

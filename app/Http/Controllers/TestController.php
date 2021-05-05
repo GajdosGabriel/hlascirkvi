@@ -19,9 +19,20 @@ use DB;
 use http\Message;
 use Illuminate\Http\Request;
 use Auth;
+use App\Mail\PostNewsletter;
+use Illuminate\Support\Facades\Mail;
+
 
 class TestController extends Controller
 {
+    public function newsletter() {
+        $posts = \App\Post::latest()->take(20)->get();
+
+        // Mail::to(User::first())->send(new PostNewsletter($posts));
+
+       return new PostNewsletter($posts);
+
+    }
 
 
     public function test()
@@ -30,8 +41,6 @@ class TestController extends Controller
         // (new ExtractTkkbs())->parseListUrl();
         // $event = Event::findOrFail(100);
         // (new ExtractTkkbs())->parseEvent( 'https://www.tkkbs.sk/view.php?cisloclanku=20210414030', $event);
-
-
 
 //        $users = User::all();
 //
