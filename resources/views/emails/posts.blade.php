@@ -52,7 +52,7 @@
         <h2 style="padding-left:10px; padding-top:10px "> Pozvánky na podujatia</h2>
         {{-- Image --}}
         @forelse($events as $event)
-            <div style=" padding:10px ; margin-bottom: 20px ">
+            <div style=" padding:10px ; margin-bottom: 20px; overflow: hidden; ">
 
                 @include('emails.component.image_event')
 
@@ -66,7 +66,7 @@
 
                 <span class="">{{ $event->organization->city }} </span>
                 <span class="">{{ $event->start_at->diffForHumans() }}</span>,
-                <span class="">Miesto: {{ $event->village->district->name }}</span>,
+                <span class="">Miesto: <span style="font-weight: 600"> {{ $event->village->district->name }}</span></span>,
                 <span class="">Pridal: {{ $event->organization->title }}</span>
 
             </div>
