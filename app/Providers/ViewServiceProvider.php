@@ -3,19 +3,20 @@
 namespace App\Providers;
 
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\ServiceProvider;
-
-use App\Event;
 use App\User;
+use App\Event;
+
 use App\Verse;
 use App\BigThink;
 use App\Category;
 use Carbon\Carbon;
 use App\Organization;
-use App\Repositories\Eloquent\EloquentPostRepository;
-
 use App\Filters\EventFilters;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\ServiceProvider;
+
+use App\Repositories\Eloquent\EloquentPostRepository;
+use App\Repositories\Eloquent\EloquentEventRepository;
 
 
 
@@ -75,7 +76,7 @@ class ViewServiceProvider extends ServiceProvider
         //  Active Events
         view()->composer('events.aside_modul', function($view)
         {
-            $view->with('events', Event::where('start_at', '>', Carbon::now())->wherePublished(1)->orderBy('start_at', 'asc')->take(5)->get());
+            $view->with('events', (new EloquentEventRepository)->firstStartingEvents()->take(5)->get());
         });
 
         //  Curently Events

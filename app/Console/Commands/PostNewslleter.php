@@ -6,10 +6,12 @@ use App\Post;
 use App\User;
 use App\Event;
 use App\Prayer;
+use Carbon\Carbon;
 use App\Mail\PostNewsletter;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use App\Repositories\Eloquent\EloquentPostRepository;
+use App\Repositories\Eloquent\EloquentEventRepository;
 
 
 class PostNewslleter extends Command
@@ -47,10 +49,9 @@ class PostNewslleter extends Command
     {
 
 
-        $posts =   $posts = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
-        // $posts = Post::latest()->take(5)->get();
-        $events = Event::latest()->take(5)->get();
-        $prayers = Prayer::latest()->take(5)->get();
+        $posts      =  (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
+        $events     = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
+        $prayers    = Prayer::latest()->take(5)->get();
 
         Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));
     }

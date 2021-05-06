@@ -2,32 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Messenger;
-use App\Organization;
-use App\Post;
-use App\Prayer;
-use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Services\Buffer;
-use App\Services\Extractor\ExtractZdruzenieMedaily;
-use App\Services\Extractor\ExtractMojaKomunita;
-use App\Services\Extractor\ExtractTkkbs;
-use App\Event;
-use App\User;
-use Carbon\Carbon;
-use Config;
 use DB;
-use http\Message;
-use Illuminate\Http\Request;
 use Auth;
+use Config;
+use App\Post;
+use App\User;
+use App\Event;
+use App\Prayer;
+use http\Message;
+use App\Messenger;
+use Carbon\Carbon;
+use App\Organization;
+use App\Services\Buffer;
 use App\Mail\PostNewsletter;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Services\Extractor\ExtractTkkbs;
+use App\Services\Extractor\ExtractMojaKomunita;
+use App\Services\Extractor\ExtractZdruzenieMedaily;
+use App\Repositories\Eloquent\EloquentPostRepository;
+use App\Repositories\Eloquent\EloquentEventRepository;
 
 
 class TestController extends Controller
 {
     public function newsletter() {
         $posts = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
-        $events = Event::latest()->take(5)->get();
+        $events = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
         $prayers = Prayer::latest()->take(5)->get();
 
         // Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));
