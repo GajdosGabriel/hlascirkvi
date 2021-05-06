@@ -30,7 +30,7 @@ class TestController extends Controller
         $events = Event::latest()->take(5)->get();
         $prayers = Prayer::latest()->take(5)->get();
 
-        // Mail::to(User::first())->send(new PostNewsletter($posts));
+        // Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));
 
        return new PostNewsletter($posts, $events, $prayers);
 
