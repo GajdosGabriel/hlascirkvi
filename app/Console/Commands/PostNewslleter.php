@@ -21,7 +21,7 @@ class PostNewslleter extends Command
      *
      * @var string
      */
-    protected $signature = 'PostMonthlyReport';
+    protected $signature = 'MonthlyNewsletter';
 
     /**
      * The console command description.

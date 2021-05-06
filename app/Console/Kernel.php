@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\PostNewslleter;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -18,7 +19,8 @@ class Kernel extends ConsoleKernel
         Commands\BufferPublisher::class,
         Commands\PostNewslleter::class,
         Commands\EcavEventExtractor::class,
-        Commands\TkkbsExtractor::class
+        Commands\TkkbsExtractor::class,
+        Commands\PostNewslleter::class
     ];
 
     /**
@@ -29,8 +31,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('MonthlyNewsletter')->hourlyAt(40);
+        
         $schedule->command('UserSearchByChannelAndPlaylist')->dailyAt('16:24');
-
         $schedule->command('UserSearchByName')->dailyAt('06:55');
 
 
