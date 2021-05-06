@@ -49,7 +49,7 @@ class PostNewslleter extends Command
     {
 
 
-        $posts      =  (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
+        $posts      = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
         $events     = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
         $prayers    = Prayer::latest()->take(5)->get();
 

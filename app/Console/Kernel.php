@@ -19,8 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\BufferPublisher::class,
         Commands\PostNewslleter::class,
         Commands\EcavEventExtractor::class,
-        Commands\TkkbsExtractor::class,
-        Commands\PostNewslleter::class
+        Commands\TkkbsExtractor::class
     ];
 
     /**
@@ -31,8 +30,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('MonthlyNewsletter')->hourlyAt(40);
-        
+        $schedule->command('MonthlyNewsletter')->everyMinute();
+        // $schedule->command('MonthlyNewsletter')->hourlyAt(22);
+
         $schedule->command('UserSearchByChannelAndPlaylist')->dailyAt('16:24');
         $schedule->command('UserSearchByName')->dailyAt('06:55');
 
