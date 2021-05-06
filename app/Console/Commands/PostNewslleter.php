@@ -9,6 +9,7 @@ use App\Prayer;
 use App\Mail\PostNewsletter;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use App\Repositories\Eloquent\EloquentPostRepository;
 
 
 class PostNewslleter extends Command
@@ -44,7 +45,10 @@ class PostNewslleter extends Command
      */
     public function handle()
     {
-        $posts = Post::latest()->take(5)->get();
+
+
+        $posts =   $posts = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
+        // $posts = Post::latest()->take(5)->get();
         $events = Event::latest()->take(5)->get();
         $prayers = Prayer::latest()->take(5)->get();
 

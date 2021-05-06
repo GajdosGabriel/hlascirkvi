@@ -9,8 +9,10 @@
 namespace App\Repositories\Eloquent;
 
 use App\Post;
+use Carbon\Carbon;
 use App\Repositories\AbstractRepository;
 use App\Repositories\Contracts\PostRepository;
+use CyrildeWit\EloquentViewable\Support\Period;
 
 
 class EloquentPostRepository extends AbstractRepository implements PostRepository
@@ -103,6 +105,19 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     {
         return $this->entity->whereOrganizationId($organizationId)->latest()->paginate(20);
     }
+
+
+
+    /*
+     *  Najsledovanejšie videa
+     */
+    public function newlleterMostVisited()
+    {
+        return $this->entity->where('created_at','>', Carbon::now()->subDays(30))
+        ->orderByViews('desc', Period::pastDays(30));
+
+    }
+
 
 
 
