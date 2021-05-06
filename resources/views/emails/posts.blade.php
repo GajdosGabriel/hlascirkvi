@@ -8,9 +8,9 @@
 
 
     <div style="text-align: center;  padding:2px; max-width: 700px; margin:auto; background: white ">
-        <h1>Najlepšie príspevky za mesiac</h1>
-        <p>Zoradené podľa počtu sledovaní.</p>
-
+        <h1>Novinky z kresťanského portálu</h1>
+        <h3>Hlas Cirkvi.sk za mesiac</h3>
+        <h2>Hlas Cirkvi.sk za mesiac</h2>
     </div>
 {{-- Posts --}}
     <div style="background: white; padding-bottom:2px; max-width: 700px; margin:auto; border-bottom: 5px solid rgb(133, 130, 130);
@@ -21,7 +21,7 @@
         @forelse($posts as $post)
             <div style=" padding:10px  ">
 
-                @include('emails.image_post')
+                @include('emails.component.image_post')
 
                 <div style="margin-top: -.8rem">
                     <a style="text-decoration: none" href="{{ route('post.show', [$post->id, $post->slug]) }}">
@@ -51,22 +51,23 @@
 
         <h2 style="padding-left:10px; padding-top:10px "> Pozvánky na podujatia</h2>
         {{-- Image --}}
-        @forelse($events as $post)
-            <div style=" padding:10px  ">
+        @forelse($events as $event)
+            <div style=" padding:10px ; margin-bottom: 20px ">
 
-                @include('emails.image_post')
+                @include('emails.component.image_event')
 
                 <div style="margin-top: -.8rem">
-                    <a style="text-decoration: none" href="{{ route('post.show', [$post->id, $post->slug]) }}">
-                        <h2 style="font-size: 100%" title="{{ $post->title }}">
-                            {{ $post->title }}
+                    <a style="text-decoration: none" href="{{ route('post.show', [$event->id, $event->slug]) }}">
+                        <h2 style="font-size: 100%" title="{{ $event->title }}">
+                            {{ $event->title }}
                         </h2>
                     </a>
                 </div>
 
-                <div style="margin-top: -10px; font-size: 90%; margin-bottom:20px ">Autor:
-                    {{ $post->organization->title }}
-                </div>
+                <span class="">{{ $event->organization->city }} </span>
+                <span class="">{{ $event->start_at->diffForHumans() }}</span>,
+                <span class="">Miesto: {{ $event->village->district->name }}</span>,
+                <span class="">Pridal: {{ $event->organization->title }}</span>
 
             </div>
         @empty
