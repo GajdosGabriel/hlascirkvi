@@ -3,7 +3,7 @@
         @if ($event->images()->whereType('img')->exists())
             @foreach($event->images()->whereType('img')->get() as $image)
                 <img src="{{ url($image->ThumbImageUrl) }}"
-                     alt="{{ $event->title }}" style="width: 100px; float: left; margin-right: 10px ">
+                     alt="{{ $event->title }}" style="width: 100px; float: left; margin-right: 10px; max-height: 90px; ">
                 @break
             @endforeach
         @else

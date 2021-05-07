@@ -47,10 +47,5 @@ class PostNewslleter extends Command
 
         (new Newsletter)->mountlyNewsletter();
 
-
-
-        
-
-
     }
 }

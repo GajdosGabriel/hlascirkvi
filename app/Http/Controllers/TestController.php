@@ -22,11 +22,18 @@ use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
-
+use App\Services\Newsletter;
 
 class TestController extends Controller
 {
     public function newsletter() {
+
+        // $users = (new Newsletter)->mountlyNewsletter();
+
+        // dd($users);
+
+
+
         $posts = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
         $events = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
         $prayers = Prayer::latest()->take(5)->get();
