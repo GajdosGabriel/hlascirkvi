@@ -7,7 +7,7 @@
         </header>
 
 
-        <div class="border-2 border-gray-300 rounded-sm">
+        <div class="border-2 border-gray-300 rounded-sm ">
 
             @forelse( $events as $event)
                 <a href="{{ $event->url }}">
@@ -17,7 +17,7 @@
                                 @foreach ($event->images()->whereType('img')->get()
     as $image)
                                     <img data-src="{{ url($image->ThumbImageUrl) }}" class="lazyload mr-4 rounded-md"
-                                        data-sizes="auto" title="Bez obrázka">
+                                        data-sizes="auto" title="{{ $event->title }}">
                                 @break
                             @endforeach
                         @else
@@ -39,7 +39,6 @@
     </div>
 </div>
 </div>
-
 </a>
 @empty
     <div class="card-body">{{ trans('web.events_empty') }}

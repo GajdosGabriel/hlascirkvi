@@ -4,7 +4,7 @@
     </p>
 </div>
 
-<div style="margin-bottom: 20px; background: rgb(224, 223, 223); padding:20px; width:100% ">
+<div style="margin-bottom: 20px; background: rgb(224, 223, 223); width:100% ">
 
 
     <div style="text-align: center;  padding:2px; max-width: 700px; margin:auto; background: white ">
@@ -31,8 +31,8 @@
                     </a>
                 </div>
 
-                <div style="margin-top: -10px; font-size: 90%; margin-bottom:20px ">Autor:
-                    {{ $post->organization->title }}
+                <div style="margin-top: -10px; font-size: 90%; margin-bottom:20px">
+                    Autor: {{ $post->organization->title }}
                 </div>
 
             </div>
