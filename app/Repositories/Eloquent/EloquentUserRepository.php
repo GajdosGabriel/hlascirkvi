@@ -85,11 +85,19 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
 
 
     public function usersHasRoleAdmin() {
-        $users = $this->entity->whereHas('roles', function($query) {
+        return $this->entity->whereHas('roles', function($query) {
             $query->whereId(2);
         })->get();
+    }
 
-        \Notification::send($users, new Buffer() );
+
+    /*
+    * For newsletter
+    */
+
+    public function usersEmailable()
+    {
+      return  $this->entity->whereSendEmail(1);
     }
 
 

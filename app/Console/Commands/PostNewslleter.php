@@ -2,16 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Post;
-use App\User;
-use App\Event;
-use App\Prayer;
+
 use Carbon\Carbon;
 use App\Mail\PostNewsletter;
+use App\Services\Newsletter;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
-use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Eloquent\EloquentEventRepository;
+
 
 
 class PostNewslleter extends Command
@@ -48,11 +45,12 @@ class PostNewslleter extends Command
     public function handle()
     {
 
+        (new Newsletter)->mountlyNewsletter();
 
-        $posts      =  (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
-        $events     = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
-        $prayers    = Prayer::latest()->take(5)->get();
 
-        Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));
+
+        
+
+
     }
 }
