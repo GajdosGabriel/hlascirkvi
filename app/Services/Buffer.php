@@ -9,9 +9,10 @@
 namespace App\Services;
 
 use App\Post;
+use Carbon\Carbon;
+use Illuminate\Notifications\Notification;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentUserRepository;
-use Carbon\Carbon;
 
 
 class Buffer
@@ -72,7 +73,9 @@ class Buffer
 
     public function ifBufferIsEmpty()
     {
-        ( new EloquentUserRepository())->usersHasRoleAdmin();
+      $users =  ( new EloquentUserRepository())->usersHasRoleAdmin();
+
+        \Notification::send($users, new Buffer() );
     }
 
 

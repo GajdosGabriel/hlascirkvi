@@ -52,11 +52,14 @@
         <h2 style="padding-left:10px; padding-top:10px "> Pozvánky na podujatia</h2>
         {{-- Image --}}
         @forelse($events as $event)
+
             <div style=" padding:10px ; margin-bottom: 20px; overflow: hidden; ">
+
 
                 @include('emails.component.image_event')
 
-                <div style="margin-top: -.8rem">
+
+                <div style="">
                     <a style="text-decoration: none" href="{{ route('post.show', [$event->id, $event->slug]) }}">
                         <h2 style="font-size: 100%" title="{{ $event->title }}">
                             {{ $event->title }}
