@@ -36,6 +36,6 @@ class PostNewsletter extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.posts', ['posts' => $this->posts, 'events' => $this->events, 'prayers' => $this->prayers]);
+        return $this->subject('Najlepšie kresťanské videa')->view('emails.posts', ['posts' => $this->posts, 'events' => $this->events, 'prayers' => $this->prayers]);
     }
 }

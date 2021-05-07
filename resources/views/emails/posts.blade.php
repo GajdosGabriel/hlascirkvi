@@ -1,6 +1,6 @@
 <div style="padding: 4px; background: silver; text-align: center;">
     <p style="font-weight: 800; font-size: larger;">
-        Hlas cirkvi.sk
+        HlasCirkvi.sk
     </p>
 </div>
 
@@ -9,9 +9,9 @@
 
     <div style="text-align: center;  padding:2px; max-width: 700px; margin:auto; background: white ">
         <h1>Novinky z kresťanského portálu</h1>
-        <h3>Hlas Cirkvi.sk za mesiac</h3>
         <h2>Hlas Cirkvi.sk za mesiac</h2>
     </div>
+
 {{-- Posts --}}
     <div style="background: white; padding-bottom:2px; max-width: 700px; margin:auto; border-bottom: 5px solid rgb(133, 130, 130);
                 border-color: rgb(23, 6, 117); margin-bottom: 10px;">

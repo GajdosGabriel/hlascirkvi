@@ -30,7 +30,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('MonthlyNewsletter')->everyMinute();
+        $schedule->command('MonthlyNewsletter')->dailyAt('10:45');
+        // $schedule->command('MonthlyNewsletter')->everyMinute();
         // $schedule->command('MonthlyNewsletter')->monthlyOn(4, '15:00');;
 
 
