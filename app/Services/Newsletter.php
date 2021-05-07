@@ -16,8 +16,8 @@ class Newsletter
 
     public function mountlyNewsletter()
     {
-        //   $users = (new EloquentUserRepository)->usersEmailable()->get();
-        $users = (new EloquentUserRepository)->usersHasRoleAdmin();
+          $users = (new EloquentUserRepository)->usersEmailable()->get();
+        // $users = (new EloquentUserRepository)->usersHasRoleAdmin();
 
        $this->handle($users);
     }
