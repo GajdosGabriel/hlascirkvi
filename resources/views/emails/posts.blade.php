@@ -9,7 +9,7 @@
 
     <div style="text-align: center;  padding:2px; max-width: 700px; margin:auto; background: white ">
         <h1>Novinky z kresťanského portálu</h1>
-        <h2>Hlas Cirkvi.sk za mesiac</h2>
+        <h2>Mesačný prehľad</h2>
     </div>
 
 {{-- Posts --}}
@@ -39,7 +39,6 @@
         @empty
             bez záznamu
         @endforelse
-
 
     </div>
 
