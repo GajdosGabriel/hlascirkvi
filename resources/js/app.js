@@ -47,7 +47,6 @@ Vue.component('event-comments-offer', require('./events/Event-comment-offer.vue'
 Vue.component('new-organization', require('./organizations/NewOrganization.vue').default);
 Vue.component('ticket-form', require('./events/Ticket.vue').default);
 Vue.component('event-info-panel', require('./events/EventInfoPanel.vue').default);
-Vue.component('admin-modal', require('./components/Modal.vue').default);
 Vue.component('get-organization', require('./organizations/GetOrganization.vue').default);
 Vue.component('news-rss', require('./components/News-rss_0.vue').default);
 Vue.component('form-organization', require('./events/Form-org_0.vue').default);

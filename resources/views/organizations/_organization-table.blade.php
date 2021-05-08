@@ -81,7 +81,7 @@
                 </a>
 
                 @can( 'admin|superadmin')
-                {{-- <admin-modal :organization="{{ $organization }}"></admin-modal> --}}
+
                 @endcan
             </td>
         </tr>

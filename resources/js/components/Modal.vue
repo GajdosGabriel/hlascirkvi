@@ -1,6 +1,6 @@
 <template>
     <div>
-
+<!-- Nepoužíva sa tento component -->
         <a href="#" @click="toggle"><i title="Zmazať" class="fas fa-trash-alt"></i></a> <!-- Trigger Modal. -->
 
         <!-- Modal -->
