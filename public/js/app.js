@@ -5454,6 +5454,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5461,7 +5500,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['prayer'],
+  props: ["prayer"],
   mixins: [_mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_4__.filterMixin, _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_5__.createdMixin],
   components: {
     modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -5475,10 +5514,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     passToModalShow: function passToModalShow() {
-      _app__WEBPACK_IMPORTED_MODULE_2__.bus.$emit('passToModalPrayer', this.prayer);
+      _app__WEBPACK_IMPORTED_MODULE_2__.bus.$emit("passToModalPrayer", this.prayer);
     },
     passToModalEdit: function passToModalEdit() {
-      _app__WEBPACK_IMPORTED_MODULE_2__.bus.$emit('passToModalEdit', this.prayer);
+      _app__WEBPACK_IMPORTED_MODULE_2__.bus.$emit("passToModalEdit", this.prayer);
     },
     toggle: function toggle() {
       this.open = !this.open;
@@ -5486,7 +5525,7 @@ __webpack_require__.r(__webpack_exports__);
     prayerDestroy: function prayerDestroy() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_3___default().delete('/modlitby/' + this.prayer.id).then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_3___default().delete("/modlitby/" + this.prayer.id).then(function () {
         _this.toggle();
 
         window.location.reload();
@@ -72239,7 +72278,7 @@ var render = function() {
           _c("div", { staticClass: "flex justify-between" }, [
             _c("div", { staticClass: "flex" }, [
               _c("span", { staticClass: "font-semibold mr-2" }, [
-                _vm._v(_vm._s(_vm.prayer.user_name) + " ")
+                _vm._v(_vm._s(_vm.prayer.user_name) + "\n                    ")
               ]),
               _vm._v(" "),
               _c("span", { staticClass: "text-sm flex items-center" }, [
@@ -72352,35 +72391,43 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "md:flex justify-between " },
-          [
-            _c("div", { staticClass: "flex" }, [
-              _c("img", {
-                staticClass: "h-10 mr-3 md:h-20 md:mr-10",
-                attrs: { src: "images/prayed_hand.png" }
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "flex flex-col" }, [
-                _vm.prayer.title
-                  ? _c("div", { staticClass: "font-semibold" }, [
-                      _vm._v(_vm._s(_vm.prayer.title))
-                    ])
-                  : _c("div", { staticClass: "font-semibold" }, [
-                      _vm._v("Prosba o modlitbu")
-                    ]),
-                _vm._v(" "),
-                _c("p", { staticStyle: { "margin-bottom": ".4rem" } }, [
-                  _vm._v(_vm._s(_vm.prayer.body))
-                ])
-              ])
-            ]),
+        _c("div", { staticClass: "md:flex justify-between " }, [
+          _c("div", { staticClass: "flex w-full" }, [
+            _c("img", {
+              staticClass: "h-10 mr-3 md:h-20 md:mr-10",
+              attrs: { src: "images/prayed_hand.png" }
+            }),
             _vm._v(" "),
-            _c("favorites-count", { attrs: { prayer: _vm.prayer } })
-          ],
-          1
-        )
+            _c("div", { staticClass: "w-full" }, [
+              _c(
+                "div",
+                { staticClass: "flex justify-between " },
+                [
+                  _vm.prayer.title
+                    ? _c("div", { staticClass: "font-semibold" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.prayer.title) +
+                            "\n                        "
+                        )
+                      ])
+                    : _c("div", { staticClass: "font-semibold" }, [
+                        _vm._v(
+                          "\n                            Prosba o modlitbu\n                        "
+                        )
+                      ]),
+                  _vm._v(" "),
+                  _c("favorites-count", { attrs: { prayer: _vm.prayer } })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("p", { staticStyle: { "margin-bottom": ".4rem" } }, [
+                _vm._v(_vm._s(_vm.prayer.body))
+              ])
+            ])
+          ])
+        ])
       ])
     ]
   )
