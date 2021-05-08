@@ -4,6 +4,8 @@
             <div class="flex justify-between">
                 <div class="font-semibold" v-if="prayer.title">{{ prayer.title }}</div>
                 <div class="font-semibold" v-else>žiadam o modlitbu</div>
+
+                  <favorites-count :prayer="prayer"></favorites-count>
             </div>
 
             <div class="flex">
@@ -37,7 +39,7 @@
                     </div>
                 </div>
 
-                <favorites-count :prayer="prayer"></favorites-count>
+
 
             </div>
         </div>
