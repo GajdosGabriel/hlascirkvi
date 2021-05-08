@@ -3,30 +3,28 @@
 namespace App\Mail;
 
 use App\User;
+use App\Prayer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Repositories\Eloquent\EloquentPostRepository;
+use App\Repositories\Eloquent\EloquentEventRepository;
 
 class PostNewsletter extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $posts;
-    protected $events;
-    protected $prayers;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($posts, $events = null, $prayers = null)
+    public function __construct()
     {
-        $this->posts = $posts;
-        $this->events = $events;
-        $this->prayers = $prayers;
+
     }
 
     /**
@@ -36,6 +34,10 @@ class PostNewsletter extends Mailable
      */
     public function build()
     {
-        return $this->subject('Najlepšie kresťanské videa')->view('emails.posts', ['posts' => $this->posts, 'events' => $this->events, 'prayers' => $this->prayers]);
+        $posts   = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
+        $events  = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
+        $prayers = Prayer::latest()->take(5)->get();
+
+        return $this->subject('Najlepšie kresťanské videa')->view('emails.posts', ['posts' => $posts, 'events' => $events, 'prayers' => $prayers]);
     }
 }
