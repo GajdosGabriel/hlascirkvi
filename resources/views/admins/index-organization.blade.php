@@ -1,23 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-
+@include('organizations._profil-menu')
     <div class="page">
 
         <div class="">
 
-            <div class="page-content">
+            <div class="md:w-8/12 w-full">
 
-                <div>
-                    <a class="tag"
-                       href="{{ route('organization.profile', [auth()->id(), auth()->user()->slug]) }}">Späť</a>
-                </div>
-
-                <h3>Všetky kanály</h3>
+                <h2 class="page_title">Vytvoriť článok</h2>
 
                 @include('organizations._organization-table')
 
-                {{ $organizations->links() }}
+                <div class="hidden md:block flex justify-center my-8">
+                    {{ $organizations->links() }}
+                </div>
 
             </div>
 
