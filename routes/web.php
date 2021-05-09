@@ -61,7 +61,7 @@ Route::prefix('post/')->name('post.')->group(function () {
 //    Route::get('/users', 'UsersController@index')->name('users.index');
 
 Route::get('/user/{user}/{slug}/import', 'AddresBookController@importContacts')->name('addresBook.importContacts');
-
+Route::get('/user/{user}/confirmEmail/confirmEmail', 'UsersController@confirmEmail')->name('confirmEmail');
 
 Route::get('/user/profiles/notification/unread', 'UsersController@userNotifications')->name('unread.notification');
 Route::get('/user/profiles/{id}/markAsRead', 'UsersController@markAsRead')->name('unread.markAsRead');

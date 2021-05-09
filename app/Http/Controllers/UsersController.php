@@ -7,6 +7,7 @@ use App\Organization;
 use App\Services\Form;
 use App\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class UsersController extends Controller
 {
@@ -65,6 +66,16 @@ class UsersController extends Controller
             session()->forget('denomination');
         }
         return back();
+    }
+
+    public function confirmEmail(User $user)
+    {
+        $user->update([
+            'email_verified_at' => Carbon::now()
+        ]);
+
+        return redirect()->route('posts.index');
+
     }
 
 
