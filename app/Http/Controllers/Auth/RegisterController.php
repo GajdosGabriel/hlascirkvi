@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Repositories\Contracts\UserRepository;
 use App\Services\EmailSanitizer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\User\ConfirmEmail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
+use App\Repositories\Contracts\UserRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -71,6 +73,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
        $user = $this->user->createUserRegisterForm($data);
+
+       Notification::send($user, new ConfirmEmail($user));
         return $user;
     }
 
