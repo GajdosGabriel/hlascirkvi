@@ -77,7 +77,7 @@
 
 {{--Title Field--}}
 <div class="form-group {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
-    <input type="text" name="title" class="" placeholder="Nadpis ..."
+    <input type="text" name="title" class="form-control" placeholder="Nadpis ..."
            value="{{ old('body') ?? $post->title }}" required>
 </div>
 
