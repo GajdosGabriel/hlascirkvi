@@ -74,6 +74,7 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
     {
         $user = new User([
             'first_name' => strstr($request->email, '@', true),
+            'last_name' => '',
             'email' => $request->email,
             'password' => bcrypt('registracnyformularheslo'),
         ]);

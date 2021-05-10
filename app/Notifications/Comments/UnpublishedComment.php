@@ -43,7 +43,7 @@ class UnpublishedComment extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject( 'Nový komentár na schválenie')
+            ->subject( 'Nový komentár neovereného užívateľa')
             ->greeting('Dobrý deň,')
             ->line('Na kresťanskom portály HlasCirkvi.sk ')
             ->line('čaká na schválenie komentár')
