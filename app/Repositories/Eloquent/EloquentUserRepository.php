@@ -9,13 +9,15 @@
 namespace App\Repositories\Eloquent;
 
 
-use App\Notifications\Admin\Buffer;
-use App\Repositories\AbstractRepository;
-use App\Repositories\Contracts\UserRepository;
+use Hash;
 use App\User;
 use Carbon\Carbon;
-use Hash;
 use Illuminate\Support\Str;
+use App\Notifications\Admin\Buffer;
+use App\Notifications\User\ConfirmEmail;
+use App\Repositories\AbstractRepository;
+use Illuminate\Support\Facades\Notification;
+use App\Repositories\Contracts\UserRepository;
 
 class EloquentUserRepository extends AbstractRepository implements UserRepository
 {
@@ -77,6 +79,15 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
         ]);
         $user->save();
         \Auth::login($user, true);
+
+        $this->sendConfirmEmail($user);
+    }
+
+    protected function sendConfirmEmail($user)
+    {
+        if( $user->email_verified_at == null) {
+            Notification::send($user, new ConfirmEmail($user));
+        }
     }
 
     /*

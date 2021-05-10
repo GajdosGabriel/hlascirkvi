@@ -70,6 +70,8 @@ class UsersController extends Controller
 
     public function confirmEmail(User $user)
     {
+        if(! $user->email_verified_at == null) return 'Email je autorizovaný!';
+        
         $user->update([
             'email_verified_at' => Carbon::now()
         ]);

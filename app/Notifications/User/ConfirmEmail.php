@@ -48,7 +48,7 @@ class ConfirmEmail extends Notification
             ->line('autorizujte svoju registráciu na kresťanskom portály HlasCirkvi.sk ')
             ->line('a získajte plný prístup.')
             ->action('Potvrdiť registráciu', route('confirmEmail', [$this->user->id]) )
-            ->line('Ďakujeme že píšete skvelé príspevky!');
+            ->line('Ďakujeme za autorizáciu registrácie.');
     }
 
     /**
