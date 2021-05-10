@@ -45,7 +45,7 @@
         <div class="relative">
             <!-- Button i-Memeber-->
             <div v-show="buttonStatus" v-html="button" @click.stop="subscribe" title="Budete dostávať nové príspevky!"
-                 :class="classButton" class="p-2 rounded-md cursor-pointer flex justify-center hover:bg-red-700">
+                 :class="classButton" class="p-2 rounded-md cursor-pointer flex justify-center hover:bg-red-700 whitespace-nowrap">
 
             </div>
             <!-- Login link -->
@@ -93,7 +93,7 @@
             },
 
             classButton: function () {
-                return [this.favorited ? 'bg-gray-300' : 'bg-red-600 text-white']
+                return [this.favorited ? 'bg-gray-300' : 'bg-red-600 text-white whitespace-nowrap']
             }
 
         },
