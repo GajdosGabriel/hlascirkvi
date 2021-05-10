@@ -81,10 +81,38 @@
                             </div>
                         </div>
 
+                    </div>
+
+                    {{-- Social button --}}
+                    <div class="flex space-x-2 mt-3">
+
+                        @if ($post->video_id)
+                            {{-- // Facebook --}}
+                            <div id="fb-root"></div>
+                            <div class="fb-share-button" data-href="{{ route('post.show', [$post->id, $post->slug]) }}"
+                                data-layout="button" data-size="small">
+                                <a target="_blank"
+                                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                                    class="fb-xfbml-parse-ignore">
+                                    Zdieľať
+                                </a>
+                            </div>
+                        @endif
+
+                        @if (Session::get($post->slug) == $post->id)
+                            <a style="float: right" class="disabled" title="Video ste už doporúčali">Odporúčili
+                                ste</a>
+                        @else
+                            @if ($post->video_id)
+                                <favorite-post :post="{{ $post }}"></favorite-post>
+                                {{-- <recomend-video :data="{{ $post }}"></recomend-video> --}}
+                            @endif
+                        @endif
+
 
                         @can('update', $post)
                             <article-admin inline-template>
-                                <div v-cloak class="relative z-10">
+                                <div v-cloak class="relative z-10 px-2">
                                     <i style="float: right" @click='toggle' title="Spravovať článok"
                                         class="fas fa-ellipsis-v cursor-pointer"></i>
                                     <ul class="dropdown-menu" v-if="open">
@@ -117,33 +145,6 @@
                                 </div>
                             </article-admin>
                         @endcan
-                    </div>
-
-                    {{-- Social button --}}
-                    <div class="flex space-x-2 mt-3">
-
-                        @if ($post->video_id)
-                            {{-- // Facebook --}}
-                            <div id="fb-root"></div>
-                            <div class="fb-share-button" data-href="{{ route('post.show', [$post->id, $post->slug]) }}"
-                                data-layout="button" data-size="small">
-                                <a target="_blank"
-                                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
-                                    class="fb-xfbml-parse-ignore">
-                                    Zdieľať
-                                </a>
-                            </div>
-                        @endif
-
-                        @if (Session::get($post->slug) == $post->id)
-                            <a style="float: right" class="disabled" title="Video ste už doporúčali">Odporúčili
-                                ste</a>
-                        @else
-                            @if ($post->video_id)
-                                <favorite-post :post="{{ $post }}"></favorite-post>
-                                {{-- <recomend-video :data="{{ $post }}"></recomend-video> --}}
-                            @endif
-                        @endif
 
                     </div>
                 </div>
