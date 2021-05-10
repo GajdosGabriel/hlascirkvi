@@ -6,7 +6,6 @@ use App\Post;
 use App\Event;
 use App\Comment;
 use App\Repositories\Eloquent\EloquentUserRepository;
-use App\Repository\User\UserRegistration;
 use Illuminate\Http\Request;
 use App\Notifications\Comments;
 use App\Http\Requests\SaveCommentsRequest;
@@ -24,7 +23,7 @@ class CommentsController extends Controller
     public function store(SaveCommentsRequest $saveComments, Post $post)
     {
         if($saveComments->email) {
-            (new UserRegistration)->commentCheckIfUserAccountExist($saveComments);
+            (new EloquentUserRepository)->commentCheckIfUserAccountExist($saveComments);
         }
 
         $reply = $saveComments->save($post);
@@ -46,8 +45,7 @@ class CommentsController extends Controller
 
     public function storeEvent(SaveCommentsRequest $request, Event $event)
     {
-        (new UserRegistration)->commentCheckIfUserAccountExist($request);
-
+        (new EloquentUserRepository)->commentCheckIfUserAccountExist($request);
 
         $reply = $event->comments()->create(array_merge($request->except(['email']), ['user_id' => auth()->user()->id ]));
 

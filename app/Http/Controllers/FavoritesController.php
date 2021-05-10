@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
 use App\Post;
+use App\User;
 use App\Event;
 use App\Prayer;
-use App\Repository\User\UserRegistration;
-use App\User;
 use App\Comment;
+use App\Organization;
 use Illuminate\Http\Request;
+use App\Repositories\Eloquent\EloquentUserRepository;
 
 class FavoritesController extends Controller
 {
@@ -47,7 +47,7 @@ class FavoritesController extends Controller
 
     public function favoritePrayer(Prayer $prayer, Request $request) {
         if($request->email) {
-            (new UserRegistration)->commentCheckIfUserAccountExist($request);
+            (new EloquentUserRepository)->commentCheckIfUserAccountExist($request);
         }
 
         $prayer->favorite();

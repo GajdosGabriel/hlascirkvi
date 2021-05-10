@@ -6,7 +6,6 @@ use App\Event;
 
 use App\EventSubscribe;
 use App\Http\Requests\EventSubscribeForm;
-use App\Repository\User\UserRegistration;
 use App\Repositories\Contracts\UserRepository;
 use App\Role;
 use App\User;

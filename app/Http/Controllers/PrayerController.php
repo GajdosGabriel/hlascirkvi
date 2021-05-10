@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SavePrayerRequest;
-use App\Notifications\User\NewPrayer;
-use App\Prayer;
-use App\Repository\User\UserRegistration;
 use App\User;
+use App\Prayer;
 use Illuminate\Http\Request;
+use App\Notifications\User\NewPrayer;
+use App\Http\Requests\SavePrayerRequest;
 use Illuminate\Support\Facades\Notification;
+use App\Repositories\Eloquent\EloquentUserRepository;
 
 class PrayerController extends Controller
 {
@@ -31,7 +31,7 @@ class PrayerController extends Controller
     public function store(SavePrayerRequest $request){
 
         if($request->email) {
-          (new UserRegistration)->commentCheckIfUserAccountExist($request);
+            (new EloquentUserRepository)->commentCheckIfUserAccountExist($request);
         }
 
       $prayer = auth()->user()->prayers()->create($request->all() );

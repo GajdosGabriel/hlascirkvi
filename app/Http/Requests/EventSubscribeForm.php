@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Repository\User\UserRegistration;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventSubscribeForm extends FormRequest
