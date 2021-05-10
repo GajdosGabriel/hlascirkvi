@@ -5,8 +5,9 @@
 
         <!-- Modal -->
         <transition name="slide-fade">
-            <div  v-if="showLoginForm" class="modal">
-                <login-0 @closeModal="showLoginForm = false" style="margin-top:3rem"></login-0>
+               <div v-if="showLoginForm" class="absolute z-10 bg-white border-2 border-gray-400 p-2 pb-5 rounded-md text-center">
+                <p class="pb-4 text-sm">Prihláste sa, alebo zaregistrujte.</p>
+                <a :href="'/login'" class="btn btn-primary w-full mb-2">Pokračovať</a>
             </div>
         </transition>
 

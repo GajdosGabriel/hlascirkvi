@@ -48,14 +48,13 @@
                  :class="classButton" class="p-2 rounded-md cursor-pointer flex justify-center hover:bg-red-700">
 
             </div>
-            <!-- Login Form-->
-            <div v-if="open" class="absolute z-10 bg-white border-2 border-gray-400 p-2 rounded-md text-center">
-                <p class="pb-4">Prihláste sa, alebo zaregistrujte.</p>
-                <a :href="'/login'" class="btn btn-primary w-full mb-2">Pokračovať</a>
+            <!-- Login link -->
+            <div v-if="open" class="absolute z-10 bg-white border-2 border-gray-400 p-2 pb-5 rounded-md text-center">
+                <p class="pb-4 text-sm">Prihláste sa, alebo zaregistrujte.</p>
+                <a :href="'/login'" class="btn btn-primary w-full">Pokračovať</a>
             </div>
         </div>
 
-        <!-- <modal></modal> -->
     </div>
 
 </template>
