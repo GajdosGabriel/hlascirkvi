@@ -14,10 +14,12 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Notifications\Admin\Buffer;
+use Illuminate\Support\Facades\Request;
 use App\Notifications\User\ConfirmEmail;
 use App\Repositories\AbstractRepository;
 use Illuminate\Support\Facades\Notification;
 use App\Repositories\Contracts\UserRepository;
+
 
 class EloquentUserRepository extends AbstractRepository implements UserRepository
 {
