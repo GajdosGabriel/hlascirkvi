@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Prayer;
 use Illuminate\Http\Request;
-use App\Notifications\User\NewPrayer;
+use App\Notifications\Prayer\NewPrayer;
 use App\Http\Requests\SavePrayerRequest;
 use Illuminate\Support\Facades\Notification;
 use App\Repositories\Eloquent\EloquentUserRepository;
@@ -28,8 +28,8 @@ class PrayerController extends Controller
         $modlitby->update($request->all());
     }
 
-    public function store(SavePrayerRequest $request){
-
+    public function store(SavePrayerRequest $request)
+    {
         if($request->email) {
             (new EloquentUserRepository)->commentCheckIfUserAccountExist($request);
         }
@@ -39,7 +39,8 @@ class PrayerController extends Controller
         Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
     }
 
-    public function destroy(Prayer $modlitby){
+    public function destroy(Prayer $modlitby)
+    {
         $modlitby->delete();
     }
 }

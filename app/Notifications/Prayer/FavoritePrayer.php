@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Notifications\User;
+namespace App\Notifications\Prayer;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewPrayer extends Notification
+class FavoritePrayer extends Notification
 {
     use Queueable;
+
     protected $prayer;
 
     /**
@@ -42,10 +43,12 @@ class NewPrayer extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Modlitba ' . $this->prayer->title)
-            ->line('Pridaná nová modlitba. ' . $this->prayer->body)
-            ->line('Dátum: ' . $this->prayer->created_at)
-            ->line('User: ' . $this->prayer->user->fullname);
+        ->subject('Modlitba ' . $this->prayer->title)
+        ->line('K vašej modlitbe sa ' . $this->prayer->title)
+        ->greeting('sa pripojil '. auth()->user()->fullname)
+        ->line($this->prayer->body)
+        ->line('Dátum: ' . $this->prayer->created_at)
+        ;
     }
 
     /**
