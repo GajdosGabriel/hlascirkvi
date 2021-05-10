@@ -4231,11 +4231,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['organization'],
+  props: ["organization"],
   components: {
     modal: _organizations_Organization_page_modal__WEBPACK_IMPORTED_MODULE_1__.default
   },
@@ -4246,7 +4266,7 @@ __webpack_require__.r(__webpack_exports__);
       showDescription: false,
       textform: false,
       favorited: this.organization.isFavorited,
-      buttonText: '',
+      buttonText: "",
       buttonStatus: true,
       registrationLink: false,
       open: false
@@ -4258,13 +4278,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     button: function button() {
       if (this.favorited) {
-        return this.buttonText = 'Sledujete kanál';
+        return this.buttonText = "Sledujete kanál";
       }
 
-      return this.buttonText = 'Sledovať kanál ' + this.organization.title;
+      return this.buttonText = "Sledovať kanál " + this.organization.title;
     },
     classButton: function classButton() {
-      return [this.favorited ? 'bg-gray-300' : 'bg-red-600 text-white whitespace-nowrap'];
+      return [this.favorited ? "bg-gray-300" : "bg-red-600 text-white whitespace-nowrap"];
     }
   },
   methods: {
@@ -4290,7 +4310,7 @@ __webpack_require__.r(__webpack_exports__);
         return this.toggleLogin();
       }
 
-      axios.get('/user/' + this.organization.id + '/favorites/subscribe').then(function (response) {
+      axios.get("/user/" + this.organization.id + "/favorites/subscribe").then(function (response) {
         _this.toggleFavorited();
 
         _this.messageNotification();
@@ -4299,12 +4319,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     messageNotification: function messageNotification() {
       if (this.favorited) {
-        _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
-          body: 'Ste prihlásený!'
+        _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit("flash", {
+          body: "Ste prihlásený!"
         });
       } else {
-        _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
-          body: 'Ste odhlásený!'
+        _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit("flash", {
+          body: "Ste odhlásený!"
         });
       }
     } // openModal: function () {
@@ -6542,7 +6562,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.id, "\n._3Jwg7NF-X_0kxaslSL4dTF, ._2xcjSuCWJVcktqD4HLWqU2 {\n    transition: opacity .5s;\n}\n._2cmkhznFrKEsw6Lfbn70_h, ._3Iwsyq1SUe0Y7tvVJjdaZ6 /* .fade-leave-active below version 2.1.8 */\n{\n    opacity: 0;\n}\n\n", ""]);
+exports.push([module.id, "\n._3Jwg7NF-X_0kxaslSL4dTF,\n._2xcjSuCWJVcktqD4HLWqU2 {\n    transition: opacity 0.5s;\n}\n._2cmkhznFrKEsw6Lfbn70_h, ._3Iwsyq1SUe0Y7tvVJjdaZ6 /* .fade-leave-active below version 2.1.8 */\n {\n    opacity: 0;\n}\n", ""]);
 
 // exports
 exports.locals = {
@@ -70310,44 +70330,41 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass:
-        "md:flex justify-between text-gray-700 mb-6 border-b-2 border-gray-400",
+      staticClass: "md:flex justify-between text-gray-700",
       on: { click: _vm.closeLoginInfo }
     },
     [
       _c("div", { staticClass: "flex" }, [
-        _c("div", { staticClass: "mr-4 mb-4" }, [
-          _vm.organization.avatar
-            ? _c("img", {
-                staticClass: "rounded-full w-16",
-                attrs: {
-                  src:
-                    this.domain +
-                    "storage/organizations/" +
-                    _vm.organization.id +
-                    "/" +
-                    _vm.organization.avatar
-                }
-              })
-            : _c(
-                "div",
-                {
-                  staticClass:
-                    "h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
-                },
-                [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(_vm.organization.initialName) +
-                      "\n            "
-                  )
-                ]
-              )
-        ]),
+        _vm.organization.avatar
+          ? _c("img", {
+              staticClass: "rounded-full w-16 h-16",
+              attrs: {
+                src:
+                  this.domain +
+                  "storage/organizations/" +
+                  _vm.organization.id +
+                  "/" +
+                  _vm.organization.avatar
+              }
+            })
+          : _c(
+              "div",
+              {
+                staticClass:
+                  "h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
+              },
+              [
+                _vm._v(
+                  "\n            " +
+                    _vm._s(_vm.organization.initialName) +
+                    "\n        "
+                )
+              ]
+            ),
         _vm._v(" "),
         _c(
           "div",
-          {},
+          { staticClass: "ml-4 mb-4" },
           [
             _c("h2", {
               staticClass: "text-2xl font-semibold",
@@ -70366,7 +70383,7 @@ var render = function() {
                   attrs: { href: "#" },
                   on: { click: _vm.toggle }
                 },
-                [_vm._v("\n                        Profil\n                ")]
+                [_vm._v("\n                    Profil\n                ")]
               )
             ]),
             _vm._v(" "),
@@ -70374,7 +70391,11 @@ var render = function() {
               _vm.showDescription
                 ? _c("div", [
                     _vm.organization.description == null
-                      ? _c("div", [_vm._v("Profil je nevyplnený.")])
+                      ? _c("div", [
+                          _vm._v(
+                            "\n                        Profil je nevyplnený.\n                    "
+                          )
+                        ])
                       : _vm._e(),
                     _vm._v(
                       "\n                    " +
@@ -70394,7 +70415,11 @@ var render = function() {
                         },
                         on: { click: _vm.toggle }
                       },
-                      [_vm._v("Zavrieť X\n                    ")]
+                      [
+                        _vm._v(
+                          "\n                        Zavrieť X\n                    "
+                        )
+                      ]
                     )
                   ])
                 : _vm._e()
