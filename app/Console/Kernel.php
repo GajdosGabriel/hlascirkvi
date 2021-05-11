@@ -39,19 +39,19 @@ class Kernel extends ConsoleKernel
         $schedule->command('UserSearchByName')->dailyAt('06:55');
 
 
-//        $schedule->command('PublisherBufferVideo')->everyMinute();
-//        $schedule->command('PublisherBufferVideo')->twiceDaily(7, 17);
-//        $schedule->command('PublisherBufferVideo')
-//            ->twiceDaily(7, 8)
-//            ->twiceDaily(10, 13)
-//            ->twiceDaily(15, 17)
-//        ;
+        //        $schedule->command('PublisherBufferVideo')->everyMinute();
+        //        $schedule->command('PublisherBufferVideo')->twiceDaily(7, 17);
+        //        $schedule->command('PublisherBufferVideo')
+        //            ->twiceDaily(7, 8)
+        //            ->twiceDaily(10, 13)
+        //            ->twiceDaily(15, 17)
+        //        ;
 
-                $schedule->command('PublisherBufferVideo')->twiceDaily(7, 8);
-                $schedule->command('PublisherBufferVideo')->twiceDaily(10, 12);
-                $schedule->command('PublisherBufferVideo')->twiceDaily(14, 16);
-                $schedule->command('PublisherBufferVideo')->twiceDaily(17, 19);
-//        $schedule->command('PublisherBufferVideo')->hourly();
+        $schedule->command('PublisherBufferVideo')->twiceDaily(7, 8);
+        $schedule->command('PublisherBufferVideo')->twiceDaily(10, 12);
+        $schedule->command('PublisherBufferVideo')->twiceDaily(14, 16);
+        $schedule->command('PublisherBufferVideo')->twiceDaily(17, 19);
+        //        $schedule->command('PublisherBufferVideo')->hourly();
 
 
 
@@ -59,14 +59,15 @@ class Kernel extends ConsoleKernel
             ->hourly()
             ->between('12:00', '16:00');
 
-//        $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
+        //        $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
 
-//        $schedule->command('Ecav:generate')->everyMinute();
+        //        $schedule->command('Ecav:generate')->everyMinute();
         $schedule->command('ecav:extract')->hourly();
         $schedule->command('tkkbs:extract')->hourly();
         $schedule->command('prayer:zdruzenieMedaily')->hourly();
         $schedule->command('prayer:mojaKomunita')->hourlyAt(35);
-
+        
+        $schedule->command('prayer:fulfilledOrNotYet')->everyMinute();
     }
 
     /**
@@ -76,7 +77,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

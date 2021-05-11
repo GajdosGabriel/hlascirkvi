@@ -27,11 +27,13 @@ use App\Services\Newsletter;
 class TestController extends Controller
 {
     public function newsletter() {
+        // dd(Carbon::now()->subDays(2));
 
-        // $users = (new Newsletter)->mountlyNewsletter();
+        $users = (new Newsletter)->prayerFulfilledOrNotYet();
 
-        // dd($users);
+        dd($users);
 
+        // dd(  ( new Newsletter)->prayerFulfilledOrNotYet() );
 
 
         $posts = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
@@ -47,6 +49,7 @@ class TestController extends Controller
 
     public function test()
     {
+
 
         // (new ExtractTkkbs())->parseListUrl();
         // $event = Event::findOrFail(100);
