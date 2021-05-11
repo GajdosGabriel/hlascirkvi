@@ -28,18 +28,18 @@ class TestController extends Controller
 {
     public function newsletter() {
 
-        dd(Carbon::now()->subDays(71));
+        // dd(Carbon::now()->subDays(71));
 
-        $users = (new Newsletter)->prayerFulfilledOrNotYet();
+        // $users = (new Newsletter)->prayerFulfilledOrNotYet();
 
-        dd($users);
+        // dd($users);
 
         // dd(  ( new Newsletter)->prayerFulfilledOrNotYet() );
 
 
-        $posts = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
-        $events = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
-        $prayers = Prayer::latest()->take(5)->get();
+        // $posts = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
+        // $events = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
+        // $prayers = Prayer::latest()->take(5)->get();
 
         // Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));
 
