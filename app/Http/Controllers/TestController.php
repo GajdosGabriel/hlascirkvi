@@ -27,7 +27,8 @@ use App\Services\Newsletter;
 class TestController extends Controller
 {
     public function newsletter() {
-        // dd(Carbon::now()->subDays(2));
+
+        dd(Carbon::now()->subDays(71));
 
         $users = (new Newsletter)->prayerFulfilledOrNotYet();
 

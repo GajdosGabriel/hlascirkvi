@@ -45,14 +45,14 @@ class PrayerFulfilledOrNotYet extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Predlžiť modlitbu? ' . $this->prayer->title)
+            ->subject('Vaša modlitba, ' . $this->prayer->title)
             ->greeting($this->prayer->title)
             ->line($this->prayer->body)
-            ->line('Zverejnená: ' . $this->prayer->created_at)
-            ->line('Ak je modlitba stále aktuálna, predlžte zobrazovanie modlitby.')
-            ->action('Predĺžiť zverejnenie modlitby' , route('prayer.fulfilledAt', $this->prayer->id))
-            ->line('Modlitba bola vypočutá, zaradiť do zoznamu vypočutých motlitieb na slávu Božiu.')
-            ->line(new HtmlString('<a href="/" style="display:block; margin: 0 auto; width: 180px;">Modlitba bola vypočutá</a>'))
+            // ->line('Zverejnená: ' . $this->prayer->created_at)
+            ->line('Ak modlitba bola vypočutá, kliknutím na tlačidlo, ju zaradíte zoznamu vypočutých modlitieb.')
+            ->action('Modlitba bola vypočutá' , route('prayer.fulfilledAt', $this->prayer->id))
+            ->line('V opačnom prípade nereagujte a modlitebný úmysle bude stále aktuálny.')
+            // ->line(new HtmlString('<a href="/" style="display:block; margin: 0 auto; width: 180px;">Modlitba bola vypočutá</a>'))
             ->salutation('S pozdravom');
 
     }

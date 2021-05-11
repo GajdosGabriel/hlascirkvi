@@ -16,10 +16,10 @@ class Newsletter
 
     public function mountlyNewsletter()
     {
-          $users = (new EloquentUserRepository)->usersEmailable()->get();
+        $users = (new EloquentUserRepository)->usersEmailable()->get();
         // $users = (new EloquentUserRepository)->usersHasRoleAdmin();
 
-       $this->handle($users);
+        $this->handle($users);
     }
 
     public function handle($users)
@@ -29,20 +29,32 @@ class Newsletter
         }
     }
 
-
+    // Notifikácie vypočutia modlitieb
     public function prayerFulfilledOrNotYet()
     {
-        $prayers = Prayer::where('user_id', '!=', 1)
-          ->whereDay('last_notification', Carbon::now()->subDays(2))
-          ->whereNull('fulfilled_at')
-          ->get();
+        // Počet dní po ktorých sa posiela dotaz či modlitba bola vypočutá.
+        $days = array(20, 70, 90, 180);
 
-        foreach ($prayers as $prayer) {
-            Notification::send($prayer->user, new PrayerFulfilledOrNotYet($prayer));
-
-            // $prayer->update([
-            //     'last_notification' => Carbon::now()
-            // ]);
+        foreach ($days as $day) {
+            $prayers =  $this->prayerFulfilledAfterDays($day);
+            $this->prayerFulfilledHandle($prayers);
         }
     }
+
+    public function prayerFulfilledAfterDays($day)
+    {
+        return Prayer::where('user_id', '!=', 1)
+            ->whereDate('created_at', Carbon::now()->subDays($day))
+            ->whereNull('fulfilled_at')
+            ->get();
+    }
+
+
+    public function prayerFulfilledHandle($prayers)
+    {
+        foreach ($prayers as $prayer) {
+            Notification::send($prayer->user, new PrayerFulfilledOrNotYet($prayer));
+        }
+    }
+        // End of Notifikácie vypočutia modlitieb
 }

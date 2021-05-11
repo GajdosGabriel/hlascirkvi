@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Prayer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Notifications\Prayer\NewPrayer;
 use App\Http\Requests\SavePrayerRequest;
@@ -30,11 +31,11 @@ class PrayerController extends Controller
 
     public function store(SavePrayerRequest $request)
     {
-        if($request->email) {
+        if ($request->email) {
             (new EloquentUserRepository)->commentCheckIfUserAccountExist($request);
         }
 
-      $prayer = auth()->user()->prayers()->create($request->all() );
+        $prayer = auth()->user()->prayers()->create($request->all());
 
         Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
     }
@@ -47,7 +48,11 @@ class PrayerController extends Controller
 
     public function fulfilledAt(Prayer $prayer)
     {
-        dd($prayer);
+        $prayer->update([
+            'fulfilled_at' => Carbon::now()
+        ]);
 
+        session()->flash('flash', 'Modliba bola označená ako vypočutá. Ďakujeme.');
+        return redirect()->route('modlitby.index');
     }
 }

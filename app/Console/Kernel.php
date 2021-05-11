@@ -66,8 +66,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('tkkbs:extract')->hourly();
         $schedule->command('prayer:zdruzenieMedaily')->hourly();
         $schedule->command('prayer:mojaKomunita')->hourlyAt(35);
-        
-        $schedule->command('prayer:fulfilledOrNotYet')->everyMinute();
+
+        // $schedule->command('prayer:fulfilledOrNotYet')->everyMinute();
+        $schedule->command('prayer:fulfilledOrNotYet')->dailyAt('17:20');
     }
 
     /**

@@ -21,7 +21,6 @@ class CreatePrayersTable extends Migration
             $table->string('user_name')->nullable();
             $table->text('body');
             $table->timestamp('fulfilled_at')->nullable();
-            $table->timestamp('last_notification')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
