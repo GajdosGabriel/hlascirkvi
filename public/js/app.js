@@ -72021,7 +72021,7 @@ var render = function() {
       _c(
         "ul",
         { staticClass: "mt-3" },
-        _vm._l(_vm.prayers.data, function(prayer) {
+        _vm._l(_vm.prayers.data.slice(0, 7), function(prayer) {
           return _c(
             "li",
             { key: prayer.id },

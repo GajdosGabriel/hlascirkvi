@@ -16,7 +16,7 @@ class PrayerController extends Controller
      */
     public function index()
     {
-        return new PrayerCollection(Prayer::orderBy('created_at', 'desc')->paginate(7));
+        return new PrayerCollection(Prayer::orderBy('created_at', 'desc')->paginate(15));
     }
 
     /**
