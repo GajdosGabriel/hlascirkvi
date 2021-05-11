@@ -40,9 +40,9 @@ class Newsletter
         foreach ($prayers as $prayer) {
             Notification::send($prayer->user, new PrayerFulfilledOrNotYet($prayer));
 
-            $prayer->update([
-                'last_notification' => Carbon::now()
-            ]);
+            // $prayer->update([
+            //     'last_notification' => Carbon::now()
+            // ]);
         }
     }
 }

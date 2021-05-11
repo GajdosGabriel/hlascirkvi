@@ -3,9 +3,10 @@
 namespace App\Notifications\Prayer;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\HtmlString;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class PrayerFulfilledOrNotYet extends Notification
 {
@@ -45,15 +46,16 @@ class PrayerFulfilledOrNotYet extends Notification
     {
         return (new MailMessage)
             ->subject('Predlžiť modlitbu? ' . $this->prayer->title)
-            ->line('Je táto modlitba stále aktuálna alebo bola vypočut? ')
+            // ->line('Je táto modlitba stále aktuálna alebo bola vypočut? ')
             ->greeting($this->prayer->title)
-            ->line('Text modlitby:')
+            // ->line('Text modlitby:')
             ->line($this->prayer->body)
-            ->line('Bola zverejnená: ' . $this->prayer->created_at)
-            ->action('Modlitba je vypočutá' , $this->prayer->user->fullname)
-            ->line('Ak modlitba bola vypočutá, zaradí sa do zoznamu vypočutých modlitieb. V prípade predlženia sa bude
-            zobrazovať v zozname prosieb na vyslišanie.')
-            ->action('Predľžiť modlitbu o 14 dní' , $this->prayer->user->fullname);
+            ->line('Zverejnená: ' . $this->prayer->created_at)
+            ->line('Ak je modlitba stále aktuálna, predlžte zobrazovanie modlitby.')
+            ->action('Predĺžiť zverejnenie modlitby' , $this->prayer->user->fullname)
+            ->line('Modlitba bola vypočutá, zaradiť do zoznamu vypočutých motlitieb na slávu Božiu.')
+            ->line(new HtmlString('<a href="/" style="display:block; margin: 0 auto; width: 180px;">Modlitba bola vypočutá</a>'))
+            ->salutation('S pozdravom');
 
     }
 
