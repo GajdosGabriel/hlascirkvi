@@ -46,13 +46,11 @@ class PrayerFulfilledOrNotYet extends Notification
     {
         return (new MailMessage)
             ->subject('Predlžiť modlitbu? ' . $this->prayer->title)
-            // ->line('Je táto modlitba stále aktuálna alebo bola vypočut? ')
             ->greeting($this->prayer->title)
-            // ->line('Text modlitby:')
             ->line($this->prayer->body)
             ->line('Zverejnená: ' . $this->prayer->created_at)
             ->line('Ak je modlitba stále aktuálna, predlžte zobrazovanie modlitby.')
-            ->action('Predĺžiť zverejnenie modlitby' , $this->prayer->user->fullname)
+            ->action('Predĺžiť zverejnenie modlitby' , route('prayer.fulfilledAt', $this->prayer->id))
             ->line('Modlitba bola vypočutá, zaradiť do zoznamu vypočutých motlitieb na slávu Božiu.')
             ->line(new HtmlString('<a href="/" style="display:block; margin: 0 auto; width: 180px;">Modlitba bola vypočutá</a>'))
             ->salutation('S pozdravom');

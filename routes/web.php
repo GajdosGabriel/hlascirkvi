@@ -22,6 +22,8 @@ Route::resources([
     'modlitby' => PrayerController::class
 ]);
 
+Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
+
 
 Route::prefix('user/')->name('organization.')->group(function () {
     Route::get('{organization}/{slug}', 'UsersController@show')->name('show');

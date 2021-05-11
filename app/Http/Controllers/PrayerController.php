@@ -43,4 +43,11 @@ class PrayerController extends Controller
     {
         $modlitby->delete();
     }
+
+
+    public function fulfilledAt(Prayer $prayer)
+    {
+        dd($prayer);
+
+    }
 }
