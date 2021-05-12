@@ -4,8 +4,8 @@
         <div class="">
             <h4 @click="showForm" class="mb-4 font-semibold mt-2">Komentáre <i class="far fa-comment-dots"></i> <span style="font-size: 70%; cursor: pointer">pridať nový</span></h4>
 
-            <div v-for="(reply, index) in items" >
-               <reply :data="reply" @deleted="remove(index)"></reply>
+            <div v-for="reply in items" :key="reply.id"  class="p-3">
+               <reply :data="reply" @deleted="remove(reply.id)"></reply>
             </div>
 
             <div v-if="show">
@@ -50,8 +50,8 @@
             showForm: function() {
                 this.show = ! this.show;
             },
-            remove: function(index) {
-                this.data.splice(index, 1);
+            remove: function(id) {
+                this.data.splice(id, 1);
                 bus.$emit('flash', {body:'Komentár je zmazaný', type: 'danger'});
             },
 
