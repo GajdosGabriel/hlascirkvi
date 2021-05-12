@@ -53,7 +53,7 @@
 
                     <p
                         class="text-gray-600 text-sm mx-2 "
-                        :class="{ 'font-semibold' : notification.read_at}"
+                        :class="{ 'font-semibold' : ! notification.read_at}"
                         v-text="notification.data.message"
                     >
                         <span class="font-bold" href="#">Sara Salah</span>
@@ -82,6 +82,15 @@ export default {
             dropDown: false
         };
     },
+      methods: {
+        toggle: function() {
+            this.dropDown = !this.dropDown;
+        },
+
+        markAsRead: function(notification) {
+            axios.put("/notifications/" + notification.id);
+        }
+    },
     mounted: function() {
         axios
             .get("/notifications")
@@ -98,16 +107,6 @@ export default {
     computed: {
         bellClass: function() {
             return [this.notifications.length ? " text-red-400" : ""];
-        }
-    },
-
-    methods: {
-        toggle: function() {
-            this.dropDown = !this.dropDown;
-        },
-
-        markAsRead: function(notification) {
-            axios.get("/user/profiles/" + notification.id + "/markAsRead");
         }
     }
 };

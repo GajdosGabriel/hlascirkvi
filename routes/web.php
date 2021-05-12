@@ -60,12 +60,12 @@ Route::prefix('post/')->name('post.')->group(function () {
 });
 
 
-Route::Resources([
-    'notifications' => Notification::class,
-]);
+// Route::Resources([
+//     'notifications' => Notification::class,
+// ]);
 
 Route::get('notifications', 'NotificationController@index')->name('notification.index');
-Route::get('/user/profiles/{id}/markAsRead', 'UsersController@markAsRead')->name('unread.markAsRead');
+Route::put('notifications/{notifications}', 'NotificationController@update')->name('notification.update');
 
 
 

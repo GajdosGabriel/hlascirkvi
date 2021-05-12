@@ -5724,6 +5724,14 @@ __webpack_require__.r(__webpack_exports__);
       dropDown: false
     };
   },
+  methods: {
+    toggle: function toggle() {
+      this.dropDown = !this.dropDown;
+    },
+    markAsRead: function markAsRead(notification) {
+      axios.put("/notifications/" + notification.id);
+    }
+  },
   mounted: function mounted() {
     var _this = this;
 
@@ -5741,14 +5749,6 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     bellClass: function bellClass() {
       return [this.notifications.length ? " text-red-400" : ""];
-    }
-  },
-  methods: {
-    toggle: function toggle() {
-      this.dropDown = !this.dropDown;
-    },
-    markAsRead: function markAsRead(notification) {
-      axios.get("/user/profiles/" + notification.id + "/markAsRead");
     }
   }
 });
@@ -72539,7 +72539,7 @@ var render = function() {
                             "p",
                             {
                               staticClass: "text-gray-600 text-sm mx-2 ",
-                              class: { "font-semibold": notification.read_at },
+                              class: { "font-semibold": !notification.read_at },
                               domProps: {
                                 textContent: _vm._s(notification.data.message)
                               }
