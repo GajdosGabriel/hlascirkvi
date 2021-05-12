@@ -16,7 +16,6 @@
             />
         </svg>
 
-
         <div
             v-if="dropDown"
             @click="dropdownOpen = false"
@@ -38,13 +37,19 @@
                     @click="markAsRead(notification)"
                     class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
                 >
-                    <img
-                        class="h-8 w-8 rounded-full object-cover mx-1"
+                    <!-- Initial name -->
+                    <div
+                    v-if="notification.data.logo"
+                        class="h-12 w-12 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
+                    >
+                        {{ notification.data.logo }}
+                    </div>
+
+                    <img v-else
+                        class="h-10 w-20 rounded-full object-cover mx-1"
                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
                         alt="avatar"
                     />
-
-                    <!-- <span class="ul-style"><i class="fas fa-circle"></i></span> -->
 
                     <p
                         class="text-gray-600 text-sm mx-2"
@@ -91,9 +96,7 @@ export default {
     },
     computed: {
         bellClass: function() {
-            return [
-                this.notifications.length ? " text-red-400" : ""
-            ];
+            return [this.notifications.length ? " text-red-400" : ""];
         }
     },
 

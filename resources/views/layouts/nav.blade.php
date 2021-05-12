@@ -38,7 +38,7 @@
             {{-- <li><a href="{{ route('event.index') }}">Podujatia</a></li> --}}
         </ul>
 
-        <ul class="my-2 flex">
+        <ul class="my-2 flex items-center">
             @guest
                 <li><a href="{{ route('login') }}">{{ __('auth.login') }}</a></li>
                 {{-- <li><a href="{{ route('register') }}">{{ __('auth.Register') }}</a></li> --}}

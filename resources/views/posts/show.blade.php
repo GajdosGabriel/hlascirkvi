@@ -290,7 +290,7 @@
             @endforelse
         </div>
 
-        <div class="hidden md:block flex justify-center my-8">
+        <div class="md:block flex justify-center my-8">
             {{ $posts->links() }}
         </div>
 

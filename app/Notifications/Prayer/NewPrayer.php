@@ -58,6 +58,7 @@ class NewPrayer extends Notification
     public function toArray($notifiable)
     {
         return [
+            'logo' =>  $this->prayer->user->owner->initialName,
             'message' => $this->prayer->user->fullName . ' Pridal modlitbu ' . $this->prayer->title,
             'link' => route('modlitby.index')
         ];

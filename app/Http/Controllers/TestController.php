@@ -27,6 +27,9 @@ use App\Services\Newsletter;
 class TestController extends Controller
 {
     public function newsletter() {
+        $user = User::first();
+
+        dd( $user->owner->initialName );
 
         // dd(Carbon::now()->subDays(71));
 
@@ -43,7 +46,7 @@ class TestController extends Controller
 
         // Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));
 
-       return new PostNewsletter($posts, $events, $prayers);
+    //    return new PostNewsletter($posts, $events, $prayers);
 
     }
 
