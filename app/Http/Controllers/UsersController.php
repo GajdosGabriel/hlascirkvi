@@ -43,18 +43,6 @@ class UsersController extends Controller
     }
 
 
-
-    public function userNotifications()
-    {
-        return auth()->user()->unreadNotifications()->take(7)->get();
-        //        return auth()->user()->unreadNotifications()->get();
-    }
-
-    public function markAsRead($id)
-    {
-        return auth()->user()->notifications()->findOrFail($id)->markAsRead();
-    }
-
     public function setDenominationSession(Request $request)
     {
         session()->put('denomination', $request->denomination);

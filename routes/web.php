@@ -19,10 +19,16 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 Route::get('zamyslenia/{slug?}', 'VersesController@index')->name('verses.index');
 
 Route::resources([
-    'modlitby' => PrayerController::class
+    'modlitby' => PrayerController::class,
+    'notifications' => NotificationController::class
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
+
+
+
+
+// Route::put('notifications/{notification}', 'NotificationController@update')->name('notification.update');
 
 
 Route::prefix('user/')->name('organization.')->group(function () {
@@ -58,15 +64,6 @@ Route::prefix('post/')->name('post.')->group(function () {
 
     });
 });
-
-
-// Route::Resources([
-//     'notifications' => Notification::class,
-// ]);
-
-Route::get('notifications', 'NotificationController@index')->name('notification.index');
-Route::put('notifications/{notifications}', 'NotificationController@update')->name('notification.update');
-
 
 
 //    Route::get('/users', 'UsersController@index')->name('users.index');
