@@ -5716,6 +5716,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5723,10 +5724,10 @@ __webpack_require__.r(__webpack_exports__);
       dropDown: false
     };
   },
-  created: function created() {
+  mounted: function mounted() {
     var _this = this;
 
-    axios.get("/user/profiles/notification/unread").then(function (response) {
+    axios.get("/notifications").then(function (response) {
       return _this.notifications = response.data;
     });
     var self = this;
@@ -6789,7 +6790,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.id, "\n._2kc9DAL93PIUdA8kdDbZiB {\r\n    color: rgb(255, 49, 14);\n}\n._2E7-s-KmVTXCsxBJH5LMfS {\r\n    color: #7d7d7d;\r\n    font-size: 85%;\r\n    margin-top: -1rem;\r\n    cursor: pointer;\n}\r\n", ""]);
+exports.push([module.id, "\n._2kc9DAL93PIUdA8kdDbZiB {\n    color: rgb(255, 49, 14);\n}\n._2E7-s-KmVTXCsxBJH5LMfS {\n    color: #7d7d7d;\n    font-size: 85%;\n    margin-top: -1rem;\n    cursor: pointer;\n}\n", ""]);
 
 // exports
 exports.locals = {
@@ -72484,7 +72485,7 @@ var render = function() {
               staticClass: "fixed inset-0 h-full w-full z-10",
               on: {
                 click: function($event) {
-                  _vm.dropdownOpen = false
+                  _vm.dropDown = false
                 }
               }
             })
@@ -72532,20 +72533,13 @@ var render = function() {
                                   )
                                 ]
                               )
-                            : _c("img", {
-                                staticClass:
-                                  "h-10 w-20 rounded-full object-cover mx-1",
-                                attrs: {
-                                  src:
-                                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
-                                  alt: "avatar"
-                                }
-                              }),
+                            : _vm._e(),
                           _vm._v(" "),
                           _c(
                             "p",
                             {
-                              staticClass: "text-gray-600 text-sm mx-2",
+                              staticClass: "text-gray-600 text-sm mx-2 ",
+                              class: { "font-semibold": notification.read_at },
                               domProps: {
                                 textContent: _vm._s(notification.data.message)
                               }

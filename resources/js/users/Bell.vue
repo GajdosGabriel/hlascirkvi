@@ -18,7 +18,7 @@
 
         <div
             v-if="dropDown"
-            @click="dropdownOpen = false"
+            @click="dropDown = false"
             class="fixed inset-0 h-full w-full z-10"
         ></div>
 
@@ -45,14 +45,15 @@
                         {{ notification.data.logo }}
                     </div>
 
-                    <img v-else
+                    <!-- <img v-else
                         class="h-10 w-20 rounded-full object-cover mx-1"
                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
                         alt="avatar"
-                    />
+                    /> -->
 
                     <p
-                        class="text-gray-600 text-sm mx-2"
+                        class="text-gray-600 text-sm mx-2 "
+                        :class="{ 'font-semibold' : notification.read_at}"
                         v-text="notification.data.message"
                     >
                         <span class="font-bold" href="#">Sara Salah</span>
@@ -81,9 +82,9 @@ export default {
             dropDown: false
         };
     },
-    created: function() {
+    mounted: function() {
         axios
-            .get("/user/profiles/notification/unread")
+            .get("/notifications")
             .then(response => (this.notifications = response.data));
 
         let self = this;

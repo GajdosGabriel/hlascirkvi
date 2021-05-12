@@ -60,13 +60,22 @@ Route::prefix('post/')->name('post.')->group(function () {
 });
 
 
+Route::Resources([
+    'notifications' => Notification::class,
+]);
+
+Route::get('notifications', 'NotificationController@index')->name('notification.index');
+Route::get('/user/profiles/{id}/markAsRead', 'UsersController@markAsRead')->name('unread.markAsRead');
+
+
+
 //    Route::get('/users', 'UsersController@index')->name('users.index');
 
 Route::get('/user/{user}/{slug}/import', 'AddresBookController@importContacts')->name('addresBook.importContacts');
 Route::get('/user/{user}/confirmEmail/confirmEmail', 'UsersController@confirmEmail')->name('confirmEmail');
 
-Route::get('/user/profiles/notification/unread', 'UsersController@userNotifications')->name('unread.notification');
-Route::get('/user/profiles/{id}/markAsRead', 'UsersController@markAsRead')->name('unread.markAsRead');
+
+
 Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->name('addresBook.storeUsersContact');
 
 Route::post('account/avatar/store', 'Account\AvatarController@store')->name('account.avatar.store');
