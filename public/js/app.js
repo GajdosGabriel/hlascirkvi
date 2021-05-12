@@ -4842,6 +4842,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4860,10 +4924,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on('openModalPrayer', function () {
+    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on("openModalPrayer", function () {
       _this.show = true;
     });
-    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on('passToModalEdit', function (prayer) {
+    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on("passToModalEdit", function (prayer) {
       _this.form = prayer;
       _this.show = true;
     });
@@ -4878,7 +4942,7 @@ __webpack_require__.r(__webpack_exports__);
       // Update prayer
       if (this.form.id) {
         console.log(this.form);
-        axios__WEBPACK_IMPORTED_MODULE_2___default().put('/modlitby/' + this.form.id, this.form).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().put("/modlitby/" + this.form.id, this.form).then(function (response) {
           _this2.form = {};
           _this2.show = false;
           window.location.reload();
@@ -4887,7 +4951,7 @@ __webpack_require__.r(__webpack_exports__);
       } // Save prayer
 
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/modlitby', this.form).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("/modlitby", this.form).then(function (response) {
         _this2.form = {};
         _this2.show = false;
         window.location.reload();
@@ -5592,21 +5656,81 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      notifications: false,
+      notifications: [],
       dropDown: false
     };
   },
   created: function created() {
     var _this = this;
 
-    axios.get('/user/profiles/notification/unread').then(function (response) {
+    axios.get("/user/profiles/notification/unread").then(function (response) {
       return _this.notifications = response.data;
     });
     var self = this;
-    window.addEventListener('click', function (e) {
+    window.addEventListener("click", function (e) {
       // close dropdown when clicked outside
       if (!self.$el.contains(e.target)) {
         self.dropDown = false;
@@ -5615,7 +5739,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     bellClass: function bellClass() {
-      return ['fas fa-bell', this.notifications.length ? ' favorited' : ''];
+      return [this.notifications.length ? " text-red-400" : ""];
     }
   },
   methods: {
@@ -5623,11 +5747,10 @@ __webpack_require__.r(__webpack_exports__);
       this.dropDown = !this.dropDown;
     },
     markAsRead: function markAsRead(notification) {
-      axios.get('/user/profiles/' + notification.id + '/markAsRead');
+      axios.get("/user/profiles/" + notification.id + "/markAsRead");
     }
   }
 });
-;
 
 /***/ }),
 
@@ -6603,13 +6726,11 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.id, "\n._34dCsG_jLSgJlY-bBurfX1 {\n    color: #989898;\n}\n\n/*.grow { transition: all .2s ease-in-out; }*/\n/*.grow:hover { transform: scale(1.3); }*/\n.gtQbyFVHQfQ21sH_jVVl6 {\n    /*transition: all .3s ease;*/\n}\n._1F0R9pHMhK60KCaq9v_5RW {\n    /*transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/\n}\n._14zS0gmpNW4RN91n64nxDM, .PL24aCZ-WOyEvYJ0AMumD\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n    /*transform: translateX(10px);*/\n    opacity: 0;\n}\n\n", ""]);
+exports.push([module.id, "\n._34dCsG_jLSgJlY-bBurfX1 {\n    color: #989898;\n}\n\n/*.grow { transition: all .2s ease-in-out; }*/\n/*.grow:hover { transform: scale(1.3); }*/\n._14zS0gmpNW4RN91n64nxDM, .PL24aCZ-WOyEvYJ0AMumD\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n    /*transform: translateX(10px);*/\n    opacity: 0;\n}\n\n", ""]);
 
 // exports
 exports.locals = {
 	"favorited": "_34dCsG_jLSgJlY-bBurfX1",
-	"slide-fade-enter-active": "gtQbyFVHQfQ21sH_jVVl6",
-	"slide-fade-leave-active": "_1F0R9pHMhK60KCaq9v_5RW",
 	"slide-fade-enter": "_14zS0gmpNW4RN91n64nxDM",
 	"slide-fade-leave-to": "PL24aCZ-WOyEvYJ0AMumD"
 };
@@ -6668,7 +6789,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.id, "\n._2kc9DAL93PIUdA8kdDbZiB {\n    color: rgb(255, 49, 14);\n}\n._2E7-s-KmVTXCsxBJH5LMfS {\n    color: #7d7d7d; font-size: 85%; margin-top: -1rem; cursor: pointer\n}\n\n", ""]);
+exports.push([module.id, "\n._2kc9DAL93PIUdA8kdDbZiB {\r\n    color: rgb(255, 49, 14);\n}\n._2E7-s-KmVTXCsxBJH5LMfS {\r\n    color: #7d7d7d;\r\n    font-size: 85%;\r\n    margin-top: -1rem;\r\n    cursor: pointer;\n}\r\n", ""]);
 
 // exports
 exports.locals = {
@@ -70780,6 +70901,7 @@ var render = function() {
     { staticClass: "grow", staticStyle: { cursor: "pointer" } },
     [
       _c("div", {
+        staticClass: "whitespace-nowrap",
         class: _vm.isFavorited,
         staticStyle: {
           "border-radius": ".3rem",
@@ -71048,7 +71170,11 @@ var render = function() {
                         staticClass: "close-modal cursor-pointer",
                         on: { click: _vm.toggle }
                       },
-                      [_vm._v("✖")]
+                      [
+                        _vm._v(
+                          "\n                        ✖\n                    "
+                        )
+                      ]
                     )
                   ])
                 ]),
@@ -71121,7 +71247,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("span", { staticClass: "text-sm italic" }, [
                                   _vm._v(
-                                    "Krátko o Vašom modltitbovom úmysle, napr: za uzdravenie manžela, za prácu a pod."
+                                    "Krátko o Vašom modltitbovom úmysle,\n                                    napr: za uzdravenie manžela, za prácu a\n                                    pod."
                                   )
                                 ])
                               ]),
@@ -71175,7 +71301,7 @@ var render = function() {
                                     { staticClass: "text-sm italic" },
                                     [
                                       _vm._v(
-                                        "Tu napíšte viac o dôvode modlitby, aby Vám ostatní mohli lepšie porozumieť."
+                                        "Tu napíšte viac o dôvode modlitby, aby\n                                    Vám ostatní mohli lepšie\n                                    porozumieť."
                                       )
                                     ]
                                   )
@@ -71232,7 +71358,7 @@ var render = function() {
                                     { staticClass: "text-sm italic" },
                                     [
                                       _vm._v(
-                                        "Pre ostatných, aby vedeli, ako Vás osloviť v modlitbe."
+                                        "Pre ostatných, aby vedeli, ako Vás\n                                    osloviť v modlitbe."
                                       )
                                     ]
                                   )
@@ -71287,7 +71413,7 @@ var render = function() {
                                       { staticClass: "text-sm italic" },
                                       [
                                         _vm._v(
-                                          "Email sa nikde nezverejňuje a je potrebný na overenie.\n                        Zároveň, Vám budú doručené oznámenia, keď sa za Vás niekto pomodlí, alebo napíše."
+                                          "Email sa nikde nezverejňuje a je\n                                    potrebný na overenie. Zároveň, Vám budú\n                                    doručené oznámenia, keď sa za Vás niekto\n                                    pomodlí, alebo napíše."
                                         )
                                       ]
                                     )
@@ -71295,15 +71421,39 @@ var render = function() {
                                 : _vm._e(),
                               _vm._v(" "),
                               _c(
-                                "button",
+                                "div",
                                 {
                                   staticClass:
-                                    "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
-                                  attrs: { type: "submit" }
+                                    "bg-gray-50 sm:flex justify-between  "
                                 },
                                 [
-                                  _vm._v(
-                                    "\n                                Uložiť\n                            "
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
+                                      attrs: { type: "button" },
+                                      on: { click: _vm.toggle }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Zrušiť\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-gray-300 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
+                                      attrs: { type: "submit" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Uložiť\n                                "
+                                      )
+                                    ]
                                   )
                                 ]
                               )
@@ -71312,26 +71462,6 @@ var render = function() {
                         ]
                       )
                     ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
-                  },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
-                        attrs: { type: "button" },
-                        on: { click: _vm.toggle }
-                      },
-                      [_vm._v("\n                    Zrušiť\n                ")]
-                    )
                   ]
                 )
               ]
@@ -72322,62 +72452,152 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.notifications.length
-    ? _c(
-        "li",
-        {
-          staticClass: "nav-item dropdown",
-          attrs: { title: "Máte nové upozornenia." },
-          on: { click: _vm.toggle }
-        },
-        [
-          _c("i", { class: _vm.bellClass, staticStyle: { cursor: "pointer" } }),
-          _vm._v(" "),
-          _vm.dropDown
-            ? _c(
-                "ul",
-                { staticClass: "dropdown-menu" },
-                [
-                  _c("span", { staticClass: "ul-style" }, [
-                    _vm._v("Označiť ako prečítané!")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.notifications, function(notification) {
-                    return _c("li", [
-                      _vm._m(0, true),
-                      _vm._v(" "),
-                      _c("a", {
-                        staticClass: "dropdown-item",
-                        attrs: { href: notification.data.link },
-                        domProps: {
-                          textContent: _vm._s(notification.data.message)
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.markAsRead(notification)
+  return _vm.notifications
+    ? _c("li", { staticClass: "relative mr-3", on: { click: _vm.toggle } }, [
+        _c(
+          "svg",
+          {
+            staticClass: "h-5 w-5 ",
+            class: _vm.bellClass,
+            attrs: {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              stroke: "currentColor"
+            }
+          },
+          [
+            _c("path", {
+              attrs: {
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "2",
+                d:
+                  "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _vm.dropDown
+          ? _c("div", {
+              staticClass: "fixed inset-0 h-full w-full z-10",
+              on: {
+                click: function($event) {
+                  _vm.dropdownOpen = false
+                }
+              }
+            })
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.dropDown
+          ? _c(
+              "ul",
+              {
+                staticClass:
+                  "absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20",
+                staticStyle: { width: "20rem" }
+              },
+              [
+                _vm._l(_vm.notifications, function(notification) {
+                  return _c(
+                    "li",
+                    { key: notification.id, staticClass: "py-2" },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2",
+                          attrs: { href: notification.data.link },
+                          on: {
+                            click: function($event) {
+                              return _vm.markAsRead(notification)
+                            }
                           }
-                        }
-                      })
-                    ])
-                  })
-                ],
-                2
-              )
-            : _vm._e()
-        ]
-      )
+                        },
+                        [
+                          notification.data.logo
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "h-12 w-12 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(notification.data.logo) +
+                                      "\n                "
+                                  )
+                                ]
+                              )
+                            : _c("img", {
+                                staticClass:
+                                  "h-10 w-20 rounded-full object-cover mx-1",
+                                attrs: {
+                                  src:
+                                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
+                                  alt: "avatar"
+                                }
+                              }),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            {
+                              staticClass: "text-gray-600 text-sm mx-2",
+                              domProps: {
+                                textContent: _vm._s(notification.data.message)
+                              }
+                            },
+                            [
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "font-bold",
+                                  attrs: { href: "#" }
+                                },
+                                [_vm._v("Sara Salah")]
+                              ),
+                              _vm._v(
+                                "\n                    replied on the\n                    "
+                              ),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "font-bold text-blue-500",
+                                  attrs: { href: "#" }
+                                },
+                                [_vm._v("Upload Image")]
+                              ),
+                              _vm._v(
+                                "\n                    artical . 2m\n                "
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "block bg-gray-800 text-white text-center font-bold py-2",
+                    attrs: { href: "#" }
+                  },
+                  [_vm._v("See all notifications")]
+                )
+              ],
+              2
+            )
+          : _vm._e()
+      ])
     : _vm._e()
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "ul-style" }, [
-      _c("i", { staticClass: "fas fa-circle" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

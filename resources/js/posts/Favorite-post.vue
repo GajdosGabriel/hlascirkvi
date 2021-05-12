@@ -1,7 +1,7 @@
 <template>
     <div class="grow" style="cursor: pointer;">
 
-           <div style="border-radius: .3rem;background-color: rgb(173, 80, 146);color: whitesmoke; padding: 0rem .4rem" @click="pressRecomendedButton" :class="isFavorited" v-text="recommended"></div>
+           <div class="whitespace-nowrap" style="border-radius: .3rem;background-color: rgb(173, 80, 146);color: whitesmoke; padding: 0rem .4rem" @click="pressRecomendedButton" :class="isFavorited" v-text="recommended"></div>
 
         <!-- Modal -->
         <transition name="slide-fade">
@@ -90,12 +90,6 @@
     /*.grow { transition: all .2s ease-in-out; }*/
     /*.grow:hover { transform: scale(1.3); }*/
 
-    .slide-fade-enter-active {
-        /*transition: all .3s ease;*/
-    }
-    .slide-fade-leave-active {
-        /*transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/
-    }
     .slide-fade-enter, .slide-fade-leave-to
         /* .slide-fade-leave-active below version 2.1.8 */ {
         /*transform: translateX(10px);*/

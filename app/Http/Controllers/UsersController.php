@@ -16,10 +16,11 @@ class UsersController extends Controller
         $this->middleware('auth')->only('search');
     }
 
-    public function index() {
+    public function index()
+    {
         $users = User::all();
 
-        if(request()->expectsJson()) {
+        if (request()->expectsJson()) {
             return response()->json($users);
         }
 
@@ -31,38 +32,42 @@ class UsersController extends Controller
         return view('posts.index', ['posts' => $organization->posts()->latest()->paginate(), 'organization' => $organization]);
     }
 
-    public function profile(Organization $organization, $slug) {
+    public function profile(Organization $organization, $slug)
+    {
 
-//        $this->authorize('update', $user, auth());
+        //        $this->authorize('update', $user, auth());
 
         $messages = (new Messenger)->scopeUserMessages($organization->id);
 
-        return view('organizations.profile',compact(['organization', 'messages']));
+        return view('organizations.profile', compact(['organization', 'messages']));
     }
 
 
 
-    public function userNotifications() {
+    public function userNotifications()
+    {
         return auth()->user()->unreadNotifications()->take(7)->get();
-//        return auth()->user()->unreadNotifications()->get();
+        //        return auth()->user()->unreadNotifications()->get();
     }
 
-    public function markAsRead($id) {
+    public function markAsRead($id)
+    {
         return auth()->user()->notifications()->findOrFail($id)->markAsRead();
     }
 
-    public function setDenominationSession (Request $request) {
-       session()->put('denomination', $request->denomination);
+    public function setDenominationSession(Request $request)
+    {
+        session()->put('denomination', $request->denomination);
 
         // set denomination if auth user
-        if(auth()->check()) {
-           auth()->user()->update([
+        if (auth()->check()) {
+            auth()->user()->update([
                 'set_denomination' => $request->denomination
-           ]);
+            ]);
         }
 
 
-        if($request->denomination == 0) {
+        if ($request->denomination == 0) {
             session()->forget('denomination');
         }
         return back();
@@ -70,22 +75,12 @@ class UsersController extends Controller
 
     public function confirmEmail(User $user)
     {
-        if(! $user->email_verified_at == null) return 'Email je autorizovaný!';
-        
+        if (!$user->email_verified_at == null) return 'Email je autorizovaný!';
+
         $user->update([
             'email_verified_at' => Carbon::now()
         ]);
 
         return redirect()->route('posts.index');
-
     }
-
-
-
-
-
-
-
-
-
 }
