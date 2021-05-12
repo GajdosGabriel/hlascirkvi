@@ -2,21 +2,23 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use App\BigThink;
-use App\Comment;
+use App\Post;
+use App\User;
 use App\Event;
+use App\Prayer;
+use App\Comment;
+use App\BigThink;
 use App\Messenger;
-use App\Observers\BigThinkObserver;
+use App\Organization;
+use App\Observers\PostObserver;
+use App\Observers\UserObserver;
 use App\Observers\EventObserver;
+use App\Observers\PrayerObserver;
+use App\Observers\CommentObserver;
+use App\Observers\BigThinkObserver;
 use App\Observers\MessengerObserver;
 use App\Observers\OrganizationObserver;
-use App\Organization;
-use App\User;
-use App\Post;
-use App\Observers\UserObserver;
-use App\Observers\PostObserver;
-use App\Observers\CommentObserver;
+use Illuminate\Support\ServiceProvider;
 
 
 class EloquentServiceProvider extends ServiceProvider
@@ -45,5 +47,6 @@ class EloquentServiceProvider extends ServiceProvider
         Event::observe(EventObserver::class);
         Organization::observe(OrganizationObserver::class);
         BigThink::observe(BigThinkObserver::class);
+        Prayer::observe(PrayerObserver::class);
     }
 }
