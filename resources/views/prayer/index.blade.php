@@ -5,7 +5,7 @@
     <div class="page">
         <div class="flex">
 
-            <div class="md:w-6/12">
+            <div class="lg:w-6/12">
                 <prayers-index-page></prayers-index-page>
             </div>
 

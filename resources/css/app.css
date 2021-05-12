@@ -27,7 +27,7 @@
 }
 
 .page_title {
-    @apply text-gray-600 mb-4 md:flex justify-between font-semibold text-center;
+    @apply text-gray-600 mb-4 md:flex justify-between font-semibold items-center text-center;
 }
 
 /* Forms*/
