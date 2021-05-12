@@ -5627,10 +5627,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      notifications: false,
+      notifications: [],
       dropDown: false
     };
   },
@@ -5650,7 +5670,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     bellClass: function bellClass() {
-      return ["fas fa-bell", this.notifications.length ? " favorited" : ""];
+      return [this.notifications.length ? " text-red-400" : ""];
     }
   },
   methods: {
@@ -72358,7 +72378,30 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.notifications
     ? _c("li", { staticClass: "relative mr-3", on: { click: _vm.toggle } }, [
-        _c("i", { staticClass: "cursor-pointer", class: _vm.bellClass }),
+        _c(
+          "svg",
+          {
+            staticClass: "h-5 w-5 ",
+            class: _vm.bellClass,
+            attrs: {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              stroke: "currentColor"
+            }
+          },
+          [
+            _c("path", {
+              attrs: {
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "2",
+                d:
+                  "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              }
+            })
+          ]
+        ),
         _vm._v(" "),
         _vm.dropDown
           ? _c("div", {
