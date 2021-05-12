@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Prayer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\SavePrayerRequest;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\Prayer\ConfirmFulfilledPrayer;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
 class PrayerController extends Controller
@@ -48,6 +51,9 @@ class PrayerController extends Controller
         ]);
 
         session()->flash('flash', 'Modliba bola označená ako vypočutá. Ďakujeme.');
+
+        Notification::send(User::role('admin')->get(), new ConfirmFulfilledPrayer($prayer));
+
         return redirect()->route('modlitby.index');
     }
 }

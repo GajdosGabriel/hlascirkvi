@@ -9,7 +9,7 @@ class NotificationController extends Controller
 {
     public function index()
     {
-      return Auth::user()->notifications()->get();
+      return Auth::user()->notifications()->take(10)->get();
     }
 
     public function update($notification)
