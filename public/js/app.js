@@ -4842,6 +4842,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4860,10 +4924,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on('openModalPrayer', function () {
+    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on("openModalPrayer", function () {
       _this.show = true;
     });
-    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on('passToModalEdit', function (prayer) {
+    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on("passToModalEdit", function (prayer) {
       _this.form = prayer;
       _this.show = true;
     });
@@ -4878,7 +4942,7 @@ __webpack_require__.r(__webpack_exports__);
       // Update prayer
       if (this.form.id) {
         console.log(this.form);
-        axios__WEBPACK_IMPORTED_MODULE_2___default().put('/modlitby/' + this.form.id, this.form).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().put("/modlitby/" + this.form.id, this.form).then(function (response) {
           _this2.form = {};
           _this2.show = false;
           window.location.reload();
@@ -4887,7 +4951,7 @@ __webpack_require__.r(__webpack_exports__);
       } // Save prayer
 
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/modlitby', this.form).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("/modlitby", this.form).then(function (response) {
         _this2.form = {};
         _this2.show = false;
         window.location.reload();
@@ -71102,7 +71166,11 @@ var render = function() {
                         staticClass: "close-modal cursor-pointer",
                         on: { click: _vm.toggle }
                       },
-                      [_vm._v("✖")]
+                      [
+                        _vm._v(
+                          "\n                        ✖\n                    "
+                        )
+                      ]
                     )
                   ])
                 ]),
@@ -71175,7 +71243,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("span", { staticClass: "text-sm italic" }, [
                                   _vm._v(
-                                    "Krátko o Vašom modltitbovom úmysle, napr: za uzdravenie manžela, za prácu a pod."
+                                    "Krátko o Vašom modltitbovom úmysle,\n                                    napr: za uzdravenie manžela, za prácu a\n                                    pod."
                                   )
                                 ])
                               ]),
@@ -71229,7 +71297,7 @@ var render = function() {
                                     { staticClass: "text-sm italic" },
                                     [
                                       _vm._v(
-                                        "Tu napíšte viac o dôvode modlitby, aby Vám ostatní mohli lepšie porozumieť."
+                                        "Tu napíšte viac o dôvode modlitby, aby\n                                    Vám ostatní mohli lepšie\n                                    porozumieť."
                                       )
                                     ]
                                   )
@@ -71286,7 +71354,7 @@ var render = function() {
                                     { staticClass: "text-sm italic" },
                                     [
                                       _vm._v(
-                                        "Pre ostatných, aby vedeli, ako Vás osloviť v modlitbe."
+                                        "Pre ostatných, aby vedeli, ako Vás\n                                    osloviť v modlitbe."
                                       )
                                     ]
                                   )
@@ -71341,7 +71409,7 @@ var render = function() {
                                       { staticClass: "text-sm italic" },
                                       [
                                         _vm._v(
-                                          "Email sa nikde nezverejňuje a je potrebný na overenie.\n                        Zároveň, Vám budú doručené oznámenia, keď sa za Vás niekto pomodlí, alebo napíše."
+                                          "Email sa nikde nezverejňuje a je\n                                    potrebný na overenie. Zároveň, Vám budú\n                                    doručené oznámenia, keď sa za Vás niekto\n                                    pomodlí, alebo napíše."
                                         )
                                       ]
                                     )
@@ -71349,15 +71417,39 @@ var render = function() {
                                 : _vm._e(),
                               _vm._v(" "),
                               _c(
-                                "button",
+                                "div",
                                 {
                                   staticClass:
-                                    "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
-                                  attrs: { type: "submit" }
+                                    "bg-gray-50 sm:flex justify-between  "
                                 },
                                 [
-                                  _vm._v(
-                                    "\n                                Uložiť\n                            "
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
+                                      attrs: { type: "button" },
+                                      on: { click: _vm.toggle }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Zrušiť\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-gray-300 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
+                                      attrs: { type: "submit" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                    Uložiť\n                                "
+                                      )
+                                    ]
                                   )
                                 ]
                               )
@@ -71366,26 +71458,6 @@ var render = function() {
                         ]
                       )
                     ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
-                  },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
-                        attrs: { type: "button" },
-                        on: { click: _vm.toggle }
-                      },
-                      [_vm._v("\n                    Zrušiť\n                ")]
-                    )
                   ]
                 )
               ]
