@@ -60,7 +60,12 @@ class ViewServiceProvider extends ServiceProvider
         view()->composer('posts.sviatok', function ($view) {
             $view->with(
                 'videos',
-                (new EloquentPostRepository())->postsByUpdater(15)->where('title', 'like', '%duch sv%')->get()->random(10)
+                (new EloquentPostRepository())->postsByUpdater(15)
+                ->where('title', 'like', '%duch sv%')
+                ->OrWhere('title', 'like', '%ducha sv%')
+                ->orWhere('title', 'like', '%turic%')
+                ->whereNotIn('id', [682]) // Zdvojené video
+                ->get()->random(10)
             );
         });
 
