@@ -5,7 +5,7 @@
 
             <div class="text-gray-100">
                 <h2 class="font-semibold md:text-2xl ">Sviatok Turíce</h2>
-                <p class="text-gray-800 ">Špeciálna príloha o Duchu Svätom na sviatok Turíc, nedeľa, 23. mája 2021</p>
+                <p class="text-gray-800 ">Špeciálna príloha o Duchu Svätom na sviatok Turíc v nedeľu, 23. mája 2021</p>
             </div>
 
             {{-- <div>
