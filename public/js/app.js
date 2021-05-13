@@ -71043,7 +71043,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "border-2 border-gray-400 rounded-md shadow-md relative md:text-sm"
+        "border-2 border-gray-400 bg-white rounded-md shadow-md relative md:text-sm"
     },
     [
       _c(

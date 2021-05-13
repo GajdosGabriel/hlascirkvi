@@ -22,6 +22,9 @@
 
             {{-- Stlpec I. --}}
             <div class="md:w-8/12 w-full">
+
+                @include('posts.sviatok')
+
                 @if (request()->is('/'))
 
                     <div class="page_title">
