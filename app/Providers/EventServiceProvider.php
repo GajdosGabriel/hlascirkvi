@@ -18,6 +18,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Posts\ViewCounter' => [
             'App\Listeners\Posts\ViewCounterListener',
         ],
+
+        'App\Events\User\NotifyBell' => [
+            'App\Listeners\User\NotifyBellListener',
+        ],
     ];
 
     /**

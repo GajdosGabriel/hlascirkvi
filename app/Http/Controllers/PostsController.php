@@ -3,24 +3,25 @@
 namespace App\Http\Controllers;
 
 
-use App\Events\Posts\ViewCounter;
-use App\Http\Resources\PostResource;
-use App\Messenger;
-use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Services\CreditUser;
-use App\Services\TextCleaner\BodyCleaner;
 use Auth;
 use Event;
-use Illuminate\Http\Response;
-use App\Post;
-use App\Filters\PostFilters;
-use Illuminate\Http\Request;
-use App\Http\Requests\PostSaveRequest;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Notification;
 use Youtube;
+use App\Post;
+use Notification;
+use App\Messenger;
+use Illuminate\Support\Str;
+use App\Filters\PostFilters;
+use App\Services\CreditUser;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Events\User\NotifyBell;
+use App\Events\Posts\ViewCounter;
+use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Input;
+use App\Http\Requests\PostSaveRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Services\TextCleaner\BodyCleaner;
+use App\Repositories\Eloquent\EloquentPostRepository;
 
 
 
@@ -57,6 +58,7 @@ class PostsController extends Controller
 //        dd(\Session::get('postsHistory'));
 
         event(new ViewCounter($post));
+
 
         $posts = $this->post->postsBelongToOrganization($post->organization_id);
         $questions = (new Messenger)->scopeUserMessages($post->organization_id);

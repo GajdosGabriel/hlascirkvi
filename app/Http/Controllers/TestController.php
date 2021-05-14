@@ -15,18 +15,25 @@ use Carbon\Carbon;
 use App\Organization;
 use App\Services\Buffer;
 use App\Mail\PostNewsletter;
+use App\Services\Newsletter;
 use Illuminate\Http\Request;
+use App\Events\User\NotifyBell;
 use Illuminate\Support\Facades\Mail;
 use App\Services\Extractor\ExtractTkkbs;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
-use App\Services\Newsletter;
 
 class TestController extends Controller
 {
     public function newsletter() {
+
+        $user = User::first();
+        event(new NotifyBell($user));
+
+
+
         $prayer = Prayer::whereId(367)->first();
 
     //    dd( $prayer );
