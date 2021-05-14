@@ -3,9 +3,11 @@
 namespace App\Notifications\Prayer;
 
 use Illuminate\Bus\Queueable;
+use App\Events\User\NotifyBell;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use App\Repositories\Eloquent\EloquentUserRepository;
 
 class ConfirmFulfilledPrayer extends Notification
 {
@@ -56,6 +58,12 @@ class ConfirmFulfilledPrayer extends Notification
      */
     public function toArray($notifiable)
     {
+        $users = (new EloquentUserRepository)->usersHasRoleAdmin();
+        foreach( $users as $user)
+        {
+            event(new NotifyBell($user));
+        }
+
         return [
             'logo' =>  $this->prayer->user->owner->initialName,
             'message' => $this->prayer->user->fullName . ' Potvrdil vypočutú modlitbu ' . $this->prayer->title,

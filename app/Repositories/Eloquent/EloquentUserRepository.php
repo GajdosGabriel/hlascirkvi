@@ -107,6 +107,7 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
 
     /*
     * For newsletter
+    * User ktorí majú reálny email
     */
 
     public function usersEmailable()
