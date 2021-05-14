@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class FavoritePrayer extends Notification
+class FavoriteForUsers extends Notification
 {
     use Queueable;
 
@@ -44,9 +44,9 @@ class FavoritePrayer extends Notification
     {
         return (new MailMessage)
         ->subject('Modlitba ' . $this->prayer->title)
-        ->line('K vašej modlitbe sa ' . $this->prayer->title)
-        ->greeting('sa pripojil '. auth()->user()->fullname)
+        ->line('K modlitbe: ' . $this->prayer->title)
         ->line($this->prayer->body)
+        ->line('K modlitbe sa pripojil '. auth()->user()->fullname)
         ->line('Dátum: ' . $this->prayer->created_at)
         ;
     }

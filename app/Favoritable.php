@@ -42,7 +42,7 @@ trait Favoritable
 
     public function isFavorited() {
         return ! ! $this->favorites->where('user_id', auth()->id())->count();
-//        return $this->favorites()->whereUserId(auth()->id())->exists();
+    //    return $this->favorites()->whereUserId(auth()->id())->exists();
     }
 
     public function getIsFavoritedAttribute() {

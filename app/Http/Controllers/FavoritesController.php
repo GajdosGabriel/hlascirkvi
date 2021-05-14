@@ -9,8 +9,9 @@ use App\Prayer;
 use App\Comment;
 use App\Organization;
 use Illuminate\Http\Request;
-use App\Notifications\Prayer\FavoritePrayer;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\Prayer\FavoriteForOwner;
+use App\Notifications\Prayer\FavoriteForUsers;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
 class FavoritesController extends Controller
@@ -54,9 +55,19 @@ class FavoritesController extends Controller
         }
 
         $prayer->favorite();
-        session()->flash('flash', 'Sledovanie potvrdené!');
+        session()->flash('flash', 'Prihlásenie potvrdené!');
 
-        Notification::send(User::whereId( $prayer->user_id)->first(), new FavoritePrayer($prayer));
+        // Info for owner
+        Notification::send($prayer->user, new FavoriteForOwner($prayer));
+
+        // Info for another conected users
+        foreach($prayer->favorites as $favorite)
+        {
+           $user = User::whereId($favorite->user_id)->first();
+
+            Notification::send($user, new FavoriteForUsers($prayer));
+        }
+
     }
 
 

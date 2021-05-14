@@ -27,23 +27,16 @@ use App\Services\Newsletter;
 class TestController extends Controller
 {
     public function newsletter() {
-        $user = User::first();
+        $prayer = Prayer::whereId(367)->first();
 
-<<<<<<< HEAD
-        // dd(Carbon::now()->subDays(71));
+    //    dd( $prayer );
 
-        // $users = (new Newsletter)->prayerFulfilledOrNotYet();
+        foreach($prayer->favorites as $favorite)
+        {
+          echo ($favorite->user) . '</br>';
+        }
 
-=======
-        dd( $user->owner->initialName );
-
-        // dd(Carbon::now()->subDays(71));
-
-        // $users = (new Newsletter)->prayerFulfilledOrNotYet();
-
->>>>>>> Bell
-        // dd($users);
-
+        dd();
         // dd(  ( new Newsletter)->prayerFulfilledOrNotYet() );
 
 

@@ -12,6 +12,7 @@ class Prayer extends Model
 
     protected $guarded = ['id'];
     protected $appends = ['favoritesCount', 'isFavorited'];
+    protected $with = ['favorites'];
 
 
     public function user() {
