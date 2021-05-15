@@ -5700,6 +5700,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -5785,6 +5787,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5805,19 +5808,33 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/notifications").then(function (response) {
         return _this.notifications = response.data;
       });
-      this.toggle();
     },
     resetNotifyBell: function resetNotifyBell() {
       var _this2 = this;
 
       axios.put("/registredUsers/" + window.App.user.id, {
-        notify_bell: 0
+        notify_bell: new Date()
       }).then(function (response) {
-        return _this2.notifications = response.data, _this2.getNotifications();
+        return _this2.notifications = response.data;
       });
+      this.toggle();
+    }
+  },
+  computed: {
+    countNotifycation: function countNotifycation() {
+      return this.notifications.filter(function (notification) {
+        return new Date(notification.created_at) > new Date(window.App.user.notify_bell);
+      }).length;
+    },
+    bellClass: function bellClass() {
+      return [window.App.user.notify_bell > 0 ? " text-red-400" : ""];
+    },
+    authUser: function authUser() {
+      return window.App.user;
     }
   },
   mounted: function mounted() {
+    this.getNotifications();
     var self = this;
     window.addEventListener("click", function (e) {
       // close dropdown when clicked outside
@@ -5825,17 +5842,6 @@ __webpack_require__.r(__webpack_exports__);
         self.dropDown = false;
       }
     });
-  },
-  computed: {
-    bellClass: function bellClass() {
-      return [window.App.user.notify_bell > 0 ? " text-red-400" : ""];
-    },
-    notifyBell: function notifyBell() {
-      return window.App.user.notify_bell;
-    },
-    authUser: function authUser() {
-      return window.App.user;
-    }
   }
 });
 
@@ -6861,27 +6867,6 @@ exports.locals = {
 	"active": "_3YI6wqnsVXT6rPnnENN7lf",
 	"date": "_1BOLtE-OHuiDLmPZnu4avP",
 	"hover": "_3FkcM2k8N5dsc4JbCbUYWK"
-};
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/users/Bell.vue?vue&type=style&index=0&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/users/Bell.vue?vue&type=style&index=0&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, exports, __webpack_require__) => {
-
-exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.id, "\n._2kc9DAL93PIUdA8kdDbZiB {\n    color: rgb(255, 49, 14);\n}\n._2E7-s-KmVTXCsxBJH5LMfS {\n    color: #7d7d7d;\n    font-size: 85%;\n    margin-top: -1rem;\n    cursor: pointer;\n}\n", ""]);
-
-// exports
-exports.locals = {
-	"favorited": "_2kc9DAL93PIUdA8kdDbZiB",
-	"ul-style": "_2E7-s-KmVTXCsxBJH5LMfS"
 };
 
 /***/ }),
@@ -63293,37 +63278,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/users/Bell.vue?vue&type=style&index=0&lang=css&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/users/Bell.vue?vue&type=style&index=0&lang=css& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_index_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Bell_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Bell.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/users/Bell.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_css_loader_index_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Bell_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_index_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Bell_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1__);
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()((_node_modules_css_loader_index_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Bell_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1___default()), options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((_node_modules_css_loader_index_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Bell_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_1___default().locals) || {});
-
-/***/ }),
-
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/users/User-card-footer.vue?vue&type=style&index=0&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/users/User-card-footer.vue?vue&type=style&index=0&lang=css& ***!
@@ -65439,17 +65393,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Bell_vue_vue_type_template_id_596a9670___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bell.vue?vue&type=template&id=596a9670& */ "./resources/js/users/Bell.vue?vue&type=template&id=596a9670&");
 /* harmony import */ var _Bell_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bell.vue?vue&type=script&lang=js& */ "./resources/js/users/Bell.vue?vue&type=script&lang=js&");
-/* harmony import */ var _Bell_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Bell.vue?vue&type=style&index=0&lang=css& */ "./resources/js/users/Bell.vue?vue&type=style&index=0&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
-;
 
 
 /* normalize component */
-
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
   _Bell_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _Bell_vue_vue_type_template_id_596a9670___WEBPACK_IMPORTED_MODULE_0__.render,
   _Bell_vue_vue_type_template_id_596a9670___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -66751,19 +66703,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_index_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_prayers_card_vue_vue_type_style_index_0_id_3ef3de6b_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./prayers-card.vue?vue&type=style&index=0&id=3ef3de6b&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/prayer/prayers-card.vue?vue&type=style&index=0&id=3ef3de6b&scoped=true&lang=css&");
-
-
-/***/ }),
-
-/***/ "./resources/js/users/Bell.vue?vue&type=style&index=0&lang=css&":
-/*!**********************************************************************!*\
-  !*** ./resources/js/users/Bell.vue?vue&type=style&index=0&lang=css& ***!
-  \**********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_index_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Bell_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Bell.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/index.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/users/Bell.vue?vue&type=style&index=0&lang=css&");
 
 
 /***/ }),
@@ -72549,166 +72488,155 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.notifications
-    ? _c(
-        "li",
-        { staticClass: "relative mr-3", on: { click: _vm.resetNotifyBell } },
-        [
-          _c("div", { staticClass: "flex" }, [
-            _c(
-              "svg",
+  return _c(
+    "li",
+    { staticClass: "relative mr-3", on: { click: _vm.resetNotifyBell } },
+    [
+      _c("div", { staticClass: "flex" }, [
+        _c(
+          "svg",
+          {
+            staticClass: "h-5 w-5 ",
+            class: _vm.bellClass,
+            attrs: {
+              xmlns: "http://www.w3.org/2000/svg",
+              fill: "none",
+              viewBox: "0 0 24 24",
+              stroke: "currentColor"
+            }
+          },
+          [
+            _c("path", {
+              attrs: {
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "2",
+                d:
+                  "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _vm.countNotifycation > 0
+          ? _c(
+              "div",
               {
-                staticClass: "h-5 w-5 ",
-                class: _vm.bellClass,
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  fill: "none",
-                  viewBox: "0 0 24 24",
-                  stroke: "currentColor"
-                }
+                staticClass:
+                  "w-5 h-5 bg-red-500 text-white rounded-full flex justify-center items-center"
               },
               [
-                _c("path", {
-                  attrs: {
-                    "stroke-linecap": "round",
-                    "stroke-linejoin": "round",
-                    "stroke-width": "2",
-                    d:
-                      "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  }
-                })
+                _c("span", { staticClass: "pb-1" }, [
+                  _vm._v(_vm._s(_vm.countNotifycation))
+                ])
               ]
-            ),
-            _vm._v(" "),
-            _vm.notifyBell > 0
-              ? _c(
-                  "div",
-                  {
-                    staticClass:
-                      "w-5 h-5 bg-red-500 text-white rounded-full flex justify-center items-center"
-                  },
-                  [
-                    _c("span", { staticClass: "pb-1" }, [
-                      _vm._v(_vm._s(_vm.notifyBell))
-                    ])
-                  ]
-                )
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _vm.dropDown
-            ? _c("div", {
-                staticClass: "fixed inset-0 h-full w-full z-10",
-                on: {
-                  click: function($event) {
-                    _vm.dropDown = false
-                  }
-                }
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.dropDown
-            ? _c(
-                "ul",
-                {
-                  staticClass:
-                    "absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20",
-                  staticStyle: { width: "20rem" }
-                },
-                [
-                  _vm._l(_vm.notifications, function(notification) {
-                    return _c(
-                      "li",
-                      { key: notification.id, staticClass: "py-2" },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass:
-                              "flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2",
-                            attrs: { href: notification.data.link },
-                            on: {
-                              click: function($event) {
-                                return _vm.markAsRead(notification)
-                              }
-                            }
-                          },
-                          [
-                            notification.data.logo
-                              ? _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "h-12 w-12 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                    " +
-                                        _vm._s(notification.data.logo) +
-                                        "\n                "
-                                    )
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _c(
-                              "p",
-                              {
-                                staticClass: "text-gray-600 text-sm mx-2 ",
-                                class: {
-                                  "font-semibold": !notification.read_at
-                                },
-                                domProps: {
-                                  textContent: _vm._s(notification.data.message)
-                                }
-                              },
-                              [
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass: "font-bold",
-                                    attrs: { href: "#" }
-                                  },
-                                  [_vm._v("Sara Salah")]
-                                ),
-                                _vm._v(
-                                  "\n                    replied on the\n                    "
-                                ),
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass: "font-bold text-blue-500",
-                                    attrs: { href: "#" }
-                                  },
-                                  [_vm._v("Upload Image")]
-                                ),
-                                _vm._v(
-                                  "\n                    artical . 2m\n                "
-                                )
-                              ]
-                            )
-                          ]
-                        )
-                      ]
-                    )
-                  }),
-                  _vm._v(" "),
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _vm.dropDown
+        ? _c("div", {
+            staticClass: "fixed inset-0 h-full w-full z-10",
+            on: {
+              click: function($event) {
+                _vm.dropDown = false
+              }
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.dropDown
+        ? _c(
+            "ul",
+            {
+              staticClass:
+                "absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20",
+              staticStyle: { width: "20rem" }
+            },
+            [
+              _vm._l(_vm.notifications, function(notification) {
+                return _c("li", { key: notification.id, staticClass: "py-2" }, [
                   _c(
                     "a",
                     {
                       staticClass:
-                        "block bg-gray-800 text-white text-center font-bold py-2",
-                      attrs: { href: "#" }
+                        "flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2",
+                      attrs: { href: notification.data.link },
+                      on: {
+                        click: function($event) {
+                          return _vm.markAsRead(notification)
+                        }
+                      }
                     },
-                    [_vm._v("See all notifications")]
+                    [
+                      notification.data.logo
+                        ? _c(
+                            "div",
+                            {
+                              staticClass:
+                                "h-12 w-12 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
+                            },
+                            [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(notification.data.logo) +
+                                  "\n                "
+                              )
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "p",
+                        {
+                          staticClass: "text-gray-600 text-sm mx-2 ",
+                          class: { "font-semibold": !notification.read_at },
+                          domProps: {
+                            textContent: _vm._s(notification.data.message)
+                          }
+                        },
+                        [
+                          _c(
+                            "span",
+                            { staticClass: "font-bold", attrs: { href: "#" } },
+                            [_vm._v("Sara Salah")]
+                          ),
+                          _vm._v(
+                            "\n                    replied on the\n                    "
+                          ),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "font-bold text-blue-500",
+                              attrs: { href: "#" }
+                            },
+                            [_vm._v("Upload Image")]
+                          ),
+                          _vm._v(
+                            "\n                    artical . 2m\n                "
+                          )
+                        ]
+                      )
+                    ]
                   )
-                ],
-                2
+                ])
+              }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "block bg-gray-800 text-white text-center font-bold py-2",
+                  attrs: { href: "#" }
+                },
+                [_vm._v("See all notifications")]
               )
-            : _vm._e()
-        ]
-      )
-    : _vm._e()
+            ],
+            2
+          )
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

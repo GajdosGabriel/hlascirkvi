@@ -1,5 +1,5 @@
 <template>
-    <li v-if="notifications" @click="resetNotifyBell" class="relative mr-3">
+    <li @click="resetNotifyBell" class="relative mr-3">
         <div class="flex">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -19,9 +19,9 @@
 
             <div
                 class="w-5 h-5 bg-red-500 text-white rounded-full flex justify-center items-center"
-                v-if="notifyBell > 0"
+                v-if="countNotifycation > 0"
             >
-                <span class="pb-1">{{ notifyBell }}</span>
+                <span class="pb-1">{{ countNotifycation }}</span>
             </div>
         </div>
 
@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
     data: function() {
         return {
@@ -104,23 +106,37 @@ export default {
             axios
                 .get("/notifications")
                 .then(response => (this.notifications = response.data));
-            this.toggle();
         },
 
         resetNotifyBell: function() {
             axios
                 .put("/registredUsers/" + window.App.user.id, {
-                    notify_bell: 0
+                    notify_bell: new Date()
                 })
-                .then(
-                    response => (
-                        (this.notifications = response.data),
-                        this.getNotifications()
-                    )
-                );
+                .then(response => (this.notifications = response.data));
+            this.toggle();
+        }
+    },
+
+    computed: {
+        countNotifycation: function() {
+            return this.notifications.filter(
+                (notification) =>
+                    new Date(notification.created_at) >
+                    new Date(window.App.user.notify_bell)
+            ).length;
+        },
+
+        bellClass: function() {
+            return [window.App.user.notify_bell > 0 ? " text-red-400" : ""];
+        },
+        authUser: function() {
+            return window.App.user;
         }
     },
     mounted: function() {
+        this.getNotifications();
+
         let self = this;
         window.addEventListener("click", function(e) {
             // close dropdown when clicked outside
@@ -128,30 +144,6 @@ export default {
                 self.dropDown = false;
             }
         });
-    },
-    computed: {
-        bellClass: function() {
-            return [window.App.user.notify_bell > 0 ? " text-red-400" : ""];
-        },
-
-        notifyBell: function() {
-            return window.App.user.notify_bell;
-        },
-
-        authUser: function() {
-            return window.App.user;
-        }
     }
 };
 </script>
-<style>
-.favorited {
-    color: rgb(255, 49, 14);
-}
-.ul-style {
-    color: #7d7d7d;
-    font-size: 85%;
-    margin-top: -1rem;
-    cursor: pointer;
-}
-</style>

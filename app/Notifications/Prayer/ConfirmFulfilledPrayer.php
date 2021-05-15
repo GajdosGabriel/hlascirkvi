@@ -58,12 +58,6 @@ class ConfirmFulfilledPrayer extends Notification
      */
     public function toArray($notifiable)
     {
-        $users = (new EloquentUserRepository)->usersHasRoleAdmin();
-        foreach( $users as $user)
-        {
-            event(new NotifyBell($user));
-        }
-
         return [
             'logo' =>  $this->prayer->user->owner->initialName,
             'message' => $this->prayer->user->fullName . ' Potvrdil vypočutú modlitbu ' . $this->prayer->title,
