@@ -1,5 +1,5 @@
 <template>
-    <div @click="closeLoginInfo" class="md:flex justify-between text-gray-700">
+    <div @click="closeLoginInfo" class="md:flex justify-between text-gray-700 pb-3">
         <div class="flex">
             <!-- check if is person-->
 
