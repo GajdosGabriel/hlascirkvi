@@ -1,5 +1,5 @@
 <template>
-    <li v-if="notifications" @click="toggle" class="relative mr-3">
+    <li v-if="notifications" @click="resetNotifyBell" class="relative mr-3">
         <div class="flex">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -19,6 +19,7 @@
 
             <div
                 class="w-5 h-5 bg-red-500 text-white rounded-full flex justify-center items-center"
+                v-if="notifyBell > 0"
             >
                 <span class="pb-1">{{ notifyBell }}</span>
             </div>
@@ -97,13 +98,29 @@ export default {
 
         markAsRead: function(notification) {
             axios.put("/notifications/" + notification.id);
+        },
+
+        getNotifications: function() {
+            axios
+                .get("/notifications")
+                .then(response => (this.notifications = response.data));
+            this.toggle();
+        },
+
+        resetNotifyBell: function() {
+            axios
+                .put("/registredUsers/" + window.App.user.id, {
+                    notify_bell: 0
+                })
+                .then(
+                    response => (
+                        (this.notifications = response.data),
+                        this.getNotifications()
+                    )
+                );
         }
     },
     mounted: function() {
-        axios
-            .get("/notifications")
-            .then(response => (this.notifications = response.data));
-
         let self = this;
         window.addEventListener("click", function(e) {
             // close dropdown when clicked outside
@@ -117,7 +134,7 @@ export default {
             return [window.App.user.notify_bell > 0 ? " text-red-400" : ""];
         },
 
-                notifyBell: function() {
+        notifyBell: function() {
             return window.App.user.notify_bell;
         },
 

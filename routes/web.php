@@ -20,11 +20,20 @@ Route::get('zamyslenia/{slug?}', 'VersesController@index')->name('verses.index')
 
 Route::resources([
     'modlitby' => PrayerController::class,
-    'notifications' => NotificationController::class
+    'notifications' => NotificationController::class,
+    'registredUsers' => RegistredUsersController::class,
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
 
+
+
+//    Route::get('/users', 'UsersController@index')->name('users.index');
+
+Route::get('/user/{user}/{slug}/import', 'AddresBookController@importContacts')->name('addresBook.importContacts');
+Route::get('/user/{user}/confirmEmail/confirmEmail', 'UsersController@confirmEmail')->name('confirmEmail');
+
+Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->name('addresBook.storeUsersContact');
 
 
 
@@ -32,12 +41,12 @@ Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name
 
 
 Route::prefix('user/')->name('organization.')->group(function () {
-    Route::get('{organization}/{slug}', 'UsersController@show')->name('show');
+    Route::get('{organization}/{slug}', 'OrganizationsController@show')->name('show');
     Route::get('{user}/{slug}/posts', 'OrganizationsController@organizationPosts')->name('posts');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('{user}/{slug}/index', 'OrganizationsController@organizationIndex')->name('index');
-        Route::get('{organization}/{slug}/profile', 'UsersController@profile')->name('profile');
+        Route::get('{organization}/{slug}/profile', 'OrganizationsController@profile')->name('profile');
         Route::get('{organization}/{slug}/edit', 'OrganizationsController@edit')->name('edit');
         Route::get('{organization}/{slug}/delete', 'OrganizationsController@delete')->name('delete');
         Route::get('{organization}/favorites/subscribe', 'FavoritesController@favoriteOrganizations');
@@ -66,14 +75,6 @@ Route::prefix('post/')->name('post.')->group(function () {
 });
 
 
-//    Route::get('/users', 'UsersController@index')->name('users.index');
-
-Route::get('/user/{user}/{slug}/import', 'AddresBookController@importContacts')->name('addresBook.importContacts');
-Route::get('/user/{user}/confirmEmail/confirmEmail', 'UsersController@confirmEmail')->name('confirmEmail');
-
-
-
-Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->name('addresBook.storeUsersContact');
 
 Route::post('account/avatar/store', 'Account\AvatarController@store')->name('account.avatar.store');
 

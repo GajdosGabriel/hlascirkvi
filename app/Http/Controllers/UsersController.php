@@ -27,20 +27,8 @@ class UsersController extends Controller
         return view('users.index', compact('users'));
     }
 
-    public function show(Organization $organization, $slug)
-    {
-        return view('posts.index', ['posts' => $organization->posts()->latest()->paginate(), 'organization' => $organization]);
-    }
 
-    public function profile(Organization $organization, $slug)
-    {
-
-        //        $this->authorize('update', $user, auth());
-
-        $messages = (new Messenger)->scopeUserMessages($organization->id);
-
-        return view('organizations.profile', compact(['organization', 'messages']));
-    }
+ 
 
 
     public function setDenominationSession(Request $request)
@@ -63,7 +51,10 @@ class UsersController extends Controller
 
     public function confirmEmail(User $user)
     {
-        if (!$user->email_verified_at == null) return 'Email je autorizovaný!';
+        if (!$user->email_verified_at == null) {
+            session()->flash('flash', 'Email je autorizovaný! Ďakujeme.');
+            return;
+        };
 
         $user->update([
             'email_verified_at' => Carbon::now()

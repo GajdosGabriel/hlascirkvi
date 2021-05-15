@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\PostFilters;
-use App\Http\Requests\OrganizationsRequest;
-use App\Organization;
-use App\Repositories\Eloquent\EloquentOrganizationRepository;
 use App\User;
+use App\Messenger;
+use App\Organization;
+use App\Filters\PostFilters;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrganizationsRequest;
+use App\Repositories\Eloquent\EloquentOrganizationRepository;
 
 class OrganizationsController extends Controller
 {
@@ -24,6 +25,11 @@ class OrganizationsController extends Controller
         $organizations = $this->organization->usersOrganizations($user);
 
         return view('organizations.user-index', compact('organizations'));
+    }
+
+    public function show(Organization $organization, $slug)
+    {
+        return view('posts.index', ['posts' => $organization->posts()->latest()->paginate(), 'organization' => $organization]);
     }
 
 
@@ -64,6 +70,16 @@ class OrganizationsController extends Controller
         $organization->delete();
         session()->flash('flash', 'Kanál bol zmazaný!');
         return back();
+    }
+
+    public function profile(Organization $organization, $slug)
+    {
+
+        //        $this->authorize('update', $user, auth());
+
+        $messages = (new Messenger)->scopeUserMessages($organization->id);
+
+        return view('organizations.profile', compact(['organization', 'messages']));
     }
 
 
