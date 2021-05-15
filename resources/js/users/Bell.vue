@@ -102,26 +102,26 @@ export default {
             axios.put("/notifications/" + notification.id);
         },
 
+        resetNotifyBell: function() {
+            // axios
+            //     .put("/registredUsers/" + window.App.user.id, {
+            //         notify_bell: new Date()
+            //     })
+            //     .then(response => (this.notifications = response.data));
+            this.toggle();
+        },
+
         getNotifications: function() {
             axios
                 .get("/notifications")
                 .then(response => (this.notifications = response.data));
-        },
-
-        resetNotifyBell: function() {
-            axios
-                .put("/registredUsers/" + window.App.user.id, {
-                    notify_bell: new Date()
-                })
-                .then(response => (this.notifications = response.data));
-            this.toggle();
         }
     },
 
     computed: {
         countNotifycation: function() {
             return this.notifications.filter(
-                (notification) =>
+                notification =>
                     new Date(notification.created_at) >
                     new Date(window.App.user.notify_bell)
             ).length;
