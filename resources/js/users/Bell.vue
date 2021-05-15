@@ -49,7 +49,7 @@
                     <!-- Initial name -->
                     <div
                         v-if="notification.data.logo"
-                        class="h-12 w-12 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
+                        class="h-12 w-24 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
                     >
                         {{ notification.data.logo }}
                     </div>
@@ -103,10 +103,19 @@ export default {
         },
 
         resetNotifyBell: function() {
-            // axios
-            //     .put("/registredUsers/" + window.App.user.id, {
-            //         notify_bell: new Date()
-            //     })
+            // Bežne date zapisuje o 2 hod. menej
+            var dt = new Date();
+             dt.setHours( dt.getHours() + 2 );
+
+
+            if(this.countNotifycation == 0) {
+                return this.toggle();
+            }
+
+            axios
+                .put("/registredUsers/" + window.App.user.id, {
+                    notify_bell: dt
+                })
             //     .then(response => (this.notifications = response.data));
             this.toggle();
         },

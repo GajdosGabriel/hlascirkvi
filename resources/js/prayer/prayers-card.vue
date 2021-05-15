@@ -8,7 +8,7 @@
 
 
             <ul class="mt-3">
-                <li v-for="prayer in prayers.data.slice(0, 7)" :key="prayer.id">
+                <li v-for="prayer in prayers.slice(0, 7)" :key="prayer.id">
                     <prayers-card-item :prayer="prayer"></prayers-card-item>
                 </li>
             </ul>
@@ -50,7 +50,7 @@
             getPrayers() {
                 Axios.get(this.url).then(
                     (response) => {
-                        this.prayers = response.data
+                        this.prayers = response.data.data
                     }
                 )
             },
