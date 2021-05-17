@@ -12,4 +12,8 @@ class Updater extends Model
     public function organizations() {
         return $this->belongsToMany(Organization::class);
     }
+
+    public function posts() {
+        return $this->belongsToMany(Post::class);
+    }
 }

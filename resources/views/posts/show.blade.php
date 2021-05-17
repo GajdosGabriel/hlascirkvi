@@ -150,11 +150,18 @@
                 </div>
 
                 {{-- Body section --}}
-                <div class="w-full md:flex flex-row-reverse">
+                <div class="md:grid grid-cols-12 gap-4 mt-4">
 
-                    <div class="md:w-8/12 md:p-2">
+                    <div class="col-span-8">
                         <div>{!! $post->body !!}</div>
 
+                        @if (!$post->video_id)
+                        {{-- // Facebook --}}
+                        <div>
+                            <div class="fb-like" data-share="true" data-width="350" data-show-faces="true">
+                            </div>
+                        </div>
+                    @endif
 
                         @auth
                             @include('bigthink._form')
@@ -164,10 +171,11 @@
                     </div>
 
                     {{-- Body plánované akcie --}}
-                    <div class="md:w-4/12">
+                    <div class="col-span-4 mb-4">
                         @if ($post->organization->person == 0)
-                            <div class="md:mr-6">
-                                <span class="font-semibold">Plánované akcie {{ $post->organization->title }}</span>
+                            <div>
+                                <div class="font-semibold">Plánované akcie</div>
+                                <div class="font-semibold">{{ $post->organization->title }}</div>
                                 <ul>
                                     @forelse( $post->organization->events as $event)
                                         <li>
@@ -186,13 +194,6 @@
                         @endif
                     </div>
 
-                    @if (!$post->video_id)
-                        {{-- // Facebook --}}
-                        <div>
-                            <div class="fb-like" data-share="true" data-width="280" data-show-faces="true">
-                            </div>
-                        </div>
-                    @endif
                 </div>
             </div>
 

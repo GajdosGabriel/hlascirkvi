@@ -29,21 +29,31 @@ class TestController extends Controller
 {
     public function newsletter() {
 
-        $user = User::first();
-        event(new NotifyBell($user));
+       $posts = (new EloquentPostRepository())->postsByUpdater(15)
+                ->where('title', 'like', '%duch sv%')
+                ->OrWhere('title', 'like', '%ducha sv%')
+                ->orWhere('title', 'like', '%turic%')
+                ->whereNotIn('id', [682]) // Zdvojené video
+                ->get();
+
+
+                dd($posts);
+
+        // $user = User::first();
+        // event(new NotifyBell($user));
 
 
 
-        $prayer = Prayer::whereId(367)->first();
+        // $prayer = Prayer::whereId(367)->first();
 
     //    dd( $prayer );
 
-        foreach($prayer->favorites as $favorite)
-        {
-          echo ($favorite->user) . '</br>';
-        }
+        // foreach($prayer->favorites as $favorite)
+        // {
+        //   echo ($favorite->user) . '</br>';
+        // }
 
-        dd();
+        // dd();
         // dd(  ( new Newsletter)->prayerFulfilledOrNotYet() );
 
 
