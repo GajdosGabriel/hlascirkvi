@@ -25,8 +25,8 @@ class OrganizationsRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255|min:3',
-            'street' => 'required|string|min:1',
-            'city' => 'required|string|min:2',
+            // 'street' => 'string',
+            // 'city' => 'string',
 //            'phone' => 'nullable|digits:16',
             'region_id' => 'required|integer|exists:regions,id',
         ];
@@ -36,8 +36,8 @@ class OrganizationsRequest extends FormRequest
     {
         return [
             'title.required' => 'Musí mať aspoň tri znaky',
-            'street.required' => 'Musí mať aspoň jeden znak',
-            'city.required' => 'Musí mať aspoň dva znaky',
+            // 'street.required' => 'Musí mať aspoň jeden znak',
+            // 'city.required' => 'Musí mať aspoň dva znaky',
             'phone' => 'obsahuje veľa znakov. Limit je do 16 znakov',
         ];
     }

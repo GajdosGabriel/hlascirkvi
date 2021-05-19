@@ -9,7 +9,7 @@
                 <a class="flex items-center" href="{{ route('online-prenosy') }}">Nedeľné prenosy
 
                     @if (session()->has('countUnwatchedVideos'))
-                        <div class="w-5 h-5 bg-red-500 text-white rounded-full flex justify-center items-center ml-1">
+                        <div class="w-5 h-5 p-3 bg-red-500 text-white rounded-full flex justify-center items-center ml-1">
                             <span class="pb-1">{{ session()->get('countUnwatchedVideos') }}</span>
                         </div>
                     @endif

@@ -18,7 +18,7 @@
             <div class="w-4/12">
 
                 <new-organization inline-template>
-                    <div>
+                    <div class="w-full">
                         <h4 style="margin: 2rem 0rem; cursor: pointer" @click="toggle">Nová organizácia
                             <i v-if="!showForm" class="far fa-plus-square"></i>
                             <i v-if="showForm" class="far fa-minus-square"></i>
@@ -29,17 +29,17 @@
                             @csrf
                             <div class="form-group">
                                 <label>Meno novej organizácie</label>
-                                <input type="text" name="title" name="name" placeholder="Názov organizácie" required>
+                                <input type="text" name="title" class="form-control" placeholder="Názov organizácie" required>
                             </div>
 
                             <div class="form-group">
                                 <label>Ulica a číslo</label>
-                                <input type="text" name="street" name="name" placeholder="Ulica a číslo" required>
+                                <input type="text" name="street" class="form-control" placeholder="Ulica a číslo">
                             </div>
 
                             <div class="form-group">
                                 <label>Mesto</label>
-                                <input type="text" name="city" name="name" placeholder="Mesto" required>
+                                <input type="text" name="city" class="form-control" placeholder="Mesto">
                             </div>
 
                             <div class="form-group">
@@ -60,22 +60,14 @@
 
                             <div class="form-group">
                                 <label>Telefón</label>
-                                <input type="number" name="phone" name="name"
-                                       placeholder="Potrebné v prípade vytvorenia akcie">
+                                <input type="number" name="phone" class="form-control" placeholder="Potrebné v prípade vytvorenia akcie">
                             </div>
 
 
                             <span style="font-weight: 600">Zaradená do zoznamu</span><br>
                             @forelse(\App\Updater::all() as $updater)
                                 @if( $updater->type == 'denomination')
-                                    <input type="radio" required name="updaters[]" value="{{ $updater->id }}"
-                                        {{--@foreach($organization['updaters'] as $up)--}}
-                                        {{--@if($up->pivot->updater_id == $updater->id )--}}
-                                        {{--checked--}}
-                                        {{--@endif--}}
-                                        {{--Žiadne položky--}}
-                                        {{--@endforeach--}}
-                                    >
+                                    <input type="radio" required name="updaters[]" value="{{ $updater->id }}">
                                     {{ $updater->title }}<br>
                                 @endif
                             @empty

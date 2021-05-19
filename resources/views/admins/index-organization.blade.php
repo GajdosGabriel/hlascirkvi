@@ -4,11 +4,11 @@
 @include('organizations._profil-menu')
     <div class="page">
 
-        <div class="">
+        <div class="md:grid grid-cols-12 gap-7 ">
 
-            <div class="md:w-8/12 w-full">
+            <div class="col-span-8">
 
-                <h2 class="page_title">Vytvoriť článok</h2>
+                <h2 class="page_title">Kanály </h2>
 
                 @include('organizations._organization-table')
 
@@ -18,10 +18,10 @@
 
             </div>
 
-            <div class="page-aside">
+            <div class="col-span-4">
 
                 <new-organization inline-template>
-                    <div>
+                    <div class="w-full">
                         <h4 style="margin: 2rem 0rem; cursor: pointer" @click="toggle">Nová organizácia
                             <i v-if="!showForm" class="far fa-plus-square"></i>
                             <i v-if="showForm" class="far fa-minus-square"></i>
@@ -32,17 +32,17 @@
                             @csrf
                             <div class="form-group">
                                 <label>Meno novej organizácie</label>
-                                <input type="text" name="title" name="name" placeholder="Názov organizácie" required>
+                                <input type="text" name="title" class="form-control" placeholder="Názov organizácie" required>
                             </div>
 
                             <div class="form-group">
                                 <label>Ulica a číslo</label>
-                                <input type="text" name="street" name="name" placeholder="Ulica a číslo" required>
+                                <input type="text" name="street" class="form-control" placeholder="Ulica a číslo">
                             </div>
 
                             <div class="form-group">
                                 <label>Mesto</label>
-                                <input type="text" name="city" name="name" placeholder="Mesto" required>
+                                <input type="text" name="city" class="form-control" placeholder="Mesto">
                             </div>
 
                             <div class="form-group">
@@ -63,8 +63,7 @@
 
                             <div class="form-group">
                                 <label>Telefón</label>
-                                <input type="number" name="phone" name="name"
-                                       placeholder="Potrebné v prípade vytvorenia akcie">
+                                <input type="number" name="phone" class="form-control" placeholder="Potrebné v prípade vytvorenia akcie">
                             </div>
 
 
