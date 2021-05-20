@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@include('admins._profil-menu')
 
     <div class="container">
 

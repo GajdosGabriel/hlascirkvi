@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('organizations._profil-menu')
+@include('admins._profil-menu')
     <div class="page">
 
         <div class="md:grid grid-cols-12 gap-7 ">
@@ -9,6 +9,7 @@
             <div class="col-span-8">
 
                 <h2 class="page_title">Kanály </h2>
+
 
                 @include('organizations._organization-table')
 
