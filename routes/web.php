@@ -148,7 +148,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkAdmin'])->nam
     Route::get('home', 'AdminsController@home')->name('home');
     Route::get('index', 'AdminsController@indexOrganization')->name('organization.index');
     Route::get('index/user', 'AdminsController@indexUser')->name('user.index');
-    Route::get('buffered/videos', 'BuffersController@indexBufferedVideos')->name('unpublished');
+    Route::get('buffered-videos', 'BuffersController@indexBufferedVideos')->name('unpublished');
     Route::get('statistic/{days}', 'AdminsController@statistic')->name('statistic');
 
     Route::get('images/index', 'ImagesController@index')->name('images.index');

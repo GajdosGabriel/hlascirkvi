@@ -1,7 +1,5 @@
 @extends('layouts.app')
-@section('headerCSS')
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-@endsection
+
 
 @section('content')
 
@@ -12,18 +10,14 @@
 
         <div class="page-content">
 
-            <div>
-                <a class="tag" href="{{ route('organization.profile', [auth()->id(), auth()->user()->slug]) }}">Späť</a>
-            </div>
-
             <div class="">
 
-                <h3>Registrovaný užívatelia</h3>
-                <input class="text-gray-700 p-3 m-4 border-2 border-gray-700 rounded-sm md:w-3/4"
+                <h3 class="page_title">Registrovaný užívatelia</h3>
+                <input class="text-gray-700 p-1 border-2 border-gray-700 rounded-sm md:w-3/4"
                     placeholder="Search by name, email ..." type="text">
 
-                <table>
-                    <thead>
+                    <table class="table-auto border-2 border-gray-400 rounded-md w-full">
+                        <thead class="bg-gray-500 text-white">
                         <tr>
                             <th>Por./Id</th>
                             <th>Názov</th>
@@ -39,7 +33,7 @@
 
                     <tbody>
                         @forelse($users as $user)
-                            <tr>
+                        <tr class="border-2 border-gray-300">
                                 <td>{{ $users->count() - $loop->iteration + 1 }} / {{ $user->id }} </td>
                                 <td class="whitespace-no-wrap">
                                     <a href="{{ route('organization.edit', [$user->id, $user->slug]) }}">
