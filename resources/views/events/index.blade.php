@@ -14,7 +14,7 @@
             <div class="page_title">
                 <h2 class="text-2xl">  {{ $title ?? "Pozvánky na podujatia" }}</h2>
 
-                <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300" href="{{ route('event.create') }}"><i
+                <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300" href="{{ route('akcie.create') }}"><i
                         class="fas fa-plus"></i>
                     Nové podujatie
                 </a>

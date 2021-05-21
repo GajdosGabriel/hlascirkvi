@@ -29,13 +29,13 @@
             </li>
 
             <li class="border-2 rounded-md px-2 whitespace-nowrap">
-                <a href="{{ route('event.index') }}" class="nav-link radio">
+                <a href="{{ route('akcie.index') }}" class="nav-link radio">
                     <i class="fa fa-share-alt mr-2 text-gray-300" aria-hidden="true"></i>
                     Podujatia
                 </a>
             </li>
 
-            {{-- <li><a href="{{ route('event.index') }}">Podujatia</a></li> --}}
+            {{-- <li><a href="{{ route('akcie.index') }}">Podujatia</a></li> --}}
         </ul>
 
         <ul class="my-2 flex items-center">

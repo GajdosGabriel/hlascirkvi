@@ -2,7 +2,7 @@
     <h5 style="font-weight: bold">Okresy Slovenska</h5>
 
     <ul class="divide-y-2 divide-gray-200 divide-dashed">
-        <li><a href="{{ route('event.index') }}"> @if(!request()->has('district')) <i style="color: #3b32b3" class="fas fa-check"></i> @endif Všetky regiony</a></li>
+        <li><a href="{{ route('akcie.index') }}"> @if(!request()->has('district')) <i style="color: #3b32b3" class="fas fa-check"></i> @endif Všetky regiony</a></li>
     @forelse($districts as $k => $v)
             <li class="flex justify-between">
                 @foreach($v as $item)

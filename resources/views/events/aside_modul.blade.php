@@ -57,12 +57,12 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
 
-                <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('event.create') }}">
+                <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('akcie.create') }}">
                     Pridať akciu
                 </a>
             </div>
             <div class="flex items-center">
-                <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('event.index') }}">
+                <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('akcie.index') }}">
                     {{ trans('web.events_next') }}
                 </a>
                 <svg class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"

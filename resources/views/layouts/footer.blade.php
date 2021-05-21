@@ -7,7 +7,7 @@
             <h4 class="border-b-2 py-3 border-gray-300 font-semibold">O projekte</h4>
             <ul class="mt-2 space-y-1">
                 <li><a href="{{ route('register') }}">Založiť svoj blog</a></li>
-                <li><a href="{{ route('event.index') }}">Pridať novú akciu</a></li>
+                <li><a href="{{ route('akcie.index') }}">Pridať novú akciu</a></li>
                 <li><a href="{{ route('gdpr') }}">Ochrana osobných údajov</a></li>
             </ul>
         </div>

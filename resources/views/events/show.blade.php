@@ -35,10 +35,10 @@
                                 <i style="float: right; cursor: pointer " @click='toggle' title="Spravovať článok"
                                     class="fas fa-ellipsis-v"></i>
                                 <ul class="dropdown-menu" v-if="open">
-                                    <a href="{{ route('event.edit', [$event->id, $event->slug]) }}" class="dropdown-item">
+                                    <a href="{{ route('akcie.edit', [$event->id ]) }}" class="dropdown-item">
                                         <li>upraviť</li>
                                     </a>
-                                    <a href="{{ route('event.delete', [$event->id, $event->slug]) }}" class="dropdown-item">
+                                    <a href="{{ route('akcie.destroy', [$event->id, $event->slug]) }}" class="dropdown-item">
                                         <li>zmazať</li>
                                     </a>
                                     <a href="{{ route('event.admin', [$event->id, $event->slug]) }}" class="dropdown-item">

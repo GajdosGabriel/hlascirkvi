@@ -23,6 +23,7 @@ Route::resources([
     'notifications'     => NotificationController::class,
     'registredUsers'    => RegistredUsersController::class,
     'organizations'     => OrganizationsController::class,
+    'akcie'             => EventsController::class,
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
@@ -88,17 +89,11 @@ Route::get('/zdravie-z-bozej-ruky', 'HomeController@zdravie')->name('zdravie');
 
 //    Event
 Route::prefix('akcie/')->name('event.')->group(function () {
-    Route::get('/', 'EventsController@index')->name('index');
     Route::get('{event}/{title}', 'EventsController@show')->name('show');
     Route::post('{event}/{slug}/newComment', 'CommentsController@storeEvent');
     Route::post('{event}/form/subscribe', 'EventSubscribesController@subscribeByForm')->name('subscribeByForm');
 
     Route::middleware('auth')->group(function () {
-        Route::get('create', 'EventsController@create')->name('create');
-        Route::get('{event}/{title}/edit', 'EventsController@edit')->name('edit');
-        Route::patch('{event}/{slug}/eventupdate', 'EventsController@update')->name('update');
-        Route::post('store', 'EventsController@store')->name('store');
-        Route::get('{event}/delete/soft', 'EventsController@delete')->name('delete');
         Route::get('{event}/{slug}/admin', 'EventsController@adminEvent')->name('admin');
         Route::get('{event}/{user}/{slug}/print', 'EventsController@printGdpr')->name('gdpr');
         Route::put('{event}/{slug}/eventInfoPanel', 'EventsController@eventInfoPanel')->name('eventInfoPanel');

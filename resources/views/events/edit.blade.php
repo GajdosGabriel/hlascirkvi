@@ -8,7 +8,7 @@
     @include('organizations._profil-menu')
     <div class="page">
 
-        <form method="post" action="{{ route('event.update', [$event->id, $event->slug]) }}" class="md:flex"
+        <form method="post" action="{{ route('akcie.update', [$event->id]) }}" class="md:flex"
               enctype="multipart/form-data">
             {{ method_field('PATCH') }} @csrf
 

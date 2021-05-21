@@ -59,8 +59,10 @@ class EventsController extends Controller
     }
 
 
-    public function update(StoreEventRequest $request, Event $event)
+    public function update(StoreEventRequest $request, $akcie)
     {
+        $event = $this->event->find($akcie);
+
         $this->authorize('update', $event);
 
         $event->update($request->except(['picture', 'file', 'imageThumb', 'vizitka']));
@@ -69,7 +71,7 @@ class EventsController extends Controller
 
         session()->flash('flash', 'Podujatie je aktualizované!');
 
-        return redirect()->route('event.show' , [$event->id, $event->slug]);
+        return redirect()->route('akcie.show' , [$event->id]);
     }
 
     public function eventInfoPanel(Event $event, Request $request)
@@ -91,26 +93,16 @@ class EventsController extends Controller
         return view('events.admin.show', compact('event'));
     }
 
-    public function delete(Event $event)
+    public function destroy(Event $akcie)
     {
-        $this->authorize('update', $event);
-        $event->delete();
+        $this->authorize('update', $akcie);
+        $akcie->delete();
         session()->flash('flash', 'Podujatie bolo zmazané!');
 
         return redirect('akcie');
 
     }
 
-
-    public function destroy(Event $event)
-    {
-        $this->authorize('update', $event);
-
-        $event->delete();
-
-        session()->flash('flash', 'Podujatie je vymazané!');
-        return redirect('akcie');
-    }
 
     public function printGdpr(Event $event, User $user, $slug)
     {
@@ -132,7 +124,7 @@ class EventsController extends Controller
     public function subcribeToEvent(Event $event)
     {
         $event->subscribe();
-        return redirect()->route('event.show', [$event->id, $event->slug]);
+        return redirect()->route('akcie.show', [$event->id, $event->slug]);
     }
 
     public function finished()

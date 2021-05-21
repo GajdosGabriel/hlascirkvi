@@ -45,7 +45,7 @@ class CountView extends Notification
         // Zisti či je to Post alebo event
         if(class_basename($this->model) == 'Post')  $path = route('post.show' , [$this->model->id, $this->model->slug]);
 
-        if(class_basename($this->model) == 'Event') $path = route('event.show' , [$this->model->id, $this->model->slug]);
+        if(class_basename($this->model) == 'Event') $path = route('akcie.show' , [$this->model->id, $this->model->slug]);
 
 
         return (new MailMessage)

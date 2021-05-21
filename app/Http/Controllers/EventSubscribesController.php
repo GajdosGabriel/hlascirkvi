@@ -50,7 +50,7 @@ class EventSubscribesController extends Controller
             \Auth::logout(auth()->user());
         }
 
-        return redirect()->route('event.show', [$event->id, $event->slug]);
+        return redirect()->route('akcie.show', [$event->id, $event->slug]);
     }
 
 

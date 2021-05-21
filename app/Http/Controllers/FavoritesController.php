@@ -45,7 +45,7 @@ class FavoritesController extends Controller
 
     public function storeEventsRecords(Event $event) {
         $event->favorite();
-        return redirect()->route('event.show', [$event->id, $event->slug]);
+        return redirect()->route('akcie.show', [$event->id, $event->slug]);
     }
 
     public function favoritePrayer(Prayer $prayer, Request $request)
