@@ -24,7 +24,7 @@
                             <i v-if="showForm" class="far fa-minus-square"></i>
                         </h4>
 
-                        <form method="post" action="{{ route('organization.store', [auth()->user()->id] ) }}"
+                        <form method="post" action="{{ route('organizations.store', [auth()->user()->id] ) }}"
                               v-if="showForm">
                             @csrf
                             <div class="form-group">

@@ -39,7 +39,7 @@ class OrganizationsController extends Controller
         return view('posts.index', ['posts' => $user->posts()->latest()->paginate(16), 'organization' => $user] );
     }
 
-    public function edit(Organization $organization, $slug)
+    public function edit(Organization $organization)
     {
         $organization->load('updaters');
         return view('organizations.edit', compact('organization'));
@@ -57,6 +57,7 @@ class OrganizationsController extends Controller
 
     public function store(OrganizationsRequest $request)
     {
+        // dd($request->all());
         $request->save();
 
         session()->flash('flash', 'Organizácia bola založená!');

@@ -12,7 +12,7 @@
 
                 <h3 class="font-semibold">Upraviť {{ $organization->title }}</h3>
 
-                <form method="post" action="{{ route('organization.update', [$organization->id]) }}">
+                <form method="post" action="{{ route('organizations.update', [$organization->id]) }}">
                     @csrf @method('PUT')
                     <div class="card-body" style="width: 50%">
 

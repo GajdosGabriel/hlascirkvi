@@ -19,9 +19,10 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 Route::get('zamyslenia/{slug?}', 'VersesController@index')->name('verses.index');
 
 Route::resources([
-    'modlitby' => PrayerController::class,
-    'notifications' => NotificationController::class,
-    'registredUsers' => RegistredUsersController::class,
+    'modlitby'          => PrayerController::class,
+    'notifications'     => NotificationController::class,
+    'registredUsers'    => RegistredUsersController::class,
+    'organizations'     => OrganizationsController::class,
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
@@ -47,14 +48,9 @@ Route::prefix('user/')->name('organization.')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('{user}/{slug}/index', 'OrganizationsController@organizationIndex')->name('index');
         Route::get('{organization}/{slug}/profile', 'OrganizationsController@profile')->name('profile');
-        Route::get('{organization}/{slug}/edit', 'OrganizationsController@edit')->name('edit');
-        Route::get('{organization}/{slug}/delete', 'OrganizationsController@delete')->name('delete');
         Route::get('{organization}/favorites/subscribe', 'FavoritesController@favoriteOrganizations');
 
-        Route::put('update/{organization}', 'OrganizationsController@update')->name('update');
-        Route::post('new/{user}/store', 'OrganizationsController@store')->name('store');
         Route::post('message/{organization}/newMessage', 'MessengersController@store')->name('messengers.store.users');
-
     });
 });
 
