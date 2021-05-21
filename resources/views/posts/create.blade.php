@@ -9,8 +9,8 @@
             <div class="p-2">
                 @include('layouts.errors')
                <h2 class="page_title">Vytvoriť článok</h2>
-                <form class="md:w-8/12" method="post" action="{{ route('post.store') }}" enctype="multipart/form-data">
-                    @csrf
+                <form class="md:w-8/12" method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+                    @csrf  @method('POST')
                     @include('posts.form')
                 </form>
             </div>

@@ -80,7 +80,7 @@ class PostsController extends Controller
     }
 
 
-    public function edit($post, $slug)
+    public function edit($post)
     {
         $post = $this->post->find($post);
         $this->authorize('update', $post);
@@ -101,13 +101,14 @@ class PostsController extends Controller
         return redirect()->route('post.show', [$post->id, $post->slug]);
     }
 
-    public function delete(Post $post) {
+    public function destroy(Post $post)
+    {
         $this->authorize('update', $post);
         $post->delete();
         return redirect('/')->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
     }
 
-    public function destroy(Post $post) {
+    public function delete(Post $post) {
         $this->authorize('update', $post);
 //        $post->deleteImages();
 //

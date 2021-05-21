@@ -116,16 +116,17 @@
                                     <i style="float: right" @click='toggle' title="Spravovať článok"
                                         class="fas fa-ellipsis-v cursor-pointer"></i>
                                     <ul class="dropdown-menu" v-if="open">
-                                        <a href="{{ route('post.edit', [$post->id, $post->slug]) }}">
+                                        <a href="{{ route('posts.edit', [$post->id]) }}">
                                             <li class="dropdown-item">
                                                 upraviť
                                             </li>
                                         </a>
-                                        <a href="{{ route('post.delete', [$post->id]) }}">
+                                        <form method="POST" action="{{ route('posts.destroy', [$post->id]) }}">
+                                            @csrf @method('DELETE')
                                             <li class="dropdown-item">
-                                                zmazať
+                                                <button>zmazať</button>
                                             </li>
-                                        </a>
+                                        </form>
                                         @can('admin')
                                             {{-- <form action="{{ route('posts.update', [$post->id]) }}"> --}}
                                             {{-- @csrf --}}

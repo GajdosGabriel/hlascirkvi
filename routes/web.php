@@ -24,6 +24,7 @@ Route::resources([
     'registredUsers'    => RegistredUsersController::class,
     'organizations'     => OrganizationsController::class,
     'akcie'             => EventsController::class,
+    'posts'             => PostsController::class,
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
@@ -60,14 +61,8 @@ Route::prefix('post/')->name('post.')->group(function () {
 
     Route::middleware(['auth'])->group(function () {
         Route::get('{videoId}', 'PostsController@showVideo')->name('showVideo');
-        Route::get('create/new/post', 'PostsController@create')->name('create');
-        Route::get('edit/{post}/{slug}', 'PostsController@edit')->name('edit');
         Route::get('unpublished/{post}/video', 'PostsController@toBuffer')->name('toBuffer');
-        Route::post('update/{post}', 'PostsController@update')->name('update');
-        Route::post('store', 'PostsController@store')->name('store');
         Route::get('favorites/{post}/add', 'FavoritesController@favoritePosts')->name('favorites');
-        Route::get('delete/{post}/softdelete', 'PostsController@delete')->name('delete');
-
     });
 });
 

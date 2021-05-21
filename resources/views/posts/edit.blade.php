@@ -10,8 +10,8 @@
                <h2 class="text-2xl">Upraviť článok</h2>
             </div>
 
-            <form method="post" action="{{ route('post.update', [$post->id]) }}" enctype="multipart/form-data">
-                @csrf
+            <form method="POST" action="{{ route('posts.update', [$post->id]) }}" enctype="multipart/form-data">
+                @csrf @method('PUT')
                 @include('posts.form')
             </form>
         </div>

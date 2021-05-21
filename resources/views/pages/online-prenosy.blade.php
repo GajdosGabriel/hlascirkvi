@@ -38,7 +38,7 @@
                                                        class="fas fa-ellipsis-v cursor-pointer"></i>
                                                     <ul class="dropdown-menu" v-if="open">
                                                         <li class="dropdown-item"><a
-                                                                href="{{ route('post.edit', [$post->id, $post->slug]) }}"
+                                                                href="{{ route('posts.edit', [$post->id, $post->slug]) }}"
                                                             >upraviť
                                                             </a>
                                                         </li>
