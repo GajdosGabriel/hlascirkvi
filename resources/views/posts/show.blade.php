@@ -25,9 +25,9 @@
 
     <div class="page">
 
-        <div class="md:flex">
+        <div class="lg:grid grid-cols-12 gap-10">
             {{-- Header and video --}}
-            <div class="md:w-8/12">
+            <div class="col-span-8">
                 <organization-page-header :organization="{{ $post->organization }}">
                 </organization-page-header>
 
@@ -200,7 +200,7 @@
 
 
             {{-- Aside section --}}
-            <div class="md:w-4/12 md:ml-8">
+            <div class="col-span-3">
                 <news-rss></news-rss>
                 @include('events.aside_modul')
             </div>

@@ -18,10 +18,10 @@
 @section('content')
     <div class="page">
 
-        <div class="md:flex">
+        <div class="md:grid grid-cols-12 gap-10">
 
             {{-- Stlpec I. --}}
-            <div class="md:w-8/12 w-full">
+            <div class="col-span-8">
 
                 @include('posts.sviatok')
 
@@ -78,7 +78,7 @@
             </div>
 
             {{-- Stlpec II. --}}
-            <div class="md:w-3/12 md:mx-6">
+            <div class="col-span-3">
 
                 <prayers-card></prayers-card>
 
