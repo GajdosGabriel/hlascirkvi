@@ -168,7 +168,7 @@
                             @include('bigthink._form')
                         @endauth
 
-                        <replies :data="{{ $post->comments }}"></replies>
+                        <replies :post="{{ $post }}"></replies>
                     </div>
 
                     {{-- Body plánované akcie --}}

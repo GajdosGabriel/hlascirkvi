@@ -32,7 +32,6 @@ Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name
 
 // Comments
 Route::prefix('comment/')->name('comment.')->group(function () {
-    // Route::post('post/{post}/{slug}', 'CommentsController@store')->name('store');
 
     Route::middleware('auth')->group(function () {
         Route::get('{comment}/favorites/comment', 'FavoritesController@favoriteComments');

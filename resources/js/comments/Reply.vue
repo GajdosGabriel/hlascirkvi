@@ -2,15 +2,23 @@
     <div
         class="comment text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md"
     >
-        <div class="flex justify-between p-3">
+        <div class="flex justify-between px-3 py-2 border-b border-gray-200">
             <strong v-text="getShortName"></strong>
+
+            <div class="flex text-sm text-gray-500" v-if="canUpdate">
+                <a class="mr-2" href="#" @click.prevent="destroy()">Zmazať</a>
+                <a class="mr-2" href="#" @click.prevent="editComment = true">
+                    Upraviť
+                </a>
+            </div>
+
             <favorite :reply="data"></favorite>
         </div>
 
         <div
             v-if="!editComment"
             v-text="cakanaschvalenie"
-            class="px-3"
+            class="px-3 mb-2"
             :class="redText"
         ></div>
 
@@ -22,22 +30,10 @@
                 placeholder="Pridajte nový komentár ..."
                 required
             ></textarea>
-        </div>
-
-        <div
-            class="flex justify-between mt-2 items-center bg-gray-100 px-6 py-2"
-            v-if="canUpdate"
-        >
-            <a href="#" @click.prevent="destroy()">Zmazať</a>
-            <button class="btn btn-small" @click.prevent="editComment = true">
-                Upraviť
-            </button>
-
             <button
-                class="btn btn-primary"
+                class="btn btn-small mt-2 bg-blue-300 w-full hover:bg-gray-300"
                 @click.prevent="updateComment"
                 v-if="editComment"
-                style="float: right"
             >
                 Uložiť
             </button>
@@ -54,7 +50,7 @@ export default {
     data: function() {
         return {
             editComment: false,
-            body: this.data.body,
+            body: this.data.body
         };
     },
 
@@ -100,13 +96,13 @@ export default {
         },
 
         updateComment: function() {
-            axios.put("/comments/" + this.data.id, {
-                body: this.body
-            }).then(
-                response => {
-                    this.body = response.data.body
-                }
-            );
+            axios
+                .put("/comments/" + this.data.id, {
+                    body: this.body
+                })
+                .then(response => {
+                    this.body = response.data.body;
+                });
             this.editComment = false;
         }
     }

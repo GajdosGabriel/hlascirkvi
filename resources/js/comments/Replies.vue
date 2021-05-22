@@ -4,12 +4,12 @@
         <div class="">
             <h4 @click="showForm" class="mb-4 font-semibold mt-2">Komentáre <i class="far fa-comment-dots"></i> <span style="font-size: 70%; cursor: pointer">pridať nový</span></h4>
 
-            <div v-for="reply in items" :key="reply.id"  class="p-3">
+            <div v-for="reply in post.comments" :key="reply.id"  class="p-3">
                <reply :data="reply" @deleted="remove(reply.id)"></reply>
             </div>
 
             <div v-if="show">
-                <new-reply  :post="data" @created="add"></new-reply>
+                <new-reply  :post="post" @newComment="addNewComment"></new-reply>
             </div>
 
         </div>
@@ -23,11 +23,10 @@
     import Reply from './Reply.vue';
     import NewReply from './NewReply.vue';
     export default {
-        props: ['data'],
+        props: ['post'],
         components: {Reply, NewReply},
         data: function() {
             return {
-                items: this.data,
                 show: false
             }
         },
@@ -55,7 +54,7 @@
                 bus.$emit('flash', {body:'Komentár je zmazaný', type: 'danger'});
             },
 
-            add: function(reply){
+            addNewComment: function(reply){
                 this.items.push(reply);
 
                 bus.$emit('flash', {body:'Komentár je pridaný!'});

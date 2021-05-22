@@ -97,10 +97,10 @@
             },
 
             storeComment: function () {
-                axios.post(this.endpoint, {body: this.body, email: this.email})
+                axios.post('/comments', {body: this.body, email: this.email, model: 'Post', model_id: this.post.id })
                     .then(({data}) => {
                         this.body = '';
-                        this.$emit('created', data);
+                        this.$emit('newComment', data);
                         this.modal = false;
                     });
 

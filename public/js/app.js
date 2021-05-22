@@ -2436,14 +2436,16 @@ __webpack_require__.r(__webpack_exports__);
     storeComment: function storeComment() {
       var _this = this;
 
-      axios.post(this.endpoint, {
+      axios.post('/comments', {
         body: this.body,
-        email: this.email
+        email: this.email,
+        model: 'Post',
+        model_id: this.post.id
       }).then(function (_ref) {
         var data = _ref.data;
         _this.body = '';
 
-        _this.$emit('created', data);
+        _this.$emit('newComment', data);
 
         _this.modal = false;
       });
@@ -2495,14 +2497,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['data'],
+  props: ['post'],
   components: {
     Reply: _Reply_vue__WEBPACK_IMPORTED_MODULE_1__.default,
     NewReply: _NewReply_vue__WEBPACK_IMPORTED_MODULE_2__.default
   },
   data: function data() {
     return {
-      items: this.data,
       show: false
     };
   },
@@ -2528,7 +2529,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'danger'
       });
     },
-    add: function add(reply) {
+    addNewComment: function addNewComment(reply) {
       this.items.push(reply);
       _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
         body: 'Komentár je pridaný!'
@@ -2551,10 +2552,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Favorite.vue */ "./resources/js/comments/Favorite.vue");
-//
-//
-//
-//
 //
 //
 //
@@ -68710,7 +68707,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._l(_vm.items, function(reply) {
+          _vm._l(_vm.post.comments, function(reply) {
             return _c(
               "div",
               { key: reply.id, staticClass: "p-3" },
@@ -68733,8 +68730,8 @@ var render = function() {
                 "div",
                 [
                   _c("new-reply", {
-                    attrs: { post: _vm.data },
-                    on: { created: _vm.add }
+                    attrs: { post: _vm.post },
+                    on: { newComment: _vm.addNewComment }
                   })
                 ],
                 1
@@ -68778,9 +68775,45 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "flex justify-between p-3" },
+        {
+          staticClass: "flex justify-between px-3 py-2 border-b border-gray-200"
+        },
         [
           _c("strong", { domProps: { textContent: _vm._s(_vm.getShortName) } }),
+          _vm._v(" "),
+          _vm.canUpdate
+            ? _c("div", { staticClass: "flex text-sm text-gray-500" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "mr-2",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.destroy()
+                      }
+                    }
+                  },
+                  [_vm._v("Zmazať")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "mr-2",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.editComment = true
+                      }
+                    }
+                  },
+                  [_vm._v("\n                Upraviť\n            ")]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("favorite", { attrs: { reply: _vm.data } })
         ],
@@ -68789,7 +68822,7 @@ var render = function() {
       _vm._v(" "),
       !_vm.editComment
         ? _c("div", {
-            staticClass: "px-3",
+            staticClass: "px-3 mb-2",
             class: _vm.redText,
             domProps: { textContent: _vm._s(_vm.cakanaschvalenie) }
           })
@@ -68821,64 +68854,25 @@ var render = function() {
                   _vm.body = $event.target.value
                 }
               }
-            })
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.canUpdate
-        ? _c(
-            "div",
-            {
-              staticClass:
-                "flex justify-between mt-2 items-center bg-gray-100 px-6 py-2"
-            },
-            [
-              _c(
-                "a",
-                {
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.destroy()
-                    }
-                  }
-                },
-                [_vm._v("Zmazať")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-small",
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.editComment = true
-                    }
-                  }
-                },
-                [_vm._v("\n            Upraviť\n        ")]
-              ),
-              _vm._v(" "),
-              _vm.editComment
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      staticStyle: { float: "right" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.updateComment($event)
-                        }
+            }),
+            _vm._v(" "),
+            _vm.editComment
+              ? _c(
+                  "button",
+                  {
+                    staticClass:
+                      "btn btn-small mt-2 bg-blue-300 w-full hover:bg-gray-300",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.updateComment($event)
                       }
-                    },
-                    [_vm._v("\n            Uložiť\n        ")]
-                  )
-                : _vm._e()
-            ]
-          )
+                    }
+                  },
+                  [_vm._v("\n            Uložiť\n        ")]
+                )
+              : _vm._e()
+          ])
         : _vm._e()
     ]
   )

@@ -20,17 +20,22 @@ class CommentsController extends Controller
 //        $this->middleware('auth');
     }
 
-    public function store(SaveCommentsRequest $saveComments, Post $post)
+    public function store(SaveCommentsRequest $saveComments)
     {
+
         if($saveComments->email) {
             (new EloquentUserRepository)->commentCheckIfUserAccountExist($saveComments);
+        }
+
+        if($saveComments->input('model') == 'Post'){
+            $post =  Post::whereId($saveComments->input('model_id'))->first();
         }
 
         $reply = $saveComments->save($post);
 
         if(request()->expectsJson()) return $reply->load('user');
 
-        return back();
+        return $reply;
     }
 
     public function update(Comment $comment, SaveCommentsRequest $request)
