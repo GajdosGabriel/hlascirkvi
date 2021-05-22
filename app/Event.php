@@ -117,7 +117,7 @@ class Event extends Model implements ViewableContract
 
     public function getUrlAttribute()
     {
-        return route('akcie.show', [$this->id, $this->slug]);
+        return route('event.show', [$this->id, $this->slug]);
     }
 
 

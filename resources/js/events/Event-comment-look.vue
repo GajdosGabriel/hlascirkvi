@@ -3,7 +3,7 @@
     <div>
         <h4>Hľadám na akciu:</h4>
 
-        <div v-for="(comment, index) in comments">
+        <div v-for="(comment, index) in comments" :key="comment.id">
             <event-comment :data="comment" @destroy="remove(index)"></event-comment>
         </div>
 
