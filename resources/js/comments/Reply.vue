@@ -10,6 +10,7 @@
         <div
             v-if="!editComment"
             v-text="cakanaschvalenie"
+            class="px-3"
             :class="redText"
         ></div>
 
@@ -52,7 +53,8 @@ export default {
     components: { Favorite },
     data: function() {
         return {
-            editComment: false
+            editComment: false,
+            body: this.data.body,
         };
     },
 
@@ -90,7 +92,7 @@ export default {
 
     methods: {
         destroy: function() {
-            axios.get("/comment/" + this.data.id + "/delete/comment");
+            axios.delete("/comments/" + this.data.id);
 
             $(this.$el).fadeOut(300, () => {
                 this.$emit("deleted", this.data.id);
@@ -98,9 +100,13 @@ export default {
         },
 
         updateComment: function() {
-            axios.put("/comment/" + this.data.id + "/update/comment", {
+            axios.put("/comments/" + this.data.id, {
                 body: this.body
-            });
+            }).then(
+                response => {
+                    this.body = response.data.body
+                }
+            );
             this.editComment = false;
         }
     }

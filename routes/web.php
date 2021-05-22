@@ -25,11 +25,20 @@ Route::resources([
     'organizations'     => OrganizationsController::class,
     'akcie'             => EventsController::class,
     'posts'             => PostsController::class,
+    'comments'          => CommentsController::class,
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
 
+// Comments
+Route::prefix('comment/')->name('comment.')->group(function () {
+    // Route::post('post/{post}/{slug}', 'CommentsController@store')->name('store');
 
+    Route::middleware('auth')->group(function () {
+        Route::get('{comment}/favorites/comment', 'FavoritesController@favoriteComments');
+
+    });
+});
 
 //    Route::get('/users', 'UsersController@index')->name('users.index');
 
@@ -116,18 +125,6 @@ Route::post('store/message', 'MessengersController@toAdmin')->name('messengers.s
 
 Route::get('users/{user}/favorites/user', 'FavoritesController@favoriteUsers')->name('favorites.users');
 
-
-// Comments
-Route::prefix('comment/')->name('comment.')->group(function () {
-    Route::post('post/{post}/{slug}', 'CommentsController@store')->name('store');
-
-    Route::middleware('auth')->group(function () {
-        Route::put('{comment}/update/comment', 'CommentsController@updateComment')->name('update');
-        Route::get('{comment}/delete/comment', 'CommentsController@destroyComment')->name('destroy');
-        Route::get('{comment}/favorites/comment', 'FavoritesController@favoriteComments');
-
-    });
-});
 
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkAdmin'])->namespace('Admin')->group(function () {

@@ -33,13 +33,13 @@ class CommentsController extends Controller
         return back();
     }
 
-    public function updateComment(SaveCommentsRequest $request, Comment $comment)
+    public function update(Comment $comment, SaveCommentsRequest $request)
     {
        $comment->update($request->all());
 
         if(request()->expectsJson()) return $comment->load('user');
 
-        return back();
+        return $comment;
     }
 
 
@@ -55,11 +55,11 @@ class CommentsController extends Controller
         return back();
     }
 
-    public function destroyComment(Comment $comment) {
+    public function destroy(Comment $comment)
+    {
         $comment->delete();
 
         session()->flash('flash', 'Položka je zmazaná!');
 
-        return back();
     }
 }
