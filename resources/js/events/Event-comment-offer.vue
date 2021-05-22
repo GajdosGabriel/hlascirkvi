@@ -7,7 +7,7 @@
             <event-comment :data="comment" @destroy="remove(index)"></event-comment>
         </div>
 
-        <event-form  @created="newcomment"></event-form>
+        <event-form :event="event" @created="newcomment"></event-form>
 
     </div>
 
@@ -18,7 +18,7 @@
     import EventComment from './Event-comment.vue';
     import EventForm from './Event-form-offer.vue';
     export default {
-        props: ['commentsoffer'],
+        props: ['commentsoffer', 'event'],
         components: {EventComment, EventForm},
         data: function() {
             return {

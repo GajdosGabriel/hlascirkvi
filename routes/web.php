@@ -93,7 +93,6 @@ Route::get('/zdravie-z-bozej-ruky', 'HomeController@zdravie')->name('zdravie');
 //    Event
 Route::prefix('akcie/')->name('event.')->group(function () {
     Route::get('{event}/{title}', 'EventsController@show')->name('show');
-    Route::post('{event}/{slug}/newComment', 'CommentsController@storeEvent');
     Route::post('{event}/form/subscribe', 'EventSubscribesController@subscribeByForm')->name('subscribeByForm');
 
     Route::middleware('auth')->group(function () {

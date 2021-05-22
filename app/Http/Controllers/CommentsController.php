@@ -50,18 +50,6 @@ class CommentsController extends Controller
     }
 
 
-    public function storeEvent(SaveCommentsRequest $request, Event $event)
-    {
-        (new EloquentUserRepository)->commentCheckIfUserAccountExist($request);
-
-        $reply = $event->comments()->create(array_merge($request->except(['email']), ['user_id' => auth()->user()->id]));
-
-        if (request()->expectsJson()) {
-            return $reply->load('user');
-        };
-        return back();
-    }
-
     public function destroy(Comment $comment)
     {
         $comment->delete();

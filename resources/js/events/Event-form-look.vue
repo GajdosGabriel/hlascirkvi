@@ -22,9 +22,10 @@
 <script>
 
     export default {
+          props: ['event'],
         data: function() {
             return {
-                endpoint:location.pathname + '/newComment',
+                // endpoint:location.pathname + '/newComment',
                 body:'',
                 type: '',
                 disabled: window.App.signedIn,
@@ -67,7 +68,7 @@
 
 //                this.emptyEmail = false;
 
-                axios.post(this.endpoint, {body: this.body, type: 'look', email:this.email})
+                axios.post('/comments', {body: this.body, type: 'look', model:'Event', model_id: this.event.id , email:this.email})
                         .then( ({data}) => {
 
                     this.body='';

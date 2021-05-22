@@ -2943,7 +2943,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['commentsoffer'],
+  props: ['commentsoffer', 'event'],
   components: {
     EventComment: _Event_comment_vue__WEBPACK_IMPORTED_MODULE_1__.default,
     EventForm: _Event_form_look_vue__WEBPACK_IMPORTED_MODULE_2__.default
@@ -3044,7 +3044,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['commentsoffer'],
+  props: ['commentsoffer', 'event'],
   components: {
     EventComment: _Event_comment_vue__WEBPACK_IMPORTED_MODULE_1__.default,
     EventForm: _Event_form_offer_vue__WEBPACK_IMPORTED_MODULE_2__.default
@@ -3245,9 +3245,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['event'],
   data: function data() {
     return {
-      endpoint: location.pathname + '/newComment',
+      // endpoint:location.pathname + '/newComment',
       body: '',
       type: '',
       disabled: window.App.signedIn,
@@ -3286,9 +3287,11 @@ __webpack_require__.r(__webpack_exports__);
       //                this.emptyEmail = false;
 
 
-      axios.post(this.endpoint, {
+      axios.post('/comments', {
         body: this.body,
         type: 'look',
+        model: 'Event',
+        model_id: this.event.id,
         email: this.email
       }).then(function (_ref) {
         var data = _ref.data;
@@ -3334,23 +3337,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ["event"],
   data: function data() {
     return {
-      endpoint: location.pathname + '/newComment',
-      body: '',
-      type: '',
+      // endpoint: location.pathname + "/newComment",
+      body: "",
+      type: "",
       disabled: window.App.signedIn,
       emptyBody: false,
-      email: ''
+      email: ""
     };
   },
   computed: {
     signedIn: function signedIn() {
       if (window.App.signedIn) {
-        return 'btn btn-small';
+        return "btn btn-small";
       } else {
-        return 'btn btn-small disabled';
+        return "btn btn-small disabled";
       }
     },
     showEmail: function showEmail() {
@@ -3376,15 +3397,17 @@ __webpack_require__.r(__webpack_exports__);
       //                this.emptyEmail = false;
 
 
-      axios.post(this.endpoint, {
+      axios.post("/comments", {
         body: this.body,
-        type: 'offer',
+        type: "look",
+        model: "Event",
+        model_id: this.event.id,
         email: this.email
       }).then(function (_ref) {
         var data = _ref.data;
-        _this.body = '';
+        _this.body = "";
 
-        _this.$emit('created', data);
+        _this.$emit("created", data);
       });
     }
   }
@@ -69184,6 +69207,7 @@ var render = function() {
       _vm._l(_vm.comments, function(comment, index) {
         return _c(
           "div",
+          { key: comment.id },
           [
             _c("event-comment", {
               attrs: { data: comment },
@@ -69198,7 +69222,10 @@ var render = function() {
         )
       }),
       _vm._v(" "),
-      _c("event-form", { on: { created: _vm.newcomment } })
+      _c("event-form", {
+        attrs: { event: _vm.event },
+        on: { created: _vm.newcomment }
+      })
     ],
     2
   )
@@ -69234,6 +69261,7 @@ var render = function() {
       _vm._l(_vm.comments, function(comment, index) {
         return _c(
           "div",
+          { key: comment.id },
           [
             _c("event-comment", {
               attrs: { data: comment },
@@ -69248,7 +69276,10 @@ var render = function() {
         )
       }),
       _vm._v(" "),
-      _c("event-form", { on: { created: _vm.newcomment } })
+      _c("event-form", {
+        attrs: { event: _vm.event },
+        on: { created: _vm.newcomment }
+      })
     ],
     2
   )
@@ -69614,7 +69645,7 @@ var render = function() {
       _c(
         "button",
         { staticClass: "px-2 border-2 border-gray-500 rounded-md mt-3" },
-        [_vm._v("Uložiť")]
+        [_vm._v("\n        Uložiť\n    ")]
       )
     ]
   )

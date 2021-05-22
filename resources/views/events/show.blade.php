@@ -332,8 +332,8 @@
 
 
                     <div style="margin-top: 3rem">
-                        <event-comments-look :commentsoffer="{{ $commentsLook }}"></event-comments-look>
-                        <event-comments-offer :commentsoffer="{{ $commentsOffer }}"></event-comments-offer>
+                        <event-comments-look :event="{{ $event }}" :commentsoffer="{{ $commentsLook }}"></event-comments-look>
+                        <event-comments-offer :event="{{ $event }}"  :commentsoffer="{{ $commentsOffer }}"></event-comments-offer>
                     </div>
 
 
