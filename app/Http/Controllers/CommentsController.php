@@ -17,32 +17,34 @@ class CommentsController extends Controller
     public function __construct(EloquentUserRepository $users)
     {
         $this->users = $users;
-//        $this->middleware('auth');
+        //        $this->middleware('auth');
     }
 
     public function store(SaveCommentsRequest $saveComments)
     {
 
-        if($saveComments->email) {
+        if ($saveComments->email) {
             (new EloquentUserRepository)->commentCheckIfUserAccountExist($saveComments);
         }
 
-        if($saveComments->input('model') == 'Post'){
-            $post =  Post::whereId($saveComments->input('model_id'))->first();
-        }
+        $class = "App\\{$saveComments->input('model')}";
+        $class = new $class;
+
+        $post =  $class->whereId($saveComments->input('model_id'))->first();
+
 
         $reply = $saveComments->save($post);
 
-        if(request()->expectsJson()) return $reply->load('user');
+        if (request()->expectsJson()) return $reply->load('user');
 
         return $reply;
     }
 
     public function update(Comment $comment, SaveCommentsRequest $request)
     {
-       $comment->update($request->all());
+        $comment->update($request->all());
 
-        if(request()->expectsJson()) return $comment->load('user');
+        if (request()->expectsJson()) return $comment->load('user');
 
         return $comment;
     }
@@ -52,9 +54,9 @@ class CommentsController extends Controller
     {
         (new EloquentUserRepository)->commentCheckIfUserAccountExist($request);
 
-        $reply = $event->comments()->create(array_merge($request->except(['email']), ['user_id' => auth()->user()->id ]));
+        $reply = $event->comments()->create(array_merge($request->except(['email']), ['user_id' => auth()->user()->id]));
 
-        if(request()->expectsJson()) {
+        if (request()->expectsJson()) {
             return $reply->load('user');
         };
         return back();
@@ -65,6 +67,5 @@ class CommentsController extends Controller
         $comment->delete();
 
         session()->flash('flash', 'Položka je zmazaná!');
-
     }
 }

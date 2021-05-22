@@ -29,6 +29,12 @@ class TestController extends Controller
 {
     public function newsletter() {
 
+        $class = "App\Post";
+        $class = new $class;
+
+        dd($class);
+
+
        $posts = (new EloquentPostRepository())->postsByUpdater(15)
                 ->where('title', 'like', '%duch sv%')
                 ->OrWhere('title', 'like', '%ducha sv%')
