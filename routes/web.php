@@ -90,7 +90,6 @@ Route::prefix('akcie/')->name('event.')->group(function () {
         Route::get('{event}/{slug}/admin', 'EventsController@adminEvent')->name('admin');
         Route::get('{event}/{user}/{slug}/print', 'EventsController@printGdpr')->name('gdpr');
         Route::put('{event}/{slug}/eventInfoPanel', 'EventsController@eventInfoPanel')->name('eventInfoPanel');
-        Route::get('{event}/subscribes/eventsubscribe', 'EventsController@subcribeToEvent')->name('subcribeToEvent');
         Route::get('event/subscribes/eventsubscribe/{eventSubscribe}', 'EventSubscribesController@confirmedSubscribtion')->name('disabled');
         Route::get('{event}/record/subscribe', 'FavoritesController@storeEventsRecords')->name('record');
     });

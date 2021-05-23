@@ -35,7 +35,7 @@
                                 <i style="float: right; cursor: pointer " @click='toggle' title="Spravovať článok"
                                     class="fas fa-ellipsis-v"></i>
                                 <ul class="dropdown-menu" v-if="open">
-                                    <a href="{{ route('akcie.edit', [$event->id ]) }}" class="dropdown-item">
+                                    <a href="{{ route('akcie.edit', [$event->id]) }}" class="dropdown-item">
                                         <li>upraviť</li>
                                     </a>
                                     <a href="{{ route('akcie.destroy', [$event->id, $event->slug]) }}" class="dropdown-item">
@@ -76,27 +76,24 @@
                     <p>Akciu zverejnil: {{ $event->organization->title }}</p>
 
                     @if ($event->images()->whereType('img')->exists())
-                        @foreach ($event->images()->whereType('img')->get() as $image)
+                        @foreach ($event->images()->whereType('img')->get()
+        as $image)
                             {{-- <img alt="{{ $image->title }}" data-src="{{ url($image->OriginalImageUrl) }}"  class="lazyload rounded"  data-sizes="auto"> --}}
 
                             <event-picture-viewer inline-template>
-                                <div :class="{'fixed inset-0 bg-gray-600' : showButton}"
-                                >
-                                    <div
-                                    v-if="showButton"
-                                    @click="showModal"
+                                <div :class="{'fixed inset-0 bg-gray-600' : showButton}">
+                                    <div v-if="showButton" @click="showModal"
                                         class="absolute right-0 border-gray-200 border-2 bg-gray-700 hover:bg-gray-500 rounded px-4 py-2 text-white font-semibold text-2xl cursor-pointer ">
                                         Zrušiť x
                                     </div>
                                     <img alt="{{ $image->title }}" src="{{ url($image->OriginalImageUrl) }}"
-                                    @click="showModal"
-                                        class="h-full rounded cursor-pointer">
+                                        @click="showModal" class="h-full rounded cursor-pointer">
 
                                 </div>
                             </event-picture-viewer>
 
-                            @break
-                        @endforeach
+                        @break
+                    @endforeach
                     @endif
 
 
@@ -161,10 +158,10 @@
                     @endforeach
                     {{-- vizitka --}}
 
-                    <div>
+                    <div class="cursor-pointer pl-2 rounded-sm">
                         <a href="{{ route('event.record', [$event->id]) }}">
                             @if ($event->isFavorited())
-                                <i class="fas fa-check"></i> Odoslaná žiadosť o nahrávku!
+                                <i class="fas fa-check"></i> <span class="font-semibold"> Odoslaná žiadosť o nahrávku!</span>
                             @else
                                 <i class="fas fa-volume-up"></i> Nemôžem prísť, chcem nahrávku.
                             @endif
@@ -172,42 +169,56 @@
                     </div>
 
                     {{-- Prihlasovanie pre prihláseného usera --}}
-                    <div class="">
+                    <div class="cursor-pointer hover:text-gray-900 pl-2 rounded-sm">
                         @if (auth()->check())
-                            <a href="{{ route('event.subcribeToEvent', [$event->id]) }}">
+                            <form method="post" action="{{ route('favorites.update', [$event->id]) }}">
+                                @csrf @method('PUT')
+                                <input name="model" value="Event" type="hidden">
+                                <input name="model_id" value="{{ $event->id }}" type="hidden">
                                 @if ($event->isSubscribed())
-                                    <i style="color: green" title="Zrušiť prihlásenie" class="fas fa-check"></i> Ste
-                                    prihlásený!
+                                    <button type="submit">
+                                        <i title="Zrušiť prihlásenie" class="fas fa-check"></i>
+                                        <span class="font-semibold"> Ste prihlásený! </span>
+                                    </button>
                                 @else
-                                    <i class="fas fa-check"></i> Prihlásiť sa ako {{ auth()->user()->fullName }}.
+                                    <button type="submit">
+                                        <i class="fas fa-check"></i>
+                                        Prihlásiť sa ako {{ auth()->user()->fullName }}
+                                    </button>
                                 @endif
-                            </a>
+                            </form>
                         @else
-                            <a href="{{ route('event.subcribeToEvent', [$event->id]) }}">
-                                <i class="fas fa-check"></i> Chcem sa prihlásiť na akciu.
-                            </a>
+                            <form method="post" action="{{ route('favorites.update', [$event->id]) }}">
+                                @csrf @method('PUT')
+                                <i class="fas fa-check"></i>
+                                <input name="model" value="Event" type="hidden">
+                                <input name="model_id" value="{{ $event->id }}" type="hidden">
+                                <button type="submit">
+                                    Chcem sa prihlásiť na akciu.
+                                </button>
+                            </form>
                         @endif
                     </div>
 
                     {{-- Modul event panel info --}}
                     @can('update', $event)
                         @if (!$event->registration != 'no')
-                            <div class="event-panel">
-                                <div class="eventItem">
+                            <div class="flex justify-between border-gray-300 shadow-md border-2 p-2 rounded-md mt-6">
+                                <div class="text-center ">
                                     <div>{{ $event->activeSubscribed() + $event->ticket_staff }}</div>
-                                    <div style="font-weight: 300; font-size: 60%">prihlásených</div>
+                                    <div>prihlásených</div>
                                 </div>
-                                <div class="eventItem">
+                                <div class="text-center ">
                                     @if ($event->ticket_available == 0)
-                                        <span style="font-size: 160%; margin-bottom: -1.2rem">&#8734;</span>
+                                        <span>&#8734;</span>
                                     @else
                                         <div>{{ $event->ticket_available }}</div>
                                     @endif
-                                    <div style="font-weight: 300; font-size: 60%">voľných miest</div>
+                                    <div>voľných miest</div>
                                 </div>
-                                <div class="eventItem">
+                                <div class="text-center ">
                                     <div>{{ now()->diffInDays($event->start_at->format('d-m-Y')) }}</div>
-                                    <div style="font-weight: 300; font-size: 60%">dni do začiatku</div>
+                                    <div>dni do začiatku</div>
                                 </div>
                             </div>
 
@@ -332,8 +343,10 @@
 
 
                     <div style="margin-top: 3rem">
-                        <event-comments-look :event="{{ $event }}" :commentsoffer="{{ $commentsLook }}"></event-comments-look>
-                        <event-comments-offer :event="{{ $event }}"  :commentsoffer="{{ $commentsOffer }}"></event-comments-offer>
+                        <event-comments-look :event="{{ $event }}" :commentsoffer="{{ $commentsLook }}">
+                        </event-comments-look>
+                        <event-comments-offer :event="{{ $event }}" :commentsoffer="{{ $commentsOffer }}">
+                        </event-comments-offer>
                     </div>
 
 

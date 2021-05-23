@@ -121,12 +121,6 @@ class EventsController extends Controller
         }
     }
 
-    public function subcribeToEvent(Event $event)
-    {
-        $event->subscribe();
-        return redirect()->route('akcie.show', [$event->id, $event->slug]);
-    }
-
     public function finished()
     {
         $events = Event::where('end_at', '<', Carbon::now())->orderBy('start_at', 'desc')->paginate(30);

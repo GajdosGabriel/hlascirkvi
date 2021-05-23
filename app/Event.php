@@ -107,8 +107,8 @@ class Event extends Model implements ViewableContract
 
 
     public function isSubscribed() {
-        return ! ! $this->eventSubscribe->where('organization_id', auth()->id())->where('active', 1)->count();
-//        return $this->favorites()->whereUserId(auth()->id())->exists();
+        // return ! ! $this->eventSubscribe->where('organization_id', auth()->id())->where('active', 1)->count();
+       return $this->favorites()->whereUserId(auth()->id())->exists();
     }
 
     public function activeSubscribed() {
