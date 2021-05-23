@@ -4,7 +4,7 @@
         <div class="">
             <h4 @click="showForm" class="mb-4 font-semibold mt-2">Komentáre <i class="far fa-comment-dots"></i> <span style="font-size: 70%; cursor: pointer">pridať nový</span></h4>
 
-            <div v-for="reply in post.comments" :key="reply.id"  class="p-3">
+            <div v-for="reply in comments" :key="reply.id"  class="p-3">
                <reply :data="reply" @deleted="remove(reply.id)"></reply>
             </div>
 
@@ -27,7 +27,8 @@
         components: {Reply, NewReply},
         data: function() {
             return {
-                show: false
+                show: false,
+                comments: this.post.comments
             }
         },
 
@@ -54,8 +55,8 @@
                 bus.$emit('flash', {body:'Komentár je zmazaný', type: 'danger'});
             },
 
-            addNewComment: function(reply){
-                this.items.push(reply);
+            addNewComment: function(comment){
+                this.comments.push(comment);
 
                 bus.$emit('flash', {body:'Komentár je pridaný!'});
             }

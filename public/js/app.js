@@ -2504,7 +2504,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      show: false
+      show: false,
+      comments: this.post.comments
     };
   },
   computed: {
@@ -2529,8 +2530,8 @@ __webpack_require__.r(__webpack_exports__);
         type: 'danger'
       });
     },
-    addNewComment: function addNewComment(reply) {
-      this.items.push(reply);
+    addNewComment: function addNewComment(comment) {
+      this.comments.push(comment);
       _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
         body: 'Komentár je pridaný!'
       });
@@ -68730,7 +68731,7 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._l(_vm.post.comments, function(reply) {
+          _vm._l(_vm.comments, function(reply) {
             return _c(
               "div",
               { key: reply.id, staticClass: "p-3" },
