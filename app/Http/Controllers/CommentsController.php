@@ -24,7 +24,7 @@ class CommentsController extends Controller
     {
 
         if ($saveComments->email) {
-            (new EloquentUserRepository)->commentCheckIfUserAccountExist($saveComments);
+            (new EloquentUserRepository)->checkIfUserAccountExist($saveComments);
         }
 
         $class = "App\\{$saveComments->input('model')}";

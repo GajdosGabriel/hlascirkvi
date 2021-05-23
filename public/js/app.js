@@ -2283,9 +2283,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['reply'],
+  props: ["reply"],
   data: function data() {
     return {
       replyCount: this.reply.favoritesCount,
@@ -2298,32 +2306,31 @@ __webpack_require__.r(__webpack_exports__);
     },
     replyManager: function replyManager() {
       if (this.reply.favoritesCount > 0) {
-        return ['bg-red-700'];
+        return ["bg-red-700 text-white"];
       }
     },
     replyClass: function replyClass() {
       if (this.replyisFavorited) {
-        return ['bg-red-700 text-white rounded-full h-7 w-7 p-1'];
+        return ["bg-red-700 text-white rounded-full h-7 w-7 p-1"];
       }
     },
     replyCounter: function replyCounter() {
-      return ['fas fa-heart fa-lg fa-disabled'];
+      return ["fas fa-heart fa-lg fa-disabled"];
     }
   },
   methods: {
     store: function store(reply) {
       if (!this.signedIn) {
-        return alert('Najprv sa prihláste!');
+        return alert("Najprv sa prihláste!");
       }
 
-      ;
-      axios.put('/favorites/' + this.reply.id, {
-        model: 'Comment',
+      axios.put("/favorites/" + this.reply.id, {
+        model: "Comment",
         model_id: this.reply.id
       });
       this.replyisFavorited = true;
-      _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
-        body: 'Pridaný hlas komentáru.'
+      _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit("flash", {
+        body: "Pridaný hlas komentáru."
       });
     }
   }
@@ -6582,7 +6589,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.id, "\n.OMNVPpIxV-x5-XyzkDmf2 {\n    opacity: .6;\n    pointer-events: none;\n    color: red;\n}\n._3SefxDRzRMskwdA-7R4ZRw {\n    color: red;\n}\n", ""]);
+exports.push([module.id, "\n.OMNVPpIxV-x5-XyzkDmf2 {\n    opacity: 0.6;\n    pointer-events: none;\n    color: red;\n}\n._3SefxDRzRMskwdA-7R4ZRw {\n    color: red;\n}\n", ""]);
 
 // exports
 exports.locals = {
@@ -68403,21 +68410,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        on: {
-          click: function($event) {
-            return _vm.store(_vm.reply)
-          }
+  return _c(
+    "div",
+    {
+      on: {
+        click: function($event) {
+          return _vm.store(_vm.reply)
         }
-      },
-      [
+      }
+    },
+    [
+      _c("div", [
         _c(
           "svg",
           {
-            staticClass: "h-5 w-5 cursor-pointer hover:text-red-500",
+            staticClass:
+              "cursor-pointer hover:bg-red-300 text-gray-400 rounded-full h-7 w-7 p-1",
             class: _vm.replyClass,
             attrs: {
               title: "Hlasovať za komentár",
@@ -68444,9 +68452,9 @@ var render = function() {
             })
           ]
         )
-      ]
-    )
-  ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

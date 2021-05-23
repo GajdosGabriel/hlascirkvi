@@ -25,7 +25,7 @@ class FavoritesController extends Controller
     public function update(FavoriteRequest $request, $favorite)
     {
         if ($request->email) {
-            (new EloquentUserRepository)->commentCheckIfUserAccountExist($request);
+            (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
 
         $class = "App\\{$request->input('model')}";
@@ -35,6 +35,9 @@ class FavoritesController extends Controller
 
         $model->favorite();
 
+        if (request()->expectsJson()) return $model;
+
+        return back();
     }
 
     public function favoriteUsers(User $user) {

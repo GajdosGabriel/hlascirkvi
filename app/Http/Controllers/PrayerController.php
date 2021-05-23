@@ -32,7 +32,7 @@ class PrayerController extends Controller
     public function store(SavePrayerRequest $request)
     {
         if ($request->email) {
-            (new EloquentUserRepository)->commentCheckIfUserAccountExist($request);
+            (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
 
         $prayer = auth()->user()->prayers()->create($request->all());

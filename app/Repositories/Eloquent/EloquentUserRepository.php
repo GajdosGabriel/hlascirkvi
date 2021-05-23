@@ -61,7 +61,7 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
      * Komentáre bez registrácie
      */
 
-    public function commentCheckIfUserAccountExist($request) {
+    public function checkIfUserAccountExist($request) {
 
         if(auth()->check()) return;
 
