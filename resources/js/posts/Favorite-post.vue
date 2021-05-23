@@ -1,5 +1,5 @@
 <template>
-    <div class="grow" style="cursor: pointer;">
+    <div class="grow cursor-pointer">
 
            <div class="whitespace-nowrap" style="border-radius: .3rem;background-color: rgb(173, 80, 146);color: whitesmoke; padding: 0rem .4rem" @click="pressRecomendedButton" :class="isFavorited" v-text="recommended"></div>
 
@@ -71,7 +71,7 @@
             },
 
             save: function() {
-                axios.get('/post/favorites/' + this.post.id +'/add' );
+                axios.put('/favorites/' + this.post.id, { model:'Post', model_id: this.post.id } );
             },
 
             favoriteCounter: function() {

@@ -136,7 +136,7 @@
             },
 
             saveFavorites: function () {
-                axios.post('/modlitby/favorites/' + this.prayer.id + '/add', {email: this.email})
+                axios.put('/favorites/' + this.prayer.id, { model:'Prayer', model_id: this.prayer.id, email: this.email})
                     .then((response) => {
                             this.prayer = null
                         }

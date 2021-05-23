@@ -13,7 +13,7 @@ class OrganizationsRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**

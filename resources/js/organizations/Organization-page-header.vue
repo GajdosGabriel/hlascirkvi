@@ -145,7 +145,7 @@ export default {
                 return this.toggleLogin();
             }
             axios
-                .get("/user/" + this.organization.id + "/favorites/subscribe")
+                .put("/favorites/" + this.organization.id, { model: 'Organization', model_id: this.organization.id })
                 .then(response => {
                     this.toggleFavorited();
                     this.messageNotification();

@@ -26,18 +26,11 @@ Route::resources([
     'akcie'             => EventsController::class,
     'posts'             => PostsController::class,
     'comments'          => CommentsController::class,
+    'favorites'         => FavoritesController::class,
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
 
-// Comments
-Route::prefix('comment/')->name('comment.')->group(function () {
-
-    Route::middleware('auth')->group(function () {
-        Route::get('{comment}/favorites/comment', 'FavoritesController@favoriteComments');
-
-    });
-});
 
 //    Route::get('/users', 'UsersController@index')->name('users.index');
 
@@ -58,7 +51,6 @@ Route::prefix('user/')->name('organization.')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('{user}/{slug}/index', 'OrganizationsController@organizationIndex')->name('index');
         Route::get('{organization}/{slug}/profile', 'OrganizationsController@profile')->name('profile');
-        Route::get('{organization}/favorites/subscribe', 'FavoritesController@favoriteOrganizations');
 
         Route::post('message/{organization}/newMessage', 'MessengersController@store')->name('messengers.store.users');
     });
@@ -70,7 +62,6 @@ Route::prefix('post/')->name('post.')->group(function () {
     Route::middleware(['auth'])->group(function () {
         Route::get('{videoId}', 'PostsController@showVideo')->name('showVideo');
         Route::get('unpublished/{post}/video', 'PostsController@toBuffer')->name('toBuffer');
-        Route::get('favorites/{post}/add', 'FavoritesController@favoritePosts')->name('favorites');
     });
 });
 
@@ -104,11 +95,6 @@ Route::prefix('akcie/')->name('event.')->group(function () {
         Route::get('{event}/record/subscribe', 'FavoritesController@storeEventsRecords')->name('record');
     });
 
-});
-
-//    Prayer
-Route::prefix('/modlitby/')->group(function () {
-    Route::post('favorites/{prayer}/add', 'FavoritesController@favoritePrayer');
 });
 
 

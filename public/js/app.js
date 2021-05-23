@@ -2298,12 +2298,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     replyManager: function replyManager() {
       if (this.reply.favoritesCount > 0) {
-        return ['fa-active'];
+        return ['bg-red-700'];
       }
     },
     replyClass: function replyClass() {
       if (this.replyisFavorited) {
-        return ['fa-disabled'];
+        return ['bg-red-700 text-white rounded-full h-7 w-7 p-1'];
       }
     },
     replyCounter: function replyCounter() {
@@ -2317,7 +2317,10 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       ;
-      axios.get('/comment/' + this.reply.id + '/favorites/comment');
+      axios.put('/favorites/' + this.reply.id, {
+        model: 'Comment',
+        model_id: this.reply.id
+      });
       this.replyisFavorited = true;
       _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
         body: 'Pridaný hlas komentáru.'
@@ -4359,7 +4362,10 @@ __webpack_require__.r(__webpack_exports__);
         return this.toggleLogin();
       }
 
-      axios.get("/user/" + this.organization.id + "/favorites/subscribe").then(function (response) {
+      axios.put("/favorites/" + this.organization.id, {
+        model: 'Organization',
+        model_id: this.organization.id
+      }).then(function (response) {
         _this.toggleFavorited();
 
         _this.messageNotification();
@@ -4654,7 +4660,10 @@ __webpack_require__.r(__webpack_exports__);
       this.favoriteCounter();
     },
     save: function save() {
-      axios.get('/post/favorites/' + this.post.id + '/add');
+      axios.put('/favorites/' + this.post.id, {
+        model: 'Post',
+        model_id: this.post.id
+      });
     },
     favoriteCounter: function favoriteCounter() {
       return this.isFavorite ? this.favoriteCount++ : this.favoriteCount--;
@@ -5199,7 +5208,9 @@ __webpack_require__.r(__webpack_exports__);
     saveFavorites: function saveFavorites() {
       var _this2 = this;
 
-      axios.post('/modlitby/favorites/' + this.prayer.id + '/add', {
+      axios.put('/favorites/' + this.prayer.id, {
+        model: 'Prayer',
+        model_id: this.prayer.id,
         email: this.email
       }).then(function (response) {
         _this2.prayer = null;
@@ -6810,7 +6821,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.id, "\n._3Jwg7NF-X_0kxaslSL4dTF,\r\n._2xcjSuCWJVcktqD4HLWqU2 {\r\n    transition: opacity 0.5s;\n}\n._2cmkhznFrKEsw6Lfbn70_h, ._3Iwsyq1SUe0Y7tvVJjdaZ6 /* .fade-leave-active below version 2.1.8 */\r\n {\r\n    opacity: 0;\n}\r\n", ""]);
+exports.push([module.id, "\n._3Jwg7NF-X_0kxaslSL4dTF,\n._2xcjSuCWJVcktqD4HLWqU2 {\n    transition: opacity 0.5s;\n}\n._2cmkhznFrKEsw6Lfbn70_h, ._3Iwsyq1SUe0Y7tvVJjdaZ6 /* .fade-leave-active below version 2.1.8 */\n {\n    opacity: 0;\n}\n", ""]);
 
 // exports
 exports.locals = {
@@ -68406,7 +68417,7 @@ var render = function() {
         _c(
           "svg",
           {
-            staticClass: "h-5 w-5",
+            staticClass: "h-5 w-5 cursor-pointer hover:text-red-500",
             class: _vm.replyClass,
             attrs: {
               title: "Hlasovať za komentár",
@@ -70970,7 +70981,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "grow", staticStyle: { cursor: "pointer" } },
+    { staticClass: "grow cursor-pointer" },
     [
       _c("div", {
         staticClass: "whitespace-nowrap",

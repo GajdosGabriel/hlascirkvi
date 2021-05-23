@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveCommentsRequest extends FormRequest
+class FavoriteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,24 +23,9 @@ class SaveCommentsRequest extends FormRequest
      */
     public function rules()
     {
-
-        if(auth()->guest() ) {
-            return [
-                'body' => 'bail|required|min:3',
-//                'email' => 'required|email|max:255',
-            ];
-        }
-
         return [
-            'body' => 'bail|required|min:3'
+            'model' => 'string|required',
+            'model_id' => 'integer|required',
         ];
-
     }
-
-    public function save($post)
-    {
-       return $post->addComment($this->only('body'));
-    }
-
-
 }
