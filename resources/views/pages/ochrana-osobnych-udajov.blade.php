@@ -4,9 +4,9 @@
 
 @section('content')
 
-    <div class="container page">
-        <div class="page-content">
-            <h3>Ochrana osobných údajov</h3>
+    <div class="page">
+        <div class="space-y-5 max-w-4xl ">
+            <h3 class="page_title">Ochrana osobných údajov</h3>
 
             <p>
                 Podmienky spracúvania osobných údajov na eshope (www.zastavy-vlajky.sk).

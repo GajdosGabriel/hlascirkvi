@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="login">
-            <div class="card">
+<div class="page">
+    <div class="p-5">
+            <div class="p-5 card">
                 <div class="card-header">{{ __('web.Register') }}</div>
 
                 <div class="card-body">
@@ -68,19 +68,19 @@
                         <div class="form-group" style="margin-top: 1.5rem">
                             @if(auth()->guest())
                                 <label>Som človek  3+2 = </label>
-                                <input type="number" name="iamHuman" placeholder="Zadajte číslo 5" style="opacity: .85;color: black; width: 50%" required>
+                                <input type="number" class="form-control" name="iamHuman" placeholder="Zadajte číslo 5" style="opacity: .85;color: black; width: 50%" required>
                             @endif
                         </div>
 
 
 
-                        <div class="form-group">
-                            <div class="flex">
+                        <div class="w-full flex item-center">
+                            <div class="text-center">
                                 <a title="Registrácia cez Facebook">
                                     Registrácia cez FB
                                 </a>
 
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary block self-center">
                                     {{ __('web.Register') }}
                                 </button>
                             </div>
