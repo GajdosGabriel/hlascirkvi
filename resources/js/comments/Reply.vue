@@ -26,7 +26,7 @@
             <textarea
                 class="w-full p-2 border-2 border-gray-400 rounded-md"
                 v-model="body"
-                rows="3"
+                rows="2"
                 placeholder="Pridajte nový komentár ..."
                 required
             ></textarea>

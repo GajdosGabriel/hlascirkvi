@@ -10,11 +10,16 @@
                 <reply :data="reply" @deleted="remove(reply.id)"></reply>
             </div>
 
-            <new-reply
-                v-if="show"
-                :post="post"
-                @newComment="addNewComment"
-            />
+            <div class="flex justify-end">
+                <p
+                    v-text="formOpenClose"
+                    @click="showForm"
+                    class="mb-1"
+                    style="font-size: 70%; cursor: pointer"
+                ></p>
+            </div>
+
+            <new-reply v-if="show" :post="post" @newComment="addNewComment" />
         </div>
     </div>
 </template>
@@ -39,14 +44,14 @@ export default {
         },
         countComments: function() {
             return this.items.length + " Pozrieť diskusiu";
+        },
+
+        formOpenClose: function() {
+            return this.show ? "Zavrieť" : "nový komentár";
         }
     },
 
     methods: {
-        toggle: function() {
-            this.modal = !this.modal;
-        },
-
         showForm: function() {
             this.show = !this.show;
         },
