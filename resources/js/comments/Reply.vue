@@ -1,8 +1,8 @@
 <template>
     <div
-        class="comment text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md"
+        class="text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md"
     >
-        <div class="flex justify-between px-3 py-2 border-b border-gray-200">
+        <div class="flex justify-between py-2 border-b border-gray-200">
             <strong v-text="getShortName"></strong>
 
             <div class="flex text-sm text-gray-500" v-if="canUpdate">

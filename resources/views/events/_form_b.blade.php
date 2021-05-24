@@ -47,10 +47,10 @@
 </div>
 
 
-{{--<div class="form-group">--}}
-    {{--<label for="">{{ trans('web.events_street') }}</label>--}}
-    {{--<input type="text" name="street" value="{{ old('street') ?? $event->street }}"  placeholder="Adresa konania" class="form-control input-sm" >--}}
-{{--</div>--}}
+<div class="form-group">
+    <label for="">{{ trans('web.events_street') }}</label>
+    <input type="text" name="street" value="{{ old('street') ?? $event->street }}"  placeholder="Adresa konania" class="form-control input-sm" >
+</div>
 
 <div class="form-group">
     <label for="">{{ trans('web.events_region_of_event') }}</label>

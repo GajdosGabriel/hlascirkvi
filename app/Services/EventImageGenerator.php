@@ -69,8 +69,10 @@ class EventImageGenerator
         });
 
 
-        // Adresse of action
-        $adresse = $this->model->organization->street . ', '. $this->model->village->fullname ;
+        // Adresse of event
+        $comma = $this->model->street == '' ? '' : ', ';
+
+        $adresse = $this->model->street . $comma . $this->model->village->fullname ;
 
         $img->text( Str::limit( $adresse, 63) , 600, 280, function($font) {
             $font->file(public_path('font/Oswald-Light.ttf'));

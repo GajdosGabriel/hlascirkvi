@@ -2415,13 +2415,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['post'],
+  props: ["post"],
   data: function data() {
     return {
-      body: '',
-      email: '',
-      endpoint: '/comment' + location.pathname,
+      body: "",
+      email: "",
+      endpoint: "/comment" + location.pathname,
       modal: false //                endpoint:'/store/comment/xx/qwe' + location.pathname
 
     };
@@ -2440,22 +2474,21 @@ __webpack_require__.r(__webpack_exports__);
         return this.toggle();
       }
 
-      ;
       this.storeComment();
     },
     storeComment: function storeComment() {
       var _this = this;
 
-      axios.post('/comments', {
+      axios.post("/comments", {
         body: this.body,
         email: this.email,
-        model: 'Post',
+        model: "Post",
         model_id: this.post.id
       }).then(function (_ref) {
         var data = _ref.data;
-        _this.body = '';
+        _this.body = "";
 
-        _this.$emit('newComment', data);
+        _this.$emit("newComment", data);
 
         _this.modal = false;
       });
@@ -2503,11 +2536,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['post'],
+  props: ["post"],
   components: {
     Reply: _Reply_vue__WEBPACK_IMPORTED_MODULE_1__.default,
     NewReply: _NewReply_vue__WEBPACK_IMPORTED_MODULE_2__.default
@@ -2523,7 +2557,7 @@ __webpack_require__.r(__webpack_exports__);
       return window.App.signedIn;
     },
     countComments: function countComments() {
-      return this.items.length + ' Pozrieť diskusiu';
+      return this.items.length + " Pozrieť diskusiu";
     }
   },
   methods: {
@@ -2535,15 +2569,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     remove: function remove(id) {
       this.data.splice(id, 1);
-      _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
-        body: 'Komentár je zmazaný',
-        type: 'danger'
+      _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit("flash", {
+        body: "Komentár je zmazaný",
+        type: "danger"
       });
     },
     addNewComment: function addNewComment(comment) {
       this.comments.push(comment);
-      _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
-        body: 'Komentár je pridaný!'
+      _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit("flash", {
+        body: "Komentár je pridaný!"
       });
     }
   }
@@ -68479,213 +68513,210 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.sendComment($event)
-          }
+  return _c(
+    "form",
+    {
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.sendComment($event)
         }
-      },
-      [
-        _c("div", { staticClass: "form-group" }, [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.body,
-                expression: "body"
-              }
-            ],
-            staticClass: "w-full p-2 border-2 border-gray-400 rounded-md",
-            attrs: {
-              rows: "2",
-              placeholder: "Pridajte komentár ...",
-              required: ""
-            },
-            domProps: { value: _vm.body },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.body = $event.target.value
-              }
+      }
+    },
+    [
+      _c("div", { staticClass: "form-group" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.body,
+              expression: "body"
             }
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-primary", staticStyle: { float: "right" } },
-            [_vm._v("Uložiť")]
-          )
-        ]),
+          ],
+          staticClass:
+            "w-full p-2 border-2 form-control mb-4 border-gray-400 rounded-md",
+          attrs: { placeholder: "Pridajte komentár ...", required: "" },
+          domProps: { value: _vm.body },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.body = $event.target.value
+            }
+          }
+        }),
         _vm._v(" "),
-        _vm.modal
-          ? _c("div", { staticClass: "fixed z-10 inset-0 overflow-y-auto" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-                },
-                [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      staticClass:
-                        "hidden sm:inline-block sm:align-middle sm:h-screen",
-                      attrs: { "aria-hidden": "true" }
-                    },
-                    [_vm._v("​")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full",
-                      attrs: {
-                        role: "dialog",
-                        "aria-modal": "true",
-                        "aria-labelledby": "modal-headline"
-                      }
-                    },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "bg-blue-900 text-gray-300 p-4" },
-                        [
-                          _c("div", { staticClass: "flex justify-between" }, [
-                            _c(
-                              "h3",
-                              {
-                                staticClass: "text-lg leading-6 font-medium",
-                                attrs: { id: "modal-headline" }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                Uložiť komentár\n                            "
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass: "close-modal cursor-pointer",
-                                on: { click: _vm.toggle }
-                              },
-                              [_vm._v("✖")]
-                            )
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4"
-                        },
-                        [
-                          _c("div", { staticClass: "sm:flex sm:items-start" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "text-center sm:mt-0 sm:ml-4 sm:text-left w-full"
-                              },
-                              [
-                                _c("p", [
-                                  _vm._v("Komentár je pripravený na odoslanie.")
-                                ]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.email,
-                                      expression: "email"
-                                    }
-                                  ],
-                                  staticClass: "form-control w-full my-3",
-                                  attrs: {
-                                    required: "",
-                                    type: "email",
-                                    placeholder: "Váš email"
-                                  },
-                                  domProps: { value: _vm.email },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.email = $event.target.value
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("p", [
-                                  _vm._v("Email nebude nikde zverejnený.")
-                                ]),
-                                _vm._v(" "),
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "hover:text-blue-700",
-                                    attrs: { href: "#" },
-                                    on: { click: _vm.toggle }
-                                  },
-                                  [
-                                    _vm._v(
-                                      "\n                                    Zrušiť\n                                "
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
-                        },
-                        [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", staticStyle: { float: "right" } },
+          [_vm._v("Uložiť")]
+        )
+      ]),
+      _vm._v(" "),
+      _vm.modal
+        ? _c("div", { staticClass: "fixed z-10 inset-0 overflow-y-auto" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "hidden sm:inline-block sm:align-middle sm:h-screen",
+                    attrs: { "aria-hidden": "true" }
+                  },
+                  [_vm._v("​")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full",
+                    attrs: {
+                      role: "dialog",
+                      "aria-modal": "true",
+                      "aria-labelledby": "modal-headline"
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "bg-blue-900 text-gray-300 p-4" },
+                      [
+                        _c("div", { staticClass: "flex justify-between" }, [
                           _c(
-                            "button",
+                            "h3",
                             {
-                              staticClass:
-                                "btn w-full py-3 bg-blue-700 text-white font-semibold hover:text-gray-900",
-                              on: { click: _vm.storeComment }
+                              staticClass: "text-lg leading-6 font-medium",
+                              attrs: { id: "modal-headline" }
                             },
                             [
                               _vm._v(
-                                "\n                            Zverejniť hneď\n                        "
+                                "\n                            Uložiť komentár\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "close-modal cursor-pointer",
+                              on: { click: _vm.toggle }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            ✖\n                        "
                               )
                             ]
                           )
-                        ]
-                      )
-                    ]
-                  )
-                ]
-              )
-            ])
-          : _vm._e()
-      ]
-    )
-  ])
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4" },
+                      [
+                        _c("div", { staticClass: "sm:flex sm:items-start" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "text-center sm:mt-0 sm:ml-4 sm:text-left w-full"
+                            },
+                            [
+                              _c("p", [
+                                _vm._v("Komentár je pripravený na odoslanie.")
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.email,
+                                    expression: "email"
+                                  }
+                                ],
+                                staticClass: "form-control w-full my-3",
+                                attrs: {
+                                  required: "",
+                                  type: "email",
+                                  placeholder: "Váš email"
+                                },
+                                domProps: { value: _vm.email },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.email = $event.target.value
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("p", [
+                                _vm._v("Email nebude nikde zverejnený.")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "hover:text-blue-700",
+                                  attrs: { href: "#" },
+                                  on: { click: _vm.toggle }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                Zrušiť\n                            "
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+                      },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn w-full py-3 bg-blue-700 text-white font-semibold hover:text-gray-900",
+                            on: { click: _vm.storeComment }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        Zverejniť hneď\n                    "
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
@@ -68724,67 +68755,57 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticStyle: { "max-height": "53rem", overflow: "auto" } },
-    [
-      _c(
-        "div",
-        {},
-        [
-          _c(
-            "h4",
-            {
-              staticClass: "mb-4 font-semibold mt-2",
-              on: { click: _vm.showForm }
-            },
-            [
-              _vm._v("Komentáre "),
-              _c("i", { staticClass: "far fa-comment-dots" }),
-              _vm._v(" "),
-              _c(
-                "span",
-                { staticStyle: { "font-size": "70%", cursor: "pointer" } },
-                [_vm._v("pridať nový")]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _vm._l(_vm.comments, function(reply) {
-            return _c(
-              "div",
-              { key: reply.id, staticClass: "p-3" },
-              [
-                _c("reply", {
-                  attrs: { data: reply },
-                  on: {
-                    deleted: function($event) {
-                      return _vm.remove(reply.id)
-                    }
-                  }
-                })
-              ],
-              1
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "px-3" },
+      [
+        _c(
+          "h4",
+          {
+            staticClass: "mb-4 font-semibold mt-2",
+            on: { click: _vm.showForm }
+          },
+          [
+            _vm._v("\n            Komentáre "),
+            _c("i", { staticClass: "far fa-comment-dots" }),
+            _vm._v(" "),
+            _c(
+              "span",
+              { staticStyle: { "font-size": "70%", cursor: "pointer" } },
+              [_vm._v("pridať nový")]
             )
-          }),
-          _vm._v(" "),
-          _vm.show
-            ? _c(
-                "div",
-                [
-                  _c("new-reply", {
-                    attrs: { post: _vm.post },
-                    on: { newComment: _vm.addNewComment }
-                  })
-                ],
-                1
-              )
-            : _vm._e()
-        ],
-        2
-      )
-    ]
-  )
+          ]
+        ),
+        _vm._v(" "),
+        _vm._l(_vm.comments, function(reply) {
+          return _c(
+            "div",
+            { key: reply.id },
+            [
+              _c("reply", {
+                attrs: { data: reply },
+                on: {
+                  deleted: function($event) {
+                    return _vm.remove(reply.id)
+                  }
+                }
+              })
+            ],
+            1
+          )
+        }),
+        _vm._v(" "),
+        _vm.show
+          ? _c("new-reply", {
+              attrs: { post: _vm.post },
+              on: { newComment: _vm.addNewComment }
+            })
+          : _vm._e()
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -68813,14 +68834,12 @@ var render = function() {
     "div",
     {
       staticClass:
-        "comment text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md"
+        "text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md"
     },
     [
       _c(
         "div",
-        {
-          staticClass: "flex justify-between px-3 py-2 border-b border-gray-200"
-        },
+        { staticClass: "flex justify-between py-2 border-b border-gray-200" },
         [
           _c("strong", { domProps: { textContent: _vm._s(_vm.getShortName) } }),
           _vm._v(" "),
