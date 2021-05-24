@@ -3289,24 +3289,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['event'],
+  props: ["event"],
   data: function data() {
     return {
       // endpoint:location.pathname + '/newComment',
-      body: '',
-      type: '',
+      body: "",
+      type: "",
       disabled: window.App.signedIn,
       emptyBody: false,
-      email: ''
+      email: ""
     };
   },
   computed: {
     signedIn: function signedIn() {
       if (window.App.signedIn) {
-        return 'btn btn-small';
+        return "btn btn-small";
       } else {
-        return 'btn btn-small disabled';
+        return "btn btn-small disabled";
       }
     },
     showEmail: function showEmail() {
@@ -3332,17 +3349,17 @@ __webpack_require__.r(__webpack_exports__);
       //                this.emptyEmail = false;
 
 
-      axios.post('/comments', {
+      axios.post("/comments", {
         body: this.body,
-        type: 'look',
-        model: 'Event',
+        type: "look",
+        model: "Event",
         model_id: this.event.id,
         email: this.email
       }).then(function (_ref) {
         var data = _ref.data;
-        _this.body = '';
+        _this.body = "";
 
-        _this.$emit('created', data);
+        _this.$emit("created", data);
       });
     }
   }
@@ -3361,6 +3378,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
 //
 //
 //
@@ -69241,7 +69260,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h4", [_vm._v("Hľadám na akciu:")]),
+      _c("h4", { staticClass: "font-semibold" }, [_vm._v("Hľadám na akciu:")]),
       _vm._v(" "),
       _vm._l(_vm.comments, function(comment, index) {
         return _c(
@@ -69295,7 +69314,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h4", [_vm._v("Ponúkam na akciu:")]),
+      _c("h4", { staticClass: "font-semibold" }, [_vm._v("Ponúkam na akciu:")]),
       _vm._v(" "),
       _vm._l(_vm.comments, function(comment, index) {
         return _c(
@@ -69556,15 +69575,27 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "px-2 border-2 border-gray-500 rounded-md mt-3" },
-        [_vm._v("Uložiť")]
-      )
+      _vm._m(0)
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full flex justify-end" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "px-2 border-2 border-gray-500 rounded-md mt-3 hover:bg-blue-200"
+        },
+        [_vm._v("\n            Uložiť\n        ")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -69681,15 +69712,27 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "px-2 border-2 border-gray-500 rounded-md mt-3" },
-        [_vm._v("\n        Uložiť\n    ")]
-      )
+      _vm._m(0)
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full flex justify-end" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "px-2 border-2 border-gray-500 rounded-md mt-3 hover:bg-blue-200"
+        },
+        [_vm._v("\n            Uložiť\n        ")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 

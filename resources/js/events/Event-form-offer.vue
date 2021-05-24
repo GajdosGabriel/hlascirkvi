@@ -30,9 +30,11 @@
             <br />
         </div>
 
-        <button class="px-2 border-2 border-gray-500 rounded-md mt-3">
-            Uložiť
-        </button>
+        <div class="w-full flex justify-end">
+            <button class="px-2 border-2 border-gray-500 rounded-md mt-3 hover:bg-blue-200">
+                Uložiť
+            </button>
+        </div>
     </form>
 </template>
 
