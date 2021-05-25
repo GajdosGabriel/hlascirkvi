@@ -38,9 +38,12 @@
                                     <a href="{{ route('akcie.edit', [$event->id]) }}" class="dropdown-item">
                                         <li>upraviť</li>
                                     </a>
-                                    <a href="{{ route('akcie.destroy', [$event->id, $event->slug]) }}" class="dropdown-item">
-                                        <li>zmazať</li>
-                                    </a>
+                                    <form method="post" action="{{ route('akcie.destroy', [$event->id]) }}" class="dropdown-item">
+                                        @csrf @method('DELETE')
+                                        <li>
+                                        <button>zmazať</button>
+                                        </li>
+                                    </form>
                                     <a href="{{ route('event.admin', [$event->id, $event->slug]) }}" class="dropdown-item">
                                         <li>Administrácia</li>
                                     </a>

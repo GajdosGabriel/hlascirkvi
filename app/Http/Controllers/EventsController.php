@@ -100,7 +100,6 @@ class EventsController extends Controller
         session()->flash('flash', 'Podujatie bolo zmazané!');
 
         return redirect('akcie');
-
     }
 
 
