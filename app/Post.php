@@ -22,7 +22,7 @@ class Post extends Model implements ViewableContract
     protected $hidden = ['organization_id', 'blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['comments', 'favorites', 'organization', 'images'];
-    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'createdAtHuman', 'hasUpdater'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'createdAtHuman', 'hasUpdater', 'EventsBelongsToOrganization'];
 
     protected static function boot()
     {
@@ -38,50 +38,57 @@ class Post extends Model implements ViewableContract
         });
     }
 
-    public function path() {
+    public function path()
+    {
         return "/post/{$this->id}/{$this->slug}";
     }
 
-    public function organization() {
+    public function organization()
+    {
         return $this->belongsTo(Organization::class);
     }
 
-    public function bigThinks() {
+    public function bigThinks()
+    {
         return $this->hasMany(BigThink::class);
     }
 
-    public function updaters() {
+    public function updaters()
+    {
         return $this->belongsToMany(Updater::class);
     }
 
-    public function comments() {
+    public function comments()
+    {
         return $this->morphMany(Comment::class, 'commentable')->with('user');
     }
 
-    public function images() {
+    public function images()
+    {
         return $this->morphMany(Image::class, 'fileable');
     }
 
-    public function addComment($comment) {
-        if( auth()->check()) {
+    public function addComment($comment)
+    {
+        if (auth()->check()) {
             $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->id()]));
             return $comment;
         }
-            // user_id 100 in unknowle user for anonyms comments
-            $comment = $this->comments()->create(array_merge($comment, ['user_id' => 100]));
-            $comment->delete();
+        // user_id 100 in unknowle user for anonyms comments
+        $comment = $this->comments()->create(array_merge($comment, ['user_id' => 100]));
+        $comment->delete();
 
         return $comment;
     }
 
-    public function addBigThink($comment) {
-        if(auth()->user()) {
+    public function addBigThink($comment)
+    {
+        if (auth()->user()) {
             $idUser = auth()->user()->organizations()->wherePerson(1)->first()->id;
         } else {
             $idUser =  1;
         }
         return $this->bigThinks()->create(array_merge($comment, ['organization_id' => $idUser]));
-
     }
 
 
@@ -104,12 +111,12 @@ class Post extends Model implements ViewableContract
         $this->attributes['slug']  = Str::slug($value);
     }
 
-    public function destroyImages() {
+    public function destroyImages()
+    {
 
-        if($this->images()->exists()) {
+        if ($this->images()->exists()) {
 
-            foreach( $this->images as $image)
-            {
+            foreach ($this->images as $image) {
                 // delete big img
                 Storage::delete('public/' . $image->url);
 
@@ -128,8 +135,9 @@ class Post extends Model implements ViewableContract
     }
 
 
-    public function getPersonAttribute() {
-        if($this->user->organization) return $this->user->organization;
+    public function getPersonAttribute()
+    {
+        if ($this->user->organization) return $this->user->organization;
         return $this->user->fullname;
     }
 
@@ -152,27 +160,18 @@ class Post extends Model implements ViewableContract
     {
         $image = $this->images->first();
         if ($image) {
-            return url($image->ThumbImageUrl) ;
+            return url($image->ThumbImageUrl);
         }
 
-        if ($this->organization->avatar){
-            return Storage::url('organizations/'. $this->organization->id. '/' . $this->organization->avatar);
+        if ($this->organization->avatar) {
+            return Storage::url('organizations/' . $this->organization->id . '/' . $this->organization->avatar);
         }
 
         return url('images/foto.jpg');
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public function getEventsBelongsToOrganizationAttribute()
+    {
+        return $this->organization->events()->wherePublished(1)->where('start_at', '>', Carbon::now())->orderBy('start_at', 'asc')->paginate(10);
+    }
 }

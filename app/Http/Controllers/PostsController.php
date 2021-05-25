@@ -50,6 +50,8 @@ class PostsController extends Controller
 //        $cleanText = new CleanBodyText($post);
 //       $xxx = $cleanText->detect();
 ////       $cleanText->save();
+
+// dd($post);
 //
         $creditUser->setPostHistory($post);
 

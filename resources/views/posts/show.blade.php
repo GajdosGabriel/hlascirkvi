@@ -178,7 +178,7 @@
                                 <div class="font-semibold">Plánované akcie</div>
                                 <div class="font-semibold">{{ $post->organization->title }}</div>
                                 <ul>
-                                    @forelse( $post->organization->events->take(10) as $event)
+                                    @forelse( $post->eventsBelongsToOrganization as $event)
                                         <li>
                                             <a href="{{ $event->url }}">
                                                 <span
