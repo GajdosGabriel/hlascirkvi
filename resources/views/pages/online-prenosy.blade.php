@@ -43,7 +43,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="dropdown-item"><a
-                                                                href="{{ route('post.delete', [$post->id]) }}"
+                                                                href="{{ route('posts.destroy', [$post->id]) }}"
                                                             >zmazať
                                                             </a>
                                                         </li>

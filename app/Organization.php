@@ -85,20 +85,8 @@ class Organization extends Model
     // Inicialy mena
     public function getInitialNameAttribute()
     {
-        //The strtoupper() function converts a string to uppercase.
-        $name  = strtoupper($this->title);
-        //prefixes that needs to be removed from the name
-        $remove = ['.', 'MRS', 'MISS', 'MS', 'MASTER', 'DR', 'MR'];
-        $nameWithoutPrefix = str_replace($remove, " ", $name);
-
-        $words = explode(" ", $nameWithoutPrefix);
-
-        //this will give you the first word of the $words array , which is the first name
-        $firtsName = reset($words);
-
-        //this will give you the last word of the $words array , which is the last name
-        $lastName  = end($words);
-
-        return substr($firtsName, 0, 1) . '' . substr($lastName, 0, 1); // this will echo the first letter of your last name
+        $acronym = '';
+        foreach(explode(' ', $this->title) as $word) $acronym .= mb_substr($word, 0, 1, 'utf-8');
+        return $acronym;
     }
 }
