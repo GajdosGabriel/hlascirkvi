@@ -90,7 +90,7 @@ class ViewServiceProvider extends ServiceProvider
 
         //  Active Events
         view()->composer('events.aside_modul', function ($view) {
-            $view->with('events', (new EloquentEventRepository)->firstStartingEvents()->take(5)->get());
+            $view->with('events', (new EloquentEventRepository)->orderByStarting()->take(5)->get());
         });
 
         //  Curently Events

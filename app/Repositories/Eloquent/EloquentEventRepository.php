@@ -25,7 +25,7 @@ class EloquentEventRepository extends AbstractRepository implements EventReposit
        /*
      *  Najskôr začinajúce eventy // aside modul
      */
-    public function firstStartingEvents()
+    public function orderByStarting()
     {
         return $this->entity->where('start_at', '>', Carbon::now())->wherePublished(1)->orderBy('start_at', 'asc');
 

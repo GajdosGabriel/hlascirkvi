@@ -64,7 +64,7 @@ class TestController extends Controller
 
 
         // $posts = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
-        // $events = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
+        // $events = (new EloquentEventRepository)->orderByStarting()->take(5)->get();
         // $prayers = Prayer::latest()->take(5)->get();
 
         // Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));

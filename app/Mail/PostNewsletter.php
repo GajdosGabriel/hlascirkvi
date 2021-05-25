@@ -35,7 +35,7 @@ class PostNewsletter extends Mailable
     public function build()
     {
         $posts   = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
-        $events  = (new EloquentEventRepository)->firstStartingEvents()->take(5)->get();
+        $events  = (new EloquentEventRepository)->orderByStarting()->take(5)->get();
         $prayers = Prayer::latest()->take(5)->get();
 
         return $this->subject('Najlepšie kresťanské videa')->view('emails.posts', ['posts' => $posts, 'events' => $events, 'prayers' => $prayers]);
