@@ -23,7 +23,7 @@
             {{-- Stlpec I. --}}
             <div class="col-span-8">
 
-                @include('posts.sviatok')
+                {{-- @include('posts.sviatok') --}}
 
                 @if (request()->is('/'))
 
