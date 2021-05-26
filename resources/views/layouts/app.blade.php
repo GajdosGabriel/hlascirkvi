@@ -57,11 +57,6 @@
         @include('layouts.nav')
 
         <main>
-            {{-- christmas tree--}}
-            {{--<img style="position: fixed;z-index: -999;left: -70px;" src="{{ url('images/christmas.gif') }}">--}}
-
-
-
             @include('partials.errors')
             @yield('content')
             <notification message="{{ session('flash') }}"></notification>
