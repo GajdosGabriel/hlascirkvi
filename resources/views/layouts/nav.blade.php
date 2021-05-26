@@ -9,7 +9,8 @@
                 <a class="flex items-center" href="{{ route('online-prenosy') }}">Nedeľné prenosy
 
                     @if (session()->has('countUnwatchedVideos'))
-                        <div class="w-5 h-5 p-3 bg-red-500 text-white rounded-full flex justify-center items-center ml-1">
+                        <div
+                            class="w-5 h-5 p-3 bg-red-500 text-white rounded-full flex justify-center items-center ml-1">
                             <span class="pb-1">{{ session()->get('countUnwatchedVideos') }}</span>
                         </div>
                     @endif
@@ -48,50 +49,14 @@
 
                 <ul class="">
 
-                    <article-admin inline-template>
-                        <div class="relative z-10">
-                            <a id="navbarDropdown" class="nav-link radio" href="#">
-                                <li @click="toggle" class="whitespace-nowrap">
-                                    <span
-                                        href="{{ route('organization.profile', [auth()->user()->org_id, auth()->user()->slug]) }}"
-                                        class="nav-link" href="#">
-                                        {{ auth()->user()->fullname }}
-                                    </span>
-                                    <i class="fas fa-caret-down"></i>
-                                </li>
-                            </a>
+                    <navigation-main></navigation-main>
 
-                            <ul v-cloak v-if="open" @click="toggle" class="dropdown-menu">
-                                @can('admin')
-                                    <a href="{{ route('admin.home') }}">
-                                        <li class="dropdown-item">
-                                            Admin
-                                        </li>
-                                    </a>
-                                @endcan
-                                <a
-                                    href="{{ route('organization.profile', [auth()->user()->org_id, auth()->user()->slug]) }}">
-                                    <li class="dropdown-item">
-                                        Profil
-                                    </li>
-                                </a>
-                                {{-- <li title="divider"></li> --}}
-                                <li class="dropdown-item">
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                        {{ __('web.Logout') }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </article-admin>
+                </ul>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                        @csrf
-                    </form>
-                @endguest
-            </ul>
-
+            @endguest
 
         </ul>
     </div>

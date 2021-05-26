@@ -10,7 +10,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable,  SoftDeletes, HasRoles;
+    use Notifiable, SoftDeletes, HasRoles;
+
+    protected $with = ['roles', 'permissions'];
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'email', 'send_email', 'front_author', 'disabled', 'updated_at', 'deleted_at', 'set_denomination', 'org_id', 'email_verified_at', 'vocative' 
+        'password', 'remember_token', 'email', 'send_email', 'front_author', 'disabled', 'updated_at', 'deleted_at', 'set_denomination', 'org_id', 'email_verified_at', 'vocative'
     ];
 
     protected $appends = ['fullname'];
