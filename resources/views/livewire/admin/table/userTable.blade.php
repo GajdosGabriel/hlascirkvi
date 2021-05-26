@@ -23,7 +23,7 @@
             <tr>
                 <td>{{ $users->count() - $loop->iteration +1 }} / {{ $user->id }} </td>
                 <td class="whitespace-no-wrap">
-                    <a href="{{ route('organization.edit', [ $user->id, $user->slug]) }}">
+                    <a href="{{ route('organizations.edit', [ $user->id, $user->slug]) }}">
                         {{ $user->first_name }} {{ $user->last_name }}
                     </a>
                 </td>
@@ -34,7 +34,7 @@
                 <td>{{ $user->set_denomination }}</td>
                 <td>{{ $user->created_at->diffForHumans() }}</td>
                 <td>
-                    <a href="{{ route('organization.edit', [ $user->id, $user->slug]) }}">
+                    <a href="{{ route('organizations.edit', [ $user->id, $user->slug]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>
                     </a>
                 </td>
