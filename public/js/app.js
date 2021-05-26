@@ -3431,6 +3431,14 @@ __webpack_require__.r(__webpack_exports__);
     showModal: function showModal() {
       this.showButton = !this.showButton;
     }
+  },
+  created: function created() {
+    var that = this;
+    document.addEventListener('keyup', function (evt) {
+      if (evt.keyCode === 27) {
+        that.showButton = false;
+      }
+    });
   }
 });
 
@@ -3782,6 +3790,14 @@ __webpack_require__.r(__webpack_exports__);
     authUser: function authUser() {
       return window.App;
     }
+  },
+  created: function created() {
+    var that = this;
+    document.addEventListener('keyup', function (evt) {
+      if (evt.keyCode === 27) {
+        that.open = false;
+      }
+    });
   }
 });
 
