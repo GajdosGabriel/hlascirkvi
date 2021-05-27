@@ -64,6 +64,7 @@ Vue.component('prayers-index-page', require('./prayer/prayers-index-page.vue').d
 Vue.component('post-card', require('./posts/card/card.vue').default);
 Vue.component('event-picture-viewer', require('./events/Event-picture-viewer.vue').default);
 Vue.component('navigation-main', require('./navigation/Navigation-main.vue').default);
+Vue.component('article-dropdown', require('./posts/Article-dropdown.vue').default);
 
 // Vue.component('posts-card', require('./posts/card/posts.vue').default);
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);

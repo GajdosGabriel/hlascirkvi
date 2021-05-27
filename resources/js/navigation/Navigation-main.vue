@@ -9,7 +9,7 @@
             </li>
         </a>
 
-        <ul v-cloak v-if="open" @click="toggle" class="dropdown-menu hidden">
+        <ul v-if="open" @click="toggle" class="dropdown-menu hidden">
             <a :href="'/admin/home'" v-if="$auth.isAdmin()">
                 <li class="dropdown-item">
                     Admin

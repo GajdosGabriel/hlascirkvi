@@ -107,7 +107,7 @@ class PostsController extends Controller
     {
         $this->authorize('update', $post);
         $post->delete();
-        return redirect('/')->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
+        // return redirect('/')->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
     }
 
     public function delete(Post $post) {

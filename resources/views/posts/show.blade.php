@@ -111,40 +111,7 @@
 
 
                         @can('update', $post)
-                            <article-admin inline-template>
-                                <div v-cloak class="relative z-10 px-2">
-                                    <i style="float: right" @click='toggle' title="Spravovať článok"
-                                        class="fas fa-ellipsis-v cursor-pointer"></i>
-                                    <ul class="dropdown-menu" v-if="open">
-                                        <a href="{{ route('posts.edit', [$post->id]) }}">
-                                            <li class="dropdown-item">
-                                                upraviť
-                                            </li>
-                                        </a>
-                                        <form method="POST" action="{{ route('posts.destroy', [$post->id]) }}">
-                                            @csrf @method('DELETE')
-                                            <li class="dropdown-item">
-                                                <button>zmazať</button>
-                                            </li>
-                                        </form>
-                                        @can('admin')
-                                            {{-- <form action="{{ route('posts.update', [$post->id]) }}"> --}}
-                                            {{-- @csrf --}}
-                                            {{-- <input type="hidden" name="youtube_blocked" value="1"> --}}
-                                            {{-- <li class="dropdown-item"> --}}
-                                            {{-- <button type="submit">blokovať youtube</button> --}}
-                                            {{-- </li> --}}
-                                            {{-- </form> --}}
-
-                                            <a href="{{ route('post.toBuffer', [$post->id]) }}">
-                                                <li class="dropdown-item">
-                                                    Do buffer
-                                                </li>
-                                            </a>
-                                        @endcan
-                                    </ul>
-                                </div>
-                            </article-admin>
+                            <article-dropdown :post="{{ $post }}" />
                         @endcan
 
                     </div>
