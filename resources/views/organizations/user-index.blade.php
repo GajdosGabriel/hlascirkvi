@@ -1,13 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="grid grid-cols-12 gap-6  ">
 
-    @include('organizations._profil-menu')
-    <div class="page">
+    <div class="grid col-span-2  min-h-screen">
+        <div class="flex flex-col bg-gray-200">
 
-        <div class="flex">
+            @include('organizations._profil-menu')
 
-            <div class="md:w-8/12 md:mr-5">
+        </div>
+    </div>
+
+
+    <div class="grid col-span-10 p-5">
 
                 <h3 class="page_title">Vaše kanály</h3>
 

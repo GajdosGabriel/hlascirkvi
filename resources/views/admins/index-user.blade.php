@@ -3,14 +3,19 @@
 
 @section('content')
 
-@include('admins._profil-menu')
+<div class="grid grid-cols-12 gap-6  ">
 
-    <div class="page">
+    <div class="grid col-span-2  min-h-screen">
+        <div class="flex flex-col bg-gray-200">
+
+            @include('admins._profil-menu')
+
+        </div>
+    </div>
 
 
-        <div class="page-content">
+    <div class="grid col-span-10 p-5">
 
-            <div class="">
 
                 <h3 class="page_title">Registrovaný užívatelia</h3>
                 <input class="text-gray-700 p-1 border-2 border-gray-700 rounded-sm md:w-3/4"

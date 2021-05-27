@@ -1,15 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-@include('admins._profil-menu')
+<div class="grid grid-cols-12 gap-6  ">
 
-    <div class="container">
+    <div class="grid col-span-2  min-h-screen">
+        <div class="flex flex-col bg-gray-200">
 
-        <div class="page">
+            @include('admins._profil-menu')
 
-            <div class="page-content max-w-4xl">
+        </div>
+    </div>
 
-                <div class="flex">
+
+    <div class="grid col-span-10">
+
+
+                <div class="flex ">
                     <h3 class="font-semibold mr-4 ">Štatistika návštev - unikátne view</h3>
                     <div class="flex space-x-3 ">
                         <a class="text-red" href="{{ route('admin.statistic', ['days' => 1]) }}">Dnes</a>

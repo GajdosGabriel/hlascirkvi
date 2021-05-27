@@ -1,11 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('organizations._profil-menu')
-    <div class="page">
 
-        <div class="">
 
+    <div class="grid grid-cols-12 gap-6  ">
+
+        <div class="grid col-span-2  min-h-screen">
+            <div class="flex flex-col bg-gray-200">
+
+                @include('organizations._profil-menu')
+
+            </div>
+        </div>
+
+
+        <div class="grid col-span-10">
+
+            {{-- <user-card :user="{{ $organization }}"></user-card> --}}
+
+
+        </div>
             <div class="page-content">
 
 
@@ -24,12 +38,9 @@
 
             </div>
 
-            <div class="md:w-4/12">
-                <user-card :user="{{ $organization }}"></user-card>
+            <div class="">
 
                 @if (auth()->check())
-
-                    {{-- @include('admins.statistic-view') --}}
                     <messenger-modul :user="{{ $organization }}" :messages="{{ $messages }}"></messenger-modul>
                 @endif
 
@@ -43,7 +54,6 @@
             </div>
 
 
-        </div>
 
     </div>
 

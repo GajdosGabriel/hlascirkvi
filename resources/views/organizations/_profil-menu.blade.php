@@ -1,4 +1,4 @@
-<div class="flex mb-5 cursor-pointer">
+
 
     @component('layouts.components.profil_menu', ['url' => route('organization.index', [auth()->id(),
         auth()->user()->slug]) ])
@@ -26,4 +26,4 @@
         @endslot
     @endcomponent
 
-</div>
+

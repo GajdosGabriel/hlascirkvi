@@ -28,7 +28,7 @@
                 {{--</a>--}}
 
             </td>
-            <td>{{ $organization->region->title }}</td>
+            <td class="whitespace-nowrap ">{{ $organization->region->title }}</td>
             <td>
                 @foreach($organization->updaters as $updater)
                     @if($updater->type == 'dayOfWeek')

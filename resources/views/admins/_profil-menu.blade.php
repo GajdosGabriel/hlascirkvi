@@ -1,5 +1,5 @@
 @if (auth()->user()->hasRole('admin'))
-    <div class="flex cursor-pointer">
+
 
         @component('layouts.components.profil_menu', ['url' => route('admin.organization.index')])
             @slot('title')
@@ -25,5 +25,4 @@
             @endslot
         @endcomponent
 
-    </div>
 @endif

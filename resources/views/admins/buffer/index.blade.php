@@ -1,12 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-@include('admins._profil-menu')
+<div class="grid grid-cols-12 gap-6  ">
 
-    <div class="page">
-        <div class="md:flex">
-            {{--  Stlpec I. --}}
-            <div class="md:w-8/12 m-6">
+    <div class="grid col-span-2  min-h-screen">
+        <div class="flex flex-col bg-gray-200">
+
+            @include('admins._profil-menu')
+
+        </div>
+    </div>
+
+
+    <div class="grid col-span-10">
+
                 <h3 class="page_title text-2xl">Buffer príspevky (Nezverenené)</h3>
 
                 <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">

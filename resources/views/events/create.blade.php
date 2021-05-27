@@ -5,8 +5,18 @@
 
 
 @section('content')
-    @include('organizations._profil-menu')
-    <div class="page">
+<div class="grid grid-cols-12 gap-6  ">
+
+    <div class="grid col-span-2  min-h-screen">
+        <div class="flex flex-col bg-gray-200">
+
+            @include('organizations._profil-menu')
+
+        </div>
+    </div>
+
+
+    <div class="grid col-span-10 p-5">
         <form method="post" action="{{ route('akcie.store') }}" class="flex" enctype="multipart/form-data">  @csrf
 
             <div class="page-content">
