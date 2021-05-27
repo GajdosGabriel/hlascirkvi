@@ -84,8 +84,8 @@
                             {{-- <img alt="{{ $image->title }}" data-src="{{ url($image->OriginalImageUrl) }}"  class="lazyload rounded"  data-sizes="auto"> --}}
 
                             <event-picture-viewer inline-template>
-                                <div :class="{'fixed inset-0 bg-gray-600' : showButton}">
-                                    <div v-if="showButton" @click="showModal"
+                                <div :class="{'fixed inset-0 bg-gray-600' : open}">
+                                    <div v-if="open" @click="showModal"
                                         class="absolute right-0 border-gray-200 border-2 bg-gray-700 hover:bg-gray-500 rounded px-4 py-2 text-white font-semibold text-2xl cursor-pointer ">
                                         Zrušiť x
                                     </div>

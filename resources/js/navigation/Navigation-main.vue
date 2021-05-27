@@ -64,14 +64,6 @@ export default {
         authUser: function() {
             return window.App;
         }
-    },
-    created: function(){
-         let that = this;
-        document.addEventListener('keyup', function (evt) {
-            if (evt.keyCode === 27) {
-                that.open = false;
-            }
-        });
     }
 };
 </script>

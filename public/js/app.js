@@ -3420,25 +3420,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
+/* harmony import */ var _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/createdMixin */ "./resources/js/mixins/createdMixin.js");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
   data: function data() {
     return {
-      showButton: false
+      open: false
     };
   },
   methods: {
     showModal: function showModal() {
-      this.showButton = !this.showButton;
+      this.open = !this.open;
     }
-  },
-  created: function created() {
-    var that = this;
-    document.addEventListener('keyup', function (evt) {
-      if (evt.keyCode === 27) {
-        that.showButton = false;
-      }
-    });
   }
 });
 
@@ -3790,14 +3784,6 @@ __webpack_require__.r(__webpack_exports__);
     authUser: function authUser() {
       return window.App;
     }
-  },
-  created: function created() {
-    var that = this;
-    document.addEventListener('keyup', function (evt) {
-      if (evt.keyCode === 27) {
-        that.open = false;
-      }
-    });
   }
 });
 
@@ -6599,6 +6585,12 @@ var createdMixin = {
       // close dropdown when clicked outside
       if (!self.$el.contains(e.target)) {
         self.open = false;
+      }
+    });
+    var that = this;
+    document.addEventListener('keyup', function (evt) {
+      if (evt.keyCode === 27) {
+        that.open = false;
       }
     });
   }

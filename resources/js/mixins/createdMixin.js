@@ -7,7 +7,14 @@ export const createdMixin = {
             if (!self.$el.contains(e.target)){
                 self.open = false
             }
-        })
+        });
+
+        let that = this;
+        document.addEventListener('keyup', function (evt) {
+            if (evt.keyCode === 27) {
+                that.open = false;
+            }
+        });
     },
 
 };

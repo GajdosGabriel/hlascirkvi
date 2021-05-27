@@ -7,16 +7,12 @@
 
         <div class="page">
 
-            <div class="page-content">
-
-                <div>
-                    <a class="tag" href="{{ route('organization.profile', [auth()->id(), auth()->user()->slug]) }}">Späť</a>
-                </div>
+            <div class="page-content max-w-4xl">
 
                 <div class="flex">
-                    <h3>Štatistika návštev - unikátne view</h3>
-                    <div>
-                        <a href="{{ route('admin.statistic', ['days' => 1]) }}">Dnes</a>
+                    <h3 class="font-semibold mr-4 ">Štatistika návštev - unikátne view</h3>
+                    <div class="flex space-x-3 ">
+                        <a class="text-red" href="{{ route('admin.statistic', ['days' => 1]) }}">Dnes</a>
                         <a href="{{ route('admin.statistic', ['days' => 2]) }}">Včera</a>
                         <a href="{{ route('admin.statistic', ['days' => 7]) }}">Týždeň</a>
                     </div>
@@ -24,8 +20,8 @@
                 </div>
 
 
-                <table>
-                    <thead>
+                <table class="table-auto border-2 border-gray-400 rounded-md w-full">
+                    <thead class="bg-gray-500 text-white">
                     <tr>
                         <th style="width: 7%">Id</th>
                         <th>Názov článku</th>
