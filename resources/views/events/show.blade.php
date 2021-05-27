@@ -76,7 +76,6 @@
                                 </div>
                             </event-picture-viewer>
 
-                        @break
                     @endforeach
                     @endif
 

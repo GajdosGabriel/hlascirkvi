@@ -11,10 +11,18 @@
         <img
             class="rounded cursor-pointer"
             alt="image.title "
-            :class="{ 'h-full': open }"
-            :src="image.OriginalImageUrl"
+            :class="{ 'h-full': open, hidden: remove }"
+            :src="'/storage/' + image.url"
             @click="showModal"
         />
+
+        <div
+            @click="deleteImage"
+            class="cursor-pointer hover:text-red-500"
+            :class="{ hidden: remove }"
+        >
+            zmazať
+        </div>
     </div>
 </template>
 
@@ -25,12 +33,17 @@ export default {
     props: ["image"],
     data() {
         return {
-            open: false
+            open: false,
+            remove: false
         };
     },
     methods: {
         showModal() {
             this.open = !this.open;
+        },
+
+        deleteImage: function() {
+            axios.delete("/images/" + this.image.id), (this.remove = true);
         }
     }
 };

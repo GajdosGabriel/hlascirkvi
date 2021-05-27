@@ -5,7 +5,6 @@
 
 
 @section('content')
-    @include('organizations._profil-menu')
     <div class="page">
 
         <form method="post" action="{{ route('akcie.update', [$event->id]) }}" class="md:flex"

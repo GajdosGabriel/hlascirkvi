@@ -57,7 +57,7 @@ class StoreEventRequest extends FormRequest
     public function save()
     {
         $event = $this->event->create($this->except(['picture', 'file']));
-        $event->update();
+        // $event->update();
         (new Form($event, $this))->handler();
     }
 }

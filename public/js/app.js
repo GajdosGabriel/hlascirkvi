@@ -3519,18 +3519,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
   props: ["image"],
   data: function data() {
     return {
-      open: false
+      open: false,
+      remove: false
     };
   },
   methods: {
     showModal: function showModal() {
       this.open = !this.open;
+    },
+    deleteImage: function deleteImage() {
+      axios["delete"]("/images/" + this.image.id), this.remove = true;
     }
   }
 });
@@ -70079,10 +70091,20 @@ var render = function() {
     _vm._v(" "),
     _c("img", {
       staticClass: "rounded cursor-pointer",
-      class: { "h-full": _vm.open },
-      attrs: { alt: "image.title ", src: _vm.image.OriginalImageUrl },
+      class: { "h-full": _vm.open, hidden: _vm.remove },
+      attrs: { alt: "image.title ", src: "/storage/" + _vm.image.url },
       on: { click: _vm.showModal }
-    })
+    }),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "cursor-pointer hover:text-red-500",
+        class: { hidden: _vm.remove },
+        on: { click: _vm.deleteImage }
+      },
+      [_vm._v("\n        zmazať\n    ")]
+    )
   ])
 }
 var staticRenderFns = []

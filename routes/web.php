@@ -27,6 +27,7 @@ Route::resources([
     'posts'             => PostsController::class,
     'comments'          => CommentsController::class,
     'favorites'         => FavoritesController::class,
+    'images'            => ImagesController::class,
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
