@@ -1,6 +1,6 @@
 <template>
     <div class="relative z-10 px-2">
-          <svg
+        <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-7 w-7 cursor-pointer bg-gray-100 rounded-full text-gray-400 hover:bg-gray-200 p-1"
             fill="none"
@@ -17,7 +17,7 @@
             />
         </svg>
         <ul class="dropdown-menu" v-if="open">
-            <a :href="'/posts/' + post.id + '/edit'">
+            <a :href="'/akcie/' + post.id + '/edit'">
                 <li class="dropdown-item">
                     upraviť
                 </li>
@@ -29,10 +29,10 @@
 
             <a
                 v-if="$auth.isAdmin()"
-                :href="'/post/unpublished/' + post.id + '/video'"
+                :href="'/akcie/' + post.id + '/' + post.slug + '/admin'"
             >
                 <li class="dropdown-item whitespace-nowrap">
-                    Do buffer
+                    Administrácia
                 </li>
             </a>
         </ul>
@@ -57,8 +57,8 @@ export default {
 
         deletePost: function() {
             axios
-                .delete("/posts/" + this.post.id)
-                .than((window.location.href = "/"));
+                .delete("/akcie/" + this.post.id)
+                .than((window.location.href = "/akcie"), this.toggle());
         }
     },
 

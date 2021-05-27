@@ -30,26 +30,7 @@
                 <div class="page_title">
                     <h1 class="font-semibold text-2xl">{{ $event->title }}</h1>
                     @can('update', $event)
-                        <article-admin inline-template>
-                            <div v-cloak class="relative z-10">
-                                <i style="float: right; cursor: pointer " @click='toggle' title="Spravovať článok"
-                                    class="fas fa-ellipsis-v"></i>
-                                <ul class="dropdown-menu" v-if="open">
-                                    <a href="{{ route('akcie.edit', [$event->id]) }}" class="dropdown-item">
-                                        <li>upraviť</li>
-                                    </a>
-                                    <form method="post" action="{{ route('akcie.destroy', [$event->id]) }}" class="dropdown-item">
-                                        @csrf @method('DELETE')
-                                        <li>
-                                        <button>zmazať</button>
-                                        </li>
-                                    </form>
-                                    <a href="{{ route('event.admin', [$event->id, $event->slug]) }}" class="dropdown-item">
-                                        <li>Administrácia</li>
-                                    </a>
-                                </ul>
-                            </div>
-                        </article-admin>
+                        <event-dropdown :post="{{ $event }}"/>
                     @endcan
                 </div>
 

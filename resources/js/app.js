@@ -48,7 +48,6 @@ Vue.component('bell', require('./users/Bell.vue').default);
 Vue.component('login-card', require('./auth/LoginCard.vue').default);
 Vue.component('youtube-dash', require('./youtube/YoutubeDash.vue').default);
 Vue.component('swith-filter', require('./posts/Swith-filter.vue').default);
-Vue.component('article-admin', require('./posts/Article-admin.vue').default);
 Vue.component('replies', require('./comments/Replies.vue').default);
 Vue.component('event-comments-look', require('./events/Event-comment-look.vue').default);
 Vue.component('event-comments-offer', require('./events/Event-comment-offer.vue').default);
@@ -65,6 +64,7 @@ Vue.component('post-card', require('./posts/card/card.vue').default);
 Vue.component('event-picture-viewer', require('./events/Event-picture-viewer.vue').default);
 Vue.component('navigation-main', require('./navigation/Navigation-main.vue').default);
 Vue.component('article-dropdown', require('./posts/Article-dropdown.vue').default);
+Vue.component('event-dropdown', require('./events/Event-dropdown.vue').default);
 
 // Vue.component('posts-card', require('./posts/card/posts.vue').default);
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);

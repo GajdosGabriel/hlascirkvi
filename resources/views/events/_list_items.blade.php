@@ -29,36 +29,9 @@
                 <h5 class="text-lg font-semibold"><a href="{{ $event->url }}">{{ $event->title }}</a></h5>
 
                 @can('update', $event)
-                    <article-admin inline-template>
-                        <div v-cloak class="relative">
-                            <i style="float: right; cursor: pointer " @click='toggle' title="Spravovať článok"
-                                class="fas fa-ellipsis-v"></i>
-                            <ul class="absolute right-0 border-2 border-gray-600 rounded-md bg-white" v-if="open">
-                                <a href="{{ route('akcie.edit', [$event->id]) }}" class="">
-                                    <li class="px-2 py-1 hover:bg-gray-200 hover:font-semibold">
-                                        upraviť
-                                    </li>
-                                </a>
-
-                                <form action="{{ route('akcie.destroy', [$event->id]) }}" method="POST"
-                                    class="hover:font-semibold">
-                                    <li class="px-2 py-1 hover:bg-gray-200 ">
-                                        <button type="submit" class="w-full text-left">
-                                            @csrf @method('DELETE')
-                                            zmazať
-                                        </button>
-                                    </li>
-                                </form>
-                                <a href="{{ route('event.admin', [$event->id, $event->slug]) }}" class="">
-                                    <li class="px-2 py-1 hover:bg-gray-200 hover:font-semibold">
-                                        Administrácia
-                                    </li>
-                                </a>
-                            </ul>
-                            {{-- <a class="btn" href="{{ URL::previous() }}"> <i class="fa fa-arrow-left"></i> Späť</a> --}}
-                        </div>
-                    </article-admin>
+                    <event-dropdown :post="{{ $event }}" />
                 @endcan
+
             </div>
 
             <div class="text-gray-600">
