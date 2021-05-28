@@ -34,7 +34,7 @@
         <select class="form-control" name="organization_id" required>
             <option value="" selected disabled>Autor</option>
             @if(auth()->user()->email == env('ADMIN_EMAIL'))
-                @foreach(\App\Organization::all() as $organization)
+                @foreach(\App\Organization::orderBy('title', 'asc')->get() as $organization)
                     <option
                         @if( isset($post->organization_id) AND $post->organization_id == $organization->id )
                         selected
