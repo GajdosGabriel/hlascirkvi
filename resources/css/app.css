@@ -53,6 +53,14 @@
     @apply bg-white text-gray-700 hover:bg-blue-200;
 }
 
+
+.fade-enter-active, .fade-leave-active {
+    @apply duration-300;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    @apply opacity-0;
+}
+
 /*.btn:hover {*/
 /*    @apply bg-blue-600;*/
 /*}*/

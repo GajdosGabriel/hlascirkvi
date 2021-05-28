@@ -8,18 +8,20 @@
             Zrušiť x
         </div>
 
-        <img
-            class="rounded cursor-pointer"
-            alt="image.title "
-            :class="{ 'h-full': open, hidden: remove }"
-            :src="'/storage/' + image.url"
-            @click="showModal"
-        />
-
+        <transition name="fade">
+            <img
+                v-if="hideImage"
+                class="rounded cursor-pointer"
+                alt="image.title "
+                :class="{ 'h-full': open }"
+                :src="'/storage/' + image.url"
+                @click="showModal"
+            />
+        </transition>
         <div
             @click="deleteImage"
             class="cursor-pointer hover:text-red-500"
-            :class="{ hidden: remove }"
+            v-if="hideImage"
         >
             zmazať
         </div>
@@ -34,7 +36,8 @@ export default {
     data() {
         return {
             open: false,
-            remove: false
+            remove: false,
+            hideImage: true
         };
     },
     methods: {
@@ -43,7 +46,8 @@ export default {
         },
 
         deleteImage: function() {
-            axios.delete("/images/" + this.image.id), (this.remove = true);
+            axios.delete("/images/" + this.image.id),
+                (this.hideImage = false);
         }
     }
 };

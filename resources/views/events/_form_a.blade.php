@@ -14,10 +14,6 @@
 
             <event-picture-viewer :image="{{ $image }}" />
 
-            <div>
-                <input type="checkbox" id="{{ $image->id }}" name="imageThumb" value="{{ $image->id }}">
-                <label for="{{ $image->id }}">Zmazať</label>
-            </div>
         </div>
     @endforeach
 

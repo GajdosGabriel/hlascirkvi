@@ -3527,6 +3527,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
@@ -3534,7 +3536,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       open: false,
-      remove: false
+      remove: false,
+      hideImage: true
     };
   },
   methods: {
@@ -3542,7 +3545,7 @@ __webpack_require__.r(__webpack_exports__);
       this.open = !this.open;
     },
     deleteImage: function deleteImage() {
-      axios["delete"]("/images/" + this.image.id), this.remove = true;
+      axios["delete"]("/images/" + this.image.id), this.hideImage = false;
     }
   }
 });
@@ -70076,36 +70079,46 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { class: { "fixed inset-0 bg-gray-600": _vm.open } }, [
-    _vm.open
-      ? _c(
-          "div",
-          {
-            staticClass:
-              "absolute right-0 border-gray-200 border-2 bg-gray-700 hover:bg-gray-500 rounded px-4 py-2 text-white font-semibold text-2xl cursor-pointer ",
-            on: { click: _vm.showModal }
-          },
-          [_vm._v("\n        Zrušiť x\n    ")]
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _c("img", {
-      staticClass: "rounded cursor-pointer",
-      class: { "h-full": _vm.open, hidden: _vm.remove },
-      attrs: { alt: "image.title ", src: "/storage/" + _vm.image.url },
-      on: { click: _vm.showModal }
-    }),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "cursor-pointer hover:text-red-500",
-        class: { hidden: _vm.remove },
-        on: { click: _vm.deleteImage }
-      },
-      [_vm._v("\n        zmazať\n    ")]
-    )
-  ])
+  return _c(
+    "div",
+    { class: { "fixed inset-0 bg-gray-600": _vm.open } },
+    [
+      _vm.open
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "absolute right-0 border-gray-200 border-2 bg-gray-700 hover:bg-gray-500 rounded px-4 py-2 text-white font-semibold text-2xl cursor-pointer ",
+              on: { click: _vm.showModal }
+            },
+            [_vm._v("\n        Zrušiť x\n    ")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "fade" } }, [
+        _vm.hideImage
+          ? _c("img", {
+              staticClass: "rounded cursor-pointer",
+              class: { "h-full": _vm.open },
+              attrs: { alt: "image.title ", src: "/storage/" + _vm.image.url },
+              on: { click: _vm.showModal }
+            })
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _vm.hideImage
+        ? _c(
+            "div",
+            {
+              staticClass: "cursor-pointer hover:text-red-500",
+              on: { click: _vm.deleteImage }
+            },
+            [_vm._v("\n        zmazať\n    ")]
+          )
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

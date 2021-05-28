@@ -65,7 +65,7 @@ class EventsController extends Controller
 
         $this->authorize('update', $event);
 
-        $event->update($request->except(['picture', 'file', 'imageThumb', 'vizitka']));
+        $event->update($request->except(['picture', 'file', 'vizitka']));
 
         (new Form($event, $request))->handler();
 
