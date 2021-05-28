@@ -73,15 +73,7 @@ class OrganizationsController extends Controller
         return back();
     }
 
-    public function profile(Organization $organization, $slug)
-    {
-
-        //        $this->authorize('update', $user, auth());
-
-        $messages = (new Messenger)->scopeUserMessages($organization->id);
-
-        return view('organizations.profile', compact(['organization', 'messages']));
-    }
+   
 
 
 }

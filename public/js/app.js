@@ -3879,8 +3879,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
@@ -70427,14 +70425,7 @@ var render = function() {
             _c(
               "a",
               {
-                attrs: {
-                  href:
-                    "/user/" +
-                    _vm.authUser.user.id +
-                    "/" +
-                    _vm.authUser.user.slug +
-                    "/profile"
-                }
+                attrs: { href: "/profiles/" + _vm.authUser.user.id + "/home" }
               },
               [
                 _c("li", { staticClass: "dropdown-item" }, [

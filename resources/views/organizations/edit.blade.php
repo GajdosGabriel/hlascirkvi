@@ -1,13 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="grid grid-cols-12 gap-6  ">
 
-    <div class="page">
-        @include('organizations._profil-menu')
-        <div class="">
+    <div class="grid col-span-2  min-h-screen">
+        <div class="flex flex-col bg-gray-200">
 
-            <div class="w-6/12">
+            @include('profiles._profil-menu')
 
+        </div>
+    </div>
+
+
+    <div class="grid col-span-10">
 
 
                 <h3 class="font-semibold">Upraviť {{ $organization->title }}</h3>

@@ -44,6 +44,11 @@ Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->nam
 
 // Route::put('notifications/{notification}', 'NotificationController@update')->name('notification.update');
 
+Route::prefix('profiles/')->name('profiles.')->group(function () {
+        Route::get('{organization}/home', 'ProfilesController@profile')->name('home');
+
+});
+
 
 Route::prefix('user/')->name('organization.')->group(function () {
     Route::get('{organization}/{slug}', 'OrganizationsController@show')->name('show');

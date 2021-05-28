@@ -10,7 +10,7 @@
     <div class="grid col-span-2  min-h-screen">
         <div class="flex flex-col bg-gray-200">
 
-            @include('organizations._profil-menu')
+            @include('profiles._profil-menu')
 
         </div>
     </div>
