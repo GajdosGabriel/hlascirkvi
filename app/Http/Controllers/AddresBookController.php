@@ -10,7 +10,7 @@ class AddresBookController extends Controller
     public function importContacts(User $user)
     {
         $users = $user->addresBooks()->latest()->paginate(50);
-        return view('users.import_contacts', ['user' => $user, 'users' => $users]);
+        return view('profiles.import_contacts', ['user' => $user, 'users' => $users]);
     }
 
 
