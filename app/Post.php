@@ -58,6 +58,11 @@ class Post extends Model implements ViewableContract
         return $this->hasMany(Tag::class);
     }
 
+    public function seminars()
+    {
+        return $this->hasMany(Seminar::class);
+    }
+
     public function updaters()
     {
         return $this->belongsToMany(Updater::class);

@@ -26,4 +26,13 @@
         @endslot
     @endcomponent
 
+    @component('layouts.components.profil_menu', ['url' => route('seminars.index') ])
+    @slot('title')
+        Semináre
+    @endslot
+@endcomponent
+
+
+
+
 

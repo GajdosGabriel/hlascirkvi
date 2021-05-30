@@ -17,7 +17,7 @@
             />
         </svg>
         <ul class="dropdown-menu" v-if="open">
-            <a :href="'/posts/' + post.id + '/edit'">
+            <a :href="model + post.id + '/edit'">
                 <li class="dropdown-item">
                     upraviť
                 </li>
@@ -27,14 +27,6 @@
                 zmazať
             </li>
 
-            <a
-                v-if="$auth.isAdmin()"
-                :href="'/post/unpublished/' + post.id + '/video'"
-            >
-                <li class="dropdown-item whitespace-nowrap">
-                    Do buffer
-                </li>
-            </a>
         </ul>
     </div>
 </template>
@@ -43,7 +35,7 @@ import { createdMixin } from "../mixins/createdMixin";
 
 export default {
     mixins: [createdMixin],
-    props: ["post"],
+    props: ["post", "model"],
     data: function() {
         return {
             open: false
@@ -57,7 +49,7 @@ export default {
 
         deletePost: function() {
             axios
-                .delete("/posts/" + this.post.id)
+                .delete(this.model + this.post.id)
                 .then( window.location.href = "/");
         }
     },

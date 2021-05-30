@@ -65,6 +65,7 @@ Vue.component('event-picture-viewer', require('./events/Event-picture-viewer.vue
 Vue.component('navigation-main', require('./navigation/Navigation-main.vue').default);
 Vue.component('article-dropdown', require('./posts/Article-dropdown.vue').default);
 Vue.component('event-dropdown', require('./events/Event-dropdown.vue').default);
+Vue.component('c-article-dropdown', require('./components/c-article-dropdown.vue').default);
 
 // Vue.component('posts-card', require('./posts/card/posts.vue').default);
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);
