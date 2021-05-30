@@ -53,6 +53,11 @@ class Post extends Model implements ViewableContract
         return $this->hasMany(BigThink::class);
     }
 
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
+
     public function updaters()
     {
         return $this->belongsToMany(Updater::class);

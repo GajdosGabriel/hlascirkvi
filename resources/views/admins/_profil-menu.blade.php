@@ -25,4 +25,10 @@
             @endslot
         @endcomponent
 
+        @component('layouts.components.profil_menu', ['url' => route('tags.index')])
+        @slot('title')
+            Tagy
+        @endslot
+    @endcomponent
+
 @endif

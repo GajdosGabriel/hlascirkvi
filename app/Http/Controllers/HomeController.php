@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use \Alaouy\Youtube;
-use App\Repositories\Eloquent\EloquentOrganizationRepository;
 use Cache;
+use App\Tag;
 use Carbon\Carbon;
+use \Alaouy\Youtube;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Contracts\OrganizationRepository;
+use App\Repositories\Eloquent\EloquentOrganizationRepository;
 
 
 
@@ -42,8 +43,12 @@ class HomeController extends Controller
 
     public function konferencieApute() {
 
-        $posts = $this->posts->getPostsByUpdater(17);
-        return view('pages.vzdelavanie', compact('posts'));
+        $tags = Tag::all();
+
+        return view('tags.index', compact('tags'));
+
+        // $posts = $this->posts->getPostsByUpdater(17);
+        // return view('pages.vzdelavanie', compact('posts'));
     }
 
     public function gdpr(){

@@ -6887,7 +6887,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.id, "\n.OMNVPpIxV-x5-XyzkDmf2 {\n    opacity: 0.6;\n    pointer-events: none;\n    color: red;\n}\n._3SefxDRzRMskwdA-7R4ZRw {\n    color: red;\n}\n", ""]);
+exports.push([module.id, "\n.OMNVPpIxV-x5-XyzkDmf2 {\r\n    opacity: 0.6;\r\n    pointer-events: none;\r\n    color: red;\n}\n._3SefxDRzRMskwdA-7R4ZRw {\r\n    color: red;\n}\r\n", ""]);
 
 // exports
 exports.locals = {
@@ -6908,7 +6908,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.id, "\n._3ZpeLd_ioKLlgRFcTvFj1n {\n    padding: 0rem;\n}\n", ""]);
+exports.push([module.id, "\n._3ZpeLd_ioKLlgRFcTvFj1n {\r\n    padding: 0rem;\n}\r\n", ""]);
 
 // exports
 exports.locals = {
@@ -6928,7 +6928,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.id, "\n._2VHWshqNdK0KYgUGj3kutO {\n    color: red;\n}\n", ""]);
+exports.push([module.id, "\n._2VHWshqNdK0KYgUGj3kutO {\r\n    color: red;\n}\r\n", ""]);
 
 // exports
 exports.locals = {
