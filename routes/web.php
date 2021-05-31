@@ -86,7 +86,7 @@ Route::get('/youtube/{organization}/{slug}/search', 'YoutubeController@searchAnd
 Route::get('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVideoByChannel')->name('youtube.getNewVideoByChannel');
 
 Route::get('/online-prenosy', 'HomeController@zivePrenosy')->name('online-prenosy');
-Route::get('/konferencie-a-pute', 'HomeController@konferencieApute')->name('konferencie.pute');
+Route::get('/konferencie-a-pute', 'HomeController@seminare')->name('konferencie.pute');
 Route::get('/zdravie-z-bozej-ruky', 'HomeController@zdravie')->name('zdravie');
 
 

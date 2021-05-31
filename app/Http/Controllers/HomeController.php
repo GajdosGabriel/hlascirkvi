@@ -41,14 +41,10 @@ class HomeController extends Controller
         return view('pages.online-prenosy', compact('posts'));
     }
 
-    public function konferencieApute() {
+    public function seminare() {
 
-        $tags = Tag::all();
-
-        return view('tags.index', compact('tags'));
-
-        // $posts = $this->posts->getPostsByUpdater(17);
-        // return view('pages.vzdelavanie', compact('posts'));
+        $posts = $this->posts->getPostsByUpdater(17);
+        return view('pages.seminare', compact('posts'));
     }
 
     public function gdpr(){
