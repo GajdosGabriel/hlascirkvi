@@ -25,22 +25,7 @@
             </div>
 
 
-            @forelse ( $seminars as $seminar )
-
-            <div class="flex justify-between mb-4">
-                <h4 class="font-semibold text-lg">{{ $seminar->title }}</h4>
-
-                @can('update', $seminar)
-                    <c-article-dropdown :post="{{ $seminar }}" :model="/seminars/" />
-                @endcan
-            </div>
-
-            @empty
-            žiadne semináre
-
-            @endforelse
-
-
+          @include('seminars._list')
 
         </div>
 
