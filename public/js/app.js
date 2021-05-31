@@ -2928,11 +2928,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
-  props: ["post", "model"],
+  // props: ["post", "model"],
+  props: {
+    post: {
+      type: Object,
+      require: true
+    },
+    model: {
+      type: String,
+      require: true
+    },
+    redirect: {
+      type: String,
+      "default": '/',
+      require: false
+    }
+  },
   data: function data() {
     return {
       open: false
@@ -2943,7 +2957,7 @@ __webpack_require__.r(__webpack_exports__);
       this.open = !this.open;
     },
     deletePost: function deletePost() {
-      axios["delete"](this.model + this.post.id).then(window.location.href = "/");
+      axios["delete"](this.model + this.post.id).then(window.location.href = this.redirect);
     }
   },
   computed: {

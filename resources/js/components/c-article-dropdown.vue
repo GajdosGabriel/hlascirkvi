@@ -1,12 +1,12 @@
 <template>
     <div class="relative z-10 px-2">
-          <svg
+        <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-7 w-7 cursor-pointer bg-gray-100 rounded-full text-gray-400 hover:bg-gray-200 p-1"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-             @click="toggle"
+            @click="toggle"
             title="Spravovať článok"
         >
             <path
@@ -26,7 +26,6 @@
             <li @click="deletePost" class="dropdown-item">
                 zmazať
             </li>
-
         </ul>
     </div>
 </template>
@@ -35,7 +34,24 @@ import { createdMixin } from "../mixins/createdMixin";
 
 export default {
     mixins: [createdMixin],
-    props: ["post", "model"],
+    // props: ["post", "model"],
+
+    props:{
+        post: {
+            type: Object,
+            require: true
+        },
+
+        model: {
+            type: String,
+            require: true
+        },
+        redirect: {
+            type: String,
+            default:'/',
+            require: false
+        }
+    },
     data: function() {
         return {
             open: false
@@ -50,7 +66,7 @@ export default {
         deletePost: function() {
             axios
                 .delete(this.model + this.post.id)
-                .then( window.location.href = "/");
+                .then( window.location.href = this.redirect);
         }
     },
 

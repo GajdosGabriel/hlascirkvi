@@ -8,9 +8,8 @@ use Illuminate\Http\Request;
 
 class SeminarsPostController extends Controller
 {
-    public function index(Seminar $seminar){
-
-        dd($seminar);
-
+    public function index(Seminar $seminar)
+    {
+        return view('seminars.posts.index', compact('seminar'));
     }
 }
