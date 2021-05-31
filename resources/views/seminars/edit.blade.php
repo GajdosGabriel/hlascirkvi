@@ -29,8 +29,8 @@
 
                 <h2 class="page_title">Upraviť seminár</h2>
 
-                <form class="" method="post" action="{{ route('seminars.edit', [$seminar->id]) }}">
-                    @csrf @method('POST')
+                <form class="" method="post" action="{{ route('seminars.update', [$seminar->id]) }}">
+                    @csrf @method('PUT')
 
                     @include('seminars.form')
                 </form>
