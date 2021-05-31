@@ -11,12 +11,17 @@ class SeminarsController extends Controller
     {
         $seminars = Seminar::whereOrgId(auth()->user()->org_id)->get();
 
-            return view('profiles.seminars', ['seminars' => $seminars, 'seminar' => new Seminar()]);
+            return view('profiles.seminars', ['seminars' => $seminars]);
     }
 
     public function edit(Seminar $seminar)
     {
         return view('seminars.edit', compact('seminar'));
+    }
+
+    public function create()
+    {
+        return view('seminars.create', [ 'seminar' => new Seminar()]);
     }
 
     public function update(Seminar $seminar, Request $request)
@@ -30,11 +35,12 @@ class SeminarsController extends Controller
     {
         Seminar::create(array_merge($request->all(), ['org_id' => auth()->user()->org_id]));
 
-        return  back();
+        return redirect()->route('seminars.index');
     }
 
     public function destroy(Seminar $seminar)
     {
         $seminar->delete();
+        return redirect()->route('seminars.index');
     }
 }

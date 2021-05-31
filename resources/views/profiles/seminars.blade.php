@@ -14,10 +14,15 @@
         </div>
 
 
-        <div class="col-span-5">
+        <div class="col-span-5 pt-6">
 
 
-            <h2 class="text-2xl mb-7">Semináre panel</h2>
+            <div class="flex justify-between mb-6">
+                <h2 class="text-2xl">Semináre panel</h2>
+                <div>
+                    <a href="{{ route('seminars.create') }}" class="btn btn-default">Nový semimár</a>
+                </div>
+            </div>
 
 
             @forelse ( $seminars as $seminar )
@@ -41,14 +46,7 @@
 
         <div class="col-span-3">
 
-            <h2 class="page_title">Nový seminár</h2>
 
-            <form class="" method="post" action="{{ route('seminars.store') }}">
-                @csrf @method('POST')
-
-            @include('seminars.form')
-
-        </form>
 
         </div>
 
