@@ -19,6 +19,11 @@ class PrayerController extends Controller
         return new PrayerCollection(Prayer::orderBy('created_at', 'desc')->paginate(15));
     }
 
+    public function fulfilled()
+    {
+        return new PrayerCollection(Prayer::whereNotNull('fulfilled_at')->orderBy('fulfilled_at', 'desc')->paginate(15));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

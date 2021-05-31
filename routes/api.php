@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal');
 Route::get('test/newsletter', 'TestController@newsletter');
 Route::get('test/grecky', 'TestController@greckyMagazin');
+Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled');
 
 Route::apiResources([
     'modlitby' => Api\PrayerController::class,

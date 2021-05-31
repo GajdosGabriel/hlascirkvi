@@ -14,7 +14,6 @@ class Prayer extends Model
     protected $appends = ['favoritesCount', 'isFavorited'];
     protected $with = ['favorites'];
 
-
     public function user() {
         return $this->belongsTo(User::class);
     }

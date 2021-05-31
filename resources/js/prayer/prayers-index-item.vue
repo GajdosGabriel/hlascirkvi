@@ -1,5 +1,16 @@
 <template>
-    <div class="px-6 py-2 border-2 border-gray-400 my-6 rounded-md shadow-lg">
+    <div
+        class="px-6 py-2 border-2 border-gray-400 my-6 rounded-md shadow-lg"
+        :class="isFulfilledAt"
+    >
+    <!-- If prayer is fulfilled -->
+        <div
+            v-if="prayer.fulfilled_at"
+            class="p-2 border-green-900 border-2 -mt-8 text-2xl bg-gray-50 rounded-md mb-2 text-center"
+        >
+            Modlitba bola vypočutá
+        </div>
+
         <div @click="passToModalShow">
             <div class="flex flex-col mb-4">
                 <div class="flex justify-between">
@@ -80,7 +91,7 @@
                             <div class="font-semibold" v-else>
                                 Prosba o modlitbu
                             </div>
-                            <favorites-count :prayer="prayer"></favorites-count>
+                            <favorites-count v-if="! prayer.fulfilled_at" :prayer="prayer"></favorites-count>
                         </div>
 
                         <p style="margin-bottom: .4rem">{{ prayer.body }}</p>
@@ -111,12 +122,21 @@ export default {
         };
     },
 
+    computed: {
+        isFulfilledAt: function() {
+            return [
+                this.prayer.fulfilled_at ? "text-green-700 bg-green-200" : ""
+            ];
+        }
+    },
     methods: {
         passToModalShow() {
+               if(this.prayer.fulfilled_at)  return;
             bus.$emit("passToModalPrayer", this.prayer);
         },
 
         passToModalEdit() {
+
             bus.$emit("passToModalEdit", this.prayer);
         },
 

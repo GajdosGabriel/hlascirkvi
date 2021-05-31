@@ -60,6 +60,7 @@ Vue.component('form-organization', require('./events/Form-org_0.vue').default);
 Vue.component('big-thing', require('./bigThink/big-thing_0.vue').default);
 Vue.component('prayers-card', require('./prayer/prayers-card.vue').default);
 Vue.component('prayers-index-page', require('./prayer/prayers-index-page.vue').default);
+Vue.component('prayers-index-page2', require('./prayer/prayers-index-page2.vue').default);
 Vue.component('post-card', require('./posts/card/card.vue').default);
 Vue.component('event-picture-viewer', require('./events/Event-picture-viewer.vue').default);
 Vue.component('navigation-main', require('./navigation/Navigation-main.vue').default);
