@@ -24,6 +24,19 @@
         @endif
     </div>
 
+
+      {{-- Playlist Field --}}
+      <div class="form-group {{ $errors->has('youtube_playlist') ? ' invalid-feedback' : '' }}">
+        <label class="font-semibold">Youtube playlist</label>
+        <input type="text" name="youtube_playlist" class="form-control" placeholder="Začínajúci PL ..." value="{{ old('youtube_playlist') ?? $seminar->youtube_playlist }}"
+            required>
+
+        @if ($errors->has('youtube_playlist'))
+            <span class="invalid-feedback">
+                {{ $errors->first('youtube_playlist') }}</span>
+        @endif
+    </div>
+
     <div>
         <button class="btn btn-primary">Uložiť</button>
     </div>

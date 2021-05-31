@@ -11,7 +11,7 @@ class SeminarsController extends Controller
     {
         $seminars = Seminar::whereOrgId(auth()->user()->org_id)->get();
 
-        return view('profiles.seminars', compact('seminars'));
+            return view('profiles.seminars', ['seminars' => $seminars, 'seminar' => new Seminar()]);
     }
 
     public function edit(Seminar $seminar)
@@ -28,7 +28,7 @@ class SeminarsController extends Controller
 
     public function store(Request $request)
     {
-        Seminar::create(array_merge($request->all(), ['org_id' => auth()->user()->org_id] ));
+        Seminar::create(array_merge($request->all(), ['org_id' => auth()->user()->org_id]));
 
         return  back();
     }
