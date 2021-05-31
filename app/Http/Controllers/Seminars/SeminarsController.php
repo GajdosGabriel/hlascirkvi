@@ -12,7 +12,7 @@ class SeminarsController extends Controller
     {
         $seminars = Seminar::whereOrgId(auth()->user()->org_id)->get();
 
-            return view('profiles.seminars', ['seminars' => $seminars]);
+        return view('profiles.seminars', ['seminars' => $seminars]);
     }
 
     public function edit(Seminar $seminar)
@@ -41,6 +41,7 @@ class SeminarsController extends Controller
 
     public function destroy(Seminar $seminar)
     {
+        $seminar->posts()->detach();
         $seminar->delete();
         return redirect()->route('seminars.index');
     }
