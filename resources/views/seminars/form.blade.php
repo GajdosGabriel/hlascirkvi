@@ -15,8 +15,7 @@
      {{-- Description Field --}}
      <div class="form-group {{ $errors->has('description') ? ' invalid-feedback' : '' }}">
         <label class="font-semibold">Popis seminára</label>
-        <input type="text" name="description" class="form-control" placeholder="Popis seminár ..." value="{{ old('description') ?? $seminar->description }}"
-            required>
+        <input type="text" name="description" class="form-control" placeholder="Popis seminár ..." value="{{ old('description') ?? $seminar->description }}">
 
         @if ($errors->has('description'))
             <span class="invalid-feedback">
@@ -28,8 +27,7 @@
       {{-- Playlist Field --}}
       <div class="form-group {{ $errors->has('youtube_playlist') ? ' invalid-feedback' : '' }}">
         <label class="font-semibold">Youtube playlist</label>
-        <input type="text" name="youtube_playlist" class="form-control" placeholder="Začínajúci PL ..." value="{{ old('youtube_playlist') ?? $seminar->youtube_playlist }}"
-            required>
+        <input type="text" name="youtube_playlist" class="form-control" placeholder="Začínajúci PL ..." value="{{ old('youtube_playlist') ?? $seminar->youtube_playlist }}">
 
         @if ($errors->has('youtube_playlist'))
             <span class="invalid-feedback">

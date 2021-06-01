@@ -28,10 +28,10 @@
                 @endcan
 
 
-                    @if ($seminar->youtube_playlist == '')
+                    @if (! $seminar->youtube_playlist == '')
                         <a href="#" class="btn btn-default">Načítať z youTube zoznamu</a>
                     @else
-                        <a href="#" class="btn btn-default">Playlist z youTube je prázdny</a>
+                        <a href="{{ route( 'seminars.edit', $seminar->id) }}" class="btn btn-default">Playlist z youTube je prázdny</a>
                     @endif
                 </div>
             </div>

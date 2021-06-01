@@ -15,6 +15,11 @@ class SeminarsController extends Controller
         return view('profiles.seminars', ['seminars' => $seminars]);
     }
 
+    public function show(Seminar $seminar)
+    {
+        return view('seminars.show', compact('seminar'));
+    }
+
     public function edit(Seminar $seminar)
     {
         return view('seminars.edit', compact('seminar'));

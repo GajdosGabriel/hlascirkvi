@@ -30,7 +30,6 @@ Route::resources([
     'images'            => ImagesController::class,
     'tags'              => TagsController::class,
     'seminars'          => Seminars\SeminarsController::class,
-    'seminar.posts'     => Seminars\SeminarsPostController::class,
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
