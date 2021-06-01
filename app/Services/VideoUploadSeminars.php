@@ -13,18 +13,20 @@ use App\Organization;
 use Alaouy\Youtube\Youtube;
 use App\Services\ImageResize;
 use App\Notifications\Admin\Error;
+use App\Post;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Seminar;
 
-class VideoUpload
+class VideoUploadSeminars
 {
     public $organization;
-    public $idPlayList;
+    public $seminar;
 
-    public function __construct(Organization $organization, $idPlayList)
+    public function __construct(Seminar $seminar, Organization $organization)
     {
         $this->organization = $organization;
-        $this->idPlayList = $idPlayList;
+        $this->seminar = $seminar;
     }
 
 
@@ -36,8 +38,8 @@ class VideoUpload
 
     protected function validateUrlPlaylistOrChannel()
     {
-        if (strlen($this->idPlayList) > 7) {
-            $videoList = \Youtube::getPlaylistItemsByPlaylistId($this->idPlayList);
+        if (strlen($this->seminar->youtube_playlist) > 7) {
+            $videoList = \Youtube::getPlaylistItemsByPlaylistId($this->seminar->youtube_playlist);
             $videoList = $videoList['results'];
         }
 
@@ -59,7 +61,7 @@ class VideoUpload
                 continue;
             }
 
-            if ($this->checkIfVideoExist($videoId, $video)) {
+            if ($this->checkIfVideoExist($videoId)) {
                 continue;
             } else {
                 $this->savePostVideo($video, $videoId);
@@ -69,8 +71,7 @@ class VideoUpload
 
     protected function savePostVideo($video, $videoId)
     {
-        $post =  $this->organizations->createPost(
-            $this->organization->id,
+        $post =  $this->organization->posts()->create(
             [
                 'title' => $video->snippet->title,
                 'video_id' => $videoId,
@@ -86,7 +87,7 @@ class VideoUpload
          * Zaradiť do zoznamu (17- Semináre)
          * bude sa hned publikovať.
          */
-        $post->updaters()->attach(17);
+        $post->seminars()->attach($this->seminar->id);
     }
 
 
@@ -95,9 +96,15 @@ class VideoUpload
 //        User::first()->notify(new Error($organization));
     }
 
-    protected function checkIfVideoExist($videoId, $video)
+    protected function checkIfVideoExist($videoId)
     {
-        if (\DB::table('posts')->whereVideoId($videoId)->first()) {
+        if ($id = \DB::table('posts')->whereVideoId($videoId)->first()) {
+            //  Get Instance of Post
+            $post = Post::whereId($id->id)->first();
+
+            // Detach old value and add new
+            $post->updaters()->detach();
+            $post->seminars()->attach($this->seminar->id);
             return true;
         }
     }

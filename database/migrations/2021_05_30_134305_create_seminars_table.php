@@ -19,6 +19,7 @@ class CreateSeminarsTable extends Migration
             $table->text('description')->nullable();
             $table->string('youtube_playlist')->nullable();
             $table->integer('org_id')->unsigned();
+            $table->dateTime('published')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

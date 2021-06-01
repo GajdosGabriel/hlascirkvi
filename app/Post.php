@@ -33,9 +33,9 @@ class Post extends Model implements ViewableContract
         });
 
         // Ak má byť publikované must have same records in updaters.
-        static::addGlobalScope('published', function (Builder $builder) {
-            $builder->has('updaters');
-        });
+        // static::addGlobalScope('published', function (Builder $builder) {
+        //     $builder->has('updaters');
+        // });
     }
 
     public function path()
@@ -60,7 +60,7 @@ class Post extends Model implements ViewableContract
 
     public function seminars()
     {
-        return $this->hasMany(Seminar::class);
+        return $this->belongsToMany(Seminar::class);
     }
 
     public function updaters()

@@ -17,8 +17,9 @@
 
             <div class="flex justify-between mb-6 mt-6 items-center">
 
-                    <h2 class="text-2xl"> {{ $seminar->title }}</h2>
-
+                    <h2 class="text-2xl"> {{ $seminar->title }}
+                        <span class="text-sm ml-2 text-gray-500">({{ $seminar->posts->count() }})</span>
+                    </h2>
 
 
                 <div class="flex items-center">
@@ -29,23 +30,20 @@
 
 
                     @if (! $seminar->youtube_playlist == '')
-                        <a href="#" class="btn btn-default">Načítať z youTube zoznamu</a>
+                        <a href="{{ route( 'seminars.uploadVideos', $seminar->id) }}" class="btn btn-default">Načítať z youTube zoznamu</a>
                     @else
-                        <a href="{{ route( 'seminars.edit', $seminar->id) }}" class="btn btn-default">Playlist z youTube je prázdny</a>
+                        <a href="{{ route( 'seminars.edit', $seminar->id) }}" class="btn btn-default">Nevyplnený playlist</a>
                     @endif
                 </div>
             </div>
 
-
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
-                @forelse($seminar->posts as $post)
+                    @forelse($seminar->posts as $post)
                     <post-card :post="{{ $post }}"></post-card>
                     {{-- @include('posts.post-card') --}}
                 @empty
                     bez záznamu
                 @endforelse
-
-
             </div>
         </div>
 

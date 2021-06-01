@@ -29,10 +29,11 @@ Route::resources([
     'favorites'         => FavoritesController::class,
     'images'            => ImagesController::class,
     'tags'              => TagsController::class,
-    'seminars'          => Seminars\SeminarsController::class,
+    'seminars'          => Seminars\SeminarsController::class
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
+Route::get('seminars/{seminar}/upload', 'Seminars\SeminarsController@uploadVideos')->name('seminars.uploadVideos');
 
 
 //    Route::get('/users', 'UsersController@index')->name('users.index');
