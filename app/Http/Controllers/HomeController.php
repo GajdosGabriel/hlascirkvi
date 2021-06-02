@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Contracts\OrganizationRepository;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
-
-
+use App\Seminar;
 
 class HomeController extends Controller
 {
@@ -43,8 +42,10 @@ class HomeController extends Controller
 
     public function seminare() {
 
+       $seminars = Seminar::whereNotNull('published')->get();
+
         $posts = $this->posts->getPostsByUpdater(17);
-        return view('pages.seminare', compact('posts'));
+        return view('pages.seminare', compact('seminars'));
     }
 
     public function gdpr(){

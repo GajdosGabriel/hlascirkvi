@@ -98,13 +98,11 @@ class VideoUploadSeminars
 
     protected function checkIfVideoExist($videoId)
     {
-        if ($id = \DB::table('posts')->whereVideoId($videoId)->first()) {
-            //  Get Instance of Post
-            $post = Post::whereId($id->id)->first();
-
-            // Detach old value and add new
-            $post->updaters()->detach();
-            $post->seminars()->attach($this->seminar->id);
+        if ($post = Post::withTrashed()->whereVideoId($videoId)->first())
+        {
+            // Ak by bol vymazaný
+            $post->restore();
+            $post->seminars()->sync($this->seminar->id);
             return true;
         }
     }
