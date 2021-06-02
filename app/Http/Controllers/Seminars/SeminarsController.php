@@ -13,7 +13,7 @@ class SeminarsController extends Controller
 {
     public function index()
     {
-        $seminars = Seminar::whereOrgId(auth()->user()->org_id)->get();
+        $seminars = Seminar::whereOrganizationId(auth()->user()->org_id)->get();
 
         return view('profiles.seminars', ['seminars' => $seminars]);
     }
@@ -42,7 +42,7 @@ class SeminarsController extends Controller
 
     public function store(Request $request)
     {
-        Seminar::create(array_merge($request->all(), ['org_id' => auth()->user()->org_id]));
+        Seminar::create(array_merge($request->all(), ['organization_id' => auth()->user()->org_id]));
 
         return redirect()->route('seminars.index');
     }
@@ -56,7 +56,7 @@ class SeminarsController extends Controller
 
     public function uploadVideos(Seminar $seminar)
     {
-        $organization = Organization::whereId($seminar->org_id)->first();
+        $organization = Organization::whereId($seminar->organization_id)->first();
 
         $videoUploader = new VideoUploadSeminars($seminar, $organization);
         $videoUploader->handle();

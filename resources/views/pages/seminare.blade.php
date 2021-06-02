@@ -11,18 +11,21 @@
                 </h2>
             </div>
 
-            <div class="grid md:grid-cols-6 gap-4">
+            <div>
                 @foreach ($seminars as $seminar)
 
-                    <div class="grid col-span-12 ">
+                    <div class="grid col-span-12">
                         <h4 class="text-2xl font-semibold mb-4">{{ $seminar->title }}</h4>
                     </div>
 
+                    <div class="md:grid md:grid-cols-4 lg:grid-cols-7 gap-6 mb-10">
                     @foreach ($seminar->posts as $post)
-                        <div class="mb-12">
+
                             @include('posts.post-card')
-                        </div>
+
                     @endforeach
+
+                </div>
                 @endforeach
             </div>
         </div>

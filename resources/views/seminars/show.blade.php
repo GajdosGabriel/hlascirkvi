@@ -15,30 +15,11 @@
 
         <div class="col-span-7">
 
-            <div class="flex justify-between mb-6 mt-6 items-center">
-
-                    <h2 class="text-2xl"> {{ $seminar->title }}
-                        <span class="text-sm ml-2 text-gray-500">({{ $seminar->posts->count() }})</span>
-                    </h2>
-
-
-                <div class="flex items-center">
-
-                    @can('update', $seminar)
-                    <c-article-dropdown :post="{{ $seminar }}" :model="'/seminars/'" :redirect="'seminars'"></c-article-dropdown>
-                @endcan
-
-
-                    @if (! $seminar->youtube_playlist == '')
-                        <a href="{{ route( 'seminars.uploadVideos', $seminar->id) }}" class="btn btn-default">Načítať z youTube zoznamu</a>
-                    @else
-                        <a href="{{ route( 'seminars.edit', $seminar->id) }}" class="btn btn-default">Nevyplnený playlist</a>
-                    @endif
-                </div>
-            </div>
+            <seminar-title :seminar="{{ $seminar }}"></seminar-title>
+            {{ $seminar->organization->title }}
 
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
-                    @forelse($seminar->posts as $post)
+                @forelse($seminar->posts as $post)
                     <post-card :post="{{ $post }}"></post-card>
                     {{-- @include('posts.post-card') --}}
                 @empty

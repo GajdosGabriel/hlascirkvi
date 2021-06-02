@@ -11,8 +11,17 @@ class Seminar extends Model
     protected $guarded = [];
     // public $timestamps = false;
 
+    protected $with = ['posts'];
+    protected $append = ['organization'];
+
     public function posts() {
         return $this->belongsToMany(Post::class);
     }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
 
 }
