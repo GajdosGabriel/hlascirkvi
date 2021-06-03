@@ -6206,9 +6206,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["seminar"],
+  // data: function() {
+  //     return {
+  //         arrs: [
+  //             {
+  //                 class: "text-red-600",
+  //                 text: "Publikovať"
+  //             },
+  //             {
+  //                 class: "",
+  //                 text: "Nepublikovať"
+  //             }
+  //         ]
+  //     }
+  // },
   computed: {
     publishedButton: function publishedButton() {
       if (this.seminar.published == null) {
@@ -6219,9 +6241,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    published: function published() {
+    publishedfunction: function publishedfunction() {
       axios__WEBPACK_IMPORTED_MODULE_0___default().put("/seminars/" + this.seminar.id, {
-        published: Date.now()
+        published: this.seminar.published ? "" : Date.now()
       });
     }
   }
@@ -73805,18 +73827,71 @@ var render = function() {
     "div",
     { staticClass: "flex justify-between mb-6 mt-6 items-center" },
     [
-      _c("h2", { staticClass: "text-2xl" }, [
-        _vm._v("\n        " + _vm._s(_vm.seminar.title) + "\n        "),
-        _c("span", { staticClass: "text-sm ml-2 text-gray-500" }, [
-          _vm._v("\n            (" + _vm._s(_vm.seminar.posts.length) + ")")
-        ])
+      _c("div", [
+        _c("h2", { staticClass: "text-2xl" }, [
+          _vm._v(
+            "\n            " + _vm._s(_vm.seminar.title) + "\n            "
+          ),
+          _c("span", { staticClass: "text-sm ml-2 text-gray-500" }, [
+            _vm._v(
+              "\n                (" + _vm._s(_vm.seminar.posts.length) + ")"
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "flex text-sm space-x-3 text-gray-400 mt-1" },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "cursor-pointer hover:text-gray-600 text-gray-500"
+              },
+              [
+                _vm._v(
+                  "\n                Pridal: " +
+                    _vm._s(_vm.seminar.organization.title) +
+                    "\n            "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            this.seminar.posts.length > 0
+              ? _c("div", {
+                  staticClass:
+                    "cursor-pointer hover:underline hover:text-gray-600 px-2",
+                  domProps: { textContent: _vm._s(_vm.publishedButton) },
+                  on: { click: _vm.publishedfunction }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.seminar.youtube_playlist
+              ? _c(
+                  "a",
+                  {
+                    staticClass:
+                      "cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2",
+                    attrs: { href: "/seminars/" + _vm.seminar.id + "/upload" }
+                  },
+                  [_vm._v("Načítať z youTube zoznamu")]
+                )
+              : _c(
+                  "a",
+                  {
+                    staticClass:
+                      "cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2",
+                    attrs: { href: "/seminars/" + _vm.seminar.id + "/edit" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                Nevyplnený playlist\n            "
+                    )
+                  ]
+                )
+          ]
+        )
       ]),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "cursor-pointer",
-        domProps: { textContent: _vm._s(_vm.publishedButton) },
-        on: { click: _vm.published }
-      }),
       _vm._v(" "),
       _c(
         "div",
@@ -73828,25 +73903,7 @@ var render = function() {
               model: "/seminars/",
               redirect: "seminars"
             }
-          }),
-          _vm._v(" "),
-          _vm.seminar.youtube_playlist
-            ? _c(
-                "a",
-                {
-                  staticClass: "btn btn-default",
-                  attrs: { href: "/seminars/" + _vm.seminar.id + "/upload" }
-                },
-                [_vm._v("Načítať z youTube zoznamu")]
-              )
-            : _c(
-                "a",
-                {
-                  staticClass: "btn btn-default",
-                  attrs: { href: "/seminars/" + _vm.seminar.id + "/edit" }
-                },
-                [_vm._v("\n            Nevyplnený playlist\n        ")]
-              )
+          })
         ],
         1
       )

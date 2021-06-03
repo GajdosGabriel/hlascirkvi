@@ -37,6 +37,10 @@ class SeminarsController extends Controller
     {
         $seminar->update($request->all());
 
+        if(request()->expectsJson()) {
+            return $seminar;
+        };
+
         return redirect()->route('seminars.show', $seminar->id);
     }
 

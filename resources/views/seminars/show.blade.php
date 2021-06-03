@@ -16,7 +16,6 @@
         <div class="col-span-7">
 
             <seminar-title :seminar="{{ $seminar }}"></seminar-title>
-            {{ $seminar->organization->title }}
 
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                 @forelse($seminar->posts as $post)

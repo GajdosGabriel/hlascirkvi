@@ -1,17 +1,40 @@
 <template>
     <div class="flex justify-between mb-6 mt-6 items-center">
-        <h2 class="text-2xl">
-            {{ seminar.title }}
-            <span class="text-sm ml-2 text-gray-500">
-                ({{ seminar.posts.length }})</span
-            >
-        </h2>
+        <div>
+            <h2 class="text-2xl">
+                {{ seminar.title }}
+                <span class="text-sm ml-2 text-gray-500">
+                    ({{ seminar.posts.length }})</span
+                >
+            </h2>
 
-        <div
-            @click="published"
-            class="cursor-pointer"
-            v-text="publishedButton"
-        ></div>
+            <div class="flex text-sm space-x-3 text-gray-400 mt-1">
+                <div class="cursor-pointer hover:text-gray-600 text-gray-500">
+                    Pridal: {{ seminar.organization.title }}
+                </div>
+                <div
+                    v-if="this.seminar.posts.length > 0"
+                    @click="publishedfunction"
+                    class="cursor-pointer hover:underline hover:text-gray-600 px-2"
+                    v-text="publishedButton"
+                ></div>
+
+                <a
+                    v-if="seminar.youtube_playlist"
+                    :href="'/seminars/' + seminar.id + '/upload'"
+                    class="cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2"
+                    >Načítať z youTube zoznamu</a
+                >
+
+                <a
+                    v-else
+                    :href="'/seminars/' + seminar.id + '/edit'"
+                    class="cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2"
+                >
+                    Nevyplnený playlist
+                </a>
+            </div>
+        </div>
 
         <div class="flex items-center">
             <c-article-dropdown
@@ -20,21 +43,6 @@
                 :redirect="'seminars'"
             >
             </c-article-dropdown>
-
-            <a
-                v-if="seminar.youtube_playlist"
-                :href="'/seminars/' + seminar.id + '/upload'"
-                class="btn btn-default"
-                >Načítať z youTube zoznamu</a
-            >
-
-            <a
-                v-else
-                :href="'/seminars/' + seminar.id + '/edit'"
-                class="btn btn-default"
-            >
-                Nevyplnený playlist
-            </a>
         </div>
     </div>
 </template>
@@ -44,6 +52,20 @@ import axios from "axios";
 export default {
     props: ["seminar"],
 
+    // data: function() {
+    //     return {
+    //         arrs: [
+    //             {
+    //                 class: "text-red-600",
+    //                 text: "Publikovať"
+    //             },
+    //             {
+    //                 class: "",
+    //                 text: "Nepublikovať"
+    //             }
+    //         ]
+    //     }
+    // },
     computed: {
         publishedButton: function() {
             if (this.seminar.published == null) {
@@ -54,9 +76,9 @@ export default {
     },
 
     methods: {
-        published: function() {
+        publishedfunction: function() {
             axios.put("/seminars/" + this.seminar.id, {
-                published: Date.now()
+                published: this.seminar.published ? "" : Date.now()
             });
         }
     }
