@@ -29,21 +29,38 @@ class TestController extends Controller
 {
     public function newsletter() {
 
-        $class = "App\Post";
-        $class = new $class;
 
-        dd($class);
+        $posts= Post::whereHas('updaters', function(){
+
+        })->whereNull('published')->wherey('youtube_blocked', 0)->get();
+
+        $sum = 0;
+
+        foreach($posts as $post){
+
+            $post->update([
+                'published' => $post->created_at
+            ]);
+            $sum ++;
+        };
+
+        print_r($sum);
+
+    //     $class = "App\Post";
+    //     $class = new $class;
+
+    //     dd($class);
 
 
-       $posts = (new EloquentPostRepository())->postsByUpdater(15)
-                ->where('title', 'like', '%duch sv%')
-                ->OrWhere('title', 'like', '%ducha sv%')
-                ->orWhere('title', 'like', '%turic%')
-                ->whereNotIn('id', [682]) // Zdvojené video
-                ->get();
+    //    $posts = (new EloquentPostRepository())->postsByUpdater(15)
+    //             ->where('title', 'like', '%duch sv%')
+    //             ->OrWhere('title', 'like', '%ducha sv%')
+    //             ->orWhere('title', 'like', '%turic%')
+    //             ->whereNotIn('id', [682]) // Zdvojené video
+    //             ->get();
 
 
-                dd($posts);
+    //             dd($posts);
 
         // $user = User::first();
         // event(new NotifyBell($user));

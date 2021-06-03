@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="grid grid-cols-12 gap-6  ">
+<div class="grid grid-cols-12 gap-6 p-6 ">
 
     <div class="grid col-span-2  min-h-screen">
         <div class="flex flex-col bg-gray-200">
@@ -12,7 +12,7 @@
     </div>
 
 
-    <div class="grid col-span-10">
+    <div class="grid col-span-7">
 
                 <h3 class="page_title text-2xl">Buffer príspevky (Nezverenené)</h3>
 
@@ -20,22 +20,18 @@
                     @forelse($posts as $post)
 
                         <post-card :post="{{ $post }}"></post-card>
-                        {{--                        @include('posts.post-card')--}}
+                        {{--   @include('posts.post-card')--}}
                     @empty
                         bez záznamu
                     @endforelse
                 </div>
 
                 {{ $posts->links() }}
-            </div>
 
-            <div class="md:w-3/12">
-                @include('admins.buffer.list-organizations')
-            </div>
+    </div>
 
-
-        </div>
-
+    <div class="grid col-span-3">
+        @include('admins.buffer.list-organizations')
     </div>
 
 
