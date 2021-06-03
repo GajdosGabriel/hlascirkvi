@@ -1,13 +1,6 @@
 <template>
-    <div class="flex justify-between mb-6 mt-6 items-center">
-        <div>
-            <h2 class="text-2xl">
-                {{ seminar.title }}
-                <span class="text-sm ml-2 text-gray-500">
-                    ({{ seminar.posts.length }})</span
-                >
-            </h2>
 
+        <div>
             <div class="flex text-sm space-x-3 text-gray-400 mt-1">
                 <div class="cursor-pointer hover:text-gray-600 text-gray-500">
                     Pridal: {{ seminar.organization.title }}
@@ -36,15 +29,6 @@
             </div>
         </div>
 
-        <div class="flex items-center">
-            <c-article-dropdown
-                :post="seminar"
-                :model="'/seminars/'"
-                :redirect="'seminars'"
-            >
-            </c-article-dropdown>
-        </div>
-    </div>
 </template>
 
 <script>

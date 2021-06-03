@@ -6152,10 +6152,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/Title.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/Title.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-info.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-info.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -6165,22 +6165,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -6245,6 +6229,39 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default().put("/seminars/" + this.seminar.id, {
         published: this.seminar.published ? "" : Date.now()
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-title.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-title.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ["seminar"],
+  computed: {
+    publishedSeminar: function publishedSeminar() {
+      if (this.seminar.published == null) {
+        return "text-red-700";
+      }
     }
   }
 });
@@ -6965,7 +6982,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.component('navigation-main', __webpack_
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('article-dropdown', __webpack_require__(/*! ./posts/Article-dropdown.vue */ "./resources/js/posts/Article-dropdown.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('event-dropdown', __webpack_require__(/*! ./events/Event-dropdown.vue */ "./resources/js/events/Event-dropdown.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('c-article-dropdown', __webpack_require__(/*! ./components/c-article-dropdown.vue */ "./resources/js/components/c-article-dropdown.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_0__.default.component('seminar-title', __webpack_require__(/*! ./seminars/Title.vue */ "./resources/js/seminars/Title.vue").default); // Vue.component('posts-card', require('./posts/card/posts.vue').default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('seminar-title', __webpack_require__(/*! ./seminars/seminar-title.vue */ "./resources/js/seminars/seminar-title.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('seminar-info', __webpack_require__(/*! ./seminars/seminar-info.vue */ "./resources/js/seminars/seminar-info.vue").default); // Vue.component('posts-card', require('./posts/card/posts.vue').default);
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);
 
 var bus = new vue__WEBPACK_IMPORTED_MODULE_0__.default();
@@ -66129,10 +66147,10 @@ component.options.__file = "resources/js/prayer/prayers-index-page2.vue"
 
 /***/ }),
 
-/***/ "./resources/js/seminars/Title.vue":
-/*!*****************************************!*\
-  !*** ./resources/js/seminars/Title.vue ***!
-  \*****************************************/
+/***/ "./resources/js/seminars/seminar-info.vue":
+/*!************************************************!*\
+  !*** ./resources/js/seminars/seminar-info.vue ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -66140,8 +66158,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Title_vue_vue_type_template_id_213a1209___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Title.vue?vue&type=template&id=213a1209& */ "./resources/js/seminars/Title.vue?vue&type=template&id=213a1209&");
-/* harmony import */ var _Title_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Title.vue?vue&type=script&lang=js& */ "./resources/js/seminars/Title.vue?vue&type=script&lang=js&");
+/* harmony import */ var _seminar_info_vue_vue_type_template_id_6150a76e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./seminar-info.vue?vue&type=template&id=6150a76e& */ "./resources/js/seminars/seminar-info.vue?vue&type=template&id=6150a76e&");
+/* harmony import */ var _seminar_info_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./seminar-info.vue?vue&type=script&lang=js& */ "./resources/js/seminars/seminar-info.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -66151,9 +66169,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _Title_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _Title_vue_vue_type_template_id_213a1209___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Title_vue_vue_type_template_id_213a1209___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _seminar_info_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _seminar_info_vue_vue_type_template_id_6150a76e___WEBPACK_IMPORTED_MODULE_0__.render,
+  _seminar_info_vue_vue_type_template_id_6150a76e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -66163,7 +66181,46 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/seminars/Title.vue"
+component.options.__file = "resources/js/seminars/seminar-info.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/seminars/seminar-title.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/seminars/seminar-title.vue ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _seminar_title_vue_vue_type_template_id_5587cd4d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./seminar-title.vue?vue&type=template&id=5587cd4d& */ "./resources/js/seminars/seminar-title.vue?vue&type=template&id=5587cd4d&");
+/* harmony import */ var _seminar_title_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./seminar-title.vue?vue&type=script&lang=js& */ "./resources/js/seminars/seminar-title.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _seminar_title_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _seminar_title_vue_vue_type_template_id_5587cd4d___WEBPACK_IMPORTED_MODULE_0__.render,
+  _seminar_title_vue_vue_type_template_id_5587cd4d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/seminars/seminar-title.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -67213,10 +67270,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/seminars/Title.vue?vue&type=script&lang=js&":
-/*!******************************************************************!*\
-  !*** ./resources/js/seminars/Title.vue?vue&type=script&lang=js& ***!
-  \******************************************************************/
+/***/ "./resources/js/seminars/seminar-info.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/seminars/seminar-info.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -67224,8 +67281,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Title_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Title.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/Title.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Title_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_info_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./seminar-info.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-info.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_info_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/seminars/seminar-title.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/seminars/seminar-title.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_title_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./seminar-title.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-title.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_title_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -68319,19 +68392,36 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/seminars/Title.vue?vue&type=template&id=213a1209&":
-/*!************************************************************************!*\
-  !*** ./resources/js/seminars/Title.vue?vue&type=template&id=213a1209& ***!
-  \************************************************************************/
+/***/ "./resources/js/seminars/seminar-info.vue?vue&type=template&id=6150a76e&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/seminars/seminar-info.vue?vue&type=template&id=6150a76e& ***!
+  \*******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Title_vue_vue_type_template_id_213a1209___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Title_vue_vue_type_template_id_213a1209___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_info_vue_vue_type_template_id_6150a76e___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_info_vue_vue_type_template_id_6150a76e___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Title_vue_vue_type_template_id_213a1209___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Title.vue?vue&type=template&id=213a1209& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/Title.vue?vue&type=template&id=213a1209&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_info_vue_vue_type_template_id_6150a76e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./seminar-info.vue?vue&type=template&id=6150a76e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-info.vue?vue&type=template&id=6150a76e&");
+
+
+/***/ }),
+
+/***/ "./resources/js/seminars/seminar-title.vue?vue&type=template&id=5587cd4d&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/seminars/seminar-title.vue?vue&type=template&id=5587cd4d& ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_title_vue_vue_type_template_id_5587cd4d___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_title_vue_vue_type_template_id_5587cd4d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_seminar_title_vue_vue_type_template_id_5587cd4d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./seminar-title.vue?vue&type=template&id=5587cd4d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-title.vue?vue&type=template&id=5587cd4d&");
 
 
 /***/ }),
@@ -73807,10 +73897,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/Title.vue?vue&type=template&id=213a1209&":
-/*!***************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/Title.vue?vue&type=template&id=213a1209& ***!
-  \***************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-info.vue?vue&type=template&id=6150a76e&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-info.vue?vue&type=template&id=6150a76e& ***!
+  \**********************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -73823,92 +73913,80 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "flex justify-between mb-6 mt-6 items-center" },
-    [
-      _c("div", [
-        _c("h2", { staticClass: "text-2xl" }, [
-          _vm._v(
-            "\n            " + _vm._s(_vm.seminar.title) + "\n            "
-          ),
-          _c("span", { staticClass: "text-sm ml-2 text-gray-500" }, [
-            _vm._v(
-              "\n                (" + _vm._s(_vm.seminar.posts.length) + ")"
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "flex text-sm space-x-3 text-gray-400 mt-1" },
-          [
-            _c(
-              "div",
-              {
-                staticClass: "cursor-pointer hover:text-gray-600 text-gray-500"
-              },
-              [
-                _vm._v(
-                  "\n                Pridal: " +
-                    _vm._s(_vm.seminar.organization.title) +
-                    "\n            "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            this.seminar.posts.length > 0
-              ? _c("div", {
-                  staticClass:
-                    "cursor-pointer hover:underline hover:text-gray-600 px-2",
-                  domProps: { textContent: _vm._s(_vm.publishedButton) },
-                  on: { click: _vm.publishedfunction }
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.seminar.youtube_playlist
-              ? _c(
-                  "a",
-                  {
-                    staticClass:
-                      "cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2",
-                    attrs: { href: "/seminars/" + _vm.seminar.id + "/upload" }
-                  },
-                  [_vm._v("Načítať z youTube zoznamu")]
-                )
-              : _c(
-                  "a",
-                  {
-                    staticClass:
-                      "cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2",
-                    attrs: { href: "/seminars/" + _vm.seminar.id + "/edit" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                Nevyplnený playlist\n            "
-                    )
-                  ]
-                )
-          ]
-        )
-      ]),
-      _vm._v(" "),
+  return _c("div", [
+    _c("div", { staticClass: "flex text-sm space-x-3 text-gray-400 mt-1" }, [
       _c(
         "div",
-        { staticClass: "flex items-center" },
+        { staticClass: "cursor-pointer hover:text-gray-600 text-gray-500" },
         [
-          _c("c-article-dropdown", {
-            attrs: {
-              post: _vm.seminar,
-              model: "/seminars/",
-              redirect: "seminars"
-            }
+          _vm._v(
+            "\n            Pridal: " +
+              _vm._s(_vm.seminar.organization.title) +
+              "\n        "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      this.seminar.posts.length > 0
+        ? _c("div", {
+            staticClass:
+              "cursor-pointer hover:underline hover:text-gray-600 px-2",
+            domProps: { textContent: _vm._s(_vm.publishedButton) },
+            on: { click: _vm.publishedfunction }
           })
-        ],
-        1
-      )
-    ]
-  )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.seminar.youtube_playlist
+        ? _c(
+            "a",
+            {
+              staticClass:
+                "cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2",
+              attrs: { href: "/seminars/" + _vm.seminar.id + "/upload" }
+            },
+            [_vm._v("Načítať z youTube zoznamu")]
+          )
+        : _c(
+            "a",
+            {
+              staticClass:
+                "cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2",
+              attrs: { href: "/seminars/" + _vm.seminar.id + "/edit" }
+            },
+            [_vm._v("\n            Nevyplnený playlist\n        ")]
+          )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-title.vue?vue&type=template&id=5587cd4d&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/seminars/seminar-title.vue?vue&type=template&id=5587cd4d& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { class: _vm.publishedSeminar }, [
+    _vm._v("\n    " + _vm._s(_vm.seminar.title) + "\n    "),
+    _c("span", { staticClass: "text-sm ml-2 text-gray-500" }, [
+      _vm._v("\n        (" + _vm._s(_vm.seminar.posts.length) + ")\n    ")
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
