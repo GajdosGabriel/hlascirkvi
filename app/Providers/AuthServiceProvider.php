@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use App\Policies\PrayerPolicy;
 use App\Prayer;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Seminar;
+use App\Policies\PrayerPolicy;
+use App\Policies\SeminarPolicy;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Prayer::class => PrayerPolicy::class,
+        Seminar::class => SeminarPolicy::class,
     ];
 
     /**

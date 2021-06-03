@@ -25,6 +25,7 @@ class SeminarsController extends Controller
 
     public function edit(Seminar $seminar)
     {
+        $this->authorize('update', $seminar);
         return view('seminars.edit', compact('seminar'));
     }
 
@@ -35,6 +36,7 @@ class SeminarsController extends Controller
 
     public function update(Seminar $seminar, Request $request)
     {
+        $this->authorize('update', $seminar);
         $seminar->update($request->all());
 
         if(request()->expectsJson()) {
@@ -53,6 +55,7 @@ class SeminarsController extends Controller
 
     public function destroy(Seminar $seminar)
     {
+        $this->authorize('update', $seminar);
         $seminar->posts()->detach();
         $seminar->delete();
         return redirect()->route('seminars.index');
