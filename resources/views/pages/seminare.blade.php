@@ -18,8 +18,10 @@
             <div>
                 @foreach ($seminars as $seminar)
                     <div class="grid col-span-12  mb-4">
-                        <h4 class="text-2xl font-semibold">{{ $seminar->title }}</h4>
-
+                        <a href="{{ route('seminars.show', $seminar->id) }}">
+                            <h4 class="text-2xl font-semibold">{{ $seminar->title }}</h4>
+                        </a>
+                        <seminar-info :seminar="{{ $seminar }}"></seminar-info>
                         <seminar-description :seminar="{{ $seminar }}"></seminar-description>
                     </div>
 

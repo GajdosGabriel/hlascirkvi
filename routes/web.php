@@ -29,7 +29,8 @@ Route::resources([
     'favorites'         => FavoritesController::class,
     'images'            => ImagesController::class,
     'tags'              => TagsController::class,
-    'seminars'          => Seminars\SeminarsController::class
+    'seminars'          => Seminars\SeminarsController::class,
+    'seminars.posts'    => Seminars\SeminarPostController::class
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
