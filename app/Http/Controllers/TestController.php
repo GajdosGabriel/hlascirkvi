@@ -29,22 +29,30 @@ class TestController extends Controller
 {
     public function newsletter() {
 
+        $url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=relate";
+        parse_str( parse_url( $url, PHP_URL_QUERY ), $my_array_of_vars );
+        echo $my_array_of_vars['v'];
 
-        $posts= Post::whereHas('updaters', function(){
+//    $url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=related";
+//     $parse = parse_url($url, PHP_URL_QUERY);
+//     parse_str($parse, $output);
+//     echo $output['watch'];
 
-        })->whereNull('published')->where('youtube_blocked', 0)->get();
+        // $posts= Post::whereHas('updaters', function(){
 
-        $sum = 0;
+        // })->whereNull('published')->where('youtube_blocked', 0)->get();
 
-        foreach($posts as $post){
+        // $sum = 0;
 
-            $post->update([
-                'published' => $post->created_at
-            ]);
-            $sum ++;
-        };
+        // foreach($posts as $post){
 
-        print_r($sum);
+        //     $post->update([
+        //         'published' => $post->created_at
+        //     ]);
+        //     $sum ++;
+        // };
+
+        // print_r($sum);
 
     //     $class = "App\Post";
     //     $class = new $class;

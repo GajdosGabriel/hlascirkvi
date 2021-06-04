@@ -6221,6 +6221,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["seminar"],
@@ -74077,7 +74082,19 @@ var render = function() {
               attrs: { href: "/seminars/" + _vm.seminar.id + "/edit" }
             },
             [_vm._v("\n            Nevyplnený playlist\n        ")]
+          ),
+      _vm._v(" "),
+      _vm.seminar.youtube_playlist
+        ? _c(
+            "a",
+            {
+              staticClass:
+                "cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2",
+              attrs: { href: "/posts/create" }
+            },
+            [_vm._v("Pridať video\n        ")]
           )
+        : _vm._e()
     ])
   ])
 }

@@ -11,6 +11,12 @@ use App\Services\VideoUploadSeminars;
 
 class SeminarsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index', 'show');
+    }
+
+
     public function index()
     {
         $seminars = Seminar::whereOrganizationId(auth()->user()->org_id)->orderBy('created_at', 'desc')->get();
