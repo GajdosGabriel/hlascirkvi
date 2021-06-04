@@ -14,7 +14,6 @@ use App\Seminar;
 
 class HomeController extends Controller
 {
-
     public function __construct()
     {
         $this->posts = new EloquentPostRepository;
@@ -40,16 +39,17 @@ class HomeController extends Controller
         return view('pages.online-prenosy', compact('posts'));
     }
 
-    public function seminare() {
+    public function seminare()
+    {
+        $seminars = Seminar::whereNotNull('published')->get();
 
-       $seminars = Seminar::whereNotNull('published')->get();
-
-        $posts = $this->posts->getPostsByUpdater(17);
-        return view('pages.seminare', compact('posts'));
+        //  Staré zoradovanie
+        // $posts = $this->posts->getPostsByUpdater(17);
+        return view('pages.seminare', compact('seminars'));
     }
 
-    public function gdpr(){
+    public function gdpr()
+    {
         return view('pages.ochrana-osobnych-udajov');
     }
-
 }
