@@ -13,9 +13,10 @@
 
             <div>
                 @foreach ($seminars as $seminar)
+                    <div class="grid col-span-12  mb-4">
+                        <h4 class="text-2xl font-semibold">{{ $seminar->title }}</h4>
 
-                    <div class="grid col-span-12">
-                        <h4 class="text-2xl font-semibold mb-4">{{ $seminar->title }}</h4>
+                        <seminar-description :seminar="{{ $seminar }}"></seminar-description>
                     </div>
 
                     <div class="md:grid md:grid-cols-4 lg:grid-cols-7 gap-6 mb-10">

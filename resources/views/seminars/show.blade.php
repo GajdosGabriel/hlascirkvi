@@ -21,6 +21,7 @@
                         <seminar-title :seminar="{{ $seminar }}"></seminar-title>
                     </h2>
                     <seminar-info :seminar="{{ $seminar }}"></seminar-info>
+                    <seminar-description :seminar="{{ $seminar }}"></seminar-description>
                 </div>
 
                 <div class="flex items-center">
