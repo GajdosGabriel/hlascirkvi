@@ -13,7 +13,7 @@ class SeminarsController extends Controller
 {
     public function index()
     {
-        $seminars = Seminar::whereOrganizationId(auth()->user()->org_id)->get();
+        $seminars = Seminar::whereOrganizationId(auth()->user()->org_id)->orderBy('created_at', 'desc')->get();
 
         return view('profiles.seminars', ['seminars' => $seminars]);
     }

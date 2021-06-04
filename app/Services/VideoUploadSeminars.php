@@ -85,8 +85,10 @@ class VideoUploadSeminars
 
         /*
          * Zaradiť do zoznamu (17- Semináre)
-         * bude sa hned publikovať.
+         * lebo inak by skončilo v Buffer a čakať na publikovanie.
          */
+        $post->updaters()->attach(17);
+
         $post->seminars()->attach($this->seminar->id);
     }
 

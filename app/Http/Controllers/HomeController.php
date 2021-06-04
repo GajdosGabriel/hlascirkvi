@@ -41,7 +41,7 @@ class HomeController extends Controller
 
     public function seminare()
     {
-        $seminars = Seminar::whereNotNull('published')->get();
+        $seminars = Seminar::whereNotNull('published')->orderBy('created_at', 'desc')->get();
 
         //  Staré zoradovanie
         // $posts = $this->posts->getPostsByUpdater(17);
