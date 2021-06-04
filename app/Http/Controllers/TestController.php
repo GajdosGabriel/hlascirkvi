@@ -32,7 +32,7 @@ class TestController extends Controller
 
         $posts= Post::whereHas('updaters', function(){
 
-        })->whereNull('published')->wherey('youtube_blocked', 0)->get();
+        })->whereNull('published')->where('youtube_blocked', 0)->get();
 
         $sum = 0;
 

@@ -45,7 +45,7 @@ class HomeController extends Controller
        $seminars = Seminar::whereNotNull('published')->get();
 
         $posts = $this->posts->getPostsByUpdater(17);
-        return view('pages.seminare', compact('seminars'));
+        return view('pages.seminare', compact('posts'));
     }
 
     public function gdpr(){

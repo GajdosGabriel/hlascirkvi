@@ -69,7 +69,10 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     public function findAndPublishPost($post, $IdUpdater)
     {
         $post = $this->entity->withoutGlobalScope('published')->find($post);
-        $post->update(['created_at' => now()]);
+        $post->update([
+            'created_at' => now(),
+            'published' => now()
+            ]);
         $post->updaters()->attach($IdUpdater);
     }
 
@@ -78,7 +81,10 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      */
      public function publishPost($post, $IdUpdater)
     {
-        $post->update(['created_at' => now()]);
+        $post->update([
+            'created_at' => now(),
+            'published' => now()
+            ]);
         $post->updaters()->attach($IdUpdater);
     }
 
