@@ -5495,15 +5495,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_1__.filterMixin],
   data: function data() {
     return {
-      prayer: '',
-      open: false,
-      email: ''
+      prayer: "",
+      email: ""
     };
   },
   computed: {
@@ -5514,19 +5550,19 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on('passToModalPrayer', function (prayer) {
+    _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on("passToModalPrayer", function (prayer) {
       _this.prayer = prayer;
     });
   },
   methods: {
     toggle: function toggle() {
-      this.prayer = '';
+      this.prayer = "";
     },
     saveFavorites: function saveFavorites() {
       var _this2 = this;
 
-      axios.put('/favorites/' + this.prayer.id, {
-        model: 'Prayer',
+      axios.put("/favorites/" + this.prayer.id, {
+        model: "Prayer",
         model_id: this.prayer.id,
         email: this.email
       }).then(function (response) {
@@ -6009,6 +6045,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -6024,10 +6068,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      links: '',
-      meta: '',
+      links: "",
+      meta: "",
       prayers: [],
-      url: '/api/modlitby?page=1'
+      url: "/api/modlitby?page=1"
     };
   },
   created: function created() {
@@ -6049,7 +6093,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     openModal: function openModal() {
-      _app__WEBPACK_IMPORTED_MODULE_1__.bus.$emit('openModalPrayer', function () {
+      _app__WEBPACK_IMPORTED_MODULE_1__.bus.$emit("openModalPrayer", function () {
         true;
       });
     },
@@ -73061,7 +73105,11 @@ var render = function() {
                         staticClass: "close-modal cursor-pointer",
                         on: { click: _vm.toggle }
                       },
-                      [_vm._v("✖")]
+                      [
+                        _vm._v(
+                          "\n                        ✖\n                    "
+                        )
+                      ]
                     )
                   ])
                 ]),
@@ -73123,152 +73171,62 @@ var render = function() {
                             ])
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "mt-3" }, [
-                            _c(
-                              "p",
-                              { staticClass: "text-sm text-gray-500 flex" },
-                              [
-                                _c(
-                                  "span",
-                                  { staticClass: "mr-3 font-semibold" },
-                                  [_vm._v("Modlitba je stále aktuálna")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "svg",
-                                  {
-                                    staticClass:
-                                      "h-4 w-4 mr-1 text-gray-500 fill-current",
-                                    attrs: {
-                                      xmlns: "http://www.w3.org/2000/svg",
-                                      viewBox: "0 0 20 20",
-                                      fill: "currentColor"
-                                    }
-                                  },
-                                  [
-                                    _c("path", {
-                                      attrs: {
-                                        "fill-rule": "evenodd",
-                                        d:
-                                          "M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z",
-                                        "clip-rule": "evenodd"
-                                      }
-                                    })
-                                  ]
-                                ),
-                                _vm._v(
-                                  "\n                                dňa: " +
-                                    _vm._s(
-                                      _vm._f("dateTime")(_vm.prayer.created_at)
-                                    ) +
-                                    " hod.\n                            "
-                                )
-                              ]
-                            )
-                          ]),
+                          _vm._m(1),
                           _vm._v(" "),
-                          !_vm.isAuth
-                            ? _c(
-                                "form",
-                                {
-                                  on: {
-                                    submit: function($event) {
-                                      $event.preventDefault()
-                                      return _vm.saveFavorites($event)
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm.open
-                                    ? _c(
-                                        "div",
-                                        {
-                                          staticClass: "mt-4 text-center w-full"
-                                        },
-                                        [
-                                          _vm._m(1),
-                                          _vm._v(" "),
-                                          _c("div", { staticClass: "mb-3" }, [
-                                            _c("input", {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: _vm.email,
-                                                  expression: "email"
-                                                }
-                                              ],
-                                              staticClass:
-                                                "border w-full p-2 border-2 border-gray-700 rounded",
-                                              attrs: {
-                                                type: "email",
-                                                name: "email",
-                                                placeholder: "E-Mail",
-                                                required: ""
-                                              },
-                                              domProps: { value: _vm.email },
-                                              on: {
-                                                input: function($event) {
-                                                  if ($event.target.composing) {
-                                                    return
-                                                  }
-                                                  _vm.email =
-                                                    $event.target.value
-                                                }
-                                              }
-                                            })
-                                          ])
-                                        ]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.open
-                                    ? _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-primary mt-2",
-                                          attrs: { type: "submit" }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                Pripojiť sa k modlitbe\n                            "
-                                          )
-                                        ]
-                                      )
-                                    : _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-primary mt-2",
+                          _c(
+                            "form",
+                            {
+                              on: {
+                                submit: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.saveFavorites($event)
+                                }
+                              }
+                            },
+                            [
+                              !_vm.isAuth
+                                ? _c(
+                                    "div",
+                                    { staticClass: "mt-4 text-center w-full" },
+                                    [
+                                      _c("div", { staticClass: "mb-3" }, [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.email,
+                                              expression: "email"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "w-full p-2 border-2 border-gray-700 rounded",
+                                          attrs: {
+                                            type: "email",
+                                            name: "email",
+                                            placeholder: "e-mail",
+                                            required: ""
+                                          },
+                                          domProps: { value: _vm.email },
                                           on: {
-                                            click: function($event) {
-                                              _vm.open = true
+                                            input: function($event) {
+                                              if ($event.target.composing) {
+                                                return
+                                              }
+                                              _vm.email = $event.target.value
                                             }
                                           }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                Pripojiť sa k modlitbe\n                            "
-                                          )
-                                        ]
-                                      )
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.isAuth
-                            ? _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-primary mt-2",
-                                  on: { click: _vm.saveFavorites }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                            Pripojiť sa k modlitbe\n                        "
+                                        })
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._m(2)
+                                    ]
                                   )
-                                ]
-                              )
-                            : _vm._e()
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._m(3)
+                            ]
+                          )
                         ]
                       )
                     ])
@@ -73323,13 +73281,45 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "font-semibold mb-2" }, [
-      _vm._v(
-        "Nie ste prihlásený. Vložte svoj email, ktorý email\n                                    "
-      ),
-      _c("br"),
-      _vm._v(
-        " ktorý nebude nikde zverejnený. Pripojite sa k modlitbe.\n                                "
+    return _c("div", { staticClass: "mt-3" }, [
+      _c("p", { staticClass: "text-sm text-gray-500 flex" }, [
+        _c("span", { staticClass: "mr-3 font-semibold" }, [
+          _vm._v("Modlitba je stále aktuálna")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "p",
+      { staticClass: "font-semibold mb-2 text-gray-500 text-sm" },
+      [
+        _vm._v(
+          "\n                                    Nie ste prihlásený. Vložte svoj email,\n                                    ktorý email\n                                    "
+        ),
+        _c("br"),
+        _vm._v(
+          "\n                                    ktorý nebude nikde zverejnený. Pripojite\n                                    sa k modlitbe.\n                                "
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex justify-center" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary mt-2", attrs: { type: "submit" } },
+        [
+          _vm._v(
+            "\n                                    Pripojiť sa k modlitbe\n                                "
+          )
+        ]
       )
     ])
   }
@@ -73899,7 +73889,7 @@ var render = function() {
     {},
     [
       _c("div", { staticClass: "page_title" }, [
-        _c("h2", { staticClass: "text-2xl" }, [_vm._v(" Modlitebný múr")]),
+        _c("h2", { staticClass: "text-2xl" }, [_vm._v("Modlitebný múr")]),
         _vm._v(" "),
         _c(
           "button",

@@ -31,7 +31,7 @@ trait Favoritable
     public function favorite()
     {
         if ($this->favorites()->whereUserId(auth()->id() )->exists() ) {
-            $this->favorites()->delete(['user_id' => auth()->id()] );
+            $this->favorites()->delete();
 
             session()->flash('flash', 'OK Zrušené!');
         } else {
@@ -41,8 +41,8 @@ trait Favoritable
     }
 
     public function isFavorited() {
-        return ! ! $this->favorites->where('user_id', auth()->id())->count();
-    //    return $this->favorites()->whereUserId(auth()->id())->exists();
+        // return ! ! $this->favorites->where('user_id', auth()->id())->count();
+       return $this->favorites()->whereUserId(auth()->id())->exists();
     }
 
     public function getIsFavoritedAttribute() {

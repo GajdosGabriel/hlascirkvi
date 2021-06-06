@@ -19,11 +19,12 @@ class FavoritesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('favoritePrayer');
+        $this->middleware('auth')->except('update');
     }
 
     public function update(FavoriteRequest $request, $favorite)
     {
+
         if ($request->email) {
             (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
@@ -37,7 +38,7 @@ class FavoritesController extends Controller
 
         if (request()->expectsJson()) return $model;
 
-        return back();
+        // return back();
     }
 
     public function favoriteUsers(User $user) {
