@@ -19,6 +19,7 @@ use App\Services\Newsletter;
 use Illuminate\Http\Request;
 use App\Events\User\NotifyBell;
 use Illuminate\Support\Facades\Mail;
+use App\Services\Extractor\ExtractEcav;
 use App\Services\Extractor\ExtractTkkbs;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
@@ -28,6 +29,9 @@ use App\Repositories\Eloquent\EloquentEventRepository;
 class TestController extends Controller
 {
     public function newsletter() {
+
+    //   $xx =   (new ExtractEcav())->parseListUrl();
+    //   dd($xx);
 
         $url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=relate";
         parse_str( parse_url( $url, PHP_URL_QUERY ), $my_array_of_vars );

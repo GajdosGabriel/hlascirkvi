@@ -48,7 +48,10 @@ abstract class Extractors
 
         foreach ($data as $item) {
             // Remove white space from left
-            $title = ltrim($item['title']);
+            $title = trim($item['title']);
+
+            // Remove extra spaces but not space between two words
+            $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
 
             // Find or create new record
             if (DB::table('events')->whereTitle($title)->first()) {
