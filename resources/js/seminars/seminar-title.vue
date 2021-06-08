@@ -1,8 +1,8 @@
 <template>
     <div :class="publishedSeminar">
         {{ seminar.title }}
-        <span class="text-sm ml-2 text-gray-500">
-            ({{ seminar.posts.length }})
+        <span v-if="seminar.posts_count" class="text-sm ml-2 text-gray-500">
+            ({{ seminar.posts_count }})
         </span>
     </div>
 </template>

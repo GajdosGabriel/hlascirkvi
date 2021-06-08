@@ -16,14 +16,6 @@ class SeminarsController extends Controller
         $this->middleware('auth')->except('index', 'show');
     }
 
-
-    public function index()
-    {
-        $seminars = Seminar::whereOrganizationId(auth()->user()->org_id)->orderBy('created_at', 'desc')->get();
-
-        return view('profiles.seminars', ['seminars' => $seminars]);
-    }
-
     public function show(Seminar $seminar)
     {
         return view('seminars.show', compact('seminar'));

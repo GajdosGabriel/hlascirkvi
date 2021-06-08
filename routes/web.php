@@ -30,6 +30,7 @@ Route::resources([
     'images'            => ImagesController::class,
     'tags'              => TagsController::class,
     'seminars'          => Seminars\SeminarsController::class,
+    'profil-seminars'   => Seminars\ProfilSeminarController::class,
     'seminars.posts'    => Seminars\SeminarPostController::class
 ]);
 

@@ -11,7 +11,7 @@ class Seminar extends Model
     protected $guarded = [];
     // public $timestamps = false;
 
-    protected $with = ['posts','organization'];
+    protected $with = ['organization'];
 
 
     public function posts() {
