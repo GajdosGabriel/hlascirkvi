@@ -9,10 +9,10 @@
                 <h2 class="text-2xl">
                     Vzdelávanie a kurzy
                 </h2>
-                <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300" href="{{ route('seminars.create') }}"><i
-                    class="fas fa-plus"></i>
-                Nový seminár
-            </a>
+                <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
+                    href="{{ route('seminars.create') }}"><i class="fas fa-plus"></i>
+                    Nový seminár
+                </a>
             </div>
 
             <div>
@@ -21,18 +21,22 @@
                         <a href="{{ route('seminars.show', $seminar->id) }}">
                             <h4 class="text-2xl font-semibold">{{ $seminar->title }}</h4>
                         </a>
-                        <seminar-info :seminar="{{ $seminar }}"></seminar-info>
-                        <seminar-description :seminar="{{ $seminar }}"></seminar-description>
+
+                        <div class="cursor-pointer hover:text-gray-600 text-gray-500">
+                            Pridal: {{ $seminar->organization->title }}
+                        </div>
+
+                        <div class="block">{{ $seminar->description }}</div>
                     </div>
 
                     <div class="md:grid md:grid-cols-4 lg:grid-cols-7 gap-6 mb-10">
-                    @foreach ($seminar->posts as $post)
+                        @foreach ($seminar->posts as $post)
 
                             @include('posts.post-card')
 
-                    @endforeach
+                        @endforeach
 
-                </div>
+                    </div>
                 @endforeach
             </div>
         </div>
