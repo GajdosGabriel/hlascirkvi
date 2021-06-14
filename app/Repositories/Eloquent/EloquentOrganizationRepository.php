@@ -65,6 +65,35 @@ class EloquentOrganizationRepository extends AbstractRepository implements Organ
     }
 
 
+    public function frontOrganizationsList()
+    {
+        $postsCount = \DB::table('posts')
+                   ->select('organization_id', \DB::raw('count(*) as posts_count'))
+                   ->where('youtube_blocked', 0)
+                   ->groupBy('organization_id');
+
+
+        return  \DB::table('organizations')
+        ->select([
+            'organizations.slug',
+            'organizations.id',
+            'organizations.title',
+            'posts_count',
+            ])
+        ->join('organization_updater', function ($join) {
+            $join->on('organizations.id', '=', 'organization_updater.organization_id')
+            ->where('updater_id', 14);
+        })
+
+        ->joinSub($postsCount, 'posts', function ($join) {
+            $join->on('organizations.id', '=', 'posts.organization_id');
+        });
+    }
+
+
+
+
+
 
 
 }

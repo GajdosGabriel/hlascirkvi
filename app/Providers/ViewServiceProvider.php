@@ -3,21 +3,22 @@
 namespace App\Providers;
 
 
+use App\Post;
 use App\User;
-use App\Event;
 
+use App\Event;
 use App\Verse;
 use App\BigThink;
 use App\Category;
 use Carbon\Carbon;
 use App\Organization;
 use App\Filters\EventFilters;
-use App\Post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
+use App\Repositories\Eloquent\EloquentOrganizationRepository;
 
 
 
@@ -43,9 +44,9 @@ class ViewServiceProvider extends ServiceProvider
         view()->composer('organizations.list-users', function ($view) {
             $view->with(
                 'users',
-                Organization::whereHas('updaters', function ($query) {
-                    $query->whereId(14);
-                })->orderBy('title', 'asc')->withCount('posts')->get()
+
+                (new EloquentOrganizationRepository())->frontOrganizationsList()
+                ->orderBy('title', 'asc')->get()
             );
         });
 

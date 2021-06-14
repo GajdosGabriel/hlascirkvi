@@ -28,13 +28,59 @@ use App\Repositories\Eloquent\EloquentEventRepository;
 
 class TestController extends Controller
 {
-    public function newsletter() {
+    public function newsletter()
+    {
+        $postsCount = \DB::table('posts')
+                   ->select('organization_id', \DB::raw('count(*) as post_count'))
+                   ->where('youtube_blocked', 0)
+                   ->groupBy('organization_id');
 
-    //   $xx =   (new ExtractEcav())->parseListUrl();
-    //   dd($xx);
+
+        $vysledok =  \DB::table('organizations')
+        ->select([
+            'organizations.slug',
+            'organizations.id',
+            'organizations.title',
+            'post_count',
+            ])
+        ->join('organization_updater', function ($join) {
+            $join->on('organizations.id', '=', 'organization_updater.organization_id')
+            ->where('updater_id', 14);
+        })
+
+        ->joinSub($postsCount, 'posts', function ($join) {
+            $join->on('organizations.id', '=', 'posts.organization_id');
+        })
+
+        ->get();
+
+        dd($vysledok);
+
+
+
+        $vysledok =  \DB::table('organizations')
+        ->select([
+            \DB::raw('count(*) as user_posts'),
+            \DB::raw('DATE(created_at) as den')
+        ])
+        ->groupBy('den')
+        ->orderBy('user_posts', 'asc')
+        ->get();
+
+        dd($vysledok);
+
+
+
+
+
+
+
+
+        //   $xx =   (new ExtractEcav())->parseListUrl();
+        //   dd($xx);
 
         $url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=relate";
-        parse_str( parse_url( $url, PHP_URL_QUERY ), $my_array_of_vars );
+        parse_str(parse_url($url, PHP_URL_QUERY), $my_array_of_vars);
         echo $my_array_of_vars['v'];
 
 //    $url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=related";
@@ -99,7 +145,6 @@ class TestController extends Controller
         // Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));
 
     //    return new PostNewsletter($posts, $events, $prayers);
-
     }
 
 
@@ -133,30 +178,25 @@ class TestController extends Controller
 //           ]);
 //       }
 //       $posts = (new ExtractMojaKomunita())->parseListUrl();
-
     }
 
 
 
     public function cleanTitle()
     {
-
         $posts = \DB::table('posts')->get();
         $count = 0;
         $frase = "&amp;";
 
         foreach ($posts as $post) {
-
             if (strpos($post->title, $frase)) {
-
                 $post = \DB::table('posts')->whereId($post->id)->first();
 
-               $xxx = \DB::table('posts')->whereId($post->id)->update([
+                $xxx = \DB::table('posts')->whereId($post->id)->update([
                     'title' => cleanTitle($post->title)
                 ]);
                 $count++;
             }
-
         }
         echo $count;
     }
@@ -170,9 +210,7 @@ class TestController extends Controller
         $frase = "================";
 
         foreach ($posts as $post) {
-
             if (strpos($post->body, $frase)) {
-
                 $cleanBody = substr($post->body, 0, strpos($post->body, $frase));
 
                 $post = \DB::table('posts')->whereId($post->id)->first();
@@ -182,11 +220,9 @@ class TestController extends Controller
                 ]);
                 $count++;
             }
-
         }
 
         echo $count;
-
     }
 
     public function greckyMagazin()
@@ -196,9 +232,7 @@ class TestController extends Controller
         $frase = "Podporte náš projekt: https://www.logos.tv/pomoc";
 
         foreach ($posts as $post) {
-
             if (strpos($post->body, $frase)) {
-
                 $cleanBody = substr($post->body, 0, strpos($post->body, $frase));
                 $post = \DB::table('posts')->whereId($post->id)->first();
 
@@ -207,11 +241,9 @@ class TestController extends Controller
                 ]);
                 $count++;
             }
-
         }
 
         echo $count;
-
     }
 
     public function paragraphGenerator($text, $length = 400, $maxLength = 550)
@@ -235,7 +267,6 @@ class TestController extends Controller
         /*iterate over $text length
           as substr_replace deleting it*/
         while (strlen($text) > $length) {
-
             $end = strpos($text, $needle, $length);
 
             if ($end === false) {
@@ -244,13 +275,11 @@ class TestController extends Controller
                 $splitText[] = substr($text, 0);
                 $text = '';
                 break;
-
             }
 
             $end++;
             $splitText[] = substr($text, 0, $end);
             $text = substr_replace($text, '', 0, $end);
-
         }
 
         if ($text) {
@@ -266,13 +295,12 @@ class TestController extends Controller
 
 
         return $splitText;
-
     }
 
 
 
 
-//   public function test() {
+    //   public function test() {
 //
 //       $organizations = \DB::table('views')
 ////           ->take(1000)
