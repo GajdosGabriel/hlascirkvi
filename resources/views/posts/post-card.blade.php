@@ -20,7 +20,7 @@
         <a href="{{ route('organization.show', [$post->organization->id, $post->organization->slug]) }}">
             {{ $post->organization->title }}
         </a>
-        <time datetime="{{ $post->created_at }}">{{ $post->created_at->diffForHumans() }}</time>
+        <time datetime="{{ $post->created_at }}">{{ $post->createdAtHuman }}</time>
     </div>
 
 </div>

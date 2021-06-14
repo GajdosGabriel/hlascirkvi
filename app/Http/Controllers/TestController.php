@@ -30,31 +30,13 @@ class TestController extends Controller
 {
     public function newsletter()
     {
-        $postsCount = \DB::table('posts')
-                   ->select('organization_id', \DB::raw('count(*) as post_count'))
-                   ->where('youtube_blocked', 0)
-                   ->groupBy('organization_id');
+        $posts = \DB::table('posts')
+        ->join('post_updater', function ($join) {
+            $join->on('posts.id', '=', 'post_updater.post_id')
+            ->where('updater_id', 15);
+        })->orderBy('created_at', 'desc')->paginate();
 
-
-        $vysledok =  \DB::table('organizations')
-        ->select([
-            'organizations.slug',
-            'organizations.id',
-            'organizations.title',
-            'post_count',
-            ])
-        ->join('organization_updater', function ($join) {
-            $join->on('organizations.id', '=', 'organization_updater.organization_id')
-            ->where('updater_id', 14);
-        })
-
-        ->joinSub($postsCount, 'posts', function ($join) {
-            $join->on('organizations.id', '=', 'posts.organization_id');
-        })
-
-        ->get();
-
-        dd($vysledok);
+        dd($posts);
 
 
 
