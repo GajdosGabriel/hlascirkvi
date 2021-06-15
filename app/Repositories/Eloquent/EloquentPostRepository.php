@@ -14,52 +14,57 @@ use App\Repositories\AbstractRepository;
 use App\Repositories\Contracts\PostRepository;
 use CyrildeWit\EloquentViewable\Support\Period;
 
-
 class EloquentPostRepository extends AbstractRepository implements PostRepository
 {
-
     public function entity()
     {
         return Post::class;
     }
 
 
-    public function getPostsByUpdater($idUpdaters) {
+    public function getPostsByUpdater($idUpdaters)
+    {
         return $this->postsByUpdater($idUpdaters)
             ->orderBy('id', 'desc')->get()->groupBy('organization_id');
     }
 
 
-    public function postsByUpdater($idUpdaters) {
+    public function postsByUpdater($idUpdaters)
+    {
         return $this->entity->whereHas('updaters', function ($query) use ($idUpdaters) {
             $query->whereId($idUpdaters);
         });
     }
 
-    public function postsByTag($idTag) {
+    public function postsByTag($idTag)
+    {
         return $this->entity->whereHas('tags', function ($query) use ($idTag) {
             $query->whereId($idTag);
         });
     }
 
 
-    protected function unpublished() {
+    protected function unpublished()
+    {
         return $this->entity->withoutGlobalScope('published')->doesntHave('updaters');
     }
 
-    public function unpublishedPaginate($perPage) {
+    public function unpublishedPaginate($perPage)
+    {
         return $this->unpublished()->paginate($perPage);
     }
 
     // For buffer ---------------
 
-    public function getUnpublishedPosts() {
+    public function getUnpublishedPosts()
+    {
         return $this->unpublished()->get();
     }
 
-    public function getPostForPublish($usersId) {
-      return $this->unpublished()
-            ->whereNotIn('organization_id',  $usersId)
+    public function getPostForPublish($usersId)
+    {
+        return $this->unpublished()
+            ->whereNotIn('organization_id', $usersId)
             ->latest()->orderBy('id', 'desc')->first();
     }
 
@@ -79,7 +84,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     /*
      * Published for buffer
      */
-     public function publishPost($post, $IdUpdater)
+    public function publishPost($post, $IdUpdater)
     {
         $post->update([
             'created_at' => now(),
@@ -91,10 +96,10 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
 
     public function getPostsByDatetime()
     {
-       return $this->entity
-            ->whereYear('created_at',   '=', date('Y') )
-            ->whereMonth('created_at',  '=', date('m'))
-            ->whereDay('created_at',    '=', date('d'))
+        return $this->entity
+            ->whereYear('created_at', '=', date('Y'))
+            ->whereMonth('created_at', '=', date('m'))
+            ->whereDay('created_at', '=', date('d'))
             ->get();
     }
 
@@ -104,12 +109,15 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
 
     public function countUnwatchedSundayServicesVideos()
     {
-        $unwatchedVideos = $this->entity->whereHas('organization.updaters', function ($query) {
-            $query->whereId(1);
-        })->where( 'created_at', '>', session()->get('lastVisit'))->count();
+        $unwatchedVideos =
+        \DB::table('posts')
+        ->join('post_updater', function ($join) {
+            $join->on('posts.id', '=', 'post_updater.post_id')
+            ->whereUpdaterId('16');
+        })->where('created_at', '>', session()->get('lastVisit'))->count();
 
-        if($unwatchedVideos > 0) {
-          session()->put('countUnwatchedVideos', $unwatchedVideos);
+        if ($unwatchedVideos > 0) {
+            session()->put('countUnwatchedVideos', $unwatchedVideos);
         }
     }
 
@@ -125,12 +133,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      */
     public function newlleterMostVisited()
     {
-        return $this->entity->where('created_at','>', Carbon::now()->subDays(30))
+        return $this->entity->where('created_at', '>', Carbon::now()->subDays(30))
         ->orderByViews('desc', Period::pastDays(30));
-
     }
-
-
-
-
 }

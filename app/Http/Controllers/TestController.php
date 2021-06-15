@@ -25,17 +25,19 @@ use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 class TestController extends Controller
 {
     public function newsletter()
     {
-        $posts = \DB::table('posts')
-        ->join('post_updater', function ($join) {
+        $posts =
+        \DB::table('posts')
+        ->join('post_updater', function($join){
             $join->on('posts.id', '=', 'post_updater.post_id')
-            ->where('updater_id', 15);
-        })->orderBy('created_at', 'desc')->paginate();
-
+            ->whereUpdaterId('16');
+        })
+        ->where( 'created_at', '>',  Carbon::now()->subDays(20) )->get();
         dd($posts);
 
 
