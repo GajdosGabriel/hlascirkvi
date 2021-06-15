@@ -27,7 +27,7 @@ class OrganizationsController extends Controller
         return view('organizations.user-index', compact('organizations'));
     }
 
-    public function show(Organization $organization, $slug)
+    public function show(Organization $organization)
     {
         return view('posts.index', ['posts' => $organization->posts()->latest()->paginate(), 'organization' => $organization]);
     }
@@ -73,7 +73,7 @@ class OrganizationsController extends Controller
         return back();
     }
 
-   
+
 
 
 }

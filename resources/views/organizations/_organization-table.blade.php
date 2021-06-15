@@ -17,7 +17,7 @@
         <tr class="border-2 border-gray-300">
             <td class="pl-4">{{ $loop->iteration }}</td>
             <td>
-                <a href="{{ route('organization.profile', [ $organization->id, $organization->slug]) }}">
+                <a href="{{ route('organizations.show', [ $organization->id]) }}">
                     {{ $organization->title }}
                 </a>
             </td>

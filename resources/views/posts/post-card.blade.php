@@ -17,7 +17,7 @@
 
 
     <div class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm">
-        <a href="{{ route('organization.show', [$post->organization->id, $post->organization->slug]) }}">
+        <a href="{{ route('organizations.show', [$post->organization->id]) }}">
             {{ $post->organization->title }}
         </a>
         <time datetime="{{ $post->created_at }}">{{ $post->createdAtHuman }}</time>

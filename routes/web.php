@@ -56,12 +56,10 @@ Route::prefix('profiles/')->name('profiles.')->group(function () {
 
 
 Route::prefix('user/')->name('organization.')->group(function () {
-    Route::get('{organization}/{slug}', 'OrganizationsController@show')->name('show');
     Route::get('{user}/{slug}/posts', 'OrganizationsController@organizationPosts')->name('posts');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('{user}/{slug}/index', 'OrganizationsController@organizationIndex')->name('index');
-        Route::get('{organization}/{slug}/profile', 'OrganizationsController@profile')->name('profile');
 
         Route::post('message/{organization}/newMessage', 'MessengersController@store')->name('messengers.store.users');
     });
