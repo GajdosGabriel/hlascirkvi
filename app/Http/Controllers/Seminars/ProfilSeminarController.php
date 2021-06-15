@@ -16,4 +16,9 @@ class ProfilSeminarController extends Controller
 
         return view('profiles.seminars', ['seminars' => $seminars]);
     }
+
+    public function show(Seminar $profilSeminar)
+    {
+        return view('profiles.seminars.show', ['seminar' => $profilSeminar]);
+    }
 }

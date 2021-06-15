@@ -25,7 +25,7 @@
             </div>
 
 
-          @include('seminars._list')
+          @include('profiles.seminars._list')
 
         </div>
 
