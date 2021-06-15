@@ -185,7 +185,7 @@ export default {
             // Update prayer
             if (this.form.id) {
                 console.log(this.form);
-                Axios.put("/modlitby/" + this.form.id, this.form).then(
+                Axios.put("/modlitby/" + this.form.id, { title: this.form.title, body: this.form.body, user_name: this.form.user_name } ).then(
                     response => {
                         this.form = {};
                         this.show = false;
