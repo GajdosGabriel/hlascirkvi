@@ -70,7 +70,6 @@ abstract class Extractors
                 'published' => 0,
                 'created_at' => Carbon::now()->subHours(2)->toDateTimeString(),
             ]);
-
             $this->parseEvent($this->prefix . $item['href'], $event);
         }
 

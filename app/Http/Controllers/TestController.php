@@ -21,16 +21,26 @@ use App\Events\User\NotifyBell;
 use Illuminate\Support\Facades\Mail;
 use App\Services\Extractor\ExtractEcav;
 use App\Services\Extractor\ExtractTkkbs;
+use Illuminate\Database\Eloquent\Builder;
+use App\Services\Extractor\ExtractVyveska;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
-use Illuminate\Database\Eloquent\Builder;
 
 class TestController extends Controller
 {
     public function newsletter()
     {
+
+$href = 'http://www.vyveska.sk/22601/milujuca-naruc-duchovne-cvicenia-pre-zranenych-spontannym-potratom-a-bezdetne-pary.html';
+
+
+       $events = (new ExtractVyveska())->parseListUrl();
+
+        dd($events);
+
+
         $posts =
         \DB::table('posts')
         ->join('post_updater', function($join){
