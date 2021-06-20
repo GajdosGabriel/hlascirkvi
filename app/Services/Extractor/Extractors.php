@@ -43,12 +43,14 @@ abstract class Extractors
 
     }
 
-    protected function createEvent($data)
+    protected function createEvent($data, $published = 0)
     {
 
         foreach ($data as $item) {
             // Remove white space from left
             $title = trim($item['title']);
+            // Odstránenie úvodzoviek vpredu a vzadu
+            $title = str_replace(['„', '“'], '', $item['title']);
 
             // Remove extra spaces but not space between two words
             $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
@@ -67,7 +69,7 @@ abstract class Extractors
                 'registration' => 'no',
                 'village_id' => 4209, // Celé Slovensko
                 'entryFee' => 'no',
-                'published' => 0,
+                'published' => $published,
                 'created_at' => Carbon::now()->subHours(2)->toDateTimeString(),
             ]);
             $this->parseEvent($this->prefix . $item['href'], $event);
@@ -239,7 +241,9 @@ abstract class Extractors
 
     public function timeRecogniser($text)
     {
+
         $time = preg_match_all("/[0-9][0-9]:[0-9][0-9]/", $text, $array);
+
 
         if (!empty($time)) {
 

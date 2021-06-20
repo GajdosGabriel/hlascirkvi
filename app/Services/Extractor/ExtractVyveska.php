@@ -18,7 +18,7 @@ class ExtractVyveska extends Extractors
 {
     protected $prefix = 'http://www.vyveska.sk/';
     protected $url = 'http://www.vyveska.sk/22601/milujuca-naruc-duchovne-cvicenia-pre-zranenych-spontannym-potratom-a-bezdetne-pary.html';
-    protected $organizationId = 1;
+    protected $organizationId = 271;
 
 
     public function parseListUrl()
@@ -49,12 +49,9 @@ class ExtractVyveska extends Extractors
             $extractedLinks[] = array(
                         'title' => $link['title'],
                         'href' => str_replace('?utm_source=vyveska.sk&utm_content=simple&utm_medium=rss', '', str_replace('http://www.vyveska.sk/', '', $link['link']))
-
                     );
         }
-
-        // return $extractedLinks;
-        $this->createEvent($extractedLinks);
+        $this->createEvent($extractedLinks, 1);
     }
 
 
@@ -77,6 +74,63 @@ class ExtractVyveska extends Extractors
         //Extract the links from the HTML.
         $imgUrls = $htmlDom->getElementsByTagName('img');
         $bodyText = $htmlDom->getElementsByTagName('p');
+        $dates = $htmlDom->getElementsByTagName('h2');
+
+
+        // ----------------- GET DATE AND TIME ------------------------------
+        //Array that will contain our extracted links.
+        $extractedDates = array();
+
+        //Loop through the DOMNodeList.
+        //We can do this because the DOMNodeList object is traversable.
+        foreach ($dates as $datelink) {
+            //Get the link text.
+            $datetime = $datelink->nodeValue;
+
+            $extractedDates[] = array(
+                'datetime' =>   $datetime
+                );
+        }
+
+        $dateString = implode("|", $extractedDates[0]);
+
+
+        if(substr_count($dateString, 2021) > 1){
+            // Ak sú dva dátumy začiatok a koniec
+            $date =  explode("-", $dateString);
+            $startDate = $date[0];
+            $endDate = $date[1];
+        } else {
+            // Ak je jeden dátum
+            $date =  explode(" ", $dateString);
+            $time = explode("-",  $date[1]);
+
+            // lebo čas celý den je 0:00 preto pridávam pred nulu
+            $startDate = $date[0]. ' '. '0'.$time[0];
+            $endDate = $date[0]. ' '. $time[1];
+
+        }
+
+
+        // Check if event one or two days
+
+
+// dd($this->find_date($startDate));
+// dd($this->find_date($endDate));
+// dd($endDate);
+
+        $event->update([
+        'start_at' => $this->find_date($startDate),
+        'end_at' => $this->find_date($endDate),
+    ]);
+
+
+
+
+
+
+
+
 
         //Array that will contain our extracted links.
         $extractedLinks = array();
@@ -96,7 +150,7 @@ class ExtractVyveska extends Extractors
                 continue;
             }
 
-            if ($linkText == 'Prihláste sa do newslettra vyveska.sk') {
+            if (stripos(json_encode($linkText), 'Bernadeta') !== false) {
                 continue;
             }
 
@@ -105,18 +159,20 @@ class ExtractVyveska extends Extractors
             );
         }
 
+
         // Odstránenie prvého array newslettra
-        $textBody = array_slice($extractedLinks, 1);
+        $bodyWithLocation = array_slice($extractedLinks, 1);
+
         // Vybratie body z jedotlivých arrays
-        $textBody =  collect($textBody)->implode('src', ' ');
+        $textBody =  collect($bodyWithLocation)->implode('src', ' ');
 
-
+        // dd($textBody);
 
         // dd( $textBody );
 
         $event->update([
             'body'      =>  $textBody,
-            'village_id' => $this->finderVillages(implode("|", $extractedLinks[0])),
+            'village_id' => $this->finderVillages(implode("|", $bodyWithLocation[0])),
             // 'start_at' => $this->find_date($moveSentence)
         ]);
 
@@ -129,11 +185,11 @@ class ExtractVyveska extends Extractors
             $linkHref = $link->getAttribute('src');
 
 
-            if (stripos(json_encode($linkHref),'banners') !== false) {
+            if (stripos(json_encode($linkHref), 'banners') !== false) {
                 continue;
             }
 
-            if (stripos(json_encode($linkHref),'designe') !== false) {
+            if (stripos(json_encode($linkHref), 'designe') !== false) {
                 continue;
             }
 

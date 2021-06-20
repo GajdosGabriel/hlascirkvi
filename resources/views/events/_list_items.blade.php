@@ -70,11 +70,11 @@
     </div>
     <div class="col-span-2 flex flex-col">
         {{-- <strong class="pull-right">{{ localized_date('l', $event->dateStart) }}</strong><br> --}}
-        <span class="">{{ $event->organization->city }} </span>
-        <span class="">{{ $event->start_at->diffForHumans() }}</span>
+        {{-- <span class="">{{ $event->organization->city }} </span> --}}
         <a href="?district={{ $event->village->district->id }}">
-            <span class="">Miesto: {{ $event->village->district->name }}</span>
+            <span class="">{{ $event->village->district->name }}</span>
         </a>
+        <span class="">{{ $event->start_at->diffForHumans() }}</span>
         <span class="">Pridal: {{ $event->organization->title }}</span>
     </div>
 </div>

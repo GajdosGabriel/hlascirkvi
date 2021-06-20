@@ -64,6 +64,7 @@ class Kernel extends ConsoleKernel
         //        $schedule->command('Ecav:generate')->everyMinute();
         $schedule->command('ecav:extract')->hourly();
         $schedule->command('tkkbs:extract')->hourly();
+        $schedule->command('vyveska:extract')->hourly();
         $schedule->command('prayer:zdruzenieMedaily')->hourly();
         $schedule->command('prayer:mojaKomunita')->hourlyAt(35);
 
