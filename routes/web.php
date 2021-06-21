@@ -23,7 +23,8 @@ Route::resources([
     'notifications'     => NotificationController::class,
     'registredUsers'    => RegistredUsersController::class,
     'organizations'     => OrganizationsController::class,
-    'akcie'             => EventsController::class,
+    'akcie'             => Events\EventsController::class,
+    'profil-akcie'      => Events\ProfilEventController::class,
     'posts'             => PostsController::class,
     'comments'          => CommentsController::class,
     'favorites'         => FavoritesController::class,
@@ -92,7 +93,7 @@ Route::get('/zdravie-z-bozej-ruky', 'HomeController@zdravie')->name('zdravie');
 
 //    Event
 Route::prefix('akcie/')->name('event.')->group(function () {
-    Route::get('{event}/{title}', 'EventsController@show')->name('show');
+    Route::get('{event}/{title}', 'Events\EventsController@show')->name('show');
     Route::post('{event}/form/subscribe', 'EventSubscribesController@subscribeByForm')->name('subscribeByForm');
 
     Route::middleware('auth')->group(function () {

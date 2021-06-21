@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Event;
 use App\Prayer;
 use App\Seminar;
 use App\Policies\PrayerPolicy;
@@ -19,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Prayer::class => PrayerPolicy::class,
         Seminar::class => SeminarPolicy::class,
+        Event::class => EventPolicy::class,
     ];
 
     /**

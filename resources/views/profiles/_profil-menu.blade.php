@@ -13,9 +13,9 @@
         @endslot
     @endcomponent
 
-    @component('layouts.components.profil_menu', ['url' => route('akcie.create') ])
+    @component('layouts.components.profil_menu', ['url' => route('profil-akcie.index') ])
         @slot('title')
-            Nové Podujatie
+            Podujatia
         @endslot
     @endcomponent
 

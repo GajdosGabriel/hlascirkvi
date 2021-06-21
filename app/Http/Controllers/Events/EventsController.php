@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Events;
 
-use App\Event;
-use App\Events\Posts\ViewCounter;
-use App\Filters\EventFilters;
-use App\Image;
-use App\Repositories\Eloquent\EloquentEventRepository;
 use App\User;
-use App\Services\Form;
+use App\Event;
+use App\Image;
 use Carbon\Carbon;
+use App\Services\Form;
 use Illuminate\Http\Request;
+use App\Filters\EventFilters;
+use App\Events\Posts\ViewCounter;
 use App\Http\Requests\StoreEventRequest;
+use App\Repositories\Eloquent\EloquentEventRepository;
+use App\Http\Controllers\Controller;
+
+
 
 class EventsController extends Controller
 {
