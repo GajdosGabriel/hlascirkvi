@@ -17,16 +17,6 @@ class OrganizationsController extends Controller
         $this->organization = new EloquentOrganizationRepository;
     }
 
-    public function organizationIndex($user)
-    {
-        if(auth()->id() != $user) {
-           abort(403);
-        }
-        $organizations = $this->organization->usersOrganizations($user);
-
-        return view('organizations.user-index', compact('organizations'));
-    }
-
     public function show(Organization $organization)
     {
         return view('posts.index', ['posts' => $organization->posts()->latest()->paginate(), 'organization' => $organization]);

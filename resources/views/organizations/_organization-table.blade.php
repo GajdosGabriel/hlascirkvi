@@ -14,12 +14,17 @@
 
     <tbody class="">
     @forelse($organizations as $organization)
-        <tr class="border-2 border-gray-300">
+        <tr class="border-2 border-gray-300
+        @if($organization->id == auth()->user()->org_id)
+        bg-gray-400
+        @endif " >
             <td class="pl-4">{{ $loop->iteration }}</td>
-            <td>
-                <a href="{{ route('organizations.show', [ $organization->id]) }}">
-                    {{ $organization->title }}
-                </a>
+            <td class="">
+                <form action="{{ route('users.update', auth()->id() ) }}" method="post">
+                    @method('PUT') @csrf
+                    <input type="hidden" name="org_id" value="{{ $organization->id }}"/>
+                    <button type="submit">{{ $organization->title }}</button>
+                </form>
             </td>
             <td>{{ $organization->street }}<br>
                 {{ $organization->city }}

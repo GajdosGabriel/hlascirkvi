@@ -90,6 +90,10 @@
 
             @include('organizations._organization-table')
 
+            <div class="md:block flex justify-center my-8">
+                {{ $organizations->links() }}
+            </div>
+
         </div>
 
     </div>

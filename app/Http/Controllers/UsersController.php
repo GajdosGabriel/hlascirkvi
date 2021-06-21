@@ -27,8 +27,14 @@ class UsersController extends Controller
         return view('users.index', compact('users'));
     }
 
+    public function update( User $user, Request $request)
+    {
+        $user->update($request->all());
+        return back();
+    }
 
- 
+
+
 
 
     public function setDenominationSession(Request $request)

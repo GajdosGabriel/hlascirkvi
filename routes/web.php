@@ -23,6 +23,8 @@ Route::resources([
     'notifications'     => NotificationController::class,
     'registredUsers'    => RegistredUsersController::class,
     'organizations'     => OrganizationsController::class,
+    'users'             => UsersController::class,
+    'user.organization' => UserOrganizationController::class,
     'akcie'             => Events\EventsController::class,
     'profil-akcie'      => Events\ProfilEventController::class,
     'posts'             => PostsController::class,
@@ -60,8 +62,6 @@ Route::prefix('user/')->name('organization.')->group(function () {
     Route::get('{user}/{slug}/posts', 'OrganizationsController@organizationPosts')->name('posts');
 
     Route::middleware(['auth'])->group(function () {
-        Route::get('{user}/{slug}/index', 'OrganizationsController@organizationIndex')->name('index');
-
         Route::post('message/{organization}/newMessage', 'MessengersController@store')->name('messengers.store.users');
     });
 });

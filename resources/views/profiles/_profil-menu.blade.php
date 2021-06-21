@@ -1,7 +1,6 @@
 
 
-    @component('layouts.components.profil_menu', ['url' => route('organization.index', [auth()->id(),
-        auth()->user()->slug]) ])
+    @component('layouts.components.profil_menu', ['url' => route('user.organization.index', auth()->id() ) ])
         @slot('title')
             Kanály
         @endslot
