@@ -80,7 +80,7 @@
                     </a>
                 @endforeach
             </td>
-            <td class="flex space-x-3 items-center px-2">
+            <td class="px-2">
                 <a href="{{ route('organizations.edit', [ $organization->id ]) }}">
                     <i title="Upraviť" class="fas fa-edit"></i>
                 </a>
