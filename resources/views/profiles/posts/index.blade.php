@@ -6,13 +6,13 @@
     @component('layouts.pages.profil')
         @slot('page')
 
-            <div class="col-span-8 pt-6">
+            <div class="col-span-8">
 
 
-                <div class="flex justify-between mb-6">
-                    <h2 class="text-2xl">Posts</h2>
+                <div class="page_title flex justify-between">
+                    <h2 class="text-2xl">Články</h2>
                     <div>
-                        <a href="{{ route('posts.create') }}" class="btn btn-default">Nový post</a>
+                        <a href="{{ route('posts.create') }}" class="btn btn-default">Nový článok</a>
                     </div>
                 </div>
 

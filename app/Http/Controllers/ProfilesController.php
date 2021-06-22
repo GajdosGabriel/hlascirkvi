@@ -31,7 +31,7 @@ class ProfilesController extends Controller
         //    abort(403);
         // }
         $organizations =  $this->organization->usersOrganizations(auth()->user()->id)->paginate(30);
-        return view('organizations.user-index', compact('organizations'));
+        return view('profiles.organizations.index', compact('organizations'));
     }
 
     public function posts()
@@ -57,6 +57,6 @@ class ProfilesController extends Controller
                     ->whereOrganizationId(auth()->user()->org_id)
                     ->orderBy('created_at', 'desc')->get();
 
-        return view('profiles.seminars', ['seminars' => $seminars]);
+        return view('profiles.seminars.index', ['seminars' => $seminars]);
     }
 }

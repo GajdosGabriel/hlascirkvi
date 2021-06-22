@@ -42,12 +42,11 @@ class OrganizationsController extends Controller
         $organization->updaters()->sync($request->get('updaters') ?: []);
 
         session()->flash('flash', 'Údaje boli uložené!');
-        return redirect()->route('organization.index', [auth()->user()->id, auth()->user()->slug]);
+        return redirect()->route('profile.organizations');
     }
 
     public function store(OrganizationsRequest $request)
     {
-        // dd($request->all());
         $request->save();
 
         session()->flash('flash', 'Organizácia bola založená!');

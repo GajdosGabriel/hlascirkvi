@@ -12,14 +12,14 @@
         </div>
 
 
-        <div class="col-span-10  p-5 ">
+        <div class="col-span-8">
 
             <div class="flex justify-between">
 
-                <h3 class="page_title">Vaše kanály</h3>
+                <h3 class="page_title text-2xl">Vaše kanály</h3>
 
                 <new-organization inline-template>
-                    <div class="w-full">
+                    <div>
                         <h4 style="margin: 2rem 0rem; cursor: pointer" @click="toggle">Nová organizácia
                             <i v-if="!showForm" class="far fa-plus-square"></i>
                             <i v-if="showForm" class="far fa-minus-square"></i>
