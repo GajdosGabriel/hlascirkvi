@@ -7,6 +7,7 @@ use App\Prayer;
 use App\Seminar;
 use App\Policies\PrayerPolicy;
 use App\Policies\SeminarPolicy;
+use App\Policies\EventPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 

@@ -9,8 +9,8 @@ use App\Http\Controllers\Controller;
 class ProfilSeminarController extends Controller
 {
 
-    public function show(Seminar $profilSeminar)
-    {
-        return view('profiles.seminars.show', ['seminar' => $profilSeminar]);
-    }
+    // public function show(Seminar $profilSeminar)
+    // {
+    //     return view('profiles.seminars.show', ['seminar' => $profilSeminar]);
+    // }
 }
