@@ -56,7 +56,7 @@ class EloquentOrganizationRepository extends AbstractRepository implements Organ
     {
         return $this->entity->whereHas('users', function ($query) use($idUser) {
             $query->whereId($idUser);
-        })->get();
+        });
     }
 
     public function createPost($organizationId, array $properties )

@@ -26,7 +26,6 @@ Route::resources([
     'users'             => UsersController::class,
     'user.organization' => UserOrganizationController::class,
     'akcie'             => Events\EventsController::class,
-    'profil-akcie'      => Events\ProfilEventController::class,
     'posts'             => PostsController::class,
     'comments'          => CommentsController::class,
     'favorites'         => FavoritesController::class,
@@ -52,8 +51,12 @@ Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->nam
 
 // Route::put('notifications/{notification}', 'NotificationController@update')->name('notification.update');
 
-Route::prefix('profiles/')->name('profiles.')->group(function () {
-        Route::get('{organization}/home', 'ProfilesController@profile')->name('home');
+Route::prefix('profile/')->name('profile.')->group(function () {
+        Route::get('/home', 'ProfilesController@home')->name('home');
+        Route::get('/organizations', 'ProfilesController@organizations')->name('organizations');
+        Route::get('/posts', 'ProfilesController@posts')->name('posts');
+        Route::get('/podujatia', 'ProfilesController@events')->name('events');
+        Route::get('/seminars', 'ProfilesController@seminars')->name('seminars');
 
 });
 

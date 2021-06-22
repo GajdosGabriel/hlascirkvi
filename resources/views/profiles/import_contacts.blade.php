@@ -4,7 +4,7 @@
 
     @component('layouts.pages.profil')
         @slot('page')
-            <div class="grid col-span-10 p-5">
+            <div class="grid col-span-10 p-5 content-start">
 
                 <h2 class="page_title">Import kontaktov</h2>
 

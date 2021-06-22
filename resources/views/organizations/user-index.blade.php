@@ -12,7 +12,7 @@
         </div>
 
 
-        <div class="grid col-span-10 p-5">
+        <div class="grid col-span-10 p-5 content-start">
 
             <div class="">
 

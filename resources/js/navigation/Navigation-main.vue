@@ -17,10 +17,7 @@
             </a>
             <a
                 :href="
-                    '/profiles/' +
-                        authUser.user.id +
-                        '/home'
-                "
+                    '/profile/home'"
             >
                 <li class="dropdown-item">
                     Profil
