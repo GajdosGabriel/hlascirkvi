@@ -25,6 +25,10 @@
                     @endforelse
 
                 </div>
+
+                <div class="md:block flex justify-center my-8">
+                    {{ $posts->links() }}
+                </div>
             </div>
 
         @endslot

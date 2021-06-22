@@ -23,7 +23,9 @@
                 bez podujatí
             @endforelse
 
-            {{ $events->links() }}
+            <div class="md:block flex justify-center my-8">
+                {{ $events->links() }}
+            </div>
         </div>
         @endslot
     @endcomponent
