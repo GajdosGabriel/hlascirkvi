@@ -30,12 +30,12 @@ class AdminsController extends Controller
         return view('admins.home');
     }
 
-    public function indexOrganization() {
-        return view('admins.index-organization', ['organizations' => Organization::latest()->paginate(80) ]);
+    public function organizations() {
+        return view('admins.organizations', ['organizations' => Organization::latest()->paginate(50) ]);
     }
 
-    public function indexUser() {
-        return view('admins.index-user', ['users' => User::latest()->paginate(80) ]);
+    public function users() {
+        return view('admins.users', ['users' => User::latest()->paginate(50) ]);
     }
 
 

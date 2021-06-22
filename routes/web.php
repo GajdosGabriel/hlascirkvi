@@ -99,9 +99,9 @@ Route::prefix('akcie/')->name('event.')->group(function () {
     Route::post('{event}/form/subscribe', 'EventSubscribesController@subscribeByForm')->name('subscribeByForm');
 
     Route::middleware('auth')->group(function () {
-        Route::get('{event}/{slug}/admin', 'EventsController@adminEvent')->name('admin');
-        Route::get('{event}/{user}/{slug}/print', 'EventsController@printGdpr')->name('gdpr');
-        Route::put('{event}/{slug}/eventInfoPanel', 'EventsController@eventInfoPanel')->name('eventInfoPanel');
+        Route::get('{event}/{slug}/admin', 'Events\EventsController@adminEvent')->name('admin');
+        Route::get('{event}/{user}/{slug}/print', 'Events\EventsController@printGdpr')->name('gdpr');
+        Route::put('{event}/{slug}/eventInfoPanel', 'Events\EventsController@eventInfoPanel')->name('eventInfoPanel');
         Route::get('event/subscribes/eventsubscribe/{eventSubscribe}', 'EventSubscribesController@confirmedSubscribtion')->name('disabled');
         Route::get('{event}/record/subscribe', 'FavoritesController@storeEventsRecords')->name('record');
     });
@@ -124,8 +124,8 @@ Route::get('users/{user}/favorites/user', 'FavoritesController@favoriteUsers')->
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkAdmin'])->namespace('Admin')->group(function () {
     Route::get('home', 'AdminsController@home')->name('home');
-    Route::get('index', 'AdminsController@indexOrganization')->name('organization.index');
-    Route::get('index/user', 'AdminsController@indexUser')->name('user.index');
+    Route::get('index', 'AdminsController@organizations')->name('organizations');
+    Route::get('index/user', 'AdminsController@users')->name('users');
     Route::get('buffered-videos', 'BuffersController@indexBufferedVideos')->name('unpublished');
     Route::get('statistic/{days}', 'AdminsController@statistic')->name('statistic');
 
@@ -144,5 +144,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/gdpr', 'HomeController@gdpr')->name('gdpr');
-Route::get('akcia/finished', 'EventsController@finished')->name('event.finished');
+Route::get('akcia/finished', 'Events\EventsController@finished')->name('event.finished');
 
