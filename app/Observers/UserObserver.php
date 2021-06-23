@@ -15,8 +15,12 @@ class UserObserver
     public function saving(User $user)
     {
         $user->slug = Str::slug($user->first_name . $user->last_name, '-');
-
+        // Ak zamenia first name s last name
         $firstName = FirstName::whereName($user->first_name)->orderBy('count', 'desc')->first();
+
+        if(!$firstName){
+            $firstName = FirstName::whereName($user->last_name)->orderBy('count', 'desc')->first();
+        }
 
         $user->api_token = bin2hex(openssl_random_pseudo_bytes(30));
 
