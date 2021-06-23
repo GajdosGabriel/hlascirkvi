@@ -12,10 +12,10 @@
     </div>
 
 
-    <div class="grid col-span-10">
+    <div class="grid col-span-10 content-start">
 
 
-                <div class="flex ">
+                <div class="flex">
                     <h3 class="font-semibold mr-4 ">Štatistika návštev - unikátne view</h3>
                     <div class="flex space-x-3 ">
                         <a class="text-red" href="{{ route('admin.statistic', ['days' => 1]) }}">Dnes</a>

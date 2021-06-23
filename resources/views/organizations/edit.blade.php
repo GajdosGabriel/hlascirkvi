@@ -39,7 +39,7 @@
 
                     <div class="form-group">
                         <label>Región</label>
-                        <select name="region_id" required>
+                        <select name="region_id" required class="form-control">
                             <option value="" selected disabled >Vybrať kategóriu</option>
                             @foreach(\App\Region::all() as $region)
                                 <option class="option"
@@ -140,7 +140,7 @@
                         @endforelse
                     @endif
 
-                    <button type="submit" class="btn btn-small">Uložiť</button>
+                    <button type="submit" class="btn btn-primary">Uložiť</button>
 
 
                     </div>
