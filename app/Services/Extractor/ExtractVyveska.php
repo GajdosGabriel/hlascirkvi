@@ -107,7 +107,7 @@ class ExtractVyveska extends Extractors
 
             // lebo čas celý den je 0:00 preto pridávam pred nulu
             $startDate = $date[0]. ' '. '0'.$time[0];
-            $endDate = $date[0]. ' '. $time[1];
+            $endDate = $date[0]. ' '. '0'.$time[1];
 
         }
 
