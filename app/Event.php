@@ -133,6 +133,16 @@ class Event extends Model implements ViewableContract
         return $comment;
     }
 
+    public function getImagethumbAttribute()
+    {
+        return "storage/{$this->images()->whereType('img')->first()->thumb}";
+    }
+
+    public function getImagetcardAttribute()
+    {
+        return "storage/{$this->images()->whereType('card')->first()->thumb}";
+    }
+
 
 
 }

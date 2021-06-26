@@ -2,7 +2,7 @@
 @section('title') <title>{{ 'Kresťanské akcie' }}</title> @endsection
 @section('content')
 
-    <div class="page">
+    <div class="content-start">
 
         @include('events._current_events')
 

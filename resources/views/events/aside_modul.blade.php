@@ -13,39 +13,35 @@
                 <a href="{{ $event->url }}">
                     <div class="card-body p-3 grid grid-cols-6 gap-3">
                         <div class="col-span-2">
-                            @if ($event->images()->whereType('img')->exists())
-                                @foreach ($event->images()->whereType('img')->get()
+                            @if ($event->Imagethumb)
+                                <img data-src="{{ url($event->Imagethumb) }}" class="lazyload mr-4 rounded-md"
+                                    data-sizes="auto" title="{{ $event->title }}">
+                            @else
+                                @foreach ($event->images()->whereType('card')->get()
     as $image)
-                                    <img data-src="{{ url($image->ThumbImageUrl) }}" class="lazyload mr-4 rounded-md"
-                                        data-sizes="auto" title="{{ $event->title }}">
+                                    <img data-src="{{ url($image->OriginalImageUrl) }}"
+                                        class="lazyload mr-4 rounded-md" data-sizes="auto" title="Bez obrázka">
                                 @break
                             @endforeach
-                        @else
-                            @foreach ($event->images()->whereType('card')->get()
-    as $image)
-                                <img data-src="{{ url($image->OriginalImageUrl) }}" class="lazyload mr-4 rounded-md"
-                                    data-sizes="auto" title="Bez obrázka">
-                            @break
-            @endforeach
-@endif
-</div>
-<div class="col-span-4">
-    <div class="flex flex-col">
-        <h4 class="font-semibold" title="{{ $event->title }}">
-            {{ Str::limit($event->title, 45, $end = ' ...') }}
-        </h4>
-        <div>{{ $event->village->district->name }}</div>
-        <div class="font-semibold">začiatok {{ $event->start_at->diffForHumans() }}</div>
-    </div>
-</div>
-</div>
-</a>
-@empty
-    <div class="card-body">{{ trans('web.events_empty') }}
-        @if (auth()->guest())
-            <a href="{{ url('login') }}">{{ trans('web.events_new_add') }}</a>
-        @endif
-    </div>
+            @endif
+        </div>
+        <div class="col-span-4">
+            <div class="flex flex-col">
+                <h4 class="font-semibold" title="{{ $event->title }}">
+                    {{ Str::limit($event->title, 45, $end = ' ...') }}
+                </h4>
+                <div>{{ $event->village->district->name }}</div>
+                <div class="font-semibold">začiatok {{ $event->start_at->diffForHumans() }}</div>
+            </div>
+        </div>
+        </div>
+        </a>
+        @empty
+            <div class="card-body">{{ trans('web.events_empty') }}
+                @if (auth()->guest())
+                    <a href="{{ url('login') }}">{{ trans('web.events_new_add') }}</a>
+                @endif
+            </div>
     @endforelse
 
     @if ($events->count() > 0)

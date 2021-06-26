@@ -5,20 +5,12 @@
 <div class="md:grid grid-cols-8 gap-4 mb-10">
     <div class="col-span-1">
         <a href="{{ $event->url }}">
-            @if ($event->images()->whereType('img')->exists())
-                @foreach ($event->images()->whereType('img')->get()
-    as $image)
-                    <img data-src="{{ url($image->ThumbImageUrl) }}" class="lazyload rounded w-full" data-sizes="auto"
-                        alt="{{ $event->title }}">
-                @break
-            @endforeach
-        @else
-            @foreach ($event->images()->whereType('card')->get()
-    as $image)
-                <img data-src="{{ url($image->ThumbImageUrl) }}" class="lazyload rounded w-full" data-sizes="auto"
+            @if ($event->Imagethumb)
+                <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"
                     alt="{{ $event->title }}">
-            @break
-            @endforeach
+            @else
+                <img data-src="{{ url($event->imagecard) }}" class="lazyload rounded w-full" data-sizes="auto"
+                    alt="{{ $event->title }}">
             @endif
         </a>
     </div>
