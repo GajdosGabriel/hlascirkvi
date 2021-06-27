@@ -47,18 +47,20 @@ class Event extends Model implements ViewableContract
     }
 
 
-    public function images() {
+    public function images()
+    {
         return $this->morphMany(Image::class, 'fileable');
     }
 
-    public function comments() {
+    public function comments()
+    {
         return $this->morphMany(Comment::class, 'commentable')->with('user');
     }
 
 
     public function setTitleAttribute($value)
     {
-        $this->attributes['title'] = cleanTitle( ucfirst($value));
+        $this->attributes['title'] = cleanTitle(ucfirst($value));
         $this->attributes['slug']  = Str::slug($value);
     }
 
@@ -79,8 +81,7 @@ class Event extends Model implements ViewableContract
 
     public function displayStatus()
     {
-        if( $this->start_at > Carbon::now())
-        {
+        if ($this->start_at > Carbon::now()) {
             return true;
         }
     }
@@ -88,30 +89,29 @@ class Event extends Model implements ViewableContract
 
     public function subscribe()
     {
-        if ($this->eventSubscribe()->whereOrganizationId(auth()->id() )->exists() ) {
-
-            if($this->eventSubscribe()->whereOrganizationId(auth()->id())->where('active', 0)->exists() ) {
-
-                $this->eventSubscribe()->update(['active' => 1] );
+        if ($this->eventSubscribe()->whereOrganizationId(auth()->id())->exists()) {
+            if ($this->eventSubscribe()->whereOrganizationId(auth()->id())->where('active', 0)->exists()) {
+                $this->eventSubscribe()->update(['active' => 1]);
                 session()->flash('flash', 'Ste prihlásený na akciu!!');
             } else {
-                $this->eventSubscribe()->update(['active' => 0] );
+                $this->eventSubscribe()->update(['active' => 0]);
                 session()->flash('flash', 'Ste odhlásený z akcie!');
             }
-
         } else {
-            $this->eventSubscribe()->create( ['organization_id' => auth()->id()] );
+            $this->eventSubscribe()->create(['organization_id' => auth()->id()]);
             session()->flash('flash', 'Ste prihlásený na akciu!');
         }
     }
 
 
-    public function isSubscribed() {
+    public function isSubscribed()
+    {
         // return ! ! $this->eventSubscribe->where('organization_id', auth()->id())->where('active', 1)->count();
-       return $this->favorites()->whereUserId(auth()->id())->exists();
+        return $this->favorites()->whereUserId(auth()->id())->exists();
     }
 
-    public function activeSubscribed() {
+    public function activeSubscribed()
+    {
         return $this->eventSubscribe()->whereActive(1)->count();
     }
 
@@ -121,14 +121,15 @@ class Event extends Model implements ViewableContract
     }
 
 
-    public function addComment($comment) {
-        if( auth()->check()) {
+    public function addComment($comment)
+    {
+        if (auth()->check()) {
             $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->id()]));
             return $comment;
         }
-            // user_id 100 in unknowle user for anonyms comments
-            $comment = $this->comments()->create(array_merge($comment, ['user_id' => 100]));
-            $comment->delete();
+        // user_id 100 in unknowle user for anonyms comments
+        $comment = $this->comments()->create(array_merge($comment, ['user_id' => 100]));
+        $comment->delete();
 
         return $comment;
     }
@@ -138,11 +139,8 @@ class Event extends Model implements ViewableContract
         return "storage/{$this->images()->whereType('img')->first()->thumb}";
     }
 
-    public function getImagetcardAttribute()
+    public function getImagecardAttribute()
     {
         return "storage/{$this->images()->whereType('card')->first()->thumb}";
     }
-
-
-
 }

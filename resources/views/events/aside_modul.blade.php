@@ -14,7 +14,7 @@
                     <div class="card-body p-3 grid grid-cols-6 gap-3">
                         <div class="col-span-2">
                             @if ($event->Imagethumb)
-                                <img data-src="{{ url($event->Imagethumb) }}" class="lazyload mr-4 rounded-md"
+                                <img data-src="{{ url($event->imagethumb) }}" class="lazyload mr-4 rounded-md"
                                     data-sizes="auto" title="{{ $event->title }}">
                             @else
                                 @foreach ($event->images()->whereType('card')->get()
