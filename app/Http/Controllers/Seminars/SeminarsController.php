@@ -48,7 +48,7 @@ class SeminarsController extends Controller
     {
         Seminar::create(array_merge($request->all(), ['organization_id' => auth()->user()->org_id]));
 
-        return redirect()->route('seminars.index');
+        return redirect()->route('profile.seminars');
     }
 
     public function destroy(Seminar $seminar)

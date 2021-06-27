@@ -2,7 +2,7 @@
 @section('title') <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title> @endsection
 
 @section('content')
-    <div class="grid grid-cols-12 gap-6  ">
+    <div class="grid grid-cols-12 gap-6 min-h-screen  ">
 
         <div class="col-span-7 p-5">
 
@@ -33,6 +33,6 @@
 
 
 
-
+</div>
 
     @endsection

@@ -6,7 +6,6 @@
             </div>
             <div class="flex  space-x-3" v-if="can">
                 <div
-                    v-if="this.seminar.posts.length > 0"
                     @click="publishedfunction"
                     class="cursor-pointer hover:underline hover:text-gray-600 px-2"
                     v-text="publishedButton"
