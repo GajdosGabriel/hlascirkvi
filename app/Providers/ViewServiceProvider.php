@@ -113,6 +113,7 @@ class ViewServiceProvider extends ServiceProvider
                     ->join('villages', 'events.village_id', '=', 'villages.id')
                     ->join('districts', 'districts.id', '=', 'villages.district_id')
                     ->select('districts.name', 'districts.id')
+                    ->orderBy('districts.name', 'asc')
                     ->get()
                     ->groupBy('name')
             );
