@@ -42,7 +42,7 @@
             @if (is_array($element))
                 @foreach ($element as $page => $url)
                     @if ($page == $paginator->currentPage())
-                        <a class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                        <a class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-300 text-sm font-medium text-gray-700 hover:bg-gray-50">
                             {{ $page }}
                         </a>
                     @else
