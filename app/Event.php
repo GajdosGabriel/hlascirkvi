@@ -136,7 +136,10 @@ class Event extends Model implements ViewableContract
 
     public function getImagethumbAttribute()
     {
-        return "storage/{$this->images()->whereType('img')->first()->thumb}";
+        if($this->images()->whereType('img')->exists()){
+            return "storage/{$this->images()->whereType('img')->first()->thumb}";
+        }
+        return false;
     }
 
     public function getImagecardAttribute()
