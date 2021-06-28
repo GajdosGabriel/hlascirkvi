@@ -3,7 +3,7 @@
         <a id="navbarDropdown" class="nav-link radio" href="#">
             <li @click="toggle" class="whitespace-nowrap">
                 <span class="nav-link">
-                    {{ authUser.user.fullname }}
+                    {{ organization.title }}
                 </span>
                 <i class="fas fa-caret-down"></i>
             </li>
@@ -15,10 +15,7 @@
                     Admin
                 </li>
             </a>
-            <a
-                :href="
-                    '/profile/home'"
-            >
+            <a :href="'/profile/home'">
                 <li class="dropdown-item">
                     Profil
                 </li>
@@ -40,25 +37,35 @@
 </template>
 
 <script>
+import axios from "axios";
 import { createdMixin } from "../mixins/createdMixin";
 
 export default {
     mixins: [createdMixin],
     data() {
         return {
-            open: false
+            open: false,
+            organization: ""
         };
     },
-
     methods: {
         toggle: function() {
             this.open = !this.open;
+        },
+
+        getOrganization: function() {
+            axios.get("/api/organizations/" + this.authUser.user.org_id ).then(response => {
+                this.organization = response.data;
+            });
         }
     },
     computed: {
         authUser: function() {
             return window.App;
         }
+    },
+    created() {
+        this.getOrganization();
     }
 };
 </script>

@@ -5,7 +5,7 @@
             <label>Organizátor podujatia vue</label>
             <select class="form-control" v-model="selected" required>
                 <option disabled value="" selected hidden>---Vybrať---</option>
-                <option v-for="organization in organizations" :value="organization">{{ organization.title }}</option>
+                <option v-for="organization in organizations" :value="organization" :key="organization.id">{{ organization.title }}</option>
 
             </select>
         </div>
