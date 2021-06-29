@@ -7,9 +7,20 @@
 
     <div class="col-span-8">
 
-        <div class="page_title flex justify-between">
-            <h2 class="text-2xl">Buffer príspevky (Nezverenené)</h2>
-        </div>
+
+        @component('layouts.pages.page_title')
+        @slot('title')
+
+        Buffer príspevky (Nezverenené)
+
+        @endslot
+
+        @slot('title_site')
+
+        @endslot
+    @endcomponent
+
+
 
         <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
             @forelse($posts as $post)

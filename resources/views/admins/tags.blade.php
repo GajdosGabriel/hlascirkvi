@@ -16,8 +16,15 @@
 
         <div class="col-span-5">
 
+            @component('layouts.pages.page_title')
+            @slot('title')
 
-            <h2 class="text-2xl mb-7">Tags panel</h2>
+            Tags panel
+
+            @endslot
+
+
+        @endcomponent
 
 
             @forelse ( $tags as $tag )
@@ -41,7 +48,7 @@
 
         <div class="col-span-3">
 
-            <h2 class="page_title">Nový seminár</h2>
+            <h2 class="page_title">Nový tág</h2>
 
             @include('tags.form')
 

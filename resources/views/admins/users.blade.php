@@ -8,9 +8,19 @@
 
             <div class="col-span-10">
 
-                <div class="page_title flex justify-between">
-                    <h2 class="text-2xl">Registrovaný užívatelia</h2>
-                </div>
+                @component('layouts.pages.page_title')
+                    @slot('title')
+
+                        Registrovaný užívatelia
+
+                    @endslot
+
+                    @slot('title_site')
+
+                    @endslot
+                @endcomponent
+
+
 
                 <div>
 
