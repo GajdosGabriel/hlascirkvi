@@ -3,7 +3,7 @@
 
     @component('layouts.components.profil_menu', ['url' => route('admin.organizations')])
         @slot('title')
-            Všetky organizácie
+            Kanály
         @endslot
     @endcomponent
 

@@ -3,19 +3,24 @@
 @section('content')
     <div class="page">
 
-        <div class="">
+                @component('layouts.pages.page_title')
+                    @slot('title')
 
-            <div class="page_title">
-                <h2 class="text-2xl">
-                    Vzdelávanie a kurzy
-                </h2>
-                <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
-                    href="{{ route('seminars.create') }}"><i class="fas fa-plus"></i>
-                    Nový seminár
-                </a>
-            </div>
+                        Vzdelávanie a kurzy
 
-            <div>
+                    @endslot
+
+                    @slot('title_site')
+
+                        <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
+                            href="{{ route('seminars.create') }}"><i class="fas fa-plus"></i>
+                            Nový seminár
+                        </a>
+
+                    @endslot
+                @endcomponent
+
+
                 @foreach ($seminars as $seminar)
                     <div class="grid col-span-12  mb-4">
                         <a href="{{ route('seminars.show', $seminar->id) }}">

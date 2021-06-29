@@ -4,15 +4,23 @@
 
     @component('layouts.pages.profil')
         @slot('page')
-            <div class="col-span-5 pt-6">
+            <div class="col-span-5">
 
+                @component('layouts.pages.page_title')
+                    @slot('title')
 
-                <div class="flex justify-between mb-6">
-                    <h2 class="text-2xl">Semináre panel</h2>
-                    <div>
-                        <a href="{{ route('seminars.create') }}" class="btn btn-default">Nový semimár</a>
-                    </div>
-                </div>
+                        Semináre panel
+
+                    @endslot
+
+                    @slot('title_site')
+
+                        <div>
+                            <a href="{{ route('seminars.create') }}" class="btn btn-default">Nový semimár</a>
+                        </div>
+
+                    @endslot
+                @endcomponent
 
 
                 @include('profiles.seminars._list')

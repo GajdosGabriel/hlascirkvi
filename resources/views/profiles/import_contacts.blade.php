@@ -4,9 +4,17 @@
 
     @component('layouts.pages.profil')
         @slot('page')
-            <div class="grid col-span-10 p-5 content-start">
+            <div class="grid col-span-10 content-start">
 
-                <h2 class="page_title">Import kontaktov</h2>
+                @component('layouts.pages.page_title')
+                    @slot('title')
+
+                        Import kontaktov
+
+                    @endslot
+
+                @endcomponent
+
 
                 <h4>Import kontaktov do adresára</h4>
                 <form action="{{ route('addresBook.storeUsersContact', [auth()->id()]) }}" method="POST"> @csrf

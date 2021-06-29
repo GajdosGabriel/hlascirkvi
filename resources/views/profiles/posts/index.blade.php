@@ -8,13 +8,20 @@
 
             <div class="col-span-8">
 
+                @component('layouts.pages.page_title')
+                    @slot('title')
 
-                <div class="page_title flex justify-between">
-                    <h2 class="text-2xl">Články</h2>
-                    <div>
+                        Články
+
+                    @endslot
+
+                    @slot('title_site')
+
                         <a href="{{ route('posts.create') }}" class="btn btn-default">Nový článok</a>
-                    </div>
-                </div>
+
+                    @endslot
+                @endcomponent
+
 
                 <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                     @forelse($posts as $post)
