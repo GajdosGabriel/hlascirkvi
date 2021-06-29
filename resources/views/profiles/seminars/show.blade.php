@@ -11,7 +11,7 @@
 
                 <div class=" flex justify-between">
                     <div>
-                        <h2 class="text-2xl">
+                        <h2 class="text-2xl font-semibold">
                             <seminar-title :seminar="{{ $seminar }}"></seminar-title>
                         </h2>
                         <seminar-info :seminar="{{ $seminar }}"></seminar-info>

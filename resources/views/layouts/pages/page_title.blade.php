@@ -1,6 +1,8 @@
-<div class="flex justify-between mb-6">
-    <h2 class="text-2xl">{{ $title }}</h2>
+<div class="flex justify-between mb-6 mt-6">
+    <h1 class="text-2xl font-semibold">{{ $title }}</h1>
 
-    {{ $title_site ?? null }}
+    <div>
+        {{ $title_right ?? null }}
+    </div>
 
 </div>

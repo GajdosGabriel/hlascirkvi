@@ -35,7 +35,7 @@
 
                     @endslot
 
-                    @slot('title_site')
+                    @slot('title_right')
 
                         @can('update', $event)
                             <event-dropdown :post="{{ $event }}" />

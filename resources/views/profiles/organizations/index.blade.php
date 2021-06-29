@@ -22,7 +22,7 @@
 
                 @endslot
 
-                @slot('title_site')
+                @slot('title_right')
 
                     <new-organization inline-template>
                         <div>

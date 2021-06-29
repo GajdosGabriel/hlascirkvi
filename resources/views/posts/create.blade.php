@@ -14,7 +14,7 @@
 
                     @endslot
 
-                    @slot('title_site')
+                    @slot('title_right')
 
                         <div>
                             <a href="{{ url()->previous() }}" class="btn"> <i class="fa fa-arrow-left"></i> Späť</a>

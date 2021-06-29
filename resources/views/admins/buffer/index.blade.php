@@ -15,7 +15,7 @@
 
         @endslot
 
-        @slot('title_site')
+        @slot('title_right')
 
         @endslot
     @endcomponent

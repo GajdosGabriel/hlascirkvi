@@ -4,7 +4,7 @@
 
     @component('layouts.pages.profil')
         @slot('page')
-            <div class="col-span-5">
+            <div class="col-span-8">
 
                 @component('layouts.pages.page_title')
                     @slot('title')
@@ -13,11 +13,9 @@
 
                     @endslot
 
-                    @slot('title_site')
+                    @slot('title_right')
 
-                        <div>
                             <a href="{{ route('seminars.create') }}" class="btn btn-default">Nový semimár</a>
-                        </div>
 
                     @endslot
                 @endcomponent

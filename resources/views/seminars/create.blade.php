@@ -23,9 +23,6 @@
 
                 @endslot
 
-                @slot('title_site')
-
-                @endslot
             @endcomponent
 
 
