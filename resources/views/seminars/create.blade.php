@@ -15,11 +15,19 @@
 
         <div class="col-span-5">
 
-            <div class="page_title">
-                <h2 class="text-2xl">
+
+            @component('layouts.pages.page_title')
+                @slot('title')
+
                     Vzdelávanie a semináre
-                </h2>
-            </div>
+
+                @endslot
+
+                @slot('title_site')
+
+                @endslot
+            @endcomponent
+
 
             <div class="grid grid-cols-12 gap-5">
 
@@ -27,12 +35,12 @@
 
             <div class="col-span-3">
 
-            <h2 class="page_title">Nový seminár</h2>
+                <h2 class="page_title">Nový seminár</h2>
 
                 <form class="" method="post" action="{{ route('seminars.store') }}">
                     @csrf @method('POST')
 
-                @include('seminars.form')
+                    @include('seminars.form')
 
                 </form>
             </div>

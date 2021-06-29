@@ -3,11 +3,20 @@
 @section('content')
     <div class="page">
         <div class="md:w-8/12">
+            @include('layouts.errors')
 
-            <div class="page_title">
-                @include('layouts.errors')
-               <h2 class="text-2xl">Upraviť článok</h2>
-            </div>
+            @component('layouts.pages.page_title')
+                @slot('title')
+
+                    Upraviť článok
+
+                @endslot
+
+                @slot('title_site')
+
+                @endslot
+            @endcomponent
+
 
             <form method="POST" action="{{ route('posts.update', [$post->id]) }}" enctype="multipart/form-data">
                 @csrf @method('PUT')
@@ -22,6 +31,4 @@
 
     @include('posts.editor')
 
-    @endsection
-
-
+@endsection

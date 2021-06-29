@@ -27,11 +27,26 @@
 
             <div class="md:w-8/12 md:p-6 mb-5">
 
+
+                @component('layouts.pages.page_title')
+                    @slot('title')
+
+                        {{ $event->title }}
+
+                    @endslot
+
+                    @slot('title_site')
+
+                        @can('update', $event)
+                            <event-dropdown :post="{{ $event }}" />
+                        @endcan
+
+                    @endslot
+                @endcomponent
+
                 <div class="page_title">
-                    <h1 class="font-semibold text-2xl">{{ $event->title }}</h1>
-                    @can('update', $event)
-                        <event-dropdown :post="{{ $event }}"/>
-                    @endcan
+                    <h1 class="font-semibold text-2xl"></h1>
+
                 </div>
 
                 <div class="border-2 rounded-md border-gray-500 p-4 mb-6 shadow-md">
@@ -76,7 +91,7 @@
                                 </div>
                             </event-picture-viewer>
 
-                    @endforeach
+                        @endforeach
                     @endif
 
 
@@ -144,7 +159,8 @@
                     <div class="cursor-pointer pl-2 rounded-sm">
                         <a href="{{ route('event.record', [$event->id]) }}">
                             @if ($event->isFavorited())
-                                <i class="fas fa-check"></i> <span class="font-semibold"> Odoslaná žiadosť o nahrávku!</span>
+                                <i class="fas fa-check"></i> <span class="font-semibold"> Odoslaná žiadosť o
+                                    nahrávku!</span>
                             @else
                                 <i class="fas fa-volume-up"></i> Nemôžem prísť, chcem nahrávku.
                             @endif

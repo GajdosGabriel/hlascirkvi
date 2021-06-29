@@ -1,21 +1,35 @@
 @extends('layouts.app')
 
 
-{{--@section('title', $title)--}}
+{{-- @section('title', $title) --}}
 
 
 @section('content')
     <div class="page">
 
         <form method="post" action="{{ route('akcie.update', [$event->id]) }}" class="md:flex"
-              enctype="multipart/form-data">
+            enctype="multipart/form-data">
             {{ method_field('PATCH') }} @csrf
 
             <div class="page-content md:m-5">
-                <div class="flex justify-between">
-                    <h2 class="page_title text-lg">Upraviť podujatie</h2>
-                    <a class="btn" href="{{ URL::previous() }}"><i class="fa fa-arrow-left"></i> Späť</a>
-                </div>
+
+
+                @component('layouts.pages.page_title')
+                    @slot('title')
+
+                        Upraviť podujatie
+
+                    @endslot
+
+                    @slot('title_site')
+
+                    <div>
+                        <a class="btn" href="{{ URL::previous() }}"><i class="fa fa-arrow-left"></i> Späť</a>
+                    </div>
+
+                    @endslot
+                @endcomponent
+
                 @include('events._form_a')
             </div>
 

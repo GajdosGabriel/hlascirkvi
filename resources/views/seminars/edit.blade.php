@@ -15,15 +15,18 @@
 
         <div class="col-span-5">
 
-            <div class="page_title">
-                <h2 class="text-2xl">
-                    Vzdelávanie a semináre
-                </h2>
-            </div>
+            @component('layouts.pages.page_title')
+                @slot('title')
 
-            <div class="grid grid-cols-12 gap-5">
+                    Upraviť seminár
 
-            </div>
+                @endslot
+
+                @slot('title_site')
+
+                @endslot
+            @endcomponent
+
 
             <div class="col-span-3">
 

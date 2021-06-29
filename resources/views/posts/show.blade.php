@@ -65,9 +65,9 @@
                 @endif
 
 
-                <div class="lg:flex justify-between">
+                <div class="mt-2 lg:flex justify-between">
                     {{-- Title video --}}
-                    <div class="page_title mt-3">
+                    <div class="">
                         <div class="flex flex-col items-start flex-shrink-0">
                             <h1 class="text-lg font-semibold">{{ $post->title }}</h1>
                             <div class="text-sm text-gray-400">

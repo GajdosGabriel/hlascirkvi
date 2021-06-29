@@ -20,10 +20,24 @@
         <form method="post" action="{{ route('akcie.store') }}" class="flex" enctype="multipart/form-data">  @csrf
 
             <div class="page-content">
-                <div class="page_title">
-                    <h2>Nové podujatie <a href="{{url()->previous()}}"></a></h2>
-                    <a href="{{ url()->previous() }}" class="btn"> <i class="fa fa-arrow-left"></i> Späť</a>
-                </div>
+
+                @component('layouts.pages.page_title')
+                    @slot('title')
+
+                    Nové podujatie
+
+                    @endslot
+
+                    @slot('title_site')
+
+                    <div>
+                        <a href="{{ url()->previous() }}" class="btn"> <i class="fa fa-arrow-left"></i> Späť</a>
+                    </div>
+
+                    @endslot
+                @endcomponent
+
+
                     @include('events._form_a')
             </div>
 
