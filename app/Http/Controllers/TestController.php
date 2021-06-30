@@ -33,12 +33,13 @@ class TestController extends Controller
     public function newsletter()
     {
 
-$href = 'http://www.vyveska.sk/navsteva-preblahoslavenej-panny-marie.html';
+$href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
+$href = 'http://www.vyveska.sk/22736/godzone-worship-nights-2021-ba.html';
 $event = Event::first();
 // dd($event);
 
-       $events = (new ExtractVyveska())->parseListUrl();
-    //    $events = (new ExtractVyveska())->parseEvent($href, $event);
+    //    $events = (new ExtractVyveska())->parseListUrl();
+       $events = (new ExtractVyveska())->parseEvent($href, $event);
 
         dd($events);
 

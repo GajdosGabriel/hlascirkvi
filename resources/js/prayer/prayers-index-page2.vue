@@ -7,7 +7,7 @@
 
 
         <ul class="mt-3">
-            <li v-for="prayer in prayers.data" :key="prayer.id" class="hover:bg-gray-200">
+            <li v-for="prayer in prayers.data" :key="prayer.id" class="hover:bg-gray-200 my-8">
                 <prayers-index-item :prayer="prayer"></prayers-index-item>
             </li>
         </ul>

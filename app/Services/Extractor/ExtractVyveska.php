@@ -95,7 +95,7 @@ class ExtractVyveska extends Extractors
         $dateString = implode("|", $extractedDates[0]);
 
 
-        if(substr_count($dateString, 2021) > 1){
+        if (substr_count($dateString, 2021) > 1) {
             // Ak sú dva dátumy začiatok a koniec
             $date =  explode("-", $dateString);
             $startDate = $date[0];
@@ -103,21 +103,20 @@ class ExtractVyveska extends Extractors
         } else {
             // Ak je jeden dátum
             $date =  explode(" ", $dateString);
-            $time = explode("-",  $date[1]);
+            $time = explode("-", $date[1]);
 
             // lebo čas celý den je 0:00 preto pridávam pred nulu
             $startDate = $date[0]. ' '. '0'.$time[0];
             $endDate = $date[0]. ' '. '0'.$time[1];
-
         }
 
 
         // Check if event one or two days
 
 
-// dd($this->find_date($startDate));
-// dd($this->find_date($endDate));
-// dd($endDate);
+        // dd($this->find_date($startDate));
+        // dd($this->find_date($endDate));
+        // dd($endDate);
 
         $event->update([
         'start_at' => $this->find_date($startDate),
@@ -168,13 +167,54 @@ class ExtractVyveska extends Extractors
 
         // dd($textBody);
 
-        // dd( $textBody );
+
 
         $event->update([
             'body'      =>  $textBody,
             'village_id' => $this->finderVillages(implode("|", $bodyWithLocation[0])),
             // 'start_at' => $this->find_date($moveSentence)
         ]);
+
+  // ----------------------------  Rozoznať organizátora  ----------------------------------
+        $words = explode("<p>Organizátor:", $textBody);
+
+        // Check if obsahuje Organizátor
+        if (count($words) > 1) {
+
+            // Odstránenie čiarky z textu
+            $arrayWords = str_replace(',', '', $words[1]);
+
+
+            $arrayWords = explode(' ', trim($arrayWords));
+            // Spočítať počet slov
+            $countWords = count($arrayWords);
+
+
+
+            $zmensovac = $countWords;
+            while ($zmensovac >= 1) {
+                // Postupné osekávnie vety výrazu zo zadu po jednom slove.
+                $hladanyVyraz = array_slice($arrayWords, 0, $zmensovac);
+
+                // Hľadaný výraz z pola do stringu vety
+                $tostring = implode(" ", $hladanyVyraz);
+
+                $organization = \DB::table('organizations')->where('title', '=', $tostring)->first();
+                if ($organization) {
+                    break;
+                }
+                $zmensovac -=1;
+            }
+
+            if($organization){
+                $event->update([
+                    'organization_id' =>  $organization->id
+                ]);
+            };
+        }
+
+
+
 
         // ----------------------------  GET  IMAGE  ----------------------------------
         //Loop through the DOMNodeList.

@@ -31,7 +31,7 @@
                                 <i v-if="showForm" class="far fa-minus-square"></i>
                             </h4>
 
-                            <form method="post" action="{{ route('organizations.store', [auth()->user()->id]) }}" v-if="showForm">
+                            <form method="post" action="{{ route('organizations.store') }}" v-if="showForm">
                                 @csrf
                                 <div class="form-group">
                                     <label>Meno novej organizácie</label>
@@ -69,7 +69,6 @@
                                     <input type="number" name="phone" class="form-control"
                                         placeholder="Potrebné v prípade vytvorenia akcie">
                                 </div>
-
 
                                 <span style="font-weight: 600">Zaradená do zoznamu</span><br>
                                 @forelse(\App\Updater::all() as $updater)
