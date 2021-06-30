@@ -25,7 +25,7 @@
 
         <div class="md:flex   relative">
 
-            <div class="md:w-8/12 md:p-6 mb-5">
+            <div class="md:w-8/12">
 
 
                 @component('layouts.pages.page_title')
@@ -43,11 +43,6 @@
 
                     @endslot
                 @endcomponent
-
-                <div class="page_title">
-                    <h1 class="font-semibold text-2xl"></h1>
-
-                </div>
 
                 <div class="border-2 rounded-md border-gray-500 p-4 mb-6 shadow-md">
                     <span>{{ ucfirst(localized_date('l', $event->start_at)) }}
@@ -68,7 +63,7 @@
                     </h5>
                 </div>
 
-                <div class="flex flex-col">
+                <div class="">
 
                     {!! $event->body !!}
 
@@ -79,14 +74,14 @@
         as $image)
                             {{-- <img alt="{{ $image->title }}" data-src="{{ url($image->OriginalImageUrl) }}"  class="lazyload rounded"  data-sizes="auto"> --}}
 
-                            <event-picture-viewer inline-template>
+                            <event-picture-viewer inline-template class="my-6">
                                 <div :class="{'fixed inset-0 bg-gray-600' : open}">
                                     <div v-if="open" @click="showModal"
                                         class="absolute right-0 border-gray-200 border-2 bg-gray-700 hover:bg-gray-500 rounded px-4 py-2 text-white font-semibold text-2xl cursor-pointer ">
                                         Zrušiť x
                                     </div>
                                     <img alt="{{ $image->title }}" src="{{ url($image->OriginalImageUrl) }}"
-                                        @click="showModal" class="h-full rounded cursor-pointer">
+                                        @click="showModal" class="rounded cursor-pointer">
 
                                 </div>
                             </event-picture-viewer>
@@ -149,11 +144,13 @@
             <div class="md:w-4/12 md:p-6">
 
                 <div class="">
-                    @foreach ($event->images()->whereType('card')->get()
-        as $image)
-                        <img alt="{{ $image->title }}" data-src="{{ url($image->original_image_url) }}"
-                            class="lazyload rounded mb-6" data-sizes="auto">
-                    @endforeach
+
+                    <img alt="{{ $image->title }}"
+                        data-src="{{ url(
+    $event->images()->whereType('card')->first()->original_image_url,
+) }}"
+                        class="lazyload rounded mb-6" data-sizes="auto">
+
                     {{-- vizitka --}}
 
                     <div class="cursor-pointer pl-2 rounded-sm">
