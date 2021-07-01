@@ -30,7 +30,7 @@
     </div>
 
     <div class="form-author">
-        <label>Organizácia</label>
+        <label>Kanál</label>
         <select class="form-control" name="organization_id" required>
             <option value="" selected disabled>Autor</option>
             @if(auth()->user()->email == env('ADMIN_EMAIL'))

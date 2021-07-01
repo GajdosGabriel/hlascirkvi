@@ -10,15 +10,11 @@
 
                 @component('layouts.pages.page_title')
                     @slot('title')
-
                         Články
-
                     @endslot
 
                     @slot('title_right')
-
                         <a href="{{ route('posts.create') }}" class="btn btn-default">Nový článok</a>
-
                     @endslot
                 @endcomponent
 

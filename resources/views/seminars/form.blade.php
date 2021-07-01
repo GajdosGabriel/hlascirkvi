@@ -3,7 +3,7 @@
     {{-- Title Field --}}
     <div class="form-group {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
         <label class="font-semibold">Názov seminár</label>
-        <input type="text" name="title" class="form-control" placeholder="Nový seminár ..." value="{{ old('title') ?? $seminar->title }}"
+        <input type="text" name="title" class="form-control" placeholder="Názov seminára" value="{{ old('title') ?? $seminar->title }}"
             required>
 
         @if ($errors->has('title'))

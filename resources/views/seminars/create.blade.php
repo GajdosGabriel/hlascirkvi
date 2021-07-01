@@ -19,7 +19,7 @@
             @component('layouts.pages.page_title')
                 @slot('title')
 
-                    Vzdelávanie a semináre
+                    Nový seminár
 
                 @endslot
 
@@ -31,8 +31,6 @@
             </div>
 
             <div class="col-span-3">
-
-                <h2 class="page_title">Nový seminár</h2>
 
                 <form class="" method="post" action="{{ route('seminars.store') }}">
                     @csrf @method('POST')

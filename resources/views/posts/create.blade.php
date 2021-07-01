@@ -4,22 +4,16 @@
 
     @component('layouts.pages.profil')
         @slot('page')
-            <div class="grid col-span-10">
+            <div class="col-span-10 content-start">
                 @include('layouts.errors')
 
                 @component('layouts.pages.page_title')
                     @slot('title')
-
                         Vytvoriť článok
-
                     @endslot
 
                     @slot('title_right')
-
-                        <div>
-                            <a href="{{ url()->previous() }}" class="btn"> <i class="fa fa-arrow-left"></i> Späť</a>
-                        </div>
-
+                        <a href="{{ url()->previous() }}" class="btn"> <i class="fa fa-arrow-left"></i> Späť</a>
                     @endslot
                 @endcomponent
 
@@ -27,15 +21,6 @@
                     @csrf @method('POST')
                     @include('posts.form')
                 </form>
-            </div>
-
-            <div class="page-aside">
-                {{-- aside --}}
-            </div>
-
-
-            </div>
-
             </div>
             @include('posts.editor')
         @endslot
