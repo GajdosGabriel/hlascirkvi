@@ -3,13 +3,8 @@
 @section('content')
     <div class="grid grid-cols-12 gap-6  ">
 
-        <div class="grid col-span-2  min-h-screen">
-            <div class="flex flex-col bg-gray-200">
 
-                @include('profiles._profil-menu')
-
-            </div>
-        </div>
+        @include('profiles._profil-menu')
 
 
         <div class="col-span-8">
@@ -49,8 +44,9 @@
                                     <select name="village_id" class="form-control input-sm">
                                         <option label="{{ trans('web.select') }}"></option>
 
-                                        @foreach(\App\Village::all() as $village)
-                                        <option value="{{ $village->id }}">{{ $village->fullname }}  {{ $village->zip }}</option>
+                                        @foreach (\App\Village::all() as $village)
+                                            <option value="{{ $village->id }}">{{ $village->fullname }} {{ $village->zip }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>

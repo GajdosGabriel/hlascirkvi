@@ -4,19 +4,17 @@
 
     @component('layouts.pages.profil')
         @slot('page')
-            <div class="grid col-span-10 content-start">
+            <div class="col-span-8 content-start">
 
                 @component('layouts.pages.page_title')
                     @slot('title')
-
-                        Import kontaktov
-
+                        Import kontaktov do adresára
                     @endslot
 
                 @endcomponent
 
 
-                <h4>Import kontaktov do adresára</h4>
+
                 <form action="{{ route('addresBook.storeUsersContact', [auth()->id()]) }}" method="POST"> @csrf
 
                     <div class="form-group">
@@ -29,6 +27,7 @@
                     </div>
 
                 </form>
+
 
                 @forelse($users as $user)
                     <div>
