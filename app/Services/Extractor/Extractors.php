@@ -36,7 +36,7 @@ abstract class Extractors
                 'body' => $item['body'],
                 'user_name' => $item['user'],
                 'user_id' => 1,
-                'created_at' => Carbon::now()->subHours(1)->addMinute(rand(3,55))->toDateTimeString(),
+                'created_at' => Carbon::now()->subHours(2)->addMinute(rand(3,55))->toDateTimeString(),
             ]);
 
         }

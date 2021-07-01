@@ -14,7 +14,7 @@
 
     <tbody class="">
     @forelse($organizations as $organization)
-        <tr class="border-2 border-gray-300
+        <tr class="border-2 border-gray-300  hover:bg-gray-100
         @if($organization->id == auth()->user()->org_id)
         bg-gray-400
         @endif " >

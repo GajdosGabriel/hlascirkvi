@@ -12,13 +12,10 @@
 
             @component('layouts.pages.page_title')
                 @slot('title')
-
                     Vaše kanály
-
                 @endslot
 
                 @slot('title_right')
-
                     <new-organization inline-template>
                         <div>
                             <h4 class="cursor-pointer" style="text-align: right" @click="toggle">Nový kanál
@@ -80,8 +77,8 @@
                             </form>
                         </div>
                     </new-organization>
-
                 @endslot
+
             @endcomponent
 
 

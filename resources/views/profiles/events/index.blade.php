@@ -15,15 +15,16 @@
                     @endslot
 
                     @slot('title_right')
-
-                        <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
-                            href="{{ route('akcie.create') }}"><i class="fas fa-plus"></i>
+                        <a class="btn btn-default"
+                            href="{{ route('akcie.create') }}">
                             Nové podujatie
                         </a>
-
                     @endslot
+                    
                 @endcomponent
-
+                @slot('title_right')
+                <a href="{{ route('posts.create') }}" class="btn btn-default">Nový článok</a>
+            @endslot
 
                 {{-- Upcoming events --}}
                 @forelse($events as $event)
