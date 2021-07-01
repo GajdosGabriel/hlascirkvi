@@ -22,20 +22,6 @@
                 <!--<input type="text" v-model="city" name="name" placeholder="Mesto" required>-->
             <!--</div>-->
 
-            <!--<div class="form-group">-->
-                <!--<label>Región</label>-->
-                <!--<select v-model="region" name="region" class="form-control input-sm" required>-->
-                    <!--<option label="&#45;&#45; Vybrať &#45;&#45;"></option>-->
-                    <!--<option value="1">Bratislavský</option>-->
-                    <!--<option value="2">Trenčianský</option>-->
-                    <!--<option value="4">Žilinský</option>-->
-                    <!--<option value="5">Prešovský</option>-->
-                    <!--<option value="6">Košický</option>-->
-                    <!--<option value="7">Banskobystrický</option>-->
-                    <!--<option value="3">Trnavský</option>-->
-                    <!--<option value="8">Nitrianský</option>-->
-                <!--</select>-->
-            <!--</div>-->
 
             <!--<div class="form-group">-->
                 <!--<label>Telefón</label>-->
@@ -62,7 +48,7 @@
                 title: '',
                 street: '',
                 city: '',
-                region: '',
+                village: '',
                 phone: ''
             }
         },
@@ -76,8 +62,7 @@
                 axios.post('/organization/new/' + this.user.id + '/store', {
                     title: this.title,
                     street: this.street,
-                    city: this.city,
-                    region_id: this.region,
+                    village_id: this.village_id,
                     phone: this.phone
                 }).then( function () {
                     bus.$emit('flash', {body:'Organizácia bola uložená!'});
@@ -91,8 +76,7 @@
             clearForm: function() {
                 this.title='',
                 this.street= '',
-                this.city='',
-                this.region= '',
+                this.village_id='',
                 this.phone= '',
                 this.showForm = false
             }

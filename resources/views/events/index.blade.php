@@ -39,7 +39,6 @@
             </div>
 
             <div class="md:w-3/12 p-4">
-                {{-- @include('events.regions_modul') --}}
                 @include('events.districts_modul')
                 @include('events.finished_event_modul')
             </div>

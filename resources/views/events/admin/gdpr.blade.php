@@ -38,8 +38,8 @@
     o OOÚ“) menovaná dotknutá osoba poskytuje
     <span style="font-weight: 600">{{ $event->organization->title }}</span>
     @if(! empty($event->organization->street))<span>{{ $event->organization->street }},</span> @endif
-    @if(! empty($event->organization->city))<span>{{ $event->organization->city }},</span> @endif
-    @if(! empty($event->organization->psct))<span>{{ $event->organization->psc }},</span> @endif
+    @if(! empty($event->organization->village->fullname ))<span>{{ $event->organization->village->fullname }},</span> @endif
+    @if(! empty($event->organization->village->zip))<span>{{ $event->organization->village->zip }},</span> @endif
     (ďalej „organizácii“) spracováva osobné údaje.
 
     Dotknutá osoba (zákonný zástupca) udeľuje prevádzkovateľovi dobrovoľný súhlas na spracovanie svojich osobných

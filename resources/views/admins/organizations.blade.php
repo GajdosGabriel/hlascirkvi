@@ -37,25 +37,16 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Mesto</label>
-                                <input type="text" name="city" class="form-control" placeholder="Mesto">
-                            </div>
+                                <label for="">Mesto</label>
+                                <select name="village_id" class="form-control input-sm">
+                                    <option label="{{ trans('web.select') }}"></option>
 
-                            <div class="form-group">
-                                <label>Región</label>
-                                <select name="region_id" class="form-control input-sm" required>
-                                    <option label="-- Vybrať --"></option>
-                                    <option value="1">Bratislavský</option>
-                                    <option value="2">Trenčianský</option>
-                                    <option value="4">Žilinský</option>
-                                    <option value="5">Prešovský</option>
-                                    <option value="6">Košický</option>
-                                    <option value="7">Banskobystrický</option>
-                                    <option value="3">Trnavský</option>
-                                    <option value="8">Nitrianský</option>
-                                    <option value="9">Neuvedené</option>
+                                    @foreach(\App\Village::all() as $village)
+                                    <option value="{{ $village->id }}">{{ $village->fullname }}  {{ $village->zip }}</option>
+                                    @endforeach
                                 </select>
                             </div>
+
 
                             <div class="form-group">
                                 <label>Telefón</label>

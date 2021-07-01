@@ -39,9 +39,9 @@ class Organization extends Model
         return $this->belongsToMany(Updater::class);
     }
 
-    public function region()
+    public function village()
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(Village::class);
     }
 
     public function events()

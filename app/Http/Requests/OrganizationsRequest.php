@@ -28,7 +28,7 @@ class OrganizationsRequest extends FormRequest
             // 'street' => 'string',
             // 'city' => 'string',
 //            'phone' => 'nullable|digits:16',
-            'region_id' => 'required|integer|exists:regions,id',
+            'village_id' => 'required|integer|exists:villages,id',
         ];
     }
 

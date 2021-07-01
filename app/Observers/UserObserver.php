@@ -46,7 +46,7 @@ class UserObserver
             'title' => $user->fullname,
             'slug' => $user->slug,
             'person' => 1,
-            'region_id' => 9
+            'village_id' => 4209
         ]);
 
         $user->update(['org_id' => $organization->id]);

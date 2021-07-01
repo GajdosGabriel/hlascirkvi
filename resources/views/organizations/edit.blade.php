@@ -32,26 +32,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="city">Mesto</label>
-                        <input type="text" name="city" id="city" value="{{ $organization->city }}" class="form-control">
-                    </div>
+                        <label for="">Mesto</label>
+                        <select name="village_id" class="form-control input-sm">
+                            <option label="{{ trans('web.select') }}"></option>
 
-
-                    <div class="form-group">
-                        <label>Región</label>
-                        <select name="region_id" required class="form-control">
-                            <option value="" selected disabled >Vybrať kategóriu</option>
-                            @foreach(\App\Region::all() as $region)
-                                <option class="option"
-                                        @if( isset($organization->region_id) AND $organization->region_id == $region->id )
-                                        selected
-                                        @endif
-                                        value="{{ $region->id }}"
-                                >
-                                    {{ $region->title }}
-                                </option>
+                            @foreach(\App\Village::all() as $village)
+                            <option @if($organization->village_id == $village->id)  selected @endif value="{{ $village->id }}">{{ $village->fullname }}  {{ $village->zip }}</option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Web stránka</label>
+                        <input type="text" name="url_www" class="form-control" placeholder="web stránka">
                     </div>
 
 

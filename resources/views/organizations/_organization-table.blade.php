@@ -4,7 +4,7 @@
         <th style="width: 7%">Id</th>
         <th>Názov</th>
         <th>Adresa</th>
-        <th>Región</th>
+        <th>Mesto</th>
         <th>Detaily</th>
         <th style="width: 10%">Tagy</th>
         <th>Admin</th>
@@ -26,14 +26,9 @@
                     <button type="submit">{{ $organization->title }}</button>
                 </form>
             </td>
-            <td>{{ $organization->street }}<br>
-                {{ $organization->city }}
-                {{--<a href="{{ route('organization.delete', [ $organization->id, $organization->slug]) }}">--}}
-                    {{--<i title="Zmazať" class="fas fa-trash-alt"></i>--}}
-                {{--</a>--}}
-
+            <td>{{ $organization->street }}
             </td>
-            <td class="whitespace-nowrap ">{{ $organization->region->title }}</td>
+            <td class="whitespace-nowrap ">{{ $organization->village->fullname }}</td>
             <td>
                 @foreach($organization->updaters as $updater)
                     @if($updater->type == 'dayOfWeek')
