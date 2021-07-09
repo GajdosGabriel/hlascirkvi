@@ -5,7 +5,7 @@
 <div class="md:grid grid-cols-8 gap-4 mb-10">
     <div class="col-span-1">
         <a href="{{ $event->url }}">
-            @if ($event->Imagethumb)
+            @if ($event->imagethumb)
                 <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"
                     alt="{{ $event->title }}">
             @else

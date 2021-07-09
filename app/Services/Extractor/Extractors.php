@@ -56,7 +56,7 @@ abstract class Extractors
             $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
 
             // Find or create new record
-            if (DB::table('events')->whereTitle($title)->first()) {
+            if (DB::table('events')->whereTitle($title)->whereYear('created_at', '=', Carbon::now()->year )->first()) {
                 continue;
             }
 
@@ -253,7 +253,7 @@ abstract class Extractors
 
         }
 
-        return ' 23:59:59';
+        return ' 00:00:00';
     }
 
 
