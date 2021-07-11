@@ -150,5 +150,7 @@ return [
         'iamHuman' => '"Som človek"',
         'ticket_available' => 'Počet lístkov',
         'ticket_staff' => 'Počet prihlásených',
+        'start_at' => 'Začiatok akcie',
+        'end_at' => 'Koniec akcie',
     ],
 ];
