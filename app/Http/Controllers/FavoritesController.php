@@ -19,7 +19,7 @@ class FavoritesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('update');
+        $this->middleware('auth');
     }
 
     public function update(FavoriteRequest $request, $favorite)
