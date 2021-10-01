@@ -110,7 +110,7 @@ Route::prefix('akcie/')->name('event.')->group(function () {
 });
 
 
-Route::get('storage/{filepath?}', 'EventsController@download')->name('events.download');
+Route::get('storage/{filepath?}', 'Events\EventsController@download')->name('events.download');
 //Route::post('akcia/{event}/subscriptions', 'EventSubscriptionController@store')->name('event.subscriptions');
 //Route::post('akcia/{event}/records', 'EventRecordsController@store')->name('records.store');
 
