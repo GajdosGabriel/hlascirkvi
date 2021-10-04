@@ -10,7 +10,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{{ $event->title }}" />
     <meta property="og:description" content="{!! \Illuminate\Support\Str::limit($event->body, 130) !!}" />
-    <meta property="og:image" content="@forelse($event->images as $image)  @if ($loop->first) {{ url($image->originalImageUrl) }} @endif @empty @endforelse"/>
+    <meta property="og:image" content="@forelse($event->images as $image)  @if ($loop->first) {{ url($image->originalImageUrl) }} @endif @empty @endforelse" />
     <meta property="og:image:width" content="600" />
     <meta property="og:image:height" content="500" />
     <meta property="og:image:alt" content="{{ $event->title }}" />
@@ -71,22 +71,23 @@
 
                     @if ($event->images()->whereType('img')->exists())
                         @foreach ($event->images()->whereType('img')->get()
-        as $image)
+    as $image)
                             {{-- <img alt="{{ $image->title }}" data-src="{{ url($image->OriginalImageUrl) }}"  class="lazyload rounded"  data-sizes="auto"> --}}
 
-                            <event-picture-viewer inline-template class="my-6">
-                                <div :class="{'fixed inset-0 bg-gray-600' : open}">
-                                    <div v-if="open" @click="showModal"
-                                        class="absolute right-0 border-gray-200 border-2 bg-gray-700 hover:bg-gray-500 rounded px-4 py-2 text-white font-semibold text-2xl cursor-pointer ">
-                                        Zrušiť x
-                                    </div>
-                                    <img alt="{{ $image->title }}" src="{{ url($image->OriginalImageUrl) }}"
-                                        @click="showModal" class="rounded cursor-pointer">
+                            <event-picture-viewer inline-template class="
+                    my-6">
+                    <div :class="{'fixed inset-0 bg-gray-600' : open}">
+                        <div v-if="open" @click="showModal"
+                            class="absolute right-0 border-gray-200 border-2 bg-gray-700 hover:bg-gray-500 rounded px-4 py-2 text-white font-semibold text-2xl cursor-pointer ">
+                            Zrušiť x
+                        </div>
+                        <img alt="{{ $image->title }}" src="{{ url($image->OriginalImageUrl) }}" @click="showModal"
+                            class="rounded cursor-pointer">
 
-                                </div>
-                            </event-picture-viewer>
+                    </div>
+                    </event-picture-viewer>
 
-                        @endforeach
+                    @endforeach
                     @endif
 
 
@@ -145,14 +146,16 @@
 
                 <div class="">
 
-                    <img alt="{{ $image->title }}"
-                        data-src="{{ url(
+                    @if ($event->Imagecard)
+                    <img alt="
+                    {{ $image->title }}"
+                    data-src="{{ url(
     $event->images()->whereType('card')->first()->original_image_url,
 ) }}"
-                        class="lazyload rounded mb-6" data-sizes="auto">
+                    class="lazyload rounded mb-6" data-sizes="auto">
 
                     {{-- vizitka --}}
-
+                    @endif
                     <div class="cursor-pointer pl-2 rounded-sm">
                         <a href="{{ route('event.record', [$event->id]) }}">
                             @if ($event->isFavorited())
@@ -223,36 +226,38 @@
                                 <div>
                                     <div @click="toggle">Upraviť</div>
                                     <form v-if="show" method="post"
-                                        action="{{ route('event.eventInfoPanel', [$event->id, $event->slug]) }}" class="">
+                                        action="{{ route('event.eventInfoPanel', [$event->id, $event->slug]) }}"
+                                        class="">
                                         @csrf {{ method_field('put') }}
 
-                                        <div class="form-group">
-                                            <label for="">Počet miest, kapacita miestnosti</label>
-                                            <input type="number" name="ticket_available"
-                                                value="{{ old('ticket_available') ?? $event->ticket_available }}"
-                                                placeholder="Kapacita miestností" class="form-control input-sm">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="">Počet už obsadených miest, organizátori a pod.</label>
-                                            <input type="number" name="ticket_staff"
-                                                value="{{ old('ticket_staff') ?? $event->ticket_staff }}"
-                                                placeholder="Počet už obsadených miest" class="form-control input-sm">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button class="btn btn-small">Uložiť</button>
-                                        </div>
-
-                                    </form>
+                                        <div class="
+                                        form-group">
+                                        <label for="">Počet miest, kapacita miestnosti</label>
+                                        <input type="number" name="ticket_available"
+                                            value="{{ old('ticket_available') ?? $event->ticket_available }}"
+                                            placeholder="Kapacita miestností" class="form-control input-sm">
                                 </div>
 
-                            </event-info-panel>
+                                <div class="form-group">
+                                    <label for="">Počet už obsadených miest, organizátori a pod.</label>
+                                    <input type="number" name="ticket_staff"
+                                        value="{{ old('ticket_staff') ?? $event->ticket_staff }}"
+                                        placeholder="Počet už obsadených miest" class="form-control input-sm">
+                                </div>
 
-                        @endif
-                    @endcan
+                                <div class="form-group">
+                                    <button class="btn btn-small">Uložiť</button>
+                                </div>
 
-                    <div class="">
+                                </form>
+                    </div>
+
+                    </event-info-panel>
+
+                    @endif
+                @endcan
+
+                <div class="">
                         {{-- <h4>Registračný formulár</h4> --}}
                         {{-- <form action="{{ route('event.subscriptions', $event->id) }}" method="post"> --}}
                         {{-- {{ csrf_field() }} --}}
@@ -283,75 +288,76 @@
                     {{-- aside info panel only if need it --}}
                     @if ($event->registration == 'yes' or $event->registration == 'recomended')
                         <span>Doporučená</span> )
-                        <div class="card">
-                            <div class="card-header">{{ trans('web.events_info_panel') }}</div>
-                            <div class="card-body">
+                        <div class="
+                    card">
+                    <div class="card-header">{{ trans('web.events_info_panel') }}</div>
+                    <div class="card-body">
 
-                                <div class="flex">
-                                    <span>Pridal:</span>
-                                    <span>{{ $event->organization->title }}</span>
-                                </div>
-
-                                {{-- <div class="level"> --}}
-                                {{-- <span>Pridal:</span> --}}
-                                {{-- <span><a href="#"> {{ $event->organization->title }}</a></span> --}}
-                                {{-- </div> --}}
-
-                                <div class="flex justify-between">
-                                    <span>Registrácia:</span>
-                                    @if ($event->registration == 'yes')
-                                        <span>Áno</span>
-                                    @endif
-
-                                    @if ($event->registration == 'no')
-                                        <span>Nie</span>
-                                    @endif
-
-                                    @if ($event->registration == 'recomended')
-                                        <span>Doporučená</span>
-                                    @endif
-                                </div>
-
-
-                                <div class="flex justify-between">
-                                    <span>Vstupné:</span>
-                                    @if ($event->entryFee == 'voluntarily')
-                                        <span>Dobrovoľné</span>
-                                    @endif
-                                    @if ($event->entryFee == 'no')
-                                        <span>Nie</span>
-                                    @endif
-                                    @if ($event->entryFee == 'yes')
-                                        <span>Áno</span>
-                                    @endif
-                                </div>
-
-                                @if (isset($event->user->phone))
-                                    <div class="flex justify-between">
-                                        <span>Tel.:</span>
-                                        <span>{{ $event->user->phone }}</span>
-                                    </div>
-                                @endif
-                            </div>
+                        <div class="flex">
+                            <span>Pridal:</span>
+                            <span>{{ $event->organization->title }}</span>
                         </div>
 
-                    @endif
+                        {{-- <div class="level"> --}}
+                        {{-- <span>Pridal:</span> --}}
+                        {{-- <span><a href="#"> {{ $event->organization->title }}</a></span> --}}
+                        {{-- </div> --}}
+
+                        <div class="flex justify-between">
+                            <span>Registrácia:</span>
+                            @if ($event->registration == 'yes')
+                                <span>Áno</span>
+                            @endif
+
+                            @if ($event->registration == 'no')
+                                <span>Nie</span>
+                            @endif
+
+                            @if ($event->registration == 'recomended')
+                                <span>Doporučená</span>
+                            @endif
+                        </div>
 
 
-                    <div style="margin-top: 3rem">
-                        <event-comments-look :event="{{ $event }}" :commentsoffer="{{ $commentsLook }}">
-                        </event-comments-look>
-                        <event-comments-offer :event="{{ $event }}" :commentsoffer="{{ $commentsOffer }}">
-                        </event-comments-offer>
+                        <div class="flex justify-between">
+                            <span>Vstupné:</span>
+                            @if ($event->entryFee == 'voluntarily')
+                                <span>Dobrovoľné</span>
+                            @endif
+                            @if ($event->entryFee == 'no')
+                                <span>Nie</span>
+                            @endif
+                            @if ($event->entryFee == 'yes')
+                                <span>Áno</span>
+                            @endif
+                        </div>
+
+                        @if (isset($event->user->phone))
+                            <div class="flex justify-between">
+                                <span>Tel.:</span>
+                                <span>{{ $event->user->phone }}</span>
+                            </div>
+                        @endif
                     </div>
-
-
                 </div>
+
+                @endif
+
+
+                <div style="margin-top: 3rem">
+                    <event-comments-look :event="{{ $event }}" :commentsoffer="{{ $commentsLook }}">
+                    </event-comments-look>
+                    <event-comments-offer :event="{{ $event }}" :commentsoffer="{{ $commentsOffer }}">
+                    </event-comments-offer>
+                </div>
+
 
             </div>
 
-
         </div>
+
+
+    </div>
     </div>
 
 @endsection
