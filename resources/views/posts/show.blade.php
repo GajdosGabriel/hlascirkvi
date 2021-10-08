@@ -28,8 +28,7 @@
         <div class="lg:grid grid-cols-12 gap-10">
             {{-- Header and video --}}
             <div class="col-span-8">
-                <organization-page-header :organization="{{ $post->organization }}">
-                </organization-page-header>
+
 
                 <div>
                     <div class="">
@@ -65,7 +64,7 @@
                 @endif
 
 
-                <div class="mt-2 lg:flex justify-between">
+                <div class="mt-2 lg:flex justify-between border-b-2 border-gray-300">
                     {{-- Title video --}}
                     <div class="">
                         <div class="flex flex-col items-start flex-shrink-0">
@@ -115,12 +114,18 @@
                         @endcan
 
                     </div>
+                    
                 </div>
 
                 {{-- Body section --}}
                 <div class="md:grid grid-cols-12 gap-4 mt-4">
 
+                    <organization-page-header :organization="{{ $post->organization }}">
+                    </organization-page-header>
+
                     <div class="col-span-8">
+
+
                         <div>{!! $post->body !!}</div>
 
                         @if (!$post->video_id)

@@ -1,5 +1,5 @@
 <template>
-    <div @click="closeLoginInfo" class="md:flex justify-between text-gray-700 pb-3">
+    <div @click="closeLoginInfo" class="md:flex justify-between text-gray-700 pb-3 col-span-12 items-center ">
         <div class="flex">
             <!-- check if is person-->
 
@@ -24,16 +24,15 @@
                 ></h2>
 
                 <div class="flex">
-                    <a
-                        href="#"
+                    <span
                         @click="toggle"
-                        class="hover:text-blue-"
+                        class="hover:text-blue-500 cursor-pointer"
                         :class="{
                             'bg-blue-500 text-gray-200 rounded-sm px-2': showDescription
                         }"
                     >
                         Profil
-                    </a>
+                    </span>
                 </div>
 
                 <transition name="fade">
