@@ -26,7 +26,7 @@ class OrganizationsController extends Controller
 
     public function organizationPosts(Organization $user, $slug)
     {
-        return view('posts.index', ['posts' => $user->posts()->latest()->paginate(16), 'organization' => $user] );
+        return redirect()->route('organizations.show', [$user->id]);
     }
 
     public function edit(Organization $organization)
