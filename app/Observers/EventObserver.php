@@ -10,7 +10,6 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
-
 class EventObserver
 {
 
@@ -23,13 +22,18 @@ class EventObserver
      */
     public function created(Event $event)
     {
-        if($event->published) {
+        if ($event->published) {
             (new EventImageGenerator($event))->checkIfEvent();
         }
 
+
         session()->flash('flash', 'Podujatie bolo uložené!');
 
-        Notification::send( User::role('admin')->get(), new NewEvent($event) );
+
+        // 271 Výveska
+        if ($event->organization_id != 271) {
+            Notification::send(User::role('admin')->get(), new NewEvent($event));
+        }
     }
 
     /**
@@ -40,14 +44,13 @@ class EventObserver
      */
     public function updated(Event $event)
     {
-        if($event->published) {
+        if ($event->published) {
             $event->images()->whereType('card')->delete();
-        (new EventImageGenerator($event))->checkIfEvent();
+            (new EventImageGenerator($event))->checkIfEvent();
         }
 
 //        if($event->start_at)
 //        $event->update(['end_at' => $event->start_at->addHours(2)]);
-
     }
 
     /**
@@ -82,5 +85,4 @@ class EventObserver
     {
         $event->deleteImages();
     }
-
 }

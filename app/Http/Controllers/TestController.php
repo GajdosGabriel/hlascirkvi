@@ -32,6 +32,15 @@ class TestController extends Controller
 {
     public function newsletter()
     {
+        $event = Event::whereId(2)->first();
+
+        if(! $event->organization_id == 276) {
+
+            dd('Je ddd');
+
+        }
+
+        dd('nie je');
 
 $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
 $href = 'http://www.vyveska.sk/22736/godzone-worship-nights-2021-ba.html';
