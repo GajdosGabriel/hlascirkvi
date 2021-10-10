@@ -14,10 +14,8 @@ use Illuminate\Notifications\Notification;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
-
 class Buffer
 {
-
     protected $post;
 
     public function __construct()
@@ -52,7 +50,7 @@ class Buffer
      */
     public function idLastPublishedOrganizations($countOfUsers)
     {
-      return  $this->post->postsByUpdater(15)
+        return  $this->post->postsByUpdater(15)
        ->latest()->take($countOfUsers)->get()->pluck('organization_id');
     }
 
@@ -61,11 +59,13 @@ class Buffer
      */
     public function getBufferPost($usersId)
     {
-       $post = $this->post->getPostForPublish($usersId);
+        $post = $this->post->getPostForPublish($usersId);
 
-       $this->post->publishPost($post, $idUpdater = 15);
+        if ($post != null) {
+            $this->post->publishPost($post, $idUpdater = 15);
+        }
 
-        if(empty($post)) {
+        if (empty($post)) {
             $this->ifBufferIsEmpty();
             return;
         }
@@ -73,12 +73,8 @@ class Buffer
 
     public function ifBufferIsEmpty()
     {
-      $users =  ( new EloquentUserRepository())->usersHasRoleAdmin();
+        $users =  ( new EloquentUserRepository())->usersHasRoleAdmin();
 
-        \Notification::send($users, new Buffer() );
+        \Notification::send($users, new Buffer());
     }
-
-
-
-
 }
