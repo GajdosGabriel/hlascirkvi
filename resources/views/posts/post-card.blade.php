@@ -1,7 +1,7 @@
 <div class="border-2 border-gray-400 rounded-md shadow-md relative text-xs md:text-sm">
 
     <div style="max-height: 11rem; overflow: hidden; position: relative">
-        @if($post->favorites()->count() > 0)
+        @if($post->favorites()->count())
             <div class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200">
                 Doporúčené
             </div>
