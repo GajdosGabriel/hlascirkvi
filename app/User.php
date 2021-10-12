@@ -39,8 +39,7 @@ class User extends Authenticatable
     public function setFirstNameAttribute($value)
     {
         $this->attributes['first_name'] = ucfirst($value);
-        $this->attributes['last_name'] = ucfirst($value);
-        $this->attributes['slug'] = Str::slug($this->attributes['first_name'] . $this->attributes['last_name'], '-');
+
     }
 
     public function setLastNameAttribute($value)

@@ -18,11 +18,13 @@ use App\Mail\PostNewsletter;
 use App\Services\Newsletter;
 use Illuminate\Http\Request;
 use App\Events\User\NotifyBell;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Services\Extractor\ExtractEcav;
 use App\Services\Extractor\ExtractTkkbs;
 use Illuminate\Database\Eloquent\Builder;
 use App\Services\Extractor\ExtractVyveska;
+use App\Repositories\Contracts\UserRepository;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Repositories\Eloquent\EloquentPostRepository;
@@ -30,15 +32,30 @@ use App\Repositories\Eloquent\EloquentEventRepository;
 
 class TestController extends Controller
 {
+
+    public function __construct(UserRepository $user)
+    {
+        $this->middleware('guest');
+        $this->user = $user;
+    }
+
     public function newsletter()
     {
-        $event = Event::whereId(2)->first();
 
-        if(! $event->organization_id == 276) {
+        User::create([
+            'first_name' => 'vabriel',
+        'last_name' => 'Gajdoš',
+        'email' => 'dfddsdf@email.comdfds',
+        'password' => Hash::make('password')
+        ]);
+    //    $this->user->createUserRegisterForm([
+    //     'first_name' => 'Gabriel',
+    //     'last_name' => 'Gajdoš',
+    //     'email' => 'dfasdf@email.com',
+    //     'password' => Hash::make('password')
+    //    ]);
 
-            dd('Je ddd');
 
-        }
 
         dd('nie je');
 

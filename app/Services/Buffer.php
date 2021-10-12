@@ -8,7 +8,7 @@
 
 namespace App\Services;
 
-use App\Post;
+
 use Carbon\Carbon;
 use Illuminate\Notifications\Notification;
 use App\Repositories\Eloquent\EloquentPostRepository;
@@ -16,11 +16,11 @@ use App\Repositories\Eloquent\EloquentUserRepository;
 
 class Buffer
 {
-    protected $post;
+
 
     public function __construct()
     {
-        $this->post = new EloquentPostRepository();
+
     }
 
     public function handler()
