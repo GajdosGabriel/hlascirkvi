@@ -14,7 +14,8 @@ class UserObserver
 
     public function saving(User $user)
     {
-        $user->slug = Str::slug($user->first_name . $user->last_name, '-');
+        $user->slug =  Str::slug($user->first_name . " " . $user->last_name, '-');
+
         // Ak zamenia first name s last name
         $firstName = FirstName::whereName($user->first_name)->orderBy('count', 'desc')->first();
 
