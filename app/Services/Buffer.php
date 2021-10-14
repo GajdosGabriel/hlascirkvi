@@ -8,11 +8,11 @@
 
 namespace App\Services;
 
-
+use App\Notifications\Admin\BufeerIsEmpty;
 use Carbon\Carbon;
-use Illuminate\Notifications\Notification;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentUserRepository;
+use Illuminate\Notifications\Notification;
 
 class Buffer
 {
@@ -20,7 +20,7 @@ class Buffer
 
     public function __construct()
     {
-
+        $this->post = new EloquentPostRepository();
     }
 
     public function handler()
@@ -75,6 +75,6 @@ class Buffer
     {
         $users =  ( new EloquentUserRepository())->usersHasRoleAdmin();
 
-        \Notification::send($users, new Buffer());
+        Notification::send($users, new BufeerIsEmpty() )
     }
 }
