@@ -75,6 +75,6 @@ class Buffer
     {
         $users =  ( new EloquentUserRepository())->usersHasRoleAdmin();
 
-        Notification::send($users, new BufeerIsEmpty() )
+        \Notification::send($users, new BufeerIsEmpty() );
     }
 }
