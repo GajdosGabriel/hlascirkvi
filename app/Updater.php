@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Updater extends Model
 {
-    protected $fillable = [];
+    protected $guarded = [];
     public $timestamps = false;
 
     public function organizations() {

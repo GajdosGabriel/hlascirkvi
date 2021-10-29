@@ -33,6 +33,12 @@
                 @endslot
             @endcomponent
 
+            @component('layouts.components.profil_menu', ['url' => route('updaters.index')])
+            @slot('title')
+                Updaters
+            @endslot
+        @endcomponent
+
         </div>
     </div>
 
