@@ -78,6 +78,8 @@ class ExtractTkkbs extends Extractors
         $imgUrls = $htmlDom->getElementsByTagName('img');
         $bodyText = $htmlDom->getElementsByTagName('p');
 
+       
+
         //Array that will contain our extracted links.
         $extractedLinks = array();
 
@@ -101,11 +103,15 @@ class ExtractTkkbs extends Extractors
             );
         }
 
-
+   // array to string
+        function convert_multi_array($extractedLinks) {
+            $out = implode(" ",array_map(function($a) {return implode("", $a);}, $extractedLinks));
+            return $out;
+          }
 
         // array to string
-        $body = join(" ", $extractedLinks[0]);
-
+        $body = convert_multi_array($extractedLinks);
+        
         // Remove first sentence
         $moveSentence  = $this->first_sentence_move($body);
 

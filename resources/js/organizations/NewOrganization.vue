@@ -1,43 +1,58 @@
-<!--<template>-->
+<template>
+                   <div>
+                        <h4 style="margin: 2rem 0rem; cursor: pointer" @click="toggle">Nová organizácia
+                            <i v-if="!showForm" class="far fa-plus-square"></i>
+                            <i v-if="showForm" class="far fa-minus-square"></i>
+                        </h4>
 
-    <!--<div>-->
-        <!--<h4 style="margin: 2rem 0rem; cursor: pointer" @click="toggle">Vytvoriť organizáciu-->
-            <!--<i v-if="!showForm" class="far fa-plus-square"></i>-->
-            <!--<i v-if="showForm" class="far fa-minus-square"></i>-->
-        <!--</h4>-->
+                        <form method="post" action="" v-if="showForm">
+                            <div class="form-group">
+                                <label>Meno novej organizácie</label>
+                                <input type="text" name="title" class="form-control" placeholder="Názov organizácie" required>
+                            </div>
 
-        <!--<form @submit.prevent="saveOrganization" v-if="showForm">-->
-            <!--<div class="form-group">-->
-                <!--<label>Meno novej organizácie</label>-->
-                <!--<input type="text" v-model="title" name="name" placeholder="Názov organizácie" required>-->
-            <!--</div>-->
+                            <div class="form-group">
+                                <label>Ulica a číslo</label>
+                                <input type="text" name="street" class="form-control" placeholder="Ulica a číslo">
+                            </div>
 
-            <!--<div class="form-group">-->
-                <!--<label>Ulica a číslo</label>-->
-                <!--<input type="text" v-model="street" name="name" placeholder="Ulica a číslo" required>-->
-            <!--</div>-->
+                            <div class="form-group">
+                                <label for="">Mesto</label>
+                                <select name="village_id" class="form-control input-sm">
+                                    <option label="Vybrať"></option>
 
-            <!--<div class="form-group">-->
-                <!--<label>Mesto</label>-->
-                <!--<input type="text" v-model="city" name="name" placeholder="Mesto" required>-->
-            <!--</div>-->
-
-
-            <!--<div class="form-group">-->
-                <!--<label>Telefón</label>-->
-                <!--<input type="number" v-model="phone" name="name" placeholder="Potrebné v prípade vytvorenia akcie">-->
-            <!--</div>-->
+                                    <!-- @foreach(\App\Village::all() as $village)
+                                    <option value="{{ $village->id }}">{{ $village->fullname }}  {{ $village->zip }}</option>
+                                    @endforeach -->
+                                </select>
+                            </div>
 
 
-            <!--<div class="form-group" style="text-align: right">-->
-                <!--<button class="btn btn-small">Uložiť</button>-->
-            <!--</div>-->
+                            <div class="form-group">
+                                <label>Telefón</label>
+                                <input type="number" name="phone" class="form-control"
+                                    placeholder="Potrebné v prípade vytvorenia akcie">
+                            </div>
 
-        <!--</form>-->
-    <!--</div>-->
 
-<!--</template>-->
+                            <span style="font-weight: 600">Zaradená do zoznamu</span><br>
+                            <!-- @forelse(\App\Updater::all() as $updater)
+                                @if ($updater->type == 'denomination')
+                                    <input type="radio" required name="updaters[]" value="{{ $updater->id }}">
+                                    {{ $updater->title }}<br>
+                                @endif
+                            @empty
+                                žiadny tag
+                            @endforelse -->
 
+
+                            <div class="form-group" style="text-align: right">
+                                <button class="btn btn-small">Uložiť</button>
+                            </div>
+
+                        </form>
+                    </div>
+</template>
 <script>
     import {bus} from '../app';
     export default {

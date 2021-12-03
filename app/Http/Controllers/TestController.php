@@ -42,12 +42,12 @@ class TestController extends Controller
     public function newsletter()
     {
 
-        User::create([
-            'first_name' => 'vabriel',
-        'last_name' => 'Gajdoš',
-        'email' => 'dfddsdf@email.comdfds',
-        'password' => Hash::make('password')
-        ]);
+        // User::create([
+        //     'first_name' => 'vabriel',
+        // 'last_name' => 'Gajdoš',
+        // 'email' => 'dfddsdf@email.comdfds',
+        // 'password' => Hash::make('password')
+        // ]);
     //    $this->user->createUserRegisterForm([
     //     'first_name' => 'Gabriel',
     //     'last_name' => 'Gajdoš',
@@ -57,15 +57,15 @@ class TestController extends Controller
 
 
 
-        dd('nie je');
+        // dd('nie je');
 
-$href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
-$href = 'http://www.vyveska.sk/22736/godzone-worship-nights-2021-ba.html';
+// $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
+$href = 'https://www.tkkbs.sk/view.php?cisloclanku=20211202023';
 $event = Event::first();
 // dd($event);
 
     //    $events = (new ExtractVyveska())->parseListUrl();
-       $events = (new ExtractVyveska())->parseEvent($href, $event);
+       $events = (new ExtractTkkbs())->parseEvent($href, $event);
 
         dd($events);
 

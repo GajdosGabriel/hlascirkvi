@@ -66,7 +66,7 @@ class Buffer
         }
 
         if (empty($post)) {
-            $this->ifBufferIsEmpty();
+            // $this->ifBufferIsEmpty();
             return;
         }
     }
