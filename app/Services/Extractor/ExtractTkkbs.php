@@ -99,10 +99,11 @@ class ExtractTkkbs extends Extractors
             }
 
             $extractedLinks[] = array(
-                'src' => $linkText
+                'src' => "<p>". $linkText ."</p>"
             );
         }
 
+        // dd($extractedLinks);
    // array to string
         function convert_multi_array($extractedLinks) {
             $out = implode(" ",array_map(function($a) {return implode("", $a);}, $extractedLinks));
