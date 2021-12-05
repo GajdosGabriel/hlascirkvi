@@ -107,11 +107,9 @@
                                     <p
                                         class="font-semibold mb-2 text-gray-500 text-sm"
                                     >
-                                        Nie ste prihlásený. Vložte svoj email,
-                                        ktorý email
+                                        Vložením emailu sa pripojíte k modlitbe.
                                         <br />
-                                        ktorý nebude nikde zverejnený. Pripojite
-                                        sa k modlitbe.
+                                        Email sa nikde zverejňuje.
                                     </p>
                                 </div>
 
