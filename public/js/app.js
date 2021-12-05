@@ -5541,8 +5541,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5730,12 +5728,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['prayer'],
+  props: ["prayer"],
   mixins: [_mixins_filtersMixin__WEBPACK_IMPORTED_MODULE_3__.filterMixin],
   components: {
     modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -5748,7 +5764,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     passToModalShow: function passToModalShow() {
-      _app__WEBPACK_IMPORTED_MODULE_2__.bus.$emit('passToModalPrayer', this.prayer);
+      _app__WEBPACK_IMPORTED_MODULE_2__.bus.$emit("passToModalPrayer", this.prayer);
     }
   }
 });
@@ -73454,11 +73470,11 @@ var staticRenderFns = [
       { staticClass: "font-semibold mb-2 text-gray-500 text-sm" },
       [
         _vm._v(
-          "\n                                    Nie ste prihlásený. Vložte svoj email,\n                                    ktorý email\n                                    "
+          "\n                                    Vložením emailu sa pripojíte k modlitbe.\n                                    "
         ),
         _c("br"),
         _vm._v(
-          "\n                                    ktorý nebude nikde zverejnený. Pripojite\n                                    sa k modlitbe.\n                                "
+          "\n                                    Email sa nikde zverejňuje.\n                                "
         )
       ]
     )
@@ -73661,30 +73677,31 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "px-4 py-2 text-base hover:bg-gray-100" }, [
     _c("div", { on: { click: _vm.passToModalShow } }, [
-      _c(
-        "div",
-        { staticClass: "flex justify-between" },
-        [
-          _vm.prayer.title
-            ? _c("div", { staticClass: "font-semibold" }, [
-                _vm._v(_vm._s(_vm.prayer.title))
-              ])
-            : _c("div", { staticClass: "font-semibold" }, [
-                _vm._v("žiadam o modlitbu")
-              ]),
-          _vm._v(" "),
-          _c("favorites-count", { attrs: { prayer: _vm.prayer } })
-        ],
-        1
-      ),
+      _c("div", { staticClass: "flex justify-between" }, [
+        _vm.prayer.title
+          ? _c("div", { staticClass: "font-semibold" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.prayer.title) +
+                  "\n            "
+              )
+            ])
+          : _c("div", { staticClass: "font-semibold" }, [
+              _vm._v("žiadam o modlitbu")
+            ])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "flex" }, [
         _c("div", {}, [
           _c("div", { staticClass: "text-sm" }, [
-            _vm._v(_vm._s(_vm.prayer.body))
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.prayer.body.slice(0, 80)) +
+                " ...\n                "
+            )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "flex mb-2" }, [
+          _c("div", { staticClass: "flex mb-2 justify-between" }, [
             _c("div", { staticClass: "flex items-center" }, [
               _c(
                 "svg",
@@ -73716,34 +73733,16 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c(
-              "span",
-              { staticClass: "text-xs flex items-center  flex-shrink-0" },
+              "div",
+              {
+                staticClass:
+                  "text-xs bg-blue-200 border-blue-600 border-1 text-gray-700 rounded-md px-2 pt-1 "
+              },
               [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "h-4 w-4 mr-2 text-gray-400 fill-current",
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      viewBox: "0 0 20 20",
-                      fill: "currentColor"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        "fill-rule": "evenodd",
-                        d:
-                          "M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z",
-                        "clip-rule": "evenodd"
-                      }
-                    })
-                  ]
-                ),
                 _vm._v(
-                  "\n               " +
-                    _vm._s(_vm._f("dateTime")(_vm.prayer.created_at)) +
-                    " hod.\n            "
+                  "\n                        " +
+                    _vm._s(_vm.prayer.created_at_human) +
+                    "\n                    "
                 )
               ]
             )
@@ -73795,7 +73794,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "ul",
-        { staticClass: "mt-3" },
+        {},
         _vm._l(_vm.prayers.slice(0, 7), function(prayer) {
           return _c(
             "li",

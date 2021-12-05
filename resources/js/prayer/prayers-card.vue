@@ -7,7 +7,7 @@
         </header>
 
 
-            <ul class="mt-3">
+            <ul class="">
                 <li v-for="prayer in prayers.slice(0, 7)" :key="prayer.id">
                     <prayers-card-item :prayer="prayer"></prayers-card-item>
                 </li>

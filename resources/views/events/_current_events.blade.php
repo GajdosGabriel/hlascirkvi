@@ -1,6 +1,6 @@
 {{-- Currently events --}}
 <div class="text-sm text-gray-700 border-gray-300 border-2 rounded-md m-4">
-    <h4 class="font-semibold text-2xl rounded-t-md bg-yellow-500 shadow-md mb-4 p-2">Práve prebiehajúce akcie</h4>
+    <h4 class="font-semibold text-2xl rounded-t-md bg-yellow-500 shadow-md p-2">Práve prebiehajúce akcie</h4>
     <div class="grid lg:grid-cols-12 md:grid-cols-4 grid-cols-2 gap-4 p-2">
         @forelse($currentlyEvents as $event)
             <div class="flex flex-col hover:bg-gray-100 p-2 relative">

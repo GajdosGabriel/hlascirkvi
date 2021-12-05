@@ -8,11 +8,6 @@
                 <div class="font-semibold" v-else>žiadam o modlitbu</div>
 
                 <!-- <favorites-count :prayer="prayer"></favorites-count> -->
-                <div
-                    class="text-xs bg-blue-200 border-blue-600 border-1 text-gray-700 rounded-md px-2 pt-1 "
-                >
-                    {{ prayer.created_at_human }}
-                </div>
             </div>
 
             <div class="flex">
@@ -21,7 +16,7 @@
                         {{ prayer.body.slice(0, 80) }} ...
                     </div>
 
-                    <div class="flex mb-2">
+                    <div class="flex mb-2 justify-between">
                         <div class="flex items-center">
                             <svg
                                 class="h-4 w-4 mr-1 text-gray-400 fill-current"
@@ -42,6 +37,11 @@
                             >
                         </div>
 
+                        <div
+                            class="text-xs bg-blue-200 border-blue-600 border-1 text-gray-700 rounded-md px-2 pt-1 "
+                        >
+                            {{ prayer.created_at_human }}
+                        </div>
                         <!-- <span class="text-xs flex items-center  flex-shrink-0">
                             <svg
                                 class="h-4 w-4 mr-2 text-gray-400 fill-current"

@@ -146,10 +146,14 @@
                     {{-- Body plánované akcie --}}
                     <div class="col-span-4 mb-4">
                         @if ($post->organization->person == 0)
-                            <div>
-                                <div class="font-semibold">Plánované akcie</div>
-                                <div class="font-semibold">{{ $post->organization->title }}</div>
-                                <ul>
+                        <section class="card">
+
+                            <header class="card_header">
+                                <span>{{ $post->organization->title }}</span>
+                                <i class="fa fa-share-alt" aria-hidden="true"></i>
+                            </header>
+                    
+                                <ul class="p-2">
                                     @forelse( $post->eventsBelongsToOrganization as $event)
                                         <li>
                                             <a href="{{ $event->url }}">
@@ -163,7 +167,7 @@
                                             akcie.</span>
                                     @endforelse
                                 </ul>
-                            </div>
+                            </section>
                         @endif
                     </div>
 
