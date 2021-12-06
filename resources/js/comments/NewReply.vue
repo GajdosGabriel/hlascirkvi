@@ -60,7 +60,7 @@ export default {
 
         storeComment: function() {
             axios
-                .post("/comments", {
+                .post("/api/comments", {
                     body: this.body,
                     email: this.email,
                     model: "Post",

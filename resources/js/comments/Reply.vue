@@ -88,7 +88,7 @@ export default {
 
     methods: {
         destroy: function() {
-            axios.delete("/comments/" + this.data.id);
+            axios.delete("/api/comments/" + this.data.id);
 
             $(this.$el).fadeOut(300, () => {
                 this.$emit("deleted", this.data.id);
@@ -97,7 +97,7 @@ export default {
 
         updateComment: function() {
             axios
-                .put("/comments/" + this.data.id, {
+                .put("/api/comments/" + this.data.id, {
                     body: this.body
                 })
                 .then(response => {

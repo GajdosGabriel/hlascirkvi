@@ -27,7 +27,7 @@ Route::resources([
     'user.organization' => UserOrganizationController::class,
     'akcie'             => Events\EventsController::class,
     'posts'             => PostsController::class,
-    'comments'          => CommentsController::class,
+    'comment'           => CommentsController::class,
     'favorites'         => FavoritesController::class,
     'images'            => ImagesController::class,
     'tags'              => TagsController::class,

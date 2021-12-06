@@ -27,6 +27,7 @@ Route::apiResources([
     'modlitby'          => Api\PrayerController::class,
     'posts'             => Api\PostController::class,
     'organizations'     => Api\OrganizationController::class,
+    'comments'          => Api\CommentController::class,
 ]);
 
 

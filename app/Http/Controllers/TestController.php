@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use DB;
 use Auth;
 use Config;
@@ -41,6 +42,9 @@ class TestController extends Controller
 
     public function newsletter()
     {
+        $comment = Comment::latest()->first();
+
+        dd($comment->commentable);
 
         // User::create([
         //     'first_name' => 'vabriel',

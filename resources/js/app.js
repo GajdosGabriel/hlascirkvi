@@ -70,6 +70,7 @@ Vue.component('c-article-dropdown', require('./components/c-article-dropdown.vue
 Vue.component('seminar-title', require('./seminars/seminar-title.vue').default);
 Vue.component('seminar-info', require('./seminars/seminar-info.vue').default);
 Vue.component('seminar-description', require('./seminars/seminar-description.vue').default);
+Vue.component('comment-card', require('./comments/comments-card.vue').default);
 
 // Vue.component('posts-card', require('./posts/card/posts.vue').default);
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);

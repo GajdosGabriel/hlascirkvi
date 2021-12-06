@@ -80,6 +80,7 @@
             {{-- Stlpec II. --}}
             <div class="col-span-3">
 
+                <comment-card></comment-card>
                 <prayers-card></prayers-card>
 
 
