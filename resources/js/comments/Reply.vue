@@ -61,7 +61,7 @@ export default {
 
         canUpdate: function() {
             return this.authorize(
-                user => this.data.user_id == window.App.user.id
+                user => window.App.user.id == 1 || this.data.user_id == window.App.user.id
             );
         },
 

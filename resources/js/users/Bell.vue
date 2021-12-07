@@ -37,7 +37,7 @@
             style="width:20rem;"
         >
             <li
-                class="py-2"
+                class=""
                 v-for="notification in notifications"
                 :key="notification.id"
             >
