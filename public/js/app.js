@@ -71527,7 +71527,7 @@ var render = function() {
             _c("span", { staticClass: "nav-link" }, [
               _vm._v(
                 "\n                " +
-                  _vm._s(_vm.user.fullname) +
+                  _vm._s(_vm.user.full_name) +
                   "\n            "
               )
             ]),

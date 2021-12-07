@@ -3,14 +3,14 @@
         <a id="navbarDropdown" class="nav-link radio" href="#">
             <li @click="toggle" class="whitespace-nowrap">
                 <span class="nav-link">
-                    {{ user.fullname }}
+                    {{ user.full_name }}
                 </span>
                 <i class="fas fa-caret-down"></i>
             </li>
         </a>
 
         <ul v-if="open" @click="toggle" class="dropdown-menu hidden">
-            <a :href="'/admin/home'" v-if="$auth.isAdmin()">
+            <a :href="'/admin/home'" v-if="user.isSuperadmin">
                 <li class="dropdown-item">
                     Admin
                 </li>
@@ -45,7 +45,6 @@ export default {
     data() {
         return {
             open: false,
-            // organization: "",
             user: "",
         };
     },
@@ -53,26 +52,14 @@ export default {
         toggle: function() {
             this.open = !this.open;
         },
-
-        // getOrganization: function() {
-        //     axios.get("/api/organizations/" + this.authUser.user.org_id ).then(response => {
-        //         this.organization = response.data;
-        //     });
-        // },
-
          getUser() {
             axios.get("/api/user").then(response => {
                 this.user = response.data;
             });
         }
     },
-    computed: {
-        authUser: function() {
-            return window.App;
-        }
-    },
+
     created() {
-        // this.getOrganization();
         this.getUser()
     }
 };
