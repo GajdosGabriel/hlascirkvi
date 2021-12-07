@@ -140,7 +140,7 @@
                             @include('bigthink._form')
                         @endauth
 
-                        <replies :post="{{ $post }}"></replies>
+                        <comments :post="{{ $post }}"></comments>
                     </div>
 
                     {{-- Body plánované akcie --}}

@@ -48,7 +48,7 @@ Vue.component('bell', require('./users/Bell.vue').default);
 Vue.component('login-card', require('./auth/LoginCard.vue').default);
 Vue.component('youtube-dash', require('./youtube/YoutubeDash.vue').default);
 Vue.component('swith-filter', require('./posts/Swith-filter.vue').default);
-Vue.component('replies', require('./comments/Replies.vue').default);
+Vue.component('comments', require('./comments/Comments.vue').default);
 Vue.component('event-comments-look', require('./events/Event-comment-look.vue').default);
 Vue.component('event-comments-offer', require('./events/Event-comment-offer.vue').default);
 Vue.component('new-organization', require('./organizations/NewOrganization.vue').default);

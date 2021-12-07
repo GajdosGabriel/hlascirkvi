@@ -25,23 +25,20 @@ class SaveCommentsRequest extends FormRequest
     public function rules()
     {
 
-        if(auth()->guest() ) {
+        if (auth()->guest()) {
             return [
                 'body' => 'bail|required|min:3',
-//                'email' => 'required|email|max:255',
+                'email' => 'required|email|max:255',
             ];
         }
 
         return [
             'body' => 'bail|required|min:3'
         ];
-
     }
 
     public function save($post)
     {
-       return $post->addComment($this->only('body'));
+        return $post->addComment($this->only('body'));
     }
-
-
 }

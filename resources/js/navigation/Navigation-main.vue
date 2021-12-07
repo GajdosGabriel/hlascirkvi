@@ -1,11 +1,23 @@
 <template>
     <div class="relative z-10">
         <a id="navbarDropdown" class="nav-link radio" href="#">
-            <li @click="toggle" class="whitespace-nowrap">
+            <li @click="toggle" class="whitespace-nowrap flex">
                 <span class="nav-link">
                     {{ user.full_name }}
                 </span>
-                <i class="fas fa-caret-down"></i>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 mt-1"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+        
             </li>
         </a>
 
@@ -45,14 +57,14 @@ export default {
     data() {
         return {
             open: false,
-            user: "",
+            user: ""
         };
     },
     methods: {
         toggle: function() {
             this.open = !this.open;
         },
-         getUser() {
+        getUser() {
             axios.get("/api/user").then(response => {
                 this.user = response.data;
             });
@@ -60,7 +72,7 @@ export default {
     },
 
     created() {
-        this.getUser()
+        this.getUser();
     }
 };
 </script>
