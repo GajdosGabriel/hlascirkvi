@@ -15,6 +15,7 @@
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.2",
+        "laravel/sanctum": "^2.12",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
         "livewire/livewire": "^1.2",

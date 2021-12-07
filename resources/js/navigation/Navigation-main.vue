@@ -3,7 +3,7 @@
         <a id="navbarDropdown" class="nav-link radio" href="#">
             <li @click="toggle" class="whitespace-nowrap">
                 <span class="nav-link">
-                    {{ organization.title }}
+                    {{ user.fullname }}
                 </span>
                 <i class="fas fa-caret-down"></i>
             </li>
@@ -45,7 +45,8 @@ export default {
     data() {
         return {
             open: false,
-            organization: ""
+            // organization: "",
+            user: "",
         };
     },
     methods: {
@@ -53,9 +54,15 @@ export default {
             this.open = !this.open;
         },
 
-        getOrganization: function() {
-            axios.get("/api/organizations/" + this.authUser.user.org_id ).then(response => {
-                this.organization = response.data;
+        // getOrganization: function() {
+        //     axios.get("/api/organizations/" + this.authUser.user.org_id ).then(response => {
+        //         this.organization = response.data;
+        //     });
+        // },
+
+         getUser() {
+            axios.get("/api/user").then(response => {
+                this.user = response.data;
             });
         }
     },
@@ -65,7 +72,8 @@ export default {
         }
     },
     created() {
-        this.getOrganization();
+        // this.getOrganization();
+        this.getUser()
     }
 };
 </script>

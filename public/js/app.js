@@ -2051,6 +2051,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2069,21 +2073,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     close: function close() {
-      this.$emit('closeModal', false);
+      this.$emit("closeModal", false);
     },
     linkPage: function linkPage(xxx) {
-      if (xxx == 'login') {
+      if (xxx == "login") {
         this.closeCard = false;
         this.showRegisterForm = false;
         this.showLoginForm = true;
       }
 
-      if (xxx == 'register') {
+      if (xxx == "register") {
         this.closeCard = false;
         this.showRegisterForm = true;
         this.showLoginForm = false;
       }
     }
+  },
+  created: function created() {
+    axios.get("/sanctum/csrf-cookie").then(function (response) {// Login...
+    });
   }
 });
 
@@ -2590,7 +2598,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       return this.authorize(function (user) {
-        return _this.data.user_id == window.App.user.id;
+        return window.App.user.id == 1 || _this.data.user_id == window.App.user.id;
       });
     },
     getShortName: function getShortName() {
@@ -4044,18 +4052,24 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       open: false,
-      organization: ""
+      // organization: "",
+      user: ""
     };
   },
   methods: {
     toggle: function toggle() {
       this.open = !this.open;
     },
-    getOrganization: function getOrganization() {
+    // getOrganization: function() {
+    //     axios.get("/api/organizations/" + this.authUser.user.org_id ).then(response => {
+    //         this.organization = response.data;
+    //     });
+    // },
+    getUser: function getUser() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/organizations/" + this.authUser.user.org_id).then(function (response) {
-        _this.organization = response.data;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/user").then(function (response) {
+        _this.user = response.data;
       });
     }
   },
@@ -4065,7 +4079,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.getOrganization();
+    // this.getOrganization();
+    this.getUser();
   }
 });
 
@@ -69465,7 +69480,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("h5", [
       _c("i", { staticClass: "fas fa-check" }),
-      _vm._v(" Už som registrovaný")
+      _vm._v(" Už som registrovaný\n                    ")
     ])
   },
   function() {
@@ -69481,7 +69496,9 @@ var staticRenderFns = [
         [
           _c("h5", [
             _c("i", { staticClass: "fas fa-check" }),
-            _vm._v(" Pokračovať pomocou Facebooku")
+            _vm._v(
+              " Pokračovať pomocou\n                            Facebooku\n                        "
+            )
           ])
         ]
       )
@@ -69493,7 +69510,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("h5", [
       _c("i", { staticClass: "fas fa-check" }),
-      _vm._v(" Vytvoriť novú registráciu")
+      _vm._v(
+        " Vytvoriť novú\n                        registráciu\n                    "
+      )
     ])
   }
 ]
@@ -71508,7 +71527,7 @@ var render = function() {
             _c("span", { staticClass: "nav-link" }, [
               _vm._v(
                 "\n                " +
-                  _vm._s(_vm.organization.title) +
+                  _vm._s(_vm.user.fullname) +
                   "\n            "
               )
             ]),
@@ -74624,7 +74643,7 @@ var render = function() {
             },
             [
               _vm._l(_vm.notifications, function(notification) {
-                return _c("li", { key: notification.id, staticClass: "py-2" }, [
+                return _c("li", { key: notification.id }, [
                   _c(
                     "a",
                     {
