@@ -20,7 +20,7 @@ class PostsCommentsController extends Controller
 
     public function update(Post $post, Comment $comment, SaveCommentsRequest $request)
     {
-        $comment->update($request->all());
+        $comment->update($request->only('body'));
 
         return new CommentResource($comment);
     }

@@ -25,7 +25,7 @@
         <div v-if="editComment" class="p-3">
             <textarea
                 class="w-full p-2 border-2 border-gray-400 rounded-md"
-                v-model="body"
+                v-model="comment.body"
                 rows="2"
                 placeholder="Pridajte nový komentár ..."
                 required
@@ -49,8 +49,8 @@ export default {
     components: { Favorite },
     data: function() {
         return {
-            editComment: false,
-            body: this.comment.body
+            editComment: false
+            // body: this.comment.body
         };
     },
 
@@ -61,7 +61,9 @@ export default {
 
         canUpdate: function() {
             return this.authorize(
-                user => window.App.user.id == 1 || this.comment.user.id == window.App.user.id
+                user =>
+                    window.App.user.id == 1 ||
+                    this.comment.user.id == window.App.user.id
             );
         },
 
@@ -88,7 +90,12 @@ export default {
 
     methods: {
         destroy: function() {
-            axios.delete('/api/posts/'+ this.comment.comment_post.id + '/comments/' + this.comment.id);
+            axios.delete(
+                "/api/posts/" +
+                    this.comment.comment_post.id +
+                    "/comments/" +
+                    this.comment.id
+            );
 
             $(this.$el).fadeOut(300, () => {
                 this.$emit("deleted", this.comment.id);
@@ -97,20 +104,18 @@ export default {
 
         updateComment: function() {
             axios
-                .put('/api/posts/'+ this.comment.comment_post.id + '/comments/' + this.comment.id, {
-                    body: this.body
-                })
+                .put(
+                    "/api/posts/" +
+                        this.comment.comment_post.id +
+                        "/comments/" +
+                        this.comment.id,
+                    this.comment
+                )
                 .then(response => {
-                    this.body = response.comment.body;
+                    this.comment = response.comment;
                 });
             this.editComment = false;
         }
     }
 };
 </script>
-
-<style>
-.redText {
-    color: red;
-}
-</style>
