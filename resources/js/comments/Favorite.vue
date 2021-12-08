@@ -1,8 +1,8 @@
 <template>
     <div @click="store(reply)">
-        <div>
+        <div class="flex">
             <svg
-                class="cursor-pointer hover:bg-red-300 text-gray-400 rounded-full h-7 w-7 p-1"
+                class="cursor-pointer hover:bg-red-300 text-gray-400 rounded-full h-7 w-7 p-1 "
                 @click="store(reply)"
                 :class="replyClass"
                 title="Hlasovať za komentár"
@@ -18,37 +18,27 @@
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                 />
             </svg>
+            <span>{{ reply.favorites_count }}</span>
         </div>
-
-        <!--@endif-->
-        <!--</a>-->
     </div>
 </template>
 
 <script>
-import { bus } from "../app";
 export default {
     props: ["reply"],
-    data: function() {
-        return {
-            replyCount: this.reply.favoritesCount,
-            replyisFavorited: this.reply.isFavorited
-        };
-    },
-
     computed: {
         signedIn: function() {
             return window.App.signedIn;
         },
 
         replyManager: function() {
-            if (this.reply.favoritesCount > 0) {
+            if (this.reply.favorites_count > 0) {
                 return ["bg-red-700 text-white"];
             }
         },
 
         replyClass: function() {
-            if (this.replyisFavorited) {
+            if (this.reply.is_favorited) {
                 return ["bg-red-700 text-white rounded-full h-7 w-7 p-1"];
             }
         },

@@ -21,6 +21,9 @@ class CommentResource extends JsonResource
             'created_at_human' => $this->created_at->diffForHumans(),
             'comment_post' => $this->commentable,
             'user' => $this->user,
+            'favorites' => $this->favorites,
+            'is_favorited' => $this->isFavorited,
+            'favorites_count' => $this->favoritesCount,
         ];
     }
 }

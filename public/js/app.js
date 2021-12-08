@@ -2366,7 +2366,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
 //
 //
 //
@@ -2392,28 +2391,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["reply"],
-  data: function data() {
-    return {
-      replyCount: this.reply.favoritesCount,
-      replyisFavorited: this.reply.isFavorited
-    };
-  },
   computed: {
     signedIn: function signedIn() {
       return window.App.signedIn;
     },
     replyManager: function replyManager() {
-      if (this.reply.favoritesCount > 0) {
+      if (this.reply.favorites_count > 0) {
         return ["bg-red-700 text-white"];
       }
     },
     replyClass: function replyClass() {
-      if (this.replyisFavorited) {
+      if (this.reply.is_favorited) {
         return ["bg-red-700 text-white rounded-full h-7 w-7 p-1"];
       }
     },
@@ -2432,7 +2422,7 @@ __webpack_require__.r(__webpack_exports__);
         model_id: this.reply.id
       });
       this.replyisFavorited = true;
-      _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit("flash", {
+      bus.$emit("flash", {
         body: "Pridaný hlas komentáru."
       });
     }
@@ -69895,12 +69885,12 @@ var render = function() {
       }
     },
     [
-      _c("div", [
+      _c("div", { staticClass: "flex" }, [
         _c(
           "svg",
           {
             staticClass:
-              "cursor-pointer hover:bg-red-300 text-gray-400 rounded-full h-7 w-7 p-1",
+              "cursor-pointer hover:bg-red-300 text-gray-400 rounded-full h-7 w-7 p-1 ",
             class: _vm.replyClass,
             attrs: {
               title: "Hlasovať za komentár",
@@ -69926,7 +69916,9 @@ var render = function() {
               }
             })
           ]
-        )
+        ),
+        _vm._v(" "),
+        _c("span", [_vm._v(_vm._s(_vm.reply.favorites_count))])
       ])
     ]
   )
