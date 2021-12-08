@@ -6,6 +6,7 @@ use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveCommentsRequest;
+use App\Http\Resources\CommentResource;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
 class PostsCommentsController extends Controller
@@ -13,19 +14,19 @@ class PostsCommentsController extends Controller
     public function store(Post $post, SaveCommentsRequest $saveComments)
     {  
 
-        if ( $saveComments->email) {
-          $user =  (new EloquentUserRepository)->checkIfUserAccountExist($saveComments->email);
+        if ($saveComments->email) {
+            (new EloquentUserRepository)->checkIfUserAccountExist($saveComments);
         }
-
-        dd($user);
 
         // $class = "App\\{$saveComments->input('model')}";
         // $class = new $class;
 
         // $post =  $class->whereId($saveComments->input('model_id'))->first();
 
-        $reply = $saveComments->save($post);
 
-        return $reply;
+        $comment = $saveComments->save($post);
+
+        return new CommentResource($comment);
+
     }
 }

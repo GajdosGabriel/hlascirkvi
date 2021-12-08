@@ -60,14 +60,13 @@ export default {
 
         storeComment: function() {
             axios
-                .post("/api/comments", {
+                .post("/api/posts/" + this.post.id + "/comments", {
                     body: this.body,
-                    email: this.email,
-                    model: "Post",
-                    model_id: this.post.id
+                    email: this.email
                 })
                 .then(({ data }) => {
                     this.body = "";
+                    this.email = "";
                     this.$emit("newComment", data);
                     this.modal = false;
                 });

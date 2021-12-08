@@ -20,6 +20,7 @@ class CommentResource extends JsonResource
             'created_at' => $this->created_at,
             'created_at_human' => $this->created_at->diffForHumans(),
             'comment_post' => $this->commentable,
+            'user' => $this->user,
         ];
     }
 }
