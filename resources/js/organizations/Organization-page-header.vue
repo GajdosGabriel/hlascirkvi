@@ -23,7 +23,7 @@
                     v-text="organization.title"
                 ></h2>
 
-                <div class="flex">
+                <div class="flex" v-if="organization.description">
                     <span
                         @click="toggle"
                         class="hover:text-blue-500 cursor-pointer"

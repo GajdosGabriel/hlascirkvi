@@ -69997,7 +69997,10 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "flex justify-between py-2 border-b border-gray-200" },
+        {
+          staticClass:
+            "flex justify-between py-2 border-b border-gray-200 pl-3 pr-3  bg-gray-100"
+        },
         [
           _c("strong", { domProps: { textContent: _vm._s(_vm.getShortName) } }),
           _vm._v(" "),
@@ -72336,20 +72339,22 @@ var render = function() {
               domProps: { textContent: _vm._s(_vm.organization.title) }
             }),
             _vm._v(" "),
-            _c("div", { staticClass: "flex" }, [
-              _c(
-                "span",
-                {
-                  staticClass: "hover:text-blue-500 cursor-pointer",
-                  class: {
-                    "bg-blue-500 text-gray-200 rounded-sm px-2":
-                      _vm.showDescription
-                  },
-                  on: { click: _vm.toggle }
-                },
-                [_vm._v("\n                    Profil\n                ")]
-              )
-            ]),
+            _vm.organization.description
+              ? _c("div", { staticClass: "flex" }, [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "hover:text-blue-500 cursor-pointer",
+                      class: {
+                        "bg-blue-500 text-gray-200 rounded-sm px-2":
+                          _vm.showDescription
+                      },
+                      on: { click: _vm.toggle }
+                    },
+                    [_vm._v("\n                    Profil\n                ")]
+                  )
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c("transition", { attrs: { name: "fade" } }, [
               _vm.showDescription
