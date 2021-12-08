@@ -2625,7 +2625,7 @@ __webpack_require__.r(__webpack_exports__);
     destroy: function destroy() {
       var _this2 = this;
 
-      axios["delete"]("/api/comments/" + this.comment.id);
+      axios["delete"]('/api/posts/' + this.comment.comment_post.id + '/comments/' + this.comment.id);
       $(this.$el).fadeOut(300, function () {
         _this2.$emit("deleted", _this2.comment.id);
       });
@@ -2633,7 +2633,7 @@ __webpack_require__.r(__webpack_exports__);
     updateComment: function updateComment() {
       var _this3 = this;
 
-      axios.put("/api/comments/" + this.comment.id, {
+      axios.put('/api/posts/' + this.comment.comment_post.id + '/comments/' + this.comment.id, {
         body: this.body
       }).then(function (response) {
         _this3.body = response.comment.body;

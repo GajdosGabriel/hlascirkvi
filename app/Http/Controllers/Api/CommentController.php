@@ -16,14 +16,7 @@ class CommentController extends Controller
         return  CommentResource::collection(Comment::latest()->take(7)->get());
     }
 
-    public function update(Comment $comment, SaveCommentsRequest $request)
-    {
-        $comment->update($request->all());
-
-        if (request()->expectsJson()) return $comment->load('user');
-
-        return $comment;
-    }
+    
 
     public function store(SaveCommentsRequest $saveComments)
     {
@@ -46,10 +39,5 @@ class CommentController extends Controller
     }
 
 
-    public function destroy(Comment $comment)
-    {
-        $comment->delete();
-
-        session()->flash('flash', 'Položka je zmazaná!');
-    }
+  
 }
