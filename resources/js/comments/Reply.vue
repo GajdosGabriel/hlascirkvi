@@ -12,7 +12,7 @@
                 </a>
             </div>
 
-            <favorite :reply="data"></favorite>
+            <favorite :reply="comment"></favorite>
         </div>
 
         <div
@@ -45,12 +45,12 @@
 import Favorite from "./Favorite.vue";
 
 export default {
-    props: ["data"],
+    props: ["comment"],
     components: { Favorite },
     data: function() {
         return {
             editComment: false,
-            body: this.data.body
+            body: this.comment.body
         };
     },
 
@@ -61,47 +61,47 @@ export default {
 
         canUpdate: function() {
             return this.authorize(
-                user => window.App.user.id == 1 || this.data.user_id == window.App.user.id
+                user => window.App.user.id == 1 || this.comment.user.id == window.App.user.id
             );
         },
 
         getShortName: function() {
             return (
-                this.data.user.first_name +
+                this.comment.user.first_name +
                 " " +
-                this.data.user.last_name.charAt(0) +
+                this.comment.user.last_name.charAt(0) +
                 "."
             );
         },
 
         cakanaschvalenie: function() {
-            if (this.data.deleted_at != null) {
+            if (this.comment.deleted_at != null) {
                 return "Váš komentár čaká na schválenie.";
             }
-            return this.data.body;
+            return this.comment.body;
         },
 
         redText: function() {
-            return this.data.deleted_at != null ? "redText" : "";
+            return this.comment.deleted_at != null ? "redText" : "";
         }
     },
 
     methods: {
         destroy: function() {
-            axios.delete("/api/comments/" + this.data.id);
+            axios.delete("/api/comments/" + this.comment.id);
 
             $(this.$el).fadeOut(300, () => {
-                this.$emit("deleted", this.data.id);
+                this.$emit("deleted", this.comment.id);
             });
         },
 
         updateComment: function() {
             axios
-                .put("/api/comments/" + this.data.id, {
+                .put("/api/comments/" + this.comment.id, {
                     body: this.body
                 })
                 .then(response => {
-                    this.body = response.data.body;
+                    this.body = response.comment.body;
                 });
             this.editComment = false;
         }

@@ -7,7 +7,7 @@
             </h4>
 
             <div v-for="reply in comments" :key="reply.id">
-                <reply :data="reply" @deleted="remove(reply.id)"></reply>
+                <reply :comment="reply" @deleted="remove(reply.id)"></reply>
             </div>
 
             <div class="flex justify-end">
@@ -34,7 +34,8 @@ export default {
     data: function() {
         return {
             show: false,
-            comments: this.post.comments
+            comments: []
+
         };
     },
 
@@ -49,6 +50,15 @@ export default {
         formOpenClose: function() {
             return this.show ? "Zavrieť" : "nový komentár";
         }
+    },
+
+    created(){
+        axios.get('/api/posts/' + this.post.id + '/comments').then(
+            response => {
+                this.comments = response.data
+            }
+        )
+
     },
 
     methods: {

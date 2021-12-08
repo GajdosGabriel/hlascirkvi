@@ -11,18 +11,18 @@ use App\Repositories\Eloquent\EloquentUserRepository;
 
 class PostsCommentsController extends Controller
 {
+
+    public function index(Post $post)
+    {
+        return CommentResource::collection($post->comments);
+    }
+    
     public function store(Post $post, SaveCommentsRequest $saveComments)
     {  
 
         if ($saveComments->email) {
             (new EloquentUserRepository)->checkIfUserAccountExist($saveComments);
         }
-
-        // $class = "App\\{$saveComments->input('model')}";
-        // $class = new $class;
-
-        // $post =  $class->whereId($saveComments->input('model_id'))->first();
-
 
         $comment = $saveComments->save($post);
 

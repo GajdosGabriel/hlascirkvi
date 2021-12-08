@@ -2312,7 +2312,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       show: false,
-      comments: this.post.comments
+      comments: []
     };
   },
   computed: {
@@ -2325,6 +2325,13 @@ __webpack_require__.r(__webpack_exports__);
     formOpenClose: function formOpenClose() {
       return this.show ? "Zavrieť" : "nový komentár";
     }
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/api/posts/' + this.post.id + '/comments').then(function (response) {
+      _this.comments = response.data;
+    });
   },
   methods: {
     showForm: function showForm() {
@@ -2579,14 +2586,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["data"],
+  props: ["comment"],
   components: {
     Favorite: _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
   data: function data() {
     return {
       editComment: false,
-      body: this.data.body
+      body: this.comment.body
     };
   },
   computed: {
@@ -2597,39 +2604,39 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       return this.authorize(function (user) {
-        return window.App.user.id == 1 || _this.data.user_id == window.App.user.id;
+        return window.App.user.id == 1 || _this.comment.user.id == window.App.user.id;
       });
     },
     getShortName: function getShortName() {
-      return this.data.user.first_name + " " + this.data.user.last_name.charAt(0) + ".";
+      return this.comment.user.first_name + " " + this.comment.user.last_name.charAt(0) + ".";
     },
     cakanaschvalenie: function cakanaschvalenie() {
-      if (this.data.deleted_at != null) {
+      if (this.comment.deleted_at != null) {
         return "Váš komentár čaká na schválenie.";
       }
 
-      return this.data.body;
+      return this.comment.body;
     },
     redText: function redText() {
-      return this.data.deleted_at != null ? "redText" : "";
+      return this.comment.deleted_at != null ? "redText" : "";
     }
   },
   methods: {
     destroy: function destroy() {
       var _this2 = this;
 
-      axios["delete"]("/api/comments/" + this.data.id);
+      axios["delete"]("/api/comments/" + this.comment.id);
       $(this.$el).fadeOut(300, function () {
-        _this2.$emit("deleted", _this2.data.id);
+        _this2.$emit("deleted", _this2.comment.id);
       });
     },
     updateComment: function updateComment() {
       var _this3 = this;
 
-      axios.put("/api/comments/" + this.data.id, {
+      axios.put("/api/comments/" + this.comment.id, {
         body: this.body
       }).then(function (response) {
-        _this3.body = response.data.body;
+        _this3.body = response.comment.body;
       });
       this.editComment = false;
     }
@@ -69823,7 +69830,7 @@ var render = function() {
             { key: reply.id },
             [
               _c("reply", {
-                attrs: { data: reply },
+                attrs: { comment: reply },
                 on: {
                   deleted: function($event) {
                     return _vm.remove(reply.id)
@@ -70104,7 +70111,7 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("favorite", { attrs: { reply: _vm.data } })
+          _c("favorite", { attrs: { reply: _vm.comment } })
         ],
         1
       ),

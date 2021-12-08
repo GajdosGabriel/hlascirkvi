@@ -19,6 +19,7 @@ use App\Events\Posts\ViewCounter;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Input;
 use App\Http\Requests\PostSaveRequest;
+use App\Http\Resources\CommentResource;
 use Illuminate\Support\Facades\Storage;
 use App\Services\TextCleaner\BodyCleaner;
 use App\Repositories\Eloquent\EloquentPostRepository;
