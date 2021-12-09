@@ -27,7 +27,7 @@
 
                 @if (request()->is('/'))
 
-                    <div class="page_title px-3 pt-1 pb-2 rounded-t-md bg-blue-200  shadow-md">
+                    <div class="page_title px-3 pt-1 pb-2 rounded-t-md bg-blue-200 border-gray-300 border-2  shadow-md">
                         @switch(request()->input('posts'))
                             @case('recomended')
                                 <h3 class="text-2xl">Obľúbené príspevky</h3>

@@ -1,9 +1,15 @@
 <nav class="bg-blue-900 text-gray-200 px-2 ">
     <div style="max-width: 80rem" class="flex mx-auto justify-between py-2 flex-wrap">
 
-        <a class="my-2 font-semibold" href="{{ url('/') }}">
-            Hlas Cirkvi
-        </a>
+        <div class="flex">
+            <img class="embeddedObject"
+                src="https://content.screencast.com/users/fg-a/folders/christmas/media/7d014586-ce64-442b-a1e6-276c8414d7dc/ctree_5a.gif"
+                width="25" height="25" border="0" alt="Clipart" />
+            <a class="my-2 font-semibold ml-2" href="{{ url('/') }}">
+                Hlas Cirkvi
+            </a>
+        </div>
+
         <ul class="my-2 flex  space-x-4">
             <li>
                 <a class="flex items-center" href="{{ route('online-prenosy') }}">Nedeľné prenosy
