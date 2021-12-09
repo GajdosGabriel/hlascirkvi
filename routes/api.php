@@ -30,6 +30,7 @@ Route::apiResources([
     'posts.comments'    => Api\PostsCommentsController::class,
     'organizations'     => Api\OrganizationController::class,
     'comments'          => Api\CommentController::class,
+    'notifications'     => Api\NotificationController::class,
 ]);
 
 

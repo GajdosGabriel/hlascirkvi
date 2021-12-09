@@ -99,7 +99,7 @@ export default {
         },
 
         markAsRead: function(notification) {
-            axios.put("/notifications/" + notification.id);
+            axios.put("/api/notifications/" + notification.id);
         },
 
         resetNotifyBell: function() {
@@ -122,7 +122,7 @@ export default {
 
         getNotifications: function() {
             axios
-                .get("/notifications")
+                .get("/api/notifications")
                 .then(response => (this.notifications = response.data));
         }
     },
