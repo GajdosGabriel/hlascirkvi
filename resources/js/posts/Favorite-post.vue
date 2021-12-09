@@ -1,7 +1,7 @@
 <template>
     <div class="grow cursor-pointer">
 
-           <div class="whitespace-nowrap" style="border-radius: .3rem;background-color: rgb(173, 80, 146);color: whitesmoke; padding: 0rem .4rem" @click="pressRecomendedButton" :class="isFavorited" v-text="recommended"></div>
+           <div class="mt-1 text-sm whitespace-nowrap" style="border-radius: .3rem;background-color: rgb(173, 80, 146);color: whitesmoke; padding: 0rem .4rem" @click="pressRecomendedButton" :class="isFavorited" v-text="recommended"></div>
 
         <!-- Modal -->
         <transition name="slide-fade">

@@ -1,21 +1,12 @@
 <template>
-    <div @click="closeLoginInfo" class="md:flex justify-between text-gray-700 pb-3 col-span-12 items-center ">
+    <div
+        @click="closeLoginInfo"
+        class="md:flex justify-between text-gray-700 pb-3 col-span-12 items-center "
+    >
         <div class="flex">
             <!-- check if is person-->
 
-            <img
-                v-if="organization.avatar"
-                class="rounded-full w-16 h-16"
-                :src="
-                    this.domain + 'storage/organizations/' + organization.id + '/' + organization.avatar"
-            />
-
-            <div
-                v-else
-                class="h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
-            >
-                {{ organization.initialName }}
-            </div>
+            <organization-avatar :organization="organization" />
 
             <div class="ml-4 mb-4">
                 <h2
@@ -80,12 +71,13 @@
 
 <script>
 import { bus } from "../app";
+import organizationAvatar from "./Organization-avatar";
 import modal from "../organizations/Organization-page-modal";
 import { createdMixin } from "../mixins/createdMixin";
 
 export default {
     props: ["organization"],
-    components: { modal },
+    components: { modal, organizationAvatar },
     mixins: [createdMixin],
     data: function() {
         return {
@@ -144,7 +136,10 @@ export default {
                 return this.toggleLogin();
             }
             axios
-                .put("/favorites/" + this.organization.id, { model: 'Organization', model_id: this.organization.id })
+                .put("/favorites/" + this.organization.id, {
+                    model: "Organization",
+                    model_id: this.organization.id
+                })
                 .then(response => {
                     this.toggleFavorited();
                     this.messageNotification();

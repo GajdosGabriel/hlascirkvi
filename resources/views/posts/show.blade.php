@@ -114,7 +114,7 @@
                         @endcan
 
                     </div>
-                    
+
                 </div>
 
                 {{-- Body section --}}
@@ -129,12 +129,12 @@
                         <div>{!! $post->body !!}</div>
 
                         @if (!$post->video_id)
-                        {{-- // Facebook --}}
-                        <div>
-                            <div class="fb-like" data-share="true" data-width="350" data-show-faces="true">
+                            {{-- // Facebook --}}
+                            <div>
+                                <div class="fb-like" data-share="true" data-width="350" data-show-faces="true">
+                                </div>
                             </div>
-                        </div>
-                    @endif
+                        @endif
 
                         @auth
                             @include('bigthink._form')
@@ -146,13 +146,13 @@
                     {{-- Body plánované akcie --}}
                     <div class="col-span-4 mb-4">
                         @if ($post->organization->person == 0)
-                        <section class="card">
+                            <section class="card">
 
-                            <header class="card_header">
-                                <span>{{ $post->organization->title }}</span>
-                                <i class="fa fa-share-alt" aria-hidden="true"></i>
-                            </header>
-                    
+                                <header class="card_header">
+                                    <span>{{ $post->organization->title }}</span>
+                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                </header>
+
                                 <ul class="p-2">
                                     @forelse( $post->eventsBelongsToOrganization as $event)
                                         <li>
@@ -164,7 +164,10 @@
                                         </li>
                                     @empty
                                         <span class="text-muted" style="font-size: 85%">Spoločenstvo neplánuje žiadne
-                                            akcie.</span>
+                                            <a class="underline" href="{{ route('akcie.index') }}">
+                                                podujatia.
+                                            </a>
+                                        </span>
                                     @endforelse
                                 </ul>
                             </section>
@@ -282,7 +285,6 @@
     <script src="https://cdn.plyr.io/3.5.3/plyr.js"></script>
     <script defer>
         const player = new Plyr('#player');
-
     </script>
     <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/sk_SK/sdk.js#xfbml=1&version=v5.0&appId=500741757380226"></script>
