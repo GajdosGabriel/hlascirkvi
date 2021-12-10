@@ -25,10 +25,7 @@
             </div>
         </div>
 
-        <div
-            v-if="open"
-            class="fixed inset-0 h-full w-full z-10"
-        ></div>
+        <div v-if="open" class="fixed inset-0 h-full w-full z-10"></div>
 
         <ul
             v-if="open"
@@ -36,19 +33,19 @@
             style="width:20rem;"
         >
             <li
-                class=""
+                  class=" px-4 py-3 border-b hover:bg-gray-100 -mx-2"
                 v-for="notification in user.notifications"
                 :key="notification.id"
             >
                 <a
                     :href="notification.data.link"
                     @click="markAsRead(notification)"
-                    class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
+                  
                 >
                     <!-- Initial name -->
                     <div
                         v-if="notification.data.logo"
-                        class="h-12 w-24 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-lg"
+                        class="mr-3 h-12 w-12 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-lg float-left"
                     >
                         {{ notification.data.logo }}
                     </div>
@@ -59,24 +56,18 @@
                         alt="avatar"
                     /> -->
 
-                    <p
+                    <div
                         class="text-gray-600 text-sm mx-2 "
                         :class="{ 'font-semibold': !notification.read_at }"
                         v-text="notification.data.message"
-                    >
-                        <span class="font-bold" href="#">Sara Salah</span>
-                        replied on the
-                        <span class="font-bold text-blue-500" href="#"
-                            >Upload Image</span
-                        >
-                        artical . 2m
-                    </p>
+                    ></div>
                 </a>
             </li>
             <button
                 class="block bg-gray-800 text-white text-center font-bold py-2 w-full"
-                >See all notifications</button
             >
+                See all notifications
+            </button>
         </ul>
     </div>
 </template>
