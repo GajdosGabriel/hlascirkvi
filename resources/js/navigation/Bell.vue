@@ -89,7 +89,6 @@ export default {
     mixins: [createdMixin],
     data: function() {
         return {
-            notifications: [],
             open: false
         };
     },
@@ -121,7 +120,7 @@ export default {
 
     computed: {
         countNotifycation: function() {
-            return this.notifications.filter(
+            return this.user.notifications.filter(
                 notification =>
                     new Date(notification.created_at) >
                     new Date(this.user.notify_bell)

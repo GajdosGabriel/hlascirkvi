@@ -4091,7 +4091,6 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_1__.createdMixin],
   data: function data() {
     return {
-      notifications: [],
       open: false
     };
   },
@@ -4122,7 +4121,7 @@ __webpack_require__.r(__webpack_exports__);
     countNotifycation: function countNotifycation() {
       var _this = this;
 
-      return this.notifications.filter(function (notification) {
+      return this.user.notifications.filter(function (notification) {
         return new Date(notification.created_at) > new Date(_this.user.notify_bell);
       }).length;
     },
