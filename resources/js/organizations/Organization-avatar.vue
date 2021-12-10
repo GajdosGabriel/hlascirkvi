@@ -4,7 +4,7 @@
             v-if="organization.avatar"
             class="rounded-full w-16 h-16"
             :src="
-                this.domain +
+                domain +
                     'storage/organizations/' +
                     organization.id +
                     '/' +
@@ -23,7 +23,12 @@
 
 <script>
 export default {
-    props: ["organization"]
+    props: ["organization"],
+    data: function() {
+        return {
+            domain: window.App.baseUrl
+        };
+    }
 };
 </script>
 
