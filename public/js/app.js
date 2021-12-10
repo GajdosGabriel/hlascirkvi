@@ -4000,8 +4000,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
+/* harmony import */ var _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/createdMixin */ "./resources/js/mixins/createdMixin.js");
 //
 //
 //
@@ -4086,17 +4085,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["user"],
+  mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_1__.createdMixin],
   data: function data() {
     return {
       notifications: [],
-      dropDown: false
+      open: false
     };
   },
   methods: {
     toggle: function toggle() {
-      this.dropDown = !this.dropDown;
+      this.open = !this.open;
     },
     markAsRead: function markAsRead(notification) {
       axios.put("/api/notifications/" + notification.id);
@@ -4110,7 +4111,7 @@ __webpack_require__.r(__webpack_exports__);
         return this.toggle();
       }
 
-      axios.put("/registredUsers/" + window.App.user.id, {
+      axios.put("/users/" + this.user.id, {
         notify_bell: dt
       }); //     .then(response => (this.notifications = response.data));
 
@@ -4119,25 +4120,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     countNotifycation: function countNotifycation() {
+      var _this = this;
+
       return this.notifications.filter(function (notification) {
-        return new Date(notification.created_at) > new Date(window.App.user.notify_bell);
+        return new Date(notification.created_at) > new Date(_this.user.notify_bell);
       }).length;
     },
     bellClass: function bellClass() {
-      return [window.App.user.notify_bell > 0 ? " text-red-400" : ""];
-    },
-    authUser: function authUser() {
-      return window.App.user;
+      return [this.user.notify_bell > 0 ? " text-red-400" : ""];
     }
-  },
-  mounted: function mounted() {
-    var self = this;
-    window.addEventListener("click", function (e) {
-      // close dropdown when clicked outside
-      if (!self.$el.contains(e.target)) {
-        self.dropDown = false;
-      }
-    });
   }
 });
 
@@ -4158,6 +4149,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/createdMixin */ "./resources/js/mixins/createdMixin.js");
 /* harmony import */ var _Bell_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Bell.vue */ "./resources/js/navigation/Bell.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -71664,18 +71659,11 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm.dropDown
-        ? _c("div", {
-            staticClass: "fixed inset-0 h-full w-full z-10",
-            on: {
-              click: function($event) {
-                _vm.dropDown = false
-              }
-            }
-          })
+      _vm.open
+        ? _c("div", { staticClass: "fixed inset-0 h-full w-full z-10" })
         : _vm._e(),
       _vm._v(" "),
-      _vm.dropDown
+      _vm.open
         ? _c(
             "ul",
             {
@@ -71753,11 +71741,10 @@ var render = function() {
               }),
               _vm._v(" "),
               _c(
-                "a",
+                "button",
                 {
                   staticClass:
-                    "block bg-gray-800 text-white text-center font-bold py-2",
-                  attrs: { href: "#" }
+                    "block bg-gray-800 text-white text-center font-bold py-2"
                 },
                 [_vm._v("See all notifications")]
               )
@@ -71798,11 +71785,8 @@ var render = function() {
       _c("bell", { attrs: { user: _vm.user } }),
       _vm._v(" "),
       _c(
-        "a",
-        {
-          staticClass: "nav-link radio",
-          attrs: { id: "navbarDropdown", href: "#" }
-        },
+        "button",
+        { staticClass: "nav-link radio", attrs: { id: "navbarDropdown" } },
         [
           _c(
             "li",
@@ -71848,7 +71832,10 @@ var render = function() {
       _vm.open
         ? _c(
             "ul",
-            { staticClass: "dropdown-menu hidden", on: { click: _vm.toggle } },
+            {
+              staticClass: "dropdown-menu hidden absolute top-7",
+              on: { click: _vm.toggle }
+            },
             [
               _vm.user.isSuperadmin
                 ? _c("a", { attrs: { href: "/admin/home" } }, [

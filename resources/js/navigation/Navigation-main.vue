@@ -1,7 +1,8 @@
 <template>
     <div class="relative z-10 flex">
         <bell :user="user" />
-        <a id="navbarDropdown" class="nav-link radio" href="#">
+
+        <button id="navbarDropdown" class="nav-link radio">
             <li @click="toggle" class="whitespace-nowrap flex">
                 <span class="nav-link">
                     {{ user.full_name }}
@@ -18,11 +19,14 @@
                         clip-rule="evenodd"
                     />
                 </svg>
-        
             </li>
-        </a>
+        </button>
 
-        <ul v-if="open" @click="toggle" class="dropdown-menu hidden">
+        <ul
+            v-if="open"
+            @click="toggle"
+            class="dropdown-menu hidden absolute top-7"
+        >
             <a :href="'/admin/home'" v-if="user.isSuperadmin">
                 <li class="dropdown-item">
                     Admin
@@ -52,10 +56,10 @@
 <script>
 import axios from "axios";
 import { createdMixin } from "../mixins/createdMixin";
-import Bell from './Bell.vue';
+import Bell from "./Bell.vue";
 
 export default {
-  components: { Bell },
+    components: { Bell },
     mixins: [createdMixin],
     data() {
         return {

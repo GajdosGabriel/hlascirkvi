@@ -26,13 +26,12 @@
         </div>
 
         <div
-            v-if="dropDown"
-            @click="dropDown = false"
+            v-if="open"
             class="fixed inset-0 h-full w-full z-10"
         ></div>
 
         <ul
-            v-if="dropDown"
+            v-if="open"
             class="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20"
             style="width:20rem;"
         >
@@ -74,10 +73,9 @@
                     </p>
                 </a>
             </li>
-            <a
-                href="#"
+            <button
                 class="block bg-gray-800 text-white text-center font-bold py-2"
-                >See all notifications</a
+                >See all notifications</button
             >
         </ul>
     </li>
@@ -85,18 +83,19 @@
 
 <script>
 import moment from "moment";
-
+import { createdMixin } from "../mixins/createdMixin";
 export default {
     props: ["user"],
+    mixins: [createdMixin],
     data: function() {
         return {
             notifications: [],
-            dropDown: false
+            open: false
         };
     },
     methods: {
         toggle: function() {
-            this.dropDown = !this.dropDown;
+            this.open = !this.open;
         },
 
         markAsRead: function(notification) {
@@ -112,7 +111,7 @@ export default {
                 return this.toggle();
             }
 
-            axios.put("/registredUsers/" + window.App.user.id, {
+            axios.put("/users/" + this.user.id, {
                 notify_bell: dt
             });
             //     .then(response => (this.notifications = response.data));
@@ -125,25 +124,13 @@ export default {
             return this.notifications.filter(
                 notification =>
                     new Date(notification.created_at) >
-                    new Date(window.App.user.notify_bell)
+                    new Date(this.user.notify_bell)
             ).length;
         },
 
         bellClass: function() {
-            return [window.App.user.notify_bell > 0 ? " text-red-400" : ""];
-        },
-        authUser: function() {
-            return window.App.user;
+            return [this.user.notify_bell > 0 ? " text-red-400" : ""];
         }
-    },
-    mounted: function() {
-        let self = this;
-        window.addEventListener("click", function(e) {
-            // close dropdown when clicked outside
-            if (!self.$el.contains(e.target)) {
-                self.dropDown = false;
-            }
-        });
     }
 };
 </script>
