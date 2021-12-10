@@ -1,9 +1,9 @@
 <template>
-    <li @click="resetNotifyBell" class="relative mr-3">
+    <div @click="resetNotifyBell" class="relative mr-3">
         <div class="flex">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 "
+                class="h-5 w-5 cursor-pointer"
                 :class="bellClass"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -32,7 +32,7 @@
 
         <ul
             v-if="open"
-            class="absolute left-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20"
+            class="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20"
             style="width:20rem;"
         >
             <li
@@ -48,7 +48,7 @@
                     <!-- Initial name -->
                     <div
                         v-if="notification.data.logo"
-                        class="h-12 w-24 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
+                        class="h-12 w-24 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-lg"
                     >
                         {{ notification.data.logo }}
                     </div>
@@ -74,15 +74,14 @@
                 </a>
             </li>
             <button
-                class="block bg-gray-800 text-white text-center font-bold py-2"
+                class="block bg-gray-800 text-white text-center font-bold py-2 w-full"
                 >See all notifications</button
             >
         </ul>
-    </li>
+    </div>
 </template>
 
 <script>
-import moment from "moment";
 import { createdMixin } from "../mixins/createdMixin";
 export default {
     props: ["user"],
