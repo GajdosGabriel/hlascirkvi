@@ -51,8 +51,6 @@
                 {{-- <li><a href="{{ route('register') }}">{{ __('auth.Register') }}</a></li> --}}
             @else
 
-                <bell></bell>
-
                 <ul class="">
 
                     <navigation-main></navigation-main>

@@ -38,7 +38,7 @@
         >
             <li
                 class=""
-                v-for="notification in notifications"
+                v-for="notification in user.notifications"
                 :key="notification.id"
             >
                 <a
@@ -87,6 +87,7 @@
 import moment from "moment";
 
 export default {
+    props: ["user"],
     data: function() {
         return {
             notifications: [],
@@ -105,25 +106,17 @@ export default {
         resetNotifyBell: function() {
             // Bežne date zapisuje o 2 hod. menej
             var dt = new Date();
-             dt.setHours( dt.getHours() + 2 );
+            dt.setHours(dt.getHours() + 2);
 
-
-            if(this.countNotifycation == 0) {
+            if (this.countNotifycation == 0) {
                 return this.toggle();
             }
 
-            axios
-                .put("/registredUsers/" + window.App.user.id, {
-                    notify_bell: dt
-                })
+            axios.put("/registredUsers/" + window.App.user.id, {
+                notify_bell: dt
+            });
             //     .then(response => (this.notifications = response.data));
             this.toggle();
-        },
-
-        getNotifications: function() {
-            axios
-                .get("/api/notifications")
-                .then(response => (this.notifications = response.data));
         }
     },
 
@@ -144,8 +137,6 @@ export default {
         }
     },
     mounted: function() {
-        this.getNotifications();
-
         let self = this;
         window.addEventListener("click", function(e) {
             // close dropdown when clicked outside

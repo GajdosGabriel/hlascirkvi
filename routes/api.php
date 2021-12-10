@@ -15,7 +15,7 @@ use App\Http\Resources\UserResource;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-   return new UserResource($request->user());
+    return new UserResource($request->user());
 });
 
 
@@ -24,13 +24,18 @@ Route::get('test/newsletter', 'TestController@newsletter');
 Route::get('test/grecky', 'TestController@greckyMagazin');
 Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled');
 
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResources([
+        'notifications'     => Api\NotificationController::class,
+    ]);
+});
+
 Route::apiResources([
     'modlitby'          => Api\PrayerController::class,
     'posts'             => Api\PostController::class,
     'posts.comments'    => Api\PostsCommentsController::class,
     'organizations'     => Api\OrganizationController::class,
     'comments'          => Api\CommentController::class,
-    'notifications'     => Api\NotificationController::class,
 ]);
 
 
@@ -43,5 +48,4 @@ Route::get('artisan/run', function () {
     \Artisan::call('optimize:clear');
 
     dd("All is cleared");
-
 });

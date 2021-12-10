@@ -1,5 +1,6 @@
 <template>
-    <div class="relative z-10">
+    <div class="relative z-10 flex">
+        <bell :user="user" />
         <a id="navbarDropdown" class="nav-link radio" href="#">
             <li @click="toggle" class="whitespace-nowrap flex">
                 <span class="nav-link">
@@ -51,8 +52,10 @@
 <script>
 import axios from "axios";
 import { createdMixin } from "../mixins/createdMixin";
+import Bell from './Bell.vue';
 
 export default {
+  components: { Bell },
     mixins: [createdMixin],
     data() {
         return {
