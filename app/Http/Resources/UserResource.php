@@ -26,6 +26,7 @@ class UserResource extends JsonResource
             'org_id' => $this->org_id,
             'notify_bell' => $this->notify_bell,
             'notifications' => $this->notifications->take(10),
+            'countNotifycation' => $this->notifications()->where('created_at', '>',  $this->notify_bell )->count(),
             'isAdmin' => auth()->user()->hasRole(['admin']) ? true : false,
             'isSuperadmin' => $this->when( auth()->user()->hasRole(['superadmin']), true)
         ];

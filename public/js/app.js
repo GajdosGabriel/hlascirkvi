@@ -4106,11 +4106,11 @@ __webpack_require__.r(__webpack_exports__);
       var dt = new Date();
       dt.setHours(dt.getHours() + 2);
 
-      if (this.countNotifycation == 0) {
+      if (this.user.countNotifycation == 0) {
         return this.toggle();
       }
 
-      axios.put("/users/" + this.user.id, {
+      axios.put("/api/users/" + this.user.id, {
         notify_bell: dt
       }); //     .then(response => (this.notifications = response.data));
 
@@ -4118,13 +4118,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    countNotifycation: function countNotifycation() {
-      var _this = this;
-
-      return this.user.notifications.filter(function (notification) {
-        return new Date(notification.created_at) > new Date(_this.user.notify_bell);
-      }).length;
-    },
     bellClass: function bellClass() {
       return [this.user.notify_bell > 0 ? " text-red-400" : ""];
     }
@@ -71642,7 +71635,7 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _vm.countNotifycation > 0
+        _vm.user.countNotifycation > 0
           ? _c(
               "div",
               {
@@ -71651,7 +71644,7 @@ var render = function() {
               },
               [
                 _c("span", { staticClass: "pb-1" }, [
-                  _vm._v(_vm._s(_vm.countNotifycation))
+                  _vm._v(_vm._s(_vm.user.countNotifycation))
                 ])
               ]
             )
@@ -71667,7 +71660,7 @@ var render = function() {
             "ul",
             {
               staticClass:
-                "absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20",
+                "absolute left-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20",
               staticStyle: { width: "20rem" }
             },
             [

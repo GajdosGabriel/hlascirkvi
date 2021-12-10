@@ -19,9 +19,9 @@
 
             <div
                 class="w-5 h-5 bg-red-500 text-white rounded-full flex justify-center items-center"
-                v-if="countNotifycation > 0"
+                v-if="user.countNotifycation > 0"
             >
-                <span class="pb-1">{{ countNotifycation }}</span>
+                <span class="pb-1">{{ user.countNotifycation }}</span>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
 
         <ul
             v-if="open"
-            class="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20"
+            class="absolute left-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20"
             style="width:20rem;"
         >
             <li
@@ -106,11 +106,11 @@ export default {
             var dt = new Date();
             dt.setHours(dt.getHours() + 2);
 
-            if (this.countNotifycation == 0) {
+            if (this.user.countNotifycation == 0) {
                 return this.toggle();
             }
 
-            axios.put("/users/" + this.user.id, {
+            axios.put("/api/users/" + this.user.id, {
                 notify_bell: dt
             });
             //     .then(response => (this.notifications = response.data));
@@ -119,14 +119,6 @@ export default {
     },
 
     computed: {
-        countNotifycation: function() {
-            return this.user.notifications.filter(
-                notification =>
-                    new Date(notification.created_at) >
-                    new Date(this.user.notify_bell)
-            ).length;
-        },
-
         bellClass: function() {
             return [this.user.notify_bell > 0 ? " text-red-400" : ""];
         }

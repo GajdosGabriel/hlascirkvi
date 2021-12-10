@@ -32,9 +32,10 @@ class User extends Authenticatable
         'password', 'remember_token', 'email', 'send_email', 'front_author', 'disabled', 'updated_at', 'deleted_at', 'set_denomination', 'email_verified_at', 'vocative'
     ];
 
-    protected $appends = ['fullname'];
+
     protected $casts = [
-        'created_at'
+        'created_at',
+        // 'notify_bell'
     ];
 
     public function setFirstNameAttribute($value)

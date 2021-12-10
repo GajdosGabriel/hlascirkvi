@@ -27,6 +27,7 @@ Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled');
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResources([
         'notifications'     => Api\NotificationController::class,
+        'users'             => Api\UserController::class,
     ]);
 });
 
