@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex-shrink-0">
         <img
             v-if="organization.avatar"
             class="rounded-full w-16 h-16"

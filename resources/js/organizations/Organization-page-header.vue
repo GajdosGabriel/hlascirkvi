@@ -17,9 +17,9 @@
                 <div class="flex" v-if="organization.description">
                     <span
                         @click="toggle"
-                        class="hover:text-blue-500 cursor-pointer"
+                        class="hover:bg-blue-400 cursor-pointer rounded-sm px-2"
                         :class="{
-                            'bg-blue-500 text-gray-200 rounded-sm px-2': showDescription
+                            'bg-blue-500 text-gray-200 ': showDescription
                         }"
                     >
                         Profil
