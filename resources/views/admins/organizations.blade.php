@@ -16,13 +16,13 @@
                     @endslot
 
                     @slot('title_right')
-
-                        <new-organization />
-
+                    {{-- // --}}
                     @endslot
                 @endcomponent
 
-
+                <div class="w-1/3">
+                    <new-organization />
+                </div>
 
                 <div>
                     @include('organizations._organization-table')

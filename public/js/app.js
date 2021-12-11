@@ -3998,9 +3998,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/createdMixin */ "./resources/js/mixins/createdMixin.js");
+/* harmony import */ var _mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/createdMixin */ "./resources/js/mixins/createdMixin.js");
 //
 //
 //
@@ -4075,20 +4073,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["user"],
-  mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_1__.createdMixin],
+  mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
   data: function data() {
     return {
       open: false
@@ -4207,7 +4195,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       open: false,
-      user: ""
+      user: "",
+      organization: ""
     };
   },
   methods: {
@@ -4219,6 +4208,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/user").then(function (response) {
         _this.user = response.data;
+        _this.organization = response.data.organization;
       });
     }
   },
@@ -4387,7 +4377,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4445,38 +4462,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['user'],
   data: function data() {
     return {
-      showForm: false,
-      title: '',
-      street: '',
-      city: '',
-      village: '',
-      phone: ''
+      showForm: true,
+      user: "",
+      villages: [],
+      updaters: [],
+      formupdaters: [],
+      form: {
+        title: "",
+        street: "",
+        city: "",
+        village: "",
+        phone: "",
+        village_id: ""
+      }
     };
   },
   methods: {
     toggle: function toggle() {
       this.showForm = !this.showForm;
     },
+    fetchVillage: function fetchVillage() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/villages").then(function (response) {
+        _this.villages = response.data;
+      });
+    },
+    fetchUser: function fetchUser() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/user").then(function (response) {
+        _this2.user = response.data;
+      });
+    },
+    fetchUpdaters: function fetchUpdaters() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/updaters").then(function (response) {
+        _this3.updaters = response.data;
+      });
+    },
     saveOrganization: function saveOrganization() {
-      axios.post('/organization/new/' + this.user.id + '/store', {
-        title: this.title,
-        street: this.street,
-        village_id: this.village_id,
-        phone: this.phone
-      }).then(function () {
-        _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
-          body: 'Organizácia bola uložená!'
-        });
-        location.reload();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/users/" + this.user.id + "/organizations", this.form).then(function () {// bus.$emit("flash", { body: "Organizácia bola uložená!" });
+        // location.reload();
       });
       this.clearForm();
     },
     clearForm: function clearForm() {
-      this.title = '', this.street = '', this.village_id = '', this.phone = '', this.showForm = false;
+      this.form = {};
     }
+  },
+  created: function created() {
+    this.fetchVillage();
+    this.fetchUser();
+    this.fetchUpdaters();
   }
 });
 
@@ -4517,7 +4558,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["organization"]
+  props: ["organization"],
+  data: function data() {
+    return {
+      domain: window.App.baseUrl
+    };
+  }
 });
 
 /***/ }),
@@ -71606,14 +71652,14 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "li",
+    "div",
     { staticClass: "relative mr-3", on: { click: _vm.resetNotifyBell } },
     [
       _c("div", { staticClass: "flex" }, [
         _c(
           "svg",
           {
-            staticClass: "h-5 w-5 ",
+            staticClass: "h-5 w-5 cursor-pointer",
             class: _vm.bellClass,
             attrs: {
               xmlns: "http://www.w3.org/2000/svg",
@@ -71660,85 +71706,66 @@ var render = function() {
             "ul",
             {
               staticClass:
-                "absolute left-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20",
+                "absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20",
               staticStyle: { width: "20rem" }
             },
             [
               _vm._l(_vm.user.notifications, function(notification) {
-                return _c("li", { key: notification.id }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass:
-                        "flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2",
-                      attrs: { href: notification.data.link },
-                      on: {
-                        click: function($event) {
-                          return _vm.markAsRead(notification)
+                return _c(
+                  "li",
+                  {
+                    key: notification.id,
+                    staticClass: " px-4 py-3 border-b hover:bg-gray-100 -mx-2"
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: notification.data.link },
+                        on: {
+                          click: function($event) {
+                            return _vm.markAsRead(notification)
+                          }
                         }
-                      }
-                    },
-                    [
-                      notification.data.logo
-                        ? _c(
-                            "div",
-                            {
-                              staticClass:
-                                "h-12 w-24 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
-                            },
-                            [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(notification.data.logo) +
-                                  "\n                "
-                              )
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c(
-                        "p",
-                        {
+                      },
+                      [
+                        notification.data.logo
+                          ? _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "mr-3 h-12 w-12 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-lg float-left"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(notification.data.logo) +
+                                    "\n                "
+                                )
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("div", {
                           staticClass: "text-gray-600 text-sm mx-2 ",
                           class: { "font-semibold": !notification.read_at },
                           domProps: {
                             textContent: _vm._s(notification.data.message)
                           }
-                        },
-                        [
-                          _c(
-                            "span",
-                            { staticClass: "font-bold", attrs: { href: "#" } },
-                            [_vm._v("Sara Salah")]
-                          ),
-                          _vm._v(
-                            "\n                    replied on the\n                    "
-                          ),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "font-bold text-blue-500",
-                              attrs: { href: "#" }
-                            },
-                            [_vm._v("Upload Image")]
-                          ),
-                          _vm._v(
-                            "\n                    artical . 2m\n                "
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                ])
+                        })
+                      ]
+                    )
+                  ]
+                )
               }),
               _vm._v(" "),
               _c(
                 "button",
                 {
                   staticClass:
-                    "block bg-gray-800 text-white text-center font-bold py-2"
+                    "block bg-gray-800 text-white text-center font-bold py-2 w-full"
                 },
-                [_vm._v("See all notifications")]
+                [_vm._v("\n            See all notifications\n        ")]
               )
             ],
             2
@@ -71790,7 +71817,7 @@ var render = function() {
               _c("span", { staticClass: "nav-link" }, [
                 _vm._v(
                   "\n                " +
-                    _vm._s(_vm.user.full_name) +
+                    _vm._s(_vm.organization.title) +
                     "\n            "
                 )
               ]),
@@ -72224,7 +72251,7 @@ var render = function() {
         on: { click: _vm.toggle }
       },
       [
-        _vm._v("Nová organizácia\n         "),
+        _vm._v("\n        Nová organizácia\n        "),
         !_vm.showForm
           ? _c("i", { staticClass: "far fa-plus-square" })
           : _vm._e(),
@@ -72236,22 +72263,196 @@ var render = function() {
     ),
     _vm._v(" "),
     _vm.showForm
-      ? _c("form", { attrs: { method: "post", action: "" } }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _c("span", { staticStyle: { "font-weight": "600" } }, [
-            _vm._v("Zaradená do zoznamu")
-          ]),
-          _c("br"),
-          _vm._v(" "),
-          _vm._m(4)
-        ])
+      ? _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.saveOrganization($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Meno novej organizácie")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.title,
+                    expression: "form.title"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  placeholder: "Názov organizácie",
+                  required: ""
+                },
+                domProps: { value: _vm.form.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "title", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Ulica a číslo")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.street,
+                    expression: "form.street"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Ulica a číslo" },
+                domProps: { value: _vm.form.street },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "street", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "" } }, [_vm._v("Mesto")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.village_id,
+                      expression: "form.village_id"
+                    }
+                  ],
+                  staticClass: "form-control input-sm",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form,
+                        "village_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { label: "Vybrať" } }),
+                  _vm._v(" "),
+                  _vm._l(_vm.villages, function(village) {
+                    return _c(
+                      "option",
+                      { key: village.id, domProps: { value: village.id } },
+                      [
+                        _vm._v(
+                          _vm._s(village.fullname) + " " + _vm._s(village.zip)
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", [_vm._v("Telefón")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.phone,
+                    expression: "form.phone"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "number",
+                  placeholder: "Potrebné v prípade vytvorenia akcie"
+                },
+                domProps: { value: _vm.form.phone },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "phone", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("span", { staticStyle: { "font-weight": "600" } }, [
+              _vm._v("Zaradená do zoznamu")
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _vm._l(_vm.updaters, function(updater) {
+              return _c("div", { key: updater.id }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.formupdaters,
+                      expression: "formupdaters"
+                    }
+                  ],
+                  attrs: {
+                    type: "radio",
+                    required: "",
+                    name: "updaters",
+                    id: updater.id
+                  },
+                  domProps: { checked: _vm._q(_vm.formupdaters, null) },
+                  on: {
+                    change: function($event) {
+                      _vm.formupdaters = null
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: updater.id } }, [
+                  _vm._v(_vm._s(updater.title))
+                ])
+              ])
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ],
+          2
+        )
       : _vm._e()
   ])
 }
@@ -72261,72 +72462,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("label", [_vm._v("Meno novej organizácie")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "title",
-          placeholder: "Názov organizácie",
-          required: ""
-        }
-      })
+      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("Uložiť")])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", [_vm._v("Ulica a číslo")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", name: "street", placeholder: "Ulica a číslo" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "" } }, [_vm._v("Mesto")]),
-      _vm._v(" "),
-      _c(
-        "select",
-        { staticClass: "form-control input-sm", attrs: { name: "village_id" } },
-        [_c("option", { attrs: { label: "Vybrať" } })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", [_vm._v("Telefón")]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "number",
-          name: "phone",
-          placeholder: "Potrebné v prípade vytvorenia akcie"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "form-group", staticStyle: { "text-align": "right" } },
-      [_c("button", { staticClass: "btn btn-small" }, [_vm._v("Uložiť")])]
-    )
   }
 ]
 render._withStripped = true
@@ -72351,13 +72488,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "flex-shrink-0" }, [
     _vm.organization.avatar
       ? _c("img", {
           staticClass: "rounded-full w-16 h-16",
           attrs: {
             src:
-              this.domain +
+              _vm.domain +
               "storage/organizations/" +
               _vm.organization.id +
               "/" +
@@ -72709,10 +72846,10 @@ var render = function() {
                     _c(
                       "span",
                       {
-                        staticClass: "hover:text-blue-500 cursor-pointer",
+                        staticClass:
+                          "hover:bg-blue-400 cursor-pointer rounded-sm px-2",
                         class: {
-                          "bg-blue-500 text-gray-200 rounded-sm px-2":
-                            _vm.showDescription
+                          "bg-blue-500 text-gray-200 ": _vm.showDescription
                         },
                         on: { click: _vm.toggle }
                       },

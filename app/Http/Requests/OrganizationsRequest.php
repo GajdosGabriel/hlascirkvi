@@ -26,7 +26,7 @@ class OrganizationsRequest extends FormRequest
         return [
             'title' => 'required|string|max:255|min:3|unique:organizations,title',
             // 'street' => 'string',
-           'phone' => 'nullable|digits:16',
+           'phone' => 'nullable|digits',
            'village_id' => 'required|integer|exists:villages,id',
         ];
     }

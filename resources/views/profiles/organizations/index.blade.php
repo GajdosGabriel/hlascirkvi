@@ -16,7 +16,7 @@
                 @endslot
 
                 @slot('title_right')
-                    <new-organization inline-template>
+                    {{-- <new-organization inline-template>
                         <div>
                             <h4 class="cursor-pointer" style="text-align: right" @click="toggle">Nový kanál
                                 <i v-if="!showForm" class="far fa-plus-square"></i>
@@ -76,7 +76,7 @@
 
                             </form>
                         </div>
-                    </new-organization>
+                    </new-organization> --}}
                 @endslot
 
             @endcomponent

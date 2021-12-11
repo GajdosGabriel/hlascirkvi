@@ -5,7 +5,7 @@
         <button id="navbarDropdown" class="nav-link radio">
             <li @click="toggle" class="whitespace-nowrap flex">
                 <span class="nav-link">
-                    {{ user.organization.title }}
+                    {{ organization.title }}
                 </span>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,8 @@ export default {
     data() {
         return {
             open: false,
-            user: ""
+            user: "",
+            organization: ""
         };
     },
     methods: {
@@ -74,6 +75,7 @@ export default {
         getUser() {
             axios.get("/api/user").then(response => {
                 this.user = response.data;
+                this.organization = response.data.organization;
             });
         }
     },
