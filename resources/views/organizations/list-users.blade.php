@@ -11,7 +11,7 @@
     <ul class="p-3">
         @forelse( $users as $user)
             <li class="flex justify-between">
-                <a href="{{ route('organizations.show', [$user->id]) }}">{{ $user->title }}</a>
+                <a href="{{ route('organization.show', [$user->id]) }}">{{ $user->title }}</a>
                 <span>
 
                 ({{ $user->posts_count }})

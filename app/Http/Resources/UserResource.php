@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'gender' => $this->gender,
             'description' => $this->description,
+            'organization' => new OrganizationResource($this->organization),
             'org_id' => $this->org_id,
             'notify_bell' => $this->notify_bell,
             'notifications' => NotificationResource::collection($this->notifications->take(10) ),

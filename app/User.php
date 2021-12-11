@@ -64,6 +64,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Organization::class);
     }
 
+    public function organization() {
+        return $this->belongsTo(Organization::class, 'org_id');
+    }
+
 
     public function userPictureUrl()
     {

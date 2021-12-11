@@ -20,7 +20,7 @@ Route::get('zamyslenia/{slug?}', 'VersesController@index')->name('verses.index')
 
 Route::resources([
     'modlitby'          => PrayerController::class,
-    'organizations'     => OrganizationsController::class,
+    'organization'      => OrganizationsController::class,
     'user'              => UsersController::class,
     'user.organization' => UserOrganizationController::class,
     'akcie'             => Events\EventsController::class,
@@ -123,7 +123,7 @@ Route::get('users/{user}/favorites/user', 'FavoritesController@favoriteUsers')->
 
 
 
-Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkAdmin'])->namespace('Admin')->group(function () {
+Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->namespace('Admin')->group(function () {
     Route::get('home', 'AdminsController@home')->name('home');
     Route::get('index', 'AdminsController@organizations')->name('organizations');
     Route::get('index/user', 'AdminsController@users')->name('users');

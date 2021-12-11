@@ -9,20 +9,18 @@
             <div class="col-span-9">
 
                 @component('layouts.pages.page_title')
-                @slot('title')
+                    @slot('title')
 
-                Organizácie
+                        Organizácie
 
-                @endslot
+                    @endslot
 
-                @slot('title_right')
+                    @slot('title_right')
 
-                <new-organization>
+                        <new-organization />
 
-                </new-organization>
-
-                @endslot
-            @endcomponent
+                    @endslot
+                @endcomponent
 
 
 

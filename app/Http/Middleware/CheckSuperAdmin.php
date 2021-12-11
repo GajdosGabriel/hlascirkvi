@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
 use Closure;
+use Auth;
 
-class CheckAdmin
+class CheckSuperAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::user()->hasRole(['admin'])) return redirect('/');
+        if (!Auth::user()->hasRole(['superadmin'])) return redirect('/');
         return $next($request);
     }
 }
