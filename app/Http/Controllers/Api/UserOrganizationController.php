@@ -14,7 +14,6 @@ class UserOrganizationController extends Controller
     public function store(User $user, OrganizationsRequest $request)
     {
         $organization = $request->save();
-
         return new OrganizationResource($organization);
     }
 }

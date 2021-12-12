@@ -25,9 +25,9 @@ class OrganizationsRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255|min:3|unique:organizations,title',
-            // 'street' => 'string',
-           'phone' => 'nullable|digits',
-           'village_id' => 'required|integer|exists:villages,id',
+            'street' => 'nullable|string|max:255',
+            'phone' => 'nullable|numeric',
+            'village_id' => 'required|integer|exists:villages,id',
         ];
     }
 
@@ -36,7 +36,7 @@ class OrganizationsRequest extends FormRequest
         return [
             'title.required' => 'Názov musí obsahovať aspoň tri znaky',
             'title.unique' => 'Názov kanála už existuje. Ak si nárokujete názov kanála, kontaktujte administrátora.',
-            // 'street.required' => 'Musí mať aspoň jeden znak',
+            'street' => 'maximálna dlžka je 255 znakov.',
             'phone' => 'Obsahuje veľa znakov. Limit je do 16 znakov',
         ];
     }
@@ -45,5 +45,7 @@ class OrganizationsRequest extends FormRequest
     {
         $organization = auth()->user()->organizations()->create($this->except(['updaters']));
         $organization->updaters()->sync($this->get('updaters'));
+
+        return $organization;
     }
 }

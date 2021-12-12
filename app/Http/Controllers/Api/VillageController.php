@@ -8,11 +8,19 @@ use App\Http\Controllers\Controller;
 
 class VillageController extends Controller
 {
-     // For event form by Vue.js
      public function index()
      {
          $villages = Village::take(10)->get();
         //  $villages = Village::where('fullname', 'like', $fullname . '%')->get();
+ 
+         return response()
+             ->json($villages);
+     }
+
+     // Hľadanie podla názvu obce
+     public function store(Request $request)
+     {
+         $villages = Village::where('fullname', 'like', $request->input('name') . '%')->take(12)->get();
  
          return response()
              ->json($villages);

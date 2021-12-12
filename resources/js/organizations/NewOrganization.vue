@@ -30,15 +30,23 @@
 
             <div class="form-group">
                 <label for="">Mesto</label>
-                <select v-model="form.village_id" class="form-control input-sm">
-                    <option label="Vybrať"></option>
-                    <option
-                        v-for="village in villages"
-                        :key="village.id"
-                        :value="village.id"
-                        >{{ village.fullname }} {{ village.zip }}</option
-                    >
-                </select>
+                <input
+                    type="text"
+                    v-model="search"
+                    class="form-control"
+                    placeholder="Potrebné v prípade vytvorenia akcie"
+                />
+            </div>
+
+            <div
+                v-for="village in villages"
+                :key="village.id"
+                @click="selectedVillage(village)"
+                class="cursor-pointer mx-2"
+            >
+                <div class="hover:bg-gray-50 px-1">
+                    {{ village.fullname }} {{ village.zip }}
+                </div>
             </div>
 
             <div class="form-group">
@@ -51,29 +59,20 @@
                 />
             </div>
 
-            <span style="font-weight: 600">Zaradená do zoznamu</span><br />
+            <span class="font-semibold">Zaradená do zoznamu</span><br />
 
-            <div v-for="updater in updaters" :key="updater.id">
+            <div v-for="updater in listDenominations" :key="updater.id">
                 <input
                     type="radio"
                     required
-                    name="updaters"
-                    v-model="formupdaters"
+                    v-model="form.updaters"
                     :id="updater.id"
+                    :value="updater.id"
                 />
-                 <label :for="updater.id">{{ updater.title }}</label>
+                <label :for="updater.id">{{ updater.title }}</label>
             </div>
 
-            <!-- @forelse(\App\Updater::all() as $updater)
-                                @if ($updater->type == 'denomination')
-                                    <input type="radio" required name="updaters[]" value="{{ $updater->id }}">
-                                    {{ $updater->title }}<br>
-                                @endif
-                            @empty
-                                žiadny tag
-                            @endforelse -->
-
-            <div class="form-group">
+            <div class="form-group text-right ">
                 <button class="btn btn-primary">Uložiť</button>
             </div>
         </form>
@@ -86,29 +85,39 @@ export default {
         return {
             showForm: true,
             user: "",
+            search: "",
             villages: [],
             updaters: [],
-            formupdaters:[],
             form: {
                 title: "",
                 street: "",
-                city: "",
-                village: "",
                 phone: "",
                 village_id: "",
+                updaters: [],
             }
         };
     },
+    watch: {
+        search: function() {
+            this.fetchVillage();
+        }
+    },
 
     methods: {
+        selectedVillage(village) {
+            this.search = village.fullname + ", " + village.zip;
+            this.form.village_id = village.id;
+        },
         toggle: function() {
             this.showForm = !this.showForm;
         },
 
         fetchVillage: function() {
-            axios.get("/api/villages").then(response => {
-                this.villages = response.data;
-            });
+            axios
+                .post("/api/villages", { name: this.search })
+                .then(response => {
+                    this.villages = response.data;
+                });
         },
 
         fetchUser: function() {
@@ -131,7 +140,7 @@ export default {
                 )
                 .then(function() {
                     // bus.$emit("flash", { body: "Organizácia bola uložená!" });
-                    // location.reload();
+                    location.reload();
                 });
 
             this.clearForm();
@@ -141,8 +150,15 @@ export default {
             this.form = {};
         }
     },
+    computed: {
+        listDenominations: function() {
+            return this.updaters.filter(
+                updater => updater.type == "denomination"
+            );
+        }
+    },
     created() {
-        this.fetchVillage();
+        // this.fetchVillage();
         this.fetchUser();
         this.fetchUpdaters();
     }

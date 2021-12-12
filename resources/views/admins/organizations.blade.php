@@ -20,7 +20,7 @@
                     @endslot
                 @endcomponent
 
-                <div class="w-1/3">
+                <div class="md:w-1/3">
                     <new-organization />
                 </div>
 

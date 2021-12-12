@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Updater;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UpdaterResource;
+use App\Http\Resources\UpdaterCollection;
 
 class UpdaterController extends Controller
 {
@@ -13,7 +15,6 @@ class UpdaterController extends Controller
          $updaters = Updater::all();
         //  $villages = Village::where('fullname', 'like', $fullname . '%')->get();
  
-         return response()
-             ->json($updaters);
+         return UpdaterResource::collection($updaters);
      }
 }
