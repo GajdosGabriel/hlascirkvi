@@ -29,8 +29,8 @@
 
                     <div class="form-group">
                         <label for="title">Názov</label>
-                        <input type="text" name="title" id="title" value="{{ $organization->title }}" class="form-control"
-                            required>
+                        <input type="text" name="title" id="title" value="{{ $organization->title }}"
+                            class="form-control" required>
                     </div>
 
                     <div class="form-group">
@@ -68,8 +68,8 @@
                     @forelse(\App\Updater::all() as $updater)
                         @if ($updater->type == 'denomination')
                             <input required type="radio" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
-                                @if ($up->pivot->updater_id==$updater->id)
-                            checked @endif
+                            @if ($up->pivot->updater_id == $updater->id)
+                                checked @endif
                             Žiadne položky
                         @endforeach
                         >
@@ -92,8 +92,9 @@
                         <span style="font-weight: 600">Organizácia na predný zoznam</span><br>
                         @forelse(\App\Updater::all() as $updater)
                             @if ($updater->type == 'frontUser')
-                                <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)  @if ($up->pivot->updater_id==$updater->id)
-                                checked @endif
+                                <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
+                                @if ($up->pivot->updater_id == $updater->id)
+                                    checked @endif
                                 Žiadne položky
                             @endforeach
                             >
@@ -106,48 +107,51 @@
                     <span style="font-weight: 600">Zaradená do zoznamu</span><br>
                     @forelse(\App\Updater::all() as $updater)
                         @if ($updater->type == 'list')
-                            <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)  @if ($up->pivot->updater_id==$updater->id)
-                            checked @endif
+                            <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
+                            @if ($up->pivot->updater_id == $updater->id)
+                                checked @endif
                             Žiadne položky
                         @endforeach
                         >
                         {{ $updater->title }}<br>
                     @endif
-                    @empty
-                        žiadny tag
-                        @endforelse
+                @empty
+                    žiadny tag
+                    @endforelse
 
 
-                        <span style="font-weight: 600">Vyhľadávanie podľa mena v týždni</span><br>
-                        @forelse(\App\Updater::all() as $updater)
-                            @if ($updater->type == 'dayOfWeek')
-                                <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)  @if ($up->pivot->updater_id==$updater->id)
+                    <span style="font-weight: 600">Vyhľadávanie podľa mena v týždni</span><br>
+                    @forelse(\App\Updater::all() as $updater)
+                        @if ($updater->type == 'dayOfWeek')
+                            <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
+                            @if ($up->pivot->updater_id == $updater->id)
                                 checked @endif
-                                Žiadne položky
-                            @endforeach
-                            >
-                            {{ $updater->title }}<br>
-                        @endif
-                        @empty
-                            žiadny tag
-                            @endforelse
-                            @endif
+                            Žiadne položky
+                        @endforeach
+                        >
+                        {{ $updater->title }}<br>
+                    @endif
+                @empty
+                    žiadny tag
+                    @endforelse
+                    @endif
 
-                            <button type="submit" class="btn btn-primary">Uložiť</button>
-
-
-                        </div>
-                    </form>
-                </div>
-
-                <div class="page-aside">
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Uložiť</button>
+                    </div>
 
                 </div>
+            </form>
+        </div>
+
+        <div class="page-aside">
+
+        </div>
 
 
-            </div>
+    </div>
 
-            </div>
+    </div>
 
 
-        @endsection
+@endsection

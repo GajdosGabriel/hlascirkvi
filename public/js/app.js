@@ -4459,11 +4459,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      showForm: true,
+      showForm: false,
       user: "",
       search: "",
       villages: [],
@@ -4515,7 +4516,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     saveOrganization: function saveOrganization() {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/users/" + this.user.id + "/organizations", this.form).then(function () {
-        // bus.$emit("flash", { body: "Organizácia bola uložená!" });
         location.reload();
       });
       this.clearForm();
@@ -72362,7 +72362,8 @@ var render = function() {
                 staticClass: "form-control",
                 attrs: {
                   type: "text",
-                  placeholder: "Potrebné v prípade vytvorenia akcie"
+                  placeholder: "Potrebné v prípade vytvorenia akcie",
+                  required: ""
                 },
                 domProps: { value: _vm.search },
                 on: {

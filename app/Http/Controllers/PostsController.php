@@ -81,9 +81,8 @@ class PostsController extends Controller
     }
 
 
-    public function edit($post)
+    public function edit(Post $post)
     {
-        $post = $this->post->find($post);
         $this->authorize('update', $post);
         return view('posts.edit', ['post' => $post]);
     }

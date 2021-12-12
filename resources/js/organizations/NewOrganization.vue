@@ -35,6 +35,7 @@
                     v-model="search"
                     class="form-control"
                     placeholder="Potrebné v prípade vytvorenia akcie"
+                    required
                 />
             </div>
 
@@ -83,7 +84,7 @@ import axios from "axios";
 export default {
     data: function() {
         return {
-            showForm: true,
+            showForm: false,
             user: "",
             search: "",
             villages: [],
@@ -93,7 +94,7 @@ export default {
                 street: "",
                 phone: "",
                 village_id: "",
-                updaters: [],
+                updaters: []
             }
         };
     },
@@ -139,7 +140,6 @@ export default {
                     this.form
                 )
                 .then(function() {
-                    // bus.$emit("flash", { body: "Organizácia bola uložená!" });
                     location.reload();
                 });
 

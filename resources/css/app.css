@@ -47,8 +47,10 @@
 }
 
 .btn-primary {
-    @apply bg-blue-700 text-white;
+    @apply bg-blue-800 text-white hover:bg-blue-600;
 }
+
+
 .btn-default {
     @apply bg-white text-gray-700 hover:bg-blue-200;
 }

@@ -14,6 +14,11 @@ class UpdaterResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'identificator' => $this->identificator,
+            'type' => $this->type,
+        ];
     }
 }

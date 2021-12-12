@@ -14,7 +14,7 @@
                     @endslot
 
                     @slot('title_right')
-                        <a href="{{ route('posts.create') }}" class="btn btn-default">Nový článok</a>
+                        <a href="{{ route('posts.create') }}" class="btn btn-primary">Nový článok</a>
                     @endslot
                 @endcomponent
 

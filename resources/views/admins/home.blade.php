@@ -17,11 +17,6 @@
             <h2 class="text-2xl">Admin panel</h2>
         </div>
 
-        <div class="page-content">
-
-            <h5>Service panel</h5>
-            <a class="" href="{{ route('admin.images.index') }}">Images service</a>
-        </div>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf

@@ -31535,7 +31535,15 @@ video {
 
 .btn-primary {
   --tw-bg-opacity: 1;
-  background-color: rgba(29, 78, 216, var(--tw-bg-opacity));
+  background-color: rgba(30, 64, 175, var(--tw-bg-opacity));
+}
+
+.btn-primary:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(37, 99, 235, var(--tw-bg-opacity));
+}
+
+.btn-primary {
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
