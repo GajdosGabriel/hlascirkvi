@@ -46,27 +46,26 @@ class PostsController extends Controller
 
     public function show(Post $post, $slug, CreditUser $creditUser)
     {
-//        $cleanText = new CleanBodyText($post);
-//       $xxx = $cleanText->detect();
-////       $cleanText->save();
+        // Kanál(organization) nie je publikovaný a tým aj posts nie je možné zobrazovať.
+        if(! $post->organization->published){
+            abort(403, "Kanál {$post->organization->title} je vypnutý!");
+        }
 
-// dd($post);
-//
         $creditUser->setPostHistory($post);
 
 //        session()->push('postsHistory',  $post );
 //                session()->forget('postsHistory');
 //        dd(\Session::get('postsHistory'));
 
-        event(new ViewCounter($post));
+        // event(new ViewCounter($post));
 
 
         $posts = $this->post->postsBelongToOrganization($post->organization_id);
-        $questions = (new Messenger)->scopeUserMessages($post->organization_id);
+        // $questions = (new Messenger)->scopeUserMessages($post->organization_id);
 
-//        return $post;
+
         return view('posts.show', ['post' => $post])
-            ->with('messages' , $questions ?? null)
+            // ->with('messages' , $questions ?? null)
             ->with('posts' , $posts);
     }
 

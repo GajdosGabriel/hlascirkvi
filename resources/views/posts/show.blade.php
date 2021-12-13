@@ -239,8 +239,8 @@
 
 
                         @if (auth()->check())
-                            <messenger-modul :user="{{ $post->organization }}" :messages="{{ $messages }}">
-                            </messenger-modul>
+                            {{-- <messenger-modul :user="{{ $post->organization }}" :messages="{{ $messages }}">
+                            </messenger-modul> --}}
                         @endif
 
 

@@ -29,7 +29,7 @@ abstract class Filters
         $this->builder = $builder;
 
 
-        if(! $this->request->only('posts')) return $this->builder->latest();
+        // if(! $this->request->only('posts')) return $this->builder->latest();
 
 
             foreach($this->filters as $filter)

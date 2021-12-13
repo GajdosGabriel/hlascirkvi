@@ -18,19 +18,19 @@ class BuffersController extends Controller
 
     public function indexBufferedVideos(Request $request)
     {
-        // For zoznam nepublikovaných users.
-        $users = $this->posts->getUnpublishedPosts()->groupBy('organization_id');
 
         $posts = Post::withoutGlobalScope('published')->doesntHave('updaters')->latest();
 
-        if($request->posts) {
+        if ($request->posts) {
             $posts = $posts->where('organization_id', $request->posts);
         }
 
-        $posts = $posts->paginate(32);
-
-        return view('admins.buffer.index', ['posts' => $posts, 'users' => $users]);
+        return view(
+            'admins.buffer.index',
+            [
+                'posts' => $posts->paginate(32),
+                'users' => $posts->get()->groupBy('organization_id')
+            ]
+        );
     }
-
-
 }
