@@ -8,6 +8,7 @@
             <th>Detaily</th>
             <th style="width: 10%">Tagy</th>
             <th>Admin</th>
+            <th>Stav</th>
             <th>Akcia</th>
         </tr>
     </thead>
@@ -63,7 +64,6 @@
                         nič
                     @endforelse
 
-
                     {{-- @foreach ($organization->updaters as $updater) --}}
                     {{-- <span style="font-size: 70%">{{ $updater->title }}</span> --}}
                     {{-- @endforeach --}}
@@ -76,8 +76,21 @@
                         </a>
                     @endforeach
                 </td>
+                <td>
+                    <form method="POST" action="{{ route('organizations.update', $organization->id) }}">
+                        @csrf @method('PUT')
+
+                        @if ($organization->published)
+                            <button value="0" name="published"
+                                class="px-2 text-xs bg-green-500 text-gray-100 rounded border-2 border-green-700 hover:bg-green-600">Publikované</button>
+                        @else
+                            <button value="1" name="published"
+                                class="px-2 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700 hover:bg-red-600">Nepublikované</button>
+                        @endif
+                    </form>
+                </td>
                 <td class="px-2">
-                    <a href="{{ route('organization.edit', [$organization->id]) }}">
+                    <a href="{{ route('organizations.edit', [$organization->id]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>
                     </a>
 

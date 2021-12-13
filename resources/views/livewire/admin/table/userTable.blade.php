@@ -23,7 +23,7 @@
             <tr>
                 <td>{{ $users->count() - $loop->iteration +1 }} / {{ $user->id }} </td>
                 <td class="whitespace-no-wrap">
-                    <a href="{{ route('organization.edit', [ $user->id]) }}">
+                    <a href="{{ route('organizations.edit', [ $user->id]) }}">
                         {{ $user->first_name }} {{ $user->last_name }}
                     </a>
                 </td>

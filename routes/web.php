@@ -20,7 +20,7 @@ Route::get('zamyslenia/{slug?}', 'VersesController@index')->name('verses.index')
 
 Route::resources([
     'modlitby'          => PrayerController::class,
-    'organization'      => OrganizationsController::class,
+    'organizations'     => OrganizationsController::class,
     'user'              => UsersController::class,
     'akcie'             => Events\EventsController::class,
     'posts'             => PostsController::class,

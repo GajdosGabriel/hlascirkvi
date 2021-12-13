@@ -38,7 +38,7 @@ Route::apiResources([
     'modlitby'          => Api\PrayerController::class,
     'posts'             => Api\PostController::class,
     'posts.comments'    => Api\PostsCommentsController::class,
-    'organizations'     => Api\OrganizationController::class,
+    'organization'     => Api\OrganizationController::class,
     'comments'          => Api\CommentController::class,
 ]);
 
