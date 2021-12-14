@@ -20,11 +20,17 @@
 
                     @slot('title_right')
 
-                        <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
-                            href="{{ route('organization.event.create', $organization->id) }}"><i class="fas fa-plus"></i>
-                            Nové podujatie
-                        </a>
-
+                        @auth
+                            <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
+                                href="{{ route('organization.event.create', auth()->user()->org_id) }}"><i class="fas fa-plus"></i>
+                                Nové podujatie
+                            </a>
+                        @else
+                            <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
+                                href="{{ route('login') }}"><i class="fas fa-plus"></i>
+                                Nové podujatie
+                            </a>
+                        @endauth
                     @endslot
                 @endcomponent
 

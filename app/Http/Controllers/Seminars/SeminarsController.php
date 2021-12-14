@@ -16,6 +16,11 @@ class SeminarsController extends Controller
         $this->middleware('auth')->except('index', 'show');
     }
 
+    public function show(Seminar $seminar)
+    {
+        return view('seminars.show', compact('seminar'));
+    }
+
     public function uploadVideosfromPlaylist(Seminar $seminar)
     {
         $organization = Organization::whereId($seminar->organization_id)->first();

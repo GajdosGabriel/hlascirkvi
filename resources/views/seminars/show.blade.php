@@ -16,8 +16,10 @@
                 </div>
 
                 <div class="flex items-center">
+                    @auth
                     <c-article-dropdown :post="{{ $seminar }}" :model="'/seminars/'" :redirect="'seminars'">
                     </c-article-dropdown>
+                    @endauth
                 </div>
             </div>
 
