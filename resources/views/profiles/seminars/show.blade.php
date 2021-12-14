@@ -1,15 +1,22 @@
 @extends('layouts.app')
 @section('title') <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title> @endsection
 
+
+
 @section('content')
+    <div class="grid grid-cols-12 gap-6  ">
+
+
+        @include('profiles._profil-menu')
 
 
 
-    @component('layouts.pages.profil')
-        @slot('page')
-            <div class="col-span-7 p-5">
+        <div class="col-span-5">
 
-                <div class=" flex justify-between">
+
+            @component('layouts.pages.page_title')
+                @slot('title')
+
                     <div>
                         <h2 class="text-2xl font-semibold">
                             <seminar-title :seminar="{{ $seminar }}"></seminar-title>
@@ -22,7 +29,13 @@
                         <c-article-dropdown :post="{{ $seminar }}" :model="'/seminars/'" :redirect="'seminars'">
                         </c-article-dropdown>
                     </div>
-                </div>
+
+                @endslot
+
+            @endcomponent
+
+
+            <div class="col-span-3">
 
                 <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                     @forelse($seminar->posts as $post)
@@ -33,8 +46,10 @@
                     @endforelse
                 </div>
             </div>
-        @endslot
-    @endcomponent
+        </div>
+    </div>
+
+
 
 
 @endsection

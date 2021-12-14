@@ -20,7 +20,7 @@
         @if ($organization->id == auth()->user()->org_id)
         bg-gray-400
         @endif ">
-                <td class="pl-4">{{ $loop->iteration }}</td>
+                <td class="px-2 bg-gray-100">{{  $organization->id }}</td>
                 <td class="">
                     <a href="{{ route('user.organization.show', [ auth()->user()->id, $organization->id]) }}">
                     {{ $organization->title }}

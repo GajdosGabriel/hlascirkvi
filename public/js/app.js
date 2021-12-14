@@ -6669,7 +6669,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     publishedfunction: function publishedfunction() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().put("/seminars/" + this.seminar.id, {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().put('/organization/' + this.seminar.organization_id + '/seminar/' + this.seminar.id, {
         published: this.seminar.published ? "" : Date.now()
       });
     }

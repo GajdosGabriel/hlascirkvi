@@ -19,13 +19,13 @@ class OrganizationSeminarController extends Controller
 
     public function show(Organization $organization, Seminar $seminar)
     {
-        return view('seminars.show', compact('organization', 'seminar'));
+        return view('profiles.seminars.show', compact('organization', 'seminar'));
     }
 
 
     public function create(Organization $organization)
     {
-        return view('seminars.create', [ 'seminar' => new Seminar(), 'organization' => $organization]);
+        return view('profiles.seminars.create', [ 'seminar' => new Seminar(), 'organization' => $organization]);
     }
 
     public function edit(Organization $organization, Seminar $seminar)

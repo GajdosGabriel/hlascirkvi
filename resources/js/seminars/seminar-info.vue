@@ -80,7 +80,7 @@ export default {
 
     methods: {
         publishedfunction: function() {
-            axios.put("/seminars/" + this.seminar.id, {
+            axios.put('/organization/'+ this.seminar.organization_id +'/seminar/' + this.seminar.id, {
                 published: this.seminar.published ? "" : Date.now()
             });
         }

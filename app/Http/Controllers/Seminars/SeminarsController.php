@@ -16,18 +16,13 @@ class SeminarsController extends Controller
         $this->middleware('auth')->except('index', 'show');
     }
 
-
-
-
-
-
-    public function uploadVideos(Seminar $seminar)
+    public function uploadVideosfromPlaylist(Seminar $seminar)
     {
         $organization = Organization::whereId($seminar->organization_id)->first();
 
         $videoUploader = new VideoUploadSeminars($seminar, $organization);
         $videoUploader->handle();
 
-        return redirect()->route('seminars.show', $seminar->id);
+        return redirect()->route('organization.seminar.show', [$organization->id, $seminar->id]);
     }
 }

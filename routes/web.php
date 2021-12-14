@@ -40,7 +40,7 @@ Route::resources([
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
-Route::get('seminars/{seminar}/upload', 'Seminars\SeminarsController@uploadVideos')->name('seminars.uploadVideos');
+Route::get('seminars/{seminar}/upload', 'Seminars\SeminarsController@uploadVideosfromPlaylist')->name('seminars.uploadVideos');
 
 
 //    Route::get('/users', 'UsersController@index')->name('users.index');
