@@ -22,11 +22,9 @@
         @endif ">
                 <td class="pl-4">{{ $loop->iteration }}</td>
                 <td class="">
-                    <form action="{{ route('user.update', auth()->id()) }}" method="post">
-                        @method('PUT') @csrf
-                        <input type="hidden" name="org_id" value="{{ $organization->id }}" />
-                        <button type="submit">{{ $organization->title }}</button>
-                    </form>
+                    <a href="{{ route('user.organization.show', [ auth()->user()->id, $organization->id]) }}">
+                    {{ $organization->title }}
+                    </a>
                 </td>
                 <td>{{ $organization->street }}
                 </td>

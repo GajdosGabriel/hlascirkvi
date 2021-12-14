@@ -19,10 +19,11 @@ class OrganizationsController extends Controller
 
     public function show(Organization $organization)
     {
-        return view('posts.index', ['posts' => $organization->posts()->latest()->paginate(), 'organization' => $organization]);
+        return view('posts.index', [
+            'posts' => $organization->posts()->latest()->paginate(),
+            'organization' => $organization
+        ]);
     }
-
-
 
     public function organizationPosts(Organization $user, $slug)
     {
@@ -61,8 +62,4 @@ class OrganizationsController extends Controller
         session()->flash('flash', 'Kanál bol zmazaný!');
         return back();
     }
-
-
-
-
 }

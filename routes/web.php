@@ -22,6 +22,7 @@ Route::resources([
     'modlitby'          => PrayerController::class,
     'organizations'     => OrganizationsController::class,
     'user'              => UsersController::class,
+    'user.organization' => UserOrganizationController::class,
     'akcie'             => Events\EventsController::class,
     'posts'             => PostsController::class,
     'comment'           => CommentsController::class,
