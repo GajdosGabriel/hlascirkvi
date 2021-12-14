@@ -16,7 +16,7 @@
 
                     @slot('title_right')
                         <a class="btn btn-default"
-                            href="{{ route('akcie.create') }}">
+                            href="{{ route('organization.event.create', $organization->id) }}">
                             Nové podujatie
                         </a>
                     @endslot

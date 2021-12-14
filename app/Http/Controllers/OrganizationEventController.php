@@ -13,6 +13,10 @@ class OrganizationEventController extends Controller
     {
         $events = $organization->events()
             ->latest()->paginate(30);
-        return view('profiles.events.index', compact('events'));
+        return view('profiles.events.index', compact('events', 'organization'));
+    }
+
+    public function create(Organization $organization) {
+        return view('events.create', ['event' => new Event(), 'organization' => $organization]);
     }
 }

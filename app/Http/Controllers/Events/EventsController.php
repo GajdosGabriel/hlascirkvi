@@ -51,10 +51,6 @@ class EventsController extends Controller
         return view('events.edit', ['event' => $event]);
     }
 
-    public function create() {
-        return view('events.create', ['event' => new Event()]);
-    }
-
     public function store(StoreEventRequest $request)
     {
         $request->save();
