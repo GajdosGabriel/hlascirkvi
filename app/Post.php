@@ -19,9 +19,9 @@ class Post extends Model implements ViewableContract
     use Favoritable, Notifiable, SoftDeletes, Viewable;
 
     protected $guarded = [];
-    protected $hidden = ['organization_id', 'blocked', 'youtube_blocked', 'deleted_at'];
+    protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
-    protected $with = ['favorites', 'organization', 'images'];
+    protected $with = ['favorites', 'images'];
     protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'createdAtHuman', 'hasUpdater', 'EventsBelongsToOrganization'];
 
     protected static function boot()

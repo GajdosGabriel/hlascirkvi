@@ -18,4 +18,17 @@ class OrganizationPostController extends Controller
     public function create(Organization $organization) {
         return view('posts.create', ['post' => new Post, 'organization' => $organization]);
     }
+
+    public function edit(Organization $organization, Post $post)
+    {
+        $this->authorize('update', $post);
+        return view('posts.edit', compact('post', 'organization'));
+    }
+
+    public function destroy(Organization $organization, Post $post)
+    {
+        $this->authorize('update', $post);
+        $post->delete();
+        // return redirect('/')->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
+    }
 }

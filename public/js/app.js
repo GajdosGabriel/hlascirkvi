@@ -5204,6 +5204,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
@@ -5218,7 +5226,7 @@ __webpack_require__.r(__webpack_exports__);
       this.open = !this.open;
     },
     deletePost: function deletePost() {
-      axios["delete"]("/posts/" + this.post.id).than(window.location.href = "/");
+      axios["delete"]("/organization/" + this.post.organization_id + "/post/" + this.post.id).than(window.location.href = "/");
     }
   },
   computed: {
@@ -73294,11 +73302,24 @@ var render = function() {
     _vm._v(" "),
     _vm.open
       ? _c("ul", { staticClass: "dropdown-menu" }, [
-          _c("a", { attrs: { href: "/posts/" + _vm.post.id + "/edit" } }, [
-            _c("li", { staticClass: "dropdown-item" }, [
-              _vm._v("\n                upraviť\n            ")
-            ])
-          ]),
+          _c(
+            "a",
+            {
+              attrs: {
+                href:
+                  "/organization/" +
+                  _vm.post.organization_id +
+                  "/post/" +
+                  _vm.post.id +
+                  "/edit"
+              }
+            },
+            [
+              _c("li", { staticClass: "dropdown-item" }, [
+                _vm._v("\n                upraviť\n            ")
+              ])
+            ]
+          ),
           _vm._v(" "),
           _c(
             "li",

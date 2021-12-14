@@ -25,7 +25,7 @@
         </div>
 
         <div class="md:w-4/12">
-            aside
+            {{-- aside --}}
         </div>
     </div>
 

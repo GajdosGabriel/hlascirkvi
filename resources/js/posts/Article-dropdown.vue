@@ -1,12 +1,12 @@
 <template>
     <div class="relative z-10 px-2">
-          <svg
+        <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-7 w-7 cursor-pointer bg-gray-100 rounded-full text-gray-400 hover:bg-gray-200 p-1"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-             @click="toggle"
+            @click="toggle"
             title="Spravovať článok"
         >
             <path
@@ -17,7 +17,15 @@
             />
         </svg>
         <ul class="dropdown-menu" v-if="open">
-            <a :href="'/posts/' + post.id + '/edit'">
+            <a
+                :href="
+                    '/organization/' +
+                        post.organization_id +
+                        '/post/' +
+                        post.id +
+                        '/edit'
+                "
+            >
                 <li class="dropdown-item">
                     upraviť
                 </li>
@@ -57,7 +65,12 @@ export default {
 
         deletePost: function() {
             axios
-                .delete("/posts/" + this.post.id)
+                .delete(
+                    "/organization/" +
+                        this.post.organization_id +
+                        "/post/" +
+                        this.post.id
+                )
                 .than((window.location.href = "/"));
         }
     },

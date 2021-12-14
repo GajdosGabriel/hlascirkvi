@@ -76,13 +76,6 @@ class PostsController extends Controller
     }
 
 
-    public function edit(Post $post)
-    {
-        $this->authorize('update', $post);
-        return view('posts.edit', ['post' => $post]);
-    }
-
-
     public function store(PostSaveRequest $request)
     {
         $request->save();
@@ -94,13 +87,6 @@ class PostsController extends Controller
     {
         $post = $request->update($post);
         return redirect()->route('post.show', [$post->id, $post->slug]);
-    }
-
-    public function destroy(Post $post)
-    {
-        $this->authorize('update', $post);
-        $post->delete();
-        // return redirect('/')->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
     }
 
     public function delete(Post $post) {

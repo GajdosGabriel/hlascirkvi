@@ -18,6 +18,7 @@ class Post extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
+            'organization_id' => $this->organization_id,
             'slug' => $this->slug,
             'video_id' => $this->video_id,
             'count_view' => $this->count_view,
@@ -28,7 +29,7 @@ class Post extends JsonResource
             'createdAtHuman' => $this->createdAtHuman,
             'thumbImage' => $this->thumbImage,
 //            'images' => Image::collection($this->images),
-            'organization' => new Organization($this->organization),
+            'organization' => new OrganizationResource($this->organization),
             'hasUpdater' => $this->hasUpdater
         ];
     }
