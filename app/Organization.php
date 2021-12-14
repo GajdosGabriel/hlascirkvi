@@ -49,6 +49,12 @@ class Organization extends Model
         return $this->hasMany(Event::class);
     }
 
+    public function seminars()
+    {
+        return $this->hasMany(Seminar::class);
+    }
+
+
     public function images()
     {
         return $this->morphMany(Image::class, 'fileable');

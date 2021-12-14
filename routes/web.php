@@ -19,21 +19,24 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 Route::get('zamyslenia/{slug?}', 'VersesController@index')->name('verses.index');
 
 Route::resources([
-    'modlitby'          => PrayerController::class,
-    'organizations'     => OrganizationsController::class,
-    'user'              => UsersController::class,
-    'user.organization' => UserOrganizationController::class,
-    'akcie'             => Events\EventsController::class,
-    'posts'             => PostsController::class,
-    'comment'           => CommentsController::class,
-    'favorites'         => FavoritesController::class,
-    'images'            => ImagesController::class,
-    'tags'              => TagsController::class,
-    'seminars'          => Seminars\SeminarsController::class,
-    'seminars.posts'    => Seminars\SeminarPostController::class,
-    'profileSeminars'   => Seminars\ProfilSeminarController::class,
-    'updaters'          => Updaters\UpdatersController::class,
-    'updater.organization'   => Updaters\UpdaterOrganizationController::class,
+    'modlitby'              => PrayerController::class,
+    'organizations'         => OrganizationsController::class,
+    'organization.seminar'  => OrganizationSeminarController::class,
+    'organization.post'     => OrganizationPostController::class,
+    'organization.event'    => OrganizationEventController::class,
+    'user'                  => UsersController::class,
+    'user.organization'     => UserOrganizationController::class,
+    'akcie'                 => Events\EventsController::class,
+    'posts'                 => PostsController::class,
+    'comment'               => CommentsController::class,
+    'favorites'             => FavoritesController::class,
+    'images'                => ImagesController::class,
+    'tags'                  => TagsController::class,
+    'seminars'              => Seminars\SeminarsController::class,
+    'seminars.posts'        => Seminars\SeminarPostController::class,
+    'profileSeminars'       => Seminars\ProfilSeminarController::class,
+    'updaters'              => Updaters\UpdatersController::class,
+    'updater.organization'  => Updaters\UpdaterOrganizationController::class,
 ]);
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
@@ -53,11 +56,6 @@ Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->nam
 
 Route::prefix('profile/')->name('profile.')->group(function () {
         Route::get('/home', 'ProfilesController@home')->name('home');
-        Route::get('/organizations', 'ProfilesController@organizations')->name('organizations');
-        Route::get('/posts', 'ProfilesController@posts')->name('posts');
-        Route::get('/podujatia', 'ProfilesController@events')->name('events');
-        Route::get('/seminars', 'ProfilesController@seminars')->name('seminars');
-
 });
 
 

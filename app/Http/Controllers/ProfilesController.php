@@ -24,39 +24,5 @@ class ProfilesController extends Controller
 
 
 
-    public function organizations()
-    {
-        // dd($user);
-        // if(auth()->id() != $user) {
-        //    abort(403);
-        // }
-        $organizations =  $this->organization->usersOrganizations(auth()->user()->id)->paginate(30);
-        return view('profiles.organizations.index', compact('organizations'));
-    }
-
-    public function posts()
-    {
-        $posts = Post::whereOrganizationId(auth()->user()->org_id)->latest()->paginate(30);
-
-        return view('profiles.posts.index', compact('posts'));
-    }
-
-
-
-
-    public function events()
-    {
-        $events = Event::whereOrganizationId(auth()->user()->org_id)
-                    ->latest()->paginate(30);
-        return view('profiles.events.index', compact('events'));
-    }
-
-    public function seminars()
-    {
-        $seminars = Seminar::withCount('posts')
-                    ->whereOrganizationId(auth()->user()->org_id)
-                    ->orderBy('created_at', 'desc')->get();
-
-        return view('profiles.seminars.index', ['seminars' => $seminars]);
-    }
+  
 }
