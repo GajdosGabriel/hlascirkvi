@@ -75,10 +75,6 @@ class PostsController extends Controller
         return view('pages.show', compact('videoId'));
     }
 
-    public function create() {
-        return view('posts.create', ['post' => new Post]);
-    }
-
 
     public function edit(Post $post)
     {

@@ -20,7 +20,7 @@
 
                 <a
                     v-else
-                    :href="'/seminars/' + seminar.id + '/edit'"
+                    :href="'/organization/'+ seminar.organization_id +'/seminar/' + seminar.id + '/edit'"
                     class="cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2"
                 >
                     Nevyplnený playlist
@@ -28,7 +28,7 @@
 
                 <a
                     v-if="seminar.youtube_playlist"
-                    :href="'/posts/create'"
+                    :href="'/organization/'+ seminar.organization_id + '/post/create'"
                     class="cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2"
                     >Pridať video
                 </a>

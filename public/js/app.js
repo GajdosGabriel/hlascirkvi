@@ -74972,7 +74972,14 @@ var render = function() {
                   {
                     staticClass:
                       "cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2",
-                    attrs: { href: "/seminars/" + _vm.seminar.id + "/edit" }
+                    attrs: {
+                      href:
+                        "/organization/" +
+                        _vm.seminar.organization_id +
+                        "/seminar/" +
+                        _vm.seminar.id +
+                        "/edit"
+                    }
                   },
                   [
                     _vm._v(
@@ -74987,7 +74994,12 @@ var render = function() {
                   {
                     staticClass:
                       "cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2",
-                    attrs: { href: "/posts/create" }
+                    attrs: {
+                      href:
+                        "/organization/" +
+                        _vm.seminar.organization_id +
+                        "/post/create"
+                    }
                   },
                   [_vm._v("Pridať video\n            ")]
                 )
