@@ -43,7 +43,7 @@ class OrganizationsController extends Controller
         $organization->updaters()->sync($request->get('updaters') ?: []);
 
         session()->flash('flash', 'Údaje boli uložené!');
-        return redirect()->route('profile.organizations');
+        return back();
     }
 
     public function store(OrganizationsRequest $request)

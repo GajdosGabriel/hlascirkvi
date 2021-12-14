@@ -15,7 +15,7 @@
 
                     @slot('title_right')
 
-                            <a href="{{ route('seminars.create') }}" class="btn btn-default">Nový semimár</a>
+                        <a href="{{ route('organization.seminar.create', $organization->id) }}" class="btn btn-default">Nový semimár</a>
 
                     @endslot
                 @endcomponent

@@ -1,7 +1,7 @@
 @forelse ( $seminars as $seminar )
 
     <div class="flex justify-between mb-4">
-        <a href="{{ route('profileSeminars.show', [$seminar->id]) }}" class=" hover:underline">
+        <a href="{{ route('organization.seminar.show', [$organization->id, $seminar->id]) }}" class=" hover:underline">
             <h4 class="font-semibold text-lg ">
                 <seminar-title :seminar="{{ $seminar }}"></seminar-title>
             </h4>

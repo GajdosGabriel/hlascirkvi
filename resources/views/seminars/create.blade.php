@@ -28,7 +28,7 @@
 
             <div class="col-span-3">
 
-                <form class="" method="post" action="{{ route('seminars.store') }}">
+                <form class="" method="post" action="{{ route('organization.seminar.store', $organization->id) }}">
                     @csrf @method('POST')
 
                     @include('seminars.form')
