@@ -53,11 +53,4 @@ class StoreEventRequest extends FormRequest
 
         return $messages;
     }
-
-    public function save()
-    {
-        $event = $this->event->create($this->except(['picture', 'file']));
-        // $event->update();
-        (new Form($event, $this))->handler();
-    }
 }

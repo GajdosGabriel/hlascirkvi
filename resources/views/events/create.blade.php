@@ -14,7 +14,7 @@
 
 
         <div class="grid col-span-10 p-5">
-            <form method="post" action="{{ route('akcie.store') }}" class="flex" enctype="multipart/form-data"> @csrf
+            <form method="post" action="{{ route('organization.event.store', $organization->id ) }}" class="flex" enctype="multipart/form-data"> @csrf
 
                 <div class="page-content">
 

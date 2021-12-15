@@ -33,7 +33,6 @@ class EventsController extends Controller
     public function show($event)
     {
         $event = $this->event->find($event);
-    //    dd($event);
 
         event(new ViewCounter($event));
 
@@ -42,35 +41,6 @@ class EventsController extends Controller
         $commentsOffer = $event->comments()->where('type', 'offer')->get();
 
         return view('events.show', compact('event', 'commentsOffer', 'commentsLook'));
-    }
-
-    public function edit($event)
-    {
-        $event = $this->event->find($event);
-        $this->authorize('update', $event);
-        return view('events.edit', ['event' => $event]);
-    }
-
-    public function store(StoreEventRequest $request)
-    {
-        $request->save();
-        return redirect('akcie');
-    }
-
-
-    public function update(StoreEventRequest $request, $akcie)
-    {
-        $event = $this->event->find($akcie);
-
-        $this->authorize('update', $event);
-
-        $event->update($request->except(['picture', 'file', 'vizitka']));
-
-        (new Form($event, $request))->handler();
-
-        session()->flash('flash', 'Podujatie je aktualizované!');
-
-        return redirect()->route('akcie.show' , [$event->id]);
     }
 
     public function eventInfoPanel(Event $event, Request $request)
@@ -91,16 +61,6 @@ class EventsController extends Controller
         $this->authorize('update', $event);
         return view('events.admin.show', compact('event'));
     }
-
-    public function destroy(Event $akcie)
-    {
-        $this->authorize('update', $akcie);
-        $akcie->delete();
-        session()->flash('flash', 'Podujatie bolo zmazané!');
-
-        return redirect('akcie');
-    }
-
 
     public function printGdpr(Event $event, User $user, $slug)
     {

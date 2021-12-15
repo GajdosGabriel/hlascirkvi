@@ -17,7 +17,7 @@
             />
         </svg>
         <ul class="dropdown-menu" v-if="open">
-            <a :href="'/akcie/' + post.id + '/edit'">
+            <a :href="'/organization/'+ post.organization_id + '/event/' + post.id + '/edit'">
                 <li class="dropdown-item">
                     upraviť
                 </li>
@@ -57,7 +57,7 @@ export default {
 
         deletePost: function() {
             axios
-                .delete("/akcie/" + this.post.id)
+                .delete('/organization/'+ this.post.organization_id +'/event/' + this.post.id)
                 .than((window.location.href = "/akcie"), this.toggle());
         }
     },

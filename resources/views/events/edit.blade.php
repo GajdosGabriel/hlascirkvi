@@ -7,7 +7,7 @@
 @section('content')
     <div class="page">
 
-        <form method="post" action="{{ route('akcie.update', [$event->id]) }}" class="md:flex"
+        <form method="post" action="{{ route('organization.event.update', [$organization->id, $event->id]) }}" class="md:flex"
             enctype="multipart/form-data">
             {{ method_field('PATCH') }} @csrf
 

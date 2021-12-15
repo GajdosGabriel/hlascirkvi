@@ -3417,7 +3417,7 @@ __webpack_require__.r(__webpack_exports__);
       this.open = !this.open;
     },
     deletePost: function deletePost() {
-      axios["delete"]("/akcie/" + this.post.id).than(window.location.href = "/akcie", this.toggle());
+      axios["delete"]('/organization/' + this.post.organization_id + '/event/' + this.post.id).than(window.location.href = "/akcie", this.toggle());
     }
   },
   computed: {
@@ -71050,11 +71050,24 @@ var render = function() {
     _vm._v(" "),
     _vm.open
       ? _c("ul", { staticClass: "dropdown-menu" }, [
-          _c("a", { attrs: { href: "/akcie/" + _vm.post.id + "/edit" } }, [
-            _c("li", { staticClass: "dropdown-item" }, [
-              _vm._v("\n                upraviť\n            ")
-            ])
-          ]),
+          _c(
+            "a",
+            {
+              attrs: {
+                href:
+                  "/organization/" +
+                  _vm.post.organization_id +
+                  "/event/" +
+                  _vm.post.id +
+                  "/edit"
+              }
+            },
+            [
+              _c("li", { staticClass: "dropdown-item" }, [
+                _vm._v("\n                upraviť\n            ")
+              ])
+            ]
+          ),
           _vm._v(" "),
           _c(
             "li",

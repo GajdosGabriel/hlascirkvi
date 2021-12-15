@@ -18,27 +18,26 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 
 Route::get('zamyslenia/{slug?}', 'VersesController@index')->name('verses.index');
 
+// Front routes
 Route::resources([
     'akcie'                 => Events\EventsController::class,
-    'comment'               => CommentsController::class,
     'favorites'             => FavoritesController::class,
-    'images'                => ImagesController::class,
     'organizations'         => OrganizationsController::class,
     'posts'                 => PostsController::class,
     'seminars'              => Seminars\SeminarsController::class,
     'seminars.posts'        => Seminars\SeminarPostController::class,
     'user'                  => UsersController::class,
     'modlitby'              => PrayerController::class,
-    'tags'                  => TagsController::class,
-
 ]);
 
 Route::middleware(['middleware' => 'auth'])->group(function () {
     Route::resources([
+        'images'                => ImagesController::class,
         'organization.seminar'  => OrganizationSeminarController::class,
         'organization.post'     => OrganizationPostController::class,
         'organization.event'    => OrganizationEventController::class,
         'profile'               => ProfilesController::class,
+        'tags'                  => TagsController::class,
         'updaters'              => Updaters\UpdatersController::class,
         'updater.organization'  => Updaters\UpdaterOrganizationController::class,
         'user.organization'     => UserOrganizationController::class,
@@ -62,7 +61,6 @@ Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->nam
 
 
 Route::prefix('user/')->name('organization.')->group(function () {
-    Route::get('{user}/{slug}/posts', 'OrganizationsController@organizationPosts')->name('posts');
 
     Route::middleware(['auth'])->group(function () {
         Route::post('message/{organization}/newMessage', 'MessengersController@store')->name('messengers.store.users');
