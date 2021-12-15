@@ -88,7 +88,7 @@
                     </form>
                 </td>
                 <td class="px-2">
-                    <a href="{{ route('organizations.edit', [$organization->id]) }}">
+                    <a href="{{ route('user.organization.edit', [$user->id, $organization->id]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>
                     </a>
 

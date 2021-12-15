@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Organization;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrganizationsRequest;
 
 class UserOrganizationController extends Controller
 {
     public function index(User $user)
     {
-        // dd($user);
-        // if(auth()->id() != $user) {
-        //    abort(403);
-        // }
         $organizations =  $user->organizations()->paginate(30);
 
 
@@ -25,5 +22,20 @@ class UserOrganizationController extends Controller
         return view('profiles.organizations.show', [
             'organization' => $organization
         ]);
+    }
+
+    public function edit(User $user, Organization $organization)
+    {
+        $organization->load('updaters');
+        return view('organizations.edit', compact('organization', 'user'));
+    }
+
+    public function update(User $user, Request $request, Organization $organization)
+    {
+        $organization->update($request->except('updaters'));
+        $organization->updaters()->sync($request->get('updaters') ?: []);
+
+        session()->flash('flash', 'Údaje boli uložené!');
+        return back();
     }
 }
