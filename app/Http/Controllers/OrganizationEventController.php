@@ -49,12 +49,10 @@ class OrganizationEventController extends Controller
         return redirect()->route('akcie.show', [$event->id]);
     }
 
-    public function destroy(Organization $organization, Event $akcie)
+    public function destroy(Organization $organization, Event $event)
     {
-        $this->authorize('update', $akcie);
-        $akcie->delete();
+        $event->delete();
         session()->flash('flash', 'Podujatie bolo zmazané!');
-
-        return redirect('akcie');
+        // return redirect()->route('organization.event.index', $organization->id);
     }
 }

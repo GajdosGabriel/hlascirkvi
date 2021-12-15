@@ -58,7 +58,7 @@ export default {
         deletePost: function() {
             axios
                 .delete('/organization/'+ this.post.organization_id +'/event/' + this.post.id)
-                .than((window.location.href = "/akcie"), this.toggle());
+                .than((window.location.href = '/organization/'+ this.post.organization_id +'/event/'), this.toggle());
         }
     },
 

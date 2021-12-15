@@ -3417,7 +3417,7 @@ __webpack_require__.r(__webpack_exports__);
       this.open = !this.open;
     },
     deletePost: function deletePost() {
-      axios["delete"]('/organization/' + this.post.organization_id + '/event/' + this.post.id).than(window.location.href = "/akcie", this.toggle());
+      axios["delete"]('/organization/' + this.post.organization_id + '/event/' + this.post.id).than(window.location.href = '/organization/' + this.post.organization_id + '/event/', this.toggle());
     }
   },
   computed: {
