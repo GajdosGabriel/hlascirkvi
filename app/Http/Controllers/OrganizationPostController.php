@@ -28,6 +28,7 @@ class OrganizationPostController extends Controller
 
     public function edit(Organization $organization, Post $post)
     {
+        $this->authorize('viewAny', $organization);
         $this->authorize('update', $post);
         return view('posts.edit', compact('post', 'organization'));
     }

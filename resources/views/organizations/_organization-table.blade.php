@@ -6,7 +6,7 @@
             <th>Adresa</th>
             <th>Mesto</th>
             <th>Detaily</th>
-            <th style="width: 10%">Tagy</th>
+            <th>Tagy</th>
             <th>Admin</th>
             <th>Stav</th>
             <th>Akcia</th>
@@ -18,12 +18,12 @@
             <tr
                 class="border-2 border-gray-300  hover:bg-gray-100
         @if ($organization->id == auth()->user()->org_id)
-        bg-gray-400
+        bg-gray-300
         @endif ">
-                <td class="px-2 bg-gray-100">{{  $organization->id }}</td>
+                <td class="px-2">{{  $organization->id }}</td>
                 <td class="">
-                    <a href="{{ route('user.organization.show', [ auth()->user()->id, $organization->id]) }}">
-                    {{ $organization->title }}
+                    <a href="{{ route('user.organization.show', [ auth()->user()->id, $organization->id]) }}" title="{{$organization->title}}">
+                    {{ \Illuminate\Support\Str::limit($organization->title, 30) }}
                     </a>
                 </td>
                 <td>{{ $organization->street }}

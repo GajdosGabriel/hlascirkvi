@@ -32,7 +32,7 @@ class OrganizationSeminarController extends Controller
 
     public function edit(Organization $organization, Seminar $seminar)
     {
-        $this->authorize('update', $seminar);
+        $this->authorize('viewAny', $organization);
         return view('seminars.edit', compact('seminar', 'organization'));
     }
 

@@ -54,7 +54,7 @@ class EventPolicy
      */
     public function update(User $user, Event $event)
     {
-        return auth()->user()->organizations()->whereId($event->organization_id)->exists();
+        return $user->org_id == $event->organization_id;
     }
 
     /**

@@ -27,6 +27,7 @@ class OrganizationEventController extends Controller
 
     public function edit(Organization $organization, Event $event)
     {
+        $this->authorize('viewAny', $organization);
         $this->authorize('update', $event);
         return view('events.edit', compact('event', 'organization'));
     }
