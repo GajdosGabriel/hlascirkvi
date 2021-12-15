@@ -11,8 +11,10 @@ class OrganizationSeminarController extends Controller
 {
     public function index(Organization $organization)
     {
+        $this->authorize('viewAny', $organization);
+
         $seminars = $organization->seminars()->withCount('posts')
-                    ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'desc')->get();
 
         return view('profiles.seminars.index', ['seminars' => $seminars, 'organization' => $organization]);
     }
@@ -25,7 +27,7 @@ class OrganizationSeminarController extends Controller
 
     public function create(Organization $organization)
     {
-        return view('profiles.seminars.create', [ 'seminar' => new Seminar(), 'organization' => $organization]);
+        return view('profiles.seminars.create', ['seminar' => new Seminar(), 'organization' => $organization]);
     }
 
     public function edit(Organization $organization, Seminar $seminar)
@@ -46,7 +48,7 @@ class OrganizationSeminarController extends Controller
         $this->authorize('update', $seminar);
         $seminar->update($request->all());
 
-        if(request()->expectsJson()) {
+        if (request()->expectsJson()) {
             return $seminar;
         };
 

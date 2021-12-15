@@ -9,8 +9,14 @@ use App\Http\Requests\PostSaveRequest;
 
 class OrganizationPostController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->authorizeResource(Organization::class, 'organization');
+    // }
+
     public function index(Organization $organization)
     {
+        $this->authorize('viewAny', $organization);
         $posts = $organization->posts()->latest()->paginate(30);
 
         return view('profiles.posts.index', compact('posts', 'organization'));

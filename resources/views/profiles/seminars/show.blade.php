@@ -11,7 +11,7 @@
 
 
 
-        <div class="col-span-5">
+        <div class="col-span-8">
 
 
             @component('layouts.pages.page_title')

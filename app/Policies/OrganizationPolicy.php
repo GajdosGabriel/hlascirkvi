@@ -16,9 +16,9 @@ class OrganizationPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Organization $organization)
     {
-        //
+        return $user->org_id == $organization->id;
     }
 
     /**
