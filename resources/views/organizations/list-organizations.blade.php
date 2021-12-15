@@ -4,7 +4,7 @@
         @forelse( $organizations as $post)
             <ul>
                 <li class="flex">
-                    <a title="{{ $post->organization->title }}" href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
+                    <a title="{{ $post->organization->title }}" href="{{ route('organization.post', [$post->organization->id, $post->organization->slug]) }}">
                         {{ str_limit($post->organization->title, 23) }}
                     </a>
                      {{--<div>dnes</div>--}}

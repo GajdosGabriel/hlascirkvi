@@ -72,7 +72,7 @@
                             <div class="text-sm text-gray-400">
                                 <span> pridal: </span>
                                 <a
-                                    href="{{ route('organization.posts', [$post->organization->id, $post->organization->slug]) }}">
+                                    href="{{ route('organizations.show', [$post->organization_id]) }}">
                                     {{ $post->organization->title }}</a>
                                 |
                                 <time datetime="{{ $post->created_at }}">dňa: {{ $post->datetime }}</time>
