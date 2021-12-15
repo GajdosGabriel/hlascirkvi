@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Prayer;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PrayerPolicy
@@ -11,18 +11,41 @@ class PrayerPolicy
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
+     * Determine whether the user can view any prayers.
      *
-     * @return void
+     * @param  \App\User  $user
+     * @return mixed
      */
-    public function __construct()
+    public function viewAny(User $user)
     {
         //
     }
 
+    /**
+     * Determine whether the user can view the prayer.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Prayer  $prayer
+     * @return mixed
+     */
+    public function view(User $user, Prayer $prayer)
+    {
+        //
+    }
 
     /**
-     * Determine whether the user can update the post.
+     * Determine whether the user can create prayers.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function create(User $user)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can update the prayer.
      *
      * @param  \App\User  $user
      * @param  \App\Prayer  $prayer
@@ -30,6 +53,42 @@ class PrayerPolicy
      */
     public function update(User $user, Prayer $prayer)
     {
-        return auth()->user()->id == $prayer->user_id;
+        //
+    }
+
+    /**
+     * Determine whether the user can delete the prayer.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Prayer  $prayer
+     * @return mixed
+     */
+    public function delete(User $user, Prayer $prayer)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can restore the prayer.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Prayer  $prayer
+     * @return mixed
+     */
+    public function restore(User $user, Prayer $prayer)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can permanently delete the prayer.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Prayer  $prayer
+     * @return mixed
+     */
+    public function forceDelete(User $user, Prayer $prayer)
+    {
+        //
     }
 }

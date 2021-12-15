@@ -10,6 +10,17 @@ class OrganizationPolicy
 {
     use HandlesAuthorization;
 
+   /**
+     * Determine whether the user can view any organizations.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function viewAny(User $user)
+    {
+        //
+    }
+
     /**
      * Determine whether the user can view the organization.
      *
@@ -42,7 +53,7 @@ class OrganizationPolicy
      */
     public function update(User $user, Organization $organization)
     {
-       $user->id() == $organization->users()->exists();
+        $user->id() == $organization->users()->exists();
     }
 
     /**
