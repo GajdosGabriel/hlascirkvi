@@ -18,7 +18,7 @@
             @endcomponent
 
 
-            <form method="POST" action="{{ route('posts.update', [$post->id]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('organization.post.update', [$post->organization_id, $post->id]) }}" enctype="multipart/form-data">
                 @csrf @method('PUT')
                 @include('posts.form')
             </form>

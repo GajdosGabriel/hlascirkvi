@@ -7,13 +7,13 @@
             @endslot
         @endcomponent
 
-        @component('layouts.components.profil_menu', ['url' => route('organization.post.index', auth()->user()->id)])
+        @component('layouts.components.profil_menu', ['url' => route('organization.post.index', auth()->user()->org_id)])
             @slot('title')
                 Články
             @endslot
         @endcomponent
 
-        @component('layouts.components.profil_menu', ['url' => route('organization.event.index', auth()->user()->id)])
+        @component('layouts.components.profil_menu', ['url' => route('organization.event.index', auth()->user()->org_id)])
             @slot('title')
                 Podujatia
             @endslot

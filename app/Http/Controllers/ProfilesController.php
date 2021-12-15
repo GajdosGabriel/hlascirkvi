@@ -17,9 +17,9 @@ class ProfilesController extends Controller
         $this->organization = new EloquentOrganizationRepository;
     }
 
-    public function home()
+    public function index()
     {
-        return view('profiles.home');
+        return view('profiles.index');
     }
 
 

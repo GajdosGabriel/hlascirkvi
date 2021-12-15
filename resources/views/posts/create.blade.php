@@ -17,7 +17,7 @@
                     @endslot
                 @endcomponent
 
-                <form class="md:w-8/12" method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+                <form class="md:w-8/12" method="post" action="{{ route('organization.post.store', $organization->id ) }}" enctype="multipart/form-data">
                     @csrf @method('POST')
                     @include('posts.form')
                 </form>

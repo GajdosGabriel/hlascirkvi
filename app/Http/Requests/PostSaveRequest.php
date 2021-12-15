@@ -48,6 +48,7 @@ class PostSaveRequest extends FormRequest
         $post = $this->post->create($this->except(['picture', 'updaters']));
         $post->updaters()->sync($this->get('updaters') ?: []);
         (new Form($post, $this))->handler();
+        return $post;
     }
 
     public function update($id)

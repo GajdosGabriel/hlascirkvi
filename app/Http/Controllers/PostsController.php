@@ -33,7 +33,7 @@ class PostsController extends Controller
     public function __construct()
     {
         $this->post = new EloquentPostRepository;
-        $this->middleware('auth')->except('index', 'show' , 'showVideo', 'recommended');
+        $this->middleware('auth')->except('index', 'show' , 'showVideo');
     }
 
     public function index(PostFilters $filters)
@@ -74,30 +74,6 @@ class PostsController extends Controller
 
         return view('pages.show', compact('videoId'));
     }
-
-
-    public function store(PostSaveRequest $request)
-    {
-        $request->save();
-        return redirect()->route('posts.index');
-    }
-
-
-    public function update(PostSaveRequest $request, $post)
-    {
-        $post = $request->update($post);
-        return redirect()->route('post.show', [$post->id, $post->slug]);
-    }
-
-    public function delete(Post $post) {
-        $this->authorize('update', $post);
-//        $post->deleteImages();
-//
-        $post->forceDelete();
-
-        return redirect('/')->with(session()->flash('flash', 'Príspevok bol trvale odstranený!'));
-    }
-
 
     public function toBuffer(Post $post) {
         $post->updaters()->detach();

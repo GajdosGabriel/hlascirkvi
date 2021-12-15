@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Organization;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostSaveRequest;
 
 class OrganizationPostController extends Controller
 {
@@ -23,6 +24,18 @@ class OrganizationPostController extends Controller
     {
         $this->authorize('update', $post);
         return view('posts.edit', compact('post', 'organization'));
+    }
+
+    public function update(Organization $organization, Post $post,  PostSaveRequest $request)
+    {
+        $post = $request->update($post->id);
+        return redirect()->route('post.show', [$post->id, $post->slug]);
+    }
+
+    public function store(Organization $organization, PostSaveRequest $request)
+    {
+       $post = $request->save();
+        return redirect()->route('post.show', [$post->id, $post->slug]);
     }
 
     public function destroy(Organization $organization, Post $post)

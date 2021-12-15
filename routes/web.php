@@ -31,12 +31,22 @@ Route::resources([
     'seminars'              => Seminars\SeminarsController::class,
     'seminars.posts'        => Seminars\SeminarPostController::class,
     'user'                  => UsersController::class,
-    'user.organization'     => UserOrganizationController::class,
     'modlitby'              => PrayerController::class,
     'tags'                  => TagsController::class,
-    'updaters'              => Updaters\UpdatersController::class,
-    'updater.organization'  => Updaters\UpdaterOrganizationController::class,
+
 ]);
+
+Route::middleware(['middleware' => 'auth'])->group(function () {
+    Route::resources([
+        'organization.seminar'  => OrganizationSeminarController::class,
+        'organization.post'     => OrganizationPostController::class,
+        'organization.event'    => OrganizationEventController::class,
+        'profile'               => ProfilesController::class,
+        'updaters'              => Updaters\UpdatersController::class,
+        'updater.organization'  => Updaters\UpdaterOrganizationController::class,
+        'user.organization'     => UserOrganizationController::class,
+    ]);
+});
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
 Route::get('seminars/{seminar}/upload', 'Seminars\SeminarsController@uploadVideosfromPlaylist')->name('seminars.uploadVideos');
@@ -52,10 +62,6 @@ Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->nam
 
 
 // Route::put('notifications/{notification}', 'NotificationController@update')->name('notification.update');
-
-Route::prefix('profile/')->name('profile.')->group(function () {
-        Route::get('/home', 'ProfilesController@home')->name('home');
-});
 
 
 Route::prefix('user/')->name('organization.')->group(function () {
@@ -103,7 +109,6 @@ Route::prefix('akcie/')->name('event.')->group(function () {
         Route::get('event/subscribes/eventsubscribe/{eventSubscribe}', 'EventSubscribesController@confirmedSubscribtion')->name('disabled');
         Route::get('{event}/record/subscribe', 'FavoritesController@storeEventsRecords')->name('record');
     });
-
 });
 
 
@@ -129,8 +134,6 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])
 
     Route::get('images/index', 'ImagesController@index')->name('images.index');
     Route::get('images/destroy', 'ImagesController@destroy')->name('images.destroy');
-
-
 });
 
 Route::prefix('village/')->name('village.')->middleware(['auth'])->group(function () {
@@ -143,4 +146,3 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/gdpr', 'HomeController@gdpr')->name('gdpr');
 Route::get('akcia/finished', 'Events\EventsController@finished')->name('event.finished');
-
