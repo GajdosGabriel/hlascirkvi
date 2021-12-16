@@ -36,6 +36,7 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
         'organization.seminar'  => OrganizationSeminarController::class,
         'organization.post'     => OrganizationPostController::class,
         'organization.event'    => OrganizationEventController::class,
+        'user.prayer'           => UserPrayerController::class,
         'profile'               => ProfilesController::class,
         'tags'                  => TagsController::class,
         'updaters'              => Updaters\UpdatersController::class,

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\PrayerCollection;
 use App\Prayer;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PrayerResource;
+use App\Http\Resources\PrayerCollection;
 
 class PrayerController extends Controller
 {
@@ -16,12 +17,12 @@ class PrayerController extends Controller
      */
     public function index()
     {
-        return new PrayerCollection(Prayer::orderBy('created_at', 'desc')->paginate(15));
+        return PrayerResource::collection(Prayer::orderBy('created_at', 'desc')->paginate(15));
     }
 
     public function fulfilled()
     {
-        return new PrayerCollection(Prayer::whereNotNull('fulfilled_at')->orderBy('fulfilled_at', 'desc')->paginate(15));
+        return PrayerResource::collection(Prayer::whereNotNull('fulfilled_at')->orderBy('fulfilled_at', 'desc')->paginate(15));
     }
 
     /**

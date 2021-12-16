@@ -35,10 +35,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 Route::apiResources([
-    'modlitby'          => Api\PrayerController::class,
+    'prayers'           => Api\PrayerController::class,
     'posts'             => Api\PostController::class,
     'posts.comments'    => Api\PostsCommentsController::class,
-    'organization'     => Api\OrganizationController::class,
+    'organization'      => Api\OrganizationController::class,
     'comments'          => Api\CommentController::class,
 ]);
 

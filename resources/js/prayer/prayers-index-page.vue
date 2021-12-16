@@ -14,7 +14,7 @@
 
         <ul class="mt-3">
             <li
-                v-for="prayer in prayers.data"
+                v-for="prayer in prayers"
                 :key="prayer.id"
                 class="hover:bg-gray-200"
             >
@@ -50,7 +50,7 @@ export default {
             links: "",
             meta: "",
             prayers: [],
-            url: "/api/modlitby?page=1"
+            url: "/api/prayers?page=1"
         };
     },
     created() {
@@ -65,7 +65,7 @@ export default {
     methods: {
         getPrayers() {
             Axios.get(this.url).then(response => {
-                this.prayers = response.data;
+                this.prayers = response.data.data;
                 this.meta = response.data.meta;
                 this.links = response.data.links;
             });

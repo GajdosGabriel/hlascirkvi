@@ -27,6 +27,7 @@ class OrganizationSeminarController extends Controller
 
     public function create(Organization $organization)
     {
+        $this->authorize('viewAny', $organization);
         return view('profiles.seminars.create', ['seminar' => new Seminar(), 'organization' => $organization]);
     }
 

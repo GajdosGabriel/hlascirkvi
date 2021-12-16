@@ -6125,10 +6125,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
-/* harmony import */ var _prayer_prayers_card_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../prayer/prayers-card-item */ "./resources/js/prayer/prayers-card-item.vue");
-/* harmony import */ var _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../prayer/ModalNewPrayer */ "./resources/js/prayer/ModalNewPrayer.vue");
-/* harmony import */ var _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../prayer/ModalShowPrayer */ "./resources/js/prayer/ModalShowPrayer.vue");
+/* harmony import */ var _prayer_prayers_card_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../prayer/prayers-card-item */ "./resources/js/prayer/prayers-card-item.vue");
+/* harmony import */ var _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../prayer/ModalNewPrayer */ "./resources/js/prayer/ModalNewPrayer.vue");
+/* harmony import */ var _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../prayer/ModalShowPrayer */ "./resources/js/prayer/ModalShowPrayer.vue");
 //
 //
 //
@@ -6151,21 +6150,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    prayersCardItem: _prayer_prayers_card_item__WEBPACK_IMPORTED_MODULE_2__.default,
-    modalNewPrayer: _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_3__.default,
-    modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_4__.default
+    prayersCardItem: _prayer_prayers_card_item__WEBPACK_IMPORTED_MODULE_1__.default,
+    modalNewPrayer: _prayer_ModalNewPrayer__WEBPACK_IMPORTED_MODULE_2__.default,
+    modalShowPrayer: _prayer_ModalShowPrayer__WEBPACK_IMPORTED_MODULE_3__.default
   },
   data: function data() {
     return {
       prayers: [],
-      url: '/api/modlitby?page=1'
+      url: '/api/prayers?page=1'
     };
   },
   created: function created() {
@@ -6185,7 +6183,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     openModal: function openModal() {
-      _app__WEBPACK_IMPORTED_MODULE_1__.bus.$emit('openModalPrayer', function () {
+      bus.$emit('openModalPrayer', function () {
         true;
       });
     },
@@ -6436,7 +6434,7 @@ __webpack_require__.r(__webpack_exports__);
       links: "",
       meta: "",
       prayers: [],
-      url: "/api/modlitby?page=1"
+      url: "/api/prayers?page=1"
     };
   },
   created: function created() {
@@ -6452,7 +6450,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(this.url).then(function (response) {
-        _this.prayers = response.data;
+        _this.prayers = response.data.data;
         _this.meta = response.data.meta;
         _this.links = response.data.links;
       });
@@ -74748,7 +74746,7 @@ var render = function() {
           _c("div", { staticClass: "flex w-full" }, [
             _c("img", {
               staticClass: "h-10 mr-3 md:h-20 md:mr-10",
-              attrs: { src: "images/prayed_hand.png" }
+              attrs: { src: "/images/prayed_hand.png" }
             }),
             _vm._v(" "),
             _c("div", { staticClass: "w-full" }, [
@@ -74835,7 +74833,7 @@ var render = function() {
       _c(
         "ul",
         { staticClass: "mt-3" },
-        _vm._l(_vm.prayers.data, function(prayer) {
+        _vm._l(_vm.prayers, function(prayer) {
           return _c(
             "li",
             { key: prayer.id, staticClass: "hover:bg-gray-200" },

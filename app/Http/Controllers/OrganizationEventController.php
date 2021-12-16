@@ -22,6 +22,7 @@ class OrganizationEventController extends Controller
 
     public function create(Organization $organization)
     {
+        $this->authorize('viewAny', $organization);
         return view('events.create', ['event' => new Event(), 'organization' => $organization]);
     }
 

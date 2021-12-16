@@ -22,7 +22,6 @@
 
 <script>
     import Axios from 'axios';
-    import {bus} from "../app";
     import prayersCardItem from '../prayer/prayers-card-item';
     import modalNewPrayer from '../prayer/ModalNewPrayer';
     import modalShowPrayer from '../prayer/ModalShowPrayer';
@@ -33,7 +32,7 @@
         data() {
             return {
                 prayers: [],
-                url: '/api/modlitby?page=1'
+                url: '/api/prayers?page=1'
             }
         },
 

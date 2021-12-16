@@ -80,7 +80,7 @@
             <div class="md:flex justify-between ">
                 <div class="flex w-full">
                     <img
-                        :src="'images/prayed_hand.png'"
+                        :src="'/images/prayed_hand.png'"
                         class="h-10 mr-3 md:h-20 md:mr-10"
                     />
                     <div class="w-full">

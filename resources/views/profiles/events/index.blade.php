@@ -28,7 +28,7 @@
 
                 {{-- Upcoming events --}}
                 @forelse($events as $event)
-                    @include('events._list_items')
+                    @include('prayer.index')
                 @empty
                     bez podujatí
                 @endforelse

@@ -22,7 +22,9 @@ class OrganizationPostController extends Controller
         return view('profiles.posts.index', compact('posts', 'organization'));
     }
 
-    public function create(Organization $organization) {
+    public function create(Organization $organization) 
+    {
+        $this->authorize('viewAny', $organization);
         return view('posts.create', ['post' => new Post, 'organization' => $organization]);
     }
 
