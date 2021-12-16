@@ -7,7 +7,7 @@ use Notification;
 use App\FirstName;
 use Illuminate\Support\Str;
 use App\Notifications\User\NewRegistration;
-
+use Carbon\Carbon;
 
 class UserObserver
 {
@@ -50,7 +50,9 @@ class UserObserver
             'village_id' => 4209
         ]);
 
-        $user->update(['org_id' => $organization->id]);
+        $user->update([
+            'org_id' => $organization->id
+        ]);
 
 
         //  Send notification new User registration to admin
