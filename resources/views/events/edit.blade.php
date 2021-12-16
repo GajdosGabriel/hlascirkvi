@@ -7,14 +7,14 @@
 @section('content')
     <div class="page">
 
-        <form method="post" action="{{ route('organization.event.update', [$organization->id, $event->id]) }}" class="md:flex"
-            enctype="multipart/form-data">
+        <form method="post" action="{{ route('organization.event.update', [$organization->id, $event->id]) }}"
+            class="md:flex" enctype="multipart/form-data">
             {{ method_field('PATCH') }} @csrf
 
             <div class="page-content md:m-5">
 
 
-                @component('layouts.pages.page_title')
+                @component('layouts.components.pages.page_title')
                     @slot('title')
 
                         Upraviť podujatie

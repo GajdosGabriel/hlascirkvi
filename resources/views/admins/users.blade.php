@@ -3,12 +3,12 @@
 
 @section('content')
 
-    @component('layouts.pages.admin')
+@component('layouts.components.pages.admin')
         @slot('page')
 
             <div class="col-span-10">
 
-                @component('layouts.pages.page_title')
+                @component('layouts.components.pages.page_title')
                     @slot('title')
 
                         Registrovaný užívatelia

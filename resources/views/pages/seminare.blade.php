@@ -3,56 +3,56 @@
 @section('content')
     <div class="page">
 
-                @component('layouts.pages.page_title')
-                    @slot('title')
+        @component('layouts.components.pages.page_title')
+            @slot('title')
 
-                        Vzdelávanie a kurzy
+                Vzdelávanie a kurzy
 
-                    @endslot
+            @endslot
 
-                    @slot('title_right')
+            @slot('title_right')
 
-                        <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
-                            href="{{ route('seminars.create') }}"><i class="fas fa-plus"></i>
-                            Nový seminár
-                        </a>
+                <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
+                    href="{{ route('seminars.create') }}"><i class="fas fa-plus"></i>
+                    Nový seminár
+                </a>
 
-                    @endslot
-                @endcomponent
+            @endslot
+        @endcomponent
 
 
-                @foreach ($seminars as $seminar)
-                    <div class="grid col-span-12  mb-4">
-                        <a href="{{ route('seminars.show', $seminar->id) }}">
-                            <h4 class="text-2xl font-semibold">{{ $seminar->title }}</h4>
-                        </a>
+        @foreach ($seminars as $seminar)
+            <div class="grid col-span-12  mb-4">
+                <a href="{{ route('seminars.show', $seminar->id) }}">
+                    <h4 class="text-2xl font-semibold">{{ $seminar->title }}</h4>
+                </a>
 
-                        <div class="cursor-pointer hover:text-gray-600 text-gray-500">
-                            Pridal: {{ $seminar->organization->title }}
-                        </div>
+                <div class="cursor-pointer hover:text-gray-600 text-gray-500">
+                    Pridal: {{ $seminar->organization->title }}
+                </div>
 
-                        <div class="block">{{ $seminar->description }}</div>
-                    </div>
-
-                    <div class="md:grid md:grid-cols-4 lg:grid-cols-7 gap-6 mb-10">
-                        @foreach ($seminar->posts as $post)
-
-                            @include('posts.post-card')
-
-                        @endforeach
-
-                    </div>
-                @endforeach
+                <div class="block">{{ $seminar->description }}</div>
             </div>
-        </div>
+
+            <div class="md:grid md:grid-cols-4 lg:grid-cols-7 gap-6 mb-10">
+                @foreach ($seminar->posts as $post)
+
+                    @include('posts.post-card')
+
+                @endforeach
+
+            </div>
+        @endforeach
+    </div>
+    </div>
 
 
 
-    @endsection
+@endsection
 
 
 
-    {{-- @extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
     <div class="page">

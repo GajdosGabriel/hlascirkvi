@@ -3,12 +3,12 @@
 @section('content')
 
 
-    @component('layouts.pages.admin')
+    @component('layouts.components.pages.admin')
         @slot('page')
 
             <div class="col-span-9">
 
-                @component('layouts.pages.page_title')
+                @component('layouts.components.pages.page_title')
                     @slot('title')
 
                         Organizácie
@@ -16,7 +16,7 @@
                     @endslot
 
                     @slot('title_right')
-                    {{-- // --}}
+                        {{-- // --}}
                     @endslot
                 @endcomponent
 

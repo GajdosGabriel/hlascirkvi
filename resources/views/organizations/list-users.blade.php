@@ -10,7 +10,7 @@
 
     <ul class="p-3">
         @forelse( $users as $user)
-            <li class="flex justify-between">
+            <li class="flex justify-between hover:bg-gray-100">
                 <a href="{{ route('organizations.show', [$user->id]) }}">{{ $user->title }}</a>
                 <span>
 

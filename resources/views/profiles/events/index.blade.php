@@ -3,11 +3,11 @@
 
 @section('content')
 
-    @component('layouts.pages.profil')
+    @component('layouts.components.pages.profil')
         @slot('page')
             <div class="col-span-8">
 
-                @component('layouts.pages.page_title')
+                @component('layouts.components.pages.page_title')
                     @slot('title')
 
                         {{ $title ?? 'Pozvánky na podujatia' }}

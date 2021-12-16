@@ -11,7 +11,7 @@
             <div class="md:w-8/12 md:p-4 p-2">
 
 
-                @component('layouts.pages.page_title')
+                @component('layouts.components.pages.page_title')
                     @slot('title')
 
                         {{ $title ?? 'Pozvánky na podujatia' }}

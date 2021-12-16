@@ -8,7 +8,7 @@
 
         <div class="col-span-10 content-start">
 
-            @component('layouts.pages.page_title')
+            @component('layouts.components.pages.page_title')
                 @slot('title')
 
                     Upraviť kanál
