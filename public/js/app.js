@@ -74062,7 +74062,7 @@ var render = function() {
                     _c("div", { staticClass: "sm:flex sm:items-start" }, [
                       _c("img", {
                         staticClass: "h-20",
-                        attrs: { src: "images/prayed_hand.png" }
+                        attrs: { src: "/images/prayed_hand.png" }
                       }),
                       _vm._v(" "),
                       _c(

@@ -39,7 +39,7 @@
 
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
-                        <img :src="'images/prayed_hand.png'" class="h-20" />
+                        <img :src="'/images/prayed_hand.png'" class="h-20" />
 
                         <div
                             class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"

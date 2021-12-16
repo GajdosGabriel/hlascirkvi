@@ -15,8 +15,7 @@ class PrayerController extends Controller
 {
     public function index()
     {
-
-        return view('prayer.index');
+        return view('prayers.index');
     }
 
     public function create()
