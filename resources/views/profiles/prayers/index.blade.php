@@ -5,15 +5,33 @@
 
     @component('layouts.components.pages.profil')
         @slot('page')
-        
-                {{-- Stlpec I. --}}
-                <div class="col-span-4 mt-6">
-                    <prayers-index-page></prayers-index-page>
-                </div>
+            <div class="col-span-8">
+                @component('layouts.components.pages.page_title')
+                    @slot('title')
+                        Modlitby
+                    @endslot
 
-                <div class="col-span-4 mt-6">
-                <prayers-index-page2></prayers-index-page2>
-                </div>
+                    @slot('title_right')
+                        <a class="btn btn-default" href="{{ route('user.prayer.create', auth()->user()->id) }}">
+                            Nová modlitba
+                        </a>
+                    @endslot
+                @endcomponent
+
+
+
+
+                <ul>
+                    @foreach ($prayers as $prayer)
+                        <li class="mb-4 shadow-md border-gray-200 border-2 p-2 rounded">
+                            <div>{{ $prayer->title }}</div>
+                            <div>{{ $prayer->body }}</div>
+                            <div class="text-gray-400 text-sm">Vytvorené: {{ $prayer->created_at->format('m. d. Y') }}</div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
 
         @endslot
     @endcomponent

@@ -15,16 +15,15 @@
                     @endslot
 
                     @slot('title_right')
-                        <a class="btn btn-default"
-                            href="{{ route('organization.event.create', $organization->id) }}">
+                        <a class="btn btn-default" href="{{ route('organization.event.create', $organization->id) }}">
                             Nové podujatie
                         </a>
                     @endslot
-                    
+
                 @endcomponent
                 @slot('title_right')
-                <a href="{{ route('posts.create') }}" class="btn btn-primary">Nový článok</a>
-            @endslot
+                    <a href="{{ route('posts.create') }}" class="btn btn-primary">Nový článok</a>
+                @endslot
 
                 {{-- Upcoming events --}}
                 @forelse($events as $event)
