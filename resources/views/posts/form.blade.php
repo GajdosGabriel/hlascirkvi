@@ -36,7 +36,7 @@
             @if(auth()->user()->email == env('ADMIN_EMAIL'))
                 @foreach(\App\Organization::orderBy('title', 'asc')->get() as $organization)
                     <option
-                        @if( isset($post->organization_id) OR $post->organization_id == $organization->id OR $organization->id == auth()->user()->org_id )
+                        @if( isset($post->organization_id) AND $post->organization_id == $organization->id OR $organization->id == auth()->user()->org_id )
                         selected
                         @endif
                         value="{{ $organization->id }}">{{ $organization->title }}
