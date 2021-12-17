@@ -5,7 +5,7 @@
 
     @component('layouts.components.pages.profil')
         @slot('page')
-            <div class="col-span-8">
+            <div class="col-span-7">
                 @component('layouts.components.pages.page_title')
                     @slot('title')
                         Modlitby

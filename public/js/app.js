@@ -2756,6 +2756,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2768,11 +2805,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.domace('domov');
+    this.domace("press"); // this.domace("domov");
   },
   filters: {
     dateTime: function dateTime(value) {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).subtract(1, 'hours').format('D.M.Y, H:mm'); //                return moment(value).format('lll');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).subtract(1, "hours").format("D.M.Y, H:mm"); //                return moment(value).format('lll');
       //                return moment(value).format('LT D.M.Y');
     }
   },
@@ -2794,25 +2831,25 @@ __webpack_require__.r(__webpack_exports__);
     domace: function domace(canal) {
       var _this = this;
 
-      axios.get('/api/rss-reader-canal/' + canal).then(function (response) {
+      axios.get("/api/rss-reader-canal/" + canal).then(function (response) {
         return _this.items = response.data.channel.item;
       });
       this.activeNav(canal);
     },
     activeNav: function activeNav(canal) {
-      if (canal == 'domov') {
+      if (canal == "domov") {
         this.isTlacove = false;
         this.isDomace = true;
         this.isZahranicie = false;
       }
 
-      if (canal == 'zahranicie') {
+      if (canal == "zahranicie") {
         this.isTlacove = false;
         this.isDomace = false;
         this.isZahranicie = true;
       }
 
-      if (canal == 'press') {
+      if (canal == "press") {
         this.isTlacove = true;
         this.isDomace = false;
         this.isZahranicie = false;
@@ -70448,20 +70485,24 @@ var render = function() {
     _vm._v(" "),
     _c("div", [
       _c("div", { staticClass: "flex flex-wrap space-x-4 p-2" }, [
-        _c(
-          "a",
-          {
-            staticClass:
-              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300",
-            class: { "border-red-300 bg-red-600 text-gray-100": _vm.isDomace },
-            on: {
-              click: function($event) {
-                return _vm.domace("domov")
-              }
-            }
-          },
-          [_vm._v("domáce")]
-        ),
+        _vm.isDomace
+          ? _c(
+              "a",
+              {
+                staticClass:
+                  "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300",
+                class: {
+                  "border-red-300 bg-red-600 text-gray-100": _vm.isDomace
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.domace("domov")
+                  }
+                }
+              },
+              [_vm._v("domáce")]
+            )
+          : _vm._e(),
         _vm._v(" "),
         _c(
           "a",
@@ -70485,7 +70526,9 @@ var render = function() {
           {
             staticClass:
               "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300",
-            class: { "border-red-300 bg-red-600 text-gray-100": _vm.isTlacove },
+            class: {
+              "border-red-300 bg-red-600 text-gray-100": _vm.isTlacove
+            },
             on: {
               click: function($event) {
                 return _vm.domace("press")
@@ -70517,7 +70560,13 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v(_vm._s(item.header) + "\n                ")]
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(item.header) +
+                        "\n                "
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 item.active
@@ -70531,7 +70580,11 @@ var render = function() {
                         }
                       },
                       [
-                        _vm._v(_vm._s(item.body) + "\n                    "),
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(item.body) +
+                            "\n                    "
+                        ),
                         _c("br"),
                         _vm._v(" "),
                         _c(
@@ -70542,14 +70595,22 @@ var render = function() {
                                 "Tlačová kancelária konferencie biskupov Slovenska"
                             }
                           },
-                          [_vm._v("Zdroj: TKKBS")]
+                          [
+                            _vm._v(
+                              "\n                        Zdroj: TKKBS\n                    "
+                            )
+                          ]
                         )
                       ]
                     )
                   : _vm._e(),
                 _vm._v(" "),
                 _c("div", { staticClass: "text-xs itealic" }, [
-                  _vm._v(_vm._s(_vm._f("dateTime")(item.pubdate)))
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm._f("dateTime")(item.pubdate)) +
+                      "\n                "
+                  )
                 ])
               ])
             : _vm._e()
