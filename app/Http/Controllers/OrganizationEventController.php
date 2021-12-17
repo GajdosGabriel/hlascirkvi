@@ -49,7 +49,7 @@ class OrganizationEventController extends Controller
     public function store(Organization $organization, StoreEventRequest $request)
     {
         $event = $organization->events()->create($request->except(['picture', 'file']));
-        (new Form($event, $this))->handler();
+        (new Form($event, $request))->handler();
         return redirect()->route('akcie.show', [$event->id]);
     }
 
