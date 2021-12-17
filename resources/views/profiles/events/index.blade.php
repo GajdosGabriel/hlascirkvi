@@ -22,12 +22,12 @@
 
                 @endcomponent
                 @slot('title_right')
-                    <a href="{{ route('posts.create') }}" class="btn btn-primary">Nový článok</a>
+                    <a href="{{ route('organization.event.create', $organization->id) }}" class="btn btn-primary">Nová akcia</a>
                 @endslot
 
                 {{-- Upcoming events --}}
                 @forelse($events as $event)
-                    @include('prayer.index')
+                    @include('events._list_items')
                 @empty
                     bez podujatí
                 @endforelse

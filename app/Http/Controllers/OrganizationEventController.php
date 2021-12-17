@@ -57,6 +57,6 @@ class OrganizationEventController extends Controller
     {
         $event->delete();
         session()->flash('flash', 'Podujatie bolo zmazané!');
-        // return redirect()->route('organization.event.index', $organization->id);
+        return redirect()->route('organization.event.index', $organization->id);
     }
 }
