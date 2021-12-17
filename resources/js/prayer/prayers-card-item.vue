@@ -1,7 +1,7 @@
 <template>
     <div class="px-4 py-2 text-base hover:bg-gray-100">
         <div @click="passToModalShow">
-            <div class="flex justify-between">
+            <div class="flex justify-between w-full">
                 <div class="font-semibold" v-if="prayer.title">
                     {{ prayer.title }}
                 </div>
@@ -11,7 +11,7 @@
             </div>
 
             <div class="flex">
-                <div class="">
+                <div class="w-full">
                     <div class="text-sm">
                         {{ prayer.body.slice(0, 80) }} ...
                     </div>
@@ -23,6 +23,7 @@
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
+                                v-if="prayer.user_name"
                             >
                                 <path
                                     fill-rule="evenodd"
