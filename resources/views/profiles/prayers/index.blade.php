@@ -5,23 +5,16 @@
 
     @component('layouts.components.pages.profil')
         @slot('page')
-            <div class="col-span-8">
-
+        
                 {{-- Stlpec I. --}}
-                <div class="col-span-4">
+                <div class="col-span-4 mt-6">
                     <prayers-index-page></prayers-index-page>
                 </div>
 
-
+                <div class="col-span-4 mt-6">
                 <prayers-index-page2></prayers-index-page2>
+                </div>
 
-
-            </div>
-
-            <div class="md:block flex justify-center my-8">
-                {{ $prayers->links() }}
-            </div>
-            </div>
         @endslot
     @endcomponent
 
