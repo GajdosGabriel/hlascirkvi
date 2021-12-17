@@ -8,7 +8,7 @@
             <div class="col-span-8">
                 @component('layouts.components.pages.page_title')
                     @slot('title')
-                        Nová modlitba
+                        Upraviť modlitbu
                     @endslot
 
                     @slot('title_right')
@@ -19,10 +19,10 @@
                 @endcomponent
 
 
-                <form action="{{ route('user.prayer.store', auth()->user()->id) }}" method="post" class="md:w-1/2">
-                    @csrf @method('POST')
-                    @include('prayers._form')
-                </form>
+               <form action="{{ route('user.prayer.update', [$user->id, $prayer->id] ) }}" method="post" class="md:w-1/2">
+                   @csrf @method('PUT')
+                 @include('prayers._form')
+               </form>
             </div>
 
 
