@@ -5715,7 +5715,9 @@ __webpack_require__.r(__webpack_exports__);
       show: false,
       annotation: false,
       authUser: window.App.user,
-      form: {}
+      form: {
+        user_name: window.App.user.first_name
+      }
     };
   },
   created: function created() {
