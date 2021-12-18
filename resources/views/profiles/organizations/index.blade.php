@@ -7,30 +7,25 @@
         @include('profiles._profil-menu')
 
 
-        <div class="col-span-8">
+        @component('layouts.components.pages.page_title')
+            @slot('title')
+                Vaše kanály
+            @endslot
 
+            @slot('title_right')
+                {{-- // --}}
+            @endslot
 
-            @component('layouts.components.pages.page_title')
-                @slot('title')
-                    Vaše kanály
-                @endslot
+        @endcomponent
 
-                @slot('title_right')
-                    {{-- // --}}
-                @endslot
+        <div class="md:w-1/3">
+            <new-organization />
+        </div>
 
-            @endcomponent
+        @include('organizations._organization-table')
 
-            <div class="md:w-1/3">
-                <new-organization />
-            </div>
-
-            @include('organizations._organization-table')
-
-            <div class="md:block flex justify-center my-8">
-                {{ $organizations->links() }}
-            </div>
-
+        <div class="md:block flex justify-center my-8">
+            {{ $organizations->links() }}
         </div>
 
     </div>

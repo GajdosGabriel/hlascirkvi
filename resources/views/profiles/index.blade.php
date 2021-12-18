@@ -6,8 +6,6 @@
     @component('layouts.components.pages.profil')
         @slot('page')
 
-        <div class="col-span-8">
-
             @component('layouts.components.pages.page_title')
                 @slot('title')
 
@@ -16,7 +14,7 @@
                 @endslot
 
             @endcomponent
-        </div>
+
 
         @endslot
     @endcomponent

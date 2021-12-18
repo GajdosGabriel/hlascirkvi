@@ -4,7 +4,7 @@
 
     @component('layouts.components.pages.profil')
         @slot('page')
-            <div class="col-span-10 content-start">
+            
                 @include('layouts.errors')
 
                 @component('layouts.components.pages.page_title')
@@ -17,12 +17,12 @@
                     @endslot
                 @endcomponent
 
-                <form class="md:w-8/12" method="post" action="{{ route('organization.post.store', $organization->id) }}"
+                <form method="post" action="{{ route('organization.post.store', $organization->id) }}"
                     enctype="multipart/form-data">
                     @csrf @method('POST')
                     @include('posts.form')
                 </form>
-            </div>
+          
             @include('posts.editor')
         @endslot
     @endcomponent

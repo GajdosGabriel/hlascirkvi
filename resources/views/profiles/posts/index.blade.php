@@ -6,33 +6,33 @@
     @component('layouts.components.pages.profil')
         @slot('page')
 
-            <div class="col-span-8">
-
-                @component('layouts.components.pages.page_title')
-                    @slot('title')
-                        Články
-                    @endslot
-
-                    @slot('title_right')
-                        <a href="{{ route('organization.post.create', $organization->id) }}" class="btn btn-primary">Nový článok</a>
-                    @endslot
-                @endcomponent
 
 
-                <div class="">
-                    @forelse($posts as $post)
+            @component('layouts.components.pages.page_title')
+                @slot('title')
+                    Články
+                @endslot
 
-                        @include('posts._post-list')
-                    @empty
-                        bez záznamu
-                    @endforelse
+                @slot('title_right')
+                    <a href="{{ route('organization.post.create', $organization->id) }}" class="btn btn-primary">Nový článok</a>
+                @endslot
+            @endcomponent
 
-                </div>
 
-                <div class="md:block flex justify-center my-8">
-                    {{ $posts->links() }}
-                </div>
+            <div class="">
+                @forelse($posts as $post)
+
+                    @include('posts._post-list')
+                @empty
+                    bez záznamu
+                @endforelse
+
             </div>
+
+            <div class="md:block flex justify-center my-8">
+                {{ $posts->links() }}
+            </div>
+
 
         @endslot
     @endcomponent

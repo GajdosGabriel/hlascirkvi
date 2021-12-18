@@ -2,40 +2,40 @@
 
 @section('content')
 
-    @component('layouts.components..admin')
+    @component('layouts.components.pages.admin')
         @slot('page')
 
-            <div class="col-span-8">
-
-
-                @component('layouts.components.pages.page_title')
-                    @slot('title')
-
-                        Buffer príspevky (Nezverenené)
-
-                    @endslot
-
-                    @slot('title_right')
-
-                    @endslot
-                @endcomponent
 
 
 
-                <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
-                    @forelse($posts as $post)
+            @component('layouts.components.pages.page_title')
+                @slot('title')
 
-                        <post-card :post="{{ $post }}"></post-card>
-                        {{-- @include('posts.post-card') --}}
-                    @empty
-                        bez záznamu
-                    @endforelse
-                </div>
+                    Buffer príspevky (Nezverenené)
 
-                <div class="md:block flex justify-center my-8">
-                    {{ $posts->links() }}
-                </div>
+                @endslot
+
+                @slot('title_right')
+
+                @endslot
+            @endcomponent
+
+
+
+            <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
+                @forelse($posts as $post)
+
+                    <post-card :post="{{ $post }}"></post-card>
+                    {{-- @include('posts.post-card') --}}
+                @empty
+                    bez záznamu
+                @endforelse
             </div>
+
+            <div class="md:block flex justify-center my-8">
+                {{ $posts->links() }}
+            </div>
+
 
 
             <div class="grid col-span-2">

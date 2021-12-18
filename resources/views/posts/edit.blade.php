@@ -4,7 +4,7 @@
     @component('layouts.components.pages.profil')
         @slot('page')
 
-            <div class="col-span-8">
+          
                 @include('layouts.errors')
 
                 @component('layouts.components.pages.page_title')
@@ -25,7 +25,7 @@
                     @csrf @method('PUT')
                     @include('posts.form')
                 </form>
-            </div>
+         
 
             <div class="md:w-4/12">
                 {{-- aside --}}

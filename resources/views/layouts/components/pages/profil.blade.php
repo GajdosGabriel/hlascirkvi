@@ -8,6 +8,7 @@
         </div>
     </div>
 
-    {{ $page }}
-
+    <div class="col-span-8">
+        {{ $page }}
+    </div>
 </div>
