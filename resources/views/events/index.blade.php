@@ -1,56 +1,53 @@
 @extends('layouts.app')
 @section('title') <title>{{ 'Kresťanské akcie' }}</title> @endsection
+
 @section('content')
 
-    <div class="content-start">
+    @component('layouts.components.pages.page_3_2')
+        @slot('page_full')
+            @include('events._current_events')
+        @endslot
 
-        @include('events._current_events')
+        @slot('page')
 
-        <div class="md:flex">
+            @component('layouts.components.pages.page_title')
+                @slot('title')
+                    {{ $title ?? 'Pozvánky na podujatia' }}
+                @endslot
 
-            <div class="md:w-8/12 md:p-4 p-2">
+                @slot('title_right')
+                    @auth
+                        <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
+                            href="{{ route('organization.event.create', auth()->user()->org_id) }}"><i class="fas fa-plus"></i>
+                            Nové podujatie
+                        </a>
+                    @else
+                        <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300" href="{{ route('login') }}"><i
+                                class="fas fa-plus"></i>
+                            Nové podujatie
+                        </a>
+                    @endauth
+                @endslot
+            @endcomponent
 
+            {{-- Upcoming events --}}
+            @forelse($events as $event)
+                @include('events._list_items')
+            @empty
+                bez podujatí
+            @endforelse
 
-                @component('layouts.components.pages.page_title')
-                    @slot('title')
+            {{ $events->links() }}
 
-                        {{ $title ?? 'Pozvánky na podujatia' }}
+        @endslot
 
-                    @endslot
+        {{-- Aside section --}}
+        @slot('aside')
 
-                    @slot('title_right')
+            @include('events.districts_modul')
+            @include('events.finished_event_modul')
 
-                        @auth
-                            <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
-                                href="{{ route('organization.event.create', auth()->user()->org_id) }}"><i class="fas fa-plus"></i>
-                                Nové podujatie
-                            </a>
-                        @else
-                            <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
-                                href="{{ route('login') }}"><i class="fas fa-plus"></i>
-                                Nové podujatie
-                            </a>
-                        @endauth
-                    @endslot
-                @endcomponent
-
-                {{-- Upcoming events --}}
-                @forelse($events as $event)
-                    @include('events._list_items')
-                @empty
-                    bez podujatí
-                @endforelse
-
-                {{ $events->links() }}
-            </div>
-
-            <div class="md:w-3/12 p-4">
-                @include('events.districts_modul')
-                @include('events.finished_event_modul')
-            </div>
-        </div>
-    </div>
-
-
+        @endslot
+    @endcomponent
 
 @endsection

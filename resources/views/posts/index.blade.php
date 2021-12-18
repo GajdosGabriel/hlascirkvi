@@ -16,10 +16,9 @@
 @endsection
 
 @section('content')
-    <div class="page">
 
-        <div class="md:grid grid-cols-12 gap-10">
-
+    @component('layouts.components.pages.page_3_2')
+        @slot('page')
             {{-- Stlpec I. --}}
             <div class="col-span-8">
 
@@ -50,8 +49,7 @@
                                 <i class="fas fa-thumbs-up"></i></a>
                             <a title="Najsledovanejšie videa za dva týždne" href="?posts=trends"><i
                                     class="fas fa-sort-amount-up"></i></a>
-                            <a title="Videa podľa počtu zobrazení" href="?posts=mostVisited"><i
-                                    class="far fa-eye"></i></a>
+                            <a title="Videa podľa počtu zobrazení" href="?posts=mostVisited"><i class="far fa-eye"></i></a>
                         </div>
                     </div>
                 @else
@@ -77,7 +75,10 @@
                 </div>
             </div>
 
-            {{-- Stlpec II. --}}
+        @endslot
+
+                   {{-- Stlpec II. --}}
+        @slot('aside')
             <div class="col-span-3">
 
                 <comment-card></comment-card>
@@ -102,9 +103,8 @@
                 {{-- @include('posts.rss-zaloha-php') --}}
             </div>
 
-        </div>
-    </div>
+        @endslot
 
-
+    @endcomponent
 
 @endsection
