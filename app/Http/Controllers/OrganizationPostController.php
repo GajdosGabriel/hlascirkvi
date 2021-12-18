@@ -43,8 +43,8 @@ class OrganizationPostController extends Controller
 
     public function store(Organization $organization, PostSaveRequest $request)
     {
-       $post = $request->save();
-        return redirect()->route('post.show', [$post->id, $post->slug]);
+       $post = $request->save($organization);
+        return redirect()->route('organization.post.index', [$organization->id]);
     }
 
     public function destroy(Organization $organization, Post $post)

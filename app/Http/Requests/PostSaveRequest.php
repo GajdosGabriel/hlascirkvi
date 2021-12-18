@@ -38,14 +38,14 @@ class PostSaveRequest extends FormRequest
                 'title' => 'required|string|max:255|min:3',
                 'body' => 'required|string|min:3',
                 'updaters' => 'required|integer|exists:updaters,id',
-                'organization_id' => 'required|integer|exists:organizations,id',
+                // 'organization_id' => 'required|integer|exists:organizations,id',
             ];
     }
 
 
-    public function save()
+    public function save($organization)
     {
-        $post = $this->post->create($this->except(['picture', 'updaters']));
+        $post = $organization->posts()->create($this->except(['picture', 'updaters']));
         $post->updaters()->sync($this->get('updaters') ?: []);
         (new Form($post, $this))->handler();
         return $post;
