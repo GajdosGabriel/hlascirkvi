@@ -22,7 +22,7 @@
                 <div class="">
                     @forelse($posts as $post)
 
-                        @include('posts.post-list')
+                        @include('posts._post-list')
                     @empty
                         bez záznamu
                     @endforelse

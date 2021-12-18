@@ -1,34 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="page">
-        <div class="md:w-8/12">
-            @include('layouts.errors')
+    @component('layouts.components.pages.profil')
+        @slot('page')
 
-            @component('layouts.components.pages.page_title')
-                @slot('title')
+            <div class="col-span-8">
+                @include('layouts.errors')
 
-                    Upraviť článok
+                @component('layouts.components.pages.page_title')
+                    @slot('title')
 
-                @endslot
+                        Upraviť článok
 
-                @slot('title_right')
+                    @endslot
 
-                @endslot
-            @endcomponent
+                    @slot('title_right')
+
+                    @endslot
+                @endcomponent
 
 
-            <form method="POST" action="{{ route('organization.post.update', [$post->organization_id, $post->id]) }}" enctype="multipart/form-data">
-                @csrf @method('PUT')
-                @include('posts.form')
-            </form>
-        </div>
+                <form method="POST" action="{{ route('organization.post.update', [$post->organization_id, $post->id]) }}"
+                    enctype="multipart/form-data">
+                    @csrf @method('PUT')
+                    @include('posts.form')
+                </form>
+            </div>
 
-        <div class="md:w-4/12">
-            {{-- aside --}}
-        </div>
-    </div>
+            <div class="md:w-4/12">
+                {{-- aside --}}
+            </div>
+            </div>
 
-    @include('posts.editor')
+            @include('posts.editor')
+            </div>
+        @endslot
+    @endcomponent
 
 @endsection

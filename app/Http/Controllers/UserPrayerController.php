@@ -21,12 +21,12 @@ class UserPrayerController extends Controller
 
     public function create(User $user)
     {
-        return view('profiles.prayers.create', ['prayer' => new Prayer, 'user' => $user]);
+        return view('prayers.create', ['prayer' => new Prayer, 'user' => $user]);
     }
 
     public function edit(User $user, Prayer $prayer)
     {
-        return view('profiles.prayers.edit', compact('user', 'prayer'));
+        return view('prayers.edit', compact('user', 'prayer'));
     }
 
     public function update(User $user, Prayer $prayer, SavePrayerRequest $request)

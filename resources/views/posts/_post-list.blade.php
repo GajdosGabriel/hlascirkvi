@@ -12,14 +12,15 @@
     </div>
 
     <div class=" w-full mt-2">
-        <a href="{{ route('post.show', [$post->id, $post->slug]) }}" class="flex justify-between">
-            <h6 class="pb-2 px-2 font-semibold mb-10 block" title="{{ $post->title }}">{{ $post->title }}</h6>
+        <div class="flex justify-between">
+            <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
+                <h6 class="pb-2 px-2 font-semibold mb-10 block" title="{{ $post->title }}">{{ $post->title }}</h6>
+            </a>
 
             @can('update', $post)
                 <article-dropdown :post="{{ $post }}" />
             @endcan
-        </a>
-
+        </div>
 
         <div class="text-gray-500 px-2 italic">
             <a href="{{ route('organizations.show', [$post->organization->id]) }}">

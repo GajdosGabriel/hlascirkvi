@@ -6126,6 +6126,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -74509,7 +74510,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "px-4 py-2 text-base hover:bg-gray-100" }, [
     _c("div", { on: { click: _vm.passToModalShow } }, [
-      _c("div", { staticClass: "flex justify-between" }, [
+      _c("div", { staticClass: "flex justify-between w-full" }, [
         _vm.prayer.title
           ? _c("div", { staticClass: "font-semibold" }, [
               _vm._v(
@@ -74524,7 +74525,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "flex" }, [
-        _c("div", {}, [
+        _c("div", { staticClass: "w-full" }, [
           _c("div", { staticClass: "text-sm" }, [
             _vm._v(
               "\n                    " +
@@ -74535,27 +74536,29 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "flex mb-2 justify-between" }, [
             _c("div", { staticClass: "flex items-center" }, [
-              _c(
-                "svg",
-                {
-                  staticClass: "h-4 w-4 mr-1 text-gray-400 fill-current",
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    viewBox: "0 0 20 20",
-                    fill: "currentColor"
-                  }
-                },
-                [
-                  _c("path", {
-                    attrs: {
-                      "fill-rule": "evenodd",
-                      d:
-                        "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z",
-                      "clip-rule": "evenodd"
-                    }
-                  })
-                ]
-              ),
+              _vm.prayer.user_name
+                ? _c(
+                    "svg",
+                    {
+                      staticClass: "h-4 w-4 mr-1 text-gray-400 fill-current",
+                      attrs: {
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 20 20",
+                        fill: "currentColor"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          "fill-rule": "evenodd",
+                          d:
+                            "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z",
+                          "clip-rule": "evenodd"
+                        }
+                      })
+                    ]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "span",
