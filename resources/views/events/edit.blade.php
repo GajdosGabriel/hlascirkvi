@@ -5,39 +5,35 @@
 
 
 @section('content')
-    <div class="page">
-
-        <form method="post" action="{{ route('organization.event.update', [$organization->id, $event->id]) }}"
-            class="md:flex" enctype="multipart/form-data">
-            {{ method_field('PATCH') }} @csrf
-
-            <div class="page-content md:m-5">
+    @component('layouts.components.pages.profil')
 
 
-                @component('layouts.components.pages.page_title')
-                    @slot('title')
+        @slot('title')
+            Upraviť podujatie
+        @endslot
 
-                        Upraviť podujatie
+        @slot('title_right')
+            <a class="btn" href="{{ URL::previous() }}"><i class="fa fa-arrow-left"></i> Späť</a>
+        @endslot
 
-                    @endslot
 
-                    @slot('title_right')
+        @slot('page')
+            <form method="post" action="{{ route('organization.event.update', [$organization->id, $event->id]) }}"
+                class="md:flex" enctype="multipart/form-data">
+                {{ method_field('PATCH') }} @csrf
 
-                        <a class="btn" href="{{ URL::previous() }}"><i class="fa fa-arrow-left"></i> Späť</a>
+                <div class="page-content md:m-5">
 
-                    @endslot
-                @endcomponent
+                    @include('events._form_a')
+                </div>
 
-                @include('events._form_a')
-            </div>
+                <div class="page-aside md:m-5">
+                    @include('events._form_b')
+                </div>
 
-            <div class="page-aside md:m-5">
-                @include('events._form_b')
-
-            </div>
-
-        </form>
-    </div>
+            </form>
+        @endslot
+    @endcomponent
 @endsection
 
 @include('posts.editor')

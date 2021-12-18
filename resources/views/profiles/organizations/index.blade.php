@@ -1,34 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="grid grid-cols-12 gap-6  ">
+    @component('layouts.components.pages.profil')
 
 
-        @include('profiles._profil-menu')
+        @slot('title')
+            Vaše kanály
+        @endslot
+
+        @slot('title_right')
+            {{-- // --}}
+        @endslot
 
 
-        @component('layouts.components.pages.page_title')
-            @slot('title')
-                Vaše kanály
-            @endslot
 
-            @slot('title_right')
-                {{-- // --}}
-            @endslot
+        @slot('page')
+            <new-organization></new-organization>
 
-        @endcomponent
+            @include('organizations._organization-table')
 
-        <div class="md:w-1/3">
-            <new-organization />
-        </div>
-
-        @include('organizations._organization-table')
-
-        <div class="md:block flex justify-center my-8">
-            {{ $organizations->links() }}
-        </div>
-
-    </div>
+            <div class="md:block flex justify-center my-8">
+                {{ $organizations->links() }}
+            </div>
 
 
+        @endslot
+    @endcomponent
 @endsection

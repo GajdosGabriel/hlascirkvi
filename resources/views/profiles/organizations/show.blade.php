@@ -1,26 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="grid grid-cols-12 gap-6  ">
+    @component('layouts.components.pages.profil')
 
-        @include('profiles._profil-menu')
+        @slot('title')
+            Kanál {{ $organization->title }}
+        @endslot
 
+        @slot('title_right')
 
-        <div class="col-span-10 content-start">
-
-            @component('layouts.components.pages.page_title')
-                @slot('title')
-
-                    Kanál {{ $organization->title }}
-
-                @endslot
-
-                @slot('title_right')
-
-                @endslot
-            @endcomponent
+        @endslot
 
 
+        @slot('page')
             <h3 class="font-semibold"></h3>
 
             <h3>Prihlásiť sa do kanálu.</h3>
@@ -29,8 +21,7 @@
                 <form action="{{ route('user.update', auth()->id()) }}" method="post" class="mr-4">
                     @method('PUT') @csrf
                     <input type="hidden" name="org_id" value="{{ $organization->id }}" />
-                    <button
-                        class="px-2 bg-blue-700 text-gray-100 rounded border-2 border-blue-900 hover:bg-blue-600">Nastaviť
+                    <button class="px-2 bg-blue-700 text-gray-100 rounded border-2 border-blue-900 hover:bg-blue-600">Nastaviť
                         {{ $organization->title }}
                     </button>
                 </form>
@@ -53,17 +44,7 @@
             <h3>Zmazané články: </h3>
             <h3>Počet akcii: {{ $organization->events->count() }}</h3>
 
-
-        </div>
-
-        <div class="page-aside">
-
-        </div>
-
-
-    </div>
-
-    </div>
-
+        @endslot
+    @endcomponent
 
 @endsection

@@ -4,28 +4,23 @@
 @section('content')
 
     @component('layouts.components.pages.profil')
+
+        @slot('title')
+            Upraviť modlitbu
+        @endslot
+
+        @slot('title_right')
+            <a class="btn btn-default" href="{{ route('user.prayer.index', auth()->user()->id) }}">
+                Späť
+            </a>
+        @endslot
+
+
         @slot('page')
-            <div class="col-span-8">
-                @component('layouts.components.pages.page_title')
-                    @slot('title')
-                        Upraviť modlitbu
-                    @endslot
-
-                    @slot('title_right')
-                        <a class="btn btn-default" href="{{ route('user.prayer.index', auth()->user()->id) }}">
-                            Späť
-                        </a>
-                    @endslot
-                @endcomponent
-
-
-               <form action="{{ route('user.prayer.update', [$user->id, $prayer->id] ) }}" method="post" class="md:w-1/2">
-                   @csrf @method('PUT')
-                 @include('prayers._form')
-               </form>
-            </div>
-
-
+            <form action="{{ route('user.prayer.update', [$user->id, $prayer->id]) }}" method="post" class="md:w-1/2">
+                @csrf @method('PUT')
+                @include('prayers._form')
+            </form>
         @endslot
     @endcomponent
 
