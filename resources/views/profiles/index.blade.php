@@ -2,22 +2,16 @@
 
 @section('content')
 
-
     @component('layouts.components.pages.profil')
-        @slot('page')
 
-            @component('layouts.components.pages.page_title')
-                @slot('title')
-
-                    Profil home
-
-                @endslot
-
-            @endcomponent
-
-
+        @slot('title')
+            Profil home
         @endslot
-    @endcomponent
 
+        @slot('page')
+        {{--  --}}
+        @endslot
+
+    @endcomponent
 
 @endsection
