@@ -27,6 +27,8 @@
             :links="links"
             @fetchUrl="paginator"
         ></pagination>
+
+        <modal-new-prayer></modal-new-prayer>
     </section>
 </template>
 

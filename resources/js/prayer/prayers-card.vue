@@ -14,7 +14,7 @@
             </ul>
 
 
-        <modal-new-prayer></modal-new-prayer>
+
         <modal-show-prayer></modal-show-prayer>
 
     </section>
@@ -23,12 +23,11 @@
 <script>
     import Axios from 'axios';
     import prayersCardItem from '../prayer/prayers-card-item';
-    import modalNewPrayer from '../prayer/ModalNewPrayer';
     import modalShowPrayer from '../prayer/ModalShowPrayer';
 
 
     export default {
-        components: {prayersCardItem, modalNewPrayer, modalShowPrayer},
+        components: {prayersCardItem,  modalShowPrayer},
         data() {
             return {
                 prayers: [],

@@ -162,7 +162,7 @@ export default {
             annotation: false,
             authUser: window.App.user,
             form: {
-                user_name: window.App.user.first_name
+                user_name: ''
             }
         };
     },

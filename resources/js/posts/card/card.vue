@@ -19,7 +19,7 @@
             </a>
         </div>
 
-        <h6 class="pb-2 px-2 font-semibold mb-10" :title="post.title">
+        <h6 class="pb-2 px-2 font-semibold mb-7" :title="post.title">
             <a :href="post.url">{{ shorttitle }}</a>
         </h6>
 
@@ -27,12 +27,7 @@
             class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm"
         >
             <a
-                :href="
-                    '/user/' +
-                        post.organization.id +
-                        '/' +
-                        post.organization.slug
-                "
+                :href="'/organizations/' + post.organization.id"
                 v-text="post.organization.title"
             >
             </a>
