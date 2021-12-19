@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Repositories\Contracts\UserRepository;
 use Auth;
 use App\Role;
-use App\User;
+use App\Models\User;
 use Socialite;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

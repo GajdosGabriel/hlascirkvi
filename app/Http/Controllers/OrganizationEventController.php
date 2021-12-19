@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Event;
-use App\Organization;
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Organization;
 use App\Services\Form;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEventRequest;

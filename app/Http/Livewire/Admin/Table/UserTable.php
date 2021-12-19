@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Table;
 
-use App\User;
+use App\Models\User;
 use Livewire\Component;
 
 

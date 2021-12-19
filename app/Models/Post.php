@@ -1,17 +1,18 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use Storage;
 use Carbon\Carbon;
+use App\Models\Favoritable;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use CyrildeWit\EloquentViewable\Viewable;
 use Illuminate\Database\Eloquent\Builder;
+
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Notifications\Comments\CreatedNewComment;
-use Illuminate\Support\Str;
-use Storage;
-
-use CyrildeWit\EloquentViewable\Viewable;
 use CyrildeWit\EloquentViewable\Contracts\Viewable as ViewableContract;
 
 class Post extends Model implements ViewableContract

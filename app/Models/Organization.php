@@ -1,11 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Models\Favoritable;
+use Illuminate\Support\Str;
 use App\Services\PhoneSanitizer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Organization extends Model

@@ -2,9 +2,9 @@
 
 namespace App\Observers;
 
-use App\User;
+use App\Models\User;
 use Notification;
-use App\FirstName;
+use App\Models\FirstName;
 use Illuminate\Support\Str;
 use App\Notifications\User\NewRegistration;
 use Carbon\Carbon;
@@ -36,7 +36,7 @@ class UserObserver
     /**
      * Handle the user "created" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function created(User $user)
@@ -62,7 +62,7 @@ class UserObserver
     /**
      * Handle the user "updated" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function updated(User $user)
@@ -73,7 +73,7 @@ class UserObserver
     /**
      * Handle the user "deleted" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function deleted(User $user)
@@ -84,7 +84,7 @@ class UserObserver
     /**
      * Handle the user "restored" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function restored(User $user)
@@ -95,7 +95,7 @@ class UserObserver
     /**
      * Handle the user "force deleted" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function forceDeleted(User $user)

@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Cache;
-use App\Tag;
+use App\Models\Tag;
 use Carbon\Carbon;
 use \Alaouy\Youtube;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Contracts\OrganizationRepository;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
-use App\Seminar;
+use App\Models\Seminar;
 
 class HomeController extends Controller
 {

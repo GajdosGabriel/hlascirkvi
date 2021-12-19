@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Post;
+use App\Models\Post;
 use App\Repositories\Contracts\PostRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

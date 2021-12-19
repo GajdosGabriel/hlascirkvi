@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
-use App\Post;
-use App\User;
-use App\Event;
-use App\Prayer;
-use App\Comment;
-use App\BigThink;
-use App\Messenger;
-use App\Organization;
+use App\Models\Post;
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Prayer;
+use App\Models\Comment;
+use App\Models\BigThink;
+use App\Models\Messenger;
+use App\Models\Organization;
 use App\Observers\PostObserver;
 use App\Observers\UserObserver;
 use App\Observers\EventObserver;

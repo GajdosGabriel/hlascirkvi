@@ -3,7 +3,7 @@
     {{ localized_date('d. m. Y', $event->start_at) }}
 </p>
 <div class="md:grid grid-cols-8 gap-4 mb-10">
-    <div class="col-span-1">
+    <div class="col-span-1 overflow-hidden h-20">
         <a href="{{ $event->url }}">
             @if ($event->imagethumb)
                 <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"

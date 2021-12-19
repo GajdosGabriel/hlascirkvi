@@ -10,7 +10,7 @@ namespace App\Repositories\Eloquent;
 
 
 use Hash;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Notifications\Admin\Buffer;

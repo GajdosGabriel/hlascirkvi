@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 
-use App\Organization;
+use App\Models\Organization;
 use App\Services\ImageResize;
-use App\User;
-use App\Post;
+use App\Models\User;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Events\Posts\BufferPublisherVideo;
 

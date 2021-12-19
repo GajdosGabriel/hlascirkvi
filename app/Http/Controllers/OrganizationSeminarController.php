@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 
-use App\Seminar;
-use App\Organization;
+use App\Models\Seminar;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 
 class OrganizationSeminarController extends Controller

@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Prayer;
-use App\User;
+use App\Models\Prayer;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PrayerPolicy
@@ -13,7 +13,7 @@ class PrayerPolicy
     /**
      * Determine whether the user can view any prayers.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -24,8 +24,8 @@ class PrayerPolicy
     /**
      * Determine whether the user can view the prayer.
      *
-     * @param  \App\User  $user
-     * @param  \App\Prayer  $prayer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Prayer  $prayer
      * @return mixed
      */
     public function view(User $user, Prayer $prayer)
@@ -36,7 +36,7 @@ class PrayerPolicy
     /**
      * Determine whether the user can create prayers.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -47,8 +47,8 @@ class PrayerPolicy
     /**
      * Determine whether the user can update the prayer.
      *
-     * @param  \App\User  $user
-     * @param  \App\Prayer  $prayer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Prayer  $prayer
      * @return mixed
      */
     public function update(User $user, Prayer $prayer)
@@ -59,8 +59,8 @@ class PrayerPolicy
     /**
      * Determine whether the user can delete the prayer.
      *
-     * @param  \App\User  $user
-     * @param  \App\Prayer  $prayer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Prayer  $prayer
      * @return mixed
      */
     public function delete(User $user, Prayer $prayer)
@@ -71,8 +71,8 @@ class PrayerPolicy
     /**
      * Determine whether the user can restore the prayer.
      *
-     * @param  \App\User  $user
-     * @param  \App\Prayer  $prayer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Prayer  $prayer
      * @return mixed
      */
     public function restore(User $user, Prayer $prayer)
@@ -83,8 +83,8 @@ class PrayerPolicy
     /**
      * Determine whether the user can permanently delete the prayer.
      *
-     * @param  \App\User  $user
-     * @param  \App\Prayer  $prayer
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Prayer  $prayer
      * @return mixed
      */
     public function forceDelete(User $user, Prayer $prayer)

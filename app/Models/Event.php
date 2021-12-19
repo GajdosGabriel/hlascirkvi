@@ -1,15 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Favoritable;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 use CyrildeWit\EloquentViewable\Viewable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use CyrildeWit\EloquentViewable\Contracts\Viewable as ViewableContract;
-use Illuminate\Support\Str;
 
 class Event extends Model implements ViewableContract
 {

@@ -8,7 +8,7 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Post;
+use App\Models\Post;
 use Carbon\Carbon;
 use App\Repositories\AbstractRepository;
 use App\Repositories\Contracts\PostRepository;

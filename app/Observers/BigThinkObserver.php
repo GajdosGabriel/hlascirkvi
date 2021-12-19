@@ -2,9 +2,9 @@
 
 namespace App\Observers;
 
-use App\BigThink;
+use App\Models\BigThink;
 use App\Notifications\BigThink\newBigThink;
-use App\User;
+use App\Models\User;
 use Notification;
 
 

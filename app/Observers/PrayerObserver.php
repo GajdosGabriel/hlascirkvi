@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\User;
-use App\Prayer;
+use App\Models\User;
+use App\Models\Prayer;
 use App\Notifications\Prayer\NewPrayer;
 use Illuminate\Support\Facades\Notification;
 

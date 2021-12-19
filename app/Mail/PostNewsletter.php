@@ -2,8 +2,8 @@
 
 namespace App\Mail;
 
-use App\User;
-use App\Prayer;
+use App\Models\User;
+use App\Models\Prayer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;

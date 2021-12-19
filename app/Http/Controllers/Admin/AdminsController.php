@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Filters\PostFilters;
 use App\Http\Controllers\Controller;
-use App\Organization;
-use App\Post;
+use App\Models\Organization;
+use App\Models\Post;
 use App\Repositories\Contracts\PostRepository;
 use App\Repositories\Eloquent\Criteria\LatestFirst;
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use CyrildeWit\EloquentViewable\Support\Period;
 use DB;

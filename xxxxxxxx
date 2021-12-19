@@ -1,0 +1,17 @@
+UPDATE images
+SET fileable_type = REPLACE(fileable_type, 'App\\Post', 'App\\Models\\Post')
+
+UPDATE images
+SET fileable_type = REPLACE(fileable_type, 'App\\Event', 'App\\Models\\Event')
+
+UPDATE comments
+SET commentable_type = REPLACE(commentable_type, 'App\\Post', 'App\\Models\\Post')
+
+UPDATE comments
+SET commentable_type = REPLACE(commentable_type, 'App\\Event', 'App\\Models\\Event')
+
+UPDATE favorites
+SET favorited_type = REPLACE(favorited_type, 'App\\Event', 'App\\Models\\Event')
+
+UPDATE favorites
+SET favorited_type = REPLACE(favorited_type, 'App\\Post', 'App\\Models\\Post')

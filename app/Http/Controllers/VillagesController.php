@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Village;
+use App\Models\Village;
 use Illuminate\Http\Request;
 
 class VillagesController extends Controller

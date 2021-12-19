@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Comment;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
@@ -25,7 +25,7 @@ class CommentController extends Controller
             (new EloquentUserRepository)->checkIfUserAccountExist($saveComments);
         }
 
-        $class = "App\\{$saveComments->input('model')}";
+        $class = "App\\Models\\{$saveComments->input('model')}";
         $class = new $class;
 
         $post =  $class->whereId($saveComments->input('model_id'))->first();

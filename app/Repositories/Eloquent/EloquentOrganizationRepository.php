@@ -9,7 +9,7 @@
 namespace App\Repositories\Eloquent;
 
 
-use App\Organization;
+use App\Models\Organization;
 use App\Repositories\AbstractRepository;
 use App\Repositories\Contracts\OrganizationRepository;
 use Carbon\Carbon;

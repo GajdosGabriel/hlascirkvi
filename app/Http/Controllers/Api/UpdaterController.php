@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Updater;
+use App\Models\Updater;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UpdaterResource;

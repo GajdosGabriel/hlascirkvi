@@ -6,7 +6,7 @@
  * Time: 19:40
  */
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Notification;

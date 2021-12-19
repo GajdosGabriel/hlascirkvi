@@ -9,7 +9,7 @@
 namespace App\Filters;
 
 
-use App\Village;
+use App\Models\Village;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

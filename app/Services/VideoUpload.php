@@ -12,7 +12,7 @@ use Alaouy\Youtube\Youtube;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Services\ImageResize;
-use App\User;
+use App\Models\User;
 use App\Notifications\Admin\Error;
 
 

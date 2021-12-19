@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Seminar;
-use App\User;
+use App\Models\Seminar;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SeminarPolicy
@@ -13,7 +13,7 @@ class SeminarPolicy
     /**
      * Determine whether the user can view any seminars.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -24,7 +24,7 @@ class SeminarPolicy
     /**
      * Determine whether the user can view the seminar.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Seminar  $seminar
      * @return mixed
      */
@@ -36,7 +36,7 @@ class SeminarPolicy
     /**
      * Determine whether the user can create seminars.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -47,7 +47,7 @@ class SeminarPolicy
     /**
      * Determine whether the user can update the seminar.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Seminar  $seminar
      * @return mixed
      */
@@ -59,7 +59,7 @@ class SeminarPolicy
     /**
      * Determine whether the user can delete the seminar.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Seminar  $seminar
      * @return mixed
      */
@@ -71,7 +71,7 @@ class SeminarPolicy
     /**
      * Determine whether the user can restore the seminar.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Seminar  $seminar
      * @return mixed
      */
@@ -83,7 +83,7 @@ class SeminarPolicy
     /**
      * Determine whether the user can permanently delete the seminar.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Seminar  $seminar
      * @return mixed
      */

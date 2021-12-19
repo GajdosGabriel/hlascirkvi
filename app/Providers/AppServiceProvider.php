@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Observers\PostObserver;
-use App\Post;
-use App\Verse;
+use App\Models\Post;
+use App\Models\Verse;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;

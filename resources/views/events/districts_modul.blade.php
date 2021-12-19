@@ -25,7 +25,7 @@
                 <a href="?event=unpublished"> @if(request()->has('unpublished')) <i style="color: #3b32b3" class="fas fa-check"></i> @endif
                     Nepublikované
                 </a>
-                    <span>{{ \App\Event::where('published', 0)->get()->count() }}</span>
+                    <span>{{ \App\Models\Event::where('published', 0)->get()->count() }}</span>
             </li>
         @endcan
     </ul>

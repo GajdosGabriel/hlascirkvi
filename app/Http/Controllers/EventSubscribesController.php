@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
+use App\Models\Event;
 
 use App\EventSubscribe;
 use App\Http\Requests\EventSubscribeForm;
 use App\Repositories\Contracts\UserRepository;
 use App\Role;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class EventSubscribesController extends Controller

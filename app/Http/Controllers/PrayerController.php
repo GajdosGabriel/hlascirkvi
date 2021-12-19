@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Prayer;
+use App\Models\User;
+use App\Models\Prayer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\SavePrayerRequest;

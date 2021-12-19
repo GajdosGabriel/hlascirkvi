@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
-use App\Messenger;
-use App\Organization;
+use App\Models\Messenger;
+use App\Models\Organization;
 use App\Services\Form;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 

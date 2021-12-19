@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
-use App\Event;
-use App\Seminar;
-use App\Messenger;
-use App\Organization;
+use App\Models\Post;
+use App\Models\Event;
+use App\Models\Seminar;
+use App\Models\Messenger;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
 

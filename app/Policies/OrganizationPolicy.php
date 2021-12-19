@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
-use App\Organization;
+use App\Models\User;
+use App\Models\Organization;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class OrganizationPolicy
@@ -13,7 +13,7 @@ class OrganizationPolicy
    /**
      * Determine whether the user can view any organizations.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user, Organization $organization)
@@ -24,8 +24,8 @@ class OrganizationPolicy
     /**
      * Determine whether the user can view the organization.
      *
-     * @param  \App\User  $user
-     * @param  \App\Organization  $organization
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Organization  $organization
      * @return mixed
      */
     public function view(User $user, Organization $organization)
@@ -36,7 +36,7 @@ class OrganizationPolicy
     /**
      * Determine whether the user can create organizations.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -47,8 +47,8 @@ class OrganizationPolicy
     /**
      * Determine whether the user can update the organization.
      *
-     * @param  \App\User  $user
-     * @param  \App\Organization  $organization
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Organization   $organization
      * @return mixed
      */
     public function update(User $user, Organization $organization)
@@ -59,8 +59,8 @@ class OrganizationPolicy
     /**
      * Determine whether the user can delete the organization.
      *
-     * @param  \App\User  $user
-     * @param  \App\Organization  $organization
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Organization   $organization
      * @return mixed
      */
     public function delete(User $user, Organization $organization)
@@ -71,8 +71,8 @@ class OrganizationPolicy
     /**
      * Determine whether the user can restore the organization.
      *
-     * @param  \App\User  $user
-     * @param  \App\Organization  $organization
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Organization   $organization
      * @return mixed
      */
     public function restore(User $user, Organization $organization)
@@ -83,8 +83,8 @@ class OrganizationPolicy
     /**
      * Determine whether the user can permanently delete the organization.
      *
-     * @param  \App\User  $user
-     * @param  \App\Organization  $organization
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Organization   $organization
      * @return mixed
      */
     public function forceDelete(User $user, Organization $organization)

@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Event;
-use App\Prayer;
-use App\Seminar;
-use App\Organization;
+use App\Models\Event;
+use App\Models\Prayer;
+use App\Models\Seminar;
+use App\Models\Organization;
 use App\Policies\PrayerPolicy;
 use App\Policies\SeminarPolicy;
 use App\Policies\EventPolicy;

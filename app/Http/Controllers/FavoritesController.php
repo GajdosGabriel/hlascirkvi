@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
-use App\User;
-use App\Event;
-use App\Prayer;
-use App\Comment;
+use App\Models\Post;
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Prayer;
+use App\Models\Comment;
 use App\Http\Requests\FavoriteRequest;
-use App\Organization;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Prayer\FavoriteForOwner;
@@ -29,7 +29,7 @@ class FavoritesController extends Controller
             (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
 
-        $class = "App\\{$request->input('model')}";
+        $class = "App\\Models\\{$request->input('model')}";
         $class = new $class;
 
         $model =  $class->whereId($request->input('model_id'))->first();

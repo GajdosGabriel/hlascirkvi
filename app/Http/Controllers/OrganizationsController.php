@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Messenger;
-use App\Organization;
+use App\Models\User;
+use App\Models\Messenger;
+use App\Models\Organization;
 use App\Filters\PostFilters;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrganizationsRequest;

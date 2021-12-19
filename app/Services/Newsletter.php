@@ -3,7 +3,7 @@
 
 namespace App\Services;
 
-use App\Prayer;
+use App\Models\Prayer;
 use App\Mail\PostNewsletter;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;

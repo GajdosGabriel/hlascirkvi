@@ -4,7 +4,7 @@
 namespace App\Inspect;
 
 
-use App\Post;
+use App\Models\Post;
 
 class CleanerParagraphs
 {

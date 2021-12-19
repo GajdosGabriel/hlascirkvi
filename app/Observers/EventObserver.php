@@ -2,10 +2,10 @@
 
 namespace App\Observers;
 
-use App\Event;
+use App\Models\Event;
 use App\Notifications\Admin\NewEvent;
 use App\Services\EventImageGenerator;
-use App\User;
+use App\Models\User;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -17,7 +17,7 @@ class EventObserver
     /**
      * Handle the event "created" event.
      *
-     * @param  \App\Event  $event
+     * @param  \App\Models\Event  $event
      * @return void
      */
     public function created(Event $event)
@@ -39,7 +39,7 @@ class EventObserver
     /**
      * Handle the event "updated" event.
      *
-     * @param  \App\Event  $event
+     * @param  \App\Models\Event  $event
      * @return void
      */
     public function updated(Event $event)
@@ -56,7 +56,7 @@ class EventObserver
     /**
      * Handle the event "deleted" event.
      *
-     * @param  \App\Event  $event
+     * @param  \App\Models\Event  $event
      * @return void
      */
     public function deleted(Event $event)
@@ -67,7 +67,7 @@ class EventObserver
     /**
      * Handle the event "restored" event.
      *
-     * @param  \App\Event  $event
+     * @param  \App\Models\Event  $event
      * @return void
      */
     public function restored(Event $event)
@@ -78,7 +78,7 @@ class EventObserver
     /**
      * Handle the event "force deleted" event.
      *
-     * @param  \App\Event  $event
+     * @param  \App\Models\Event  $event
      * @return void
      */
     public function forceDeleted(Event $event)

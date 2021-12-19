@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Updaters;
 
 use App\Http\Controllers\Controller;
-use App\Updater;
+use App\Models\Updater;
 use Illuminate\Http\Request;
 
 class UpdatersController extends Controller

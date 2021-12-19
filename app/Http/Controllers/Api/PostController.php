@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Filters\PostFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostCollection;
-use App\Post;
+use App\Models\Post;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use Illuminate\Http\Request;
 

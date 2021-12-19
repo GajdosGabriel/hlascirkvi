@@ -8,15 +8,15 @@
 
 namespace App\Services;
 
-use App\User;
-use App\Organization;
+use App\Models\User;
+use App\Models\Organization;
 use Alaouy\Youtube\Youtube;
 use App\Services\ImageResize;
 use App\Notifications\Admin\Error;
-use App\Post;
+use App\Models\Post;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
-use App\Seminar;
+use App\Models\Seminar;
 
 class VideoUploadSeminars
 {

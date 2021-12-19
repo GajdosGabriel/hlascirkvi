@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Events;
 
-use App\User;
-use App\Event;
-use App\Image;
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Image;
 use Carbon\Carbon;
 use App\Services\Form;
 use Illuminate\Http\Request;

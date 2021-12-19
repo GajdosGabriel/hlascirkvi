@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Updaters;
 
 use App\Http\Controllers\Controller;
-use App\Organization;
-use App\Updater;
+use App\Models\Organization;
+use App\Models\Updater;
 use Illuminate\Http\Request;
 
 class UpdaterOrganizationController extends Controller

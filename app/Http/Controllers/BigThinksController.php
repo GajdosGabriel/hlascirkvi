@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BigThingsRequest;
-use App\Post;
+use App\Models\Post;
 use App\Http\Requests\SaveCommentsRequest;
 use Illuminate\Http\Request;
 

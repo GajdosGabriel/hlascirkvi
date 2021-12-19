@@ -7,12 +7,12 @@
         </header>
 
 
-        <div class="border-2 border-gray-300 rounded-sm ">
+        <div class="border-2 border-gray-300 rounded-sm text-sm ">
 
             @forelse( $events as $event)
                 <a href="{{ $event->url }}">
                     <div class="card-body p-3 grid grid-cols-6 gap-3">
-                        <div class="col-span-2">
+                        <div class="col-span-2  overflow-hidden h-22">
                             @if ($event->Imagethumb)
                                 <img data-src="{{ url($event->imagethumb) }}" class="lazyload mr-4 rounded-md"
                                     data-sizes="auto" title="{{ $event->title }}">

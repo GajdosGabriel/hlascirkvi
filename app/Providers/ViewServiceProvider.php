@@ -3,15 +3,15 @@
 namespace App\Providers;
 
 
-use App\Post;
-use App\User;
+use App\Models\Post;
+use App\Models\User;
 
-use App\Event;
-use App\Verse;
-use App\BigThink;
-use App\Category;
+use App\Models\Event;
+use App\Models\Verse;
+use App\Models\BigThink;
+use App\Models\Category;
 use Carbon\Carbon;
-use App\Organization;
+use App\Models\Organization;
 use App\Filters\EventFilters;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;

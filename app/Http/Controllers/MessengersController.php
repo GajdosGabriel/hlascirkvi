@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Messenger;
-use App\Organization;
-use App\User;
+use App\Models\Messenger;
+use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreMessengerRequest;
 use App\Notifications\Messengers;

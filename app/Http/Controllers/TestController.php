@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
+use App\Models\Comment;
 use DB;
 use Auth;
 use Config;
-use App\Post;
-use App\User;
-use App\Event;
-use App\Prayer;
+use App\Models\Post;
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Prayer;
 use http\Message;
-use App\Messenger;
+use App\Models\Messenger;
 use Carbon\Carbon;
-use App\Organization;
+use App\Models\Organization;
 use App\Services\Buffer;
 use App\Mail\PostNewsletter;
 use App\Services\Newsletter;
@@ -131,7 +131,7 @@ $event = Event::first();
 
         // print_r($sum);
 
-    //     $class = "App\Post";
+    //     $class = "App\Models\Post";
     //     $class = new $class;
 
     //     dd($class);

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
-use App\Organization;
+use App\Models\Post;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostSaveRequest;
 

@@ -1,11 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Verse extends Model
 {
-    protected $fillable = [];
     public $timestamps = false;
 }

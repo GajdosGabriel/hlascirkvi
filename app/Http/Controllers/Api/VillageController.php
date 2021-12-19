@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Village;
+use App\Models\Village;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

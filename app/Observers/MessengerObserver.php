@@ -2,9 +2,9 @@
 
 namespace App\Observers;
 
-use App\Messenger;
+use App\Models\Messenger;
 use App\Notifications\Messengers\ComingNewMessage;
-use App\User;
+use App\Models\User;
 
 class MessengerObserver
 {
