@@ -65,7 +65,7 @@
 
 
                     <span style="font-weight: 600">Organizácia patrí</span><br>
-                    @forelse(\App\Updater::all() as $updater)
+                    @forelse(\App\Models\Updater::all() as $updater)
                         @if ($updater->type == 'denomination')
                             <input required type="radio" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
                             @if ($up->pivot->updater_id == $updater->id)
@@ -90,7 +90,7 @@
                         </div>
 
                         <span style="font-weight: 600">Organizácia na predný zoznam</span><br>
-                        @forelse(\App\Updater::all() as $updater)
+                        @forelse(\App\Models\Updater::all() as $updater)
                             @if ($updater->type == 'frontUser')
                                 <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
                                 @if ($up->pivot->updater_id == $updater->id)
@@ -105,7 +105,7 @@
                     @endforelse
 
                     <span style="font-weight: 600">Zaradená do zoznamu</span><br>
-                    @forelse(\App\Updater::all() as $updater)
+                    @forelse(\App\Models\Updater::all() as $updater)
                         @if ($updater->type == 'list')
                             <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
                             @if ($up->pivot->updater_id == $updater->id)
@@ -121,7 +121,7 @@
 
 
                     <span style="font-weight: 600">Vyhľadávanie podľa mena v týždni</span><br>
-                    @forelse(\App\Updater::all() as $updater)
+                    @forelse(\App\Models\Updater::all() as $updater)
                         @if ($updater->type == 'dayOfWeek')
                             <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
                             @if ($up->pivot->updater_id == $updater->id)

@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
 
         \Gate::before( function ()
         {
-            // if( \Auth::user()->email == env('ADMIN_EMAIL')  ) return true;
+            //  if( \Auth::user()->email == env('ADMIN_EMAIL')  ) return true;
 
         });
     }

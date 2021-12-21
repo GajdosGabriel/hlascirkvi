@@ -4,7 +4,7 @@
         <label>Kategória</label>
         <select name="updaters" required class="form-control">
             <option value="" selected disabled>Vybrať kategóriu</option>
-            @forelse(\App\Updater::all() as $updater)
+            @forelse(\App\Models\Updater::all() as $updater)
                 @if ($updater->type == 'post')
                     <option class="option" value="{{ $updater->id }}" @foreach ($post['updaters'] as $up)
                         @if ($up->pivot->updater_id == $updater->id)

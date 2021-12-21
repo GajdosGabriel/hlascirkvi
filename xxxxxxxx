@@ -15,3 +15,7 @@ SET favorited_type = REPLACE(favorited_type, 'App\\Event', 'App\\Models\\Event')
 
 UPDATE favorites
 SET favorited_type = REPLACE(favorited_type, 'App\\Post', 'App\\Models\\Post')
+
+UPDATE model_has_roles
+SET model_type = REPLACE(model_type, 'App\\User', 'App\\Models\\User')
+
