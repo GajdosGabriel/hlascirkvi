@@ -20,12 +20,14 @@ class YoutubeController extends Controller
     // Všetky funkcie v tomto controllery obsluhujú ručný prieskum alebo hľadanie.
     // Automatické hľadanie je v console
 
-    public function searchUserVideo(User $user) {
-        return view('users.search-new-video', ['user' =>$user]);
+    public function searchUserVideo(User $user)
+    {
+        return view('users.search-new-video', ['user' => $user]);
     }
 
-    public function searchOrganizationVideo(Organization $organization) {
-        return view('users.search-new-video', ['user' =>$organization]);
+    public function searchOrganizationVideo(Organization $organization)
+    {
+        return view('users.search-new-video', ['user' => $organization]);
     }
 
     // Search by name in title and save/
@@ -46,7 +48,7 @@ class YoutubeController extends Controller
     }
 
 
-  // vyhľadávanie cez konkretny kanál max.50 results
+    // vyhľadávanie cez konkretny kanál max.50 results
     public function getNewVideoByChannel(User $user, $channelId)
     {
         $videoList = \Youtube::listChannelVideos($channelId);
@@ -56,17 +58,26 @@ class YoutubeController extends Controller
         return redirect('/');
     }
 
-      // Z linku na Youtube vyhľadávanie zoberie základné informácie
-      public function getVideoById($videoId)
-      {
+    // Z linku na Youtube vyhľadávanie zoberie základné informácie
+    public function getVideoById($videoId)
+    {
         $video = \Youtube::getVideoInfo($videoId);
-  
-         dd($video);
-  
-      }
+
+        dd($video);
+    }
+
+    // Youtube zoberie komentáre
+    public function getCommentsByVideoId($videoId)
+    {
+        // $video = \Youtube::getVideoInfo($videoId);
+        $comments = \Youtube::getCommentThreadsByVideoId('zwiUB_Lh3iA');
+
+        dd($comments);
+    }
 
 
-    public function searchVideosByUserName($organization) {
+    public function searchVideosByUserName($organization)
+    {
         // Set default parameters
         $params = [
             'q'             => $organization->title,
@@ -75,7 +86,7 @@ class YoutubeController extends Controller
             'maxResults'    => 30
         ];
 
-      return $videoList  = \Youtube::searchAdvanced($params);
+        return $videoList  = \Youtube::searchAdvanced($params);
     }
 
 
@@ -87,15 +98,14 @@ class YoutubeController extends Controller
     private function saveFindedVideo($organization, $videoList)
     {
         // check if any videos exists
-        if(empty($videoList)) {
+        if (empty($videoList)) {
 
             session()->flash('flash', 'Nenašli sa žiadne videa!');
             return;
         }
 
         foreach ($videoList as $video) {
-            if(! \DB::table('posts')->whereVideoId($video->id->videoId)->exists())
-            {
+            if (!\DB::table('posts')->whereVideoId($video->id->videoId)->exists()) {
                 $post = $organization->posts()->create([
                     'title' => $video->snippet->title,
                     'video_id' => $video->id->videoId,
@@ -105,12 +115,8 @@ class YoutubeController extends Controller
                 ]);
 
                 $image = new ImageResize();
-                $image->resizeImage($post, $video->snippet->thumbnails->medium->url );
-
+                $image->resizeImage($post, $video->snippet->thumbnails->medium->url);
             }
         }
-
     }
-
-
 }
