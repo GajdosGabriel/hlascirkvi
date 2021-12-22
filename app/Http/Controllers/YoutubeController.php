@@ -56,6 +56,15 @@ class YoutubeController extends Controller
         return redirect('/');
     }
 
+      // Z linku na Youtube vyhľadávanie zoberie základné informácie
+      public function getVideoById($videoId)
+      {
+        $video = \Youtube::getVideoInfo($videoId);
+  
+         dd($video);
+  
+      }
+
 
     public function searchVideosByUserName($organization) {
         // Set default parameters

@@ -42,9 +42,11 @@ class TestController extends Controller
 
     public function newsletter()
     {
-        $comment = Comment::latest()->first();
-
-        dd($comment->commentable);
+        $video = \Youtube::getVideoInfo('rie-hPVJ7Sw');
+  
+         dd($video);
+         dd($video->snippet->description);
+         dd($video->snippet->title);
 
         // User::create([
         //     'first_name' => 'vabriel',
