@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use DB;
 use Auth;
 use Config;
+use http\Message;
+use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Prayer;
-use http\Message;
-use App\Models\Messenger;
-use Carbon\Carbon;
-use App\Models\Organization;
+use App\Models\Comment;
 use App\Services\Buffer;
+use App\Models\Messenger;
 use App\Mail\PostNewsletter;
+use App\Models\Organization;
 use App\Services\Newsletter;
 use Illuminate\Http\Request;
+use App\Services\VideoUpload;
 use App\Events\User\NotifyBell;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -42,9 +43,25 @@ class TestController extends Controller
 
     public function newsletter()
     {
-        $video = \Youtube::getVideoInfo('rie-hPVJ7Sw');
+
+        // (new VideoUpload)->handle();
+
+
+        dd('Koniec');
+
+        
+        $comments = \Youtube::getCommentThreadsByVideoId('zwiUB_Lh3iA');
+        // $video = \Youtube::getVideoInfo('rie-hPVJ7Sw');
+
+       
+          dd ($comments[0]->snippet->topLevelComment->snippet);
+ 
+
+
+
+        return ;
   
-         dd($video);
+         dd($comments->snippet);
          dd($video->snippet->description);
          dd($video->snippet->title);
 

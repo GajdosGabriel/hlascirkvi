@@ -2,27 +2,25 @@
 
 @section('content')
 
-    @component('layouts.components.pages.admin')
+    @component('layouts.components.pages.profil')
+
+
+        @slot('title')
+
+            Buffer príspevky (Nezverenené)
+
+        @endslot
+
+        @slot('title_right')
+
+        @endslot
+
+
         @slot('page')
 
-
-
-
-            @component('layouts.components.pages.page_title')
-                @slot('title')
-
-                    Buffer príspevky (Nezverenené)
-
-                @endslot
-
-                @slot('title_right')
-
-                @endslot
-            @endcomponent
-
-
-
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
+
+
                 @forelse($posts as $post)
 
                     <post-card :post="{{ $post }}"></post-card>
@@ -30,6 +28,7 @@
                 @empty
                     bez záznamu
                 @endforelse
+
             </div>
 
             <div class="md:block flex justify-center my-8">

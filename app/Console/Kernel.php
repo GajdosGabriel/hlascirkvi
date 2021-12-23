@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('MonthlyNewsletter')->monthlyOn(4, '08:20');
 
 
+        // $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
         $schedule->command('UserSearchByChannelAndPlaylist')->dailyAt('16:24');
         $schedule->command('UserSearchByName')->dailyAt('06:55');
 
