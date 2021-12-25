@@ -91,7 +91,6 @@ class ExtractMojaKomunita extends Extractors
             );
         }
 
-
         //   Merge all arrays;
         $merged = array_replace_recursive($extractedUser, $extractedBody, $extractedTitle);
 

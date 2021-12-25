@@ -16,11 +16,26 @@
 
             <h2 class="text-2xl">Admin panel</h2>
 
-            <div>
-                <a href="{{ route('manualDownloader.index') }}">
-                    Manual video by canals ddd
-                </a>
-            </div>
+            <ul>
+                <li>
+                    <a href="{{ route('videa.videa') }}">
+                        videa canals
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('akcie.akcie') }}">
+                        Akcie
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('modlitby.modlitby') }}">
+                        Modlitby
+                    </a>
+                </li>
+
+            </ul>
 
         </div>
 

@@ -25,19 +25,19 @@ Route::get('test/newsletter', 'TestController@newsletter');
 Route::get('test/grecky', 'TestController@greckyMagazin');
 Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled');
 
+Route::get('/videa/videa', 'Api\ManualDownloaderController@videa')->name('videa.videa');
+Route::get('/akcie/akcie', 'Api\ManualDownloaderController@akcie')->name('akcie.akcie');
+Route::get('/modlitby/modlitby', 'Api\ManualDownloaderController@modlitby')->name('modlitby.modlitby');
+
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-
-   
-
     Route::apiResources([
         'notifications'         => Api\NotificationController::class,
         'users'                 => Api\UserController::class,
         'users.organizations'   => Api\UserOrganizationController::class,
         'villages'              => Api\VillageController::class,
         'updaters'              => Api\UpdaterController::class,
-        'manualDownloader'      => Api\ManualDownloaderController::class,
     ]);
 
 

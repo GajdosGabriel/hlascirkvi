@@ -11,7 +11,7 @@ class EventsController extends Controller
 {
     public function index(EventFilters $filters)
     {
-        $events = Event::filter($filters)->orderBy('start_at', 'asc')->paginate(30);
+        $events = Event::filter($filters)->orderBy('created_at', 'desc')->paginate(30);
         return view('admins.events.index',  compact('events'));
     }
 }
