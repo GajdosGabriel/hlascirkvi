@@ -15,7 +15,16 @@
 
 
             <h2 class="text-2xl">Admin panel</h2>
+
+            <div>
+                <a href="{{ route('manualDownloader.index') }}">
+                    Manual video by canals ddd
+                </a>
+            </div>
+
         </div>
+
+
 
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

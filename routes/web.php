@@ -126,6 +126,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])
     Route::get('home', 'AdminsController@home')->name('home');
     Route::get('index', 'AdminsController@organizations')->name('organizations');
     Route::get('index/user', 'AdminsController@users')->name('users');
+    Route::get('events', 'EventsController@index')->name('index');
     Route::get('buffered-videos', 'BuffersController@indexBufferedVideos')->name('unpublished');
     Route::get('statistic/{days}', 'AdminsController@statistic')->name('statistic');
 

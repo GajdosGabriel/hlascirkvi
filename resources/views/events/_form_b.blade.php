@@ -57,7 +57,7 @@
     <select name="village_id" class="form-control input-sm" required>
         <option label="{{ trans('web.select') }}"></option>
 
-        @foreach(\App\Village::all() as $village)
+        @foreach(\App\Models\Village::all() as $village)
         <option @if($event->village_id == $village->id)  selected @endif value="{{ $village->id }}">{{ $village->fullname }}  {{ $village->zip }}</option>
         @endforeach
     </select>

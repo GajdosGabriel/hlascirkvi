@@ -14,6 +14,7 @@ use App\Http\Resources\UserResource;
 |
 */
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return new UserResource($request->user());
 });
@@ -24,14 +25,22 @@ Route::get('test/newsletter', 'TestController@newsletter');
 Route::get('test/grecky', 'TestController@greckyMagazin');
 Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled');
 
+
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
+
+   
+
     Route::apiResources([
         'notifications'         => Api\NotificationController::class,
         'users'                 => Api\UserController::class,
         'users.organizations'   => Api\UserOrganizationController::class,
         'villages'              => Api\VillageController::class,
         'updaters'              => Api\UpdaterController::class,
+        'manualDownloader'      => Api\ManualDownloaderController::class,
     ]);
+
+
 });
 
 Route::apiResources([

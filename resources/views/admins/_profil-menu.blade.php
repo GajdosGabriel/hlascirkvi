@@ -21,6 +21,12 @@
                 @endslot
             @endcomponent
 
+            @component('layouts.components.profil_menu', ['url' => route('admin.index')])
+                @slot('title')
+                    Podujatia
+                @endslot
+            @endcomponent
+
             @component('layouts.components.profil_menu', ['url' => route('admin.statistic', ['days' => 1])])
                 @slot('title')
                     Štatistika
@@ -34,10 +40,10 @@
             @endcomponent
 
             @component('layouts.components.profil_menu', ['url' => route('updaters.index')])
-            @slot('title')
-                Updaters
-            @endslot
-        @endcomponent
+                @slot('title')
+                    Updaters
+                @endslot
+            @endcomponent
 
         </div>
     </div>
