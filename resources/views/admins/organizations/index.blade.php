@@ -1,25 +1,30 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Registrovaný užívatelia.' }}</title> @endsection
 
 @section('content')
+
 
     @component('components.pages.admin')
 
         @slot('title')
-            Registrovaný užívatelia
+            Organizácie
         @endslot
 
         @slot('title_right')
-
+            {{-- // --}}
         @endslot
 
 
-
         @slot('page')
-            @include('users.users-table')
+            <div class="md:w-1/3">
+                <new-organization />
+            </div>
+
+
+            @include('organizations._organization-table')
+
 
             <div class="md:block flex justify-center my-8">
-                {{ $users->links() }}
+                {{ $organizations->links() }}
             </div>
 
         @endslot

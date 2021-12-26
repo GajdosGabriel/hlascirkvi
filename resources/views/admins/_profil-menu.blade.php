@@ -3,17 +3,18 @@
     <div class="grid col-span-2  min-h-screen">
         <div class="flex flex-col bg-gray-200">
 
-            @component('components.profil_menu', ['url' => route('admin.organizations')])
-                @slot('title')
-                    Kanály
-                @endslot
-            @endcomponent
 
             @component('components.profil_menu', ['url' => route('admin.users.index')])
                 @slot('title')
                     Užívatelia
                 @endslot
             @endcomponent
+
+            @component('components.profil_menu', ['url' => route('admin.organizations.index')])
+            @slot('title')
+                Kanály
+            @endslot
+        @endcomponent
 
             @component('components.profil_menu', ['url' => route('admin.unpublished')])
                 @slot('title')

@@ -124,7 +124,7 @@ Route::get('users/{user}/favorites/user', 'FavoritesController@favoriteUsers')->
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->namespace('Admin')->group(function () {
     Route::get('home', 'AdminsController@home')->name('home');
-    Route::get('index', 'AdminsController@organizations')->name('organizations');
+    Route::get('organizations', 'OrganizationsController@index')->name('organizations.index');
     Route::get('users', 'UsersController@index')->name('users.index');
     Route::get('events', 'EventsController@index')->name('events.index');
     Route::get('prayers', 'PrayersController@index')->name('prayers.index');

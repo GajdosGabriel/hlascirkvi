@@ -30,11 +30,6 @@ class AdminsController extends Controller
         return view('admins.home');
     }
 
-    public function organizations() {
-        return view('admins.organizations', ['organizations' => Organization::latest()->paginate(50) ]);
-    }
-
-
 
 
 

@@ -3,7 +3,7 @@
 
 @section('content')
 
-@component('components.pages.admin')
+    @component('components.pages.admin')
 
         @slot('title')
             Modlitby
