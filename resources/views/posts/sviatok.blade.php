@@ -5,9 +5,10 @@
         <div class="page_title px-3 pt-1 pb-2 rounded-t-md bg-blue-400 shadow-md">
 
             <div class="text-gray-100 flex justify-between items-center w-full">
-                <div class="font-semibold md:text-2xl ">Adventný špeciál</div>
+                <div class="font-semibold md:text-2xl ">Vianočný špeciál</div>
                 {{-- <h2 class="font-semibold md:text-2xl ">Sviatok Turíce</h2> --}}
-                <div class="text-gray-700 ">Špeciálna advetná príloha</div>
+                <div class="text-gray-700 ">Príloha vianočných príspevkov</div>
+                {{-- <div class="text-gray-700 ">Špeciálna advetná príloha</div> --}}
                 {{-- <p class="text-gray-800 ">Špeciálna príloha o Duchu Svätom na sviatok Turíc v nedeľu, 23. mája 2021</p> --}}
             </div>
 

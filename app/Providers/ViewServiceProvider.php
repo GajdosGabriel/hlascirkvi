@@ -62,7 +62,7 @@ class ViewServiceProvider extends ServiceProvider
             $view->with(
                 'videos',
                 (new EloquentPostRepository())->postsByUpdater(15)
-                ->where('title', 'like', '%advent%')
+                ->where('title', 'like', '%vianoce%')
                 // ->OrWhere('title', 'like', '%ducha sv%')
                 // ->orWhere('title', 'like', '%turic%')
 
@@ -70,7 +70,7 @@ class ViewServiceProvider extends ServiceProvider
                 // ->where('title', 'like', '%duch sv%')
                 // ->OrWhere('title', 'like', '%ducha sv%')
                 // ->orWhere('title', 'like', '%turic%')
-                ->whereNotIn('id', [840]) // Zdvojené video
+                ->whereNotIn('id', [10606]) // Zdvojené video
                 ->get()->random(10)
             );
         });
