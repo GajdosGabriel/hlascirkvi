@@ -32,7 +32,7 @@ class ManualDownloaderController extends Controller
     public function modlitby()
     {
         // Modlitby boli dočasné nedostupné na strane ich webu
-        // (new ExtractMojaKomunita())->parseListUrl();
+        (new ExtractMojaKomunita())->parseListUrl();
         (new ExtractZdruzenieMedaily())->parseListUrl();
         return redirect()->route('admin.home');
     }

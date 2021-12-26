@@ -125,8 +125,9 @@ Route::get('users/{user}/favorites/user', 'FavoritesController@favoriteUsers')->
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->namespace('Admin')->group(function () {
     Route::get('home', 'AdminsController@home')->name('home');
     Route::get('index', 'AdminsController@organizations')->name('organizations');
-    Route::get('index/user', 'AdminsController@users')->name('users');
-    Route::get('events', 'EventsController@index')->name('index');
+    Route::get('users', 'UsersController@index')->name('users.index');
+    Route::get('events', 'EventsController@index')->name('events.index');
+    Route::get('prayers', 'PrayersController@index')->name('prayers.index');
     Route::get('buffered-videos', 'BuffersController@indexBufferedVideos')->name('unpublished');
     Route::get('statistic/{days}', 'AdminsController@statistic')->name('statistic');
 

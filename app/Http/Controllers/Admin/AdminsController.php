@@ -34,9 +34,7 @@ class AdminsController extends Controller
         return view('admins.organizations', ['organizations' => Organization::latest()->paginate(50) ]);
     }
 
-    public function users() {
-        return view('admins.users', ['users' => User::latest()->paginate(50) ]);
-    }
+
 
 
 

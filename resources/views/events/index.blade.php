@@ -3,14 +3,14 @@
 
 @section('content')
 
-    @component('layouts.components.pages.page_3_2')
+    @component('components.pages.page_3_2')
         @slot('page_full')
             @include('events._current_events')
         @endslot
 
         @slot('page')
 
-            @component('layouts.components.pages.page_title')
+            @component('components.pages.page_title')
                 @slot('title')
                     {{ $title ?? 'Pozvánky na podujatia' }}
                 @endslot

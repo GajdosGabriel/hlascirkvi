@@ -28,7 +28,7 @@
             <div class="md:w-8/12">
 
 
-                @component('layouts.components.pages.page_title')
+                @component('components.pages.page_title')
                     @slot('title')
 
                         {{ $event->title }}

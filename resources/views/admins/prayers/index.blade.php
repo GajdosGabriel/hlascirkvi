@@ -3,7 +3,7 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+@component('components.pages.admin')
 
         @slot('title')
             Modlitby
@@ -21,7 +21,7 @@
                     <li class="mb-4 shadow-md border-gray-200 border-2 p-2 rounded">
                         <div class="flex justify-between">
                             <div>{{ $prayer->title }}</div>
-                            <a href="{{ route('user.prayer.edit', [$user->id, $prayer->id]) }}"
+                            <a href="{{ route('user.prayer.edit', [$prayer->user->id, $prayer->id]) }}"
                                 class="text-sm hover:text-gray-400">Upraviť</a>
                         </div>
                         <div>{{ $prayer->body }}</div>

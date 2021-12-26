@@ -1,29 +1,29 @@
 @extends('layouts.app')
 
-@section('content')
-    @component('components.pages.profil')
 
+@section('content')
+
+    @component('components.pages.admin')
 
         @slot('title')
-            Vaše kanály
+            Registrovaný užívatelia
         @endslot
 
         @slot('title_right')
-            {{-- // --}}
+
         @endslot
 
 
 
         @slot('page')
-            <new-organization></new-organization>
-
-            @include('organizations._organization-table')
+            @include('users.users-table')
 
             <div class="md:block flex justify-center my-8">
-                {{ $organizations->links() }}
+                {{ $users->links() }}
             </div>
-
 
         @endslot
     @endcomponent
+
+
 @endsection

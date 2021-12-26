@@ -19,7 +19,7 @@
 
 
 
-    @component('layouts.components.pages.page_3_2')
+    @component('components.pages.page_3_2')
 
         {{-- Stlpec I. --}}
         @slot('page')

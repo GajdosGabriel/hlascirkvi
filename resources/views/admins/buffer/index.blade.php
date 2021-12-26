@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @component('layouts.components.pages.profil')
+@component('components.pages.admin')
 
 
         @slot('title')

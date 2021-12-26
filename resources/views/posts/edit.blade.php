@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('layouts.components.pages.profil')
+    @component('components.pages.profil')
 
         @include('layouts.errors')
 

@@ -3,7 +3,7 @@
 @section('content')
     <div class="page">
 
-        @component('layouts.components.pages.page_title')
+        @component('components.pages.page_title')
             @slot('title')
 
                 Vzdelávanie a kurzy

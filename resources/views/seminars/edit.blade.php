@@ -11,7 +11,7 @@
 
         <div class="col-span-5">
 
-            @component('layouts.components.pages.page_title')
+            @component('components.pages.page_title')
                 @slot('title')
 
                     Upraviť seminár

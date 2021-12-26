@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @component('layouts.components.pages.profil')
+    @component('components.pages.profil')
 
         @slot('title')
             Import kontaktov do adresára
