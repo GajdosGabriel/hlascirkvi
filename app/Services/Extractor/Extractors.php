@@ -45,7 +45,6 @@ abstract class Extractors
 
     protected function createEvent($data, $published = 0)
     {
-
         foreach ($data as $item) {
             // Remove white space from left
             $title = trim($item['title']);
@@ -72,7 +71,7 @@ abstract class Extractors
                 'published' => $published,
                 'created_at' => Carbon::now()->subHours(2)->toDateTimeString(),
             ]);
-            $this->parseEvent($this->prefix . $item['href'], $event);
+            $this->parseEvent($item['href'], $event);
         }
 
     }

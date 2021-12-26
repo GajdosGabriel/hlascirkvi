@@ -80,7 +80,7 @@ class ExtractEcav extends Extractors
 
     public function parseEvent($href, $event) {
 //        $url = "https://www.ecav.sk/aktuality/pozvanky";
-        $html = file_get_contents($href);
+        $html = file_get_contents($this->prefix . $href);
 //        $html = file_get_contents('https://www.ecav.sk/aktuality/pozvanky/spevacky-zbor-z-diakoviec-pozyva-na-koncert');
 
 
