@@ -40,7 +40,7 @@ class EventFilters extends Filters
 
         if($this->request->event) return $this->getUnpublished($this->request->event);
 
-        return $this->builder->where('start_at', '>', Carbon::now())->wherePublished(1);
+        return $this->builder;
 
     }
 

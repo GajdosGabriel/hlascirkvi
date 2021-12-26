@@ -34,7 +34,7 @@
 
         {{-- ------- Admin panel ----------------- --}}
         @can('update', $event)
-            <div class="flex space-x-1">
+            <div class="flex space-x-3">
                 @if (!$event->displayStatus())
                     <div>{{ $event->count_view }} <label class="badge badge-default " title="Podujatie sa skončilo">
                             {{ trans('web.events_users_finished') }}</label>
@@ -55,6 +55,11 @@
                     <a href="{{ route('event.admin', [$event->id, $event->slug]) }}">Prihlásených:
                         {{ $event->eventSubscribe()->count() }}</a>
                 </div>
+
+                @if (!$event->published)
+                    <span
+                        class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Nepublikované</span>
+                @endif
 
             </div>
         @endcan

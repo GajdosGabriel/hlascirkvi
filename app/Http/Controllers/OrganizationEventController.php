@@ -14,7 +14,7 @@ class OrganizationEventController extends Controller
     public function index(Organization $organization)
     {
         $this->authorize('viewAny', $organization);
-        
+  
         $events = $organization->events()
             ->latest()->paginate(30);
         return view('profiles.events.index', compact('events', 'organization'));

@@ -20,7 +20,8 @@ class UserOrganizationController extends Controller
     public function show(User $user, Organization $organization)
     {
         return view('profiles.organizations.show', [
-            'organization' => $organization
+            'organization' => $organization,
+            'user' => $user
         ]);
     }
 

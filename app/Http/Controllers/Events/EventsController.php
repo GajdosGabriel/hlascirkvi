@@ -26,7 +26,9 @@ class EventsController extends Controller
 
     public function index(EventFilters $filters)
     {
-        $events = Event::filter($filters)->orderBy('start_at', 'asc')->paginate(30);
+        $events = Event::filter($filters)->orderBy('start_at', 'asc')
+        ->wherePublished(1)->where('start_at', '>', Carbon::now())
+        ->paginate(30);
         return view('events.index', compact('events'));
     }
 
@@ -37,7 +39,7 @@ class EventsController extends Controller
         event(new ViewCounter($event));
 
         $commentsLook = $event->comments()->where('type', 'look')->get();
-//        $commentsLook = $event->comments()->where('type', 'look')->get();
+        //        $commentsLook = $event->comments()->where('type', 'look')->get();
         $commentsOffer = $event->comments()->where('type', 'offer')->get();
 
         return view('events.show', compact('event', 'commentsOffer', 'commentsLook'));
@@ -69,11 +71,11 @@ class EventsController extends Controller
     }
 
 
-    public function download ($filepath = '')
+    public function download($filepath = '')
     {
         if ($filepath != '') {
             $file = Image::whereUrl($filepath)->first();
-            return response()->file( \Storage::url( $file->url) );
+            return response()->file(\Storage::url($file->url));
         } else {
             abort(404);
         }
@@ -82,12 +84,7 @@ class EventsController extends Controller
     public function finished()
     {
         $events = Event::where('end_at', '<', Carbon::now())->orderBy('start_at', 'desc')->paginate(30);
-        $title= 'Ukončené podujatia';
+        $title = 'Ukončené podujatia';
         return view('events.index', compact(['events', 'title']));
     }
-
-
-
-
-
 }

@@ -75,7 +75,7 @@
                     @endforeach
                 </td>
                 <td>
-                    <form method="POST" action="{{ route('organizations.update', $organization->id) }}">
+                    <form method="POST" action="{{ route('user.organization.update', [$user->id, $organization->id]) }}">
                         @csrf @method('PUT')
 
                         @if ($organization->published)
