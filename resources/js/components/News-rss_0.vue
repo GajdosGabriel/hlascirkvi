@@ -9,7 +9,6 @@
             <div class="flex flex-wrap space-x-4 p-2">
                 <a
                     @click="domace('domov')"
-                    v-if="isDomace"
                     :class="{
                         'border-red-300 bg-red-600 text-gray-100': isDomace
                     }"
@@ -82,8 +81,8 @@ export default {
     },
 
     created: function() {
-        this.domace("press");
-        // this.domace("domov");
+        // this.domace("press");
+        this.domace("domov");
     },
 
     filters: {

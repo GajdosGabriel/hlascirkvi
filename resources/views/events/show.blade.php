@@ -144,6 +144,13 @@
 
             <div class="md:w-4/12 md:p-6">
 
+                @if ($event->registration != 'no')
+                <ticket-form inline-template>
+                    @include('events._form_ticket')
+                </ticket-form>
+            @endif
+            
+
                 <div class="">
 
                     @if ($event->Imagecard)
@@ -153,6 +160,7 @@
     $event->images()->whereType('card')->first()->original_image_url,
 ) }}"
                     class="lazyload rounded mb-6" data-sizes="auto">
+
 
                     {{-- vizitka --}}
                     @endif

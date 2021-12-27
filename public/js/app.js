@@ -2792,7 +2792,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2805,7 +2804,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.domace("press"); // this.domace("domov");
+    // this.domace("press");
+    this.domace("domov");
   },
   filters: {
     dateTime: function dateTime(value) {
@@ -70482,24 +70482,22 @@ var render = function() {
     _vm._v(" "),
     _c("div", [
       _c("div", { staticClass: "flex flex-wrap space-x-4 p-2" }, [
-        _vm.isDomace
-          ? _c(
-              "a",
-              {
-                staticClass:
-                  "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300",
-                class: {
-                  "border-red-300 bg-red-600 text-gray-100": _vm.isDomace
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.domace("domov")
-                  }
-                }
-              },
-              [_vm._v("domáce")]
-            )
-          : _vm._e(),
+        _c(
+          "a",
+          {
+            staticClass:
+              "border-2 px-2 border-gray-300 rounded-md cursor-pointer hover:bg-red-300",
+            class: {
+              "border-red-300 bg-red-600 text-gray-100": _vm.isDomace
+            },
+            on: {
+              click: function($event) {
+                return _vm.domace("domov")
+              }
+            }
+          },
+          [_vm._v("domáce")]
+        ),
         _vm._v(" "),
         _c(
           "a",
