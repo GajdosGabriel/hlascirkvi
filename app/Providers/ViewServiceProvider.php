@@ -101,11 +101,8 @@ class ViewServiceProvider extends ServiceProvider
 
         //  Curently Events
         view()->composer('events._current_events', function ($view) {
-            $view->with('currentlyEvents', Event::where('start_at', '<=', Carbon::now())
-                ->where('end_at', '>=', Carbon::now())
-                ->wherePublished(1)
-                ->orderBy('end_at', 'asc')
-                ->get());
+            $view->with('currentlyEvents', 
+            (new EloquentEventRepository)->curentlyEvents()->get());
         });
 
         //  District Events count

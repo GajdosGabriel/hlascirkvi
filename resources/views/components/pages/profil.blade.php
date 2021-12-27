@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class="col-span-8">
+    <div class="col-span-9">
 
         <div class="flex justify-between mb-6 mt-6">
             <h1 class="text-2xl font-semibold">{{ $title }}</h1>

@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Events;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Image;
-use Carbon\Carbon;
 use App\Services\Form;
 use Illuminate\Http\Request;
 use App\Filters\EventFilters;
 use App\Events\Posts\ViewCounter;
-use App\Http\Requests\StoreEventRequest;
-use App\Repositories\Eloquent\EloquentEventRepository;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEventRequest;
+use Illuminate\Database\Eloquent\Builder;
+use App\Repositories\Eloquent\EloquentEventRepository;
 
 
 
@@ -26,9 +27,9 @@ class EventsController extends Controller
 
     public function index(EventFilters $filters)
     {
-        $events = Event::filter($filters)->orderBy('start_at', 'asc')
-        ->wherePublished(1)->where('start_at', '>', Carbon::now())
-        ->paginate(30);
+        $events = $this->event->orderByStarting()
+            ->filter($filters)->orderBy('start_at', 'asc')
+            ->paginate(30);
         return view('events.index', compact('events'));
     }
 
