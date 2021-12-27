@@ -10,9 +10,7 @@
 
             @component('components.pages.page_title')
                 @slot('title')
-
                     Upraviť kanál
-
                 @endslot
 
                 @slot('title_right')
@@ -83,11 +81,26 @@
 
                     @if (auth()->user()->hasRole('admin'))
 
+                        <div class="form-group">
+                            <label class="font-semibold" for="youtube_channel">youtube channel</label>
+                            <input type="text" name="youtube_channel" class="form-control" placeholder="youtube channel"
+                                id="youtube_channel"
+                                value="{{ old('youtube_channel') ?? $organization->youtube_channel }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-semibold" for="youtube_playlist">youtube playlist</label>
+                            <input type="text" name="youtube_playlist" class="form-control" placeholder="youtube playlist"
+                                id="youtube_playlist"
+                                value="{{ old('	youtube_playlist') ?? $organization->youtube_playlist }}">
+                        </div>
+
                         <div style="font-weight: 600">Article modifíkácia
                             <input type="text" name="mod_title"
                                 value="{{ old('mod_title') ?? $organization->mod_title }}"
                                 placeholder="Meno pred názvom článku">
                         </div>
+
 
                         <span style="font-weight: 600">Organizácia na predný zoznam</span><br>
                         @forelse(\App\Models\Updater::all() as $updater)
