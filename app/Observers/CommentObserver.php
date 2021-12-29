@@ -20,13 +20,14 @@ class CommentObserver
      */
     public function created(Comment $comment)
     {
-        if(! $comment->user_id == auth()->id())
+        if(! $comment->user_id == auth()->user()->id OR ! $comment->user_id == 100 )
         {
-            $comment->user->notify(new CreatedNewComment($comment));
+            // $comment->user->notify(new CreatedNewComment($comment));
         }
 
+        // Stále hlási problém, lebo comment sa vytvorí ako 0 ale DB prída 1, čo sa nepočíta. 
         if($comment->active == 0) {
-            Notification::send(User::role('admin')->get(),  new UnpublishedComment($comment));
+            // Notification::send(User::role('admin')->get(),  new UnpublishedComment($comment));
         }
 
     }

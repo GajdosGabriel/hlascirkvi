@@ -57,8 +57,7 @@ class PostsController extends Controller
 //                session()->forget('postsHistory');
 //        dd(\Session::get('postsHistory'));
 
-        // event(new ViewCounter($post));
-
+        event(new ViewCounter($post));
 
         $posts = $this->post->postsBelongToOrganization($post->organization_id);
         // $questions = (new Messenger)->scopeUserMessages($post->organization_id);

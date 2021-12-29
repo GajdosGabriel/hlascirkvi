@@ -2,8 +2,10 @@
     <div
         class="text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md"
     >
-        <div class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3  bg-gray-100">
-            <strong v-text="getShortName"></strong>
+        <div
+            class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3  bg-gray-100"
+        >
+            <strong v-text="comment.user_name"></strong>
 
             <div class="flex text-sm text-gray-500" v-if="canUpdate">
                 <a class="mr-2" href="#" @click.prevent="destroy()">Zmazať</a>
@@ -15,12 +17,13 @@
             <favorite :reply="comment"></favorite>
         </div>
 
-        <div
-            v-if="!editComment"
-            v-text="cakanaschvalenie"
-            class="px-3 mb-2"
-            :class="redText"
-        ></div>
+        <div class="flex">
+            <img :src="comment.user_avatar" class="h-14 py-2 rounded-full ml-2" />
+
+            <div v-if="!editComment" class="px-3 mb-2" :class="redText">
+                {{ cakanaschvalenie }}
+            </div>
+        </div>
 
         <div v-if="editComment" class="p-3">
             <textarea

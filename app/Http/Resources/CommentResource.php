@@ -21,6 +21,8 @@ class CommentResource extends JsonResource
             'created_at_human' => $this->created_at->diffForHumans(),
             'comment_post' => $this->commentable,
             'user' => $this->user,
+            'user_name' => $this->user_name ? $this->user_name : "{$this->user->first_name} {$this->user->last_name}",
+            'user_avatar' => $this->user_avatar ? $this->user_avatar : $this->user->avatar,
             'favorites' => $this->favorites,
             'is_favorited' => $this->isFavorited,
             'favorites_count' => $this->favoritesCount,

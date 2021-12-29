@@ -28,6 +28,7 @@ Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled');
 Route::get('/videa/videa', 'Api\ManualDownloaderController@videa')->name('videa.videa');
 Route::get('/akcie/akcie', 'Api\ManualDownloaderController@akcie')->name('akcie.akcie');
 Route::get('/modlitby/modlitby', 'Api\ManualDownloaderController@modlitby')->name('modlitby.modlitby');
+Route::get('/comments/comments', 'Api\ManualDownloaderController@comments')->name('comments.comments');
 
 
 

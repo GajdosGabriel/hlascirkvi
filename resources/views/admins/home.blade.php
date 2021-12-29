@@ -35,6 +35,11 @@
                     </a>
                 </li>
 
+                <li class="hover:bg-gray-200 p-2 rounded">
+                    <a href="{{ route('comments.comments') }}">
+                        Youtube komentáre                    </a>
+                </li>
+
             </ul>
 
         @endslot

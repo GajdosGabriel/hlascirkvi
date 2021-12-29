@@ -9,6 +9,7 @@ use App\Services\Extractor\ExtractEcav;
 use App\Services\Extractor\ExtractTkkbs;
 use App\Services\Extractor\ExtractVyveska;
 use App\Services\Extractor\ExtractMojaKomunita;
+use App\Services\Extractor\ExtractYoutubeComment;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 
 class ManualDownloaderController extends Controller
@@ -31,9 +32,14 @@ class ManualDownloaderController extends Controller
 
     public function modlitby()
     {
-        // Modlitby boli dočasné nedostupné na strane ich webu
         (new ExtractMojaKomunita())->parseListUrl();
         (new ExtractZdruzenieMedaily())->parseListUrl();
+        return redirect()->route('admin.home');
+    }
+
+    public function comments()
+    {
+        (new ExtractYoutubeComment())->getComments();
         return redirect()->route('admin.home');
     }
 }

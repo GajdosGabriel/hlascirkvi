@@ -44,26 +44,88 @@ class TestController extends Controller
     public function newsletter()
     {
 
-        // (new VideoUpload)->handle();
+        // $comments = \Youtube::getCommentThreadsByVideoId('984SFBcc-eQ');
+        // $comments = \Youtube::getVideoInfo('1nFJV_NU8LQ');
+
+        // dd($comments);
+
+        $posts =  (new EloquentPostRepository)->postsByUpdater(15)->where('video_id', '<>', null)
+        // ->where('created_at', '<=', Carbon::now()->subWeek(1) )
+        ->whereVideoDuration(null)
+        ->take(10)
+        ->latest()->get();
+
+        dd($posts);
+
+        foreach ($posts as $post) {
+
+            // Chceck if video is commentAble
+            $video = \Youtube::getVideoInfo($post->video_id);
+
+            // If video dont exist any more
+            if (!$video) {
+                $post->update(['video_available' => $video]);
+                continue;
+            };
+
+            // If video is dont available // private
+            if (!$video->status->embeddable) {
+                $post->update(['video_available' => false]);
+                continue;
+            };
+
+            // Put video duration
+            if (!$post->duration) {
+                $post->update(['video_duration' => $video->contentDetails->duration]);
+                continue;
+            };
+
+            // If video doest have any comments
+            if (!$video->statistics->commentCount > 0) {
+                continue;
+            };
+
+
+
+            // dd($comments->statistics->commentCount);
+
+            // dd($post->video_id);
+
+            $comments = \Youtube::getCommentThreadsByVideoId($post->video_id);
+            // $video = \Youtube::getVideoInfo('rie-hPVJ7Sw');
+
+
+
+
+            // dd($comments);
+            // dd($post->id);
+
+
+            foreach ($comments as $comment) {
+                $bodyComment = $comment->snippet->topLevelComment->snippet->textDisplay;
+                if (strlen($bodyComment) > 10) {
+
+                    $post->comments()->create([
+                        'user_id' => 100,
+                        'body' => $comment->snippet->topLevelComment->snippet->textDisplay,
+                        'user_avatar' => $comment->snippet->topLevelComment->snippet->authorProfileImageUrl,
+                        'user_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
+                        // 'created_at' => \Carbon\Carbon::parse($comment->snippet->topLevelComment->snippet->publishedAt)->format('Y-m-d h:i:s'),
+                    ]);
+                }
+            }
+        }
+        dd('Koniec');
+        dd($comments[0]->snippet->topLevelComment->snippet);
 
 
         dd('Koniec');
 
-        
-        $comments = \Youtube::getCommentThreadsByVideoId('zwiUB_Lh3iA');
-        // $video = \Youtube::getVideoInfo('rie-hPVJ7Sw');
+        return;
 
-       
-          dd ($comments[0]->snippet->topLevelComment->snippet);
- 
-
-
-
-        return ;
-  
-         dd($comments->snippet);
-         dd($video->snippet->description);
-         dd($video->snippet->title);
+        dd($comments->snippet);
+        dd($video->snippet->description);
+        dd($video->snippet->title);
 
         // User::create([
         //     'first_name' => 'vabriel',
@@ -71,47 +133,47 @@ class TestController extends Controller
         // 'email' => 'dfddsdf@email.comdfds',
         // 'password' => Hash::make('password')
         // ]);
-    //    $this->user->createUserRegisterForm([
-    //     'first_name' => 'Gabriel',
-    //     'last_name' => 'Gajdoš',
-    //     'email' => 'dfasdf@email.com',
-    //     'password' => Hash::make('password')
-    //    ]);
+        //    $this->user->createUserRegisterForm([
+        //     'first_name' => 'Gabriel',
+        //     'last_name' => 'Gajdoš',
+        //     'email' => 'dfasdf@email.com',
+        //     'password' => Hash::make('password')
+        //    ]);
 
 
 
         // dd('nie je');
 
-// $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
-$href = 'https://www.tkkbs.sk/view.php?cisloclanku=20211202023';
-$event = Event::first();
-// dd($event);
+        // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
+        $href = 'https://www.tkkbs.sk/view.php?cisloclanku=20211202023';
+        $event = Event::first();
+        // dd($event);
 
-    //    $events = (new ExtractVyveska())->parseListUrl();
-       $events = (new ExtractTkkbs())->parseEvent($href, $event);
+        //    $events = (new ExtractVyveska())->parseListUrl();
+        $events = (new ExtractTkkbs())->parseEvent($href, $event);
 
         dd($events);
 
 
         $posts =
-        \DB::table('posts')
-        ->join('post_updater', function($join){
-            $join->on('posts.id', '=', 'post_updater.post_id')
-            ->whereUpdaterId('16');
-        })
-        ->where( 'created_at', '>',  Carbon::now()->subDays(20) )->get();
+            \DB::table('posts')
+            ->join('post_updater', function ($join) {
+                $join->on('posts.id', '=', 'post_updater.post_id')
+                    ->whereUpdaterId('16');
+            })
+            ->where('created_at', '>',  Carbon::now()->subDays(20))->get();
         dd($posts);
 
 
 
         $vysledok =  \DB::table('organizations')
-        ->select([
-            \DB::raw('count(*) as user_posts'),
-            \DB::raw('DATE(created_at) as den')
-        ])
-        ->groupBy('den')
-        ->orderBy('user_posts', 'asc')
-        ->get();
+            ->select([
+                \DB::raw('count(*) as user_posts'),
+                \DB::raw('DATE(created_at) as den')
+            ])
+            ->groupBy('den')
+            ->orderBy('user_posts', 'asc')
+            ->get();
 
         dd($vysledok);
 
@@ -129,10 +191,10 @@ $event = Event::first();
         parse_str(parse_url($url, PHP_URL_QUERY), $my_array_of_vars);
         echo $my_array_of_vars['v'];
 
-//    $url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=related";
-//     $parse = parse_url($url, PHP_URL_QUERY);
-//     parse_str($parse, $output);
-//     echo $output['watch'];
+        //    $url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=related";
+        //     $parse = parse_url($url, PHP_URL_QUERY);
+        //     parse_str($parse, $output);
+        //     echo $output['watch'];
 
         // $posts= Post::whereHas('updaters', function(){
 
@@ -150,21 +212,21 @@ $event = Event::first();
 
         // print_r($sum);
 
-    //     $class = "App\Models\Post";
-    //     $class = new $class;
+        //     $class = "App\Models\Post";
+        //     $class = new $class;
 
-    //     dd($class);
-
-
-    //    $posts = (new EloquentPostRepository())->postsByUpdater(15)
-    //             ->where('title', 'like', '%duch sv%')
-    //             ->OrWhere('title', 'like', '%ducha sv%')
-    //             ->orWhere('title', 'like', '%turic%')
-    //             ->whereNotIn('id', [682]) // Zdvojené video
-    //             ->get();
+        //     dd($class);
 
 
-    //             dd($posts);
+        //    $posts = (new EloquentPostRepository())->postsByUpdater(15)
+        //             ->where('title', 'like', '%duch sv%')
+        //             ->OrWhere('title', 'like', '%ducha sv%')
+        //             ->orWhere('title', 'like', '%turic%')
+        //             ->whereNotIn('id', [682]) // Zdvojené video
+        //             ->get();
+
+
+        //             dd($posts);
 
         // $user = User::first();
         // event(new NotifyBell($user));
@@ -173,7 +235,7 @@ $event = Event::first();
 
         // $prayer = Prayer::whereId(367)->first();
 
-    //    dd( $prayer );
+        //    dd( $prayer );
 
         // foreach($prayer->favorites as $favorite)
         // {
@@ -190,7 +252,7 @@ $event = Event::first();
 
         // Mail::to(User::first())->send(new PostNewsletter($posts, $events, $prayers));
 
-    //    return new PostNewsletter($posts, $events, $prayers);
+        //    return new PostNewsletter($posts, $events, $prayers);
     }
 
 
@@ -202,28 +264,28 @@ $event = Event::first();
         // $event = Event::findOrFail(100);
         // (new ExtractTkkbs())->parseEvent( 'https://www.tkkbs.sk/view.php?cisloclanku=20210414030', $event);
 
-//        $users = User::all();
-//
-//        foreach ($users as $user){
-//            $user->update([
-//                'api_token' => bin2hex(openssl_random_pseudo_bytes(30))
-//                ]);
-//        }
+        //        $users = User::all();
+        //
+        //        foreach ($users as $user){
+        //            $user->update([
+        //                'api_token' => bin2hex(openssl_random_pseudo_bytes(30))
+        //                ]);
+        //        }
 
-//        bin2hex(openssl_random_pseudo_bytes(16))
-//        $message = Messenger::whereId(11)->first();
+        //        bin2hex(openssl_random_pseudo_bytes(16))
+        //        $message = Messenger::whereId(11)->first();
 
-//        dd($message->requestedUser->fullname);
+        //        dd($message->requestedUser->fullname);
 
-//        (new Buffer())->handler();
-//       $prayers =  Prayer::all();
-//
-//       foreach ($prayers as $prayer){
-//           $prayer->update([
-//               'created_at' =>  Carbon::createFromFormat('Y-m-d H:i:s',$prayer->created_at)->addMinute(rand(3,49))->toDateTimeString()
-//           ]);
-//       }
-//       $posts = (new ExtractMojaKomunita())->parseListUrl();
+        //        (new Buffer())->handler();
+        //       $prayers =  Prayer::all();
+        //
+        //       foreach ($prayers as $prayer){
+        //           $prayer->update([
+        //               'created_at' =>  Carbon::createFromFormat('Y-m-d H:i:s',$prayer->created_at)->addMinute(rand(3,49))->toDateTimeString()
+        //           ]);
+        //       }
+        //       $posts = (new ExtractMojaKomunita())->parseListUrl();
     }
 
 
@@ -332,12 +394,12 @@ $event = Event::first();
             $splitText[] = substr($text, 0);
         }
 
-//        foreach ($splitText as $text) {
-//            $text->update([
-//                'body' => $post->body . '<p>' . $text . '</p>'
-//            ]);
-//
-//        }
+        //        foreach ($splitText as $text) {
+        //            $text->update([
+        //                'body' => $post->body . '<p>' . $text . '</p>'
+        //            ]);
+        //
+        //        }
 
 
         return $splitText;
@@ -347,96 +409,96 @@ $event = Event::first();
 
 
     //   public function test() {
-//
-//       $organizations = \DB::table('views')
-////           ->take(1000)
-//               ->whereMonth('viewed_at', date('m'))
-//
-//           ->whereMonth('viewed_at', date('m'))
-//           ->join('posts', 'posts.id', '=', 'views.viewable_id')
-//           ->select('viewable_id', DB::raw('count(*) as total_view , posts.title as post_title, posts.id as post_id'))
-//           ->groupBy('viewable_id', 'post_title', 'post_id')
-//           ->orderBy('total_view', 'desc')
-//           ->get();
-//
-////       ->groupBy('viewable_id', 'desc');
-////           ->groupBy('visitor', 'desc')->count();
-//
-//
-//
-//
-//      dd($organizations);
-//
-//   }
+    //
+    //       $organizations = \DB::table('views')
+    ////           ->take(1000)
+    //               ->whereMonth('viewed_at', date('m'))
+    //
+    //           ->whereMonth('viewed_at', date('m'))
+    //           ->join('posts', 'posts.id', '=', 'views.viewable_id')
+    //           ->select('viewable_id', DB::raw('count(*) as total_view , posts.title as post_title, posts.id as post_id'))
+    //           ->groupBy('viewable_id', 'post_title', 'post_id')
+    //           ->orderBy('total_view', 'desc')
+    //           ->get();
+    //
+    ////       ->groupBy('viewable_id', 'desc');
+    ////           ->groupBy('visitor', 'desc')->count();
+    //
+    //
+    //
+    //
+    //      dd($organizations);
+    //
+    //   }
 
 
-//   public function test() {
-//
-//      $districts = DB::table('events')
-//          ->where('end_at', '>', Carbon::now())->wherePublished(1)
-//          ->where('deleted_at', null)
-//          ->join('villages', 'events.village_id', '=', 'villages.id')
-//          ->join('districts','districts.id','=','villages.district_id')
-//          ->select('districts.name', 'districts.id' )
-//          ->get()
-//       ->groupBy('name');
-//
-//      dd($districts);
-//
-//   }
+    //   public function test() {
+    //
+    //      $districts = DB::table('events')
+    //          ->where('end_at', '>', Carbon::now())->wherePublished(1)
+    //          ->where('deleted_at', null)
+    //          ->join('villages', 'events.village_id', '=', 'villages.id')
+    //          ->join('districts','districts.id','=','villages.district_id')
+    //          ->select('districts.name', 'districts.id' )
+    //          ->get()
+    //       ->groupBy('name');
+    //
+    //      dd($districts);
+    //
+    //   }
 
 
-//   public function test()
-//   {
-//      $posts = Post::take(200)->get();
-//      foreach($posts as $post) {
-//
-//         // Remove spacial characters
-//         $cleanTitle = str_replace([':', ',', '?','.'], ' ' , $post->title);
-//
-//         // if title is too long
-////         if(strlen($post->title) > 50) continue;
-//
-//         // Only org. who is person
-//         if($post->organization->person !== 1) continue;
-//
-//         // I. If full name is not already in the post's title
-//         if(stripos($cleanTitle, $post->organization->title)) continue;
-//
-//         // II. If post title contain one of the fullname
-//         $orgName = explode(" ", $post->organization->title);
-//         $postTitle = explode(" ", $cleanTitle);
-//
-//         // Find only match
-//         $arracount = array_diff($orgName,$postTitle);
-//
-//         // If same match first name or last name
-//         if( count($arracount) == 0 || count($arracount) == 1) continue;
-//
-//
-//
-//         print_r(count($arracount).'/'. $post->title .' '. strlen($post->title) . ' '.$post->organization->title .'<br>') ;
-//      }
+    //   public function test()
+    //   {
+    //      $posts = Post::take(200)->get();
+    //      foreach($posts as $post) {
+    //
+    //         // Remove spacial characters
+    //         $cleanTitle = str_replace([':', ',', '?','.'], ' ' , $post->title);
+    //
+    //         // if title is too long
+    ////         if(strlen($post->title) > 50) continue;
+    //
+    //         // Only org. who is person
+    //         if($post->organization->person !== 1) continue;
+    //
+    //         // I. If full name is not already in the post's title
+    //         if(stripos($cleanTitle, $post->organization->title)) continue;
+    //
+    //         // II. If post title contain one of the fullname
+    //         $orgName = explode(" ", $post->organization->title);
+    //         $postTitle = explode(" ", $cleanTitle);
+    //
+    //         // Find only match
+    //         $arracount = array_diff($orgName,$postTitle);
+    //
+    //         // If same match first name or last name
+    //         if( count($arracount) == 0 || count($arracount) == 1) continue;
+    //
+    //
+    //
+    //         print_r(count($arracount).'/'. $post->title .' '. strlen($post->title) . ' '.$post->organization->title .'<br>') ;
+    //      }
 
 
     // Check if name not exist in title
 
 
-//   }
+    //   }
 
 
-//   public function test() {
-//
-//      $even = new ExtractTkkbs();
-//
-//      $getEvent = Event::whereId(1)->get();
-//
-//
-//     $evenx = $even->parseEvent('https://www.tkkbs.sk/view.php?cisloclanku=20200107034', $getEvent);
-//
-//
-////      if (getimagesize('https://www.tkkbs.sk/galeria/images/1235725406/1499930279.jpg') !== false) {
-////         echo 'exist img';
-////      }
-//   }
+    //   public function test() {
+    //
+    //      $even = new ExtractTkkbs();
+    //
+    //      $getEvent = Event::whereId(1)->get();
+    //
+    //
+    //     $evenx = $even->parseEvent('https://www.tkkbs.sk/view.php?cisloclanku=20200107034', $getEvent);
+    //
+    //
+    ////      if (getimagesize('https://www.tkkbs.sk/galeria/images/1235725406/1499930279.jpg') !== false) {
+    ////         echo 'exist img';
+    ////      }
+    //   }
 }

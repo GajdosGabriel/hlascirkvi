@@ -61,6 +61,7 @@ class ExtractMojaKomunita extends Extractors
         $className = "user-name";
         $userName = $finder->query("//*[contains(@class, '$className')]");
 
+        $extractedUser = [];
         foreach ($userName as $link) {
 
             //Get the link text.
@@ -78,6 +79,7 @@ class ExtractMojaKomunita extends Extractors
         $classBody = "pBody";
         $prayersBody = $finder->query("//*[contains(@class, '$classBody')]");
 
+   
         foreach ($prayersBody as $link) {
 
             //Get the link text.
@@ -91,8 +93,13 @@ class ExtractMojaKomunita extends Extractors
             );
         }
 
+        // dd(!empty($extractedUser));
         //   Merge all arrays;
-        $merged = array_replace_recursive($extractedUser, $extractedBody, $extractedTitle);
+        if(! empty($extractedUser)){
+            $merged = array_replace_recursive($extractedUser, $extractedBody, $extractedTitle);
+        }else {
+            return;
+        }
 
 //        dd($merged);
         // Pri ďakokvných modlitbách (iné html) chýba body a user
