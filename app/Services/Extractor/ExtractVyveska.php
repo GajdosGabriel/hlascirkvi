@@ -92,10 +92,12 @@ class ExtractVyveska extends Extractors
                 );
         }
 
+
+
         $dateString = implode("|", $extractedDates[0]);
 
 
-        if (substr_count($dateString, 2021) > 1) {
+        if (substr_count($dateString, 2022) > 1) {
             // Ak sú dva dátumy začiatok a koniec
             $date =  explode("-", $dateString);
             $startDate = $date[0];
@@ -157,7 +159,6 @@ class ExtractVyveska extends Extractors
                 'src' =>    '<p>' . $linkText . '</p>'
             );
         }
-
 
         // Odstránenie prvého array newslettra
         $bodyWithLocation = array_slice($extractedLinks, 1);

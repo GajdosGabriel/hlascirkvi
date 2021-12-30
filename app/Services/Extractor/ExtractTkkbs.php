@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Gabriel
@@ -23,10 +24,11 @@ class ExtractTkkbs extends Extractors
     protected $organizationId = 101;
 
 
-    public function parseListUrl() {
-//        $url = "https://www.tkkbs.sk/search.php?rstext=pozvanka&rskde=tsl";
+    public function parseListUrl()
+    {
+        //        $url = "https://www.tkkbs.sk/search.php?rstext=pozvanka&rskde=tsl";
         $html = file_get_contents($this->url);
-//        $html = file_get_contents($this->url);
+        //        $html = file_get_contents($this->url);
 
         //Instantiate the DOMDocument class.
         $htmlDom = new DOMDocument;
@@ -42,20 +44,20 @@ class ExtractTkkbs extends Extractors
 
         //Loop through the DOMNodeList.
         //We can do this because the DOMNodeList object is traversable.
-        foreach($links as $link){
+        foreach ($links as $link) {
 
             //Get the link text.
             $linkText = $link->nodeValue;
             //Get the link in the href attribute.
             $linkHref = $link->getAttribute('href');
 
-            if(stripos($linkHref ,'cisloclanku' ) == false ){
+            if (stripos($linkHref, 'cisloclanku') == false) {
                 continue;
             }
 
             //Add the link to our $extractedLinks array.
             $extractedLinks[] = array(
-                'title' =>$linkText,
+                'title' => $linkText,
                 'href' =>  $linkHref
             );
         }
@@ -63,7 +65,8 @@ class ExtractTkkbs extends Extractors
     }
 
 
-    public function parseEvent($href, $event) {
+    public function parseEvent($href, $event)
+    {
         // $url = "https://www.ecav.sk/aktuality/pozvanky";
         $html = file_get_contents($this->prefix . $href);
         // $html = file_get_contents('https://www.tkkbs.sk/view.php?cisloclanku=20191219020');
@@ -78,41 +81,44 @@ class ExtractTkkbs extends Extractors
         $imgUrls = $htmlDom->getElementsByTagName('img');
         $bodyText = $htmlDom->getElementsByTagName('p');
 
-       
+
 
         //Array that will contain our extracted links.
         $extractedLinks = array();
 
         //Loop through the DOMNodeList.
         //We can do this because the DOMNodeList object is traversable.
-        foreach( $bodyText as $link){
+        foreach ($bodyText as $link) {
             //Get the link text.
             $linkText = $link->nodeValue;
 
             // validation
-            if($linkText == "\n"){
+            if ($linkText == "\n") {
                 continue;
             }
 
-            if($linkText == ""){
+            if ($linkText == "") {
                 continue;
             }
 
             $extractedLinks[] = array(
-                'src' => "<p>". $linkText ."</p>"
+                'src' => "<p>" . $linkText . "</p>"
             );
         }
 
         // dd($extractedLinks);
-   // array to string
-        function convert_multi_array($extractedLinks) {
-            $out = implode(" ",array_map(function($a) {return implode("", $a);}, $extractedLinks));
+        // array to string
+        function convert_multi_array($extractedLinks)
+        {
+            $out = implode(" ", array_map(function ($a) {
+                return implode("", $a);
+            }, $extractedLinks));
             return $out;
-          }
+        }
 
         // array to string
         $body = convert_multi_array($extractedLinks);
-        
+
         // Remove first sentence
         $moveSentence  = $this->first_sentence_move($body);
 
@@ -126,10 +132,10 @@ class ExtractTkkbs extends Extractors
         // Generate paragraps in the event body
         $this->paragraphGenerator($event);
 
-// ----------------------------  GET  IMAGE  ----------------------------------
+        // ----------------------------  GET  IMAGE  ----------------------------------
         //Loop through the DOMNodeList.
         //We can do this because the DOMNodeList object is traversable.
-        foreach( $imgUrls as $link){
+        foreach ($imgUrls as $link) {
             //Get the link in the href attribute.
             $linkImg = $link->nodeValue;
             $linkHref = $link->getAttribute('src');
@@ -140,51 +146,38 @@ class ExtractTkkbs extends Extractors
         }
 
         // Remove first img src image
-    $imgLinks = array_slice($extractedSrcLinks, 1);
-    //   dd(  $imgLinks = array_slice($extractedSrcLinks, 1) );
+        $imgLinks = array_slice($extractedSrcLinks, 1);
+        //   dd(  $imgLinks = array_slice($extractedSrcLinks, 1) );
 
 
-    // Save images from url event
-        foreach( $imgLinks as $link)
-        {
+        // Save images from url event
+        foreach ($imgLinks as $link) {
             $url =  'https://www.tkkbs.sk/' . $link['image'];
 
-            (new Form($event, $url ))->getPictureEcavEvent();
+            (new Form($event, $url))->getPictureEcavEvent();
         }
 
         $event->update([
             'village_id' => $this->finderVillages($moveSentence)
         ]);
-
     }
 
 
 
     //https://www.electrictoolbox.com/get-first-sentence-php/
-    public function first_sentence_move($content) {
+    public function first_sentence_move($content)
+    {
 
         // Remove "Bratislava 19. decembra (TK KBS)"
         $extract = strpos($content, ')');
-        $firstSentence = substr($content, 0, $extract+2);
+        $firstSentence = substr($content, 0, $extract + 2);
 
-        if($extract === false) {
+        if ($extract === false) {
             return $content;
         }
 
         $body = str_replace($firstSentence, "", $content);
 
-        return $body . '<p class="text-right">'. $firstSentence . '</p>';
+        return $body . '<p class="text-right">' . $firstSentence . '</p>';
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

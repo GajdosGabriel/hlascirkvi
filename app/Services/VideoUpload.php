@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Gabriel
@@ -33,18 +34,18 @@ class VideoUpload
 
     protected function foreachOrganization()
     {
-        foreach($this->organizations->getYoutubeVideos() as $organization)
-        {
+        foreach ($this->organizations->getYoutubeVideos() as $organization) {
             $this->validateUrlPlaylistOrChannel($organization);
         }
     }
 
 
-    protected function validateUrlPlaylistOrChannel($organization) {
-        if( strlen($organization->youtube_channel) > 7)
+    protected function validateUrlPlaylistOrChannel($organization)
+    {
+        if (strlen($organization->youtube_channel) > 7)
             $videoList = \Youtube::getActivitiesByChannelId($organization->youtube_channel);
 
-        if( strlen($organization->youtube_playlist) > 7) {
+        if (strlen($organization->youtube_playlist) > 7) {
             $videoList = \Youtube::getPlaylistItemsByPlaylistId($organization->youtube_playlist);
             $videoList = $videoList['results'];
         }
@@ -53,10 +54,11 @@ class VideoUpload
     }
 
 
-    protected function foreachVideolist($videoList,  $organization) {
+    protected function foreachVideolist($videoList,  $organization)
+    {
 
         foreach ($videoList as $video) {
-            if(isset($video->contentDetails->upload->videoId)) {
+            if (isset($video->contentDetails->upload->videoId)) {
                 $videoId = $video->contentDetails->upload->videoId;
             } elseif (isset($video->contentDetails->playlistItem->resourceId->videoId)) {
                 $videoId = $video->contentDetails->playlistItem->resourceId->videoId;
@@ -67,7 +69,7 @@ class VideoUpload
                 continue;
             }
 
-            if($this->checkIfVideoExist($videoId, $video, $organization)) {
+            if ($this->checkIfVideoExist($videoId, $video, $organization)) {
                 continue;
             } else {
                 $this->savePostVideo($video, $videoId, $organization);
@@ -77,23 +79,32 @@ class VideoUpload
 
     protected function savePostVideo($video, $videoId, $organization)
     {
-        $post =  $this->organizations->createPost($organization->id,
+        // Chceck if video is embededable
+        $video = \Youtube::getVideoInfo($videoId);
+
+         // If video isnt shareing for public // is private
+         if (!$video->status->embeddable) {
+             return;        
+        };
+
+        $post =  $this->organizations->createPost(
+            $organization->id,
             [
                 'title' => $video->snippet->title,
                 'video_id' => $videoId,
                 'body' => $video->snippet->description
-            ]);
+            ]
+        );
 
-        if( isset($video->snippet->thumbnails->medium->url)) {
-            (new ImageResize())->resizeImage($post, $video->snippet->thumbnails->medium->url );
+        if (isset($video->snippet->thumbnails->medium->url)) {
+            (new ImageResize())->resizeImage($post, $video->snippet->thumbnails->medium->url);
         }
 
         /*
          * Ak je organizácia zaradená do zoznamu (1-živé vysielanie)
          * bude sa hned publikovať.
          */
-        if($organization->updaters->contains('id', 1))
-        {
+        if ($organization->updaters->contains('id', 1)) {
             $post->updaters()->attach(16);
         }
 
@@ -102,29 +113,27 @@ class VideoUpload
         * Ak je organizácia zaradená do zoznamu (15 front-post)
         * bude sa hned publikovať.
         */
-        if($organization->updaters->contains('id', 4))
-        {
+        if ($organization->updaters->contains('id', 4)) {
             $post->updaters()->attach(15);
         }
-
     }
 
 
     protected function sendErrorForAdmin($organization)
     {
-//        User::first()->notify(new Error($organization));
+        //        User::first()->notify(new Error($organization));
     }
 
     protected function checkIfVideoExist($videoId, $video, $organization)
     {
-     if( \DB::table('posts')->whereVideoId($videoId)->first() )  return true;
+        if (\DB::table('posts')->whereVideoId($videoId)->first())  return true;
 
-        return  $this->exemption( $video, $organization);
+        return  $this->exemption($video, $organization);
     }
 
     protected function exemption($video, $organization)
     {
-        if($organization->id == 256) {
+        if ($organization->id == 256) {
 
             // title of video
             $str = strtolower($video->snippet->title);
@@ -136,8 +145,5 @@ class VideoUpload
                 return true;
             }
         }
-
     }
-
-
 }
