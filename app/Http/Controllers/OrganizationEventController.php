@@ -26,6 +26,12 @@ class OrganizationEventController extends Controller
         return view('events.create', ['event' => new Event(), 'organization' => $organization]);
     }
 
+    public function show(Organization $organization, Event $event)
+    {
+        $this->authorize('viewAny', $organization);
+        return view('profiles.events.show', compact('event', 'organization'));
+    }
+
     public function edit(Organization $organization, Event $event)
     {
         $this->authorize('viewAny', $organization);
@@ -43,7 +49,7 @@ class OrganizationEventController extends Controller
 
         session()->flash('flash', 'Podujatie je aktualizované!');
 
-        return redirect()->route('akcie.show', [$event->id]);
+        return redirect()->route('organization.event.show', compact('event', 'organization'));
     }
 
     public function store(Organization $organization, StoreEventRequest $request)
