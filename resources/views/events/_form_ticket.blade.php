@@ -1,4 +1,3 @@
-
 <div class="card">
 
     <div class="card_header">
@@ -26,45 +25,47 @@
 
         </div>
 
-        <form method="post" action="{{ route('event.subscribeByForm', [$event->id]) }}" >
+        <form method="post" action="{{ route('event.subscribeByForm', [$event->id]) }}">
             @csrf @method('POST')
 
             <div v-for="ticket in quantities" v-cloak class="bg-gray-300 mb-6">
                 <div class="px-4">
                     <div class="pb-3">
-                        <div class="mb-4 font-semibold text-2xl">
+                        <div class="mb-4 font-semibold text-lg">
                             <span>Rezervácia miesta na akciu "{{ $event->title }}"</span>
                             <span>Zadarmo</span>
                         </div>
 
                         <div class="form-group">
                             <label>Meno</label>
-                            <input type="text" name="first_name[]" placeholder="Meno prihláseného" required class="form-control" >
+                            <input type="text" name="first_name[]" placeholder="Meno prihláseného" required
+                                class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Priezvisko</label>
-                            <input type="text" name="last_name[]" placeholder="Priezvisko prihláseného" required class="form-control" >
+                            <input type="text" name="last_name[]" placeholder="Priezvisko prihláseného" required
+                                class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email[]" placeholder="Email na potvrdenie rezervácie" required class="form-control" >
+                            <input type="email" name="email[]" placeholder="Email na potvrdenie rezervácie" required
+                                class="form-control">
                         </div>
 
-                        <input type="checkbox" name="love" value="love" id="love" required>
-                        <label style="background: white; color: #8e8e8e" for="love"> Súhlas z spracovaním osob. údajov</label>
-
+                        <div class="text-right">
+                            <input type="checkbox" name="love" value="love" id="love" required>
+                            <label class="" for="love"> Súhlas z spracovaním osob. údajov</label>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-group text-right px-4">
-                <button type="submit" class="btn btn-primary" :class="disabled" >Registrovať</button>
+                <button type="submit" class="btn btn-primary" :class="disabled">Registrovať</button>
             </div>
         </form>
 
     </div>
 
 </div>
-
-
