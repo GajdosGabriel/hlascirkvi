@@ -40,8 +40,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('UserSearchByName')->dailyAt('06:55');
 
 
-        //        $schedule->command('PublisherBufferVideo')->everyMinute();
-        //        $schedule->command('PublisherBufferVideo')->twiceDaily(7, 17);
+            //    $schedule->command('PublisherBufferVideo')->everyMinute();
+            //    $schedule->command('PublisherBufferVideo')->twiceDaily(7, 17);
         //        $schedule->command('PublisherBufferVideo')
         //            ->twiceDaily(7, 8)
         //            ->twiceDaily(10, 13)

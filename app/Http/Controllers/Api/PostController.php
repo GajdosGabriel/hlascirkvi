@@ -30,7 +30,7 @@ class PostController extends Controller
             return;
         }
 
-        Post::withoutGlobalScope('published')->whereId($post)->first()->update( $request->all() );
+        Post::whereId($post)->first()->update( $request->all() );
 
     }
 }

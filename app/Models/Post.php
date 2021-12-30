@@ -32,11 +32,6 @@ class Post extends Model implements ViewableContract
         static::addGlobalScope('youtube_blocked', function (Builder $builder) {
             $builder->whereYoutubeBlocked(0);
         });
-
-        // Ak má byť publikované must have same records in updaters.
-        // static::addGlobalScope('published', function (Builder $builder) {
-        //     $builder->has('updaters');
-        // });
     }
 
     public function path()

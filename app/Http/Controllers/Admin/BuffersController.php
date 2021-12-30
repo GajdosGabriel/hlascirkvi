@@ -19,7 +19,7 @@ class BuffersController extends Controller
     public function indexBufferedVideos(Request $request)
     {
 
-        $posts = Post::withoutGlobalScope('published')->doesntHave('updaters')->latest();
+        $posts = Post::doesntHave('updaters')->latest();
 
         if ($request->posts) {
             $posts = $posts->where('organization_id', $request->posts);

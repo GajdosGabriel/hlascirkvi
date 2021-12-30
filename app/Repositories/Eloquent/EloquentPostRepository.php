@@ -46,7 +46,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
 
     protected function unpublished()
     {
-        return $this->entity->withoutGlobalScope('published')->doesntHave('updaters');
+        return $this->entity->doesntHave('updaters');
     }
 
     public function unpublishedPaginate($perPage)
@@ -73,7 +73,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      */
     public function findAndPublishPost($post, $IdUpdater)
     {
-        $post = $this->entity->withoutGlobalScope('published')->find($post);
+        $post = $this->entity->find($post);
         $post->update([
             'created_at' => now(),
             'published' => now()
