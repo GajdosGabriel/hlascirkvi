@@ -56,6 +56,11 @@ class ExtractYoutubeComment
                 $post->update(['video_duration' => $video->contentDetails->duration]);
             };
 
+            // If video has enable comments
+            if (! isset($video->statistics->commentCount)) {
+                continue;
+            };
+
             // If video doest have any comments
             if (!$video->statistics->commentCount > 0) {
                 continue;
