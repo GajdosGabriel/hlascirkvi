@@ -106,18 +106,10 @@ class ExtractTkkbs extends Extractors
             );
         }
 
-        // dd($extractedLinks);
         // array to string
-        function convert_multi_array($extractedLinks)
-        {
-            $out = implode(" ", array_map(function ($a) {
-                return implode("", $a);
-            }, $extractedLinks));
-            return $out;
-        }
-
-        // array to string
-        $body = convert_multi_array($extractedLinks);
+        $body = implode(" ", array_map(function ($a) {
+            return implode("", $a);
+        }, $extractedLinks));
 
         // Remove first sentence
         $moveSentence  = $this->first_sentence_move($body);
@@ -154,7 +146,7 @@ class ExtractTkkbs extends Extractors
         foreach ($imgLinks as $link) {
             $url =  'https://www.tkkbs.sk/' . $link['image'];
 
-            (new Form($event, $url))->getPictureEcavEvent();
+            (new Form($event, $url))->getPictureFromEvent();
         }
 
         $event->update([

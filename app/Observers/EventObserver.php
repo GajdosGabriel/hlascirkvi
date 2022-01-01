@@ -30,10 +30,10 @@ class EventObserver
         session()->flash('flash', 'Podujatie bolo uložené!');
 
 
-        // 271 Výveska
-        if ($event->organization_id != 271) {
-            Notification::send(User::role('admin')->get(), new NewEvent($event));
-        }
+        // // 271 Výveska
+        // if ($event->organization_id != 271) {
+        //     Notification::send(User::role('admin')->get(), new NewEvent($event));
+        // }
     }
 
     /**

@@ -162,7 +162,7 @@ class ExtractEcav extends Extractors
 //
 //            dd($extractedLinks);
 
-            (new Form($event, $linkHref))->getPictureEcavEvent();
+            (new Form($event, $linkHref))->getPictureFromEvent();
 
             break;
         }

@@ -108,8 +108,8 @@ class Form {
 
 
 
-    // Create img from ECAV event/ POZVANKY
-    public function getPictureEcavEvent()
+    // Create img from event/ POZVANKY
+    public function getPictureFromEvent()
     {
         $file_name = $this->model->slug . '-' . rand(1000, 90000) . '.jpg';
 //        $file_name = bin2hex(openssl_random_pseudo_bytes(24)) . '.jpg';

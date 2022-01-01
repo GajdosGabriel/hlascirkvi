@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Gabriel
@@ -36,11 +37,9 @@ abstract class Extractors
                 'body' => $item['body'],
                 'user_name' => $item['user'],
                 'user_id' => 1,
-                'created_at' => Carbon::now()->subHours(2)->addMinute(rand(3,55))->toDateTimeString(),
+                'created_at' => Carbon::now()->subHours(2)->addMinute(rand(3, 55))->toDateTimeString(),
             ]);
-
         }
-
     }
 
     protected function createEvent($data, $published = 0)
@@ -54,8 +53,12 @@ abstract class Extractors
             // Remove extra spaces but not space between two words
             $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
 
-            // Find or create new record
-            if (DB::table('events')->whereTitle($title)->whereYear('created_at', '=', Carbon::now()->year )->first()) {
+            // Find existing or create new record
+            if (DB::table('events')->whereTitle($title)
+                // ->whereOrganization_id($this->organizationId)
+                ->where('created_at', '>', Carbon::now()->subMonths(3))
+                ->first()
+            ) {
                 continue;
             }
 
@@ -73,7 +76,6 @@ abstract class Extractors
             ]);
             $this->parseEvent($item['href'], $event);
         }
-
     }
 
 
@@ -81,12 +83,12 @@ abstract class Extractors
     {
         // Najdlhšie name na začiatok a DESC po shortes
         $villages = DB::table('villages')->orderByRaw('(CHAR_LENGTH(fullname)) DESC')->get();
-//        $villages = DB::table('villages')->get();
+        //        $villages = DB::table('villages')->get();
 
         foreach ($villages as $village) {
             // Find whole word
             if (strpos($content, $village->fullname)) {
-//            if (  preg_match("/\b$village->fullname\b/" , $content)  ) {
+                //            if (  preg_match("/\b$village->fullname\b/" , $content)  ) {
 
                 return $village->id;
                 break;
@@ -108,7 +110,7 @@ abstract class Extractors
      * @author   Etienne Tremel
      * @license  http://creativecommons.org/licenses/by/3.0/ CC by 3.0
      */
-//    protected $string = 'some text 01/01/2012 some text v vvvv ';
+    //    protected $string = 'some text 01/01/2012 some text v vvvv ';
     public function find_date($string)
     {
         $shortenize = function ($string) {
@@ -209,7 +211,7 @@ abstract class Extractors
             if ($matches_year && $matches_year[0])
                 $year = $matches_year[0];
         }
-        if (!empty ($day) && !empty ($month) && empty($year)) {
+        if (!empty($day) && !empty($month) && empty($year)) {
             preg_match('/[0-9]{2}/', $string, $matches_year);
             if ($matches_year && $matches_year[0])
                 $year = $matches_year[0];
@@ -235,7 +237,7 @@ abstract class Extractors
             return false;
         else
             return $date['year'] . '-' . $date['month'] . '-' . $date['day'] . $this->timeRecogniser($string);
-//            return $date['year'].'-'.$date['month'].'-'.$date['day'] . ' 23:59:59';
+        //            return $date['year'].'-'.$date['month'].'-'.$date['day'] . ' 23:59:59';
     }
 
     public function timeRecogniser($text)
@@ -249,7 +251,6 @@ abstract class Extractors
             $hours = substr($array[0][0], 0, 2);
             $minutes = substr($array[0][0], 3, 5);
             return ' ' . $hours . ':' . $minutes . ':00';
-
         }
 
         return ' 00:00:00';
@@ -288,13 +289,11 @@ abstract class Extractors
                 $splitText[] = substr($text, 0);
                 $text = '';
                 break;
-
             }
 
             $end++;
             $splitText[] = substr($text, 0, $end);
             $text = substr_replace($text, '', 0, $end);
-
         }
 
         if ($text) {
@@ -314,7 +313,5 @@ abstract class Extractors
 
 
         return $splitText;
-
     }
-
 }

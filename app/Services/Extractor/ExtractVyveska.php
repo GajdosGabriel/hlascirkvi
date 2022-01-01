@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Gabriel
@@ -24,7 +25,7 @@ class ExtractVyveska extends Extractors
     public function parseListUrl()
     {
         // xml file path
-//        $path = "https://www.tkkbs.sk/rss/vsetky/";
+        //        $path = "https://www.tkkbs.sk/rss/vsetky/";
         $path = "http://www.vyveska.sk/rss.xml";
 
         // Read entire file into string
@@ -47,9 +48,9 @@ class ExtractVyveska extends Extractors
 
             //Add the link to our $extractedLinks array.
             $extractedLinks[] = array(
-                        'title' => $link['title'],
-                        'href' => str_replace('?utm_source=vyveska.sk&utm_content=simple&utm_medium=rss', '', str_replace('http://www.vyveska.sk/', '', $link['link']))
-                    );
+                'title' => $link['title'],
+                'href' => str_replace('?utm_source=vyveska.sk&utm_content=simple&utm_medium=rss', '', str_replace('http://www.vyveska.sk/', '', $link['link']))
+            );
         }
         $this->createEvent($extractedLinks, 1);
     }
@@ -58,8 +59,6 @@ class ExtractVyveska extends Extractors
 
     public function parseEvent($href, $event)
     {
-
-
 
         // $url = "https://www.ecav.sk/aktuality/pozvanky";
         $html = file_get_contents($href);
@@ -89,7 +88,7 @@ class ExtractVyveska extends Extractors
 
             $extractedDates[] = array(
                 'datetime' =>   $datetime
-                );
+            );
         }
 
 
@@ -108,8 +107,8 @@ class ExtractVyveska extends Extractors
             $time = explode("-", $date[1]);
 
             // lebo čas celý den je 0:00 preto pridávam pred nulu
-            $startDate = $date[0]. ' '. '0'.$time[0];
-            $endDate = $date[0]. ' '. '0'.$time[1];
+            $startDate = $date[0] . ' ' . '0' . $time[0];
+            $endDate = $date[0] . ' ' . '0' . $time[1];
         }
 
 
@@ -121,9 +120,9 @@ class ExtractVyveska extends Extractors
         // dd($endDate);
 
         $event->update([
-        'start_at' => $this->find_date($startDate),
-        'end_at' => $this->find_date($endDate),
-    ]);
+            'start_at' => $this->find_date($startDate),
+            'end_at' => $this->find_date($endDate),
+        ]);
 
 
 
@@ -176,7 +175,7 @@ class ExtractVyveska extends Extractors
             // 'start_at' => $this->find_date($moveSentence)
         ]);
 
-  // ----------------------------  Rozoznať organizátora  ----------------------------------
+        // ----------------------------  Rozoznať organizátora  ----------------------------------
         $words = explode("<p>Organizátor:", $textBody);
 
         // Check if obsahuje Organizátor
@@ -204,10 +203,10 @@ class ExtractVyveska extends Extractors
                 if ($organization) {
                     break;
                 }
-                $zmensovac -=1;
+                $zmensovac -= 1;
             }
 
-            if($organization){
+            if ($organization) {
                 $event->update([
                     'organization_id' =>  $organization->id
                 ]);
@@ -247,6 +246,6 @@ class ExtractVyveska extends Extractors
         // dd($imgLinks);
 
         // Save images from url event
-        (new Form($event, $this->prefix . $imgLinks))->getPictureEcavEvent();
+        (new Form($event, $this->prefix . $imgLinks))->getPictureFromEvent();
     }
 }
