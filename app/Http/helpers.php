@@ -1,5 +1,11 @@
 <?php
 
+// Remove HardSpace text
+function cleanHardSpace($text)
+{
+    return  str_replace("&quot;", '', $text);;
+}
+
 // Clean body text
 function cleanBody($bodyText)
 {

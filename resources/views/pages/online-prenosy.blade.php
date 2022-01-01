@@ -72,7 +72,7 @@
                         </ul>
                     </div>
 
-                    <a href="#">Chcem spoznať spoločenstvo</a>
+                    {{-- <a href="#">Chcem spoznať spoločenstvo</a> --}}
                 </div>
             @endif
     </div>
