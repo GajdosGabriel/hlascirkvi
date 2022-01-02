@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <i title="Počet zobrazení" class="fa fa-eye"> {{ $event->count_view }} </i>
-                    <a href="{{ route('event.user.index', [$event->id]) }}">Prihlásených:
+                    <a href="{{ route('event.eventSubscribe.index', [$event->id]) }}">Prihlásených:
                         {{ $event->eventSubscribe()->count() }}</a>
                 </div>
 

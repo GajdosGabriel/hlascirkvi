@@ -6,10 +6,11 @@ use App\Role;
 
 use App\Models\User;
 use App\Models\Event;
-use App\EventSubscribe;
+use App\Models\EventSubscribe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventSubscribeForm;
+use App\Models\Organization;
 use App\Repositories\Contracts\UserRepository;
 
 class EventSubscribesController extends Controller
@@ -23,6 +24,27 @@ class EventSubscribesController extends Controller
     {
         $this->authorize('update', $event);
         return view('profiles.events.users.index', compact('event'));
+    }
+
+    public function update(Event $event, EventSubscribe $eventSubscribe, Request $request)
+    {
+        // dd($request->input('confirmed'));
+        $eventSubscribe->update([
+            'confirmed' => $request->input('confirmed')
+        ]);
+        return back();
+    }
+
+    public function store(Event $event, Request $request)
+    {
+        $event->subscribe();
+        return back();
+    }
+
+    public function destroy(Event $event, EventSubscribe $eventSubscribe)
+    {
+        $eventSubscribe->delete();
+        return back();
     }
 
 

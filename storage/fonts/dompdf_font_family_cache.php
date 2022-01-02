@@ -84,7 +84,7 @@
     'normal' => $fontDir . '\e41f270af826027390dde6fc02e945f9',
   ),
   'roboto' => array(
-    'normal' => $fontDir . '\8f6378dd584071c9f5f58902960ddec1',
+    'normal' => $fontDir . '/roboto-normal_ad149bced3f7c2e0ff246c3940f6b965',
   ),
   'lemonada' => array(
     'normal' => $fontDir . '\52b2f0a2d4cd66840c0d21203dce18a2',

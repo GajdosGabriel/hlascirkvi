@@ -33,7 +33,7 @@ Route::resources([
 Route::middleware(['middleware' => 'auth'])->group(function () {
     Route::resources([
         'images'                => ImagesController::class,
-        'event.user'            => Events\EventSubscribesController::class,
+        'event.eventSubscribe'  => Events\EventSubscribesController::class,
         'organization.seminar'  => OrganizationSeminarController::class,
         'organization.post'     => OrganizationPostController::class,
         'organization.event'    => OrganizationEventController::class,

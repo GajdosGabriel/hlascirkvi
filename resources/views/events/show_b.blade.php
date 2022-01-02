@@ -7,7 +7,7 @@
 
 <div class="">
 
-    @if($event->Imagecard)
+    @if ($event->Imagecard)
         <img alt=""
             data-src="{{ url(
                 $event->images()->whereType('card')->first()->original_image_url,
@@ -30,23 +30,22 @@
                             nahrávku!</span>
                     </button>
                 @else
-                    <button type="submit" class="btn btn-default w-full">
+                    <button type="submit" class="btn btn-default w-full mb-4">
                         <i class="fas fa-check"></i>
                         Nemôžem prísť, chcem nahrávku.
                     </button>
                 @endif
             </form>
         @else
-            <form method="post" action="{{ route('favorites.update', [$event->id]) }}">
-                @csrf @method('PUT')
-                <i class="fas fa-check"></i>
-                <input name="model" value="Event" type="hidden">
-                <input name="model_id" value="{{ $event->id }}" type="hidden">
-                <button type="submit" class="btn btn-default">
-                    Chcem sa prihlásiť na akciu.
-                </button>
-            </form>
+            {{--  --}}
         @endif
+
+        <form method="post" action="{{ route('event.eventSubscribe.store', [$event->id]) }}">
+            @csrf @method('POST')
+            <button type="submit" class="btn btn-primary w-full">
+                Rezervovať miesto na akciu {{ auth()->user()->full_name }}
+            </button>
+        </form>
     </div>
 
     {{-- Modul event panel info --}}
