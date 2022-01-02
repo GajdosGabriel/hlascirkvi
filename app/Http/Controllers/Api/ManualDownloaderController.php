@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\VideoUpload;
 use App\Http\Controllers\Controller;
 use App\Services\Extractor\ExtractEcav;
+use App\Services\VideoUploadByUserName;
 use App\Services\Extractor\ExtractTkkbs;
 use App\Services\Extractor\ExtractVyveska;
 use App\Services\Extractor\ExtractMojaKomunita;
@@ -17,6 +18,7 @@ class ManualDownloaderController extends Controller
     public function videa()
     {
         (new VideoUpload)->handle();
+        (new VideoUploadByUserName())->handle();
 
         return redirect()->route('admin.home');
     }
