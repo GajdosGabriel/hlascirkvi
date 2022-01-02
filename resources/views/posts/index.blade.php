@@ -24,7 +24,7 @@
         {{-- Stlpec I. --}}
         @slot('page')
 
-            @include('posts.sviatok')
+            {{-- @include('posts.sviatok') --}}
 
             @if (request()->is('/'))
 

@@ -25,6 +25,7 @@ class FavoritesController extends Controller
     public function update(FavoriteRequest $request, $favorite)
     {
 
+
         if ($request->email) {
             (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
@@ -38,7 +39,7 @@ class FavoritesController extends Controller
 
         if (request()->expectsJson()) return $model;
 
-        // return back();
+        return back();
     }
 
     public function favoriteUsers(User $user) {
@@ -46,14 +47,6 @@ class FavoritesController extends Controller
         session()->flash('flash', 'Priateľstvo s autorom!');
         return back();
     }
-
-    public function storeEventsRecords(Event $event) {
-        $event->favorite();
-        return redirect()->route('akcie.show', [$event->id, $event->slug]);
-    }
-
-
-
 
 
 }

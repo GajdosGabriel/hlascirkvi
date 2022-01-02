@@ -104,7 +104,6 @@ Route::prefix('akcie/')->name('event.')->group(function () {
         Route::get('{event}/{user}/{slug}/print', 'Events\EventsController@printGdpr')->name('gdpr');
         Route::put('{event}/{slug}/eventInfoPanel', 'Events\EventsController@eventInfoPanel')->name('eventInfoPanel');
         Route::get('event/subscribes/eventsubscribe/{eventSubscribe}', 'EventSubscribesController@confirmedSubscribtion')->name('disabled');
-        Route::get('{event}/record/subscribe', 'FavoritesController@storeEventsRecords')->name('record');
     });
 });
 

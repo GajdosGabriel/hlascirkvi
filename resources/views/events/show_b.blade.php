@@ -17,33 +17,24 @@
 
         {{-- vizitka --}}
     @endif
-    <div class="cursor-pointer pl-2 rounded-sm">
-        <a href="{{ route('event.record', [$event->id]) }}">
-            @if ($event->isFavorited())
-                <i class="fas fa-check"></i> <span class="font-semibold"> Odoslaná žiadosť o
-                    nahrávku!</span>
-            @else
-                <i class="fas fa-volume-up"></i> Nemôžem prísť, chcem nahrávku.
-            @endif
-        </a>
-    </div>
 
     {{-- Prihlasovanie pre prihláseného usera --}}
-    <div class="cursor-pointer hover:text-gray-900 pl-2 rounded-sm">
+    <div class="hover:text-gray-900 pl-2 rounded-sm">
         @if (auth()->check())
             <form method="post" action="{{ route('favorites.update', [$event->id]) }}">
                 @csrf @method('PUT')
                 <input name="model" value="Event" type="hidden">
                 <input name="model_id" value="{{ $event->id }}" type="hidden">
                 @if ($event->isSubscribed())
-                    <button type="submit">
+                    <button type="submit" class="btn btn-primary w-full">
                         <i title="Zrušiť prihlásenie" class="fas fa-check"></i>
-                        <span class="font-semibold"> Ste prihlásený! </span>
+                        <span class="font-semibold">Odoslaná žiadosť o
+                            nahrávku!</span>
                     </button>
                 @else
-                    <button type="submit">
+                    <button type="submit" class="btn btn-default w-full">
                         <i class="fas fa-check"></i>
-                        Prihlásiť sa ako {{ auth()->user()->fullName }}
+                        Nemôžem prísť, chcem nahrávku.
                     </button>
                 @endif
             </form>
@@ -53,7 +44,7 @@
                 <i class="fas fa-check"></i>
                 <input name="model" value="Event" type="hidden">
                 <input name="model_id" value="{{ $event->id }}" type="hidden">
-                <button type="submit">
+                <button type="submit" class="btn btn-default">
                     Chcem sa prihlásiť na akciu.
                 </button>
             </form>
