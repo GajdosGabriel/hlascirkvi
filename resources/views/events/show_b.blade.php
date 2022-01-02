@@ -13,8 +13,6 @@
                 $event->images()->whereType('card')->first()->original_image_url,
             ) }}"
             class="lazyload rounded mb-6" data-sizes="auto">
-
-
         {{-- vizitka --}}
     @endif
 

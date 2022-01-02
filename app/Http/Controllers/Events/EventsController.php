@@ -57,14 +57,6 @@ class EventsController extends Controller
     }
 
 
-
-    public function adminEvent($event)
-    {
-        $event = $this->event->find($event);
-        $this->authorize('update', $event);
-        return view('events.admin.show', compact('event'));
-    }
-
     public function printGdpr(Event $event, User $user, $slug)
     {
         $pdf = \PDF::loadView('events.admin.gdpr', compact('user', 'event'));

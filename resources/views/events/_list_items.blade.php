@@ -34,9 +34,9 @@
 
         {{-- ------- Admin panel ----------------- --}}
         @can('update', $event)
-            <div class="flex space-x-3">
+            <div class="flex justify-between">
                 @if (!$event->displayStatus())
-                    <div>{{ $event->count_view }} <label class="badge badge-default " title="Podujatie sa skončilo">
+                    <div><label class="badge badge-default " title="Podujatie sa skončilo">
                             {{ trans('web.events_users_finished') }}</label>
                     </div>
                 @elseif($event->published)
@@ -45,20 +45,19 @@
                             title="Pozastaviť zobrazovanie?">{{ trans('web.events_users_is_active') }}</label>
                     </div>
                 @else
-                    <div title="Spustíť publikovanie akcie.">{{ $event->count_view }} <label class="badge badge-danger"
-                            style="cursor: pointer">{{ trans('web.events_users_no_active') }}</label>
-                    </div>
-                @endif
 
+                @endif
+                <div title="Spustíť publikovanie akcie.">{{ $event->count_view }} <label class="badge badge-danger"
+                        style="cursor: pointer">{{ trans('web.events_users_no_active') }}</label>
+                </div>
                 <div>
                     <i title="Počet zobrazení" class="fa fa-eye"> {{ $event->count_view }} </i>
-                    <a href="{{ route('event.admin', [$event->id, $event->slug]) }}">Prihlásených:
+                    <a href="{{ route('event.user.index', [$event->id]) }}">Prihlásených:
                         {{ $event->eventSubscribe()->count() }}</a>
                 </div>
 
                 @if (!$event->published)
-                    <span
-                        class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Nepublikované</span>
+                    <span class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Nepublikované</span>
                 @endif
 
             </div>

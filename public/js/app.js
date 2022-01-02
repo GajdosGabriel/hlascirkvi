@@ -71142,20 +71142,11 @@ var render = function() {
           ),
           _vm._v(" "),
           _vm.$auth.isAdmin()
-            ? _c(
-                "a",
-                {
-                  attrs: {
-                    href:
-                      "/akcie/" + _vm.post.id + "/" + _vm.post.slug + "/admin"
-                  }
-                },
-                [
-                  _c("li", { staticClass: "dropdown-item whitespace-nowrap" }, [
-                    _vm._v("\n                Administrácia\n            ")
-                  ])
-                ]
-              )
+            ? _c("a", { attrs: { href: "/event/" + _vm.post.id + "/user" } }, [
+                _c("li", { staticClass: "dropdown-item whitespace-nowrap" }, [
+                  _vm._v("\n                Administrácia\n            ")
+                ])
+              ])
             : _vm._e()
         ])
       : _vm._e()

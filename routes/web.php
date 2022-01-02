@@ -33,6 +33,7 @@ Route::resources([
 Route::middleware(['middleware' => 'auth'])->group(function () {
     Route::resources([
         'images'                => ImagesController::class,
+        'event.user'            => Events\EventSubscribesController::class,
         'organization.seminar'  => OrganizationSeminarController::class,
         'organization.post'     => OrganizationPostController::class,
         'organization.event'    => OrganizationEventController::class,
@@ -100,10 +101,8 @@ Route::prefix('akcie/')->name('event.')->group(function () {
     Route::post('{event}/form/subscribe', 'EventSubscribesController@subscribeByForm')->name('subscribeByForm');
 
     Route::middleware('auth')->group(function () {
-        Route::get('{event}/{slug}/admin', 'Events\EventsController@adminEvent')->name('admin');
         Route::get('{event}/{user}/{slug}/print', 'Events\EventsController@printGdpr')->name('gdpr');
         Route::put('{event}/{slug}/eventInfoPanel', 'Events\EventsController@eventInfoPanel')->name('eventInfoPanel');
-        Route::get('event/subscribes/eventsubscribe/{eventSubscribe}', 'EventSubscribesController@confirmedSubscribtion')->name('disabled');
     });
 });
 

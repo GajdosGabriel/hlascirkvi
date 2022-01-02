@@ -1,21 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Events;
 
+use App\Role;
+
+use App\Models\User;
 use App\Models\Event;
-
 use App\EventSubscribe;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\EventSubscribeForm;
 use App\Repositories\Contracts\UserRepository;
-use App\Role;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class EventSubscribesController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth')->except('subscribeByForm');
+    }
+
+    public function index(Event $event)
+    {
+        $this->authorize('update', $event);
+        return view('profiles.events.users.index', compact('event'));
     }
 
 
