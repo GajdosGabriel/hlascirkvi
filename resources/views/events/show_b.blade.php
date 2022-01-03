@@ -73,13 +73,12 @@
             <event-info-panel inline-template v-cloak>
 
                 <div>
-                    <div @click="toggle">Upraviť</div>
+                    <div class="text-right cursor-pointer " @click="toggle">Upraviť</div>
                     <form v-if="show" method="post"
                         action="{{ route('event.eventInfoPanel', [$event->id, $event->slug]) }}" class="">
                         @csrf {{ method_field('put') }}
 
-                        <div class="
-                                        form-group">
+                        <div class="form-group">
                             <label for="">Počet miest, kapacita miestnosti</label>
                             <input type="number" name="ticket_available"
                                 value="{{ old('ticket_available') ?? $event->ticket_available }}"
@@ -107,13 +106,11 @@
 
     {{-- aside info panel only if need it --}}
     @if ($event->registration == 'yes' or $event->registration == 'recomended')
-        <span>Doporučená</span> )
-        <div class="
-                    card">
-            <div class="card-header">{{ trans('web.events_info_panel') }}</div>
-            <div class="card-body">
+        <div class="border-gray-300 shadow-md border-2 rounded-md mt-6">
+            <div class="card-header bg-gray-200 px-2">{{ trans('web.events_info_panel') }}</div>
+            <div class="p-2">
 
-                <div class="flex">
+                <div class="flex justify-between">
                     <span>Pridal:</span>
                     <span>{{ $event->organization->title }}</span>
                 </div>
@@ -125,15 +122,15 @@
 
                 <div class="flex justify-between">
                     <span>Registrácia:</span>
-                    @if ($event->registration == 'yes')
+                    @if($event->registration == 'yes')
                         <span>Áno</span>
                     @endif
 
-                    @if ($event->registration == 'no')
+                    @if($event->registration == 'no')
                         <span>Nie</span>
                     @endif
 
-                    @if ($event->registration == 'recomended')
+                    @if($event->registration == 'recomended')
                         <span>Doporučená</span>
                     @endif
                 </div>
@@ -141,13 +138,13 @@
 
                 <div class="flex justify-between">
                     <span>Vstupné:</span>
-                    @if ($event->entryFee == 'voluntarily')
+                    @if($event->entryFee == 'voluntarily')
                         <span>Dobrovoľné</span>
                     @endif
-                    @if ($event->entryFee == 'no')
+                    @if($event->entryFee == 'no')
                         <span>Nie</span>
                     @endif
-                    @if ($event->entryFee == 'yes')
+                    @if($event->entryFee == 'yes')
                         <span>Áno</span>
                     @endif
                 </div>

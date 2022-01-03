@@ -10,7 +10,6 @@ use App\Models\EventSubscribe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventSubscribeForm;
-use App\Models\Organization;
 use App\Repositories\Contracts\UserRepository;
 
 class EventSubscribesController extends Controller
@@ -28,7 +27,6 @@ class EventSubscribesController extends Controller
 
     public function update(Event $event, EventSubscribe $eventSubscribe, Request $request)
     {
-        // dd($request->input('confirmed'));
         $eventSubscribe->update([
             'confirmed' => $request->input('confirmed')
         ]);
@@ -38,6 +36,7 @@ class EventSubscribesController extends Controller
     public function store(Event $event, Request $request)
     {
         $event->subscribe();
+        session()->flash('flash', 'Ste prihlásený na akciu!!');
         return back();
     }
 
@@ -49,19 +48,18 @@ class EventSubscribesController extends Controller
 
 
     // Nového usera najprv zaregistruje, potom prihlási a nakoniec odhlási.
-    public function subscribeByForm(EventSubscribeForm $request, Event $event) {
+    public function subscribeByForm(EventSubscribeForm $request, Event $event)
+    {
 
         \Auth::logout(auth()->user());
 
         $count = count($request->input('first_name'));
 
-        for($i = 0; $i < $count; ++$i){
+        for ($i = 0; $i < $count; ++$i) {
 
-            if($user = User::whereEmail($request->email[$i])->first() )
-            {
+            if ($user = User::whereEmail($request->email[$i])->first()) {
                 \Auth::login($user, true);
-            }
-            else {
+            } else {
                 $user = new User([
                     'first_name' =>  $request->first_name[$i],
                     'last_name' =>  $request->last_name[$i],
@@ -81,14 +79,4 @@ class EventSubscribesController extends Controller
 
         return redirect()->route('akcie.show', [$event->id, $event->slug]);
     }
-
-
-    public function confirmedSubscribtion(EventSubscribe $eventSubscribe)
-    {
-        $eventSubscribe->update(['confirmed' => 1]);
-        session()->flash('flash', 'Rezervácia je potvrdená!');
-        return back();
-    }
-
-
 }

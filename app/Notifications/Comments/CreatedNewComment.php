@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CreatedNewComment extends Notification
+class CreatedNewComment extends Notification 
 {
     use Queueable;
 

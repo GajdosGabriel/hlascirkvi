@@ -6,8 +6,12 @@ Auth::routes();
 
 Route::get('/', 'PostsController@index')->name('posts.index');
 
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/gdpr', 'HomeController@gdpr')->name('gdpr');
+Route::get('/online-prenosy', 'HomeController@zivePrenosy')->name('online-prenosy');
+Route::get('/konferencie-a-pute', 'HomeController@seminare')->name('konferencie.pute');
+Route::get('/zdravie-z-bozej-ruky', 'HomeController@zdravie')->name('zdravie');
 
-//Route::get('/', 'HomeController@index')->name('home');
 
 // oAuth Routes...
 Route::get('/auth/{service}', 'Auth\AuthController@redirectToProvider')
@@ -69,18 +73,15 @@ Route::prefix('user/')->name('organization.')->group(function () {
     });
 });
 
-Route::prefix('post/')->name('post.')->group(function () {
-    Route::get('{post}/{slug}', 'PostsController@show')->name('show');
 
-    Route::middleware(['auth'])->group(function () {
-        Route::get('{videoId}', 'PostsController@showVideo')->name('showVideo');
-        Route::get('unpublished/{post}/video', 'PostsController@toBuffer')->name('toBuffer');
-    });
+Route::get('post/{post}/{slug}', 'PostsController@show')->name('post.show');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('{videoId}', 'PostsController@showVideo')->name('post.showVideo');
+    Route::get('unpublished/{post}/video', 'PostsController@toBuffer')->name('post.toBuffer');
 });
 
 
-
-Route::post('account/avatar/store', 'Account\AvatarController@store')->name('account.avatar.store');
 
 
 Route::get('/search/new/video/{user}', 'YoutubeController@searchUserVideo')->name('videos.searchUserVideo');
@@ -90,9 +91,7 @@ Route::get('/youtube/{user}/{slug}/search', 'YoutubeController@searchAndSaveUser
 Route::get('/youtube/{organization}/{slug}/search', 'YoutubeController@searchAndSaveOrganization')->name('youtube.searchAndSaveOrganization');
 Route::get('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVideoByChannel')->name('youtube.getNewVideoByChannel');
 
-Route::get('/online-prenosy', 'HomeController@zivePrenosy')->name('online-prenosy');
-Route::get('/konferencie-a-pute', 'HomeController@seminare')->name('konferencie.pute');
-Route::get('/zdravie-z-bozej-ruky', 'HomeController@zdravie')->name('zdravie');
+
 
 
 //    Event
@@ -108,8 +107,6 @@ Route::prefix('akcie/')->name('event.')->group(function () {
 
 
 Route::get('storage/{filepath?}', 'Events\EventsController@download')->name('events.download');
-//Route::post('akcia/{event}/subscriptions', 'EventSubscriptionController@store')->name('event.subscriptions');
-//Route::post('akcia/{event}/records', 'EventRecordsController@store')->name('records.store');
 
 
 Route::post('bigThink/post/{post}/{slug}', 'BigThinksController@store')->name('bigThink.store');
@@ -140,6 +137,5 @@ Route::post('denomination/set/session', 'UsersController@setDenominationSession'
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/gdpr', 'HomeController@gdpr')->name('gdpr');
+
 Route::get('akcia/finished', 'Events\EventsController@finished')->name('event.finished');
