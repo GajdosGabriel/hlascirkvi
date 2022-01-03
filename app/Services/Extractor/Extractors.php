@@ -228,7 +228,7 @@ abstract class Extractors
         else if (2 == strlen($year) && $year < 20)
             $year = '20' . $year;
         $date = array(
-            'year' => 2021, //$year
+            'year' => $year,
             'month' => $month,
             'day' => $day
         );
@@ -257,7 +257,7 @@ abstract class Extractors
     }
 
 
-    public function paragraphGenerator($event, $length = 300, $maxLength = 450)
+    public function paragraphGenerator($event, $length = 350, $maxLength = 499)
     {
 
         $text = $event->body;
