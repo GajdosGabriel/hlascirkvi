@@ -32,7 +32,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('MonthlyNewsletter')->dailyAt('08:20');
         // $schedule->command('MonthlyNewsletter')->everyMinute();
-        $schedule->command('MonthlyNewsletter')->monthlyOn(4, '08:20');
+
+        // $schedule->command('MonthlyNewsletter')->monthlyOn(4, '08:20');
 
 
         // $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
@@ -68,6 +69,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('vyveska:extract')->hourly();
         $schedule->command('prayer:zdruzenieMedaily')->hourly();
         $schedule->command('prayer:mojaKomunita')->hourlyAt(35);
+        
+        $schedule->command('youtube:comments')->twiceDaily(10, 16);
 
         // $schedule->command('prayer:fulfilledOrNotYet')->everyMinute();
         $schedule->command('prayer:fulfilledOrNotYet')->dailyAt('17:20');

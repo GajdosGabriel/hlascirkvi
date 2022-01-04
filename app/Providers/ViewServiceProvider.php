@@ -99,12 +99,6 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('events', (new EloquentEventRepository)->orderByStarting()->take(5)->get());
         });
 
-        //  Curently Events
-        view()->composer('events._current_events', function ($view) {
-            $view->with('currentlyEvents', 
-            (new EloquentEventRepository)->curentlyEvents()->get());
-        });
-
         //  District Events count
         view()->composer('events.districts_modul', function ($view) {
             $view->with(

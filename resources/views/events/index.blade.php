@@ -5,7 +5,7 @@
 
     @component('components.pages.page_3_2')
         @slot('page_full')
-            @include('events._current_events')
+            <x-events.current-events></x-events.current-events>
         @endslot
 
         @slot('page')
