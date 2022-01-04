@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Gabriel
@@ -9,9 +10,10 @@
 namespace App\Services\Extractor;
 
 
-use App\Services\Form;
-use DOMDocument;
 use DOMXPath;
+use DOMDocument;
+use Carbon\Carbon;
+use App\Services\Form;
 
 
 
@@ -23,7 +25,8 @@ class ExtractEcav extends Extractors
     protected $organizationId = 102;
 
 
-    public function parseListUrl() {
+    public function parseListUrl()
+    {
         $html = file_get_contents($this->url);
 
         //Instantiate the DOMDocument class.
@@ -40,7 +43,7 @@ class ExtractEcav extends Extractors
 
         //Loop through the DOMNodeList.
         //We can do this because the DOMNodeList object is traversable.
-        foreach($links as $link){
+        foreach ($links as $link) {
 
             //Get the link text.
             $linkText = $link->nodeValue;
@@ -49,21 +52,21 @@ class ExtractEcav extends Extractors
 
             //If the link is empty, skip it and don't
             //add it to our $extractedLinks array
-            if(strlen(trim($linkHref)) == 0){
+            if (strlen(trim($linkHref)) == 0) {
                 continue;
             }
 
             //Skip if it is a hashtag / anchor link.
-            if($linkHref[0] == '#'){
+            if ($linkHref[0] == '#') {
                 continue;
             }
 
-            if(! stripos($linkHref ,'aktuality/pozvanky/' ) ){
+            if (!stripos($linkHref, 'aktuality/pozvanky/')) {
                 continue;
             }
 
             // validation
-            if($linkText == "\n" or $linkHref == "\n" ){
+            if ($linkText == "\n" or $linkHref == "\n") {
                 continue;
             }
 
@@ -72,16 +75,16 @@ class ExtractEcav extends Extractors
                 'title' => mb_convert_encoding($linkText, "Windows-1252", "UTF-8"),
                 'href' =>  mb_convert_encoding($linkHref, "Windows-1252", "UTF-8")
             );
-
         }
 
         $this->createEvent($extractedLinks);
     }
 
-    public function parseEvent($href, $event) {
-//        $url = "https://www.ecav.sk/aktuality/pozvanky";
+    public function parseEvent($href, $event)
+    {
+        //        $url = "https://www.ecav.sk/aktuality/pozvanky";
         $html = file_get_contents($this->prefix . $href);
-//        $html = file_get_contents('https://www.ecav.sk/aktuality/pozvanky/spevacky-zbor-z-diakoviec-pozyva-na-koncert');
+        //        $html = file_get_contents('https://www.ecav.sk/aktuality/pozvanky/spevacky-zbor-z-diakoviec-pozyva-na-koncert');
 
 
         //Instantiate the DOMDocument class.
@@ -98,69 +101,69 @@ class ExtractEcav extends Extractors
 
         //Loop through the DOMNodeList.
         //We can do this because the DOMNodeList object is traversable.
-        foreach( $bodyText as $link){
+        foreach ($bodyText as $link) {
             //Get the link text.
             $linkText = $link->nodeValue;
 
             // validation
-            if($linkText == "\n"){
+            if ($linkText == "\n") {
                 continue;
             }
 
-            if($linkText == ""){
+            if ($linkText == "") {
                 continue;
             }
 
             $linkText = preg_replace('/\xc2\xa0/', ' ', $linkText);
             $linkText =  mb_convert_encoding($linkText, "Windows-1252", "UTF-8");
-//            Convert to string from Binary casting
-//            $linkText = preg_replace('/[[:^print:]]/', '', $linkText);
+            //            Convert to string from Binary casting
+            //            $linkText = preg_replace('/[[:^print:]]/', '', $linkText);
 
 
-//            $extractedLinks[] = array(
-//                'src' => $linkText
-//            );
-//            dd($extractedLinks);
+            //            $extractedLinks[] = array(
+            //                'src' => $linkText
+            //            );
+            //            dd($extractedLinks);
 
 
             // Because is multi arrays
             $event->update([
-                'body' => $event->body . '<p>' . $linkText. '</p>'
+                'body' => $event->body . '<p>' . $linkText . '</p>'
             ]);
         }
 
-//        $linkText =  mb_convert_encoding($event->body, "Windows-1252", "UTF-8");
+        //        $linkText =  mb_convert_encoding($event->body, "Windows-1252", "UTF-8");
 
-//        dd($linkText);
-//        $event->update([
-//            'body' => $linkText
-//        ]);
-
-
+        //        dd($linkText);
+        //        $event->update([
+        //            'body' => $linkText
+        //        ]);
 
 
 
 
-// ----------------------------  GET  IMAGE  ----------------------------------
+
+
+        // ----------------------------  GET  IMAGE  ----------------------------------
 
         //Extract the img from the HTML.
         $imgUrls = $htmlDom->getElementsByTagName('img');
         //Loop through the DOMNodeList.
         //We can do this because the DOMNodeList object is traversable.
-        foreach( $imgUrls as $link){
+        foreach ($imgUrls as $link) {
             //Get the link in the href attribute.
             $linkHref = $link->getAttribute('src');
 
-            if(! stripos($linkHref ,'/rails/active_storage/' ) ){
+            if (!stripos($linkHref, '/rails/active_storage/')) {
                 continue;
             }
 
             //Add the link to our $extractedLinks array.
-//            $extractedLinks[] = array(
-//                'src' => $linkHref
-//            );
-//
-//            dd($extractedLinks);
+            //            $extractedLinks[] = array(
+            //                'src' => $linkHref
+            //            );
+            //
+            //            dd($extractedLinks);
 
             (new Form($event, $linkHref))->getPictureFromEvent();
 
@@ -176,15 +179,13 @@ class ExtractEcav extends Extractors
             'village_id' => $this->finderVillages($event->body)
         ]);
 
-////         Dočasne vypnuté
-//               $event->update([
-//            'start_at' => $this->find_date($event->body),
-//        ]);
 
 
+        // Detect datetime
+        $startAt = $this->find_date($event->body);
+        $event->update([
+            'start_at' => $startAt,
+            'end_at' => Carbon::parse($startAt)->addHours(2)
+        ]);
     }
-
-
-
-
 }

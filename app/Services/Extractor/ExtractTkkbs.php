@@ -10,11 +10,12 @@
 namespace App\Services\Extractor;
 
 
-use App\Services\Extractor\Extractors;
-use App\Services\Form;
-use DOMDocument;
-use DOMXPath;
 use Imagick;
+use DOMXPath;
+use DOMDocument;
+use Carbon\Carbon;
+use App\Services\Form;
+use App\Services\Extractor\Extractors;
 
 
 class ExtractTkkbs extends Extractors
@@ -113,12 +114,14 @@ class ExtractTkkbs extends Extractors
 
         // Remove first sentence
         $moveSentence  = $this->first_sentence_move($body);
-
-
+        
+        // Detect datetime
+        $startAt = $this->find_date($moveSentence);
 
         $event->update([
             'body'      => $moveSentence,
-            'start_at' => $this->find_date($moveSentence)
+            'start_at' => $startAt,
+            'end_at' => Carbon::parse($startAt)->addHours(2)
         ]);
 
         // Generate paragraps in the event body

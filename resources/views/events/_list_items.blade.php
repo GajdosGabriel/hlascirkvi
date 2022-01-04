@@ -45,13 +45,14 @@
                             title="Pozastaviť zobrazovanie?">{{ trans('web.events_users_is_active') }}</label>
                     </div>
                 @else
-
+                    <div title="Spustíť publikovanie akcie.">{{ $event->count_view }} <label class="badge badge-danger"
+                            style="cursor: pointer">{{ trans('web.events_users_no_active') }}</label>
+                    </div>
                 @endif
-                <div title="Spustíť publikovanie akcie.">{{ $event->count_view }} <label class="badge badge-danger"
-                        style="cursor: pointer">{{ trans('web.events_users_no_active') }}</label>
-                </div>
+
+                <i title="Počet zobrazení" class="fa fa-eye"> {{ $event->count_view }} </i>
+                
                 <div>
-                    <i title="Počet zobrazení" class="fa fa-eye"> {{ $event->count_view }} </i>
                     <a href="{{ route('event.eventSubscribe.index', [$event->id]) }}">Prihlásených:
                         {{ $event->eventSubscribe()->count() }}</a>
                 </div>
