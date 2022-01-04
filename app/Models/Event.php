@@ -7,14 +7,14 @@ use App\Models\Favoritable;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
-use CyrildeWit\EloquentViewable\Viewable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use CyrildeWit\EloquentViewable\Contracts\Viewable as ViewableContract;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
+use CyrildeWit\EloquentViewable\Contracts\Viewable;
 
-class Event extends Model implements ViewableContract
+class Event extends Model implements Viewable
 {
-    use Favoritable, SoftDeletes, Viewable;
+    use Favoritable, SoftDeletes, InteractsWithViews;
     protected $guarded = [];
     protected $appends = ['url'];
 

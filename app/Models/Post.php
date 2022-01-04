@@ -8,16 +8,16 @@ use App\Models\Favoritable;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use CyrildeWit\EloquentViewable\Viewable;
+
 use Illuminate\Database\Eloquent\Builder;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Notifications\Comments\CreatedNewComment;
-use CyrildeWit\EloquentViewable\Contracts\Viewable as ViewableContract;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
+use CyrildeWit\EloquentViewable\Contracts\Viewable;
 
-class Post extends Model implements ViewableContract
+class Post extends Model implements Viewable
 {
-    use Favoritable, Notifiable, SoftDeletes, Viewable;
+    use Favoritable, Notifiable, SoftDeletes, InteractsWithViews;
 
     protected $guarded = [];
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];

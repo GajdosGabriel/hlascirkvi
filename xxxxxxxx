@@ -25,3 +25,5 @@ SET viewable_type = REPLACE(viewable_type, 'App\\Event', 'App\\Models\\Event')
 UPDATE notifications
 SET notifiable_type = REPLACE(notifiable_type, 'App\\User', 'App\\Models\\User')
 
+  "cyrildewit/eloquent-viewable": "^4.1",
+          "laravel/socialite": "^4.3",

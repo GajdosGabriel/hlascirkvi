@@ -35,7 +35,7 @@ class ViewCounterListener
 //        (new SessionService())->counterView($event);
 
         // delayInSession($minutes)
-        views($event->model)->delayInSession(60)->record();
+        views($event->model)->cooldown(60)->record();
 
 
 //        // Sending notification email about article reading
