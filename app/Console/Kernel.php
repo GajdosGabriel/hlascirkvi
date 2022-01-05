@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\PostNewslleter;
+
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -49,8 +49,9 @@ class Kernel extends ConsoleKernel
         //            ->twiceDaily(15, 17)
         //        ;
 
+        // $schedule->command('PublisherBufferVideo')->everyMinute();
         // $schedule->command('PublisherBufferVideo')->twiceDaily(7, 8);
-        $schedule->command('PublisherBufferVideo')->twiceDaily(10, 12);
+        $schedule->command('PublisherBufferVideo')->twiceDaily(9, 12);
         // $schedule->command('PublisherBufferVideo')->twiceDaily(14, 16);
         $schedule->command('PublisherBufferVideo')->twiceDaily(17, 19);
         //        $schedule->command('PublisherBufferVideo')->hourly();
@@ -61,9 +62,8 @@ class Kernel extends ConsoleKernel
             ->hourly()
             ->between('12:00', '16:00');
 
-        //        $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
+        //  $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
 
-        //        $schedule->command('Ecav:generate')->everyMinute();
         $schedule->command('ecav:extract')->hourly();
         $schedule->command('tkkbs:extract')->hourly();
         $schedule->command('vyveska:extract')->hourly();
@@ -83,7 +83,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__ . '/Commands');
+        $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
     }

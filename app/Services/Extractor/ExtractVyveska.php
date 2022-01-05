@@ -172,7 +172,6 @@ class ExtractVyveska extends Extractors
         $event->update([
             'body'      =>  $textBody,
             'village_id' => $this->finderVillages(implode("|", $bodyWithLocation[0])),
-            // 'start_at' => $this->find_date($moveSentence)
         ]);
 
         // ----------------------------  Rozoznať organizátora  ----------------------------------

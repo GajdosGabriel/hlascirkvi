@@ -71,8 +71,7 @@
                             <h1 class="text-lg font-semibold">{{ $post->title }}</h1>
                             <div class="text-sm text-gray-400">
                                 <span> pridal: </span>
-                                <a
-                                    href="{{ route('organizations.show', [$post->organization_id]) }}">
+                                <a href="{{ route('organizations.show', [$post->organization_id]) }}">
                                     {{ $post->organization->title }}</a>
                                 |
                                 <time datetime="{{ $post->created_at }}">dňa: {{ $post->datetime }}</time>
@@ -146,13 +145,7 @@
                     {{-- Body plánované akcie --}}
                     <div class="col-span-4 mb-4">
                         @if ($post->organization->person == 0)
-                            <section class="card">
-
-                                <header class="card_header">
-                                    <span>{{ $post->organization->title }}</span>
-                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                </header>
-
+                            <x-cards.card :title="$post->organization->title" :icon="'components.icons.event'">
                                 <ul class="p-2">
                                     @forelse( $post->eventsBelongsToOrganization as $event)
                                         <li>
@@ -170,7 +163,7 @@
                                         </span>
                                     @endforelse
                                 </ul>
-                            </section>
+                            </x-cards.card>
                         @endif
                     </div>
 

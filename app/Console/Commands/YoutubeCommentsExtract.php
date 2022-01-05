@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Console\Commands;
+use App\Services\Extractor\ExtractYoutubeComment;
 
 use Illuminate\Console\Command;
+
 
 class YoutubeCommentsExtract extends Command
 {
@@ -37,6 +39,6 @@ class YoutubeCommentsExtract extends Command
      */
     public function handle()
     {
-        (new YoutubeCommentsExtract())->getComments();
+        (new ExtractYoutubeComment())->getComments();
     }
 }

@@ -19,7 +19,7 @@ class OrganizationsController extends Controller
 
     public function show(Organization $organization)
     {
-        return view('posts.index', [
+        return view('organizations.index', [
             'posts' => $organization->posts()->latest()->paginate(),
             'organization' => $organization
         ]);

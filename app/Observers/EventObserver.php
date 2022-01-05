@@ -26,10 +26,6 @@ class EventObserver
             (new EventImageGenerator($event))->checkIfEvent();
         }
 
-
-        session()->flash('flash', 'Podujatie bolo uložené!');
-
-
         // 271 Výveska
         if ($event->organization_id != 271) {
             Notification::send(User::role('admin')->get(), new NewEvent($event));

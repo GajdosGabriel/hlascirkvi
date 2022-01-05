@@ -54,11 +54,6 @@
                         <a title="Videa podľa počtu zobrazení" href="?posts=mostVisited"><i class="far fa-eye"></i></a>
                     </div>
                 </div>
-            @else
-                @if (!empty($organization))
-                    <organization-page-header :organization="{{ $organization }}">
-                    </organization-page-header>
-                @endif
             @endif
 
 
@@ -86,14 +81,8 @@
                 <prayers-card></prayers-card>
 
 
-                @if (request()->is('/'))
-                    @include('verses.daily-modul')
-                @else
-                    @if (!empty($post->user))
-                        <user-card :user="{{ $post->user }}"></user-card>
-                        @include('users.user-card', ['user' => $post->user])
-                    @endif
-                @endif
+                @include('verses.daily-modul')
+
 
                 @include('organizations.list-users')
 
