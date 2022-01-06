@@ -145,7 +145,7 @@
                     {{-- Body plánované akcie --}}
                     <div class="col-span-4 mb-4">
 
-                        <x-events.organizationEvents :organization="$post->organization" :post="$post" />
+                        <x-events.modul-organization-events :organization="$post->organization" :post="$post" />
 
                     </div>
 
