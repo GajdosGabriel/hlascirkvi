@@ -49,7 +49,7 @@
 
                 <comment-card></comment-card>
 
-                <x-events.organizationEvents :organization="$post->organization" :post="$post" />
+                <x-events.modul-organizationEvents :organization="$post->organization" :post="$post" />
 
                 {{-- @include('organizations.list-users') --}}
 

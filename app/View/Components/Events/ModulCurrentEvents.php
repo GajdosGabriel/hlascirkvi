@@ -5,7 +5,7 @@ namespace App\View\Components\Events;
 use Illuminate\View\Component;
 use App\Repositories\Eloquent\EloquentEventRepository;
 
-class CurrentEvents extends Component
+class ModulCurrentEvents extends Component
 {
     /**
      * Create a new component instance.
@@ -25,7 +25,7 @@ class CurrentEvents extends Component
     public function render()
     {
         if($this->events()->count()) {
-            return view('components.events.current-events');
+            return view('components.events.modul-current-events');
         }
     }
 

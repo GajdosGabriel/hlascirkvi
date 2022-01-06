@@ -4,7 +4,7 @@ namespace App\View\Components\Events;
 
 use Illuminate\View\Component;
 
-class OrganizationEvents extends Component
+class ModulOrganizationEvents extends Component
 {
     public $organization;
     public $post;
@@ -27,7 +27,7 @@ class OrganizationEvents extends Component
     public function render()
     {
         if($this->organization->person == 0){
-            return view('components.events.organization-events');
+            return view('components.events.modul-organization-events');
         }
     }
 }
