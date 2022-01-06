@@ -27,9 +27,9 @@ class Comment extends Model
         return $this->morphTo();
     }
 
-    public function setBodyAttribute($value)
-    {
-        $this->attributes['body'] = cleanHardSpace($value);
-    }
+    // public function setBodyAttribute($value)
+    // {
+    //     $this->attributes['body'] = cleanHardSpace($value);
+    // }
 
 }
