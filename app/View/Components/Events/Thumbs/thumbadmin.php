@@ -24,6 +24,6 @@ class Thumbadmin extends Component
      */
     public function render()
     {
-        return view('components.events.thumbs.thumbdmin');
+        return view('components.events.thumbs.thumbadmin');
     }
 }

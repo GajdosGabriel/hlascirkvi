@@ -18,7 +18,7 @@ class ExtractYoutubeComment
     public function getComments()
     {
 
-        // $comments = \Youtube::getCommentThreadsByVideoId('984SFBcc-eQ');
+        // $comments = \Youtube::getCommentThreadsByVideoId('4PV31jcskz8');
         // $comments = \Youtube::getVideoInfo('4YoFSGc1ek0');
 
         // dd($comments);
@@ -28,9 +28,9 @@ class ExtractYoutubeComment
         // na dostupnosť, embeddable(prehrávanie iba na YT) a či video existuje video_ available. Takto prejdeme všetky videa.
 
         $posts =  (new EloquentPostRepository)->postsByUpdater(15)->where('video_id', '<>', null)
-            ->where('created_at', '<=', Carbon::now()->subWeek(1))
+            ->where('created_at', '<=', Carbon::now()->subWeek(2))
             ->whereVideoDuration(null)
-            ->take(2) // Počet príspevkov kontroly commentárov. Pôvodne jednorázovo bolo 10.
+            ->take(3) // Počet príspevkov kontroly commentárov. Pôvodne jednorázovo bolo 10.
             ->latest()->get();
 
 
@@ -73,7 +73,7 @@ class ExtractYoutubeComment
 
             foreach ($comments as $comment) {
                 $bodyComment = $comment->snippet->topLevelComment->snippet->textDisplay;
-                if (strlen($bodyComment) > 10) {
+                if (strlen($bodyComment) > 10 AND ! strpos($bodyComment, '<a href=') ) {
 
                     // Check duplicity of comments
                     if (!$post->comments()->whereBody($bodyComment)->exists()) {
