@@ -8,6 +8,11 @@ use App\Http\Controllers\Controller;
 
 class PrayersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('checkSuperAdmin');
+    }
+
     public function index()
     {
         $prayers = Prayer::orderBy('created_at', 'desc')->paginate(30);

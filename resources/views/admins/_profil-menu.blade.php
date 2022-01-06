@@ -18,10 +18,10 @@
                 @endslot
             @endcomponent
 
-            @component('components.profil_menu', ['url' => route('admin.unpublished')])
+            @component('components.profil_menu', ['url' => route('admin.posts.index')])
                 @slot('title')
-                    <i class="fab fa-youtube mr-2"></i>
-                    Buffer
+                    <i class="fas fa-copy mr-2"></i>
+                    Články
                 @endslot
             @endcomponent
 
@@ -57,6 +57,13 @@
                 @slot('title')
                     <i class="fas fa-list-ul mr-2"></i>
                     Updaters
+                @endslot
+            @endcomponent
+
+            @component('components.profil_menu', ['url' => route('admin.unpublished')])
+                @slot('title')
+                    <i class="fab fa-youtube mr-2"></i>
+                    Buffer
                 @endslot
             @endcomponent
 
