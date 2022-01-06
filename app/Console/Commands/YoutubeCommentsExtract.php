@@ -39,6 +39,6 @@ class YoutubeCommentsExtract extends Command
      */
     public function handle()
     {
-        (new ExtractYoutubeComment())->getComments();
+        (new ExtractYoutubeComment())->handle();
     }
 }

@@ -16,6 +16,17 @@
 
         @slot('page')
 
+        <div class="grid grid-cols-2 gap-10">
+            {{-- <div class="bg-gray-200">
+                jeden
+            </div>
+
+            <div class="bg-gray-200">
+                jeden
+            </div> --}}
+
+    
+
             <ul>
                 <li class="hover:bg-gray-200 p-2 rounded">
                     <a href="{{ route('videa.videa') }}">
@@ -41,7 +52,7 @@
                 </li>
 
             </ul>
-
+        </div>
         @endslot
     @endcomponent
 @endsection

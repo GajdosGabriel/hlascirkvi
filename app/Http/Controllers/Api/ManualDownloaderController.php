@@ -41,7 +41,7 @@ class ManualDownloaderController extends Controller
 
     public function comments()
     {
-        (new ExtractYoutubeComment())->getComments();
+        (new ExtractYoutubeComment())->handle();
         return redirect()->route('admin.home');
     }
 }

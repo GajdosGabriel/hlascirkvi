@@ -20,14 +20,14 @@ class CommentObserver
      */
     public function created(Comment $comment)
     {
-        if (!$comment->user_id == auth()->user()->id or !$comment->user_id == 100) {
-            $comment->user->notify(new CreatedNewComment($comment));
-        }
+        // if (!$comment->user_id == auth()->user()->id or !$comment->user_id == 100) {
+        //     $comment->user->notify(new CreatedNewComment($comment));
+        // }
 
         // Pre Admins vytvorenie comments z neovereného účtu. 
-        if ($comment->user->email_verified_at == NULL) {
-            Notification::send(User::role('admin')->get(),  new UnpublishedComment($comment));
-        }
+        // if ($comment->user->email_verified_at == NULL) {
+            // Notification::send(User::role('admin')->get(),  new UnpublishedComment($comment));
+        // }
     }
 
     /**

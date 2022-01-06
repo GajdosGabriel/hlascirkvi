@@ -15,6 +15,24 @@ use Carbon\Carbon;
 class ExtractYoutubeComment
 {
 
+    public function handle()
+    {
+        $this->getComments();
+    }
+
+    // Posts ktoré nemajú video_duration ešte neboli skenované na commentáre. Boli však skontrolované 
+    // na dostupnosť, embeddable(prehrávanie iba na YT) a či video existuje video_ available. Takto prejdeme všetky videa.
+
+    public function getPosts()
+    {
+        return (new EloquentPostRepository)->postsByUpdater(15)->where('video_id', '<>', null)
+            ->where('created_at', '<=', Carbon::now()->subWeek(2))
+            ->whereVideoDuration(null)
+            ->whereVideoAvailable(null)
+            ->take(3) // Počet príspevkov kontroly commentárov. Pôvodne jednorázovo bolo 10.
+            ->latest()->get();
+    }
+
     public function getComments()
     {
 
@@ -23,18 +41,7 @@ class ExtractYoutubeComment
 
         // dd($comments);
 
-
-        // Postup je taký, že posts ktoré nemajú video_duration ešte neboli skenované na commentáre. Boli však skontrolované 
-        // na dostupnosť, embeddable(prehrávanie iba na YT) a či video existuje video_ available. Takto prejdeme všetky videa.
-
-        $posts =  (new EloquentPostRepository)->postsByUpdater(15)->where('video_id', '<>', null)
-            ->where('created_at', '<=', Carbon::now()->subWeek(2))
-            ->whereVideoDuration(null)
-            ->take(3) // Počet príspevkov kontroly commentárov. Pôvodne jednorázovo bolo 10.
-            ->latest()->get();
-
-
-        foreach ($posts as $post) {
+        foreach ($this->getPosts() as $post) {
 
             // Chceck if video is commentAble
             $video = \Youtube::getVideoInfo($post->video_id);
@@ -57,7 +64,7 @@ class ExtractYoutubeComment
             };
 
             // If video has enable comments
-            if (! isset($video->statistics->commentCount)) {
+            if (!isset($video->statistics->commentCount)) {
                 continue;
             };
 
@@ -73,7 +80,7 @@ class ExtractYoutubeComment
 
             foreach ($comments as $comment) {
                 $bodyComment = $comment->snippet->topLevelComment->snippet->textDisplay;
-                if (strlen($bodyComment) > 10 AND ! strpos($bodyComment, '<a href=') ) {
+                if (strlen($bodyComment) > 10 and !strpos($bodyComment, '<a href=')) {
 
                     // Check duplicity of comments
                     if (!$post->comments()->whereBody($bodyComment)->exists()) {
