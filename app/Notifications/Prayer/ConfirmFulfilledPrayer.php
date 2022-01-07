@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
-class ConfirmFulfilledPrayer extends Notification
+class ConfirmFulfilledPrayer extends Notification implements ShouldQueue
 {
     use Queueable;
 
