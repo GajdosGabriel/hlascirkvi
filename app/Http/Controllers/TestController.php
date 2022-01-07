@@ -43,6 +43,13 @@ class TestController extends Controller
 
     public function newsletter()
     {
+        $text = "<a href=cc" ;
+
+        if(!str_contains($text, '<a href=')) {
+            echo 'Elephants are intelligent.';
+        }
+
+dd(77);
 
         // $comments = \Youtube::getCommentThreadsByVideoId('984SFBcc-eQ');
         // $comments = \Youtube::getVideoInfo('1nFJV_NU8LQ');

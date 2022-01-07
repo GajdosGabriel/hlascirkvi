@@ -80,18 +80,20 @@ class ExtractYoutubeComment
 
             foreach ($comments as $comment) {
                 $bodyComment = $comment->snippet->topLevelComment->snippet->textDisplay;
-                if (strlen($bodyComment) > 10 and !strpos($bodyComment, '<a href=')) {
+                if (strlen($bodyComment) > 10) {
+                     // Check if spam links
+                    if (!strpos($bodyComment, '<a href=')) {
+                        // Check duplicity of comments
+                        if (!$post->comments()->whereBody($bodyComment)->exists()) {
 
-                    // Check duplicity of comments
-                    if (!$post->comments()->whereBody($bodyComment)->exists()) {
-
-                        $post->comments()->create([
-                            'user_id' => 100,
-                            'body' => cleanHardSpace($comment->snippet->topLevelComment->snippet->textDisplay),
-                            'user_avatar' => $comment->snippet->topLevelComment->snippet->authorProfileImageUrl,
-                            'user_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
-                            // 'created_at' => \Carbon\Carbon::parse($comment->snippet->topLevelComment->snippet->publishedAt)->format('Y-m-d h:i:s'),
-                        ]);
+                            $post->comments()->create([
+                                'user_id' => 100,
+                                'body' => cleanHardSpace($comment->snippet->topLevelComment->snippet->textDisplay),
+                                'user_avatar' => $comment->snippet->topLevelComment->snippet->authorProfileImageUrl,
+                                'user_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
+                                // 'created_at' => \Carbon\Carbon::parse($comment->snippet->topLevelComment->snippet->publishedAt)->format('Y-m-d h:i:s'),
+                            ]);
+                        }
                     }
                 }
             }
