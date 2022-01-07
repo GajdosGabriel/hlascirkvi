@@ -1,47 +1,43 @@
 @if ($events->count())
-    <section class="card">
+    <x-cards.card :title="trans('web.events_modul_title')" :icon="'components.icons.event'">
 
-        <header class="card_header">
-            <span>{{ trans('web.events_modul_title') }}</span>
-            <i class="fa fa-share-alt" aria-hidden="true"></i>
-        </header>
-
-
-        <div class="border-2 border-gray-300 rounded-sm text-sm ">
+        <ul class="border-2 border-gray-300 rounded-sm text-sm ">
 
             @forelse( $events as $event)
                 <a href="{{ $event->url }}">
-                    <div class="card-body p-3 grid grid-cols-6 gap-3">
-                        <div class="col-span-2  overflow-hidden h-22">
-                            @if ($event->Imagethumb)
-                                <img data-src="{{ url($event->imagethumb) }}" class="lazyload mr-4 rounded-md"
-                                    data-sizes="auto" title="{{ $event->title }}">
-                            @else
-                                @foreach ($event->images()->whereType('card')->get()
+                    <x-cards.card_item>
+                        <div class="card-body grid grid-cols-6 gap-3">
+                            <div class="col-span-2  overflow-hidden h-22">
+                                @if ($event->Imagethumb)
+                                    <img data-src="{{ url($event->imagethumb) }}" class="lazyload mr-4 rounded-md"
+                                        data-sizes="auto" title="{{ $event->title }}">
+                                @else
+                                    @foreach ($event->images()->whereType('card')->get()
     as $image)
-                                    <img data-src="{{ url($image->OriginalImageUrl) }}"
-                                        class="lazyload mr-4 rounded-md" data-sizes="auto" title="Bez obrázka">
-                                @break
-                            @endforeach
+                                        <img data-src="{{ url($image->OriginalImageUrl) }}"
+                                            class="lazyload mr-4 rounded-md" data-sizes="auto" title="Bez obrázka">
+                                    @break
+                                @endforeach
             @endif
-        </div>
-        <div class="col-span-4">
-            <div class="flex flex-col">
-                <h4 class="font-semibold" title="{{ $event->title }}">
-                    {{ Str::limit($event->title, 45, $end = ' ...') }}
-                </h4>
-                <div>{{ $event->village->district->name }}</div>
-                <div class="font-semibold">začiatok {{ $event->start_at->diffForHumans() }}</div>
             </div>
-        </div>
-        </div>
-        </a>
-        @empty
-            <div class="card-body">{{ trans('web.events_empty') }}
-                @if (auth()->guest())
-                    <a href="{{ url('login') }}">{{ trans('web.events_new_add') }}</a>
-                @endif
+            <div class="col-span-4">
+                <div class="flex flex-col">
+                    <h4 class="font-semibold" title="{{ $event->title }}">
+                        {{ Str::limit($event->title, 45, $end = ' ...') }}
+                    </h4>
+                    <div>{{ $event->village->district->name }}</div>
+                    <div class="font-semibold">začiatok {{ $event->start_at->diffForHumans() }}</div>
+                </div>
             </div>
+            </div>
+            </x-cards.card_item>
+            </a>
+            @empty
+                <div class="card-body">{{ trans('web.events_empty') }}
+                    @if (auth()->guest())
+                        <a href="{{ url('login') }}">{{ trans('web.events_new_add') }}</a>
+                    @endif
+                </div>
     @endforelse
 
     @if ($events->count() > 0)
@@ -75,8 +71,6 @@
         </div>
     @endif
 
-    </div>
-
-    </section>
+    </x-cards.card>
 
     @endif

@@ -2,9 +2,10 @@
     <div style="max-width: 80rem" class="flex mx-auto justify-between py-2 flex-wrap">
 
         <div class="flex">
-            <img class="embeddedObject"
+            {{-- Vianočný stromček --}}
+            {{-- <img class="embeddedObject"
                 src="https://content.screencast.com/users/fg-a/folders/christmas/media/7d014586-ce64-442b-a1e6-276c8414d7dc/ctree_5a.gif"
-                width="25" height="25" border="0" alt="Clipart" />
+                width="25" height="25" border="0" alt="Clipart" /> --}}
             <a class="my-2 font-semibold ml-2" href="{{ url('/') }}">
                 Hlas Cirkvi
             </a>

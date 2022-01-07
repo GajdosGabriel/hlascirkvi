@@ -1,12 +1,12 @@
 <x-cards.card :title="$organization->title" :icon="'components.icons.event'">
-    <ul class="p-2">
+    <ul>
         @forelse( $post->eventsBelongsToOrganization as $event)
-            <li>
+            <x-cards.card_item>
                 <a href="{{ $event->url }}">
                     <span style="font-weight: bold">{{ $event->start_at->format('d. m. Y') }}</span>
                     {{ $event->title }}
                 </a>
-            </li>
+            </x-cards.card_item>
         @empty
             <span class="text-muted" style="font-size: 85%">
                 Spoločenstvo neplánuje žiadne

@@ -16,14 +16,14 @@
 
         @slot('page')
 
-        <div class="grid grid-cols-2 gap-10">
-            {{-- <div class="bg-gray-200">
-                jeden
+        <div class="grid grid-cols-3 gap-10">
+            <div class="bg-gray-200 p-2">
+                Okno 1
             </div>
 
-            <div class="bg-gray-200">
-                jeden
-            </div> --}}
+            <div class="bg-gray-200 p-2">
+                Okno 2
+            </div>
 
     
 
