@@ -114,15 +114,20 @@ class ExtractTkkbs extends Extractors
 
         // Remove first sentence
         $moveSentence  = $this->first_sentence_move($body);
-        
+
         // Detect datetime
         $startAt = $this->find_date($moveSentence);
 
         $event->update([
-            'body'      => $moveSentence,
+            'body'      => $moveSentence
+        ]);
+
+        $event->update([
             'start_at' => $startAt,
             'end_at' => Carbon::parse($startAt)->addHours(2)
         ]);
+
+
 
         // Generate paragraps in the event body
         $this->paragraphGenerator($event);

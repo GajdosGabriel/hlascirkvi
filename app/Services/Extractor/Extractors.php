@@ -233,11 +233,13 @@ abstract class Extractors
             'day' => $day
         );
         // Return false if nothing found:
-        if (empty($year) && empty($month) && empty($day))
+        if (!checkdate($month, $day, $year)) {
             return false;
-        else
+        } else {
+
             return $date['year'] . '-' . $date['month'] . '-' . $date['day'] . $this->timeRecogniser($string);
-        //            return $date['year'].'-'.$date['month'].'-'.$date['day'] . ' 23:59:59';
+            //  return $date['year'].'-'.$date['month'].'-'.$date['day'] . ' 23:59:59';
+        }
     }
 
     public function timeRecogniser($text)
