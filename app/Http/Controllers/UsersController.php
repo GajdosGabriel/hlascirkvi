@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserResource;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Services\Form;
 use App\Models\Messenger;
 use App\Models\Organization;
-use App\Services\Form;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Http\Resources\UserResource;
 
 class UsersController extends Controller
 {

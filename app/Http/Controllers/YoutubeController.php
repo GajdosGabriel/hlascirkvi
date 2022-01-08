@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Organization;
-use App\Services\ImageResize;
-use App\Models\User;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Organization;
 use Illuminate\Http\Request;
+use App\Services\ImageResize;
 use App\Events\Posts\BufferPublisherVideo;
 
 class YoutubeController extends Controller

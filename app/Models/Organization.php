@@ -8,10 +8,11 @@ use App\Services\PhoneSanitizer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
-    use Favoritable, Notifiable, SoftDeletes;
+    use Favoritable, Notifiable, SoftDeletes, HasFactory;
     protected $guarded = [];
 
 

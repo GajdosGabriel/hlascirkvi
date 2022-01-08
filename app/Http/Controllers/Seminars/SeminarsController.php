@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Seminars;
 
 use App\Models\Seminar;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Organization;
+use Illuminate\Http\Request;
 use App\Services\VideoUpload;
+use App\Http\Controllers\Controller;
 use App\Services\VideoUploadSeminars;
 
 class SeminarsController extends Controller

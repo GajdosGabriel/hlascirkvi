@@ -8,16 +8,15 @@ use App\Models\Favoritable;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-
 use Illuminate\Database\Eloquent\Builder;
-
 use Illuminate\Database\Eloquent\SoftDeletes;
-use CyrildeWit\EloquentViewable\InteractsWithViews;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model implements Viewable
 {
-    use Favoritable, Notifiable, SoftDeletes, InteractsWithViews;
+    use Favoritable, HasFactory, Notifiable, SoftDeletes, InteractsWithViews;
 
     protected $guarded = [];
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];

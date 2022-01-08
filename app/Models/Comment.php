@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Comment extends Model
 {
-    use Favoritable, SoftDeletes;
+    use Favoritable, SoftDeletes, HasFactory;
 
     protected $guarded= [];
     protected $hidden = ['commentable_id', 'commentable_type', 'updated_at', 'deleted_at'];

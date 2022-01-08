@@ -6,10 +6,11 @@ use App\Models\Favoritable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Prayer extends Model
 {
-    use Notifiable,  SoftDeletes, Favoritable;
+    use Notifiable, HasFactory, SoftDeletes, Favoritable;
 
     protected $guarded = ['id'];
     protected $appends = ['favoritesCount', 'isFavorited'];

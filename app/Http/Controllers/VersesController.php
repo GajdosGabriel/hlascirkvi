@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Verse;
 use Carbon\Carbon;
+use App\Models\Verse;
 use Illuminate\Http\Request;
 
 class VersesController extends Controller

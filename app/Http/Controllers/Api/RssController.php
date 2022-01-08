@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Response;
 
 class RssController extends Controller
 {

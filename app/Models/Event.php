@@ -6,15 +6,15 @@ use Carbon\Carbon;
 use App\Models\Favoritable;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use CyrildeWit\EloquentViewable\InteractsWithViews;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model implements Viewable
 {
-    use Favoritable, SoftDeletes, InteractsWithViews;
+    use Favoritable, SoftDeletes, InteractsWithViews, HasFactory;
     protected $guarded = [];
     protected $appends = ['url'];
 

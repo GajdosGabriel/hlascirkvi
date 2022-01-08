@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Prayer;
 use Illuminate\Http\Request;
 use App\Http\Requests\SavePrayerRequest;
-use App\Models\Prayer;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
 class UserPrayerController extends Controller

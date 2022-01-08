@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Updaters;
 
-use App\Http\Controllers\Controller;
-use App\Models\Organization;
 use App\Models\Updater;
+use App\Models\Organization;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UpdaterOrganizationController extends Controller
 {

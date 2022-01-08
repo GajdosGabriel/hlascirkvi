@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Event;
-use App\Models\Organization;
 use App\Services\Form;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEventRequest;
 

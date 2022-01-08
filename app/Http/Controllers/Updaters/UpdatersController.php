@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Updaters;
 
-use App\Http\Controllers\Controller;
 use App\Models\Updater;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UpdatersController extends Controller
 {
