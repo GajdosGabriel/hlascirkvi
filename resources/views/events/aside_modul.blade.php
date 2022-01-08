@@ -5,7 +5,7 @@
 
             @forelse( $events as $event)
                 <a href="{{ $event->url }}">
-                    <x-cards.card_item>
+                    <x-cards.carditem>
                         <div class="card-body grid grid-cols-6 gap-3">
                             <div class="col-span-2  overflow-hidden h-22">
                                 @if ($event->Imagethumb)
@@ -30,7 +30,7 @@
                 </div>
             </div>
             </div>
-            </x-cards.card_item>
+            </x-cards.carditem>
             </a>
             @empty
                 <div class="card-body">{{ trans('web.events_empty') }}

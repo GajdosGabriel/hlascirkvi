@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components\cards;
+namespace App\View\Components\Cards;
 
 use Illuminate\View\Component;
 
-class card_item extends Component
+class Carditem extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class card_item extends Component
      */
     public function render()
     {
-        return view('components.cards.card_item');
+        return view('components.cards.carditem');
     }
 }
