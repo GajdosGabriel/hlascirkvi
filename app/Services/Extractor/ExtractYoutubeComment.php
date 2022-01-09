@@ -29,7 +29,7 @@ class ExtractYoutubeComment
             ->where('created_at', '<=', Carbon::now()->subWeek(2))
             ->whereVideoDuration(null)
             ->whereVideoAvailable(null)
-            ->take(3) // Počet príspevkov kontroly commentárov. Pôvodne jednorázovo bolo 10.
+            ->take(2) // Počet príspevkov kontroly commentárov. Pôvodne jednorázovo bolo 10.
             ->latest()->get();
     }
 
