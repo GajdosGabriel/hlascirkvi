@@ -9,8 +9,8 @@
 
 namespace App\Services\Extractor;
 
-use App\Repositories\Eloquent\EloquentPostRepository;
 use Carbon\Carbon;
+use App\Repositories\Eloquent\EloquentPostRepository;
 
 class ExtractYoutubeComment
 {
@@ -52,16 +52,17 @@ class ExtractYoutubeComment
                 continue;
             };
 
+            // Put video duration
+            if (!$post->duration) {
+                $post->update(['video_duration' => $video->contentDetails->duration]);
+            };
+
             // If video is dont available // is private
             if (!$video->status->embeddable) {
                 $post->update(['video_available' => false]);
                 continue;
             };
 
-            // Put video duration
-            if (!$post->duration) {
-                $post->update(['video_duration' => $video->contentDetails->duration]);
-            };
 
             // If video has enable comments
             if (!isset($video->statistics->commentCount)) {
@@ -80,22 +81,25 @@ class ExtractYoutubeComment
 
             foreach ($comments as $comment) {
                 $bodyComment = $comment->snippet->topLevelComment->snippet->textDisplay;
-                if (strlen($bodyComment) > 10) {
-                     // Check if spam links
-                    if (!strpos($bodyComment, '<a href=')) {
-                        // Check duplicity of comments
-                        if (!$post->comments()->whereBody($bodyComment)->exists()) {
-
-                            $post->comments()->create([
-                                'user_id' => 100,
-                                'body' => cleanHardSpace($comment->snippet->topLevelComment->snippet->textDisplay),
-                                'user_avatar' => $comment->snippet->topLevelComment->snippet->authorProfileImageUrl,
-                                'user_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
-                                // 'created_at' => \Carbon\Carbon::parse($comment->snippet->topLevelComment->snippet->publishedAt)->format('Y-m-d h:i:s'),
-                            ]);
-                        }
-                    }
+                if (strlen($bodyComment) < 10) {
+                    continue;
                 }
+                // Check if spam links
+                if (strpos($bodyComment, '<a href=')) {
+                    continue;
+                }
+                // Check duplicity of comments
+                if ($post->comments()->whereBody($bodyComment)->exists()) {
+                    continue;
+                }
+
+                $post->comments()->create([
+                    'user_id' => 100,
+                    'body' => cleanHardSpace($comment->snippet->topLevelComment->snippet->textDisplay),
+                    'user_avatar' => $comment->snippet->topLevelComment->snippet->authorProfileImageUrl,
+                    'user_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
+                    // 'created_at' => \Carbon\Carbon::parse($comment->snippet->topLevelComment->snippet->publishedAt)->format('Y-m-d h:i:s'),
+                ]);
             }
         }
     }
