@@ -22,12 +22,12 @@
                 class="md:flex" enctype="multipart/form-data">
                 {{ method_field('PATCH') }} @csrf
 
-                <div class="page-content md:m-5">
+                <div class="md:w-2/3 md:m-5">
 
                     @include('events._form_a')
                 </div>
 
-                <div class="page-aside md:m-5">
+                <div class="md:w-1/3 md:m-5">
                     @include('events._form_b')
                 </div>
 

@@ -41,7 +41,7 @@
         ]) !!};
     </script>
 
-{{--   @livewireStyles--}}
+
 
 </head>
 <body>
@@ -67,6 +67,5 @@
 
     <script src="{{ mix('js/app.js') }}"></script>
     @yield('script')
-{{--    @livewireScripts--}}
 </body>
 </html>
