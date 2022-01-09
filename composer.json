@@ -44,6 +44,10 @@
         }
     },
     "autoload": {
+        "classmap": [
+            "app/Models",
+            "database"
+          ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
