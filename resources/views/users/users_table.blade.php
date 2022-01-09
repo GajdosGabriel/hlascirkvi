@@ -4,7 +4,7 @@
 <table class="table-auto border-2 border-gray-400 rounded-md w-full">
     <thead class="bg-gray-500 text-white">
         <tr>
-            <th>Por./Id</th>
+            <th>Id</th>
             <th>Názov</th>
             <th>Email</th>
             <th>5. pád</th>
@@ -19,7 +19,7 @@
     <tbody>
         @forelse($users as $user)
             <tr class="border-2 border-gray-300">
-                <td>{{ $users->count() - $loop->iteration + 1 }} / {{ $user->id }} </td>
+                <td>{{ $user->id }} </td>
                 <td class="whitespace-no-wrap">
                     <a href="{{ route('user.edit', [$user->id]) }}">
                         {{ $user->first_name }} {{ $user->last_name }}
@@ -47,5 +47,3 @@
     </tbody>
 </table>
 </div>
-
-

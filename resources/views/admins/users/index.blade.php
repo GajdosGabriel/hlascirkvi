@@ -16,7 +16,7 @@
 
 
         @slot('page')
-            @include('users.users-table')
+            @include('users.users_table')
 
             <div class="md:block flex justify-center my-8">
                 {{ $users->links() }}
