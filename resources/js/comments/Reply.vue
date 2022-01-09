@@ -1,6 +1,7 @@
 <template>
     <div
         class="text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md"
+        :id="comment.id"
     >
         <div
             class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3  bg-gray-100"

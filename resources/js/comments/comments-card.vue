@@ -27,7 +27,9 @@
                         '/post/' +
                             comment.comment_post.id +
                             '/' +
-                            comment.comment_post.slug
+                            comment.comment_post.slug +
+                            '#'+ comment.id
+                            
                     "
                 >
                     <div class="">
