@@ -7,7 +7,7 @@ use Illuminate\View\Component;
 class background extends Component
 {
 
-    public $name;
+    public $requestValue;
     public $title;
 
 
@@ -16,9 +16,9 @@ class background extends Component
      *
      * @return void
      */
-    public function __construct($name, $title)
+    public function __construct($requestValue, $title)
     {
-        $this->name = $name;
+        $this->requestValue = $requestValue;
         $this->title = $title;
        
     }
@@ -35,7 +35,7 @@ class background extends Component
 
     public function bgClass(){
 
-        return request()->input('posts') == $this->name ? 'bg-gray-200' : 'bg-blue-200';
+        return request()->input('posts') === $this->requestValue ? 'bg-gray-200' : 'bg-blue-200';
 
     }
 
