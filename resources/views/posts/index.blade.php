@@ -48,17 +48,17 @@
                     @endswitch
                     <div class="flex">
                         <a title="Doporučené našími čitateľmi" href="?posts=recomended">
-                            <x-icons.background>
+                            <x-icons.background :name="'recomended'">
                                 <i class="fas fa-thumbs-up"></i>
                             </x-icons.background>
                         </a>
                         <a title="Najsledovanejšie videa za dva týždne" href="?posts=trends">
-                            <x-icons.background>
+                            <x-icons.background :name="'trends'">
                                 <i class="fas fa-sort-amount-up"></i>
                             </x-icons.background>
                         </a>
                         <a title="Videa podľa počtu zobrazení" href="?posts=mostVisited">
-                            <x-icons.background>
+                            <x-icons.background :name="'mostVisited'">
                                 <i class="far fa-eye"></i>
                             </x-icons.background>
                         </a>
