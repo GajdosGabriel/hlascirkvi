@@ -6,63 +6,63 @@
 
             @component('components.profil_menu', ['url' => route('admin.users.index')])
                 @slot('title')
-                    <i class="fas fa-user mr-2"></i>
+                    <i class="fas fa-user mr-2 ml-8"></i>
                     Užívatelia
                 @endslot
             @endcomponent
 
             @component('components.profil_menu', ['url' => route('admin.organizations.index')])
                 @slot('title')
-                    <i class="fas fa-sitemap mr-2"></i>
+                    <i class="fas fa-sitemap mr-2 ml-8"></i>
                     Kanály
                 @endslot
             @endcomponent
 
             @component('components.profil_menu', ['url' => route('admin.posts.index')])
                 @slot('title')
-                    <i class="fas fa-copy mr-2"></i>
+                    <i class="fas fa-copy mr-2 ml-8"></i>
                     Články
                 @endslot
             @endcomponent
 
             @component('components.profil_menu', ['url' => route('admin.events.index')])
                 @slot('title')
-                    <i class="fa fa-share-alt mr-2" aria-hidden="true"></i>
+                    <i class="fa fa-share-alt mr-2 ml-8" aria-hidden="true"></i>
                     Podujatia
                 @endslot
             @endcomponent
 
             @component('components.profil_menu', ['url' => route('admin.prayers.index')])
                 @slot('title')
-                    <i class="fas fa-praying-hands mr-2"></i>
+                    <i class="fas fa-praying-hands mr-2 ml-8"></i>
                     Modlitby
                 @endslot
             @endcomponent
 
             @component('components.profil_menu', ['url' => route('admin.statistic', ['days' => 1])])
                 @slot('title')
-                    <i class="far fa-chart-bar mr-2"></i>
+                    <i class="far fa-chart-bar mr-2 ml-8"></i>
                     Štatistika
                 @endslot
             @endcomponent
 
             @component('components.profil_menu', ['url' => route('tags.index')])
                 @slot('title')
-                    <i class="fas fa-tags mr-2"></i>
+                    <i class="fas fa-tags mr-2 ml-8"></i>
                     Tagy
                 @endslot
             @endcomponent
 
             @component('components.profil_menu', ['url' => route('updaters.index')])
                 @slot('title')
-                    <i class="fas fa-list-ul mr-2"></i>
+                    <i class="fas fa-list-ul mr-2 ml-8"></i>
                     Updaters
                 @endslot
             @endcomponent
 
             @component('components.profil_menu', ['url' => route('admin.unpublished')])
                 @slot('title')
-                    <i class="fab fa-youtube mr-2"></i>
+                    <i class="fab fa-youtube mr-2 ml-8"></i>
                     Buffer
                 @endslot
             @endcomponent
