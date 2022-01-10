@@ -43,25 +43,20 @@
                         @break
                         @default
 
-
                             <h2 class="font-semibold md:text-2xl">Príspevky kresťanskej komunity</h2>
                     @endswitch
                     <div class="flex">
-                        <a title="Doporučené našími čitateľmi" href="?posts=recomended">
-                            <x-icons.background :name="'recomended'">
-                                <i class="fas fa-thumbs-up"></i>
-                            </x-icons.background>
-                        </a>
-                        <a title="Najsledovanejšie videa za dva týždne" href="?posts=trends">
-                            <x-icons.background :name="'trends'">
-                                <i class="fas fa-sort-amount-up"></i>
-                            </x-icons.background>
-                        </a>
-                        <a title="Videa podľa počtu zobrazení" href="?posts=mostVisited">
-                            <x-icons.background :name="'mostVisited'">
-                                <i class="far fa-eye"></i>
-                            </x-icons.background>
-                        </a>
+                        <x-icons.background :name="'recomended'" :title="'Doporučené našími čitateľmi'">
+                            <i class="fas fa-thumbs-up"></i>
+                        </x-icons.background>
+
+                        <x-icons.background :name="'trends'" :title="'Najsledovanejšie videa za dva týždne'">
+                            <i class="fas fa-sort-amount-up"></i>
+                        </x-icons.background>
+
+                        <x-icons.background :name="'mostVisited'" :title="'Videa podľa počtu zobrazení'">
+                            <i class="far fa-eye"></i>
+                        </x-icons.background>
                     </div>
                 </div>
             @endif
