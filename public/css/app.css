@@ -1806,6 +1806,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   .md\:col-span-8 {
     grid-column: span 8 / span 8;
   }
+  .md\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
   .md\:m-5 {
     margin: 1.25rem;
   }
