@@ -140,7 +140,7 @@ class Event extends Model implements Viewable
         if ($this->images()->whereType('img')->exists()) {
             return "storage/{$this->images()->whereType('img')->first()->thumb}";
         }
-        return false;
+        return $this->imagecard;
     }
 
     public function getImagecardAttribute()
@@ -148,6 +148,6 @@ class Event extends Model implements Viewable
         if ($this->images()->whereType('card')->exists()) {
             return "storage/{$this->images()->whereType('card')->first()->thumb}";
         }
-        return false;
+        return asset('images/foto.jpg');
     }
 }
