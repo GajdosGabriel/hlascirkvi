@@ -10,8 +10,8 @@
 namespace App\Services\Extractor;
 
 
-use Carbon\Carbon;
 use DB;
+use Carbon\Carbon;
 use App\Repositories\Eloquent\EloquentEventRepository;
 
 

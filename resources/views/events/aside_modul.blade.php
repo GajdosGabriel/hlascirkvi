@@ -8,13 +8,10 @@
                     <x-cards.carditem>
                         <div class="card-body grid grid-cols-6 gap-3">
                             <div class="col-span-2  overflow-hidden h-22">
-                                @if ($event->Imagethumb)
-                                    <img data-src="{{ url($event->imagethumb) }}" class="lazyload mr-4 rounded-md"
-                                        data-sizes="auto" title="{{ $event->title }}">
-                                @else
-                                    <img data-src="{{ url($image->imagecard) }}" class="lazyload mr-4 rounded-md"
-                                        data-sizes="auto" title="Bez obrázka">
-                                @endif
+
+                                <img data-src="{{ url($event->imagethumb) }}" class="lazyload mr-4 rounded-md"
+                                    data-sizes="auto" title="{{ $event->title }}">
+
                             </div>
                             <div class="col-span-4">
                                 <div class="flex flex-col">

@@ -28,7 +28,7 @@
 
             @if (request()->is('/'))
 
-                <div class="page_title px-3 pt-1 pb-2 rounded-t-md bg-blue-200 border-gray-300 border-2  shadow-md">
+                <div class="page_title px-3 py-1 rounded-t-md bg-blue-200 border-gray-300 border-2  shadow-md">
                     @switch(request()->input('posts'))
                         @case('recomended')
                             <h3 class="text-2xl">Obľúbené príspevky</h3>
@@ -46,12 +46,22 @@
 
                             <h2 class="font-semibold md:text-2xl">Príspevky kresťanskej komunity</h2>
                     @endswitch
-                    <div class="space-x-3">
+                    <div class="flex">
                         <a title="Doporučené našími čitateľmi" href="?posts=recomended">
-                            <i class="fas fa-thumbs-up"></i></a>
-                        <a title="Najsledovanejšie videa za dva týždne" href="?posts=trends"><i
-                                class="fas fa-sort-amount-up"></i></a>
-                        <a title="Videa podľa počtu zobrazení" href="?posts=mostVisited"><i class="far fa-eye"></i></a>
+                            <x-icons.background>
+                                <i class="fas fa-thumbs-up"></i>
+                            </x-icons.background>
+                        </a>
+                        <a title="Najsledovanejšie videa za dva týždne" href="?posts=trends">
+                            <x-icons.background>
+                                <i class="fas fa-sort-amount-up"></i>
+                            </x-icons.background>
+                        </a>
+                        <a title="Videa podľa počtu zobrazení" href="?posts=mostVisited">
+                            <x-icons.background>
+                                <i class="far fa-eye"></i>
+                            </x-icons.background>
+                        </a>
                     </div>
                 </div>
             @endif
