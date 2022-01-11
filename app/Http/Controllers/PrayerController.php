@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Prayer;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Notifications\Prayer\NewPrayer;
 use App\Http\Requests\SavePrayerRequest;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Prayer\ConfirmFulfilledPrayer;
@@ -35,6 +36,8 @@ class PrayerController extends Controller
         }
 
         $prayer = auth()->user()->prayers()->create($request->all());
+
+        Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
     }
 
     public function destroy(Prayer $modlitby)

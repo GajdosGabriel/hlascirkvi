@@ -12,6 +12,6 @@ class PrayerObserver
 {
     public function created(Prayer $prayer)
     {
-        Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
+       //
     }
 }
