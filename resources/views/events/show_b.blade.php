@@ -6,14 +6,11 @@
 
 
 <div class="">
-
-    @if ($event->Imagecard)
-        <img alt=""
-            data-src="{{ url(
-                $event->images()->whereType('card')->first()->original_image_url,
-            ) }}"
-            class="lazyload rounded mb-6" data-sizes="auto">
         {{-- vizitka --}}
+    @if ($event->images()->whereType('card')->exists())
+        <img alt=""
+            data-src="{{ url($event->images()->whereType('card')->first()->original_image_url) }}"
+            class="lazyload rounded mb-6" data-sizes="auto">
     @endif
 
     {{-- Prihlasovanie pre prihláseného usera --}}
