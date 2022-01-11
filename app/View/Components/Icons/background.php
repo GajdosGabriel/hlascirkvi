@@ -4,7 +4,7 @@ namespace App\View\Components\Icons;
 
 use Illuminate\View\Component;
 
-class background extends Component
+class Background extends Component
 {
 
     public $requestValue;
