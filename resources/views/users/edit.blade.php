@@ -1,28 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="grid grid-cols-12 gap-6  ">
 
-        @include('profiles._profil-menu')
+    <x-pages.admin>
 
+        <x-slot name="title">
+            Upraviť uzívateľa
+        </x-slot>
 
-        <div class="col-span-10 content-start">
+        <x-slot name="title_right">
 
-            <x-pages.page_title>
-                <x-slot name="title">
-
-                    Upraviť uzívateľa
-
-                </x-slot>
-
-                <x-slot name="title_right">
-
-                </x-slot>
-            </x-pages.page_title>
+        </x-slot>
 
 
-            <h3 class="font-semibold"></h3>
-
+        <x-slot name="page">
             <form method="post" action="{{ route('user.update', [$user->id]) }}">
                 @csrf @method('PUT')
                 <div class="card-body" style="width: 50%">
@@ -42,16 +33,7 @@
 
                     <button type="submit" class="btn btn-primary">Uložiť</button>
             </form>
-        </div>
-
-        <div class="page-aside">
-
-        </div>
-
-
-    </div>
-
-    </div>
-
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

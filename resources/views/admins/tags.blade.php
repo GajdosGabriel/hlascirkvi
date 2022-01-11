@@ -3,27 +3,22 @@
 @section('content')
 
 
-    <div class="grid grid-cols-12 gap-6  ">
+<x-pages.admin>
+
+    <x-slot name="title">
+        Tags panel
+    </x-slot>
+
+    <x-slot name="title_right">
+
+        <h2 class="page_title">Nový tág</h2>
+
+        @include('tags.form')
+
+    </x-slot>
 
 
-
-        @include('admins._profil-menu')
-
-
-
-        <div class="col-span-5">
-
-            <x-pages.page_title>
-                <x-slot name="title">
-
-                    Tags panel
-
-                </x-slot>
-
-
-            </x-pages.page_title>
-
-
+    <x-slot name="page">
             @forelse ( $tags as $tag )
 
                 <div class="flex justify-between mb-4">
@@ -39,21 +34,8 @@
 
             @endforelse
 
+    </x-slot>
 
-
-        </div>
-
-        <div class="col-span-3">
-
-            <h2 class="page_title">Nový tág</h2>
-
-            @include('tags.form')
-
-
-        </div>
-
-    </div>
-
-
+</x-pages.admin>
 
 @endsection

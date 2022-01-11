@@ -2,27 +2,22 @@
 
 @section('content')
 
+    <x-pages.admin>
 
-    <div class="grid grid-cols-12 gap-6  ">
+        <x-slot name="title">
+            Kanály pre {{ $updater->title }}
+        </x-slot>
 
+        <x-slot name="title_right">
 
+            <h2 class="page_title">Pridať kanál</h2>
 
-        @include('admins._profil-menu')
+            @include('tags.form')
 
-
-
-        <div class="col-span-5">
-
-            <x-pages.page_title>
-                <x-slot name="title">
-
-                    Kanály pre {{ $updater->title }}
-
-                </x-slot>
+        </x-slot>
 
 
-            </x-pages.page_title>
-
+        <x-slot name="page">
 
             @forelse ( $updater->organizations as $tag )
 
@@ -43,24 +38,10 @@
 
             @empty
                 žiadne kanály
-
             @endforelse
 
+        </x-slot>
 
+    </x-pages.admin>
 
-        </div>
-
-        <div class="col-span-3">
-
-            <h2 class="page_title">Pridať kanál</h2>
-
-            @include('tags.form')
-
-
-        </div>
-
-    </div>
-
-
-
-@endsection
+        @endsection

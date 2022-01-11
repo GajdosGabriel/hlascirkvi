@@ -1,21 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="grid grid-cols-12 gap-6  ">
+    <x-pages.admin>
+
+        <x-slot name="title">
+            Štatistika návštev - unikátne view
+        </x-slot>
+
+        <x-slot name="title_right">
+
+        </x-slot>
 
 
-        @include('admins._profil-menu')
-
-
-        <div class="grid col-span-10 content-start">
-      
-                <x-slot name="title">
-
-                    Štatistika návštev - unikátne view
-
-                </x-slot>
-
-
+        <x-slot name="page">
             <div class="flex space-x-3 ">
                 <a class="text-red" href="{{ route('admin.statistic', ['days' => 1]) }}">Dnes</a>
                 <a href="{{ route('admin.statistic', ['days' => 2]) }}">Včera</a>
@@ -52,18 +49,8 @@
                 </tbody>
             </table>
 
+        </x-slot>
 
-        </div>
-
-        <div class="page-aside">
-
-
-        </div>
-
-
-    </div>
-
-    </div>
-
+    </x-pages.admin>
 
 @endsection
