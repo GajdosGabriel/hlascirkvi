@@ -5,19 +5,19 @@
 
 
 @section('content')
-    @component('components.pages.profil')
+    <x-pages.admin>
 
 
-        @slot('title')
+        <x-slot name="title">
             Upraviť podujatie
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
             <a class="btn" href="{{ URL::previous() }}"><i class="fa fa-arrow-left"></i> Späť</a>
-        @endslot
+        </x-slot>
 
 
-        @slot('page')
+        <x-slot name="page">
             <form method="post" action="{{ route('organization.event.update', [$organization->id, $event->id]) }}"
                 class="md:flex" enctype="multipart/form-data">
                 {{ method_field('PATCH') }} @csrf
@@ -32,8 +32,8 @@
                 </div>
 
             </form>
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 @endsection
 
 @include('posts.editor')

@@ -1,37 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('components.pages.profil')
+    <x-pages.admin>
 
         @include('layouts.errors')
 
-        @slot('title')
+        <x-slot name="title">
 
             Upraviť kanál
 
-        @endslot
-
-        @slot('title_right')
-
-        @endslot
+        </x-slot>
 
 
+        <x-slot name="title_right">
 
-        @slot('page')
+        </x-slot>
 
-            <form method="post" action="{{ route('user.organization.update', [$user->id, $organization->id]) }}" >
+
+
+        <x-slot name="page">
+
+            <form method="post" action="{{ route('user.organization.update', [$user->id, $organization->id]) }}">
                 @csrf @method('PUT')
                 <div>
 
                     <div class="form-group">
                         <label for="title">Názov</label>
-                        <input type="text" name="title" id="title" value="{{ $organization->title }}" class="form-control"
-                            required>
+                        <input type="text" name="title" id="title" value="{{ $organization->title }}"
+                            class="form-control" required>
                     </div>
 
                     <div class="form-group">
                         <label for="street">Ulica</label>
-                        <input type="text" name="street" id="street" value="{{ $organization->street }}" class="form-control">
+                        <input type="text" name="street" id="street" value="{{ $organization->street }}"
+                            class="form-control">
                     </div>
 
                     <div class="form-group">
@@ -81,17 +83,20 @@
                         <div class="form-group">
                             <label class="font-semibold" for="youtube_channel">youtube channel</label>
                             <input type="text" name="youtube_channel" class="form-control" placeholder="youtube channel"
-                                id="youtube_channel" value="{{ old('youtube_channel') ?? $organization->youtube_channel }}">
+                                id="youtube_channel"
+                                value="{{ old('youtube_channel') ?? $organization->youtube_channel }}">
                         </div>
 
                         <div class="form-group">
                             <label class="font-semibold" for="youtube_playlist">youtube playlist</label>
                             <input type="text" name="youtube_playlist" class="form-control" placeholder="youtube playlist"
-                                id="youtube_playlist" value="{{ old('	youtube_playlist') ?? $organization->youtube_playlist }}">
+                                id="youtube_playlist"
+                                value="{{ old('	youtube_playlist') ?? $organization->youtube_playlist }}">
                         </div>
 
                         <div style="font-weight: 600">Article modifíkácia
-                            <input type="text" name="mod_title" value="{{ old('mod_title') ?? $organization->mod_title }}"
+                            <input type="text" name="mod_title"
+                                value="{{ old('mod_title') ?? $organization->mod_title }}"
                                 placeholder="Meno pred názvom článku">
                         </div>
 
@@ -150,7 +155,7 @@
                 </div>
             </form>
 
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

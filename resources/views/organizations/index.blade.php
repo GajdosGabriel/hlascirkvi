@@ -17,10 +17,10 @@
 
 @section('content')
 
-    @component('components.pages.page_3_2')
+    <x-pages.page_3_2>
 
         {{-- Stlpec I. --}}
-        @slot('page')
+        <x-slot name="page">
 
             @if (!empty($organization))
                 <organization-page-header :organization="{{ $organization }}">
@@ -41,10 +41,10 @@
                 {{ $posts->links() }}
             </div>
 
-        @endslot
+        </x-slot>
 
         {{-- Stlpec II. --}}
-        @slot('aside')
+        <x-slot name="aside">
             <div class="col-span-3">
 
                 <comment-card></comment-card>
@@ -55,6 +55,6 @@
 
             </div>
 
-        @endslot
-    @endcomponent
-@endsection
+        </x-slot>
+        </x-pages.page_title>
+    @endsection

@@ -2,16 +2,16 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Profil home
-        @endslot
+        </x-slot>
 
-        @slot('page')
-        {{--  --}}
-        @endslot
+        <x-slot name="page">
+            {{--  --}}
+        </x-slot>
 
-    @endcomponent
+    </x-pages.admin>
 
 @endsection

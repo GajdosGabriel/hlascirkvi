@@ -3,18 +3,18 @@
 @section('content')
 
 
-    @component('components.pages.admin')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Organizácie
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
             {{-- // --}}
-        @endslot
+        </x-slot>
 
 
-        @slot('page')
+        <x-slot name="page">
             <div class="md:w-1/3">
                 <new-organization />
             </div>
@@ -27,8 +27,9 @@
                 {{ $organizations->links() }}
             </div>
 
-        @endslot
-    @endcomponent
+        </x-slot>
+        
+    </x-pages.admin>
 
 
 @endsection

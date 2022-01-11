@@ -13,20 +13,21 @@
 
         <div class="col-span-5">
 
-            @component('components.pages.page_title')
-                @slot('title')
+            <x-pages.page_title>
+                <x-slot name="title">
 
                     Kanály pre {{ $updater->title }}
 
-                @endslot
+                </x-slot>
 
 
-            @endcomponent
+            </x-pages.page_title>
 
 
             @forelse ( $updater->organizations as $tag )
 
-                <form action="{{ route('updater.organization.destroy', [$updater->id, $tag->id]) }}" method="POST" class="flex justify-between mb-4 border-b-2 hover:bg-gray-50 border-dashed">
+                <form action="{{ route('updater.organization.destroy', [$updater->id, $tag->id]) }}" method="POST"
+                    class="flex justify-between mb-4 border-b-2 hover:bg-gray-50 border-dashed">
 
                     @csrf @method('DELETE')
                     <div class="font-semibold text-lg">{{ $tag->title }}</div>

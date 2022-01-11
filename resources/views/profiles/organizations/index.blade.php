@@ -1,20 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('components.pages.profil')
-
-
-        @slot('title')
+    <x-pages.admin>
+        <x-slot name="title">
             Vaše kanály
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
             {{-- // --}}
-        @endslot
+        </x-slot>
 
 
 
-        @slot('page')
+        <x-slot name="page">
             <new-organization></new-organization>
 
             @include('organizations._organization-table')
@@ -23,7 +21,6 @@
                 {{ $organizations->links() }}
             </div>
 
-
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 @endsection

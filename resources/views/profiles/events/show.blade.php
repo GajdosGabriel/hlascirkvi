@@ -3,30 +3,29 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             {{ $title ?? 'Pozvánky na podujatia' }}
-        @endslot
+        </x-slot>
 
 
-        @slot('title_right')
+        <x-slot name="title_right">
             <a href="{{ route('organization.event.create', $organization->id) }}" class="btn btn-primary">Nová akcia</a>
-        @endslot
+        </x-slot>
 
-        @slot('page')
-        <div class="flex">
+        <x-slot name="page">
+            <div class="flex">
 
-     
-            <div class="md:w-2/3 mr-5">
-                @include('events.show_a')
+                <div class="md:w-2/3 mr-5">
+                    @include('events.show_a')
+                </div>
+
+                <div class="md:w-1/3">
+                    @include('events.show_b')
+                </div>
             </div>
-
-            <div class="md:w-1/3">
-                @include('events.show_b')
-            </div>
-        </div>
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

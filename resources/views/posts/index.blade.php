@@ -19,10 +19,10 @@
 
 
 
-    @component('components.pages.page_3_2')
+    <x-pages.page_3_2>
 
         {{-- Stlpec I. --}}
-        @slot('page')
+        <x-slot name="page">
 
             {{-- @include('posts.sviatok') --}}
 
@@ -76,10 +76,10 @@
                 {{ $posts->links() }}
             </div>
 
-        @endslot
+        </x-slot>
 
         {{-- Stlpec II. --}}
-        @slot('aside')
+        <x-slot name="aside">
             <div class="col-span-3">
 
                 <comment-card></comment-card>
@@ -98,6 +98,6 @@
                 {{-- @include('posts.rss-zaloha-php') --}}
             </div>
 
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.page_3_2>
 @endsection

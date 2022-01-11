@@ -2,29 +2,30 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
 
         @include('layouts.errors')
 
 
-        @slot('title')
+        <x-slot name="title">
             Vytvoriť článok
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
             <a href="{{ url()->previous() }}" class="btn"> <i class="fa fa-arrow-left"></i> Späť</a>
-        @endslot
+        </x-slot>
 
 
-        @slot('page')
-            <form method="post" action="{{ route('organization.post.store', $organization->id) }}" enctype="multipart/form-data">
+        <x-slot name="page">
+            <form method="post" action="{{ route('organization.post.store', $organization->id) }}"
+                enctype="multipart/form-data">
                 @csrf @method('POST')
                 @include('posts.form')
             </form>
 
             @include('posts.editor')
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

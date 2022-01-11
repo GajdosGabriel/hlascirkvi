@@ -2,14 +2,14 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Import kontaktov do adresára
-        @endslot
+        </x-slot>
 
 
-        @slot('page')
+        <x-slot name="page">
 
             <form action="{{ route('addresBook.storeUsersContact', [auth()->id()]) }}" method="POST"> @csrf
 
@@ -36,7 +36,7 @@
             {{ $users->render() }}
 
 
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

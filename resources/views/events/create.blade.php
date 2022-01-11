@@ -5,20 +5,20 @@
 
 
 @section('content')
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Nové podujatie
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
             <a href="{{ url()->previous() }}" class="btn"> <i class="fa fa-arrow-left"></i> Späť</a>
-        @endslot
+        </x-slot>
 
-        @slot('page')
+        <x-slot name="page">
             <div class="grid col-span-10 p-5">
-                <form method="post" action="{{ route('organization.event.store', $organization->id) }}" class="flex"
-                    enctype="multipart/form-data"> @csrf
+                <form method="post" action="{{ route('organization.event.store', $organization->id) }}"
+                    class="flex" enctype="multipart/form-data"> @csrf
 
                     <div class="page-content">
                         @include('events._form_a')
@@ -30,8 +30,8 @@
 
                 </form>
             </div>
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 @endsection
 
 @include('posts.editor')

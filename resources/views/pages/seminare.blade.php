@@ -3,22 +3,24 @@
 @section('content')
     <div class="page">
 
-        @component('components.pages.page_title')
-            @slot('title')
+        <x-pages.page_title>
+            <x-slot name="title">
 
                 Vzdelávanie a kurzy
 
-            @endslot
+            </x-slot>
 
-            @slot('title_right')
+            <x-slot name="title_right">
 
+                @auth
                 <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
-                    href="{{ route('seminars.create') }}"><i class="fas fa-plus"></i>
+                    href="{{ route('organization.seminar.create', auth()->user()->org_id) }}"><i class="fas fa-plus"></i>
                     Nový seminár
                 </a>
-
-            @endslot
-        @endcomponent
+                @endauth
+                
+            </x-slot>
+        </x-pages.page_title>
 
 
         @foreach ($seminars as $seminar)

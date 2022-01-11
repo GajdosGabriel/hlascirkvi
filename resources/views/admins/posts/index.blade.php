@@ -2,21 +2,21 @@
 
 @section('content')
 
-@component('components.pages.admin')
+    <x-pages.admin>
 
 
-        @slot('title')
+        <x-slot name="title">
 
             Všetky príspevky
 
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
 
-        @endslot
+        </x-slot>
 
 
-        @slot('page')
+        <x-slot name="page">
 
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
 
@@ -38,14 +38,10 @@
 
 
             <div class="grid col-span-2">
-               
+
             </div>
 
-        @endslot
-    @endcomponent
-
-
-
-
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

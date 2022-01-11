@@ -12,14 +12,14 @@
         <div class="col-span-5">
 
 
-            @component('components.pages.page_title')
-                @slot('title')
+            <x-pages.page_title>
+                <x-slot name="title">
 
                     Nový seminár
 
-                @endslot
+                </x-slot>
 
-            @endcomponent
+            </x-pages.page_title>
 
 
             <div class="grid grid-cols-12 gap-5">
@@ -28,7 +28,8 @@
 
             <div class="col-span-3">
 
-                <form class="" method="post" action="{{ route('organization.seminar.store', $organization->id) }}">
+                <form class="" method="post"
+                    action="{{ route('organization.seminar.store', $organization->id) }}">
                     @csrf @method('POST')
 
                     @include('seminars.form')

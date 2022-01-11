@@ -1,18 +1,18 @@
-@component('components.pages.page_title')
-    @slot('title')
+<x-pages.page_title>
+    <x-slot name="title">
 
         {{ $event->title }}
 
-    @endslot
+    </x-slot>
 
-    @slot('title_right')
+    <x-slot name="title_right">
 
         @can('update', $event)
             <event-dropdown :post="{{ $event }}" />
         @endcan
 
-    @endslot
-@endcomponent
+    </x-slot>
+</x-pages.page_title>
 
 <div class="border-2 rounded-md border-gray-500 p-4 mb-6 shadow-md">
     <span>{{ ucfirst(localized_date('l', $event->start_at)) }}

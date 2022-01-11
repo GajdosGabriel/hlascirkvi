@@ -2,26 +2,28 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-
-        @slot('title')
+        <x-slot name="title">
 
             Semináre panel
 
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
 
-            <a href="{{ route('organization.seminar.create', $organization->id) }}" class="btn btn-default">Nový semimár</a>
+            <a href="{{ route('organization.seminar.create', $organization->id) }}" class="btn btn-default">
+                Nový semimár
+            </a>
 
-        @endslot
+        </x-slot>
 
-        @slot('page')
+        <x-slot name="page">
+
             @include('profiles.seminars._list')
 
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 
 @endsection

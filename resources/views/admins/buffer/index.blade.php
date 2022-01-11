@@ -2,21 +2,22 @@
 
 @section('content')
 
-@component('components.pages.admin')
+    <x-pages.admin>
 
 
-        @slot('title')
+        <x-slot name="title">
 
             Buffer príspevky (Nezverenené)
 
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
-
-        @endslot
+        <x-slot name="title_right">
 
 
-        @slot('page')
+        </x-slot>
+
+
+        <x-slot name="page">
 
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
 
@@ -41,11 +42,8 @@
                 @include('admins.buffer.list-organizations')
             </div>
 
-        @endslot
-    @endcomponent
-
-
-
+        </x-slot>
+    </x-pages.admin>
 
 
 @endsection

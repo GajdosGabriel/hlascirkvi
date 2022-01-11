@@ -1,22 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('components.pages.profil')
+    <x-pages.admin>
 
         @include('layouts.errors')
 
 
-        @slot('title')
+        <x-slot name="title">
 
             Upraviť článok
 
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
 
-        @endslot
+        </x-slot>
 
-        @slot('page')
+        <x-slot name="page">
 
             <form method="POST" action="{{ route('organization.post.update', [$post->organization_id, $post->id]) }}"
                 enctype="multipart/form-data">
@@ -26,7 +26,7 @@
 
             @include('posts.editor')
 
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

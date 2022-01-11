@@ -3,18 +3,18 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             {{ $title ?? 'Pozvánky na podujatia' }}
-        @endslot
+        </x-slot>
 
 
-        @slot('title_right')
+        <x-slot name="title_right">
             <a href="{{ route('organization.event.create', $organization->id) }}" class="btn btn-primary">Nová akcia</a>
-        @endslot
+        </x-slot>
 
-        @slot('page')
+        <x-slot name="page">
             {{-- Upcoming events --}}
             @forelse($events as $event)
                 @include('events._list_items')
@@ -26,7 +26,7 @@
                 {{ $events->links() }}
             </div>
 
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

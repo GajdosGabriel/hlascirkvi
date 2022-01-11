@@ -3,27 +3,27 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Nová modlitba
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
             <a class="btn btn-default" href="{{ route('user.prayer.index', auth()->user()->id) }}">
                 Späť
             </a>
-        @endslot
+        </x-slot>
 
 
-        @slot('page')
+        <x-slot name="page">
             <form action="{{ route('user.prayer.store', auth()->user()->id) }}" method="post" class="md:w-1/2">
                 @csrf @method('POST')
                 @include('prayers._form')
             </form>
 
 
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

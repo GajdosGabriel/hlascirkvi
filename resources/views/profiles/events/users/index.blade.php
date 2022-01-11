@@ -6,18 +6,18 @@
 
     {{-- @section('title', $title) --}}
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Prihlášky na: {{ $event->title }}
-        @endslot
+        </x-slot>
 
 
-        @slot('title_right')
+        <x-slot name="title_right">
 
-        @endslot
+        </x-slot>
 
-        @slot('page')
+        <x-slot name="page">
             <table class="table-auto border-2 border-gray-400 rounded-md w-full">
                 <thead class="bg-gray-500 text-white">
                     <tr>
@@ -50,8 +50,8 @@
                                     action="{{ route('event.eventSubscribe.update', [$event->id, $subcription->id]) }}">
                                     @csrf @method('PUT')
                                     @if ($subcription->confirmed)
-                                        <input name="confirmed" value="{{ NULL }}" type="hidden" />
-                                        <button title="Zrušiť potvrdenie!"  class="px-2">Potvrdené</button>
+                                        <input name="confirmed" value="{{ null }}" type="hidden" />
+                                        <button title="Zrušiť potvrdenie!" class="px-2">Potvrdené</button>
                                     @else
                                         <input name="confirmed" value="{{ now() }}" type="hidden" />
                                         <button class="px-2">Potvrdiť prihlášku</button>
@@ -65,11 +65,11 @@
 
                             <td class="text-center">
                                 <form method="post"
-                                action="{{ route('event.eventSubscribe.destroy', [$event->id, $subcription->id]) }}">
-                                @csrf @method('DELETE')
+                                    action="{{ route('event.eventSubscribe.destroy', [$event->id, $subcription->id]) }}">
+                                    @csrf @method('DELETE')
 
                                     <button class="px-2">Zmazať</button>
-                            </form>
+                                </form>
                             </td>
 
                         </tr>
@@ -85,6 +85,6 @@
                 </tbody>
 
             </table>
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 @endsection

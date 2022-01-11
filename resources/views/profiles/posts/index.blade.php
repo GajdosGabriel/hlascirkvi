@@ -3,18 +3,18 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Články
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
             <a href="{{ route('organization.post.create', $organization->id) }}" class="btn btn-primary">Nový článok</a>
-        @endslot
+        </x-slot>
 
 
-        @slot('page')
+        <x-slot name="page">
 
             @forelse($posts as $post)
 
@@ -29,8 +29,8 @@
                 {{ $posts->links() }}
             </div>
 
-        @endslot
-        
-    @endcomponent
+        </x-slot>
+
+    </x-pages.admin>
 
 @endsection

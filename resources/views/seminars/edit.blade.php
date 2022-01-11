@@ -11,24 +11,25 @@
 
         <div class="col-span-5">
 
-            @component('components.pages.page_title')
-                @slot('title')
+            <x-pages.page_title>
+                <x-slot name="title">
 
                     Upraviť seminár
 
-                @endslot
+                </x-slot>
 
-                @slot('title_right')
+                <x-slot name="title_right">
 
-                @endslot
-            @endcomponent
+                </x-slot>
+            </x-pages.page_title>
 
 
             <div class="col-span-3">
 
                 <h2 class="page_title">Upraviť seminár</h2>
 
-                <form class="" method="post" action="{{ route('organization.seminar.update', [$organization->id, $seminar->id]) }}">
+                <form class="" method="post"
+                    action="{{ route('organization.seminar.update', [$organization->id, $seminar->id]) }}">
                     @csrf @method('PUT')
 
                     @include('seminars.form')

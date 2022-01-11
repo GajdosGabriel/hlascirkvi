@@ -13,15 +13,15 @@
 
         <div class="col-span-5">
 
-            @component('components.pages.page_title')
-                @slot('title')
+            <x-pages.page_title>
+                <x-slot name="title">
 
                     Tags panel
 
-                @endslot
+                </x-slot>
 
 
-            @endcomponent
+            </x-pages.page_title>
 
 
             @forelse ( $tags as $tag )

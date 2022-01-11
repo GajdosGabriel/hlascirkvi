@@ -3,26 +3,20 @@
 @section('content')
 
 
-    <div class="grid grid-cols-12 gap-6  ">
+    <x-pages.admin>
+
+        <x-slot name="title">
+            Updater
+        </x-slot>
+
+        <x-slot name="title_right">
+            <h2 class="page_title">Nový updater</h2>
+
+            @include('admins.updater.form')
+        </x-slot>
 
 
-
-        @include('admins._profil-menu')
-
-
-
-        <div class="col-span-5">
-
-            @component('components.pages.page_title')
-                @slot('title')
-
-                    Updaters panel
-
-                @endslot
-
-
-            @endcomponent
-
+        <x-slot name="page">
 
             @forelse ( $updaters as $tag )
 
@@ -44,20 +38,10 @@
                 žiadne updaters
             @endforelse
 
+    
 
-
-        </div>
-
-        <div class="col-span-3">
-
-            <h2 class="page_title">Nový updater</h2>
-
-            @include('admins.updater.form')
-
-
-        </div>
-
-    </div>
+        </x-slot>
+    </x-pages.admin>
 
 
 

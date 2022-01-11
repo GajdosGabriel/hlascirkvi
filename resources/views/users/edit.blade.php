@@ -8,17 +8,17 @@
 
         <div class="col-span-10 content-start">
 
-            @component('components.pages.page_title')
-                @slot('title')
+            <x-pages.page_title>
+                <x-slot name="title">
 
                     Upraviť uzívateľa
 
-                @endslot
+                </x-slot>
 
-                @slot('title_right')
+                <x-slot name="title_right">
 
-                @endslot
-            @endcomponent
+                </x-slot>
+            </x-pages.page_title>
 
 
             <h3 class="font-semibold"></h3>

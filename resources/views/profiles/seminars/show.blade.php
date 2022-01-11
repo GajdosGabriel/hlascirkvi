@@ -4,8 +4,8 @@
 
 
 @section('content')
-    @component('components.pages.profil')
-        @slot('title')
+    <x-pages.admin>
+        <x-slot name="title">
 
             <div>
                 <h2 class="text-2xl font-semibold">
@@ -20,10 +20,10 @@
                 </c-article-dropdown>
             </div>
 
-        @endslot
+        </x-slot>
 
 
-        @slot('page')
+        <x-slot name="page">
 
             <div class="col-span-3">
 
@@ -37,6 +37,6 @@
                 </div>
             </div>
 
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 @endsection

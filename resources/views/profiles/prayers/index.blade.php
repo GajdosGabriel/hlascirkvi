@@ -3,19 +3,19 @@
 
 @section('content')
 
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Modlitby
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
             <a class="btn btn-default" href="{{ route('user.prayer.create', auth()->user()->id) }}">
                 Nová modlitba
             </a>
-        @endslot
+        </x-slot>
 
-        @slot('page')
+        <x-slot name="page">
             <ul>
                 @foreach ($prayers as $prayer)
                     <li class="mb-4 shadow-md border-gray-200 border-2 p-2 rounded">
@@ -28,14 +28,14 @@
 
                         <div class="flex">
                             <div class="text-gray-400 text-sm font-semibold mr-4">Meno: {{ $prayer->user_name }}</div>
-                            <div class="text-gray-400 text-sm">Vytvorené: {{ $prayer->created_at->format('m. d. Y') }}</div>
+                            <div class="text-gray-400 text-sm">Vytvorené: {{ $prayer->created_at->format('m. d. Y') }}
+                            </div>
                         </div>
 
                     </li>
                 @endforeach
             </ul>
-            </div>
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

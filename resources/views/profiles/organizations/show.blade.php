@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('components.pages.profil')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Kanál {{ $organization->title }}
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
 
-        @endslot
+        </x-slot>
 
 
-        @slot('page')
+        <x-slot name="page">
 
             <div class="flex">
 
@@ -31,7 +31,8 @@
                     <form action="{{ route('user.update', auth()->id()) }}" method="post" class="mr-4 mb-4">
                         @method('PUT') @csrf
                         <input type="hidden" name="org_id" value="{{ $organization->id }}" />
-                        <button class="px-2 bg-blue-700 text-gray-100 rounded border-2 border-blue-900 hover:bg-blue-600">Nastaviť
+                        <button
+                            class="px-2 bg-blue-700 text-gray-100 rounded border-2 border-blue-900 hover:bg-blue-600">Nastaviť
                             {{ $organization->title }}
                         </button>
                     </form>
@@ -48,10 +49,10 @@
                         @endif
                     </form>
                 </div>
-               
+
 
             </div>
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 @endsection

@@ -3,27 +3,27 @@
 
 @section('content')
 
-    @component('components.pages.admin')
+    <x-pages.admin>
 
-        @slot('title')
+        <x-slot name="title">
             Registrovaný užívatelia
-        @endslot
+        </x-slot>
 
-        @slot('title_right')
+        <x-slot name="title_right">
 
-        @endslot
+        </x-slot>
 
 
 
-        @slot('page')
+        <x-slot name="page">
             @include('users.users_table')
 
             <div class="md:block flex justify-center my-8">
                 {{ $users->links() }}
             </div>
 
-        @endslot
-    @endcomponent
+        </x-slot>
+    </x-pages.admin>
 
 
 @endsection

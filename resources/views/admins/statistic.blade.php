@@ -8,18 +8,12 @@
 
 
         <div class="grid col-span-10 content-start">
-
-
-            @component('components.pages.page_title')
-                @slot('title')
+      
+                <x-slot name="title">
 
                     Štatistika návštev - unikátne view
 
-                @endslot
-
-
-            @endcomponent
-
+                </x-slot>
 
 
             <div class="flex space-x-3 ">
