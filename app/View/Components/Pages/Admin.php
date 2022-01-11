@@ -27,6 +27,6 @@ class Admin extends Component
     }
 
     public function typeMenu(){
-        return request()->is('admin/*') ? 'admins._profil-menu' : 'profiles._profil-menu';
+        return request()->is('admin/*') ? 'admins._menu' : 'profiles._menu';
     }
 }
