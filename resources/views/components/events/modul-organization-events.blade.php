@@ -8,7 +8,7 @@
                 </a>
             </x-cards.carditem>
         @empty
-            <span class="text-muted" style="font-size: 85%">
+            <span class="text-muted px-3" style="font-size: 85%">
                 Spoločenstvo neplánuje žiadne
                 <a class="underline" href="{{ route('akcie.index') }}">
                     podujatia.

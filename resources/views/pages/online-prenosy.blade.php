@@ -67,7 +67,7 @@
                             @forelse($post->organization->events as $event)
                                 <li>{{ $event->title }}</li>
                             @empty
-                                <span class="" style="font-size: 85%">Spoločenstvo neplánuje žiadne akcie.</span>
+                                <span class=" px-3" style="font-size: 85%">Spoločenstvo neplánuje žiadne akcie.</span>
                             @endforelse
                         </ul>
                     </div>
