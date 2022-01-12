@@ -1,7 +1,7 @@
 <template>
     <div>
         <h4 style="margin: 2rem 0rem; cursor: pointer" @click="toggle">
-            Nová organizácia
+            Nový kanál
             <i v-if="!showForm" class="far fa-plus-square"></i>
             <i v-if="showForm" class="far fa-minus-square"></i>
         </h4>
