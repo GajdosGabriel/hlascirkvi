@@ -3,21 +3,16 @@
 namespace App\Http\Controllers;
 
 use Cache;
-use App\Models\Tag;
-use Carbon\Carbon;
 use \Alaouy\Youtube;
+use App\Models\Seminar;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Contracts\OrganizationRepository;
-use App\Repositories\Eloquent\EloquentOrganizationRepository;
-use App\Models\Seminar;
 
 class HomeController extends Controller
 {
     public function __construct()
     {
-        $this->posts = new EloquentPostRepository;
-//        $this->middleware('auth');
+        //
     }
 
     /**
@@ -30,12 +25,12 @@ class HomeController extends Controller
         return view('pages.home');
     }
 
-    public function zivePrenosy()
+    public function zivePrenosy(EloquentPostRepository $posts)
     {
         session()->forget('lastVisit');
 
         session()->forget('countUnwatchedVideos');
-        $posts = $this->posts->getPostsByUpdater(16);
+        $posts = $posts->getPostsByUpdater(16);
         return view('pages.online-prenosy', compact('posts'));
     }
 

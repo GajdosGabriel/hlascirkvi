@@ -1,33 +1,40 @@
 {
-  "private": true,
-  "scripts": {
-    "dev": "npm run development",
-    "development": "mix",
-    "watch": "mix watch",
-    "watch-poll": "mix watch -- --watch-options-poll=1000",
-    "hot": "mix watch --hot",
-    "prod": "npm run production",
-    "production": "mix --production"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.1",
-    "axios": "^0.21",
-    "laravel-mix": "^6.0.39",
-    "lodash": "^4.17.19",
-    "postcss": "^8.4.5",
-    "tailwindcss": "^3.0.11",
-    "vue-loader": "^15.9.7",
-    "vue-template-compiler": "^2.6.14"
-  },
-  "dependencies": {
-    "@tailwindcss/aspect-ratio": "^0.4.0",
-    "acorn": "^8.7.0",
-    "isotope-layout": "^3.0.6",
-    "jquery": "^3.6.0",
-    "lazyload": "^2.0.0-rc.2",
-    "moment": "^2.29.1",
-    "popper.js": "^1.16.1",
-    "vue": "^2.6.14",
-    "vue-images-loaded": "^1.1.2"
-  }
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.2.4",
+        "axios": "^0.21.1",
+        "bootstrap": "^4.0.0",
+        "cross-env": "^6.0",
+        "css-loader": "^1.0.1",
+        "jquery": "^3.2",
+        "laravel-elixir-vue-2": "^0.3.0",
+        "laravel-mix": "^6.0.6",
+        "lodash": "^4.17.13",
+        "popper.js": "^1.12",
+        "postcss": "^8.2.7",
+        "resolve-url-loader": "^3.1.2",
+        "sass": "^1.20.1",
+        "sass-loader": "7.*",
+        "tailwindcss": "^2.0.3",
+        "vue": "^2.5.17",
+        "vue-loader": "^15.9.5",
+        "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "@tailwindcss/aspect-ratio": "^0.2.0",
+        "isotope-layout": "^3.0.6",
+        "lazyload": "^2.0.0-rc.2",
+        "moment": "^2.29.1",
+        "node-sass": "^5.0.0",
+        "vue-images-loaded": "^1.1.2"
+    }
 }

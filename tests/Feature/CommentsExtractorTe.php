@@ -15,13 +15,13 @@ class CommentsExtractorTest extends TestCase
      *
      * @return void
      */
-    // public function test_example()
-    // {
-    //     $extractor = new ExtractYoutubeComment();
-    //     $this->assertEquals('jeden', $extractor->skuska('jeden'));
+    public function test_example()
+    {
+        // $extractor = new ExtractYoutubeComment();
+        // $this->assertEquals('jeden', $extractor->skuska('jeden'));
      
-    //     // $response = $this->get('/');
+        $response = $this->get('/');
 
-    //     // $response->assertStatus(200);
-    // }
+        // $response->assertStatus(200);
+    }
 }

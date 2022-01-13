@@ -36,6 +36,8 @@ class UserTest extends TestCase
             'email' => '2gajdosgabo@gmail.com',
         ]);
 
+        $users = User::all();
+
         $this->assertTrue($user1->first_name != $user2->first_name);
     }
 

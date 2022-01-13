@@ -9,10 +9,10 @@
             <organization-avatar :organization="organization" />
 
             <div class="ml-4 mb-4">
-                <h2
+                <h1
                     class="text-2xl font-semibold"
                     v-text="organization.title"
-                ></h2>
+                ></h1>
 
                 <div class="flex" v-if="organization.description">
                     <span
