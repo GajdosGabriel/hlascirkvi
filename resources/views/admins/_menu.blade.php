@@ -39,6 +39,13 @@
                 </x-slot>
             </x-profil_menu>
 
+            <x-profil_menu :url="route('admin.comments.index')">
+                <x-slot name="title">
+                    <i class="far fa-comment-dots mr-2 ml-8"></i>
+                    Komentáre
+                </x-slot>
+            </x-profil_menu>
+
             <x-profil_menu :url="route('admin.statistic', ['days' => 1])">
                 <x-slot name="title">
                     <i class="far fa-chart-bar mr-2 ml-8"></i>

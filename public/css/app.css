@@ -1577,9 +1577,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 /*.btn:hover {*/
 /*    @apply bg-blue-600;*/
 /*}*/
-.hover\:invisible:hover {
-  visibility: hidden;
-}
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -1720,9 +1717,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 @media (min-width: 640px) {
-  .sm\:invisible {
-    visibility: hidden;
-  }
   .sm\:my-8 {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -1800,12 +1794,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
 }
 @media (min-width: 768px) {
-  .md\:visible {
-    visibility: visible;
-  }
-  .md\:invisible {
-    visibility: hidden;
-  }
   .md\:col-span-8 {
     grid-column: span 8 / span 8;
   }

@@ -124,6 +124,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])
     Route::get('events', 'EventsController@index')->name('events.index');
     Route::get('prayers', 'PrayersController@index')->name('prayers.index');
     Route::get('posts', 'PostController@index')->name('posts.index');
+    Route::get('comments', 'CommentsController@index')->name('comments.index');
     Route::get('buffered-videos', 'BuffersController@indexBufferedVideos')->name('unpublished');
     Route::get('statistic/{days}', 'AdminsController@statistic')->name('statistic');
 

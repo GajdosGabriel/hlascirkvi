@@ -7509,6 +7509,7 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('login-card', (__webpack_r
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('youtube-dash', (__webpack_require__(/*! ./youtube/YoutubeDash.vue */ "./resources/js/youtube/YoutubeDash.vue")["default"]));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('swith-filter', (__webpack_require__(/*! ./posts/Swith-filter.vue */ "./resources/js/posts/Swith-filter.vue")["default"]));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('comments', (__webpack_require__(/*! ./comments/Comments.vue */ "./resources/js/comments/Comments.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('comments-items', (__webpack_require__(/*! ./comments/Reply.vue */ "./resources/js/comments/Reply.vue")["default"]));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('event-comments-look', (__webpack_require__(/*! ./events/Event-comment-look.vue */ "./resources/js/events/Event-comment-look.vue")["default"]));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('event-comments-offer', (__webpack_require__(/*! ./events/Event-comment-offer.vue */ "./resources/js/events/Event-comment-offer.vue")["default"]));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('new-organization', (__webpack_require__(/*! ./organizations/NewOrganization.vue */ "./resources/js/organizations/NewOrganization.vue")["default"]));
@@ -72628,7 +72629,7 @@ var render = function () {
         on: { click: _vm.toggle },
       },
       [
-        _vm._v("\n        Nová organizácia\n        "),
+        _vm._v("\n        Nový kanál\n        "),
         !_vm.showForm
           ? _c("i", { staticClass: "far fa-plus-square" })
           : _vm._e(),
@@ -73213,7 +73214,7 @@ var render = function () {
             "div",
             { staticClass: "ml-4 mb-4" },
             [
-              _c("h2", {
+              _c("h1", {
                 staticClass: "text-2xl font-semibold",
                 domProps: { textContent: _vm._s(_vm.organization.title) },
               }),
@@ -75195,8 +75196,6 @@ var render = function () {
         attrs: { meta: _vm.meta, links: _vm.links },
         on: { fetchUrl: _vm.paginator },
       }),
-      _vm._v(" "),
-      _c("modal-new-prayer"),
     ],
     1
   )
