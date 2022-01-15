@@ -24,8 +24,7 @@
                                             <h4 class="font-semibold md:text-lg">{{ $post->title }}</h4>
                                             <div class="text-gray-400">
                                                 Pridal:
-                                                <a
-                                                    href="{{ route('organizations.show', [$post->organization->id]) }}">
+                                                <a href="{{ route('organizations.show', [$post->organization->id]) }}">
                                                     {{ $post->organization->title }}
                                                 </a> |
                                                 dňa: {{ date('d. M. Y', strtotime($post->created_at)) }}
@@ -39,7 +38,7 @@
 
                                     </div>
 
-                                    @include('posts.post-online')
+                                    @include('posts._post-online')
                                 </div>
 
                                 <div class="md:flex justify-between col-span-4 mt-5">
@@ -67,7 +66,8 @@
                             @forelse($post->organization->events as $event)
                                 <li>{{ $event->title }}</li>
                             @empty
-                                <span class=" px-3" style="font-size: 85%">Spoločenstvo neplánuje žiadne akcie.</span>
+                                <span class=" px-3" style="font-size: 85%">Spoločenstvo neplánuje žiadne
+                                    akcie.</span>
                             @endforelse
                         </ul>
                     </div>

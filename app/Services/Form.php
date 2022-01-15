@@ -39,7 +39,7 @@ class Form {
             'name' => $this->model->slug,
             'thumb' => $this->folderPath() . 'thumb/'. basename($url),
             'org_name' => $image->getClientOriginalName(),
-            'size' => $image->getClientSize(),
+            'size' => $image->getClientOriginalExtension(),
             'mime' => $image->extension()
             ]);
 
