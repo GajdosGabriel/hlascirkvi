@@ -4,22 +4,18 @@
         :id="comment.id"
     >
         <div
-            class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3  bg-gray-100"
+            class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3 bg-gray-100"
         >
             <strong v-text="comment.user_name"></strong>
-
-            <div class="flex text-sm text-gray-500" v-if="canUpdate">
-                <a class="mr-2" href="#" @click.prevent="destroy()">Zmazať</a>
-                <a class="mr-2" href="#" @click.prevent="editComment = true">
-                    Upraviť
-                </a>
-            </div>
 
             <favorite :reply="comment"></favorite>
         </div>
 
         <div class="flex">
-            <img :src="comment.user_avatar" class="h-14 py-2 rounded-full ml-2" />
+            <img
+                :src="comment.user_avatar"
+                class="h-14 py-2 rounded-full ml-2"
+            />
 
             <div v-if="!editComment" class="px-3 mb-2" :class="redText">
                 {{ cakanaschvalenie }}
@@ -42,6 +38,19 @@
                 Uložiť
             </button>
         </div>
+        <div class="text-right text-xs px-2 mb-2" v-if="canUpdate">
+            <span
+                class="hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer"
+                @click.prevent="editComment = true"
+            >
+                Upraviť
+            </span>
+            <span
+                class="hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer"
+                @click.prevent="destroy()"
+                >Zmazať</span
+            >
+        </div>
     </div>
 </template>
 
@@ -51,27 +60,27 @@ import Favorite from "./Favorite.vue";
 export default {
     props: ["comment"],
     components: { Favorite },
-    data: function() {
+    data: function () {
         return {
-            editComment: false
+            editComment: false,
             // body: this.comment.body
         };
     },
 
     computed: {
-        signedIn: function() {
+        signedIn: function () {
             return window.App.signedIn;
         },
 
-        canUpdate: function() {
+        canUpdate: function () {
             return this.authorize(
-                user =>
+                (user) =>
                     window.App.user.id == 1 ||
                     this.comment.user.id == window.App.user.id
             );
         },
 
-        getShortName: function() {
+        getShortName: function () {
             return (
                 this.comment.user.first_name +
                 " " +
@@ -80,20 +89,20 @@ export default {
             );
         },
 
-        cakanaschvalenie: function() {
+        cakanaschvalenie: function () {
             if (this.comment.deleted_at != null) {
                 return "Váš komentár čaká na schválenie.";
             }
             return this.comment.body;
         },
 
-        redText: function() {
+        redText: function () {
             return this.comment.deleted_at != null ? "redText" : "";
-        }
+        },
     },
 
     methods: {
-        destroy: function() {
+        destroy: function () {
             axios.delete(
                 "/api/posts/" +
                     this.comment.comment_post.id +
@@ -106,7 +115,7 @@ export default {
             });
         },
 
-        updateComment: function() {
+        updateComment: function () {
             axios
                 .put(
                     "/api/posts/" +
@@ -115,11 +124,11 @@ export default {
                         this.comment.id,
                     this.comment
                 )
-                .then(response => {
+                .then((response) => {
                     this.comment = response.comment;
                 });
             this.editComment = false;
-        }
-    }
+        },
+    },
 };
 </script>

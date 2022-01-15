@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Comentáre.' }}</title> @endsection
+@section('title') <title>{{ 'Admin komentáre.' }}</title> @endsection
 
 @section('content')
 

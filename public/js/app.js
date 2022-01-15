@@ -2798,6 +2798,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["comment"],
@@ -70543,46 +70552,12 @@ var render = function () {
         "div",
         {
           staticClass:
-            "flex justify-between py-2 border-b border-gray-200 pl-3 pr-3  bg-gray-100",
+            "flex justify-between py-2 border-b border-gray-200 pl-3 pr-3 bg-gray-100",
         },
         [
           _c("strong", {
             domProps: { textContent: _vm._s(_vm.comment.user_name) },
           }),
-          _vm._v(" "),
-          _vm.canUpdate
-            ? _c("div", { staticClass: "flex text-sm text-gray-500" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function ($event) {
-                        $event.preventDefault()
-                        return _vm.destroy()
-                      },
-                    },
-                  },
-                  [_vm._v("Zmazať")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "mr-2",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function ($event) {
-                        $event.preventDefault()
-                        _vm.editComment = true
-                      },
-                    },
-                  },
-                  [_vm._v("\n                Upraviť\n            ")]
-                ),
-              ])
-            : _vm._e(),
           _vm._v(" "),
           _c("favorite", { attrs: { reply: _vm.comment } }),
         ],
@@ -70648,6 +70623,40 @@ var render = function () {
                   [_vm._v("\n            Uložiť\n        ")]
                 )
               : _vm._e(),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.canUpdate
+        ? _c("div", { staticClass: "text-right text-xs px-2 mb-2" }, [
+            _c(
+              "span",
+              {
+                staticClass:
+                  "hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer",
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    _vm.editComment = true
+                  },
+                },
+              },
+              [_vm._v("\n            Upraviť\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass:
+                  "hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer",
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.destroy()
+                  },
+                },
+              },
+              [_vm._v("Zmazať")]
+            ),
           ])
         : _vm._e(),
     ]
