@@ -7,7 +7,7 @@ use App\Repositories\Contracts\PostRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class BuffersController extends Controller
+class BufferController extends Controller
 {
     protected $posts;
     public function __construct(PostRepository $posts)

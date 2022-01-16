@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Filters\EventFilters;
 use App\Http\Controllers\Controller;
 
-class EventsController extends Controller
+class EventController extends Controller
 {
     public function __construct()
     {

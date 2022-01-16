@@ -27,7 +27,7 @@ use App\Repositories\Eloquent\EloquentPostRepository;
 
 
 
-class PostsController extends Controller
+class PostController extends Controller
 {
 
     public function __construct()

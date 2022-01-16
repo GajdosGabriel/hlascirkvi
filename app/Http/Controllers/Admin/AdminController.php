@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Filters\PostFilters;
-use App\Http\Controllers\Controller;
-use App\Models\Organization;
+use DB;
+use Carbon\Carbon;
 use App\Models\Post;
+use App\Models\User;
+use App\Filters\PostFilters;
+use App\Models\Organization;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\PostRepository;
+use CyrildeWit\EloquentViewable\Support\Period;
 use App\Repositories\Eloquent\Criteria\LatestFirst;
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Models\User;
-use Carbon\Carbon;
-use CyrildeWit\EloquentViewable\Support\Period;
-use DB;
-use Illuminate\Http\Request;
 
-class AdminsController extends Controller
+class AdminController extends Controller
 {
     protected $posts;
     public function __construct(PostRepository $posts)

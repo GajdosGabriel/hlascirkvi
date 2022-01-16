@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Village;
 use Illuminate\Http\Request;
 
-class VillagesController extends Controller
+class VillageController extends Controller
 {
     // For event form by Vue.js
     public function index($fullname)

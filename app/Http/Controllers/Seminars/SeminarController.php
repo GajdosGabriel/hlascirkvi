@@ -9,7 +9,7 @@ use App\Services\VideoUpload;
 use App\Http\Controllers\Controller;
 use App\Services\VideoUploadSeminars;
 
-class SeminarsController extends Controller
+class SeminarController extends Controller
 {
     public function __construct()
     {

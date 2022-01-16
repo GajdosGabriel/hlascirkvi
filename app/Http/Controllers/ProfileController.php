@@ -10,7 +10,7 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
 
-class ProfilesController extends Controller
+class ProfileController extends Controller
 {
     public function __construct()
     {

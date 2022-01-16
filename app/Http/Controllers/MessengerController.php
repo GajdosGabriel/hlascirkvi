@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreMessengerRequest;
 use App\Notifications\Messengers;
 
-class MessengersController extends Controller
+class MessengerController extends Controller
 {
 
 

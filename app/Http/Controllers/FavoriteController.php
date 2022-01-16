@@ -15,7 +15,7 @@ use App\Notifications\Prayer\FavoriteForOwner;
 use App\Notifications\Prayer\FavoriteForUsers;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
-class FavoritesController extends Controller
+class FavoriteController extends Controller
 {
     public function __construct()
     {

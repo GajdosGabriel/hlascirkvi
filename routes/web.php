@@ -4,7 +4,7 @@
 
 Auth::routes();
 
-Route::get('/', 'PostsController@index')->name('posts.index');
+Route::get('/', 'PostController@index')->name('posts.index');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/gdpr', 'HomeController@gdpr')->name('gdpr');
@@ -20,44 +20,44 @@ Route::get('/auth/{service}', 'Auth\AuthController@redirectToProvider')
 Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallback')
     ->where('service', '(github|facebook|google|twitter|linkedin|bitbucket)');
 
-Route::get('zamyslenia/{slug?}', 'VersesController@index')->name('verses.index');
+Route::get('zamyslenia/{slug?}', 'VerseController@index')->name('verses.index');
 
 // Front routes
 Route::resources([
-    'akcie'                 => Events\EventsController::class,
-    'favorites'             => FavoritesController::class,
-    'organizations'         => OrganizationsController::class,
-    'posts'                 => PostsController::class,
-    'seminars'              => Seminars\SeminarsController::class,
+    'akcie'                 => Events\EventController::class,
+    'favorites'             => FavoriteController::class,
+    'organizations'         => OrganizationController::class,
+    'posts'                 => PostController::class,
+    'seminars'              => Seminars\SeminarController::class,
     'seminars.posts'        => Seminars\SeminarPostController::class,
-    'user'                  => UsersController::class,
+    'user'                  => UserController::class,
     'modlitby'              => PrayerController::class,
 ]);
 
 Route::middleware(['middleware' => 'auth'])->group(function () {
     Route::resources([
-        'images'                => ImagesController::class,
-        'event.eventSubscribe'  => Events\EventSubscribesController::class,
+        'images'                => ImageController::class,
+        'event.eventSubscribe'  => Events\EventSubscribeController::class,
         'organization.seminar'  => OrganizationSeminarController::class,
         'organization.post'     => OrganizationPostController::class,
         'organization.event'    => OrganizationEventController::class,
         'user.prayer'           => UserPrayerController::class,
-        'profile'               => ProfilesController::class,
-        'tags'                  => TagsController::class,
-        'updaters'              => Updaters\UpdatersController::class,
+        'profile'               => ProfileController::class,
+        'tags'                  => TagController::class,
+        'updaters'              => Updaters\UpdaterController::class,
         'updater.organization'  => Updaters\UpdaterOrganizationController::class,
         'user.organization'     => UserOrganizationController::class,
     ]);
 });
 
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
-Route::get('seminars/{seminar}/upload', 'Seminars\SeminarsController@uploadVideosfromPlaylist')->name('seminars.uploadVideos');
+Route::get('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideosfromPlaylist')->name('seminars.uploadVideos');
 
 
-//    Route::get('/users', 'UsersController@index')->name('users.index');
+//    Route::get('/users', 'UserController@index')->name('users.index');
 
 Route::get('/user/{user}/{slug}/import', 'AddresBookController@importContacts')->name('addresBook.importContacts');
-Route::get('/user/{user}/confirmEmail/confirmEmail', 'UsersController@confirmEmail')->name('confirmEmail');
+Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserController@confirmEmail')->name('confirmEmail');
 
 Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->name('addresBook.storeUsersContact');
 
@@ -69,16 +69,16 @@ Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->nam
 Route::prefix('user/')->name('organization.')->group(function () {
 
     Route::middleware(['auth'])->group(function () {
-        Route::post('message/{organization}/newMessage', 'MessengersController@store')->name('messengers.store.users');
+        Route::post('message/{organization}/newMessage', 'MessengerController@store')->name('messengers.store.users');
     });
 });
 
 
-Route::get('post/{post}/{slug}', 'PostsController@show')->name('post.show');
+Route::get('post/{post}/{slug}', 'PostController@show')->name('post.show');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('{videoId}', 'PostsController@showVideo')->name('post.showVideo');
-    Route::get('unpublished/{post}/video', 'PostsController@toBuffer')->name('post.toBuffer');
+    Route::get('{videoId}', 'PostController@showVideo')->name('post.showVideo');
+    Route::get('unpublished/{post}/video', 'PostController@toBuffer')->name('post.toBuffer');
 });
 
 
@@ -96,48 +96,48 @@ Route::get('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVide
 
 //    Event
 Route::prefix('akcie/')->name('event.')->group(function () {
-    Route::get('{event}/{title}', 'Events\EventsController@show')->name('show');
-    Route::post('{event}/form/subscribe', 'EventSubscribesController@subscribeByForm')->name('subscribeByForm');
+    Route::get('{event}/{title}', 'Events\EventController@show')->name('show');
+    Route::post('{event}/form/subscribe', 'EventSubscribeController@subscribeByForm')->name('subscribeByForm');
 
     Route::middleware('auth')->group(function () {
-        Route::get('{event}/{user}/{slug}/print', 'Events\EventsController@printGdpr')->name('gdpr');
-        Route::put('{event}/{slug}/eventInfoPanel', 'Events\EventsController@eventInfoPanel')->name('eventInfoPanel');
+        Route::get('{event}/{user}/{slug}/print', 'Events\EventController@printGdpr')->name('gdpr');
+        Route::put('{event}/{slug}/eventInfoPanel', 'Events\EventController@eventInfoPanel')->name('eventInfoPanel');
     });
 });
 
 
-Route::get('storage/{filepath?}', 'Events\EventsController@download')->name('events.download');
+Route::get('storage/{filepath?}', 'Events\EventController@download')->name('events.download');
 
 
-Route::post('bigThink/post/{post}/{slug}', 'BigThinksController@store')->name('bigThink.store');
-Route::post('store/message', 'MessengersController@toAdmin')->name('messengers.store');
+Route::post('bigThink/post/{post}/{slug}', 'BigThinkController@store')->name('bigThink.store');
+Route::post('store/message', 'MessengerController@toAdmin')->name('messengers.store');
 
 
-Route::get('users/{user}/favorites/user', 'FavoritesController@favoriteUsers')->name('favorites.users');
+Route::get('users/{user}/favorites/user', 'FavoriteController@favoriteUsers')->name('favorites.users');
 
 
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->namespace('Admin')->group(function () {
-    Route::get('home', 'AdminsController@home')->name('home');
-    Route::get('organizations', 'OrganizationsController@index')->name('organizations.index');
-    Route::get('users', 'UsersController@index')->name('users.index');
-    Route::get('events', 'EventsController@index')->name('events.index');
-    Route::get('prayers', 'PrayersController@index')->name('prayers.index');
+    Route::get('home', 'AdminController@home')->name('home');
+    Route::get('organizations', 'OrganizationController@index')->name('organizations.index');
+    Route::get('users', 'UserController@index')->name('users.index');
+    Route::get('events', 'EventController@index')->name('events.index');
+    Route::get('prayers', 'PrayerController@index')->name('prayers.index');
     Route::get('posts', 'PostController@index')->name('posts.index');
-    Route::get('comments', 'CommentsController@index')->name('comments.index');
-    Route::get('buffered-videos', 'BuffersController@indexBufferedVideos')->name('unpublished');
-    Route::get('statistic/{days}', 'AdminsController@statistic')->name('statistic');
+    Route::get('comments', 'CommentController@index')->name('comments.index');
+    Route::get('buffered-videos', 'BufferController@indexBufferedVideos')->name('unpublished');
+    Route::get('statistic/{days}', 'AdminController@statistic')->name('statistic');
 
-    Route::get('images/index', 'ImagesController@index')->name('images.index');
-    Route::get('images/destroy', 'ImagesController@destroy')->name('images.destroy');
+    Route::get('images/index', 'ImageController@index')->name('images.index');
+    Route::get('images/destroy', 'ImageController@destroy')->name('images.destroy');
 });
 
 Route::prefix('village/')->name('village.')->middleware(['auth'])->group(function () {
-    Route::get('{fullname}', 'VillagesController@index')->name('index');
+    Route::get('{fullname}', 'VillageController@index')->name('index');
 });
-Route::post('denomination/set/session', 'UsersController@setDenominationSession')->name('user.denomination');
+Route::post('denomination/set/session', 'UserController@setDenominationSession')->name('user.denomination');
 
 Auth::routes();
 
 
-Route::get('akcia/finished', 'Events\EventsController@finished')->name('event.finished');
+Route::get('akcia/finished', 'Events\EventController@finished')->name('event.finished');

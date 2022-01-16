@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\EventSubscribeForm;
 use App\Repositories\Contracts\UserRepository;
 
-class EventSubscribesController extends Controller
+class EventSubscribeController extends Controller
 {
     public function __construct()
     {

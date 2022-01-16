@@ -6,7 +6,7 @@ use App\Models\Prayer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PrayersController extends Controller
+class PrayerController extends Controller
 {
     public function __construct()
     {

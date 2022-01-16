@@ -7,7 +7,7 @@ use App\Models\Post;
 use App\Http\Requests\SaveCommentsRequest;
 use Illuminate\Http\Request;
 
-class BigThinksController extends Controller
+class BigThinkController extends Controller
 {
     public function __construct()
     {

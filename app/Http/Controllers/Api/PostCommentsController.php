@@ -10,7 +10,7 @@ use App\Http\Resources\CommentResource;
 use App\Http\Requests\SaveCommentsRequest;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
-class PostsCommentsController extends Controller
+class PostCommentController extends Controller
 {
 
     public function index(Post $post)

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\OrganizationsRequest;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
 
-class OrganizationsController extends Controller
+class OrganizationController extends Controller
 {
     public function __construct()
     {

@@ -43,6 +43,21 @@ class TestController extends Controller
 
     public function newsletter()
     {
+
+
+        // $comments = \Youtube::getCommentThreadsByVideoId($post->video_id);
+        // $video = \Youtube::getVideoInfo('zOpsGQ_2MbY'); // Nie
+        $video = \Youtube::getVideoInfo('lSKaDNTAN2Y'); // Ano
+
+
+
+
+        // dd($comments);
+        dd($video);
+
+
+
+
         $text = "<a href=cc" ;
 
         if(!str_contains($text, '<a href=')) {
@@ -98,15 +113,7 @@ dd(77);
 
             // dd($post->video_id);
 
-            $comments = \Youtube::getCommentThreadsByVideoId($post->video_id);
-            // $video = \Youtube::getVideoInfo('rie-hPVJ7Sw');
-
-
-
-
-            // dd($comments);
-            // dd($post->id);
-
+         
 
             foreach ($comments as $comment) {
                 $bodyComment = $comment->snippet->topLevelComment->snippet->textDisplay;

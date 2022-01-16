@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Models\Verse;
 use Illuminate\Http\Request;
 
-class VersesController extends Controller
+class VerseController extends Controller
 {
     public function index($slug=null) {
 

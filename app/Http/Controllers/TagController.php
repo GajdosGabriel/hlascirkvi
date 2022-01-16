@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Str;
 
-class TagsController extends Controller
+class TagController extends Controller
 {
 
     public function index()

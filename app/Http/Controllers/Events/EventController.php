@@ -17,7 +17,7 @@ use App\Repositories\Eloquent\EloquentEventRepository;
 
 
 
-class EventsController extends Controller
+class EventController extends Controller
 {
     public function __construct()
     {

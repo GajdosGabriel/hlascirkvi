@@ -7,7 +7,7 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ImagesController extends Controller
+class ImageController extends Controller
 {
 
     public function __construct()

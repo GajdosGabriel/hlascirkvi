@@ -6,7 +6,7 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class OrganizationsController extends Controller
+class OrganizationController extends Controller
 {
     public function __construct()
     {

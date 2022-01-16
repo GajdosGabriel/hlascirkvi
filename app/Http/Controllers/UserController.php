@@ -10,7 +10,7 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
