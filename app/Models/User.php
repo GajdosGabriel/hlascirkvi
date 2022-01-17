@@ -36,6 +36,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'created_at',
+        'email_verified_at' => 'date',
         // 'notify_bell'
     ];
 
