@@ -21,9 +21,7 @@
             <tr class="border-2 border-gray-300">
                 <td>{{ $user->id }} </td>
                 <td class="whitespace-no-wrap">
-                    <a href="{{ route('user.edit', [$user->id]) }}">
-                        {{ $user->first_name }} {{ $user->last_name }}
-                    </a>
+                    {{ $user->first_name }} {{ $user->last_name }}
                 </td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->vocative }}</td>
@@ -46,4 +44,4 @@
         @endforelse
     </tbody>
 </table>
-</div>
+
