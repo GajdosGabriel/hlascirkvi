@@ -38,6 +38,8 @@ class Kernel extends ConsoleKernel
 
         // $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
         $schedule->command('UserSearchByChannelAndPlaylist')->dailyAt('16:24');
+        
+        // Na každý den iná zostava podľa updater
         $schedule->command('UserSearchByName')->dailyAt('06:55');
 
 

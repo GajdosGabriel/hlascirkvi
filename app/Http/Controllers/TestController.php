@@ -20,6 +20,7 @@ use App\Services\Newsletter;
 use Illuminate\Http\Request;
 use App\Services\VideoUpload;
 use App\Events\User\NotifyBell;
+use App\Services\VideoUploadFilter;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Services\Extractor\ExtractEcav;
@@ -31,6 +32,7 @@ use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
+use App\Repositories\Eloquent\EloquentOrganizationRepository;
 
 class TestController extends Controller
 {
@@ -44,6 +46,23 @@ class TestController extends Controller
     public function newsletter()
     {
 
+        $this->organizations = new EloquentOrganizationRepository;
+
+dd($this->organizations->getYoutubeVideos());
+        
+        $organization = Organization::find(256);
+
+
+        $filter = new VideoUploadFilter($organization, 'Bohoslužbs Banská Bystrica');
+
+
+if( $filter->wordsChecker() ){
+    echo "som tu";
+};
+
+
+
+        dd($filter->wordsChecker());
 
         // $comments = \Youtube::getCommentThreadsByVideoId($post->video_id);
         // $video = \Youtube::getVideoInfo('zOpsGQ_2MbY'); // Nie
@@ -58,13 +77,13 @@ class TestController extends Controller
 
 
 
-        $text = "<a href=cc" ;
+        $text = "<a href=cc";
 
-        if(!str_contains($text, '<a href=')) {
+        if (!str_contains($text, '<a href=')) {
             echo 'Elephants are intelligent.';
         }
 
-dd(77);
+        dd(77);
 
         // $comments = \Youtube::getCommentThreadsByVideoId('984SFBcc-eQ');
         // $comments = \Youtube::getVideoInfo('1nFJV_NU8LQ');
@@ -72,10 +91,10 @@ dd(77);
         // dd($comments);
 
         $posts =  (new EloquentPostRepository)->postsByUpdater(15)->where('video_id', '<>', null)
-        // ->where('created_at', '<=', Carbon::now()->subWeek(1) )
-        ->whereVideoDuration(null)
-        ->take(10)
-        ->latest()->get();
+            // ->where('created_at', '<=', Carbon::now()->subWeek(1) )
+            ->whereVideoDuration(null)
+            ->take(10)
+            ->latest()->get();
 
         dd($posts);
 
@@ -113,7 +132,7 @@ dd(77);
 
             // dd($post->video_id);
 
-         
+
 
             foreach ($comments as $comment) {
                 $bodyComment = $comment->snippet->topLevelComment->snippet->textDisplay;

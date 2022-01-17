@@ -9,12 +9,12 @@
 
 namespace App\Services;
 
-use Alaouy\Youtube\Youtube;
-use App\Repositories\Eloquent\EloquentOrganizationRepository;
-use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Services\ImageResize;
 use App\Models\User;
+use Alaouy\Youtube\Youtube;
+use App\Services\ImageResize;
 use App\Notifications\Admin\Error;
+use App\Repositories\Eloquent\EloquentPostRepository;
+use App\Repositories\Eloquent\EloquentOrganizationRepository;
 
 
 class VideoUpload
@@ -82,12 +82,19 @@ class VideoUpload
         // Chceck if video is embededable
         $video = \Youtube::getVideoInfo($videoId);
 
-         // If video isnt shareing for public // is private
-         if (!$video->status->embeddable) {
-             return;        
+        // If video isnt shareing for public // is private
+        if (!$video->status->embeddable) {
+            return;
         };
 
-        $post =  $this->organizations->createPost(
+        // Video filter 
+        $filter = new VideoUploadFilter($organization, $video->snippet->title);
+
+        if (! $filter->wordsChecker() ) {
+            return;
+        };
+
+        $post = $this->organizations->createPost(
             $organization->id,
             [
                 'title' => $video->snippet->title,
@@ -133,17 +140,19 @@ class VideoUpload
 
     protected function exemption($video, $organization)
     {
-        if ($organization->id == 256) {
+        // if ($organization->id == 256) {
 
-            // title of video
-            $str = strtolower($video->snippet->title);
-            $substr = strtolower('Bohoslužby Banská Bystrica');
+        //     // title of video
+        //     $str = strtolower($video->snippet->title);
+        //     $substr = strtolower('Bohoslužby Banská Bystrica');
 
-            if (strpos($str, $substr) !== false) {
-                return false;
-            } else {
-                return true;
-            }
-        }
+        //     if (strpos($str, $substr) !== false) {
+        //         return false;
+        //     } else {
+        //         return true;
+        //     }
+        // }
+
+        return false;
     }
 }

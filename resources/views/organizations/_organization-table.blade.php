@@ -20,10 +20,11 @@
         @if ($organization->id == auth()->user()->org_id)
         bg-gray-300
         @endif ">
-                <td class="px-2">{{  $organization->id }}</td>
+                <td class="px-2">{{ $organization->id }}</td>
                 <td class="">
-                    <a href="{{ route('user.organization.show', [ auth()->user()->id, $organization->id]) }}" title="{{$organization->title}}">
-                    {{ \Illuminate\Support\Str::limit($organization->title, 30) }}
+                    <a href="{{ route('user.organization.show', [auth()->user()->id, $organization->id]) }}"
+                        title="{{ $organization->title }}">
+                        {{ \Illuminate\Support\Str::limit($organization->title, 30) }}
                     </a>
                 </td>
                 <td>{{ $organization->street }}
@@ -75,17 +76,25 @@
                     @endforeach
                 </td>
                 <td>
-                    <form method="POST" action="{{ route('user.organization.update', [$user->id, $organization->id]) }}">
-                        @csrf @method('PUT')
 
-                        @if ($organization->published)
-                            <button value="0" name="published"
-                                class="px-2 text-xs bg-green-500 text-gray-100 rounded border-2 border-green-700 hover:bg-green-600">Publikované</button>
-                        @else
-                            <button value="1" name="published"
-                                class="px-2 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700 hover:bg-red-600">Nepublikované</button>
-                        @endif
+                    <form action="{{ route('user.update', auth()->id()) }}" method="post">
+                        @method('PUT') @csrf
+                        <input type="hidden" name="org_id" value="{{ $organization->id }}" />
+                        <button
+                            class="px-2 text-xs bg-blue-500 text-gray-100 rounded border-2 border-blue-700 hover:bg-blue-600">
+                            Prepnúť na kanál
+                        </button>
                     </form>
+
+
+                    @if (!$organization->published)
+                        <div
+                            class="px-2 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700 hover:bg-red-600">
+                            Nepublikované
+                        </div>
+                    @endif
+
+
                 </td>
                 <td class="px-2">
                     <a href="{{ route('user.organization.edit', [$user->id, $organization->id]) }}">

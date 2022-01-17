@@ -33,7 +33,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     {
         return $this->entity->whereHas('updaters', function ($query) use ($idUpdaters) {
             $query->whereId($idUpdaters);
-        });
+        })->where('video_available', NULL);
     }
 
     public function postsByTag($idTag)
