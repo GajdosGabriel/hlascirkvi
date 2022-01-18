@@ -73,7 +73,7 @@
             </div>
 
             <div class="md:block flex justify-center my-8">
-                {{ $posts->links() }}
+                {{ $posts->onEachSide(1)->links() }}
             </div>
 
         </x-slot>
