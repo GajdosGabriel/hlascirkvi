@@ -43,7 +43,7 @@ class Newsletter
 
     public function prayerFulfilledAfterDays($day)
     {
-        return Prayer::where('user_id', '!=', 1)
+        return Prayer::where('user_id', '!=', 100)
             ->whereDate('created_at', Carbon::now()->subDays($day))
             ->whereNull('fulfilled_at')
             ->get();
