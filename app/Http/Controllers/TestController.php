@@ -46,14 +46,14 @@ class TestController extends Controller
     public function newsletter()
     {
 
-        $this->organizations = new EloquentOrganizationRepository;
+//         $this->organizations = new EloquentOrganizationRepository;
 
-dd($this->organizations->getYoutubeVideos());
+// dd($this->organizations->getYoutubeVideos());
         
         $organization = Organization::find(256);
 
 
-        $filter = new VideoUploadFilter($organization, 'Bohoslužbs Banská Bystrica');
+        $filter = new VideoUploadFilter($organization, 'Bohoslužba Banská Bystrica fgsdfsdfdfg');
 
 
 if( $filter->wordsChecker() ){

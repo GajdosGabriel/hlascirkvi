@@ -16,13 +16,15 @@
 
         <x-slot name="page">
 
-            @forelse($posts as $post)
+            <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
+                @forelse($posts as $post)
 
-                @include('posts._post-list')
-            @empty
-                bez záznamu
-            @endforelse
+                    <post-card :post="{{ $post }}"></post-card>
 
+                @empty
+                    bez záznamu
+                @endforelse
+            </div>
 
 
             <div class="md:block flex justify-center my-8">

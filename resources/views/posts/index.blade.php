@@ -45,18 +45,20 @@
 
                             <h2 class="font-semibold md:text-2xl">Príspevky kresťanskej komunity</h2>
                     @endswitch
-                    <div class="flex">
-                        <x-icons.background request-value="recomended" title="Doporučené našími čitateľmi">
-                            <i class="fas fa-thumbs-up"></i>
-                        </x-icons.background>
+                    <div class="hidden sm:block">
+                        <div class="flex">
+                            <x-icons.background request-value="recomended" title="Doporučené našími čitateľmi">
+                                <i class="fas fa-thumbs-up"></i>
+                            </x-icons.background>
 
-                        <x-icons.background request-value="trends" title="Najsledovanejšie videa za dva týždne">
-                            <i class="fas fa-sort-amount-up"></i>
-                        </x-icons.background>
+                            <x-icons.background request-value="trends" title="Najsledovanejšie videa za dva týždne">
+                                <i class="fas fa-sort-amount-up"></i>
+                            </x-icons.background>
 
-                        <x-icons.background request-value="mostVisited" title="Videa podľa počtu zobrazení">
-                            <i class="far fa-eye"></i>
-                        </x-icons.background>
+                            <x-icons.background request-value="mostVisited" title="Videa podľa počtu zobrazení">
+                                <i class="far fa-eye"></i>
+                            </x-icons.background>
+                        </div>
                     </div>
                 </div>
             @endif

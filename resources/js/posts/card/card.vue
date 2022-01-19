@@ -1,6 +1,7 @@
 <template>
     <div
-        class="border-2 border-gray-400 bg-white m-2 rounded-md shadow-md relative md:text-sm"
+        class="border-2 bg-white m-2 rounded-md shadow-md relative md:text-sm"
+        :class="isPublished"
     >
         <div style="max-height: 11rem; overflow: hidden; position: relative">
             <div
@@ -36,36 +37,42 @@
             }}</time>
 
             <card-published-blocked v-if="!post.hasUpdater" :post="post" />
+            <card-published-button v-if="!post.published" :post="post" />
         </div>
     </div>
 </template>
 
 <script>
 import cardPublishedBlocked from "./card-publishedBlocked";
+import cardPublishedButton from "./card-publishedButton";
 
 export default {
     props: {
         post: {
             type: Object,
-            default: ""
+            default: "",
         },
         createdat: {
             type: Boolean,
             required: false,
-            default: true
+            default: true,
         },
         shortertext: {
             type: Boolean,
             required: false,
-            default: true
-        }
+            default: true,
+        },
     },
     computed: {
-        shorttitle: function() {
+        shorttitle: function () {
             if (this.shortertext) return this.post.title;
             return this.post.title.slice(0, 36);
-        }
+        },
+
+        isPublished: function () {
+            return this.post.published ? "" : "border-red-600";
+        },
     },
-    components: { cardPublishedBlocked }
+    components: { cardPublishedBlocked, cardPublishedButton },
 };
 </script>
