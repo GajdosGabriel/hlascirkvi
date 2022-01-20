@@ -5181,6 +5181,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -5198,9 +5202,6 @@ __webpack_require__.r(__webpack_exports__);
       showDescription: false,
       textform: false,
       favorited: this.organization.isFavorited,
-      buttonText: "",
-      buttonStatus: true,
-      registrationLink: false,
       open: false
     };
   },
@@ -5208,12 +5209,8 @@ __webpack_require__.r(__webpack_exports__);
     signedIn: function signedIn() {
       return window.App.signedIn;
     },
-    button: function button() {
-      if (this.favorited) {
-        return this.buttonText = "Sledujete kanál";
-      }
-
-      return this.buttonText = "Sledovať kanál " + this.organization.title;
+    buttonText: function buttonText() {
+      return this.favorited ? "Sledujete kanál" : "Sledovať kanál " + this.organization.title;
     },
     classButton: function classButton() {
       return [this.favorited ? "bg-gray-300" : "bg-red-600 text-white whitespace-nowrap"];
@@ -20625,7 +20622,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active,\r\n.slide-fade-leave-to {\r\n    transition: opacity 0.5s;\n}\n.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */\r\n {\r\n    opacity: 0;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active,\r\n.slide-fade-leave-to {\r\n    transition: opacity 0.5s;\n}\n.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\r\n    opacity: 0;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -73317,7 +73314,7 @@ var render = function () {
     "div",
     {
       staticClass:
-        "md:flex justify-between text-gray-700 pb-3 col-span-12 items-center ",
+        "md:flex justify-between text-gray-700 pb-3 col-span-12 items-center",
       on: { click: _vm.closeLoginInfo },
     },
     [
@@ -73401,19 +73398,11 @@ var render = function () {
       _vm._v(" "),
       _c("div", { staticClass: "relative" }, [
         _c("div", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.buttonStatus,
-              expression: "buttonStatus",
-            },
-          ],
           staticClass:
             "p-2 rounded-md cursor-pointer flex justify-center hover:bg-red-700 whitespace-nowrap",
           class: _vm.classButton,
           attrs: { title: "Budete dostávať nové príspevky!" },
-          domProps: { innerHTML: _vm._s(_vm.button) },
+          domProps: { innerHTML: _vm._s(_vm.buttonText) },
           on: {
             click: function ($event) {
               $event.stopPropagation()

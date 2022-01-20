@@ -1,7 +1,7 @@
 <template>
     <div
         @click="closeLoginInfo"
-        class="md:flex justify-between text-gray-700 pb-3 col-span-12 items-center "
+        class="md:flex justify-between text-gray-700 pb-3 col-span-12 items-center"
     >
         <div class="flex">
             <!-- check if is person-->
@@ -19,7 +19,7 @@
                         @click="toggle"
                         class="hover:bg-blue-400 cursor-pointer rounded-sm px-2"
                         :class="{
-                            'bg-blue-500 text-gray-200 ': showDescription
+                            'bg-blue-500 text-gray-200 ': showDescription,
                         }"
                     >
                         Profil
@@ -36,7 +36,12 @@
 
                         <div
                             @click="toggle"
-                            style="cursor: pointer; font-size: 75%; float: left; margin-right: 1rem"
+                            style="
+                                cursor: pointer;
+                                font-size: 75%;
+                                float: left;
+                                margin-right: 1rem;
+                            "
                         >
                             Zavrieť X
                         </div>
@@ -48,8 +53,7 @@
         <div class="relative">
             <!-- Button i-Memeber-->
             <div
-                v-show="buttonStatus"
-                v-html="button"
+                v-html="buttonText"
                 @click.stop="subscribe"
                 title="Budete dostávať nové príspevky!"
                 :class="classButton"
@@ -79,45 +83,39 @@ export default {
     props: ["organization"],
     components: { modal, organizationAvatar },
     mixins: [createdMixin],
-    data: function() {
+    data: function () {
         return {
             domain: window.App.baseUrl,
             showDescription: false,
             textform: false,
-
             favorited: this.organization.isFavorited,
-            buttonText: "",
-            buttonStatus: true,
-            registrationLink: false,
-            open: false
+            open: false,
         };
     },
     computed: {
-        signedIn: function() {
+        signedIn: function () {
             return window.App.signedIn;
         },
-        button: function() {
-            if (this.favorited) {
-                return (this.buttonText = "Sledujete kanál");
-            }
-            return (this.buttonText =
-                "Sledovať kanál " + this.organization.title);
+        buttonText: function () {
+            return this.favorited
+                ? "Sledujete kanál"
+                : "Sledovať kanál " + this.organization.title;
         },
 
-        classButton: function() {
+        classButton: function () {
             return [
                 this.favorited
                     ? "bg-gray-300"
-                    : "bg-red-600 text-white whitespace-nowrap"
+                    : "bg-red-600 text-white whitespace-nowrap",
             ];
-        }
+        },
     },
 
     methods: {
-        toggle: function() {
+        toggle: function () {
             this.showDescription = !this.showDescription;
         },
-        toggleLogin: function() {
+        toggleLogin: function () {
             // alert('Vytvorte si účet alebo prihláste sa.');
             this.open = !this.open;
         },
@@ -127,20 +125,20 @@ export default {
                 this.open = false;
             }
         },
-        toggleFavorited: function() {
+        toggleFavorited: function () {
             this.favorited = !this.favorited;
         },
 
-        subscribe: function() {
+        subscribe: function () {
             if (!this.signedIn) {
                 return this.toggleLogin();
             }
             axios
                 .put("/favorites/" + this.organization.id, {
                     model: "Organization",
-                    model_id: this.organization.id
+                    model_id: this.organization.id,
                 })
-                .then(response => {
+                .then((response) => {
                     this.toggleFavorited();
                     this.messageNotification();
                 });
@@ -149,18 +147,18 @@ export default {
             //                this.toggleFavorited();
         },
 
-        messageNotification: function() {
+        messageNotification: function () {
             if (this.favorited) {
                 bus.$emit("flash", { body: "Ste prihlásený!" });
             } else {
                 bus.$emit("flash", { body: "Ste odhlásený!" });
             }
-        }
+        },
 
         // openModal: function () {
         //     bus.$emit('openModalHelpUs');
         // }
-    }
+    },
 };
 </script>
 
@@ -170,8 +168,7 @@ export default {
     transition: opacity 0.5s;
 }
 
-.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
- {
+.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }
 </style>

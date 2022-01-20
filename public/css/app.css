@@ -1748,9 +1748,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   .sm\:inline-block {
     display: inline-block;
   }
-  .sm\:inline {
-    display: inline;
-  }
   .sm\:flex {
     display: flex;
   }
