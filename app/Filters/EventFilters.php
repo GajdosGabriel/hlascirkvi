@@ -15,33 +15,17 @@ use Illuminate\Http\Request;
 
 class EventFilters extends Filters
 {
+    protected $filters = ['location', 'search'];
 
-    public function getDistrict($district) {
+    public function location() {
         return $this->builder->where('end_at', '>', Carbon::now())->whereIn('village_id',
-            Village::whereDistrictId($district)->get()->pluck('id'));
+            Village::whereDistrictId( $this->request->district)->get()->pluck('id'));
     }
 
-
-
-    public function getUnpublished()
+    public function search()
     {
-        return $this->builder->wherePublished(0);
+        return $this->builder->where('title','LIKE','%'. $this->request->title .'%');
     }
 
-
-
-    public function apply($builder)
-    {
-        $this->builder = $builder;
-
-
-        // Events
-        if($this->request->district) return $this->getDistrict($this->request->district);
-
-        if($this->request->event) return $this->getUnpublished($this->request->event);
-
-        return $this->builder;
-
-    }
 
 }

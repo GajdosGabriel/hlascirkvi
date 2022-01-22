@@ -6,7 +6,7 @@
     @forelse($districts as $k => $v)
             <li class="flex justify-between">
                 @foreach($v as $item)
-                    <a href="?district={{ $item->id  }}">
+                    <a href="?posts=location&district={{ $item->id  }}">
                         @if(request('district') == $item->id )  <i style="color: #3b32b3" class="fas fa-check"></i> @endif
 
                         @break

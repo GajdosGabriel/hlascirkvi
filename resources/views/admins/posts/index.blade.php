@@ -12,11 +12,12 @@
         </x-slot>
 
         <x-slot name="title_right">
-
+            <x-search-form />
         </x-slot>
 
 
         <x-slot name="page">
+
 
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
 

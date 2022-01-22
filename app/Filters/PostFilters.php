@@ -15,7 +15,7 @@ use CyrildeWit\EloquentViewable\Support\Period;
 class PostFilters extends Filters
 {
 
-    protected $filters = ['mostVisited' , 'recomended' , 'first' , 'latestComments', 'trends'];
+    protected $filters = ['mostVisited' , 'recomended' , 'first' , 'latestComments', 'trends', 'search'];
 
 
     public function recomended()
@@ -36,6 +36,11 @@ class PostFilters extends Filters
     public function latestComments()
     {
         return $this->builder->has('comments');
+    }
+
+    public function search()
+    {
+        return $this->builder->where('title','LIKE','%'. $this->request->title .'%');
     }
 
     // Najsledovanejšie za dva týždne zo všetkých

@@ -11,7 +11,7 @@
 
 
         <x-slot name="title_right">
-            {{-- <a href="{{ route('organization.event.create', $organization->id) }}" class="btn btn-primary">Nová akcia</a> --}}
+            <x-search-form />
         </x-slot>
 
         <x-slot name="page">

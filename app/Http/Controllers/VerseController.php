@@ -21,7 +21,7 @@ class VerseController extends Controller
 
         // Previous link - get slug
         if ( ($id) < 1 ) {
-            $previous = Verse::find( Ver::count() )->slug;
+            $previous = Verse::find( Verse::count() )->slug;
         } else {
             $previous = Verse::find($id - 1)->slug;
         }
