@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Gabriel
@@ -17,15 +18,16 @@ class EventFilters extends Filters
 {
     protected $filters = ['location', 'search'];
 
-    public function location() {
-        return $this->builder->where('end_at', '>', Carbon::now())->whereIn('village_id',
-            Village::whereDistrictId( $this->request->district)->get()->pluck('id'));
+    public function location()
+    {
+        return $this->builder->where('end_at', '>', Carbon::now())->whereIn(
+            'village_id',
+            Village::whereDistrictId($this->request->district)->get()->pluck('id')
+        );
     }
 
     public function search()
     {
-        return $this->builder->where('title','LIKE','%'. $this->request->title .'%');
+        return $this->builder->where('title', 'LIKE', '%' . $this->request->title . '%');
     }
-
-
 }

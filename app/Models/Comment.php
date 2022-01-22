@@ -28,6 +28,12 @@ class Comment extends Model
         return $this->morphTo();
     }
 
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+    
+
     // public function setBodyAttribute($value)
     // {
     //     $this->attributes['body'] = cleanHardSpace($value);

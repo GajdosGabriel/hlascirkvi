@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use App\Filters\CommentFilters;
+use App\Http\Controllers\Controller;
 
 class CommentController extends Controller
 {
-    public function index(){
-        $posts = Comment::latest()->paginate();
+    public function index(CommentFilters $filters){
+        $posts = Comment::latest()->filter($filters)->paginate();
         return view('admins.comments.index', compact('posts'));
     }
 }

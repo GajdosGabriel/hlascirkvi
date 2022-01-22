@@ -23,4 +23,10 @@ class Prayer extends Model
     public function comments() {
         return $this->morphMany(Comment::class, 'commentable')->with('user');
     }
+
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
 }
