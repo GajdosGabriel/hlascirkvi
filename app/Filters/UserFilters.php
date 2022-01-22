@@ -20,6 +20,8 @@ class UserFilters extends Filters
 
     public function search()
     {
-        return $this->builder->where('email', 'LIKE', '%' . $this->request->title . '%');
+        return $this->builder
+            ->where('email', 'LIKE', '%' . $this->request->title . '%')
+            ->orWhere('last_name', 'LIKE', '%' . $this->request->title . '%');
     }
 }
