@@ -67,6 +67,11 @@ class Organization extends Model
         return $this->hasMany(BigThink::class);
     }
 
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
 
     public function setTitleAttribute($value)
     {

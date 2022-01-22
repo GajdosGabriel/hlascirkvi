@@ -76,6 +76,11 @@ class User extends Authenticatable
         return 'users/' . $this->id . '/' . $this->avatar;
     }
 
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
 
     public function getFullnameAttribute()
     {

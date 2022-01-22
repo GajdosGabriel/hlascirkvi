@@ -10,7 +10,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-            {{-- // --}}
+            <x-search-form />
         </x-slot>
 
 
