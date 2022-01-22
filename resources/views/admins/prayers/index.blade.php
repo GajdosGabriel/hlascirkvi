@@ -22,8 +22,19 @@
                     <li class="mb-4 shadow-md border-gray-200 border-2 p-2 rounded">
                         <div class="flex justify-between">
                             <div>{{ $prayer->title }}</div>
-                            <a href="{{ route('user.prayer.edit', [$prayer->user->id, $prayer->id]) }}"
-                                class="text-sm hover:text-gray-400">Upraviť</a>
+                            <div class="flex space-x-1 items-center">
+                                <a href="{{ route('user.prayer.edit', [$prayer->user->id, $prayer->id]) }}"
+                                    class="text-sm hover:text-gray-600 hover:bg-gray-100 px-2 rounded-md">Upraviť
+                                </a>
+
+                                <form action="{{ route('user.prayer.destroy', [$prayer->user->id, $prayer->id]) }}"
+                                    method="post">
+                                    @method('DELETE') @csrf
+                                    <button
+                                        class="text-sm hover:text-gray-600 hover:bg-gray-100 px-2 rounded-md">Zmazať</button>
+                                </form>
+                            </div>
+
                         </div>
                         <div>{{ $prayer->body }}</div>
 

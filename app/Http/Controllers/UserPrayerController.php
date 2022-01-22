@@ -41,4 +41,11 @@ class UserPrayerController extends Controller
 
         return redirect()->route('user.prayer.index', $user);
     }
+
+    public function destroy(User $user, Prayer $prayer)
+    {
+        $prayer->delete();
+
+        return redirect()->route('user.prayer.index', $user);
+    }
 }
