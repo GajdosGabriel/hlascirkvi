@@ -46,6 +46,12 @@ class TestController extends Controller
     public function newsletter()
     {
 
+        $organizations = (new EloquentOrganizationRepository())->getYoutubeVideos();
+        dd($organizations);
+
+
+        
+
 //         $this->organizations = new EloquentOrganizationRepository;
 
 // dd($this->organizations->getYoutubeVideos());

@@ -38,11 +38,6 @@ class PostFilters extends Filters
         return $this->builder->has('comments');
     }
 
-    public function search()
-    {
-        session()->flash('search', $this->request->title);
-        return $this->builder->where('title','LIKE','%'. $this->request->title .'%');
-    }
 
     // Najsledovanejšie za dva týždne zo všetkých
     public function trends()

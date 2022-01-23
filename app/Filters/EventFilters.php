@@ -26,9 +26,5 @@ class EventFilters extends Filters
         );
     }
 
-    public function search()
-    {
-        session()->flash('search', $this->request->title);
-        return $this->builder->where('title', 'LIKE', '%' . $this->request->title . '%');
-    }
+   
 }
