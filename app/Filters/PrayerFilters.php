@@ -20,6 +20,7 @@ class PrayerFilters extends Filters
 
     public function search()
     {
+        session()->flash('search', $this->request->title);
         return $this->builder->where('body', 'LIKE', '%' . $this->request->title . '%');
     }
 }
