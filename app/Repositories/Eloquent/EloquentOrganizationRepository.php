@@ -26,7 +26,7 @@ class EloquentOrganizationRepository extends AbstractRepository implements Organ
     {
         $dayNumber = Carbon::parse('now')->dayOfWeek;
 
-        // if ($dayNumber == 0) return $this->getResult('nedela');
+        if ($dayNumber == 0) return $this->getResult('nedela');
         if ($dayNumber == 1) return $this->getResult('pondelok');
         if ($dayNumber == 2) return $this->getResult('utorok');
         if ($dayNumber == 3) return $this->getResult('streda');
