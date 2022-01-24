@@ -46,8 +46,8 @@ class TestController extends Controller
     public function newsletter()
     {
 
-        $organizations = (new EloquentOrganizationRepository())->getYoutubeVideos();
-        dd($organizations);
+        // $organizations = (new EloquentOrganizationRepository())->getYoutubeVideos();
+        // dd($organizations);
 
 
         
@@ -56,10 +56,10 @@ class TestController extends Controller
 
 // dd($this->organizations->getYoutubeVideos());
         
-        $organization = Organization::find(256);
+        $organization = Organization::find(257);
 
 
-        $filter = new VideoUploadFilter($organization, 'Bohoslužba Banská Bystrica fgsdfsdfdfg');
+        $filter = new VideoUploadFilter($organization, 'Bohoslužba Banská Bystrica');
 
 
 if( $filter->wordsChecker() ){

@@ -2807,6 +2807,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["comment"],
@@ -70662,9 +70663,13 @@ var render = function () {
             "flex justify-between py-2 border-b border-gray-200 pl-3 pr-3 bg-gray-100",
         },
         [
-          _c("strong", {
-            domProps: { textContent: _vm._s(_vm.comment.user_name) },
-          }),
+          _vm.comment.user_name
+            ? _c("strong", {
+                domProps: { textContent: _vm._s(_vm.comment.user_name) },
+              })
+            : _c("strong", {
+                domProps: { textContent: _vm._s(_vm.getShortName) },
+              }),
           _vm._v(" "),
           _c("favorite", { attrs: { reply: _vm.comment } }),
         ],

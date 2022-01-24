@@ -6,7 +6,8 @@
         <div
             class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3 bg-gray-100"
         >
-            <strong v-text="comment.user_name"></strong>
+            <strong v-if="comment.user_name" v-text="comment.user_name"></strong>
+            <strong v-else v-text="getShortName"></strong>
 
             <favorite :reply="comment"></favorite>
         </div>

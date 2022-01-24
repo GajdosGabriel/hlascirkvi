@@ -14,7 +14,7 @@ class Comment extends Model
     protected $guarded= [];
     protected $hidden = ['commentable_id', 'commentable_type', 'updated_at', 'deleted_at'];
 
-    protected $with = ['favorites'];
+    protected $with = ['favorites', 'user'];
     protected $appends = ['favoritesCount', 'isFavorited'];
 
 
