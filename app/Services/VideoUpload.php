@@ -90,7 +90,7 @@ class VideoUpload
         // Video filter 
         $filter = new VideoUploadFilter($organization, $video->snippet->title);
 
-        if (! $filter->wordsChecker() ) {
+        if ($filter->wordsChecker() ) {
             return;
         };
 

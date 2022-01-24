@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
 use App\Http\Requests\SaveCommentsRequest;
+use App\Notifications\Comments\CreatedNewComment;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
 class PostCommentController extends Controller
@@ -33,6 +34,10 @@ class PostCommentController extends Controller
         }
 
         $comment = $saveComments->save($post);
+
+        if (!$comment->user_id == auth()->user()->id) {
+            $comment->user->notify(new CreatedNewComment($comment));
+        }
 
         return new CommentResource($comment);
     }

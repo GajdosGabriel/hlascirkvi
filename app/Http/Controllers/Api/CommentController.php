@@ -17,29 +17,4 @@ class CommentController extends Controller
         return  CommentResource::collection(Comment::latest()->take(7)->get());
     }
 
-
-
-    public function store(SaveCommentsRequest $saveComments)
-    {
-
-        if ($saveComments->email) {
-            (new EloquentUserRepository)->checkIfUserAccountExist($saveComments);
-        }
-
-        $class = "App\\Models\\{$saveComments->input('model')}";
-        $class = new $class;
-
-        $post =  $class->whereId($saveComments->input('model_id'))->first();
-
-
-        $reply = $saveComments->save($post);
-
-        if (!$reply->user_id == auth()->user()->id) {
-            $reply->user->notify(new CreatedNewComment($reply));
-        }
-
-        if (request()->expectsJson()) return $reply->load('user');
-
-        return $reply;
-    }
 }
