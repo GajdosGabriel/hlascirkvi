@@ -39,11 +39,11 @@
 }
 
 .btn {
-    @apply border-2 border-gray-300 px-5 py-2 rounded-md;
+    @apply border-2 border-gray-300 px-3 py-2 rounded-md;
 }
 
 .btn-small {
-    @apply text-sm border-2 border-gray-300 px-2 rounded-md;
+    @apply text-sm border-2 border-gray-300 py-1 px-3 rounded-md hover:bg-gray-200;
 }
 
 .btn-primary {

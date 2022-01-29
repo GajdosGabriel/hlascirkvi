@@ -6,14 +6,18 @@
         <div
             class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3 bg-gray-100"
         >
-            <strong v-if="comment.user_name" v-text="comment.user_name"></strong>
-            <strong v-else v-text="getShortName"></strong>
+            <strong
+                v-if="comment.user_name"
+                v-text="comment.user_name"
+            ></strong>
+            <strong v-else v-text="fullName"></strong>
 
             <favorite :reply="comment"></favorite>
         </div>
 
         <div class="flex">
             <img
+                v-if="!editComment"
                 :src="comment.user_avatar"
                 class="h-14 py-2 rounded-full ml-2"
             />
@@ -31,13 +35,18 @@
                 placeholder="Pridajte nový komentár ..."
                 required
             ></textarea>
-            <button
-                class="btn btn-small mt-2 bg-blue-300 w-full hover:bg-gray-300"
-                @click.prevent="updateComment"
-                v-if="editComment"
-            >
-                Uložiť
-            </button>
+            <div class="flex justify-between mt-2" v-if="editComment">
+                <button
+                    class="btn btn-small"
+                    @click.prevent="editComment = false"
+                >
+                    Zrušiť
+                </button>
+
+                <button class="btn btn-primary" @click.prevent="updateComment">
+                    Uložiť
+                </button>
+            </div>
         </div>
         <div class="text-right text-xs px-2 mb-2" v-if="canUpdate">
             <span
@@ -64,7 +73,6 @@ export default {
     data: function () {
         return {
             editComment: false,
-            // body: this.comment.body
         };
     },
 
@@ -74,6 +82,9 @@ export default {
         },
 
         canUpdate: function () {
+            if (this.editComment) {
+                return false;
+            }
             return this.authorize(
                 (user) =>
                     window.App.user.id == 1 ||
@@ -81,13 +92,12 @@ export default {
             );
         },
 
-        getShortName: function () {
-            return (
-                this.comment.user.first_name +
-                " " +
-                this.comment.user.last_name.charAt(0) +
-                "."
-            );
+        fullName: function () {
+            return this.comment.user_name
+                ? this.comment.user_name
+                : this.comment.user.first_name +
+                      " " +
+                      this.comment.user.last_name;
         },
 
         cakanaschvalenie: function () {

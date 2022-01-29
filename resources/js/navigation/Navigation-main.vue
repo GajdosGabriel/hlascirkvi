@@ -1,5 +1,5 @@
 <template>
-    <div class="relative z-10 flex">
+    <div v-if="user" class="relative z-10 flex">
         <bell :user="user" />
 
         <button id="navbarDropdown" class="nav-link radio">
