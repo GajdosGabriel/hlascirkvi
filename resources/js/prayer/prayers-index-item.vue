@@ -3,7 +3,7 @@
         class="px-6 py-2 border-2 border-gray-400 my-6 rounded-md shadow-lg"
         :class="isFulfilledAt"
     >
-    <!-- If prayer is fulfilled -->
+        <!-- If prayer is fulfilled -->
         <div
             v-if="prayer.fulfilled_at"
             class="p-2 border-green-900 border-2 -mt-8 text-2xl bg-gray-50 rounded-md mb-2 text-center"
@@ -77,24 +77,27 @@
                 </div>
             </div>
 
-            <div class="md:flex justify-between ">
+            <div class="md:flex justify-between">
                 <div class="flex w-full">
                     <img
                         :src="'/images/prayed_hand.png'"
                         class="h-10 mr-3 md:h-20 md:mr-10"
                     />
                     <div class="w-full">
-                        <div class="flex justify-between ">
+                        <div class="flex justify-between">
                             <div class="font-semibold" v-if="prayer.title">
                                 {{ prayer.title }}
                             </div>
                             <div class="font-semibold" v-else>
                                 Prosba o modlitbu
                             </div>
-                            <favorites-count v-if="! prayer.fulfilled_at" :prayer="prayer"></favorites-count>
+                            <favorites-count
+                                v-if="!prayer.fulfilled_at"
+                                :prayer="prayer"
+                            ></favorites-count>
                         </div>
 
-                        <p style="margin-bottom: .4rem">{{ prayer.body }}</p>
+                        <p style="margin-bottom: 0.4rem">{{ prayer.body }}</p>
                     </div>
                 </div>
             </div>
@@ -118,25 +121,24 @@ export default {
     data() {
         return {
             open: false,
-            authUser: window.App.user
+            authUser: window.App.user,
         };
     },
 
     computed: {
-        isFulfilledAt: function() {
+        isFulfilledAt: function () {
             return [
-                this.prayer.fulfilled_at ? "text-green-700 bg-green-200" : ""
+                this.prayer.fulfilled_at ? "text-green-700 bg-green-200" : "",
             ];
-        }
+        },
     },
     methods: {
         passToModalShow() {
-               if(this.prayer.fulfilled_at)  return;
+            if (this.prayer.fulfilled_at) return;
             bus.$emit("passToModalPrayer", this.prayer);
         },
 
         passToModalEdit() {
-
             bus.$emit("passToModalEdit", this.prayer);
         },
 
@@ -145,11 +147,14 @@ export default {
         },
 
         prayerDestroy() {
+            if (!window.confirm("Skutočne chcete zmazať položku?")) {
+                return;
+            }
             Axios.delete("/modlitby/" + this.prayer.id).then(() => {
                 this.toggle();
                 window.location.reload();
             });
-        }
-    }
+        },
+    },
 };
 </script>

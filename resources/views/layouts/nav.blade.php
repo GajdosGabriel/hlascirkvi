@@ -16,7 +16,8 @@
 
                 <ul class="my-2 flex  space-x-4 mr-4">
                     <li>
-                        <a class="flex items-center" href="{{ route('online-prenosy') }}">Nedeľné prenosy
+                        <x-navigation.link  href="{{ route('online-prenosy') }}" active="{{ request()->routeIs('online-prenosy') }}">
+                            Nedeľné prenosy
 
                             @if (session()->has('countUnwatchedVideos'))
                                 <div
@@ -24,26 +25,26 @@
                                     <span class="pb-1">{{ session()->get('countUnwatchedVideos') }}</span>
                                 </div>
                             @endif
-                        </a>
+                        </x-navigation.link>
                     </li>
-                    <li><a href="{{ route('konferencie.pute') }}">Vzdelávanie</a></li>
+                    <li><x-navigation.link href="{{ route('konferencie.pute') }}" active="{{ request()->routeIs('konferencie.pute') }}">Vzdelávanie</x-navigation.link></li>
                     {{-- <li><a href="{{ route('zdravie') }}">Zdravie z Božej ruky</a></li> --}}
                 </ul>
 
                 <ul class="my-2 flex space-x-4">
                     <radio-button></radio-button>
                     <li class="border-2 rounded-md px-2 whitespace-nowrap">
-                        <a href="{{ route('modlitby.index') }}" class="nav-link radio">
+                        <x-navigation.link href="{{ route('modlitby.index') }}" active="{{ request()->routeIs('modlitby.index') }}">
                             <i class="fas fa-praying-hands mr-2 text-gray-300"></i>
                             Modlitby
-                        </a>
+                        </x-navigation.link>
                     </li>
 
                     <li class="border-2 rounded-md px-2 whitespace-nowrap">
-                        <a href="{{ route('akcie.index') }}" class="nav-link radio">
+                        <x-navigation.link href="{{ route('akcie.index') }}" active="{{ request()->routeIs('akcie.index') }}" >
                             <i class="fa fa-share-alt mr-2 text-gray-300" aria-hidden="true"></i>
                             Podujatia
-                        </a>
+                        </x-navigation.link>
                     </li>
 
                     {{-- <li><a href="{{ route('akcie.index') }}">Podujatia</a></li> --}}

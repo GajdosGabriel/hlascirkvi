@@ -2808,6 +2808,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["comment"],
@@ -2816,8 +2825,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      editComment: false // body: this.comment.body
-
+      editComment: false
     };
   },
   computed: {
@@ -2827,12 +2835,16 @@ __webpack_require__.r(__webpack_exports__);
     canUpdate: function canUpdate() {
       var _this = this;
 
+      if (this.editComment) {
+        return false;
+      }
+
       return this.authorize(function (user) {
         return window.App.user.id == 1 || _this.comment.user.id == window.App.user.id;
       });
     },
-    getShortName: function getShortName() {
-      return this.comment.user.first_name + " " + this.comment.user.last_name.charAt(0) + ".";
+    fullName: function fullName() {
+      return this.comment.user_name ? this.comment.user_name : this.comment.user.first_name + " " + this.comment.user.last_name;
     },
     cakanaschvalenie: function cakanaschvalenie() {
       if (this.comment.deleted_at != null) {
@@ -6620,6 +6632,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -6657,6 +6672,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     prayerDestroy: function prayerDestroy() {
       var _this = this;
+
+      if (!window.confirm("Skutočne chcete zmazať položku?")) {
+        return;
+      }
 
       axios__WEBPACK_IMPORTED_MODULE_3___default()["delete"]("/modlitby/" + this.prayer.id).then(function () {
         _this.toggle();
@@ -70667,9 +70686,7 @@ var render = function () {
             ? _c("strong", {
                 domProps: { textContent: _vm._s(_vm.comment.user_name) },
               })
-            : _c("strong", {
-                domProps: { textContent: _vm._s(_vm.getShortName) },
-              }),
+            : _c("strong", { domProps: { textContent: _vm._s(_vm.fullName) } }),
           _vm._v(" "),
           _c("favorite", { attrs: { reply: _vm.comment } }),
         ],
@@ -70677,10 +70694,12 @@ var render = function () {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "flex" }, [
-        _c("img", {
-          staticClass: "h-14 py-2 rounded-full ml-2",
-          attrs: { src: _vm.comment.user_avatar },
-        }),
+        !_vm.editComment
+          ? _c("img", {
+              staticClass: "h-14 py-2 rounded-full ml-2",
+              attrs: { src: _vm.comment.user_avatar },
+            })
+          : _vm._e(),
         _vm._v(" "),
         !_vm.editComment
           ? _c("div", { staticClass: "px-3 mb-2", class: _vm.redText }, [
@@ -70720,20 +70739,35 @@ var render = function () {
             }),
             _vm._v(" "),
             _vm.editComment
-              ? _c(
-                  "button",
-                  {
-                    staticClass:
-                      "btn btn-small mt-2 bg-blue-300 w-full hover:bg-gray-300",
-                    on: {
-                      click: function ($event) {
-                        $event.preventDefault()
-                        return _vm.updateComment.apply(null, arguments)
+              ? _c("div", { staticClass: "flex justify-between mt-2" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-small",
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          _vm.editComment = false
+                        },
                       },
                     },
-                  },
-                  [_vm._v("\n            Uložiť\n        ")]
-                )
+                    [_vm._v("\n                Zrušiť\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function ($event) {
+                          $event.preventDefault()
+                          return _vm.updateComment.apply(null, arguments)
+                        },
+                      },
+                    },
+                    [_vm._v("\n                Uložiť\n            ")]
+                  ),
+                ])
               : _vm._e(),
           ])
         : _vm._e(),
@@ -72297,99 +72331,101 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "relative z-10 flex" },
-    [
-      _c("bell", { attrs: { user: _vm.user } }),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "nav-link radio", attrs: { id: "navbarDropdown" } },
+  return _vm.user
+    ? _c(
+        "div",
+        { staticClass: "relative z-10 flex" },
         [
+          _c("bell", { attrs: { user: _vm.user } }),
+          _vm._v(" "),
           _c(
-            "li",
-            {
-              staticClass: "whitespace-nowrap flex",
-              on: { click: _vm.toggle },
-            },
+            "button",
+            { staticClass: "nav-link radio", attrs: { id: "navbarDropdown" } },
             [
-              _c("span", { staticClass: "nav-link" }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.organization.title) +
-                    "\n            "
-                ),
-              ]),
-              _vm._v(" "),
               _c(
-                "svg",
+                "li",
                 {
-                  staticClass: "h-5 w-5 mt-1",
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    viewBox: "0 0 20 20",
-                    fill: "currentColor",
-                  },
+                  staticClass: "whitespace-nowrap flex",
+                  on: { click: _vm.toggle },
                 },
                 [
-                  _c("path", {
-                    attrs: {
-                      "fill-rule": "evenodd",
-                      d: "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z",
-                      "clip-rule": "evenodd",
+                  _c("span", { staticClass: "nav-link" }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.organization.title) +
+                        "\n            "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "h-5 w-5 mt-1",
+                      attrs: {
+                        xmlns: "http://www.w3.org/2000/svg",
+                        viewBox: "0 0 20 20",
+                        fill: "currentColor",
+                      },
                     },
-                  }),
+                    [
+                      _c("path", {
+                        attrs: {
+                          "fill-rule": "evenodd",
+                          d: "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z",
+                          "clip-rule": "evenodd",
+                        },
+                      }),
+                    ]
+                  ),
                 ]
               ),
             ]
           ),
-        ]
-      ),
-      _vm._v(" "),
-      _vm.open
-        ? _c(
-            "ul",
-            {
-              staticClass: "dropdown-menu hidden absolute top-7",
-              on: { click: _vm.toggle },
-            },
-            [
-              _vm.user.isSuperadmin
-                ? _c("a", { attrs: { href: "/admin/home" } }, [
+          _vm._v(" "),
+          _vm.open
+            ? _c(
+                "ul",
+                {
+                  staticClass: "dropdown-menu hidden absolute top-7",
+                  on: { click: _vm.toggle },
+                },
+                [
+                  _vm.user.isSuperadmin
+                    ? _c("a", { attrs: { href: "/admin/home" } }, [
+                        _c("li", { staticClass: "dropdown-item" }, [
+                          _vm._v("\n                Admin\n            "),
+                        ]),
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("a", { attrs: { href: "/profile" } }, [
                     _c("li", { staticClass: "dropdown-item" }, [
-                      _vm._v("\n                Admin\n            "),
+                      _vm._v("\n                Profil\n            "),
                     ]),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
-              _c("a", { attrs: { href: "/profile" } }, [
-                _c("li", { staticClass: "dropdown-item" }, [
-                  _vm._v("\n                Profil\n            "),
-                ]),
-              ]),
-              _vm._v(" "),
-              _c("li", { attrs: { title: "divider" } }),
-              _vm._v(" "),
-              _c("li", { staticClass: "dropdown-item" }, [
-                _c(
-                  "a",
-                  {
-                    attrs: {
-                      href: "logout",
-                      onclick:
-                        "event.preventDefault();\n                         document.getElementById('logout-form').submit();",
-                    },
-                  },
-                  [_vm._v("\n                Odhlásiť\n            ")]
-                ),
-              ]),
-            ]
-          )
-        : _vm._e(),
-    ],
-    1
-  )
+                  ]),
+                  _vm._v(" "),
+                  _c("li", { attrs: { title: "divider" } }),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "dropdown-item" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          href: "logout",
+                          onclick:
+                            "event.preventDefault();\n                         document.getElementById('logout-form').submit();",
+                        },
+                      },
+                      [_vm._v("\n                Odhlásiť\n            ")]
+                    ),
+                  ]),
+                ]
+              )
+            : _vm._e(),
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -75242,7 +75278,7 @@ var render = function () {
           ]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "md:flex justify-between " }, [
+        _c("div", { staticClass: "md:flex justify-between" }, [
           _c("div", { staticClass: "flex w-full" }, [
             _c("img", {
               staticClass: "h-10 mr-3 md:h-20 md:mr-10",
@@ -75252,7 +75288,7 @@ var render = function () {
             _c("div", { staticClass: "w-full" }, [
               _c(
                 "div",
-                { staticClass: "flex justify-between " },
+                { staticClass: "flex justify-between" },
                 [
                   _vm.prayer.title
                     ? _c("div", { staticClass: "font-semibold" }, [
@@ -75275,7 +75311,7 @@ var render = function () {
                 1
               ),
               _vm._v(" "),
-              _c("p", { staticStyle: { "margin-bottom": ".4rem" } }, [
+              _c("p", { staticStyle: { "margin-bottom": "0.4rem" } }, [
                 _vm._v(_vm._s(_vm.prayer.body)),
               ]),
             ]),
