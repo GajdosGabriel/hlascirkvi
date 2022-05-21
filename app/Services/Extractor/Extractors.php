@@ -32,6 +32,17 @@ abstract class Extractors
                 continue;
             }
 
+
+            // Find spam if contains I.
+            if (str_contains($item['body'], 'More Info:')) {
+                continue;
+            }
+
+            // Find spam if contains II.
+            if (str_contains($item['body'], 'Start Game:')) {
+                continue;
+            }
+
             DB::table('prayers')->insert([
                 'title' => isset($item['title'])  ? $item['title'] : '',
                 'body' => $item['body'],
@@ -53,7 +64,7 @@ abstract class Extractors
             // Remove extra spaces but not space between two words
             $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
 
-             // Remove extra spaces but not space between two words "a&nbsp;"
+            // Remove extra spaces but not space between two words "a&nbsp;"
             $title = preg_replace('/\xc2\xa0/', ' ', $title);
 
             // Find existing or create new record
