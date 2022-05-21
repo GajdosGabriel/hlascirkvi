@@ -1,8 +1,8 @@
 <template>
     <div class="flex justify-center my-10 space-x-3">
-        <button @click="fetchPaginate(links.last)"
+        <button @click="fetchPaginate(links.first)"
                 class="flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-1 border-gray-600 rounded-sm cursor-pointer"
-                :disabled="! links.last">
+                :disabled="! links.first">
             <!--  Icon -->
             <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">

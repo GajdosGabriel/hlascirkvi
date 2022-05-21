@@ -154,6 +154,11 @@ class ExtractTkkbs extends Extractors
         foreach ($imgLinks as $link) {
             $url =  'https://www.tkkbs.sk/' . $link['image'];
 
+            // Obrázkok ukrajiny sa objavoval v každom evente
+            if($url == 	'https://www.tkkbs.sk/image/UAvlajka.jpg') {
+                continue;
+            }
+
             (new Form($event, $url))->getPictureFromEvent();
         }
 
