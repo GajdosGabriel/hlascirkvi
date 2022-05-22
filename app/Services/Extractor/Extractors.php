@@ -43,6 +43,11 @@ abstract class Extractors
                 continue;
             }
 
+            // Find spam if contains III.
+            if (str_contains($item['title'], 'Click here:')) {
+                continue;
+            }
+
             DB::table('prayers')->insert([
                 'title' => isset($item['title'])  ? $item['title'] : '',
                 'body' => $item['body'],
