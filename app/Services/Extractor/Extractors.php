@@ -34,12 +34,12 @@ abstract class Extractors
 
 
             // Find spam if contains I.
-            if (str_contains($item['body'], 'More Info:')) {
+            if (str_contains($item['title'], 'More Info:')) {
                 continue;
             }
 
             // Find spam if contains II.
-            if (str_contains($item['body'], 'Start Game:')) {
+            if (str_contains($item['title'], 'Start Game:')) {
                 continue;
             }
 
