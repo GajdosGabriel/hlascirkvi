@@ -6,6 +6,6 @@ $classes = ($active ?? false)
             : '';
 @endphp
 
-<a {{ $attributes->merge(['class' => $classes]) }}>
+<a {{ $attributes->merge(['class' => $classes]) }} class="flex" >
     {{ $slot }}
 </a>
