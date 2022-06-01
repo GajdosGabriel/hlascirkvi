@@ -25,7 +25,7 @@
         </h6>
 
         <div
-            class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm"
+            class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm w-full"
         >
             <a
                 :href="'/organizations/' + post.organization.id"
@@ -36,15 +36,13 @@
                 post.createdAtHuman
             }}</time>
 
-            <card-published-blocked v-if="!post.hasUpdater" :post="post" />
-            <card-published-button v-if="!post.published" :post="post" />
+            <card-buttons v-if="!post.hasUpdater" :post="post" />
         </div>
     </div>
 </template>
 
 <script>
-import cardPublishedBlocked from "./card-publishedBlocked";
-import cardPublishedButton from "./card-publishedButton";
+import cardButtons from "./cardButtons";
 
 export default {
     props: {
@@ -73,6 +71,6 @@ export default {
             return this.post.published ? "" : "border-red-600";
         },
     },
-    components: { cardPublishedBlocked, cardPublishedButton },
+    components: { cardButtons },
 };
 </script>

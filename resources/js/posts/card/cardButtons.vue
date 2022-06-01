@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-between w-full">
         <button @click="publishVideo" class="btn-small hover:bg-green-300">Zverejniť</button>
-        <button @click="youtubeBlocked" class="btn-small hover:bg-green-300">Blokovať</button>
+        <button @click="youtubeBlocked" class="btn-small hover:bg-red-300">Blokovať</button>
     </div>
 </template>
 
