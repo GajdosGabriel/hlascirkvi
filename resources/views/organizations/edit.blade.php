@@ -64,98 +64,113 @@
                     <span style="font-weight: 600">Organizácia patrí</span><br>
                     @forelse(\App\Models\Updater::all() as $updater)
                         @if ($updater->type == 'denomination')
-                            <input required type="radio" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
-                            @if ($up->pivot->updater_id == $updater->id)
+                            <input required type="radio" name="updaters[]" value="{{ $updater->id }}"
+                                @foreach ($organization['updaters'] as $up) @if ($up->pivot->updater_id == $updater->id)
                                 checked @endif
-                            Žiadne položky
-                        @endforeach
-                        >
-                        {{ $updater->title }}<br>
-                    @endif
-                @empty
-                    žiadny tag
-                    @endforelse
-
-
-
-                    @if (auth()->user()->hasRole('admin'))
-
-                        <div class="form-group">
-                            <label class="font-semibold" for="youtube_channel">youtube channel</label>
-                            <input type="text" name="youtube_channel" class="form-control" placeholder="youtube channel"
-                                id="youtube_channel"
-                                value="{{ old('youtube_channel') ?? $organization->youtube_channel }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="font-semibold" for="youtube_playlist">youtube playlist</label>
-                            <input type="text" name="youtube_playlist" class="form-control" placeholder="youtube playlist"
-                                id="youtube_playlist"
-                                value="{{ old('	youtube_playlist') ?? $organization->youtube_playlist }}">
-                        </div>
-
-                        <div style="font-weight: 600">Article modifíkácia
-                            <input type="text" name="mod_title"
-                                value="{{ old('mod_title') ?? $organization->mod_title }}"
-                                placeholder="Meno pred názvom článku">
-                        </div>
-
-
-                        <span style="font-weight: 600">Organizácia na predný zoznam</span><br>
-                        @forelse(\App\Models\Updater::all() as $updater)
-                            @if ($updater->type == 'frontUser')
-                                <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
-                                @if ($up->pivot->updater_id == $updater->id)
-                                    checked @endif
-                                Žiadne položky
-                            @endforeach
+                                Žiadne položky @endforeach
                             >
                             {{ $updater->title }}<br>
                         @endif
-                    @empty
-                        žiadny tag
-                    @endforelse
+                        @empty
+                            žiadny tag
+                        @endforelse
 
-                    <span style="font-weight: 600">Zaradená do zoznamu</span><br>
-                    @forelse(\App\Models\Updater::all() as $updater)
-                        @if ($updater->type == 'list')
-                            <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
-                            @if ($up->pivot->updater_id == $updater->id)
+
+
+                        @if (auth()->user()->hasRole('admin'))
+                            <div class="form-group">
+                                <label class="font-semibold" for="youtube_channel">youtube channel</label>
+                                <input type="text" name="youtube_channel" class="form-control" placeholder="youtube channel"
+                                    id="youtube_channel"
+                                    value="{{ old('youtube_channel') ?? $organization->youtube_channel }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="font-semibold" for="youtube_playlist">youtube playlist</label>
+                                <input type="text" name="youtube_playlist" class="form-control" placeholder="youtube playlist"
+                                    id="youtube_playlist"
+                                    value="{{ old('	youtube_playlist') ?? $organization->youtube_playlist }}">
+                            </div>
+
+                            <div class="mb-2 font-semibold">Article modifíkácia
+                                <input type="text" name="mod_title"
+                                    value="{{ old('mod_title') ?? $organization->mod_title }}"
+                                    class="p-1 border-solid border-2" placeholder="Meno pred názvom článku">
+                            </div>
+
+                            <div class="mb-2 font-semibold">
+                                <div>Organizácia na predný zoznam</div>
+                                @forelse(\App\Models\Updater::all() as $updater)
+                                    @if ($updater->type == 'frontUser')
+                                        <input type="checkbox" name="updaters[]" value="{{ $updater->id }}"
+                                            @foreach ($organization['updaters'] as $up) @if ($up->pivot->updater_id == $updater->id)
+                                    checked @endif
+                                            Žiadne položky @endforeach
+                                        >
+                                        {{ $updater->title }}<br>
+                                    @endif
+                                @empty
+                                    žiadny tag
+                                @endforelse
+                            </div>
+
+                            <div class="mb-2">
+                                <div>Videa do zoznamu</div>
+                                @forelse(\App\Models\Updater::all() as $updater)
+                                    @if ($updater->type == 'post')
+                                        <input type="checkbox" name="updaters[]" value="{{ $updater->id }}"
+                                            @foreach ($organization['updaters'] as $up) @if ($up->pivot->updater_id == $updater->id)
+                                    checked @endif
+                                            Žiadne položky @endforeach
+                                        >
+                                        {{ $updater->title }}<br>
+                                    @endif
+                                @empty
+                                    žiadny tag
+                                @endforelse
+                            </div>
+
+                            <div class="mb-2 font-semibold">
+                                <div>Zaradená do zoznamu</div>
+                                @forelse(\App\Models\Updater::all() as $updater)
+                                    @if ($updater->type == 'listOfOrganization')
+                                        <input type="checkbox" name="updaters[]" value="{{ $updater->id }}"
+                                            @foreach ($organization['updaters'] as $up) @if ($up->pivot->updater_id == $updater->id)
                                 checked @endif
-                            Žiadne položky
-                        @endforeach
-                        >
-                        {{ $updater->title }}<br>
-                    @endif
-                @empty
-                    žiadny tag
-                    @endforelse
+                                            Žiadne položky @endforeach
+                                        >
+                                        {{ $updater->title }}<br>
+                                    @endif
+                                @empty
+                                    žiadny tag
+                                @endforelse
+                            </div>
 
-
-                    <span style="font-weight: 600">Vyhľadávanie podľa mena v týždni</span><br>
-                    @forelse(\App\Models\Updater::all() as $updater)
-                        @if ($updater->type == 'dayOfWeek')
-                            <input type="checkbox" name="updaters[]" value="{{ $updater->id }}" @foreach ($organization['updaters'] as $up)
-                            @if ($up->pivot->updater_id == $updater->id)
+                            <div class="mb-2 font-semibold">
+                                <div>Vyhľadávanie podľa mena v týždni</div>
+                                @forelse(\App\Models\Updater::all() as $updater)
+                                    @if ($updater->type == 'dayOfWeek')
+                                        <input type="checkbox" name="updaters[]" value="{{ $updater->id }}"
+                                            @foreach ($organization['updaters'] as $up) @if ($up->pivot->updater_id == $updater->id)
                                 checked @endif
-                            Žiadne položky
-                        @endforeach
-                        >
-                        {{ $updater->title }}<br>
-                    @endif
-                @empty
-                    žiadny tag
-                    @endforelse
-                    @endif
+                                            Žiadne položky @endforeach
+                                        >
+                                        {{ $updater->title }}<br>
+                                    @endif
+                                @empty
+                                    žiadny tag
+                                @endforelse
+                            </div>
+                        @endif
 
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-primary">Uložiť</button>
-                    </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary">Uložiť</button>
+                        </div>
 
-                </div>
-            </form>
+                        </>
+                </form>
 
-        </x-slot>
-    </x-pages.admin>
+            </x-slot>
+        </x-pages.admin>
 
-@endsection
+    @endsection

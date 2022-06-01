@@ -58,8 +58,8 @@ abstract class Extractors
                 continue;
             }
 
-            // Find spam if contains VI.
-            if (str_contains($item['title'], 'https://')) {
+            // General condition.
+            if (strpos($item['title'], 'https://')) {
                 continue;
             }
 
