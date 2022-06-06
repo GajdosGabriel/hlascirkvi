@@ -84,8 +84,8 @@ class ExtractYoutubeComment
                 if (strlen($bodyComment) < 10) {
                     continue;
                 }
-                // Check if spam links
-                if (strpos($bodyComment, '<a href=')) {
+                // Check if spam url links
+                if (preg_match('/(http|www|mailto)/', $bodyComment)) {
                     continue;
                 }
                 // Check duplicity of comments
