@@ -150,7 +150,7 @@ export default {
             if (!window.confirm("Skutočne chcete zmazať položku?")) {
                 return;
             }
-            Axios.delete("/modlitby/" + this.prayer.id).then(() => {
+            Axios.delete("/api/prayers/" + this.prayer.id).then(() => {
                 this.toggle();
                 window.location.reload();
             });

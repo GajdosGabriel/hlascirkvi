@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Models\Prayer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PrayerResource;
+use App\Notifications\Prayer\NewPrayer;
+use App\Http\Requests\SavePrayerRequest;
 use App\Http\Resources\PrayerCollection;
+use Illuminate\Support\Facades\Notification;
+use App\Repositories\Eloquent\EloquentUserRepository;
 
 class PrayerController extends Controller
 {
@@ -43,7 +48,13 @@ class PrayerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->email) {
+            (new EloquentUserRepository)->checkIfUserAccountExist($request);
+        }
+
+        $prayer = auth()->user()->prayers()->create($request->all());
+
+        Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
     }
 
     /**
@@ -75,9 +86,9 @@ class PrayerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Prayer $modlitby, SavePrayerRequest $request)
     {
-        //
+        $modlitby->update($request->all());
     }
 
     /**
@@ -86,8 +97,8 @@ class PrayerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Prayer $prayer)
     {
-        //
+        $prayer->delete();
     }
 }

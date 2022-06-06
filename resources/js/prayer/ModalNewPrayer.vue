@@ -187,7 +187,7 @@ export default {
             // Update prayer
             if (this.form.id) {
                 console.log(this.form);
-                Axios.put("/modlitby/" + this.form.id, { title: this.form.title, body: this.form.body, user_name: this.form.user_name } ).then(
+                Axios.put("/api/prayers/" + this.form.id, { title: this.form.title, body: this.form.body, user_name: this.form.user_name } ).then(
                     response => {
                         this.form = {};
                         this.show = false;
@@ -197,7 +197,7 @@ export default {
                 return;
             }
             // Save prayer
-            Axios.post("/modlitby", this.form).then(response => {
+            Axios.post("/api/prayers", this.form).then(response => {
                 this.form = {};
                 this.show = false;
                 window.location.reload();

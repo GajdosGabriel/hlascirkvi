@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NoUrlLinkRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SavePrayerRequest extends FormRequest
@@ -25,8 +26,8 @@ class SavePrayerRequest extends FormRequest
     {
         if(auth()->guest() ) {
             return [
-                'title' => 'bail|required|min:2',
-                'body' => 'bail|required|min:3',
+                'title' => [ 'required','min:3', new NoUrlLinkRule],
+                'body' => [ 'required','min:3', new NoUrlLinkRule],
                 'user_name' => 'bail|required|min:2',
                 'email' => 'required|email|max:255',
             ];
