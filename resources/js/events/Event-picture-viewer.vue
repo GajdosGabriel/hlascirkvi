@@ -11,8 +11,8 @@
         <transition name="fade">
             <img
                 v-if="hideImage"
-                class="rounded cursor-pointer"
-                alt="image.title "
+                class="rounded cursor-pointer "
+                alt="image.title"
                 :class="{ 'h-full': open }"
                 :src="'/storage/' + image.url"
                 @click="showModal"
