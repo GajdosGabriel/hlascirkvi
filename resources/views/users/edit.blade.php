@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-
     <x-pages.admin>
 
         <x-slot name="title">
-            Upraviť uzívateľa
+            Upraviť užívateľa
         </x-slot>
 
         <x-slot name="title_right">
@@ -30,10 +29,16 @@
                             class="form-control" required>
                     </div>
 
+                    @can('superadmin')
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email" value="{{ $user->email }}" class="form-control"
+                                required>
+                        </div>
+                    @endcan
 
                     <button type="submit" class="btn btn-primary">Uložiť</button>
             </form>
         </x-slot>
     </x-pages.admin>
-
 @endsection
