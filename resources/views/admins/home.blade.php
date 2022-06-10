@@ -25,33 +25,10 @@
                     Okno 2
                 </div>
 
+                <div class="bg-gray-200 p-2">
+                    Okno 3
+                </div>
 
-
-                <ul>
-                    <li class="hover:bg-gray-200 p-2 rounded">
-                        <a href="{{ route('videa.videa') }}">
-                            Videa a kanaly
-                        </a>
-                    </li>
-
-                    <li class="hover:bg-gray-200 p-2 rounded">
-                        <a href="{{ route('akcie.akcie') }}">
-                            Akcie
-                        </a>
-                    </li>
-
-                    <li class="hover:bg-gray-200 p-2 rounded">
-                        <a href="{{ route('modlitby.modlitby') }}">
-                            Modlitby
-                        </a>
-                    </li>
-
-                    <li class="hover:bg-gray-200 p-2 rounded">
-                        <a href="{{ route('comments.comments') }}">
-                            Youtube komentáre </a>
-                    </li>
-
-                </ul>
             </div>
         </x-slot>
     </x-pages.admin>
