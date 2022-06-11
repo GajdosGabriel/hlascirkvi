@@ -16,6 +16,11 @@
         </x-slot>
 
         <x-slot name="page">
+
+            <x-filter.card>
+                <x-filter.unpublished></x-filter.unpublished>
+            </x-filter.card>
+            
             {{-- Upcoming events --}}
             @forelse($events as $event)
                 @include('events._list_items')

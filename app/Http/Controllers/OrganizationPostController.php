@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Filters\PostFilters;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostSaveRequest;
@@ -14,10 +15,10 @@ class OrganizationPostController extends Controller
     //     $this->authorizeResource(Organization::class, 'organization');
     // }
 
-    public function index(Organization $organization)
+    public function index(Organization $organization, PostFilters $filters)
     {
         $this->authorize('viewAny', $organization);
-        $posts = $organization->posts()->latest()->paginate(30);
+        $posts = $organization->posts()->filter($filters)->latest()->paginate(30);
 
         return view('profiles.posts.index', compact('posts', 'organization'));
     }

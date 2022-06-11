@@ -7,15 +7,16 @@ use App\Models\Event;
 use App\Services\Form;
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use App\Filters\EventFilters;
 use App\Http\Requests\StoreEventRequest;
 
 class OrganizationEventController extends Controller
 {
-    public function index(Organization $organization)
+    public function index(Organization $organization, EventFilters $filters)
     {
         $this->authorize('viewAny', $organization);
   
-        $events = $organization->events()
+        $events = $organization->events()->filter($filters)
             ->latest()->paginate(30);
         return view('profiles.events.index', compact('events', 'organization'));
     }
