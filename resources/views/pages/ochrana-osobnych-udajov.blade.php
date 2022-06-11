@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-{{--@section('title',  'Ochrana osobných údajov GDPR')--}}
+{{-- @section('title', 'Ochrana osobných údajov GDPR') --}}
 
 @section('content')
 
@@ -29,11 +29,11 @@
                 dlho.
                 Prípadne vyberám ďalších spracovateľov, ktorí mi s ich spracovaním budú pomáhať.
 
-            <p/>
+                <p />
             <p><strong>Kontaktné údaje</strong>
 
                 Kontaktovať správcu osobných údajov môžete z tejto webovej stránky v záložke Kontakt.
-            <p/>
+                <p />
             <p>
 
                 <strong>Prehlásenie</strong>
@@ -53,7 +53,7 @@
 
                 Poskytovanie služieb, plnenie zmluvy. Vaše osobné údaje v rozsahu: e-mail, nevyhnutne potrebujeme k
                 plneniu zmluvy (napr. zaslanie prístupov do aplikácie, alebo informácií o produktoch).
-            <p/>
+                <p />
             <p>
                 <strong>Vedenie účtovníctva.</strong>
                 Ak ste mojimi zákazníkmi, tak vaše osobné údaje (fakturačné údaje) nevyhnutne potrebujem, aby sa
@@ -68,7 +68,7 @@
 
                 Vaše osobné údaje si ponechávam počas doby premlčacích období, pokiaľ zákon nestanoví ďalšiu dobu k ich
                 uchovaniu alebo som v konkrétnych prípadoch neuviedli inak.
-            <p/>
+                <p />
             <p>
                 <strong>Cookies</strong>
 
@@ -82,7 +82,7 @@
                 Moje webové stránky je možné prechádzať aj v režime, ktorý neumožňuje zbieranie osobných údajov.
                 Používanie cookies môžete na svojom počítači zakázať.
 
-            <p/>
+                <p />
             <p>
                 Zabezpečenie a ochrana osobných údajov
 
@@ -107,7 +107,7 @@
 
                 Akékoľvek spracovanie osobných údajov bude vykonávané na území EU.
 
-            <p/>
+                <p />
             <p>
 
                 <strong>Vaše práva v súvislosti s ochranou osobných údajov</strong>
@@ -132,7 +132,7 @@
                 postupovať rovnako ako pri využití práva na prístup – len s tým rozdielom, že vám informácie dodám v
                 strojovo čitateľnej podobe. V tomto prípade potrebujem na to aspoň 20 dní.
 
-            <p/>
+                <p />
             <p>
                 <strong>Právo na výmaz.</strong> Vaším ďalším právom je právo na výmaz (byť zabudnutý). Nechcem na vás
                 zabudnúť, ale pokiaľ si to budete želať, máte na to právo. V takomto prípade vymažem všetky vaše osobné
@@ -152,7 +152,7 @@
                 služby vám posielam, ak ste môj zákazník na základe môjho oprávneného záujmu. Ak zákazníkom ešte nie
                 ste, posielam vám ich len na základe vášho súhlasu. V oboch prípadoch môžete ukončiť odber mojich
                 emailov kliknutím na odhlasovací odkaz v každom zaslanom maile.
-            <p/>
+                <p />
             <p>
                 <strong>Mlčanlivosť</strong>
 
@@ -165,7 +165,7 @@
                 Tieto zásady spracovania osobných údajov platia od 25.5.2018 a nahrádzajú predchádzajúcu Ochranu
                 osobných údajov, ktorej pôvodné znenie je tu:
 
-            <p/>
+                <p />
             <p>
                 Podmienky spracúvania osobných údajov prostredníctvom webovej stránky internetového obchodu
                 www.zastavy-vlajky.sk.
@@ -202,7 +202,7 @@
                 10 ods. 2 zákona.
 
                 Poskytnuté osobné údaje sa nebudú zverejňovať, ani prenášať do tretích krajín mimo EU a EHP.
-            <p/>
+                <p />
             <p>
 
                 Vaše osobné údaje bude prevádzkovateľ spracúvať od zaregistrovania na web stránke prevádzkovateľa až po
@@ -213,20 +213,15 @@
                 ktorá získava Vaše osobné údaje, a využiť svoje práva pri spracúvaní osobných údajov, podľa § 28 zákona.
             </p>
 
-                <h4> Podmienky spracovania osobných údajov prostredníctvom tretích strán</h4>
-                <a target="_blank" href="https://www.youtube.com/t/terms">YouTube podmienky.</a> <br />
-                <a target="_blank" href="https://policies.google.com/privacy">Google podmienky.</a>
+            <h4> Podmienky spracovania osobných údajov prostredníctvom tretích strán</h4>
+            <a target="_blank" href="https://www.youtube.com/t/terms">YouTube podmienky.</a> <br />
+            <a target="_blank" href="https://policies.google.com/privacy">Google podmienky.</a>
 
         </div>
     </div>
-
 @endsection
 
 
 
 @section('aside')
-
-
-
 @endsection
-
