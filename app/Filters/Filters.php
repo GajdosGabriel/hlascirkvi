@@ -28,21 +28,18 @@ abstract class Filters
     {
         $this->builder = $builder;
 
-
-        // if(! $this->request->only('posts')) return $this->builder->latest();
-
-
-            foreach($this->filters as $filter)
-        {
-            if(method_exists($this, $filter) && $this->request->posts == $filter)
-            {
-                $this->$filter($this->request->$filter);
+        foreach($this->getFilters() as $filter => $value) {
+            if (method_exists($this, $filter)) {
+                $this->$filter($value);
             }
         }
 
-
         return $this->builder->latest();
+    }
 
+    public function getFilters()
+    {
+        return array_filter($this->request->only($this->filters));
     }
 
 

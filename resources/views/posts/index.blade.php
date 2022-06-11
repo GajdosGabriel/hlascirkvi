@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title') <title>{{ 'Kázne kresťanskej komunity' }}</title> @endsection
+@section('title')
+    <title>{{ 'Kázne kresťanskej komunity' }}</title>
+@endsection
 
 @section('othermeta')
     <meta property="fb:app_id" content="241173683337522" />
@@ -12,7 +14,6 @@
     <meta property="og:image:width" content="360" />
     <meta property="og:image:height" content="210" />
     <meta property="og:image:alt" content="Kázne kresťanskej komunity" />
-
 @endsection
 
 @section('content')
@@ -27,35 +28,31 @@
             {{-- @include('posts.sviatok') --}}
 
             @if (request()->is('/'))
-
                 <div class="page_title px-3 py-1 rounded-t-md bg-blue-200 border-gray-300 border-2  shadow-md">
-                    @switch(request()->input('posts'))
-                        @case('recomended')
-                            <h3 class="text-2xl">Obľúbené príspevky</h3>
-                        @break
 
-                        @case('mostVisited')
-                            <h3 class="text-2xl">Podľa počtu zobrazení (všetky)</h3>
-                        @break
+                    @if (request()->has('recomended'))
+                        <h3 class="text-2xl">Obľúbené príspevky</h3>
+                    @elseif (request()->has('mostVisited'))
+                        <h3 class="text-2xl">Podľa počtu zobrazení (všetky)</h3>
+                    @elseif (request()->has('trends'))
+                        <h3 class="text-2xl">Trend sledovanosti za posledné 2 týždne</h3>
+                    @else
+                        <h2 class="font-semibold md:text-2xl">Príspevky kresťanskej komunity</h2>
+                    @endif
 
-                        @case('trends')
-                            <h3 class="text-2xl">Trend sledovanosti za posledné 2 týždne</h3>
-                        @break
-                        @default
 
-                            <h2 class="font-semibold md:text-2xl">Príspevky kresťanskej komunity</h2>
-                    @endswitch
+
                     <div class="hidden sm:block">
                         <div class="flex">
                             <x-icons.background request-value="recomended" title="Doporučené našími čitateľmi">
                                 <i class="fas fa-thumbs-up"></i>
                             </x-icons.background>
 
-                            <x-icons.background request-value="trends" title="Najsledovanejšie videa za dva týždne">
+                            <x-icons.background request-value='trends' title="Najsledovanejšie videa za dva týždne">
                                 <i class="fas fa-sort-amount-up"></i>
                             </x-icons.background>
 
-                            <x-icons.background request-value="mostVisited" title="Videa podľa počtu zobrazení">
+                            <x-icons.background request-value='mostVisited' title="Videa podľa počtu zobrazení">
                                 <i class="far fa-eye"></i>
                             </x-icons.background>
                         </div>
@@ -66,7 +63,6 @@
 
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                 @forelse($posts as $post)
-
                     {{-- <post-card :post="{{ $post }}"></post-card> --}}
                     @include('posts.post-card')
                 @empty

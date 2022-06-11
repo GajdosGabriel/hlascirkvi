@@ -74,10 +74,5 @@ class EventController extends Controller
         }
     }
 
-    public function finished()
-    {
-        $events = Event::where('end_at', '<', Carbon::now())->orderBy('start_at', 'desc')->paginate(30);
-        $title = 'Ukončené podujatia';
-        return view('events.index', compact(['events', 'title']));
-    }
+   
 }

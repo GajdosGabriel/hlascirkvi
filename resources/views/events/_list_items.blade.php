@@ -41,7 +41,7 @@
     <div class="col-span-2 flex flex-col">
         {{-- <strong class="pull-right">{{ localized_date('l', $event->dateStart) }}</strong><br> --}}
         {{-- <span class="">{{ $event->organization->city }} </span> --}}
-        <a href="?posts=location&district={{ $event->village->district->id }}">
+        <a href="?location={{ $event->village->district->id }}">
             <span class="">{{ $event->village->district->name }}</span>
         </a>
         <span class="">{{ $event->start_at->diffForHumans() }}</span>

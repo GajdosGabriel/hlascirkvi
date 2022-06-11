@@ -20,7 +20,6 @@ class Background extends Component
     {
         $this->requestValue = $requestValue;
         $this->title = $title;
-       
     }
 
     /**
@@ -33,10 +32,8 @@ class Background extends Component
         return view('components.icons.background');
     }
 
-    public function bgClass(){
-
-        return request()->input('posts') === $this->requestValue ? 'bg-gray-200' : 'bg-blue-200';
-
+    public function bgClass()
+    {
+        return request()->has($this->requestValue) ? 'bg-gray-200' : 'bg-blue-200';
     }
-
 }

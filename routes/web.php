@@ -140,4 +140,3 @@ Route::post('denomination/set/session', 'UserController@setDenominationSession')
 Auth::routes();
 
 
-Route::get('akcia/finished', 'Events\EventController@finished')->name('event.finished');
