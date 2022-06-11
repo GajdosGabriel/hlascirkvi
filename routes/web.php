@@ -126,7 +126,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])
     Route::get('posts', 'PostController@index')->name('posts.index');
     Route::get('comments', 'CommentController@index')->name('comments.index');
     Route::get('buffered-videos', 'BufferController@indexBufferedVideos')->name('unpublished');
-    Route::get('statistic/{days}', 'AdminController@statistic')->name('statistic');
+    Route::get('statistic/{days}', 'StatisticController@index')->name('statistic.index');
 
     Route::get('images/index', 'ImageController@index')->name('images.index');
     Route::get('images/destroy', 'ImageController@destroy')->name('images.destroy');
