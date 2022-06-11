@@ -11,14 +11,19 @@
 
 
         <x-slot name="title_right">
-            <x-search-form />
             <a href="{{ route('organization.event.create', $organization->id) }}" class="btn btn-primary">Nová akcia</a>
         </x-slot>
 
         <x-slot name="page">
 
             <x-filter.card>
-                <x-filter.unpublished></x-filter.unpublished>
+                <x-slot name="left">
+                    <x-filter.unpublished></x-filter.unpublished>
+                </x-slot>
+
+                <x-slot name="right">
+                    <x-search-form />
+                </x-slot>
             </x-filter.card>
             
             {{-- Upcoming events --}}
