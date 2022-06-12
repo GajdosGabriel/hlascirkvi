@@ -60,7 +60,7 @@
                 </x-slot>
             </x-profil_menu>
 
-            <x-profil_menu :url="route('updaters.index')">
+            <x-profil_menu :url="route('admin.updaters.index')">
                 <x-slot name="title">
                     <i class="fas fa-list-ul mr-2 ml-8"></i>
                     Updaters

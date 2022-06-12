@@ -43,8 +43,6 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
         'organization.event'    => OrganizationEventController::class,
         'user.prayer'           => UserPrayerController::class,
         'profile'               => ProfileController::class,
-        'updaters'              => Updaters\UpdaterController::class,
-        'updater.organization'  => Updaters\UpdaterOrganizationController::class,
         'user.organization'     => UserOrganizationController::class,
     ]);
 });
@@ -52,16 +50,18 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->group(function () {
     Route::resources([
-        'home'              => Admin\AdminController::class,
-        'posts'             => Admin\PostController::class,
-        'prayers'           => Admin\PrayerController::class,
-        'events'            => Admin\EventController::class,
-        'comments'          => Admin\CommentController::class,
-        'users'             => Admin\UserController::class,
-        'organizations'     => Admin\OrganizationController::class,
-        'image'             => Admin\ImageController::class,
-        'statistic'         => Admin\StatisticController::class,
-        'tags'              => Admin\TagController::class,
+        'home'                  => Admin\AdminController::class,
+        'posts'                 => Admin\PostController::class,
+        'prayers'               => Admin\PrayerController::class,
+        'events'                => Admin\EventController::class,
+        'comments'              => Admin\CommentController::class,
+        'users'                 => Admin\UserController::class,
+        'organizations'         => Admin\OrganizationController::class,
+        'image'                 => Admin\ImageController::class,
+        'statistic'             => Admin\StatisticController::class,
+        'tags'                  => Admin\TagController::class,
+        'updaters'              => Admin\UpdaterController::class,
+        'updater.organization'  => Admin\UpdaterOrganizationController::class,
     ]);
 });
 

@@ -21,7 +21,7 @@
 
             @forelse ( $updater->organizations as $tag )
 
-                <form action="{{ route('updater.organization.destroy', [$updater->id, $tag->id]) }}" method="POST"
+                <form action="{{ route('admin.updater.organization.destroy', [$updater->id, $tag->id]) }}" method="POST"
                     class="flex justify-between mb-4 border-b-2 hover:bg-gray-50 border-dashed">
 
                     @csrf @method('DELETE')

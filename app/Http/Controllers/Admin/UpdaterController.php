@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Updaters;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Updater;
 use Illuminate\Http\Request;

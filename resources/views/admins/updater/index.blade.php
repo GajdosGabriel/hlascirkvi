@@ -21,7 +21,7 @@
             @forelse ( $updaters as $tag )
 
                 <div class="flex justify-between p-2 border-b-2 hover:bg-gray-50 border-dashed">
-                    <a href="{{ route('updater.organization.index', [$tag->id]) }}">
+                    <a href="{{ route('admin.updater.organization.index', [$tag->id]) }}">
                         <h4 class="font-semibold text-lg">{{ $tag->id }}. {{ $tag->title }}</h4>
                     </a>
                     <div class="flex">
