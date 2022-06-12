@@ -36,6 +36,7 @@ class Card extends Component
             'admin.organizations.index',
             'admin.events.index',
             'admin.comments.index',
+            'admin.prayers.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }

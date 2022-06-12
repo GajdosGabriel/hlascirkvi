@@ -10,7 +10,6 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <x-search-form />
             <a class="btn btn-default" href="{{ route('user.prayer.create', auth()->user()->id) }}">
                 Nová modlitba
             </a>
