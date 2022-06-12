@@ -67,7 +67,7 @@
                 </x-slot>
             </x-profil_menu>
 
-            <x-profil_menu :url="route('admin.unpublished')">
+            <x-profil_menu :url="route('admin.buffers.index')">
                 <x-slot name="title">
                     <i class="fab fa-youtube mr-2 ml-8"></i>
                     Buffer

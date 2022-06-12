@@ -16,7 +16,7 @@ class BufferController extends Controller
         $this->middleware(['auth', 'checkAdmin']);
     }
 
-    public function indexBufferedVideos(Request $request)
+    public function index(Request $request)
     {
 
         $posts = Post::doesntHave('updaters')->latest();

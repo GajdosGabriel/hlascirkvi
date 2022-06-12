@@ -33,6 +33,7 @@ class Card extends Component
        $routeName = array(
             'admin.users.index',
             'admin.posts.index',
+            'admin.organizations.index',
             'admin.events.index',
             'admin.comments.index',
        );

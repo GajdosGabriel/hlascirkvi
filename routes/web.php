@@ -51,6 +51,7 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->group(function () {
     Route::resources([
         'home'                  => Admin\AdminController::class,
+        'buffers'               => Admin\BufferController::class,
         'posts'                 => Admin\PostController::class,
         'prayers'               => Admin\PrayerController::class,
         'events'                => Admin\EventController::class,
@@ -130,11 +131,6 @@ Route::post('store/message', 'MessengerController@toAdmin')->name('messengers.st
 
 Route::get('users/{user}/favorites/user', 'FavoriteController@favoriteUsers')->name('favorites.users');
 
-
-
-Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->namespace('Admin')->group(function () {
-    Route::get('buffered-videos', 'BufferController@indexBufferedVideos')->name('unpublished');
-});
 
 Route::prefix('village/')->name('village.')->middleware(['auth'])->group(function () {
     Route::get('{fullname}', 'VillageController@index')->name('index');
