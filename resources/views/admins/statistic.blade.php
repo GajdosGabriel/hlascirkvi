@@ -14,10 +14,10 @@
 
         <x-slot name="page">
             <div class="flex space-x-3 ">
-                <a class="text-red" href="{{ route('admin.statistic.index', ['days' => 1]) }}">Dnes</a>
-                <a href="{{ route('admin.statistic.index', ['days' => 2]) }}">Včera</a>
-                <a href="{{ route('admin.statistic.index', ['days' => 7]) }}">Týždeň</a>
-                <a href="{{ route('admin.statistic.index', ['days' => 14]) }}">2 týždne</a>
+                <a class="text-red" href="{{ route('admin.statistic.show', 1) }}">Dnes</a>
+                <a href="{{ route('admin.statistic.show', 2) }}">Včera</a>
+                <a href="{{ route('admin.statistic.show', 7) }}">Týždeň</a>
+                <a href="{{ route('admin.statistic.show', 14) }}">2 týždne</a>
             </div>
 
 

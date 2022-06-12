@@ -53,6 +53,7 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->group(function () {
     Route::resources([
+        'home'              => Admin\AdminController::class,
         'posts'             => Admin\PostController::class,
         'prayers'           => Admin\PrayerController::class,
         'events'            => Admin\EventController::class,
@@ -60,6 +61,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])
         'users'             => Admin\UserController::class,
         'organizations'     => Admin\OrganizationController::class,
         'image'             => Admin\ImageController::class,
+        'statistic'         => Admin\StatisticController::class,
     ]);
 });
 
@@ -131,9 +133,7 @@ Route::get('users/{user}/favorites/user', 'FavoriteController@favoriteUsers')->n
 
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->namespace('Admin')->group(function () {
-    Route::get('home', 'AdminController@home')->name('home');
     Route::get('buffered-videos', 'BufferController@indexBufferedVideos')->name('unpublished');
-    Route::get('statistic/{days}', 'StatisticController@index')->name('statistic.index');
 });
 
 Route::prefix('village/')->name('village.')->middleware(['auth'])->group(function () {

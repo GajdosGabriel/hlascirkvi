@@ -46,7 +46,7 @@
                 </x-slot>
             </x-profil_menu>
 
-            <x-profil_menu :url="route('admin.statistic.index', ['days' => 1])">
+            <x-profil_menu :url="route('admin.statistic.show', [1])">
                 <x-slot name="title">
                     <i class="far fa-chart-bar mr-2 ml-8"></i>
                     Štatistika

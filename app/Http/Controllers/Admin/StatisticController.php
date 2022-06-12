@@ -24,7 +24,7 @@ class StatisticController extends Controller
         $this->middleware(['auth', 'checkAdmin']);
     }
 
-    public function index($days = 1)
+    public function show($days = 1)
     {
 
         $posts = DB::table('views')
