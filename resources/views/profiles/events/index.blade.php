@@ -15,16 +15,6 @@
         </x-slot>
 
         <x-slot name="page">
-
-            <x-filter.card>
-                <x-slot name="left">
-                    <x-filter.unpublished></x-filter.unpublished>
-                </x-slot>
-
-                <x-slot name="right">
-                    <x-search-form />
-                </x-slot>
-            </x-filter.card>
             
             {{-- Upcoming events --}}
             @forelse($events as $event)

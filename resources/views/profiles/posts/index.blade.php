@@ -17,16 +17,6 @@
 
         <x-slot name="page">
 
-            <x-filter.card>
-                <x-slot name="left">
-                    <x-filter.unpublished></x-filter.unpublished>
-                </x-slot>
-
-                <x-slot name="right">
-                    <x-search-form />
-                </x-slot>
-            </x-filter.card>
-
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                 @forelse($posts as $post)
                     <post-card :post="{{ $post }}"></post-card>

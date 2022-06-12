@@ -50,6 +50,19 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
     ]);
 });
 
+
+Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->group(function () {
+    Route::resources([
+        'posts'             => Admin\PostController::class,
+        'prayers'           => Admin\PrayerController::class,
+        'events'            => Admin\EventController::class,
+        'comments'          => Admin\CommentController::class,
+        'users'             => Admin\UserController::class,
+        'organizations'     => Admin\OrganizationController::class,
+        'image'             => Admin\ImageController::class,
+    ]);
+});
+
 Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
 Route::get('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideosfromPlaylist')->name('seminars.uploadVideos');
 
@@ -119,17 +132,8 @@ Route::get('users/{user}/favorites/user', 'FavoriteController@favoriteUsers')->n
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->namespace('Admin')->group(function () {
     Route::get('home', 'AdminController@home')->name('home');
-    Route::get('organizations', 'OrganizationController@index')->name('organizations.index');
-    Route::get('users', 'UserController@index')->name('users.index');
-    Route::get('events', 'EventController@index')->name('events.index');
-    Route::get('prayers', 'PrayerController@index')->name('prayers.index');
-    Route::get('posts', 'PostController@index')->name('posts.index');
-    Route::get('comments', 'CommentController@index')->name('comments.index');
     Route::get('buffered-videos', 'BufferController@indexBufferedVideos')->name('unpublished');
     Route::get('statistic/{days}', 'StatisticController@index')->name('statistic.index');
-
-    Route::get('images/index', 'ImageController@index')->name('images.index');
-    Route::get('images/destroy', 'ImageController@destroy')->name('images.destroy');
 });
 
 Route::prefix('village/')->name('village.')->middleware(['auth'])->group(function () {

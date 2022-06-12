@@ -2,7 +2,7 @@
 
     <div class="grid col-span-2  min-h-screen">
         <div class="flex flex-col bg-gray-200">
-            
+
             @include($typeMenu())
 
         </div>
@@ -18,7 +18,15 @@
             </div>
 
         </div>
+        <x-filters.card>
+            <x-slot name="left">
+                <x-filters.unpublished></x-filters.unpublished>
+            </x-slot>
 
+            <x-slot name="right">
+                <x-search-form />
+            </x-slot>
+        </x-filters.card>
 
         {{ $page }}
 
