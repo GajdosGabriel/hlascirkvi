@@ -18,5 +18,13 @@ class OrganizationFilters extends Filters
 {
     protected $filters = ['search'];
 
+    public function search()
+    {
+        session()->flash('search', $this->request->search);
+        return $this->builder
+            ->where('title', 'LIKE', '%' . $this->request->search . '%')
+            ->orWhere('city', 'LIKE', '%' . $this->request->search . '%');
+    }
+
 
 }

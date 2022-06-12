@@ -37,6 +37,15 @@ class EventFilters extends Filters
          $this->builder->where('published', 0);
     }
 
+    public function search()
+    {
+        session()->flash('search', $this->request->search);
+        return $this->builder
+            ->where('title', 'LIKE', '%' . $this->request->search . '%')
+            // ->orWhere('city', 'LIKE', '%' . $this->request->title . '%')
+            ;
+    }
+
 
    
 }

@@ -43,6 +43,12 @@ class PostFilters extends Filters
          return $this->builder->whereNull('published');
     }
 
+    public function search()
+    {
+        session()->flash('search', $this->request->search);
+        return $this->builder->where('title', 'LIKE', '%' . $this->request->search . '%');
+    }
+
 
     // Najsledovanejšie za dva týždne zo všetkých
     public function trends()

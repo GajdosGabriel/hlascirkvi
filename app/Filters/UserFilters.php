@@ -20,9 +20,11 @@ class UserFilters extends Filters
 
     public function search()
     {
-        session()->flash('search', $this->request->title);
+        session()->flash('search', $this->request->search);
         return $this->builder
-            ->where('email', 'LIKE', '%' . $this->request->title . '%')
-            ->orWhere('last_name', 'LIKE', '%' . $this->request->title . '%');
+            ->where('email', 'LIKE', '%' . $this->request->search . '%')
+            ->orWhere('first_name', 'LIKE', '%' . $this->request->search . '%')
+            ->orWhere('last_name', 'LIKE', '%' . $this->request->search . '%')
+            ->orWhere('email', 'LIKE', '%' . $this->request->search . '%');
     }
 }
