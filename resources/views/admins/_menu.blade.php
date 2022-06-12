@@ -53,7 +53,7 @@
                 </x-slot>
             </x-profil_menu>
 
-            <x-profil_menu :url="route('tags.index')">
+            <x-profil_menu :url="route('admin.tags.index')">
                 <x-slot name="title">
                     <i class="fas fa-tags mr-2 ml-8"></i>
                     Tagy

@@ -29,7 +29,13 @@ class Card extends Component
 
     public function showComponent()
     {
-        // return \Route::currentRouteName() == 'organization.post.index';
-        return \Route::currentRouteName() == 'admin.posts.index';
+        // Povolené route names.
+       $routeName = array(
+            'admin.users.index',
+            'admin.posts.index',
+            'admin.events.index',
+            'admin.comments.index',
+       );
+        return in_array(\Route::currentRouteName(), $routeName);
     }
 }

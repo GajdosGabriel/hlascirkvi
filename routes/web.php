@@ -43,7 +43,6 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
         'organization.event'    => OrganizationEventController::class,
         'user.prayer'           => UserPrayerController::class,
         'profile'               => ProfileController::class,
-        'tags'                  => TagController::class,
         'updaters'              => Updaters\UpdaterController::class,
         'updater.organization'  => Updaters\UpdaterOrganizationController::class,
         'user.organization'     => UserOrganizationController::class,
@@ -62,6 +61,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])
         'organizations'     => Admin\OrganizationController::class,
         'image'             => Admin\ImageController::class,
         'statistic'         => Admin\StatisticController::class,
+        'tags'              => Admin\TagController::class,
     ]);
 });
 
