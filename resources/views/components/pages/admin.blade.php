@@ -20,7 +20,7 @@
         </div>
         <x-filters.card>
             <x-slot name="left">
-                <x-filters.unpublished></x-filters.unpublished>
+                <x-filters.filterBottom title="Nepublikované" type="unpublished" url="?unpublished=true" />
             </x-slot>
 
             <x-slot name="right">

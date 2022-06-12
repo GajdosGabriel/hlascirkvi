@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="last_name">Meno</label>
+                        <label for="last_name">Priezvisko</label>
                         <input type="text" name="last_name" id="last_name" value="{{ $user->last_name }}"
                             class="form-control" required>
                     </div>
