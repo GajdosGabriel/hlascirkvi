@@ -3,6 +3,8 @@
 @section('content')
 <div class="page">
 
+    @include('layouts.errors')
+
     <login-card></login-card>
     {{--<div class="login">--}}
             {{--<div class="card">--}}

@@ -8,7 +8,7 @@
             <th>Názov</th>
             <th>Email</th>
             <th>5. pád</th>
-            <th>Vypnuté</th>
+            <th>Blokovaný</th>
             <th>Overené</th>
             <th>Denominácia</th>
             <th>Registrácia</th>
@@ -25,14 +25,20 @@
                 </td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->vocative }}</td>
-                <td>{{ $user->disabled }}</td>
+                <td class="text-center ">
+                    @if ($user->disabled)
+                        <span class="bg-red-600 text-gray-200 px-2 rounded-md">{{ $user->disabled }}</span>
+                    @else
+                        {{ $user->disabled }}
+                    @endif
+                </td>
                 <td title="{{ $user->email_verified_at }}">
-                    @if($user->email_verified_at)
-                    ano
+                    @if ($user->email_verified_at)
+                        ano
                     @endif
                 </td>
                 <td>{{ $user->set_denomination }}</td>
-                <td>{{ $user->created_at->diffForHumans() }}</td>
+                <td class="text-sm">{{ $user->created_at->diffForHumans() }}</td>
                 <td class="px-2">
                     <a href="{{ route('admin.users.edit', [$user->id]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>

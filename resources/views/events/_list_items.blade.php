@@ -2,7 +2,7 @@
     {{ ucfirst(localized_date('l', $event->start_at)) }}
     {{ localized_date('d. m. Y', $event->start_at) }}
 </p>
-<div class="md:grid grid-cols-8 gap-4 mb-10">
+<div class="md:grid grid-cols-8 gap-4 mb-10 hover:bg-gray-50">
     <div class="col-span-1 overflow-hidden">
         <a href="{{ $event->url }}">
             @if ($event->imagethumb)

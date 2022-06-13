@@ -1,11 +1,5 @@
 <?php
 
-use App\Http\Controllers\PostBigThingController;
-use App\Http\Controllers\UserOrganizationController;
-
-
-
-
 Auth::routes();
 
 Route::get('/', 'PostController@index')->name('posts.index');
@@ -38,7 +32,7 @@ Route::resources([
     'modlitby'              => PrayerController::class,
 ]);
 
-Route::middleware(['middleware' => 'auth'])->group(function () {
+Route::middleware(['auth', 'checkBanned'])->group(function () {
     Route::resources([
         'images'                => ImageController::class,
         'event.eventSubscribe'  => Events\EventSubscribeController::class,
@@ -54,7 +48,7 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
 });
 
 
-Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->group(function () {
+Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 'checkBanned'])->group(function () {
     Route::resources([
         'home'                  => Admin\AdminController::class,
         'buffers'               => Admin\BufferController::class,

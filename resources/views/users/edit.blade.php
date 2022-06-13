@@ -35,6 +35,19 @@
                             <input type="text" name="email" id="email" value="{{ $user->email }}" class="form-control"
                                 required>
                         </div>
+
+                        <div class="flex justify-between my-3">
+                            <div class="inline">
+                                <label>Účet blokovaný</label>
+                                <input type="radio" value="1" @if (isset($user->disabled) and $user->disabled == 1) checked @else checked @endif
+                                    name="disabled">
+                            </div>
+
+                            <div class="inline">
+                                <label>Účet prísputný</label>
+                                <input type="radio" value="0" @if (isset($user->disabled) and $user->disabled == 0) checked @endif name="disabled">
+                            </div>
+                        </div>
                     @endcan
 
                     <button type="submit" class="btn btn-primary">Uložiť</button>
