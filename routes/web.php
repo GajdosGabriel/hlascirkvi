@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\PostBigThingController;
+use App\Http\Controllers\UserOrganizationController;
+
+
 
 
 Auth::routes();
@@ -44,6 +48,8 @@ Route::middleware(['middleware' => 'auth'])->group(function () {
         'user.prayer'           => UserPrayerController::class,
         'profile'               => ProfileController::class,
         'user.organization'     => UserOrganizationController::class,
+        'post.think'            => PostThingController::class,
+
     ]);
 });
 
@@ -125,7 +131,6 @@ Route::prefix('akcie/')->name('event.')->group(function () {
 Route::get('storage/{filepath?}', 'Events\EventController@download')->name('events.download');
 
 
-Route::post('bigThink/post/{post}/{slug}', 'BigThinkController@store')->name('bigThink.store');
 Route::post('store/message', 'MessengerController@toAdmin')->name('messengers.store');
 
 
