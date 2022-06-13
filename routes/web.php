@@ -71,8 +71,6 @@ Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name
 Route::get('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideosfromPlaylist')->name('seminars.uploadVideos');
 
 
-//    Route::get('/users', 'UserController@index')->name('users.index');
-
 Route::get('/user/{user}/{slug}/import', 'AddresBookController@importContacts')->name('addresBook.importContacts');
 Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserSupportController@confirmEmail')->name('confirmEmail');
 
@@ -98,7 +96,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-//    Event
+// Event
 Route::prefix('akcie/')->name('event.')->group(function () {
     Route::get('{event}/{title}', 'Events\EventController@show')->name('show');
     Route::post('{event}/form/subscribe', 'EventSubscribeController@subscribeByForm')->name('subscribeByForm');
