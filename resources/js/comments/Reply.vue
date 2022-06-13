@@ -114,9 +114,12 @@ export default {
 
     methods: {
         destroy: function () {
+            if (!window.confirm("Skutočne vymazať!")) {
+                return;
+            }
             axios.delete(
                 "/api/posts/" +
-                    this.comment.comment_post.id +
+                    this.comment.commentable_id +
                     "/comments/" +
                     this.comment.id
             );

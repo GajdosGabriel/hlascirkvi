@@ -12,7 +12,7 @@ class Comment extends Model
     use Favoritable, SoftDeletes, HasFactory;
 
     protected $guarded= [];
-    protected $hidden = ['commentable_id', 'commentable_type', 'updated_at', 'deleted_at'];
+    protected $hidden = ['commentable_type', 'updated_at', 'deleted_at'];
 
     protected $with = ['favorites', 'user'];
     protected $appends = ['favoritesCount', 'isFavorited'];
