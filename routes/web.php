@@ -21,16 +21,18 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 Route::get('zamyslenia/{slug?}', 'VerseController@index')->name('verses.index');
 
 // Front routes
-Route::resources([
-    'akcie'                 => Events\EventController::class,
-    'favorites'             => FavoriteController::class,
-    'organizations'         => OrganizationController::class,
-    'posts'                 => PostController::class,
-    'seminars'              => Seminars\SeminarController::class,
-    'seminars.posts'        => Seminars\SeminarPostController::class,
-    'userSupport'           => UserSupportController::class,
-    'modlitby'              => PrayerController::class,
-]);
+Route::middleware('checkBanned')->group(function () {
+    Route::resources([
+        'akcie'                 => Events\EventController::class,
+        'favorites'             => FavoriteController::class,
+        'organizations'         => OrganizationController::class,
+        'posts'                 => PostController::class,
+        'seminars'              => Seminars\SeminarController::class,
+        'seminars.posts'        => Seminars\SeminarPostController::class,
+        'userSupport'           => UserSupportController::class,
+        'modlitby'              => PrayerController::class,
+    ]);
+});
 
 Route::middleware(['auth', 'checkBanned'])->group(function () {
     Route::resources([
@@ -82,22 +84,9 @@ Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->nam
 // Route::put('notifications/{notification}', 'NotificationController@update')->name('notification.update');
 
 
-Route::prefix('user/')->name('organization.')->group(function () {
-
-    Route::middleware(['auth'])->group(function () {
-        Route::post('message/{organization}/newMessage', 'MessengerController@store')->name('messengers.store.users');
-    });
+Route::middleware('checkBanned')->group(function () {
+    Route::get('post/{post}/{slug}', 'PostController@show')->name('post.show');
 });
-
-
-Route::get('post/{post}/{slug}', 'PostController@show')->name('post.show');
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('{videoId}', 'PostController@showVideo')->name('post.showVideo');
-    Route::get('unpublished/{post}/video', 'PostController@toBuffer')->name('post.toBuffer');
-});
-
-
 
 
 Route::get('/search/new/video/{user}', 'YoutubeController@searchUserVideo')->name('videos.searchUserVideo');
@@ -137,5 +126,3 @@ Route::prefix('village/')->name('village.')->middleware(['auth'])->group(functio
 Route::post('denomination/set/session', 'UserController@setDenominationSession')->name('user.denomination');
 
 Auth::routes();
-
-

@@ -20,29 +20,24 @@
             <a
                 :href="
                     '/organization/' +
-                        post.organization_id +
-                        '/post/' +
-                        post.id +
-                        '/edit'
+                    post.organization_id +
+                    '/post/' +
+                    post.id +
+                    '/edit'
                 "
             >
-                <li class="dropdown-item">
-                    upraviť
-                </li>
+                <li class="dropdown-item">upraviť</li>
             </a>
 
-            <li @click="deletePost" class="dropdown-item">
-                zmazať
-            </li>
+            <li @click="deletePost" class="dropdown-item">zmazať</li>
 
-            <a
+            <li
+                @click="updatePost"
                 v-if="$auth.isAdmin()"
-                :href="'/post/unpublished/' + post.id + '/video'"
+                class="dropdown-item whitespace-nowrap"
             >
-                <li class="dropdown-item whitespace-nowrap">
-                    Do buffer
-                </li>
-            </a>
+                Do buffer
+            </li>
         </ul>
     </div>
 </template>
@@ -52,18 +47,18 @@ import { createdMixin } from "../mixins/createdMixin";
 export default {
     mixins: [createdMixin],
     props: ["post"],
-    data: function() {
+    data: function () {
         return {
-            open: false
+            open: false,
         };
     },
 
     methods: {
-        toggle: function() {
+        toggle: function () {
             this.open = !this.open;
         },
 
-        deletePost: function() {
+        deletePost: function () {
             axios
                 .delete(
                     "/organization/" +
@@ -71,14 +66,20 @@ export default {
                         "/post/" +
                         this.post.id
                 )
-                .than((window.location.href = "/"));
-        }
+                .then((window.location.href = "/"));
+        },
+
+        updatePost: function () {
+            axios
+                .put("/api/postSupport/" + this.post.id, {})
+                .then((window.location.href = "/"));
+        },
     },
 
     computed: {
-        authUser: function() {
+        authUser: function () {
             return window.App;
-        }
-    }
+        },
+    },
 };
 </script>

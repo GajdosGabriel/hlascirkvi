@@ -5493,11 +5493,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
@@ -5512,7 +5507,10 @@ __webpack_require__.r(__webpack_exports__);
       this.open = !this.open;
     },
     deletePost: function deletePost() {
-      axios["delete"]("/organization/" + this.post.organization_id + "/post/" + this.post.id).than(window.location.href = "/");
+      axios["delete"]("/organization/" + this.post.organization_id + "/post/" + this.post.id).then(window.location.href = "/");
+    },
+    updatePost: function updatePost() {
+      axios.put("/api/postSupport/" + this.post.id, {}).then(window.location.href = "/");
     }
   },
   computed: {
@@ -73718,32 +73716,23 @@ var render = function () {
                   "/edit",
               },
             },
-            [
-              _c("li", { staticClass: "dropdown-item" }, [
-                _vm._v("\n                upraviť\n            "),
-              ]),
-            ]
+            [_c("li", { staticClass: "dropdown-item" }, [_vm._v("upraviť")])]
           ),
           _vm._v(" "),
           _c(
             "li",
             { staticClass: "dropdown-item", on: { click: _vm.deletePost } },
-            [_vm._v("\n            zmazať\n        ")]
+            [_vm._v("zmazať")]
           ),
           _vm._v(" "),
           _vm.$auth.isAdmin()
             ? _c(
-                "a",
+                "li",
                 {
-                  attrs: {
-                    href: "/post/unpublished/" + _vm.post.id + "/video",
-                  },
+                  staticClass: "dropdown-item whitespace-nowrap",
+                  on: { click: _vm.updatePost },
                 },
-                [
-                  _c("li", { staticClass: "dropdown-item whitespace-nowrap" }, [
-                    _vm._v("\n                Do buffer\n            "),
-                  ]),
-                ]
+                [_vm._v("\n            Do buffer\n        ")]
               )
             : _vm._e(),
         ])
