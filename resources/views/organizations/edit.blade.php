@@ -61,7 +61,7 @@
                     @endforeach
 
 
-                    <span style="font-weight: 600">Organizácia patrí</span><br>
+                    <span style="font-weight: 600">Kanál určený pre:</span><br>
                     @forelse(\App\Models\Updater::all() as $updater)
                         @if ($updater->type == 'denomination')
                             <input required type="radio" name="updaters[]" value="{{ $updater->id }}"

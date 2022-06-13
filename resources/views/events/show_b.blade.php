@@ -40,7 +40,7 @@
         <form method="post" action="{{ route('event.eventSubscribe.store', [$event->id]) }}">
             @csrf @method('POST')
             <button type="submit" class="btn btn-primary w-full">
-                Rezervovať miesto na akciu
+                Prihlásiť sa na akciu
             </button>
         </form>
     </div>
