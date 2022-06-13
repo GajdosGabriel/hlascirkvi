@@ -53,6 +53,12 @@
                         <input type="text" name="url_www" class="form-control" placeholder="web stránka">
                     </div>
 
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" value="{{ $organization->email }}"
+                            class="form-control" placeholder="email na komunikáciu">
+                    </div>
+
 
                     @foreach ($organization->users as $user)
                         <div class="block">
@@ -61,7 +67,7 @@
                     @endforeach
 
 
-                    <span style="font-weight: 600">Kanál určený pre:</span><br>
+                    <span style="font-weight: 600">Kanál určený pre publikum:</span><br>
                     @forelse(\App\Models\Updater::all() as $updater)
                         @if ($updater->type == 'denomination')
                             <input required type="radio" name="updaters[]" value="{{ $updater->id }}"
@@ -79,16 +85,16 @@
 
                         @if (auth()->user()->hasRole('admin'))
                             <div class="form-group">
-                                <label class="font-semibold" for="youtube_channel">youtube channel</label>
-                                <input type="text" name="youtube_channel" class="form-control" placeholder="youtube channel"
-                                    id="youtube_channel"
+                                <label class="font-semibold" for="youtube_channel">Channel YT</label>
+                                <input type="text" name="youtube_channel" class="form-control"
+                                    placeholder="Channel organizácie na youtube" id="youtube_channel"
                                     value="{{ old('youtube_channel') ?? $organization->youtube_channel }}">
                             </div>
 
                             <div class="form-group">
-                                <label class="font-semibold" for="youtube_playlist">youtube playlist</label>
-                                <input type="text" name="youtube_playlist" class="form-control" placeholder="youtube playlist"
-                                    id="youtube_playlist"
+                                <label class="font-semibold" for="youtube_playlist">Playlist YT</label>
+                                <input type="text" name="youtube_playlist" class="form-control"
+                                    placeholder="Playlist organizácie na youtube" id="youtube_playlist"
                                     value="{{ old('	youtube_playlist') ?? $organization->youtube_playlist }}">
                             </div>
 
