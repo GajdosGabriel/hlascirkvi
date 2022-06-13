@@ -8,10 +8,9 @@ use App\Http\Controllers\Controller;
 
 class PostSupportController extends Controller
 {
-    public function update( $post, Request $request) {
-        $post = Post::find($post);
-        $post->updaters()->detach();
+    public function update(Post $postSupport, Request $request)
+    {
+        $postSupport->updaters()->detach();
         return redirect('/')->with(session()->flash('flash', 'Video presunuté do Buffer!'));
     }
-
 }
