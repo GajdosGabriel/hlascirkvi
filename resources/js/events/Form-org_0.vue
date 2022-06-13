@@ -34,7 +34,7 @@
                     return;
                 }
                 this.list = true;
-                axios.get('/village/' + this.searchVillage)
+                axios.get('/api/villages/' + this.searchVillage)
                 .then( response => { this.villages = response.data
                     })
             }

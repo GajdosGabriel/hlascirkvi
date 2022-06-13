@@ -45,7 +45,6 @@ Route::middleware(['auth', 'checkBanned'])->group(function () {
         'profile'               => ProfileController::class,
         'user.organization'     => UserOrganizationController::class,
         'post.think'            => PostThingController::class,
-
     ]);
 });
 
@@ -88,14 +87,14 @@ Route::middleware('checkBanned')->group(function () {
     Route::get('post/{post}/{slug}', 'PostController@show')->name('post.show');
 });
 
-
-Route::get('/search/new/video/{user}', 'YoutubeController@searchUserVideo')->name('videos.searchUserVideo');
-Route::get('/search/new/video/{organization}', 'YoutubeController@searchOrganizationVideo')->name('videos.searchOrganizationVideo');
-Route::get('/get/video/byId/{id}', 'YoutubeController@getVideoById')->name('videos.getVideoById');
-Route::get('/youtube/{user}/{slug}/search', 'YoutubeController@searchAndSaveUser')->name('youtube.searchAndSaveUser');
-Route::get('/youtube/{organization}/{slug}/search', 'YoutubeController@searchAndSaveOrganization')->name('youtube.searchAndSaveOrganization');
-Route::get('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVideoByChannel')->name('youtube.getNewVideoByChannel');
-
+Route::middleware('auth')->group(function () {
+    Route::get('/search/new/video/{user}', 'YoutubeController@searchUserVideo')->name('videos.searchUserVideo');
+    Route::get('/search/new/video/{organization}', 'YoutubeController@searchOrganizationVideo')->name('videos.searchOrganizationVideo');
+    Route::get('/get/video/byId/{id}', 'YoutubeController@getVideoById')->name('videos.getVideoById');
+    Route::get('/youtube/{user}/{slug}/search', 'YoutubeController@searchAndSaveUser')->name('youtube.searchAndSaveUser');
+    Route::get('/youtube/{organization}/{slug}/search', 'YoutubeController@searchAndSaveOrganization')->name('youtube.searchAndSaveOrganization');
+    Route::get('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVideoByChannel')->name('youtube.getNewVideoByChannel');
+});
 
 
 
@@ -119,10 +118,5 @@ Route::post('store/message', 'MessengerController@toAdmin')->name('messengers.st
 
 Route::get('users/{user}/favorites/user', 'FavoriteController@favoriteUsers')->name('favorites.users');
 
-
-Route::prefix('village/')->name('village.')->middleware(['auth'])->group(function () {
-    Route::get('{fullname}', 'VillageController@index')->name('index');
-});
-Route::post('denomination/set/session', 'UserController@setDenominationSession')->name('user.denomination');
 
 Auth::routes();

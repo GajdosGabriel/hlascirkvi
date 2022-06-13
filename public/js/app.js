@@ -4078,7 +4078,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.list = true;
-      axios.get('/village/' + this.searchVillage).then(function (response) {
+      axios.get('/api/villages/' + this.searchVillage).then(function (response) {
         _this.villages = response.data;
       });
     }
