@@ -77,7 +77,7 @@
                 </td>
                 <td>
 
-                    <form action="{{ route('user.update', auth()->id()) }}" method="post">
+                    <form action="{{ route('admin.users.update', auth()->id()) }}" method="post">
                         @method('PUT') @csrf
                         <input type="hidden" name="org_id" value="{{ $organization->id }}" />
                         <button

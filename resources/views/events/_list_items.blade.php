@@ -34,17 +34,19 @@
 
         {{-- ------- Admin panel ----------------- --}}
         @can('update', $event)
-          <x-events.thumbs.thumbadmin :event="$event" />
+            <x-events.thumbs.thumbadmin :event="$event" />
         @endcan
 
     </div>
-    <div class="col-span-2 flex flex-col">
+    <div class="col-span-2">
         {{-- <strong class="pull-right">{{ localized_date('l', $event->dateStart) }}</strong><br> --}}
         {{-- <span class="">{{ $event->organization->city }} </span> --}}
         <a href="?location={{ $event->village->district->id }}">
-            <span class="">{{ $event->village->district->name }}</span>
+            <div class="">{{ $event->village->district->name }}</div>
         </a>
-        <span class="">{{ $event->start_at->diffForHumans() }}</span>
-        <span class="">Pridal: {{ $event->organization->title }}</span>
+        <div class="">{{ $event->start_at->diffForHumans() }}</div>
+        <a href="?organization={{ $event->organization_id }}">
+            <div class="">Pridal: {{ $event->organization->title }}</div>
+        </a>
     </div>
 </div>

@@ -4,44 +4,15 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Services\Form;
-use App\Models\Messenger;
-use App\Models\Organization;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserResource;
 
-class UserController extends Controller
+
+class UserSupportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('search');
+       //
     }
-
-    public function index()
-    {
-        $users = User::all();
-
-        if (request()->expectsJson()) {
-            return response()->json($users);
-        }
-
-        return view('users.index', compact('users'));
-    }
-
-    public function edit(User $user)
-    {
-        return view('users.edit', compact('user'));
-    }
-
-
-
-    public function update( User $user, Request $request)
-    {
-        $user->update($request->all());
-        return back();
-    }
-
-
 
 
 

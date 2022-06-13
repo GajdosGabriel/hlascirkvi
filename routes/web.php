@@ -30,7 +30,7 @@ Route::resources([
     'posts'                 => PostController::class,
     'seminars'              => Seminars\SeminarController::class,
     'seminars.posts'        => Seminars\SeminarPostController::class,
-    'user'                  => UserController::class,
+    'userSupport'           => UserSupportController::class,
     'modlitby'              => PrayerController::class,
 ]);
 
@@ -73,7 +73,7 @@ Route::get('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideos
 //    Route::get('/users', 'UserController@index')->name('users.index');
 
 Route::get('/user/{user}/{slug}/import', 'AddresBookController@importContacts')->name('addresBook.importContacts');
-Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserController@confirmEmail')->name('confirmEmail');
+Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserSupportController@confirmEmail')->name('confirmEmail');
 
 Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->name('addresBook.storeUsersContact');
 

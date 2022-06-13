@@ -18,4 +18,15 @@ class UserController extends Controller
     {
         return view('admins.users.index', ['users' => User::latest()->filter($filters)->paginate(50)]);
     }
+
+    public function edit(User $user)
+    {
+        return view('users.edit', compact('user'));
+    }
+
+    public function update(User $user, Request $request)
+    {
+        $user->update($request->all());
+        return redirect()->route('admin.users.index');
+    }
 }

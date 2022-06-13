@@ -10,13 +10,13 @@
         </x-slot>
 
         <x-slot name="title_right">
-            {{--  --}}
+             <new-organization />
         </x-slot>
 
 
         <x-slot name="page">
             <div class="md:w-1/3">
-                <new-organization />
+               
             </div>
 
 

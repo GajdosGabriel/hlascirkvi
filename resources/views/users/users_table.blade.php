@@ -6,6 +6,7 @@
         <tr>
             <th>Id</th>
             <th>Názov</th>
+            <th>Email</th>
             <th>5. pád</th>
             <th>Vypnuté</th>
             <th>Overené</th>
@@ -18,19 +19,22 @@
     <tbody>
         @forelse($users as $user)
             <tr class="border-2 border-gray-300">
-                <td>{{ $user->id }} </td>
-                <td>
-                    <span class="font-semibold">{{ $user->first_name }} {{ $user->last_name }}</span> <br>
-
-                    {{ $user->email }}
+                <td class="px-2">{{ $user->id }} </td>
+                <td class="px-2">
+                    <div class="font-semibold">{{ $user->first_name }} {{ $user->last_name }}</div>
                 </td>
+                <td>{{ $user->email }}</td>
                 <td>{{ $user->vocative }}</td>
                 <td>{{ $user->disabled }}</td>
-                <td>{{ $user->email_verified_at }}</td>
+                <td title="{{ $user->email_verified_at }}">
+                    @if($user->email_verified_at)
+                    ano
+                    @endif
+                </td>
                 <td>{{ $user->set_denomination }}</td>
                 <td>{{ $user->created_at->diffForHumans() }}</td>
-                <td>
-                    <a href="{{ route('user.edit', [$user->id]) }}">
+                <td class="px-2">
+                    <a href="{{ route('admin.users.edit', [$user->id]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>
                     </a>
                 </td>

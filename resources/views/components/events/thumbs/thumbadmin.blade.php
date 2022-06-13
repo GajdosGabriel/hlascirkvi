@@ -1,4 +1,4 @@
-<div class="flex justify-between">
+<div class="flex justify-between items-center">
     @if (!$event->displayStatus())
         <div><label class="badge badge-default " title="Podujatie sa skončilo">
                 {{ trans('web.events_users_finished') }}</label>
@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <i title="Počet zobrazení" class="fa fa-eye"> {{ $event->count_view }} </i>
+    <i title="Počet zobrazení" class="fa fa-eye mt-1"> {{ $event->count_view }} </i>
 
     <div>
         <a href="{{ route('event.eventSubscribe.index', [$event->id]) }}">Prihlásených:

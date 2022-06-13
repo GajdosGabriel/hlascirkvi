@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 class EventFilters extends Filters
 {
-    protected $filters = ['location', 'search', 'finished', 'unpublished'];
+    protected $filters = ['location', 'search', 'finished', 'unpublished', 'organization'];
 
     public function location($value)
     {
@@ -34,7 +34,12 @@ class EventFilters extends Filters
 
     public function unpublished($value)
     {
-         $this->builder->where('published', 0);
+        $this->builder->where('published', 0);
+    }
+
+    public function organization($value)
+    {
+       return $this->builder->where('organization_id', $value);
     }
 
     public function search()
@@ -43,9 +48,6 @@ class EventFilters extends Filters
         return $this->builder
             ->where('title', 'LIKE', '%' . $this->request->search . '%')
             // ->orWhere('city', 'LIKE', '%' . $this->request->title . '%')
-            ;
+        ;
     }
-
-
-   
 }
