@@ -30,11 +30,22 @@
                             class="form-control" required>
                     </div>
 
+                    {{-- Text Field --}}
+                    <div class="form-group {{ $errors->has('description') ? ' has-error' : '' }}">
+                        <label for="street">Popis kanálu</label>
+                        <textarea  class="form-control" rows="3" name="description" placeholder="Popis kanálu ...">{{ old('description') ?? $organization->description }}</textarea>
+                        @if ($errors->has('description'))
+                            <span class="invalid-feedback">
+                                <strong>{{ $errors->first('description') }}</strong></span>
+                        @endif
+                    </div>
+
                     <div class="form-group">
                         <label for="street">Ulica</label>
                         <input type="text" name="street" id="street" value="{{ $organization->street }}"
                             class="form-control">
                     </div>
+
 
                     <div class="form-group">
                         <label for="">Mesto</label>
@@ -54,7 +65,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <label for="email">Kontaktný email kanálu</label>
                         <input type="email" name="email" id="email" value="{{ $organization->email }}"
                             class="form-control" placeholder="email na komunikáciu">
                     </div>
