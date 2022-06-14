@@ -33,8 +33,12 @@ class UserOrganizationController extends Controller
 
     public function update(User $user, Request $request, Organization $organization)
     {
-        $organization->update($request->except('updaters'));
+        // dd($request->get('user'));
+        $organization->update($request->except(['updaters', 'users']));
         $organization->updaters()->sync($request->get('updaters') ?: []);
+        if($request->get('users')){
+            $organization->users()->sync($request->get('users') ?: []);
+        }
 
         session()->flash('flash', 'Údaje boli uložené!');
         return back();

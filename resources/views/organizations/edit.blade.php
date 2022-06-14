@@ -33,7 +33,7 @@
                     {{-- Text Field --}}
                     <div class="form-group {{ $errors->has('description') ? ' has-error' : '' }}">
                         <label for="street">Popis kanálu</label>
-                        <textarea  class="form-control" rows="3" name="description" placeholder="Popis kanálu ...">{{ old('description') ?? $organization->description }}</textarea>
+                        <textarea class="form-control" rows="3" name="description" placeholder="Popis kanálu ...">{{ old('description') ?? $organization->description }}</textarea>
                         @if ($errors->has('description'))
                             <span class="invalid-feedback">
                                 <strong>{{ $errors->first('description') }}</strong></span>
@@ -70,13 +70,24 @@
                             class="form-control" placeholder="email na komunikáciu">
                     </div>
 
-
+                    <label class="font-semibold" for="">Admin kanálu</label>
                     @foreach ($organization->users as $user)
                         <div class="block">
-                            admin: {{ $user->last_name }}
+                           <div class="btn-small btn-primary whitespace-nowrap w-min">{{ $user->fullname }}</div>
                         </div>
                     @endforeach
 
+                    @can('superadmin')
+                        <div class="form-group">
+                            <select name="users[]" class="form-control input-sm" multiple required>
+                                @foreach (\App\Models\User::all() as $user)
+                                    <option value="{{ $user->id }}" @if ($organization->users()->whereId($user->id)->first()) selected @endif>
+                                      {{ $user->fullname }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endcan
 
                     <span style="font-weight: 600">Kanál určený pre publikum:</span><br>
                     @forelse(\App\Models\Updater::all() as $updater)
@@ -132,7 +143,7 @@
                             </div>
 
                             <div class="mb-2">
-                                <div>Videa do zoznamu</div>
+                                <div>Videa publikovať v zozname</div>
                                 @forelse(\App\Models\Updater::all() as $updater)
                                     @if ($updater->type == 'post')
                                         <input type="checkbox" name="updaters[]" value="{{ $updater->id }}"

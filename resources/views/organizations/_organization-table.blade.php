@@ -17,9 +17,7 @@
         @forelse($organizations as $organization)
             <tr
                 class="border-2 border-gray-300  hover:bg-gray-100
-        @if ($organization->id == auth()->user()->org_id)
-        bg-gray-300
-        @endif ">
+        @if ($organization->id == auth()->user()->org_id) bg-gray-300 @endif ">
                 <td class="px-2">{{ $organization->id }}</td>
                 <td class="">
                     <a href="{{ route('user.organization.show', [auth()->user()->id, $organization->id]) }}"
@@ -39,7 +37,6 @@
                 </td>
                 <td>
                     @forelse($organization->updaters as $updater)
-
                         @if ($updater->slug == 'front-user')
                             <i title="{{ $updater->title }}" style="color: black" class="fas fa-user"></i>
                         @endif
@@ -102,7 +99,6 @@
                     </a>
 
                     @can('admin|superadmin')
-
                     @endcan
                 </td>
             </tr>
