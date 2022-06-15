@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 class UserFilters extends Filters
 {
-    protected $filters = ['search'];
+    protected $filters = ['search', 'banned'];
 
     public function search()
     {
@@ -26,5 +26,9 @@ class UserFilters extends Filters
             ->orWhere('first_name', 'LIKE', '%' . $this->request->search . '%')
             ->orWhere('last_name', 'LIKE', '%' . $this->request->search . '%')
             ->orWhere('email', 'LIKE', '%' . $this->request->search . '%');
+    }
+
+    public function banned(){
+        return $this->builder->whereDisabled(1);
     }
 }

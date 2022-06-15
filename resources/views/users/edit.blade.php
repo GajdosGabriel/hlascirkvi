@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="inline">
-                                <label>Účet prísputný</label>
+                                <label>Účet aktívny</label>
                                 <input type="radio" value="0" @if (isset($user->disabled) and $user->disabled == 0) checked @endif name="disabled">
                             </div>
                         </div>

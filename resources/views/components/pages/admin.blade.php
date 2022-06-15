@@ -21,6 +21,7 @@
         <x-filters.card>
             <x-slot name="left">
                 <x-filters.filterBottom title="Nepublikované" type="unpublished" url="?unpublished=true" />
+                <x-filters.filterBottom title="Banned" type="banned" url="?banned=true" />
             </x-slot>
 
             <x-slot name="right">
