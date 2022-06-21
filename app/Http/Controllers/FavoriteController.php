@@ -24,8 +24,6 @@ class FavoriteController extends Controller
 
     public function update(FavoriteRequest $request, $favorite)
     {
-
-
         if ($request->email) {
             (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
@@ -41,12 +39,5 @@ class FavoriteController extends Controller
 
         return back();
     }
-
-    public function favoriteUsers(User $user) {
-        $user->favorite();
-        session()->flash('flash', 'Priateľstvo s autorom!');
-        return back();
-    }
-
 
 }

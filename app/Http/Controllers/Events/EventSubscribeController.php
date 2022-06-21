@@ -36,7 +36,7 @@ class EventSubscribeController extends Controller
     public function store(Event $event, Request $request)
     {
         $event->subscribe();
-        session()->flash('flash', 'Ste prihlásený na akciu!!');
+        session()->flash('flash', 'Ste prihlásený na akciu!');
         return back();
     }
 

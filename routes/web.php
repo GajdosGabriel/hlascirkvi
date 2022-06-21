@@ -114,7 +114,4 @@ Route::get('storage/{filepath?}', 'Events\EventController@download')->name('even
 Route::post('store/message', 'MessengerController@toAdmin')->name('messengers.store');
 
 
-Route::get('users/{user}/favorites/user', 'FavoriteController@favoriteUsers')->name('favorites.users');
-
-
 Auth::routes();

@@ -54,7 +54,7 @@
             <!-- Button i-Memeber-->
             <div
                 v-html="buttonText"
-                @click.stop="subscribe"
+                @click.stop="onClickSubscribeButton"
                 title="Budete dostávať nové príspevky!"
                 :class="classButton"
                 class="p-2 rounded-md cursor-pointer flex justify-center hover:bg-red-700 whitespace-nowrap"
@@ -129,22 +129,18 @@ export default {
             this.favorited = !this.favorited;
         },
 
-        subscribe: function () {
+        onClickSubscribeButton: function () {
             if (!this.signedIn) {
                 return this.toggleLogin();
             }
             axios
-                .put("/favorites/" + this.organization.id, {
-                    model: "Organization",
-                    model_id: this.organization.id,
-                })
+                .post(
+                    "/api/organizations/" + this.organization.id + "/favorites"
+                )
                 .then((response) => {
                     this.toggleFavorited();
                     this.messageNotification();
                 });
-
-            //                this.messageNotification();
-            //                this.toggleFavorited();
         },
 
         messageNotification: function () {
