@@ -18,7 +18,7 @@
 
     <div>
         <a href="{{ route('event.subscribe.index', [$event->id]) }}">Prihlásených:
-            {{ $event->eventSubscribe()->count() }}</a>
+            {{ $event->subscribes()->count() }}</a>
     </div>
 
     @if (!$event->published)

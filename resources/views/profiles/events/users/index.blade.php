@@ -32,7 +32,7 @@
                 </thead>
 
                 <tbody>
-                    @forelse($event->eventSubscribe as $subcription)
+                    @forelse($event->subscribes as $subcription)
                         <tr class="border-2 border-gray-300">
                             <td class="px-2 text-center">{{ $loop->iteration }}.</td>
                             <td class="text-center">{{ date('d M Y', strtotime($subcription->created_at)) }}</td>

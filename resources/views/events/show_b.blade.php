@@ -6,29 +6,25 @@
 
 
 <div class="">
-        {{-- vizitka --}}
+    {{-- vizitka --}}
     @if ($event->images()->whereType('card')->exists())
-        <img alt=""
-            data-src="{{ url($event->images()->whereType('card')->first()->original_image_url) }}"
+        <img alt="" data-src="{{ url($event->images()->whereType('card')->first()->original_image_url) }}"
             class="lazyload rounded mb-6" data-sizes="auto">
     @endif
 
     {{-- Prihlasovanie pre prihláseného usera --}}
     <div class="hover:text-gray-900 pl-2 rounded-sm">
-        @if (auth()->check())
-            <form method="post" action="{{ route('favorites.update', [$event->id]) }}">
-                @csrf @method('PUT')
-                <input name="model" value="Event" type="hidden">
-                <input name="model_id" value="{{ $event->id }}" type="hidden">
-                @if ($event->isSubscribed())
-                    <button type="submit" class="btn btn-primary w-full mb-4">
+        @if (auth()->check() and !$event->isSubscribed())
+            <form method="post" action="{{ route('event.favorite.store', [$event->id]) }}" class=" mb-4">
+                @csrf @method('POST')
+                @if ($event->isFavorited())
+                    <button type="submit" class="btn btn-succenss w-full">
                         <i title="Zrušiť prihlásenie" class="fas fa-check"></i>
                         <span class="font-semibold">Odoslaná žiadosť o
                             nahrávku!</span>
                     </button>
                 @else
-                    <button type="submit" class="btn btn-default w-full mb-4">
-                        <i class="fas fa-check"></i>
+                    <button type="submit" class="btn btn-default w-full">
                         Nemôžem prísť, chcem nahrávku.
                     </button>
                 @endif
@@ -39,14 +35,15 @@
 
         <form method="post" action="{{ route('event.subscribe.store', [$event->id]) }}">
             @csrf @method('POST')
-            @if( $event->isSubscribed() )
-            <button type="submit" class="btn btn-success w-full">
-                Ste prihlásený na akciu
-            </button>
+            @if ($event->isSubscribed())
+                <button type="submit" class="btn btn-success w-full">
+                    <i class="fas fa-check"></i>
+                    Ste prihlásený na akciu
+                </button>
             @else
-            <button type="submit" class="btn btn-primary w-full">
-                Prihlásiť sa na akciu
-            </button>
+                <button type="submit" class="btn btn-primary w-full">
+                    Prihlásiť sa na akciu
+                </button>
             @endif
         </form>
     </div>
@@ -103,7 +100,6 @@
                 </div>
 
             </event-info-panel>
-
         @endif
     @endcan
 
@@ -125,15 +121,15 @@
 
                 <div class="flex justify-between">
                     <span>Registrácia:</span>
-                    @if($event->registration == 'yes')
+                    @if ($event->registration == 'yes')
                         <span>Áno</span>
                     @endif
 
-                    @if($event->registration == 'no')
+                    @if ($event->registration == 'no')
                         <span>Nie</span>
                     @endif
 
-                    @if($event->registration == 'recomended')
+                    @if ($event->registration == 'recomended')
                         <span>Doporučená</span>
                     @endif
                 </div>
@@ -141,13 +137,13 @@
 
                 <div class="flex justify-between">
                     <span>Vstupné:</span>
-                    @if($event->entryFee == 'voluntarily')
+                    @if ($event->entryFee == 'voluntarily')
                         <span>Dobrovoľné</span>
                     @endif
-                    @if($event->entryFee == 'no')
+                    @if ($event->entryFee == 'no')
                         <span>Nie</span>
                     @endif
-                    @if($event->entryFee == 'yes')
+                    @if ($event->entryFee == 'yes')
                         <span>Áno</span>
                     @endif
                 </div>
