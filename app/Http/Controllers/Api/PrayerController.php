@@ -46,7 +46,7 @@ class PrayerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SavePrayerRequest $request)
     {
         if ($request->email) {
             (new EloquentUserRepository)->checkIfUserAccountExist($request);

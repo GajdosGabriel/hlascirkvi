@@ -32,38 +32,6 @@ abstract class Extractors
                 continue;
             }
 
-
-            // Find spam if contains I.
-            if (str_contains($item['title'], 'More Info:')) {
-                continue;
-            }
-
-            // Find spam if contains II.
-            if (str_contains($item['title'], 'Start Game:')) {
-                continue;
-            }
-
-            // Find spam if contains III.
-            if (str_contains($item['title'], 'Click here:')) {
-                continue;
-            }
-
-            // Find spam if contains IV.
-            if (str_contains($item['title'], 'GIVE IT A TRY:')) {
-                continue;
-            }
-
-            // Find spam if contains V.
-            if (str_contains($item['title'], 'View Message:')) {
-                continue;
-            }
-
-            // General condition.
-            if (strpos($item['title'], 'https://')) {
-                continue;
-            }
-
-
             DB::table('prayers')->insert([
                 'title' => isset($item['title'])  ? $item['title'] : '',
                 'body' => $item['body'],

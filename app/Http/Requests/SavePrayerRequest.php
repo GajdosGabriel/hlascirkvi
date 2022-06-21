@@ -34,7 +34,9 @@ class SavePrayerRequest extends FormRequest
         }
 
         return [
-            'body' => 'bail|required|min:3'
+            'body' => 'bail|required|min:3',
+            'title' => [ 'required','min:3', new NoUrlLinkRule],
+            'body' => [ 'required','min:3', new NoUrlLinkRule],
         ];
     }
 }
