@@ -20,12 +20,12 @@ class Event extends Model implements Viewable
 
 
 
-//    protected $with = ['village', 'organization'];
+    //    protected $with = ['village', 'organization'];
 
-//    protected $casts = [
-//        'start_at'  => 'datetime:Y-m-d H:i',
-//        'end_at'    => 'datetime:Y-m-d H:i',
-//    ];
+    //    protected $casts = [
+    //        'start_at'  => 'datetime:Y-m-d H:i',
+    //        'end_at'    => 'datetime:Y-m-d H:i',
+    //    ];
 
     public function scopeFilter($query, $filters)
     {
@@ -42,7 +42,7 @@ class Event extends Model implements Viewable
         return $this->belongsTo(Village::class);
     }
 
-    public function eventSubscribe()
+    public function subscribes()
     {
         return $this->hasMany(EventSubscribe::class);
     }
@@ -90,16 +90,16 @@ class Event extends Model implements Viewable
 
     public function subscribe()
     {
-        if ($this->eventSubscribe()->whereOrganizationId(auth()->id())->exists()) {
-            if ($this->eventSubscribe()->whereOrganizationId(auth()->id())->where('active', 0)->exists()) {
-                $this->eventSubscribe()->update(['active' => 1]);
+        if ($this->subscribes()->whereOrganizationId(auth()->id())->exists()) {
+            if ($this->subscribes()->whereOrganizationId(auth()->id())->where('active', 0)->exists()) {
+                $this->subscribes()->update(['active' => 1]);
                 session()->flash('flash', 'Ste prihlásený na akciu!!');
             } else {
-                $this->eventSubscribe()->update(['active' => 0]);
+                $this->subscribes()->update(['active' => 0]);
                 session()->flash('flash', 'Ste odhlásený z akcie!');
             }
         } else {
-            $this->eventSubscribe()->create(['organization_id' => auth()->id()]);
+            $this->subscribes()->create(['organization_id' => auth()->id()]);
             session()->flash('flash', 'Ste prihlásený na akciu!');
         }
     }
@@ -107,13 +107,12 @@ class Event extends Model implements Viewable
 
     public function isSubscribed()
     {
-        // return ! ! $this->eventSubscribe->where('organization_id', auth()->id())->where('active', 1)->count();
-        return $this->favorites()->whereUserId(auth()->id())->exists();
+        return !! $this->subscribes()->where('organization_id', auth()->id())->where('active', 1)->exists();
     }
 
     public function activeSubscribed()
     {
-        return $this->eventSubscribe()->whereActive(1)->count();
+        return $this->subscribes()->whereActive(1)->count();
     }
 
     public function getUrlAttribute()

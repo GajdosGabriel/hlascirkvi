@@ -37,7 +37,7 @@ Route::middleware('checkBanned')->group(function () {
 Route::middleware(['auth', 'checkBanned'])->group(function () {
     Route::resources([
         'images'                => ImageController::class,
-        'event.eventSubscribe'  => Events\EventSubscribeController::class,
+        'event.subscribe'       => Events\EventSubscribeController::class,
         'organization.seminar'  => OrganizationSeminarController::class,
         'organization.post'     => OrganizationPostController::class,
         'organization.event'    => OrganizationEventController::class,

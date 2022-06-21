@@ -55,9 +55,9 @@
             <div
                 v-html="buttonText"
                 @click.stop="onClickSubscribeButton"
-                title="Budete dostávať nové príspevky!"
+                title="Upozornenia na nové príspevky!"
                 :class="classButton"
-                class="p-2 rounded-md cursor-pointer flex justify-center hover:bg-red-700 whitespace-nowrap"
+                class="p-2 rounded-md cursor-pointer flex justify-center whitespace-nowrap text-white"
             ></div>
             <!-- Login link -->
             <div
@@ -105,8 +105,8 @@ export default {
         classButton: function () {
             return [
                 this.favorited
-                    ? "bg-gray-300"
-                    : "bg-red-600 text-white whitespace-nowrap",
+                    ? "bg-gray-400 hover:bg-gray-500"
+                    : "bg-red-600 hover:bg-red-700",
             ];
         },
     },

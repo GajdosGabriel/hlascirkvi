@@ -33,10 +33,10 @@ trait Favoritable
         if ($this->favorites()->whereUserId(auth()->id() )->exists() ) {
             $this->favorites()->delete();
 
-            session()->flash('flash', 'OK Zrušené!');
+            session()->flash('flash', 'Zrušenie bolo úspešné!');
         } else {
             $this->favorites()->create( ['user_id' => auth()->id()] );
-            session()->flash('flash', 'OK Uložené!');
+            session()->flash('flash', 'Príhlásenie bolo úspešné!');
         }
     }
 

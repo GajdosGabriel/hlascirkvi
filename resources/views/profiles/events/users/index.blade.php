@@ -47,7 +47,7 @@
                             </td>
                             <td class="text-center">
                                 <form method="post"
-                                    action="{{ route('event.eventSubscribe.update', [$event->id, $subcription->id]) }}">
+                                    action="{{ route('event.subscribe.update', [$event->id, $subcription->id]) }}">
                                     @csrf @method('PUT')
                                     @if ($subcription->confirmed)
                                         <input name="confirmed" value="{{ null }}" type="hidden" />
@@ -65,7 +65,7 @@
 
                             <td class="text-center">
                                 <form method="post"
-                                    action="{{ route('event.eventSubscribe.destroy', [$event->id, $subcription->id]) }}">
+                                    action="{{ route('event.subscribe.destroy', [$event->id, $subcription->id]) }}">
                                     @csrf @method('DELETE')
 
                                     <button class="px-2">Zmazať</button>

@@ -21,7 +21,7 @@
                 <input name="model" value="Event" type="hidden">
                 <input name="model_id" value="{{ $event->id }}" type="hidden">
                 @if ($event->isSubscribed())
-                    <button type="submit" class="btn btn-primary w-full">
+                    <button type="submit" class="btn btn-primary w-full mb-4">
                         <i title="Zrušiť prihlásenie" class="fas fa-check"></i>
                         <span class="font-semibold">Odoslaná žiadosť o
                             nahrávku!</span>
@@ -37,11 +37,17 @@
             {{--  --}}
         @endif
 
-        <form method="post" action="{{ route('event.eventSubscribe.store', [$event->id]) }}">
+        <form method="post" action="{{ route('event.subscribe.store', [$event->id]) }}">
             @csrf @method('POST')
+            @if( $event->isSubscribed() )
+            <button type="submit" class="btn btn-success w-full">
+                Ste prihlásený na akciu
+            </button>
+            @else
             <button type="submit" class="btn btn-primary w-full">
                 Prihlásiť sa na akciu
             </button>
+            @endif
         </form>
     </div>
 

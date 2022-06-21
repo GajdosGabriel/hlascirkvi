@@ -5230,7 +5230,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.favorited ? "Sledujete kanál" : "Sledovať kanál " + this.organization.title;
     },
     classButton: function classButton() {
-      return [this.favorited ? "bg-gray-300" : "bg-red-600 text-white whitespace-nowrap"];
+      return [this.favorited ? "bg-gray-400 hover:bg-gray-500" : "bg-red-600 hover:bg-red-700"];
     }
   },
   methods: {
@@ -73332,9 +73332,9 @@ var render = function () {
       _c("div", { staticClass: "relative" }, [
         _c("div", {
           staticClass:
-            "p-2 rounded-md cursor-pointer flex justify-center hover:bg-red-700 whitespace-nowrap",
+            "p-2 rounded-md cursor-pointer flex justify-center whitespace-nowrap text-white",
           class: _vm.classButton,
-          attrs: { title: "Budete dostávať nové príspevky!" },
+          attrs: { title: "Upozornenia na nové príspevky!" },
           domProps: { innerHTML: _vm._s(_vm.buttonText) },
           on: {
             click: function ($event) {
