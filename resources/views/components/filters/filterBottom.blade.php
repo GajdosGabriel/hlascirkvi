@@ -1,6 +1,6 @@
 <a href="{{ URL::current() . $url }}">
     <div @class([
-        'bg-green-300' => Request::has('unpublished'),
+        'bg-green-300' => Request::has($type),
         'flex w-min px-2 rounded-md border-gray-300 border-2 hover:bg-gray-300',
     ])>
        {{ $title }}
