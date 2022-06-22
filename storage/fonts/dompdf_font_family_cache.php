@@ -1,4 +1,5 @@
-<?php return array (
+<?php return function ($fontDir, $rootDir) {
+return array (
   'sans-serif' => array(
     'normal' => $rootDir . '\lib\fonts\Helvetica',
     'bold' => $rootDir . '\lib\fonts\Helvetica-Bold',
@@ -84,7 +85,7 @@
     'normal' => $fontDir . '\e41f270af826027390dde6fc02e945f9',
   ),
   'roboto' => array(
-    'normal' => $fontDir . '/roboto-normal_ad149bced3f7c2e0ff246c3940f6b965',
+    'normal' => $fontDir . '/roboto_normal_9fa47a070a8b30b595086d70bb7ac78c',
   ),
   'lemonada' => array(
     'normal' => $fontDir . '\52b2f0a2d4cd66840c0d21203dce18a2',
@@ -92,4 +93,5 @@
   'glyphicons halflings' => array(
     'normal' => $fontDir . '\c47afe5539ba1b2094563d54dce2def7',
   ),
-) ?>
+);
+}; ?>

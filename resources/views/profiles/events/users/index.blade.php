@@ -25,7 +25,7 @@
                         <th>Dňa</th>
                         <th>Meno</th>
                         <th>GDPR</th>
-                        <th>Prihlášku</th>
+                        <th>Prihláška</th>
                         <th>Vstupenka</th>
                         <th>Zmazať</th>
                     </tr>
@@ -51,10 +51,10 @@
                                     @csrf @method('PUT')
                                     @if ($subcription->confirmed)
                                         <input name="confirmed" value="{{ null }}" type="hidden" />
-                                        <button title="Zrušiť potvrdenie!" class="px-2">Potvrdené</button>
+                                        <button title="Zrušiť potvrdenie!" class="label-success">Potvrdená</button>
                                     @else
                                         <input name="confirmed" value="{{ now() }}" type="hidden" />
-                                        <button class="px-2">Potvrdiť prihlášku</button>
+                                        <button class="label-danger">Potvrdiť</button>
                                     @endif
                                 </form>
                             </td>

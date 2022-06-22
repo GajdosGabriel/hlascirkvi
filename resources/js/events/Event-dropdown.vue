@@ -29,7 +29,7 @@
 
             <a
                 v-if="$auth.isAdmin()"
-                :href="'/event/' + post.id + '/eventSubscribe'"
+                :href="'/event/' + post.id + '/subscribe'"
             >
                 <li class="dropdown-item whitespace-nowrap">
                     Administrácia

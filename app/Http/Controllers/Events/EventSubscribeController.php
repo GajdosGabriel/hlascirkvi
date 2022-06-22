@@ -25,9 +25,9 @@ class EventSubscribeController extends Controller
         return view('profiles.events.users.index', compact('event'));
     }
 
-    public function update(Event $event, EventSubscribe $eventSubscribe, Request $request)
+    public function update(Event $event, EventSubscribe $subscribe, Request $request)
     {
-        $eventSubscribe->update([
+        $subscribe->update([
             'confirmed' => $request->input('confirmed')
         ]);
         return back();

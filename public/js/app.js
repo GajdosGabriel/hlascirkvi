@@ -71470,9 +71470,7 @@ var render = function () {
           _vm.$auth.isAdmin()
             ? _c(
                 "a",
-                {
-                  attrs: { href: "/event/" + _vm.post.id + "/eventSubscribe" },
-                },
+                { attrs: { href: "/event/" + _vm.post.id + "/subscribe" } },
                 [
                   _c("li", { staticClass: "dropdown-item whitespace-nowrap" }, [
                     _vm._v("\n                Administrácia\n            "),
