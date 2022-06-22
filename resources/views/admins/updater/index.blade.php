@@ -10,8 +10,6 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <h2 class="page_title">Nový updater</h2>
-
             @include('admins.updater.form')
         </x-slot>
 

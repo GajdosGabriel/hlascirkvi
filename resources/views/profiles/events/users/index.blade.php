@@ -23,7 +23,7 @@
                     <tr>
                         <th>P.č.</th>
                         <th>ID</th>
-                        <th>Dňa</th>
+                        <th>Prijatá</th>
                         <th>Meno</th>
                         <th>GDPR</th>
                         <th>Prihláška</th>
@@ -73,17 +73,16 @@
                                 @if ($event->entryFee == 'no')
                                     <span class="label-default">Free</span>
                                 @else
-                                    <span class="label-danger">Nie</span>
+                                    <span class="label-danger">{{ $subcription->paid }}.-€</span>
                                 @endif
                             </td>
                             <td class="text-center">
                                 <form method="post"
                                     action="{{ route('event.subscribe.destroy', [$event->id, $subcription->id]) }}">
                                     @csrf @method('DELETE')
-                                    <button class="px-2">Zmazať</button>
+                                    <button class="label-default">Zmazať</button>
                                 </form>
                             </td>
-
                         </tr>
                     @empty
                         <table>

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     <x-pages.admin>
 
         <x-slot name="title">
@@ -19,10 +18,9 @@
 
         <x-slot name="page">
 
-            @forelse ( $updater->organizations as $tag )
-
+            @forelse ($updater->organizations as $tag)
                 <form action="{{ route('admin.updater.organization.destroy', [$updater->id, $tag->id]) }}" method="POST"
-                    class="flex justify-between mb-4 border-b-2 hover:bg-gray-50 border-dashed">
+                    class="flex justify-between border-b-2 hover:bg-gray-50 border-dashed p-2">
 
                     @csrf @method('DELETE')
                     <div class="font-semibold text-lg">{{ $tag->title }}</div>
@@ -43,5 +41,4 @@
         </x-slot>
 
     </x-pages.admin>
-
-        @endsection
+@endsection
