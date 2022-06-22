@@ -59,6 +59,10 @@
     @apply bg-green-600 text-gray-100 hover:bg-green-700;
 }
 
+.label-primary {
+    @apply bg-blue-600 text-gray-100 hover:bg-blue-700 px-2 rounded-md;
+}
+
 .label-success {
     @apply bg-green-600 text-gray-100 hover:bg-green-700 px-2 rounded-md;
 }
@@ -67,6 +71,9 @@
     @apply bg-red-600 text-gray-100 hover:bg-red-700 px-2 rounded-md;
 }
 
+.label-default {
+    @apply bg-gray-100 text-gray-500 hover:bg-gray-200 px-2 rounded-md;
+}
 
 .fade-enter-active, .fade-leave-active {
     @apply duration-300;

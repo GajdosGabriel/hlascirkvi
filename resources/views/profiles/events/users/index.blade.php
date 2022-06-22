@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title> @endsection
+@section('title')
+    <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title>
+@endsection
 
 @section('content')
-
-
     {{-- @section('title', $title) --}}
 
     <x-pages.admin>
@@ -22,11 +22,13 @@
                 <thead class="bg-gray-500 text-white">
                     <tr>
                         <th>P.č.</th>
+                        <th>ID</th>
                         <th>Dňa</th>
                         <th>Meno</th>
                         <th>GDPR</th>
                         <th>Prihláška</th>
                         <th>Vstupenka</th>
+                        <th>Platba</th>
                         <th>Zmazať</th>
                     </tr>
                 </thead>
@@ -35,6 +37,11 @@
                     @forelse($event->subscribes as $subcription)
                         <tr class="border-2 border-gray-300">
                             <td class="px-2 text-center">{{ $loop->iteration }}.</td>
+                            <td class="px-2 text-center">
+                                <a href="{{ route('event.show', [$event->id, $event->slug]) }}" target="_blank" class="hover:underline ">
+                                {{ $event->id }}
+                            </a>
+                            </td>
                             <td class="text-center">{{ date('d M Y', strtotime($subcription->created_at)) }}</td>
                             <td class="text-center">
                                 {{ $subcription->organization->title }}
@@ -60,14 +67,19 @@
                             </td>
 
                             <td class="text-center">
-                                <span>Generovaná</span>
+                                <span class="label-primary">Generovaná</span>
                             </td>
-
+                            <td class="text-center">
+                                @if ($event->entryFee == 'no')
+                                    <span class="label-default">Free</span>
+                                @else
+                                    <span class="label-danger">Nie</span>
+                                @endif
+                            </td>
                             <td class="text-center">
                                 <form method="post"
                                     action="{{ route('event.subscribe.destroy', [$event->id, $subcription->id]) }}">
                                     @csrf @method('DELETE')
-
                                     <button class="px-2">Zmazať</button>
                                 </form>
                             </td>

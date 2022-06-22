@@ -40,9 +40,9 @@ class EventSubscribeController extends Controller
         return back();
     }
 
-    public function destroy(Event $event, EventSubscribe $eventSubscribe)
+    public function destroy(Event $event, EventSubscribe $subscribe)
     {
-        $eventSubscribe->delete();
+        $subscribe->delete();
         return back();
     }
 
