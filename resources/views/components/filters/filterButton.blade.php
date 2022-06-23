@@ -1,4 +1,4 @@
-<a href="{{ URL::current() . $url }}">
+<a href="{{ URL::current() . $url }}" class="whitespace-nowrap">
     <div @class([
         'bg-green-300' => Request::has($type),
         'flex w-min px-2 rounded-md border-gray-300 border-2 hover:bg-gray-300',

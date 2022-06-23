@@ -14,7 +14,7 @@
 
         <x-slot name="page">
 
-            <div class="grid grid-cols-3 gap-10">
+            <div class="md:grid grid-cols-3 gap-10">
                 <section class="card">
                     <header class="card_header">
                         <h4>Okno 1</h4>

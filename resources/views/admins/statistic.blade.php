@@ -13,11 +13,11 @@
 
 
         <x-slot name="page">
-            <div class="flex space-x-3 ">
-                <a class="text-red" href="{{ route('admin.statistic.show', 1) }}">Dnes</a>
-                <a href="{{ route('admin.statistic.show', 2) }}">Včera</a>
-                <a href="{{ route('admin.statistic.show', 7) }}">Týždeň</a>
-                <a href="{{ route('admin.statistic.show', 14) }}">2 týždne</a>
+            <div class="flex space-x-3 mb-2">
+                <x-filters.filterButton title="Dnes" type="lastDays" url="?lastDays=1" />
+                <x-filters.filterButton title="Včera" type="lastDays" url="?lastDays=2" />
+                <x-filters.filterButton title="Týždeň" type="lastDays" url="?lastDays=7" />
+                <x-filters.filterButton title="2 týždne" type="lastDays" url="?lastDays=14" />
             </div>
 
 
