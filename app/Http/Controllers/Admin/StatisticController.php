@@ -31,7 +31,7 @@ class StatisticController extends Controller
             ->whereRaw('DATE(viewed_at) > CURDATE() - INTERVAL ' .  $days .' DAY')
             ->join('posts', 'posts.id', '=', 'views.viewable_id')
             ->join('organizations', 'organizations.id', '=', 'posts.organization_id')
-            ->select('viewable_id', DB::raw('count(*) as unique_view , posts.title as title, posts.id as id, organizations.title as organization , posts.count_view as count_view'))
+            ->select('viewable_id', DB::raw('count(*) as unique_view , posts.title as title, posts.id as id,  posts.slug as slug, organizations.title as organization , posts.count_view as count_view'))
             ->groupBy('viewable_id', 'title', 'id', 'count_view')
             ->orderBy('unique_view', 'desc')
             ->get();

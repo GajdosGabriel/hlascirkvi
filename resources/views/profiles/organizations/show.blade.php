@@ -36,18 +36,6 @@
                             {{ $organization->title }}
                         </button>
                     </form>
-
-                    <form method="POST" action="{{ route('user.organization.update', [$user->id, $organization->id]) }}">
-                        @csrf @method('PUT')
-
-                        @if ($organization->published)
-                            <button value="0" name="published"
-                                class="px-2 bg-green-500 text-gray-100 rounded border-2 border-green-700 hover:bg-green-600">Publikované</button>
-                        @else
-                            <button value="1" name="published"
-                                class="px-2 bg-red-500 text-gray-100 rounded border-2 border-red-700 hover:bg-red-600">Nepublikované</button>
-                        @endif
-                    </form>
                 </div>
 
 

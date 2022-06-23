@@ -18,16 +18,8 @@
             </div>
 
         </div>
-        <x-filters.card>
-            <x-slot name="left">
-                <x-filters.filterButton title="Nepublikované" type="unpublished" url="?unpublished=true" />
-                <x-filters.filterButton title="Banned" type="banned" url="?banned=true" />
-            </x-slot>
-
-            <x-slot name="right">
-                <x-search-form />
-            </x-slot>
-        </x-filters.card>
+        
+        <x-filters.card />
 
         {{ $page }}
 

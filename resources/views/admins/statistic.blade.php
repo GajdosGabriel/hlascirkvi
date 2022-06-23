@@ -38,7 +38,7 @@
                         <tr class="border-2 border-gray-300  hover:bg-gray-100">
                             <td>{{ $post->id }}</td>
                             <td>
-                                <a href="{{ route('post.show', [$post->id, $post->id]) }}">
+                                <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
                                     {{ Str::limit($post->title, 45) }}
                                 </a>
                             </td>

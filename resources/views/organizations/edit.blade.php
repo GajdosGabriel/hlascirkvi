@@ -70,26 +70,45 @@
                             class="form-control" placeholder="email na komunikáciu">
                     </div>
 
-                    <label class="font-semibold" for="">Admin kanálu</label>
-                    @foreach ($organization->users as $user)
-                        <div class="block">
-                           <div class="btn-small btn-primary whitespace-nowrap w-min">{{ $user->fullname }}</div>
-                        </div>
-                    @endforeach
+                    <div class="form-group">
+                        <label class="font-semibold" for="">Admin kanálu</label>
+                        @foreach ($organization->users as $user)
+                            <div class="block">
+                                <div class="btn-small btn-primary whitespace-nowrap w-min">{{ $user->fullname }}</div>
+                            </div>
+                        @endforeach
+                    </div>
 
                     @can('superadmin')
-                        <div class="form-group">
-                            <select name="users[]" class="form-control input-sm" multiple required>
-                                @foreach (\App\Models\User::all() as $user)
-                                    <option value="{{ $user->id }}" @if ($organization->users()->whereId($user->id)->first()) selected @endif>
-                                      {{ $user->fullname }}
-                                    </option>
-                                @endforeach
-                            </select>
+                        <div class="bg-blue-200 mb-4 p-3">
+                            <div class="font-semibold">Super Admin area</div>
+                            <div class="form-group">
+                                <select name="users[]" class="form-control input-sm" multiple required>
+                                    @foreach (\App\Models\User::all() as $user)
+                                        <option value="{{ $user->id }}" @if ($organization->users()->whereId($user->id)->first()) selected @endif>
+                                            {{ $user->fullname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <form method="POST"
+                                action="{{ route('user.organization.update', [$user->id, $organization->id]) }}">
+                                @csrf @method('PUT')
+                                <div class="font-semibold" for="">Kanál je:</div>
+                                @if ($organization->published)
+                                    <button value="0" name="published"
+                                        class="px-2 bg-green-500 text-gray-100 rounded border-2 border-green-700 hover:bg-green-600">Publikovaný</button>
+                                @else
+                                    <button value="1" name="published"
+                                        class="px-2 bg-red-500 text-gray-100 rounded border-2 border-red-700 hover:bg-red-600">Nepublikovaný</button>
+                                @endif
+                            </form>
                         </div>
                     @endcan
 
-                    <span style="font-weight: 600">Kanál určený pre publikum:</span><br>
+                    <div class="font-semibold">Kanál určený pre publikum:</div>
                     @forelse(\App\Models\Updater::all() as $updater)
                         @if ($updater->type == 'denomination')
                             <input required type="radio" name="updaters[]" value="{{ $updater->id }}"
@@ -143,7 +162,7 @@
                             </div>
 
                             <div class="mb-2">
-                                <div>Videa publikovať v zozname</div>
+                                <div class="font-semibold">Videa publikovať v zozname</div>
                                 @forelse(\App\Models\Updater::all() as $updater)
                                     @if ($updater->type == 'post')
                                         <input type="checkbox" name="updaters[]" value="{{ $updater->id }}"
@@ -195,7 +214,7 @@
                             <button type="submit" class="btn btn-primary">Uložiť</button>
                         </div>
 
-                        </>
+
                 </form>
 
             </x-slot>
