@@ -23,7 +23,7 @@ class baned extends Component
      */
     public function render()
     {
-        return view('components.filters.unpublished');
+        return view('components.filters.baned');
     }
 
     public function showComponent()
