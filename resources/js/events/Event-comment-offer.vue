@@ -88,18 +88,4 @@
     }
 </script>
 
-<style>
-    .left{ float: right}
 
-    .fade-enter-active {
-        transition: opacity .5s;
-    }
-
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-        opacity: 0;
-    }
-
-    .color-red{
-        color: red;
-    }
-</style>

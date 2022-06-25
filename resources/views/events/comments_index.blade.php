@@ -11,7 +11,7 @@
 
                 @else
 
-                    @if($comment->active)
+                    @if($comment->published)
                         <small><a>mám&nbsp;záujem</a></small>
                     @else
                         <small><a>obsadené</a></small>
@@ -44,7 +44,7 @@
 
                 @else
 
-                    @if($comment->active)
+                    @if($comment->published)
                         <small><a>mám&nbsp;záujem</a></small>
                     @else
                         <small><a>obsadené</a></small>

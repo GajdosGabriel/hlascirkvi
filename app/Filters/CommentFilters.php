@@ -16,11 +16,17 @@ use Illuminate\Http\Request;
 
 class CommentFilters extends Filters
 {
-    protected $filters = ['search'];
+    protected $filters = ['search', 'unpublished'];
 
     public function search()
     {
         session()->flash('search', $this->request->search);
         return $this->builder->where('body', 'LIKE', '%' . $this->request->search . '%');
     }
+
+    public function unpublished($value)
+    {
+        $this->builder->where('published', 0);
+    }
+
 }

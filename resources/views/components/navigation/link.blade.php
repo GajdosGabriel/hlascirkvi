@@ -1,7 +1,7 @@
-@props(['active'])
+@props(['published'])
 
 @php
-$classes = ($active ?? false)
+$classes = ($published ?? false)
             ? 'font-semibold border-b-2 border-gray-400'
             : '';
 @endphp
