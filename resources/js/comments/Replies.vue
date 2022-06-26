@@ -19,18 +19,18 @@
                 ></p>
             </div>
 
-            <new-reply v-if="show" :post="post" @newComment="addNewComment" />
+            <new-comment v-if="show" :post="post" @newComment="addNewComment" />
         </div>
     </div>
 </template>
 
 <script>
 import { bus } from "../app";
-import Reply from "./Reply.vue";
-import NewReply from "./NewReply.vue";
+import Reply from "./Comment-Item.vue";
+import NewComment from "./NewReply.vue";
 export default {
     props: ["post"],
-    components: { Reply, NewReply },
+    components: { Reply, NewComment },
     data: function() {
         return {
             show: false,

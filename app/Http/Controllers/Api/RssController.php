@@ -14,12 +14,14 @@ class RssController extends Controller
 //        $path = "https://www.tkkbs.sk/rss/vsetky/";
         $path = "https://www.tkkbs.sk/rss/" . $canal .'/';
 
+
+
 // Read entire file into string
         $xmlfile = file_get_contents($path);
-
+        // dd($xmlfile);
 // Convert xml string into an object
         $new = simplexml_load_string($xmlfile);
-
+        // dd($new);
 // Convert into json
         $con = json_encode($new);
 

@@ -18,7 +18,7 @@
             {{-- index of comments --}}
             @forelse($posts as $post)
 
-            <comments-items :comment="{{ $post }}"></comments-items>
+            <comment-item :comment="{{ $post }}"></comment-item>
 
             @empty
                 bez komentárov

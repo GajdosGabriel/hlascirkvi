@@ -139,7 +139,7 @@
                             @include('bigthink._form')
                         @endauth
 
-                        <comments :post="{{ $post }}"></comments>
+                        <comments-post :post="{{ $post }}"></comments-post>
                     </div>
 
                     {{-- Body plánované akcie --}}
@@ -155,7 +155,7 @@
 
             {{-- Aside section --}}
             <div class="col-span-3">
-                <news-rss></news-rss>
+                {{-- <news-rss></news-rss> --}}
                 @include('events.aside_modul')
             </div>
         </div>

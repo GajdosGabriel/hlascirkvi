@@ -26,7 +26,7 @@
 
 <script>
 import { bus } from "../app";
-import Reply from "./Reply.vue";
+import Reply from "./Comment-Item.vue";
 import NewReply from "./NewReply.vue";
 export default {
     props: ["post"],
