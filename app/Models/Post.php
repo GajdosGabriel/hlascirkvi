@@ -22,7 +22,7 @@ class Post extends Model implements Viewable
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['favorites', 'images'];
-    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'createdAtHuman', 'hasUpdater', 'EventsBelongsToOrganization'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'createdAtHuman', 'hasUpdater'];
 
     protected static function boot()
     {

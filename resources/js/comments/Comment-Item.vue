@@ -5,11 +5,7 @@
         <div
             class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3 bg-gray-100"
         >
-            <strong
-                v-if="comment.user_name"
-                v-text="comment.user_name"
-            ></strong>
-            <strong v-else v-text="fullName"></strong>
+            <strong v-text="comment.user_name"></strong>
 
             <favorite :reply="comment"></favorite>
         </div>
@@ -42,7 +38,7 @@
                     Zrušiť
                 </button>
 
-                <button class="btn btn-primary" @click.prevent="updateComment">
+                <button class="btn btn-primary" @click="updateComment">
                     Uložiť
                 </button>
             </div>
@@ -50,7 +46,7 @@
         <div class="text-right text-xs px-2 mb-2" v-if="canUpdate">
             <span
                 class="hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer"
-                @click.prevent="editComment = true"
+                @click="editComment = true"
             >
                 Upraviť
             </span>
@@ -91,14 +87,6 @@ export default {
             );
         },
 
-        fullName: function () {
-            return this.comment.user_name
-                ? this.comment.user_name
-                : this.comment.user.first_name +
-                      " " +
-                      this.comment.user.last_name;
-        },
-
         cakanaschvalenie: function () {
             if (this.comment.deleted_at != null) {
                 return "Váš komentár čaká na schválenie.";
@@ -116,12 +104,7 @@ export default {
             if (!window.confirm("Skutočne vymazať!")) {
                 return;
             }
-            axios.delete(
-                "/api/posts/" +
-                    this.comment.commentable_id +
-                    "/comments/" +
-                    this.comment.id
-            );
+            axios.delete(this.comment.url.destroy);
 
             $(this.$el).fadeOut(300, () => {
                 this.$emit("deleted", this.comment.id);
@@ -130,17 +113,11 @@ export default {
 
         updateComment: function () {
             axios
-                .put(
-                    "/api/posts/" +
-                        this.comment.commentable_id +
-                        "/comments/" +
-                        this.comment.id,
-                    this.comment
-                )
+                .put(this.comment.url.update, this.comment)
                 .then((response) => {
                     this.comment = response.comment;
                 });
-                
+
             this.editComment = false;
         },
     },

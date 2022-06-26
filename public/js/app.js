@@ -2553,10 +2553,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["comment"],
@@ -2583,9 +2579,6 @@ __webpack_require__.r(__webpack_exports__);
         return window.App.user.id == 1 || _this.comment.user.id == window.App.user.id;
       });
     },
-    fullName: function fullName() {
-      return this.comment.user_name ? this.comment.user_name : this.comment.user.first_name + " " + this.comment.user.last_name;
-    },
     cakanaschvalenie: function cakanaschvalenie() {
       if (this.comment.deleted_at != null) {
         return "Váš komentár čaká na schválenie.";
@@ -2605,7 +2598,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      axios["delete"]("/api/posts/" + this.comment.commentable_id + "/comments/" + this.comment.id);
+      axios["delete"](this.comment.url.destroy);
       $(this.$el).fadeOut(300, function () {
         _this2.$emit("deleted", _this2.comment.id);
       });
@@ -2613,7 +2606,7 @@ __webpack_require__.r(__webpack_exports__);
     updateComment: function updateComment() {
       var _this3 = this;
 
-      axios.put("/api/posts/" + this.comment.commentable_id + "/comments/" + this.comment.id, this.comment).then(function (response) {
+      axios.put(this.comment.url.update, this.comment).then(function (response) {
         _this3.comment = response.comment;
       });
       this.editComment = false;
@@ -2669,7 +2662,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["post"],
   components: {
-    Reply: _Comment_Item_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    CommentItem: _Comment_Item_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     NewReply: _NewReply_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
@@ -70239,11 +70232,9 @@ var render = function () {
             "flex justify-between py-2 border-b border-gray-200 pl-3 pr-3 bg-gray-100",
         },
         [
-          _vm.comment.user_name
-            ? _c("strong", {
-                domProps: { textContent: _vm._s(_vm.comment.user_name) },
-              })
-            : _c("strong", { domProps: { textContent: _vm._s(_vm.fullName) } }),
+          _c("strong", {
+            domProps: { textContent: _vm._s(_vm.comment.user_name) },
+          }),
           _vm._v(" "),
           _c("favorite", { attrs: { reply: _vm.comment } }),
         ],
@@ -70315,12 +70306,7 @@ var render = function () {
                     "button",
                     {
                       staticClass: "btn btn-primary",
-                      on: {
-                        click: function ($event) {
-                          $event.preventDefault()
-                          return _vm.updateComment.apply(null, arguments)
-                        },
-                      },
+                      on: { click: _vm.updateComment },
                     },
                     [_vm._v("\n                Uložiť\n            ")]
                   ),
@@ -70338,7 +70324,6 @@ var render = function () {
                   "hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer",
                 on: {
                   click: function ($event) {
-                    $event.preventDefault()
                     _vm.editComment = true
                   },
                 },
@@ -70411,16 +70396,16 @@ var render = function () {
           ]
         ),
         _vm._v(" "),
-        _vm._l(_vm.comments, function (reply) {
+        _vm._l(_vm.comments, function (comment) {
           return _c(
             "div",
-            { key: reply.id },
+            { key: comment.id },
             [
-              _c("reply", {
-                attrs: { comment: reply },
+              _c("comment-item", {
+                attrs: { comment: comment },
                 on: {
                   deleted: function ($event) {
-                    return _vm.remove(reply.id)
+                    return _vm.remove(_vm.reply.id)
                   },
                 },
               }),

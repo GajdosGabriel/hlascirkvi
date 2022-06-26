@@ -6,8 +6,8 @@
                 <span style="font-size: 70%; cursor: pointer">pridať nový</span>
             </h4>
 
-            <div v-for="reply in comments" :key="reply.id">
-                <reply :comment="reply" @deleted="remove(reply.id)"></reply>
+            <div v-for="comment in comments" :key="comment.id">
+                <comment-item :comment="comment" @deleted="remove(reply.id)"></comment-item>
             </div>
 
             <div class="flex justify-end">
@@ -26,11 +26,11 @@
 
 <script>
 import { bus } from "../app";
-import Reply from "./Comment-Item.vue";
+import CommentItem from "./Comment-Item.vue";
 import NewReply from "./NewReply.vue";
 export default {
     props: ["post"],
-    components: { Reply, NewReply },
+    components: { CommentItem, NewReply },
     data: function() {
         return {
             show: false,
