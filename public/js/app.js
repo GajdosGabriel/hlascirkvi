@@ -2932,6 +2932,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -70679,22 +70681,25 @@ var render = function () {
               {
                 attrs: {
                   href:
-                    "/post/" +
-                    comment.comment_post.id +
-                    "/" +
-                    comment.comment_post.slug +
-                    "#" +
-                    comment.id,
+                    "/post/" + comment.commentable_id + "/" + comment.post_slug,
                 },
               },
               [
                 _c("div", {}, [
-                  _c("div", { staticClass: "block text-gray-800 " }, [
-                    _vm._v(_vm._s(comment.body.slice(0, 40))),
+                  _c("div", { staticClass: "block text-gray-800" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(comment.body.slice(0, 40)) +
+                        "\n                    "
+                    ),
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "text-xs " }, [
-                    _vm._v(_vm._s(comment.created_at_human)),
+                  _c("div", { staticClass: "text-xs" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(comment.created_at_human) +
+                        "\n                    "
+                    ),
                   ]),
                 ]),
               ]

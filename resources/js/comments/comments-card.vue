@@ -25,16 +25,18 @@
                 <a
                     :href="
                         '/post/' +
-                            comment.comment_post.id +
-                            '/' +
-                            comment.comment_post.slug +
-                            '#'+ comment.id
-                            
+                        comment.commentable_id +
+                        '/' +
+                        comment.post_slug
                     "
                 >
                     <div class="">
-                        <div class="block text-gray-800 ">{{ comment.body.slice(0, 40) }}</div>
-                        <div class="text-xs ">{{ comment.created_at_human }}</div>
+                        <div class="block text-gray-800">
+                            {{ comment.body.slice(0, 40) }}
+                        </div>
+                        <div class="text-xs">
+                            {{ comment.created_at_human }}
+                        </div>
                     </div>
                 </a>
             </li>
@@ -48,7 +50,7 @@ import axios from "axios";
 export default {
     data() {
         return {
-            comments: []
+            comments: [],
         };
     },
 
@@ -57,10 +59,10 @@ export default {
     },
     methods: {
         getComments() {
-            axios.get("/api/comments").then(response => {
+            axios.get("/api/comments").then((response) => {
                 this.comments = response.data;
             });
-        }
-    }
+        },
+    },
 };
 </script>
