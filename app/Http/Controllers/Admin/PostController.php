@@ -10,17 +10,16 @@ use App\Repositories\Eloquent\EloquentPostRepository;
 
 class PostController extends Controller
 {
-    public function __construct(EloquentPostRepository $eloquentPostRepository)
+    public function __construct()
     {
-        $this->posts = $eloquentPostRepository;
+        $this->post = new EloquentPostRepository;
         $this->middleware('checkSuperAdmin');
     }
-    
+
     public function index(PostFilters $filters)
     {
-        $posts = $this->posts->postsByUpdater(15)->latest()->filter($filters)->paginate(28);
-
+        $posts = $this->post->postsByUpdater(15)->filter($filters)->paginate(28);
+        
         return view('admins.posts.index', compact('posts'));
     }
-
 }

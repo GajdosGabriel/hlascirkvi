@@ -21,7 +21,7 @@
         </div>
 
         <h6 class="pb-2 px-2 font-semibold mb-7" :title="post.title">
-            <a :href="post.url">{{ shorttitle }}</a>
+            <a :href="post.url">{{ shorttitle }}yyyyyyyyyy</a>
         </h6>
 
         <div
@@ -49,17 +49,7 @@ export default {
         post: {
             type: Object,
             default: "",
-        },
-        createdat: {
-            type: Boolean,
-            required: false,
-            default: true,
-        },
-        shortertext: {
-            type: Boolean,
-            required: false,
-            default: true,
-        },
+        }
     },
     computed: {
         shorttitle: function () {

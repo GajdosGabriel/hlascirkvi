@@ -29,6 +29,7 @@ class PostController extends Controller
     public function index(PostFilters $filters)
     {
         $posts = $this->post->postsByUpdater(15)->filter($filters)->paginate(28);
+
         return view('posts.index', compact('posts'));
     }
 

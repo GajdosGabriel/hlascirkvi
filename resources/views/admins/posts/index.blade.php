@@ -22,9 +22,8 @@
 
 
                 @forelse($posts as $post)
-
-                    <post-card :post="{{ $post }}"></post-card>
-                    {{-- @include('posts.post-card') --}}
+                    {{-- <post-card :post="{{ $post }}"></post-card> --}}
+                    @include('posts.post-card')
                 @empty
                     bez záznamu
                 @endforelse

@@ -5709,16 +5709,6 @@ __webpack_require__.r(__webpack_exports__);
     post: {
       type: Object,
       "default": ""
-    },
-    createdat: {
-      type: Boolean,
-      required: false,
-      "default": true
-    },
-    shortertext: {
-      type: Boolean,
-      required: false,
-      "default": true
     }
   },
   computed: {
@@ -73794,7 +73784,7 @@ var render = function () {
         },
         [
           _c("a", { attrs: { href: _vm.post.url } }, [
-            _vm._v(_vm._s(_vm.shorttitle)),
+            _vm._v(_vm._s(_vm.shorttitle) + "yyyyyyyyyy"),
           ]),
         ]
       ),
