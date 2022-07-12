@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 class OrganizationFilters extends Filters
 {
-    protected $filters = ['search'];
+    protected $filters = ['search', 'unpublished'];
 
     public function search()
     {
@@ -25,6 +25,11 @@ class OrganizationFilters extends Filters
             ->where('title', 'LIKE', '%' . $this->request->search . '%')
             // ->orWhere('city', 'LIKE', '%' . $this->request->search . '%')
             ;
+    }
+
+    public function unpublished()
+    {
+         return $this->builder->wherePublished(0);
     }
 
 

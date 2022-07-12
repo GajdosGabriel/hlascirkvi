@@ -21,7 +21,7 @@
         </div>
 
         <h6 class="pb-2 px-2 font-semibold mb-7" :title="post.title">
-            <a :href="post.url">{{ shorttitle }}yyyyyyyyyy</a>
+            <a :href="post.url">{{ shorttitle }}</a>
         </h6>
 
         <div

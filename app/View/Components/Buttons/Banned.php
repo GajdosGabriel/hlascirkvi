@@ -31,7 +31,6 @@ class Banned extends Component
         // Povolené route names.
        $routeName = array(
             'admin.users.index',
-            'admin.organizations.index',
             'user.organization.index',
             'organization.post.index',
             'organization.event.index',
