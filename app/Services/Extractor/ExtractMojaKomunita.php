@@ -109,7 +109,8 @@ class ExtractMojaKomunita extends Extractors
             $toSave[] = array(
                 'user' => $item['user'],
                 'title' => str_replace( $item['user'], '', $item['title']),
-                'body' => $item['body']
+                'body' => $item['body'],
+                'organization' => 648
             );
         }
 

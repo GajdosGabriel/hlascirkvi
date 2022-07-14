@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Favoritable;
+use App\Models\Organization;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,8 +17,8 @@ class Prayer extends Model
     protected $appends = ['favoritesCount', 'isFavorited'];
     protected $with = ['favorites'];
 
-    public function user() {
-        return $this->belongsTo(User::class);
+    public function organization() {
+        return $this->belongsTo(Organization::class);
     }
 
     public function comments() {
