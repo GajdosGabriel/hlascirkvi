@@ -52,7 +52,7 @@ class PrayerController extends Controller
             (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
 
-        $prayer = auth()->user()->prayers()->create($request->all());
+        $prayer = auth()->user()->organization->prayers()->create($request->all());
 
         Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
     }

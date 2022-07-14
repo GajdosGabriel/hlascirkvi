@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Prayer;
 use App\Models\Favoritable;
 use Illuminate\Support\Str;
 use App\Services\PhoneSanitizer;
@@ -23,6 +24,11 @@ class Organization extends Model
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function prayers()
+    {
+        return $this->hasMany(Prayer::class);
     }
 
     public function messengers()

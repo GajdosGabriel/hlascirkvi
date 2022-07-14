@@ -29,7 +29,7 @@
             </x-slot>
         </x-profil_menu>
 
-        <x-profil_menu :url="route('user.prayer.index', auth()->user()->id)">
+        <x-profil_menu :url="route('organization.prayer.index', auth()->user()->org_id)">
             <x-slot name="title">
                 <i class="fas fa-praying-hands mr-2 ml-8"></i>
                 Modlitby

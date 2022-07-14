@@ -1,5 +1,6 @@
 <?php
 
+
 Auth::routes();
 
 Route::get('/', 'PostController@index')->name('posts.index');
@@ -42,7 +43,7 @@ Route::middleware(['auth', 'checkBanned'])->group(function () {
         'organization.seminar'  => OrganizationSeminarController::class,
         'organization.post'     => OrganizationPostController::class,
         'organization.event'    => OrganizationEventController::class,
-        'user.prayer'           => UserPrayerController::class,
+        'organization.prayer'   => OrganizationPrayerController::class,
         'profile'               => ProfileController::class,
         'user.organization'     => UserOrganizationController::class,
         'post.think'            => PostThingController::class,

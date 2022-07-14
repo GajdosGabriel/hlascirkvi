@@ -10,7 +10,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <a class="btn btn-default" href="{{ route('user.prayer.create', auth()->user()->id) }}">
+            <a class="btn btn-default" href="{{ route('organization.prayer.create', auth()->user()->org_id) }}">
                 Nová modlitba
             </a>
         </x-slot>
@@ -22,11 +22,11 @@
                         <div class="flex justify-between">
                             <div>{{ $prayer->title }}</div>
                             <div class="flex space-x-1 items-center">
-                                <a href="{{ route('user.prayer.edit', [$prayer->user->id, $prayer->id]) }}"
+                                <a href="{{ route('organization.prayer.edit', [$prayer->organization->id, $prayer->id]) }}"
                                     class="text-sm hover:text-gray-600 hover:bg-gray-100 px-2 rounded-md">Upraviť
                                 </a>
 
-                                <form action="{{ route('user.prayer.destroy', [$prayer->user->id, $prayer->id]) }}"
+                                <form action="{{ route('organization.prayer.destroy', [$prayer->organization->id, $prayer->id]) }}"
                                     method="post">
                                     @method('DELETE') @csrf
                                     <button
