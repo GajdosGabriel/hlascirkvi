@@ -17,7 +17,8 @@ class PrayerResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'user_id' => $this->user_id,
+            'organization_id' => $this->organization_id,
+            'organization_title' => $this->when( auth()->user()->hasRole(['superadmin']), $this->organization->title),
             'user_name' => $this->user_name,
             'body' => $this->body,
             'favoritesCount' => $this->favoritesCount,

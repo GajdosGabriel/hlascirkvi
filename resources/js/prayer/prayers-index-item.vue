@@ -14,31 +14,36 @@
         <div @click="passToModalShow">
             <div class="flex flex-col mb-4">
                 <div class="flex justify-between">
-                    <div class="flex">
-                        <span class="font-semibold mr-2"
-                            >{{ prayer.user_name }}
-                        </span>
+                    <div class="flex justify-between w-full">
+                        <div class="flex">
+                            <span class="font-semibold mr-2"
+                                >{{ prayer.user_name }}
+                            </span>
 
-                        <span class="text-sm flex items-center">
-                            <svg
-                                class="h-4 w-4 mr-1 text-gray-500 fill-current"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                    clip-rule="evenodd"
-                                />
-                            </svg>
-                            dňa: {{ prayer.created_at | dateTime }} hod.
-                        </span>
+                            <span class="text-sm flex items-center">
+                                <svg
+                                    class="h-4 w-4 mr-1 text-gray-500 fill-current"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                                dňa: {{ prayer.created_at | dateTime }} hod.
+                            </span>
+                        </div>
+                        <div>
+                           <span class="text-sm">{{ prayer.organization_title }}</span>
+                        </div>
                     </div>
                     <!-- Nav menu-->
                     <div
                         class="relative"
-                        v-if="authUser && authUser.id == prayer.user_id"
+                        v-if="authUser && authUser.id == prayer.organization_id"
                     >
                         <div
                             class="h-7 w-7 bg-gray-200 rounded-full"
