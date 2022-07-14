@@ -70,7 +70,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('tkkbs:extract')->hourly();
         $schedule->command('vyveska:extract')->hourly();
         $schedule->command('prayer:zdruzenieMedaily')->hourly();
-        $schedule->command('prayer:mojaKomunita')->hourlyAt(45);
+        $schedule->command('prayer:sluzobniceDuchaSvateho')->hourly();
+        // Dočasné vypnuté lebo sa opakuje
+        // $schedule->command('prayer:mojaKomunita')->hourlyAt(45);
         
         $schedule->command('youtube:comments')->hourlyAt(17);
 

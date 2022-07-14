@@ -30,6 +30,7 @@ use App\Services\Extractor\ExtractVyveska;
 use App\Repositories\Contracts\UserRepository;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
+use App\Services\Extractor\ExtractSluzobniceDuchaSvateho;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
@@ -46,8 +47,8 @@ class TestController extends Controller
     public function newsletter()
     {
 
-        // $organizations = (new EloquentOrganizationRepository())->getYoutubeVideos();
-        // dd($organizations);
+        $organizations = (new ExtractSluzobniceDuchaSvateho())->parseListUrl();
+        dd($organizations);
 
 
         

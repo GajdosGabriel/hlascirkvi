@@ -1,8 +1,9 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title> @endsection
+@section('title')
+    <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title>
+@endsection
 
 @section('content')
-
     <x-pages.admin>
 
         <x-slot name="title">
@@ -26,7 +27,8 @@
                                     class="text-sm hover:text-gray-600 hover:bg-gray-100 px-2 rounded-md">Upraviť
                                 </a>
 
-                                <form action="{{ route('organization.prayer.destroy', [$prayer->organization->id, $prayer->id]) }}"
+                                <form
+                                    action="{{ route('organization.prayer.destroy', [$prayer->organization->id, $prayer->id]) }}"
                                     method="post">
                                     @method('DELETE') @csrf
                                     <button
@@ -46,8 +48,10 @@
                     </li>
                 @endforeach
             </ul>
+
+            <div class="md:block my-8">
+                {{ $prayers->onEachSide(1)->links() }}
             </div>
         </x-slot>
     </x-pages.admin>
-
 @endsection
