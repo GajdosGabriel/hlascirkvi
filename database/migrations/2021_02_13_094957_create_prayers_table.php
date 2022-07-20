@@ -17,7 +17,7 @@ class CreatePrayersTable extends Migration
 
             $table->bigIncrements('id');
             $table->string('title')->nullable();
-            $table->integer('user_id');
+            $table->integer('organization_id');
             $table->string('user_name')->nullable();
             $table->text('body');
             $table->timestamp('fulfilled_at')->nullable();

@@ -13,6 +13,7 @@ use App\Models\Event;
 use App\Models\Prayer;
 use App\Models\Comment;
 use App\Services\Buffer;
+use App\Models\FirstName;
 use App\Models\Messenger;
 use App\Mail\PostNewsletter;
 use App\Models\Organization;
@@ -30,9 +31,9 @@ use App\Services\Extractor\ExtractVyveska;
 use App\Repositories\Contracts\UserRepository;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
-use App\Services\Extractor\ExtractSluzobniceDuchaSvateho;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
+use App\Services\Extractor\ExtractSluzobniceDuchaSvateho;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
 
 class TestController extends Controller
@@ -46,6 +47,8 @@ class TestController extends Controller
 
     public function newsletter()
     {
+        $name = FirstName::whereId(1)->first();
+        dd(FirstName::orderBy('count', 'asc')->whereId(rand(1, 1000))->first()->name);
 
         $organizations = (new ExtractSluzobniceDuchaSvateho())->parseListUrl();
         dd($organizations);

@@ -8,7 +8,7 @@
 
 namespace App\Services\Extractor;
 
-
+use App\Models\FirstName;
 use App\Services\Extractor\Extractors;
 use App\Services\Form;
 use DOMDocument;
@@ -52,7 +52,7 @@ class ExtractSluzobniceDuchaSvateho extends Extractors
             //Add the link to our $extractedLinks array.
             $extractedBody[] = array(
                 'body' => trim(preg_replace('/\t/', '', $linkText)),
-                'user' => 'Bohu známa',
+                'user' => $this->getRandomName(),
                 'title' => 'Prosba o modlitbu',
                 'organization' => 650
             );
@@ -62,6 +62,11 @@ class ExtractSluzobniceDuchaSvateho extends Extractors
     // dd($extractedBody);
 
        $this->createPrayer($extractedBody);
+    }
+
+
+    public function getRandomName(){
+       return FirstName::orderBy('count', 'asc')->whereId(rand(1, 1000))->first()->name;
     }
 
 
