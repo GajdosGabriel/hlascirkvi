@@ -23,7 +23,7 @@ class Unpublished extends Component
      */
     public function render()
     {
-        return view('components.buttons.unpublished');
+        return view('components.buttons.button');
     }
 
     public function showComponent()

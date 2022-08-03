@@ -53,10 +53,6 @@ abstract class Extractors
             // Remove extra spaces but not space between two words
             $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
 
-            // Preskočiť dočasne potulky Ecav
-            if ($title = str_contains($title, 'POTULKY')) {
-                continue;
-            }
 
             // Remove extra spaces but not space between two words "a&nbsp;"
             $title = preg_replace('/\xc2\xa0/', ' ', $title);

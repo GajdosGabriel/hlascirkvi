@@ -47,6 +47,23 @@ class TestController extends Controller
 
     public function newsletter()
     {
+
+                 $xx =   (new ExtractTkkbs())->parseListUrl();
+          dd($xx);
+
+
+        // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
+        $href = 'https://www.tkkbs.sk/view.php?cisloclanku=20211202023';
+        $event = Event::first();
+        // dd($event);
+
+        //    $events = (new ExtractVyveska())->parseListUrl();
+        $events = (new ExtractTkkbs())->parseListUrl();
+
+        dd($events);
+
+
+
         $name = FirstName::whereId(1)->first();
         dd(FirstName::orderBy('count', 'asc')->whereId(rand(1, 1000))->first()->name);
 
@@ -54,21 +71,21 @@ class TestController extends Controller
         dd($organizations);
 
 
-        
 
-//         $this->organizations = new EloquentOrganizationRepository;
 
-// dd($this->organizations->getYoutubeVideos());
-        
+        //         $this->organizations = new EloquentOrganizationRepository;
+
+        // dd($this->organizations->getYoutubeVideos());
+
         $organization = Organization::find(257);
 
 
         $filter = new VideoUploadFilter($organization, 'Bohoslužba Banská Bystrica');
 
 
-if( $filter->wordsChecker() ){
-    echo "som tu";
-};
+        if ($filter->wordsChecker()) {
+            echo "som tu";
+        };
 
 
 
@@ -227,8 +244,7 @@ if( $filter->wordsChecker() ){
 
 
 
-        //   $xx =   (new ExtractEcav())->parseListUrl();
-        //   dd($xx);
+ 
 
         $url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=relate";
         parse_str(parse_url($url, PHP_URL_QUERY), $my_array_of_vars);

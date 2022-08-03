@@ -66,7 +66,8 @@ class Kernel extends ConsoleKernel
 
         //  $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
 
-        $schedule->command('ecav:extract')->hourly();
+        // Nevyriešenei kodovanie a preto dupľuje záznamy
+        // $schedule->command('ecav:extract')->hourly();
         $schedule->command('tkkbs:extract')->hourly();
         $schedule->command('vyveska:extract')->hourly();
         $schedule->command('prayer:zdruzenieMedaily')->hourly();
