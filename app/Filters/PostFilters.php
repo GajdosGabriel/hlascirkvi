@@ -15,7 +15,7 @@ use CyrildeWit\EloquentViewable\Support\Period;
 class PostFilters extends Filters
 {
 
-    protected $filters = ['mostVisited' , 'recomended' , 'first' , 'latestComments', 'trends', 'search', 'unpublished'];
+    protected $filters = ['mostVisited' , 'recomended' , 'first' , 'latestComments', 'trends', 'search', 'unpublished', 'deletedAt'];
 
 
     public function recomended()
@@ -41,6 +41,11 @@ class PostFilters extends Filters
     public function unpublished()
     {
          return $this->builder->whereNull('published');
+    }
+
+    public function deletedAt()
+    {
+         return $this->builder->onlyTrashed();
     }
 
     public function search()

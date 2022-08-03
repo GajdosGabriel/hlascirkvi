@@ -4,7 +4,7 @@ namespace App\View\Components\Filters;
 
 use Illuminate\View\Component;
 
-class Unpublished extends Component
+class DeletedAt extends Component
 {
     /**
      * Create a new component instance.
@@ -30,29 +30,28 @@ class Unpublished extends Component
     {
         // Povolené route names.
        $routeName = array(
-            'admin.organizations.index',
+            'admin.prayers.index',
+            'admin.comments.index',
             'admin.events.index',
             'admin.posts.index',
-            'admin.comments.index',
-            'user.organization.index',
-            'organization.post.index',
-            'organization.event.index',
+            'admin.organizations.index',
+            'admin.users.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }
 
     public function name()
     {
-        return 'Nepublikované';
+        return 'Vymazané';
     }
 
     public function url()
     {
-        return '?unpublished=true';
+        return '?deletedAt=true';
     }
 
     public function type()
     {
-        return 'unpublished';
+        return 'deletedAt';
     }
 }
