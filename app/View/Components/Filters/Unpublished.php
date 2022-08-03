@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Buttons;
+namespace App\View\Components\Filters;
 
 use Illuminate\View\Component;
 
@@ -23,7 +23,7 @@ class Unpublished extends Component
      */
     public function render()
     {
-        return view('components.buttons.button');
+        return view('components.filters.button');
     }
 
     public function showComponent()
