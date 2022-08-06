@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 class PrayerFilters extends Filters
 {
-    protected $filters = ['search', 'fulfilled'];
+    protected $filters = ['search', 'fulfilled', 'deletedAt'];
 
     public function search()
     {
@@ -27,6 +27,11 @@ class PrayerFilters extends Filters
     public function fulfilled()
     {
          return $this->builder->whereNotNull('fulfilled_at');
+    }
+
+    public function deletedAt()
+    {
+         return $this->builder->onlyTrashed();
     }
 
 }

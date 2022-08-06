@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 class EventFilters extends Filters
 {
-    protected $filters = ['location', 'search', 'finished', 'unpublished', 'organization'];
+    protected $filters = ['location', 'search', 'finished', 'unpublished', 'organization', 'deletedAt'];
 
     public function location($value)
     {
@@ -40,6 +40,11 @@ class EventFilters extends Filters
     public function organization($value)
     {
        return $this->builder->where('organization_id', $value);
+    }
+
+    public function deletedAt()
+    {
+         return $this->builder->onlyTrashed();
     }
 
     public function search()

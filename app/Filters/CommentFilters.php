@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 class CommentFilters extends Filters
 {
-    protected $filters = ['search', 'unpublished'];
+    protected $filters = ['search', 'unpublished', 'deletedAt'];
 
     public function search()
     {
@@ -27,6 +27,11 @@ class CommentFilters extends Filters
     public function unpublished($value)
     {
         $this->builder->where('published', 0);
+    }
+
+    public function deletedAt()
+    {
+         return $this->builder->onlyTrashed();
     }
 
 }

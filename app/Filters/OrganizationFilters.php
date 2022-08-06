@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 class OrganizationFilters extends Filters
 {
-    protected $filters = ['search', 'unpublished'];
+    protected $filters = ['search', 'unpublished', 'deletedAt'];
 
     public function search()
     {
@@ -30,6 +30,11 @@ class OrganizationFilters extends Filters
     public function unpublished()
     {
          return $this->builder->wherePublished(0);
+    }
+
+    public function deletedAt()
+    {
+         return $this->builder->onlyTrashed();
     }
 
 

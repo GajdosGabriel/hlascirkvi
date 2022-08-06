@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 class UserFilters extends Filters
 {
-    protected $filters = ['search', 'banned'];
+    protected $filters = ['search', 'banned', 'deletedAt'];
 
     public function search()
     {
@@ -30,5 +30,10 @@ class UserFilters extends Filters
 
     public function banned(){
         return $this->builder->whereDisabled(1);
+    }
+
+    public function deletedAt()
+    {
+         return $this->builder->onlyTrashed();
     }
 }
