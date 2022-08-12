@@ -51,6 +51,7 @@ class OrganizationPostController extends Controller
     public function destroy(Organization $organization, Post $post)
     {
         $this->authorize('update', $post);
+        $post->comments()->delete();
         $post->delete();
         // return redirect('/')->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
     }
