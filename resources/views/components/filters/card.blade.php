@@ -5,8 +5,6 @@
             <x-filters.unpublished></x-filters.unpublished>
             <x-filters.banned></x-filters.banned>
             <x-filters.fulfilled></x-filters.fulfilled>
-            <x-filters.deletedAt></x-filters.deletedAt>
-            <x-filters.videoAvailable></x-filters.videoAvailable>
         </div>
 
         <div>
