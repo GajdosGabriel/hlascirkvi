@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function index(UserFilters $filters)
     {
-        return view('admins.users.index', ['users' => User::latest()->filter($filters)->paginate(50)]);
+        return view('admins.users.index', ['users' => User::latest()->filter($filters)->paginate(50)->withQueryString()]);
     }
 
     public function edit(User $user)

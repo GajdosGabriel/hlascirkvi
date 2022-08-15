@@ -18,7 +18,7 @@ class PostController extends Controller
 
     public function index(PostFilters $filters)
     {
-        $posts = Post::filter($filters)->paginate(100);
+        $posts = Post::filter($filters)->paginate(40)->withQueryString();
         
         return view('admins.posts.index', compact('posts'));
     }

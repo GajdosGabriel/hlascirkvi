@@ -16,7 +16,7 @@ class PrayerController extends Controller
 
     public function index(PrayerFilters $filters)
     {
-        $prayers = Prayer::orderBy('created_at', 'desc')->filter($filters)->paginate(30);
+        $prayers = Prayer::orderBy('created_at', 'desc')->filter($filters)->paginate(30)->withQueryString();
         return view('admins.prayers.index',  compact('prayers'));
     }
 }

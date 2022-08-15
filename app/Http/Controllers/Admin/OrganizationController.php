@@ -15,6 +15,6 @@ class OrganizationController extends Controller
     }
     public function index(OrganizationFilters $filters)
     {
-        return view('admins.organizations.index', ['organizations' => Organization::latest()->filter($filters)->paginate(50)]);
+        return view('admins.organizations.index', ['organizations' => Organization::latest()->filter($filters)->paginate(50)->withQueryString()]);
     }
 }
