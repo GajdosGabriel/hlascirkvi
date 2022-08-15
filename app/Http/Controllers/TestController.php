@@ -47,6 +47,9 @@ class TestController extends Controller
 
     public function newsletter()
     {
+       dd( Post::whereVideoAvailable(0)->get()->count() );
+
+
 
                  $xx =   (new ExtractTkkbs())->parseListUrl();
           dd($xx);
