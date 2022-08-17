@@ -26,10 +26,10 @@ class ExtractYoutubeComment
     public function getPosts()
     {
         return (new EloquentPostRepository)->postsByUpdater(15)->where('video_id', '<>', null)
-            ->where('created_at', '<=', Carbon::now()->subWeek(2))
+            // ->where('created_at', '<=', Carbon::now()->subWeek(2))
             ->whereVideoDuration(null)
             ->whereVideoAvailable(null)
-            ->take(2) // Počet príspevkov kontroly commentárov. Pôvodne jednorázovo bolo 10.
+            ->take(1) // Počet príspevkov kontroly commentárov. Pôvodne jednorázovo bolo 10.
             ->latest()->get();
     }
 
