@@ -7,6 +7,12 @@
             </div>
         @endif
 
+        @if ($post->video_duration())
+            <div class="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-sm text-xs text-gray-200">
+                {{ $post->video_duration() }}
+            </div>
+        @endif
+
         @if ($post->comments()->count())
             <div class="absolute bottom-0 left-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200 flex">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Storage;
+use DateInterval;
 use Carbon\Carbon;
 use App\Models\Favoritable;
 use Illuminate\Support\Str;
@@ -178,5 +179,16 @@ class Post extends Model implements Viewable
     public function getEventsBelongsToOrganizationAttribute()
     {
         return $this->organization->events()->wherePublished(1)->where('start_at', '>', Carbon::now())->orderBy('start_at', 'asc')->paginate(10);
+    }
+
+    public function video_duration()
+    {
+        if ($this->video_duration) {
+            $duration = new DateInterval($this->video_duration);
+            // return $duration->h;
+            return "{$duration->i}:{$duration->s}";
+        }
+
+        return false;
     }
 }
