@@ -6,6 +6,9 @@ use Storage;
 use DateInterval;
 use Carbon\Carbon;
 use App\Models\Favoritable;
+use App\Traits\HasComments;
+use App\Traits\HasImages;
+use App\Traits\HasOrganization;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -17,7 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model implements Viewable
 {
-    use Favoritable, HasFactory, Notifiable, SoftDeletes, InteractsWithViews;
+    use Favoritable, HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasComments, HasImages, HasOrganization;
 
     protected $guarded = [];
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
@@ -39,11 +42,6 @@ class Post extends Model implements Viewable
         return "/post/{$this->id}/{$this->slug}";
     }
 
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
-    }
-
     public function bigThinks()
     {
         return $this->hasMany(BigThink::class);
@@ -62,16 +60,6 @@ class Post extends Model implements Viewable
     public function updaters()
     {
         return $this->belongsToMany(Updater::class);
-    }
-
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable')->with('user');
-    }
-
-    public function images()
-    {
-        return $this->morphMany(Image::class, 'fileable');
     }
 
     public function addComment($comment)

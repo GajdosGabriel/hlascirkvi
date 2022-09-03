@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasOrganization;
 use Illuminate\Database\Eloquent\Model;
 
 class BigThink extends Model
 {
+    use HasOrganization;
+    
     protected $guarded = [];
 
 
@@ -13,7 +16,4 @@ class BigThink extends Model
         return $this->belongsTo(Post::class);
     }
 
-    public function organization() {
-        return $this->belongsTo(Organization::class);
-    }
 }

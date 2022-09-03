@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Favoritable;
+use App\Traits\HasComments;
+use App\Traits\HasImages;
+use App\Traits\HasOrganization;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model implements Viewable
 {
-    use Favoritable, SoftDeletes, InteractsWithViews, HasFactory;
+    use Favoritable, SoftDeletes, InteractsWithViews, HasFactory, HasComments, HasImages, HasOrganization;
     protected $guarded = [];
     protected $appends = ['url'];
 
@@ -32,10 +35,6 @@ class Event extends Model implements Viewable
         return $filters->apply($query);
     }
 
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
-    }
 
     public function village()
     {
@@ -45,17 +44,6 @@ class Event extends Model implements Viewable
     public function subscribes()
     {
         return $this->hasMany(EventSubscribe::class);
-    }
-
-
-    public function images()
-    {
-        return $this->morphMany(Image::class, 'fileable');
-    }
-
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable')->with('user');
     }
 
 

@@ -6,6 +6,7 @@ use App\Models\Prayer;
 use App\Models\Favoritable;
 use Illuminate\Support\Str;
 use App\Services\PhoneSanitizer;
+use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
-    use Favoritable, Notifiable, SoftDeletes, HasFactory;
+    use Favoritable, Notifiable, SoftDeletes, HasFactory, HasImages;
     protected $guarded = [];
 
 
@@ -62,12 +63,6 @@ class Organization extends Model
         return $this->hasMany(Seminar::class);
     }
 
-
-    public function images()
-    {
-        return $this->morphMany(Image::class, 'fileable');
-    }
-
     public function bigThings()
     {
         return $this->hasMany(BigThink::class);
@@ -105,7 +100,7 @@ class Organization extends Model
     public function getInitialNameAttribute()
     {
         $acronym = '';
-        foreach(explode(' ', $this->title) as $word) $acronym .= mb_substr($word, 0, 1, 'utf-8');
+        foreach (explode(' ', $this->title) as $word) $acronym .= mb_substr($word, 0, 1, 'utf-8');
         return $acronym;
     }
 }

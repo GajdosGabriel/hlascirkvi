@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasOrganization;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Seminar extends Model
 {
-    use  SoftDeletes, HasFactory;
+    use  SoftDeletes, HasFactory, HasOrganization;
     protected $guarded = [];
     // public $timestamps = false;
 
@@ -17,11 +18,6 @@ class Seminar extends Model
 
     public function posts() {
         return $this->belongsToMany(Post::class);
-    }
-
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
     }
 
 

@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasOrganization;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EventSubscribe extends Model
 {
-    use  SoftDeletes;
+    use  SoftDeletes, HasOrganization;
     protected $guarded = [];
 
-    public function organization(){
-        return $this->belongsTo(Organization::class);
-    }
+
 }

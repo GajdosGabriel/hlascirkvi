@@ -2,21 +2,16 @@
 
 namespace App\Models;
 
-
+use App\Traits\HasOrganization;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
 class Messenger extends Model
 {
-    use Notifiable;
+    use Notifiable, HasOrganization;
 
     protected $guarded =[];
 
-
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
-    }
 
     public function senderUser()
     {
