@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use Storage;
+
 use DateInterval;
 use Carbon\Carbon;
-use App\Models\Favoritable;
+use App\Traits\HasBigThink;
 use App\Traits\HasComments;
+
+use App\Traits\HasFavorites;
 use App\Traits\HasImages;
 use App\Traits\HasOrganization;
 use Illuminate\Support\Str;
@@ -20,7 +22,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model implements Viewable
 {
-    use Favoritable, HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasComments, HasImages, HasOrganization;
+    use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink;
 
     protected $guarded = [];
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
@@ -42,11 +44,6 @@ class Post extends Model implements Viewable
         return "/post/{$this->id}/{$this->slug}";
     }
 
-    public function bigThinks()
-    {
-        return $this->hasMany(BigThink::class);
-    }
-
     public function tags()
     {
         return $this->hasMany(Tag::class);
@@ -61,30 +58,6 @@ class Post extends Model implements Viewable
     {
         return $this->belongsToMany(Updater::class);
     }
-
-    public function addComment($comment)
-    {
-        if (auth()->check()) {
-            $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->id()]));
-            return $comment;
-        }
-        // user_id 100 in unknowle user for anonyms comments
-        $comment = $this->comments()->create(array_merge($comment, ['user_id' => 100]));
-        $comment->delete();
-
-        return $comment;
-    }
-
-    public function addBigThink($comment)
-    {
-        if (auth()->user()) {
-            $idUser = auth()->user()->organizations()->wherePerson(1)->first()->id;
-        } else {
-            $idUser =  1;
-        }
-        return $this->bigThinks()->create(array_merge($comment, ['organization_id' => $idUser]));
-    }
-
 
     /**
      * @return bool|string
@@ -103,23 +76,6 @@ class Post extends Model implements Viewable
     {
         $this->attributes['title'] = cleanTitle(ucfirst($value));
         $this->attributes['slug']  = Str::slug($value);
-    }
-
-    public function destroyImages()
-    {
-
-        if ($this->images()->exists()) {
-
-            foreach ($this->images as $image) {
-                // delete big img
-                Storage::delete('public/' . $image->url);
-
-                // delete small img
-                Storage::delete('public/' . $image->thumb);
-
-                $image->delete();
-            }
-        }
     }
 
 
@@ -150,19 +106,7 @@ class Post extends Model implements Viewable
         return $this->updaters()->exists();
     }
 
-    public function getThumbImageAttribute()
-    {
-        $image = $this->images->first();
-        if ($image) {
-            return url($image->ThumbImageUrl);
-        }
-
-        if ($this->organization->avatar) {
-            return Storage::url('organizations/' . $this->organization->id . '/' . $this->organization->avatar);
-        }
-
-        return url('images/foto.jpg');
-    }
+    
 
     public function getEventsBelongsToOrganizationAttribute()
     {

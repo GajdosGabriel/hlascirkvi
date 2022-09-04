@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\Prayer;
-use App\Models\Favoritable;
 use Illuminate\Support\Str;
 use App\Services\PhoneSanitizer;
+use App\Traits\HasFavorites;
 use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
-    use Favoritable, Notifiable, SoftDeletes, HasFactory, HasImages;
+    use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages;
     protected $guarded = [];
 
 

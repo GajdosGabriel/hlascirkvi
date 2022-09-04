@@ -11,5 +11,18 @@ trait HasComments
     {
         return $this->morphMany(Comment::class, 'commentable')->with('user');
     }
+
+    public function addComment($comment)
+    {
+        if (auth()->check()) {
+            $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->id()]));
+            return $comment;
+        }
+        // user_id 100 in unknowle user for anonyms comments
+        $comment = $this->comments()->create(array_merge($comment, ['user_id' => 100]));
+        $comment->delete();
+
+        return $comment;
+    }
     
 }
