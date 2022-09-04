@@ -10,7 +10,7 @@ use App\Filters\PostFilters;
 use App\Services\CreditUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Events\Posts\ViewCounter;
+use App\Events\VisitModel;
 use Illuminate\Support\Facades\Input;
 use App\Repositories\Eloquent\EloquentPostRepository;
 
@@ -48,7 +48,7 @@ class PostController extends Controller
 //                session()->forget('postsHistory');
 //        dd(\Session::get('postsHistory'));
 
-        event(new ViewCounter($post));
+        event(new VisitModel ($post));
 
         $posts = $this->post->postsBelongToOrganization($post->organization_id);
         // $questions = (new Messenger)->scopeUserMessages($post->organization_id);

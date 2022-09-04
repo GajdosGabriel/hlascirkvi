@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Events\Posts;
+namespace App\Events;
 
-use App\Models\Post;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
-class ViewCounter
+class VisitModel
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $model;
-
     /**
-     * Create the event listener.
+     * Create a new event instance.
      *
      * @return void
      */
@@ -26,7 +24,6 @@ class ViewCounter
     {
         $this->model = $model;
     }
-
 
     /**
      * Get the channels the event should broadcast on.

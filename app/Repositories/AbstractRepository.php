@@ -9,7 +9,7 @@
 namespace App\Repositories;
 
 
-use App\Events\Posts\ViewCounter;
+
 use App\Repositories\Contracts\InterfaceRepository;
 use App\Repositories\Criteria\CriteriaInterface;
 
@@ -32,8 +32,6 @@ abstract class AbstractRepository implements InterfaceRepository, CriteriaInterf
     public function find($id)
     {
         $post = $this->entity->findOrFail($id);
-
-//        event(new ViewCounter($post));
 
         return $post;
     }

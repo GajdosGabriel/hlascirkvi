@@ -7,9 +7,9 @@ use App\Models\User;
 use App\Models\Event;
 use App\Models\Image;
 use App\Services\Form;
+use App\Events\VisitModel;
 use Illuminate\Http\Request;
 use App\Filters\EventFilters;
-use App\Events\Posts\ViewCounter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,7 +37,7 @@ class EventController extends Controller
     {
         $event = $this->event->find($event);
 
-        event(new ViewCounter($event));
+        event(new VisitModel ($event));
 
         $commentsLook = $event->comments()->where('type', 'look')->get();
         //        $commentsLook = $event->comments()->where('type', 'look')->get();
