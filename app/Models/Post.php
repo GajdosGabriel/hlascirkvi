@@ -3,11 +3,11 @@
 namespace App\Models;
 
 
-use DateInterval;
+use App\Casts\DateTimeHuman;
+use App\Casts\VideoDuration;
 use Carbon\Carbon;
 use App\Traits\HasBigThink;
 use App\Traits\HasComments;
-
 use App\Traits\HasFavorites;
 use App\Traits\HasImages;
 use App\Traits\HasOrganization;
@@ -28,7 +28,13 @@ class Post extends Model implements Viewable
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['favorites', 'images', 'organization'];
-    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'createdAtHuman', 'hasUpdater'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'hasUpdater'];
+
+    protected $casts = [
+        'video_duration' => VideoDuration::class,
+        // 'created_at' => DateTimeHuman::class
+    ];
+
 
     protected static function boot()
     {
@@ -113,14 +119,4 @@ class Post extends Model implements Viewable
         return $this->organization->events()->wherePublished(1)->where('start_at', '>', Carbon::now())->orderBy('start_at', 'asc')->paginate(10);
     }
 
-    public function video_duration()
-    {
-        if ($this->video_duration) {
-            $duration = new DateInterval($this->video_duration);
-            // return $duration->h;
-            return "{$duration->i}:{$duration->s}";
-        }
-
-        return false;
-    }
 }

@@ -7,9 +7,9 @@
             </div>
         @endif
 
-        @if ($post->video_duration())
+        @if ($post->video_duration)
             <div class="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-sm text-xs text-gray-200">
-                {{ $post->video_duration() }}
+                {{ $post->video_duration }}
             </div>
         @endif
 
@@ -37,7 +37,7 @@
         <a href="{{ route('organizations.show', [$post->organization->id]) }}">
             {{ $post->organization->title }}
         </a>
-        <time datetime="{{ $post->created_at }}">{{ $post->createdAtHuman }}</time>
+        <time datetime="{{ $post->created_at }}">{{ $post->createdAt }}</time>
     </div>
 
 </div>
