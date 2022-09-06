@@ -9,9 +9,16 @@
 
         <x-slot name="title_right">
 
-            <h2 class="page_title">Pridať kanál</h2>
+            {{-- <h2 class="page_title">Pridať kanál</h2> --}}
 
-            @include('tags.form')
+            {{-- <form action="{{ route('admin.updater.organization.store', [$updater->id, $tag->id]) }}" method="POST" --}}
+                {{-- class="flex justify-between border-b-2 hover:bg-gray-50 border-dashed p-2"> --}}
+                @csrf @method('POST')
+                <x-organization.select-input />
+                <div>
+                    <button class="btn btn-primary">Uložiť</button>
+                </div>
+            {{-- </form> --}}
 
         </x-slot>
 
@@ -26,7 +33,7 @@
                     <div class="font-semibold text-lg">{{ $tag->title }}</div>
 
 
-                    <button class="cursor-pointer ">X</button>
+                    <button class="cursor-pointer px-2 hover:bg-gray-500 rounded-full hover:text-gray-200 ">X</button>
 
 
                     {{-- @can('update', $tag)
