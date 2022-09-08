@@ -18,7 +18,7 @@ class DateTimeHuman implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return \Carbon\Carbon::parse($value->diffForHumans());
+        return Carbon::parse($value)->diffForHumans();
     }
 
     /**
