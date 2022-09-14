@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Listeners\Posts;
+namespace App\Listeners;
 
-use App\Events\Posts\ViewCounter;
-use App\Notifications\User\CountView;
+
+use App\Events\VisitModel;
 use App\Services\SessionService;
+use App\Notifications\User\CountView;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -28,7 +29,7 @@ class ViewCounterListener
      * @param  ViewCounter  $event
      * @return void
      */
-    public function handle(ViewCounter $event)
+    public function handle(VisitModel $event)
     {
         $event->model->increment('count_view');
 

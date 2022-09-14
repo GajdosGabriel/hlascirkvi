@@ -19,6 +19,12 @@ class UpdaterOrganizationController extends Controller
         return view('admins.updater.updater_organizations', compact('updater'));
     }
 
+    public function store(Updater $updater, Organization $organization)
+    {
+        $organization->updaters()->attach($updater->id);
+        return back();
+    }
+
     public function destroy(Updater $updater, Organization $organization)
     {
         $organization->updaters()->detach($updater->id);

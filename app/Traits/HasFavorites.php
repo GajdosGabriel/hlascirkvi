@@ -6,12 +6,13 @@
  * Time: 19:40
  */
 
-namespace App\Models;
+namespace App\Traits;
 
+use App\Models\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Notification;
 
-trait Favoritable
+trait HasFavorites
 {
 
     /**

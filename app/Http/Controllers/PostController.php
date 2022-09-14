@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 
 use Youtube;
 use App\Models\Post;
-use Notification;
 use App\Filters\PostFilters;
 use App\Services\CreditUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Events\Posts\ViewCounter;
-use Illuminate\Support\Facades\Input;
-use App\Repositories\Eloquent\EloquentPostRepository;
+use App\Events\VisitModel;
+use App\Repositories\Contracts\PostRepository;
+
+
 
 
 
@@ -20,10 +20,10 @@ use App\Repositories\Eloquent\EloquentPostRepository;
 class PostController extends Controller
 {
 
-    public function __construct()
+    public function __construct(PostRepository $postRepository)
     {
-        $this->post = new EloquentPostRepository;
-        $this->middleware('auth')->except('index', 'show' , 'showVideo');
+        $this->post = $postRepository;
+        $this->middleware('auth')->except('index', 'show', 'showVideo');
     }
 
     public function index(PostFilters $filters)
@@ -38,17 +38,17 @@ class PostController extends Controller
     public function show(Post $post, $slug, CreditUser $creditUser)
     {
         // Kanál(organization) nie je publikovaný a tým aj posts nie je možné zobrazovať.
-        if(! $post->organization->published){
+        if (!$post->organization->published) {
             abort(403, "Kanál {$post->organization->title} je vypnutý!");
         }
 
         $creditUser->setPostHistory($post);
 
-//        session()->push('postsHistory',  $post );
-//                session()->forget('postsHistory');
-//        dd(\Session::get('postsHistory'));
+        //        session()->push('postsHistory',  $post );
+        //                session()->forget('postsHistory');
+        //        dd(\Session::get('postsHistory'));
 
-        event(new ViewCounter($post));
+        event(new VisitModel($post));
 
         $posts = $this->post->postsBelongToOrganization($post->organization_id);
         // $questions = (new Messenger)->scopeUserMessages($post->organization_id);
@@ -56,9 +56,6 @@ class PostController extends Controller
 
         return view('posts.show', ['post' => $post])
             // ->with('messages' , $questions ?? null)
-            ->with('posts' , $posts);
+            ->with('posts', $posts);
     }
-
-
-
 }

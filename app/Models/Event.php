@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Models\Favoritable;
+
 use App\Traits\HasComments;
+use App\Traits\HasFavorites;
 use App\Traits\HasImages;
 use App\Traits\HasOrganization;
 use Illuminate\Support\Str;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model implements Viewable
 {
-    use Favoritable, SoftDeletes, InteractsWithViews, HasFactory, HasComments, HasImages, HasOrganization;
+    use SoftDeletes, InteractsWithViews, HasFactory, HasFavorites, HasComments, HasImages, HasOrganization;
     protected $guarded = [];
     protected $appends = ['url'];
 
