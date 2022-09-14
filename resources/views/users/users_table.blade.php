@@ -19,8 +19,8 @@
     <tbody>
         @forelse($users as $user)
             <tr class="border-2 border-gray-300">
-                <td class="px-2">{{ $user->id }} </td>
-                <td class="px-2">
+                <td class="td">{{ $user->id }} </td>
+                <td class="td">
                     <div class="font-semibold">{{ $user->first_name }} {{ $user->last_name }}</div>
                 </td>
                 <td>{{ $user->email }}</td>
@@ -39,7 +39,7 @@
                 </td>
                 <td>{{ $user->set_denomination }}</td>
                 <td class="text-sm">{{ $user->created_at->diffForHumans() }}</td>
-                <td class="px-2">
+                <td class="td">
                     <a href="{{ route('admin.users.edit', [$user->id]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>
                     </a>

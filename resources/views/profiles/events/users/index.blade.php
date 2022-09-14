@@ -36,8 +36,8 @@
                 <tbody>
                     @forelse($event->subscribes as $subcription)
                         <tr class="border-2 border-gray-300">
-                            <td class="px-2 text-center">{{ $loop->iteration }}.</td>
-                            <td class="px-2 text-center">
+                            <td class="td text-center">{{ $loop->iteration }}.</td>
+                            <td class="td text-center">
                                 <a href="{{ route('event.show', [$event->id, $event->slug]) }}" target="_blank" class="hover:underline ">
                                 {{ $event->id }}
                             </a>

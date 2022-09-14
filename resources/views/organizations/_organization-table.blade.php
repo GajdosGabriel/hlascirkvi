@@ -18,7 +18,7 @@
             <tr
                 class="border-2 border-gray-300  hover:bg-gray-100
         @if ($organization->id == auth()->user()->org_id) bg-gray-300 @endif ">
-                <td class="px-2">{{ $organization->id }}</td>
+                <td class="td">{{ $organization->id }}</td>
                 <td class="">
                     <a href="{{ route('user.organization.show', [auth()->user()->id, $organization->id]) }}"
                         title="{{ $organization->title }}">
@@ -100,7 +100,7 @@
 
 
                 </td>
-                <td class="px-2">
+                <td class="td">
                     <a href="{{ route('user.organization.edit', [$user->id, $organization->id]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>
                     </a>
