@@ -73,15 +73,22 @@
                     @endforeach
                 </td>
                 <td>
-
-                    <form action="{{ route('admin.users.update', auth()->id()) }}" method="post">
-                        @method('PUT') @csrf
-                        <input type="hidden" name="org_id" value="{{ $organization->id }}" />
+                    @if ($organization->id != auth()->user()->org_id)
+                        <form action="{{ route('admin.users.update', auth()->id()) }}" method="post">
+                            @method('PUT') @csrf
+                            <input type="hidden" name="org_id" value="{{ $organization->id }}" />
+                            <button
+                                class="px-2 text-xs bg-blue-500 text-gray-100 rounded border-2 border-blue-700 hover:bg-blue-600">
+                                Prepnúť na kanál
+                            </button>
+                        </form>
+                    @else
                         <button
-                            class="px-2 text-xs bg-blue-500 text-gray-100 rounded border-2 border-blue-700 hover:bg-blue-600">
-                            Prepnúť na kanál
+                        disabled
+                            class="px-2 text-xs bg-green-500 text-gray-100 rounded border-2 border-green-700 hover:bg-green-600">
+                            Práve prihlásený
                         </button>
-                    </form>
+                    @endif
 
 
                     @if (!$organization->published)
