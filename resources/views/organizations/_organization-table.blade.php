@@ -86,7 +86,7 @@
                         <button
                         disabled
                             class="px-2 text-xs bg-green-500 text-gray-100 rounded border-2 border-green-700 hover:bg-green-600">
-                            Práve prihlásený
+                            Aktívne prihlásenie
                         </button>
                     @endif
 
