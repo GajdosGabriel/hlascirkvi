@@ -37,7 +37,7 @@
         <a href="{{ route('organizations.show', [$post->organization->id]) }}">
             {{ $post->organization->title }}
         </a>
-        <time datetime="{{ $post->created_at }}">{{ $post->createdAt }}</time>
+        <time datetime="{{ $post->created_at }}">{{ $post->created_at }}</time>
     </div>
 
 </div>
