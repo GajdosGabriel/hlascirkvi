@@ -9,67 +9,44 @@
         <form @submit.prevent="saveOrganization" v-if="showForm">
             <div class="form-group">
                 <label>Meno novej organizácie</label>
-                <input
-                    type="text"
-                    v-model="form.title"
-                    class="form-control"
-                    placeholder="Názov organizácie"
-                    required
-                />
+                <input type="text" v-model="form.title" class="form-control" placeholder="Názov organizácie" required />
             </div>
 
             <div class="form-group">
                 <label>Ulica a číslo</label>
-                <input
-                    type="text"
-                    v-model="form.street"
-                    class="form-control"
-                    placeholder="Ulica a číslo"
-                />
+                <input type="text" v-model="form.street" class="form-control" placeholder="Ulica a číslo" />
             </div>
 
             <div class="form-group">
                 <label for="">Mesto</label>
-                <input
-                    type="text"
-                    v-model="search"
-                    class="form-control"
-                    placeholder="Potrebné v prípade vytvorenia akcie"
-                    required
-                />
+
+                <input type="text" v-model="search" class="form-control"
+                    placeholder="Potrebné v prípade vytvorenia akcie" required />
+
+                <div class="border-2 border-gray-500 rounded-md">
+
+                    <div v-for="village in villages" :key="village.id" @click="selectedVillage(village)"
+                        class="cursor-pointer mx-2">
+                        <div class="hover:bg-gray-50 px-1">
+                            {{ village.fullname }} {{ village.zip }}
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-            <div
-                v-for="village in villages"
-                :key="village.id"
-                @click="selectedVillage(village)"
-                class="cursor-pointer mx-2"
-            >
-                <div class="hover:bg-gray-50 px-1">
-                    {{ village.fullname }} {{ village.zip }}
-                </div>
-            </div>
+
 
             <div class="form-group">
                 <label>Telefón</label>
-                <input
-                    type="number"
-                    v-model="form.phone"
-                    class="form-control"
-                    placeholder="Potrebné v prípade vytvorenia akcie"
-                />
+                <input type="number" v-model="form.phone" class="form-control"
+                    placeholder="Potrebné v prípade vytvorenia akcie" />
             </div>
 
             <span class="font-semibold">Zaradená do zoznamu</span><br />
 
             <div v-for="updater in listDenominations" :key="updater.id">
-                <input
-                    type="radio"
-                    required
-                    v-model="form.updaters"
-                    :id="updater.id"
-                    :value="updater.id"
-                />
+                <input type="radio" required v-model="form.updaters" :id="updater.id" :value="updater.id" />
                 <label :for="updater.id">{{ updater.title }}</label>
             </div>
 
@@ -82,7 +59,7 @@
 <script>
 import axios from "axios";
 export default {
-    data: function() {
+    data: function () {
         return {
             showForm: false,
             user: "",
@@ -99,7 +76,7 @@ export default {
         };
     },
     watch: {
-        search: function() {
+        search: function () {
             this.fetchVillage();
         }
     },
@@ -109,11 +86,11 @@ export default {
             this.search = village.fullname + ", " + village.zip;
             this.form.village_id = village.id;
         },
-        toggle: function() {
+        toggle: function () {
             this.showForm = !this.showForm;
         },
 
-        fetchVillage: function() {
+        fetchVillage: function () {
             axios
                 .post("/api/villages", { name: this.search })
                 .then(response => {
@@ -121,37 +98,37 @@ export default {
                 });
         },
 
-        fetchUser: function() {
+        fetchUser: function () {
             axios.get("/api/user").then(response => {
                 this.user = response.data;
             });
         },
 
-        fetchUpdaters: function() {
+        fetchUpdaters: function () {
             axios.get("/api/updaters").then(response => {
                 this.updaters = response.data;
             });
         },
 
-        saveOrganization: function() {
+        saveOrganization: function () {
             axios
                 .post(
                     "/api/users/" + this.user.id + "/organizations",
                     this.form
                 )
-                .then(function() {
+                .then(function () {
                     location.reload();
                 });
 
             this.clearForm();
         },
 
-        clearForm: function() {
+        clearForm: function () {
             this.form = {};
         }
     },
     computed: {
-        listDenominations: function() {
+        listDenominations: function () {
             return this.updaters.filter(
                 updater => updater.type == "denomination"
             );

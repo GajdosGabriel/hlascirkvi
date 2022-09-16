@@ -18,7 +18,7 @@
             <tr
                 class="border-2 border-gray-300  hover:bg-gray-100
         @if ($organization->id == auth()->user()->org_id) bg-gray-300 @endif ">
-                <td class="px-2">{{ $organization->id }}</td>
+                <td class="td">{{ $organization->id }}</td>
                 <td class="">
                     <a href="{{ route('user.organization.show', [auth()->user()->id, $organization->id]) }}"
                         title="{{ $organization->title }}">
@@ -73,15 +73,22 @@
                     @endforeach
                 </td>
                 <td>
-
-                    <form action="{{ route('admin.users.update', auth()->id()) }}" method="post">
-                        @method('PUT') @csrf
-                        <input type="hidden" name="org_id" value="{{ $organization->id }}" />
+                    @if ($organization->id != auth()->user()->org_id)
+                        <form action="{{ route('admin.users.update', auth()->id()) }}" method="post">
+                            @method('PUT') @csrf
+                            <input type="hidden" name="org_id" value="{{ $organization->id }}" />
+                            <button
+                                class="px-2 text-xs bg-blue-500 text-gray-100 rounded border-2 border-blue-700 hover:bg-blue-600">
+                                Prepnúť na kanál
+                            </button>
+                        </form>
+                    @else
                         <button
-                            class="px-2 text-xs bg-blue-500 text-gray-100 rounded border-2 border-blue-700 hover:bg-blue-600">
-                            Prepnúť na kanál
+                        disabled
+                            class="px-2 text-xs bg-green-500 text-gray-100 rounded border-2 border-green-700 hover:bg-green-600">
+                            Aktívne prihlásenie
                         </button>
-                    </form>
+                    @endif
 
 
                     @if (!$organization->published)
@@ -93,7 +100,7 @@
 
 
                 </td>
-                <td class="px-2">
+                <td class="td">
                     <a href="{{ route('user.organization.edit', [$user->id, $organization->id]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>
                     </a>

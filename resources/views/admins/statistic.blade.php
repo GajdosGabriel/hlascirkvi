@@ -14,10 +14,10 @@
 
         <x-slot name="page">
             <div class="flex space-x-3 mb-2">
-                <x-filters.filterButton title="Dnes" type="lastDays" url="?lastDays=1" />
-                <x-filters.filterButton title="Včera" type="lastDays" url="?lastDays=2" />
-                <x-filters.filterButton title="Týždeň" type="lastDays" url="?lastDays=7" />
-                <x-filters.filterButton title="2 týždne" type="lastDays" url="?lastDays=14" />
+                <x-cards.buttonRequest name="Dnes" value="1" request="?lastDays=1" />
+                <x-cards.buttonRequest name="Včera" value="2" request="?lastDays=2" />
+                <x-cards.buttonRequest name="Týždeň" value="7" request="?lastDays=7" />
+                <x-cards.buttonRequest name="2 týždne" value="14" request="?lastDays=14" />
             </div>
 
 
@@ -35,7 +35,7 @@
 
                 <tbody>
                     @forelse($posts as $post)
-                        <tr class="border-2 border-gray-300  hover:bg-gray-100">
+                        <tr class="border-2 border-gray-300 hover:bg-gray-100">
                             <td>{{ $post->id }}</td>
                             <td>
                                 <a href="{{ route('post.show', [$post->id, $post->slug]) }}">

@@ -7806,7 +7806,9 @@ var render = function render() {
         _vm.search = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _vm._l(_vm.villages, function (village) {
+  }), _vm._v(" "), _c("div", {
+    staticClass: "border-2 border-gray-500 rounded-md"
+  }, _vm._l(_vm.villages, function (village) {
     return _c("div", {
       key: village.id,
       staticClass: "cursor-pointer mx-2",
@@ -7817,8 +7819,8 @@ var render = function render() {
       }
     }, [_c("div", {
       staticClass: "hover:bg-gray-50 px-1"
-    }, [_vm._v("\n                " + _vm._s(village.fullname) + " " + _vm._s(village.zip) + "\n            ")])]);
-  }), _vm._v(" "), _c("div", {
+    }, [_vm._v("\n                        " + _vm._s(village.fullname) + " " + _vm._s(village.zip) + "\n                    ")])]);
+  }), 0)]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("label", [_vm._v("Telefón")]), _vm._v(" "), _c("input", {
     directives: [{
