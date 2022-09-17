@@ -33,11 +33,16 @@
     </a>
 
 
-    <div class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm">
+    <div class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm w-full">
         <a href="{{ route('organizations.show', [$post->organization->id]) }}">
             {{ $post->organization->title }}
         </a>
         <time datetime="{{ $post->created_at }}">{{ $post->created_at }}</time>
+
+        @if (Route::is('admin.buffers.index'))
+            <post-publish-buttons :post="{{ $post }}" />
+        @endif
     </div>
+
 
 </div>
