@@ -7,13 +7,14 @@ use App\Filters\PostFilters;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use App\Repositories\Contracts\PostRepository;
 use App\Repositories\Eloquent\EloquentPostRepository;
 
 class PostController extends Controller
 {
-    public function __construct()
+    public function __construct(PostRepository $postRepository)
     {
-        $this->post = new EloquentPostRepository;
+        $this->post = $postRepository;
     }
 
     public function index(PostFilters $filters)

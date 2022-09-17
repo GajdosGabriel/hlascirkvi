@@ -10,10 +10,11 @@ use App\Http\Requests\PostSaveRequest;
 
 class OrganizationPostController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->authorizeResource(Organization::class, 'organization');
-    // }
+    public function __construct(Organization $organization)
+    {
+        $this->organization = $organization;
+        // $this->authorizeResource(Organization::class, 'organization');
+    }
 
     public function index(Organization $organization, PostFilters $filters)
     {
@@ -31,7 +32,7 @@ class OrganizationPostController extends Controller
 
     public function edit(Organization $organization, Post $post)
     {
-        $this->authorize('viewAny', $organization);
+        $this->authorize('viewAny', $this->organization);
         $this->authorize('update', $post);
         return view('posts.edit', compact('post', 'organization'));
     }
