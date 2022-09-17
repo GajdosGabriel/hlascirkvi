@@ -2,15 +2,16 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\OrganizationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Post extends JsonResource
+class PostResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
