@@ -37,8 +37,8 @@ class BufferPublisher extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(Buffer $buffer)
     {
-        (new Buffer())->handler();
+        $buffer->handler();
     }
 }

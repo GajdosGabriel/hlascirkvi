@@ -39,6 +39,6 @@ class NoUrlLinkRule implements Rule
      */
     public function message()
     {
-        return 'Text nesmie obsahovať url odkaz na stránky.';
+        return 'Text nesmie obsahovať odkaz na stránky.';
     }
 }

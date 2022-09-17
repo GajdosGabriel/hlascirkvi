@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Gabriel
@@ -9,18 +10,16 @@
 namespace App\Services;
 
 use App\Notifications\Admin\BufeerIsEmpty;
-use Carbon\Carbon;
-use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Eloquent\EloquentUserRepository;
+use App\Repositories\Contracts\PostRepository;
+use App\Repositories\Contracts\UserRepository;
 use Illuminate\Notifications\Notification;
 
 class Buffer
 {
 
-
-    public function __construct()
+    public function __construct(PostRepository $postRepository)
     {
-        $this->post = new EloquentPostRepository();
+        $this->post = $postRepository;
     }
 
     public function handler()
@@ -29,19 +28,19 @@ class Buffer
         * Umožní publikovať denne max 2 videa na predný zoznam,
         * do zoznamu započíta aj živé prenosy ostatné zaradí do buffer
         */
-//        if($this->post->getPostsByDatetime()->count() >= 2) return;
+        //        if($this->post->getPostsByDatetime()->count() >= 2) return;
 
 
         /*
         * Spočíta userov v buffer ktorí čakajú na zverenenie ale -1
         */
         $countOfUsers = $this->post->getUnpublishedPosts()->groupBy('organization_id')->count();
-//        $countOfUsers = $this->post->getUnpublishedPosts()->groupBy('organization_id')->count() -1;
+        //        $countOfUsers = $this->post->getUnpublishedPosts()->groupBy('organization_id')->count() -1;
 
 
         $usersId = $this->idLastPublishedOrganizations($countOfUsers);
 
-//        dd($usersId);
+        //        dd($usersId);
         $this->getBufferPost($usersId);
     }
 
@@ -51,7 +50,7 @@ class Buffer
     public function idLastPublishedOrganizations($countOfUsers)
     {
         return  $this->post->postsByUpdater(15)
-       ->latest()->take($countOfUsers)->get()->pluck('organization_id');
+            ->latest()->take($countOfUsers)->get()->pluck('organization_id');
     }
 
     /*
@@ -71,10 +70,8 @@ class Buffer
         }
     }
 
-    public function ifBufferIsEmpty()
+    public function ifBufferIsEmpty(UserRepository $userRepository)
     {
-        $users =  ( new EloquentUserRepository())->usersHasRoleAdmin();
-
-        \Notification::send($users, new BufeerIsEmpty() );
+        Notification::send($userRepository->usersHasRoleAdmin(), new BufeerIsEmpty());
     }
 }
