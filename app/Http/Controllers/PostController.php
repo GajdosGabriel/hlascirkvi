@@ -39,7 +39,7 @@ class PostController extends Controller
     {
         // Kanál(organization) nie je publikovaný a tým aj posts nie je možné zobrazovať.
         if (!$post->organization->published) {
-            abort(403, "Kanál {$post->organization->title} je vypnutý!");
+            abort(405, "Kanál {$post->organization->title} je vypnutý!");
         }
 
         $creditUser->setPostHistory($post);
