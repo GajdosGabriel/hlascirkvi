@@ -7,5 +7,5 @@ use App\Models\Organization;
 
 interface StorePostContract {
 
-    public function storePost(Organization $organization, $request);
+    public function handle(Organization $organization, $request);
 }

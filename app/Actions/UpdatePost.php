@@ -2,16 +2,15 @@
 
 namespace App\Actions;
 
-use App\Contracts\StorePostContract;
-use App\Models\Organization;
+use App\Contracts\UpdatePostContract;
 use App\Services\Form;
 
-class StorePost implements StorePostContract
+class UpdatePost implements UpdatePostContract
 {
 
-    public function handle(Organization $organization, $request)
+    public function handle($post, $request)
     {
-        $post = $organization->posts()->create($request->except(['picture', 'updaters']));
+        $post->update($request->except(['picture', 'updaters']));
 
         $this->addUpdater($post, $request);
         $this->addImages($post, $request);

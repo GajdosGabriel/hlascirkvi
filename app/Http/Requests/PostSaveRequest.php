@@ -23,7 +23,7 @@ class PostSaveRequest extends FormRequest
 
     public function __construct()
     {
-        $this->post = new EloquentPostRepository;
+        //
     }
 
 
@@ -35,27 +35,20 @@ class PostSaveRequest extends FormRequest
     public function rules()
     {
         return [
-                'title' => 'required|string|max:255|min:3',
-                'body' => 'required|string|min:3',
-                'updaters' => 'required|integer|exists:updaters,id',
-                // 'organization_id' => 'required|integer|exists:organizations,id',
-            ];
+            'title' => 'required|string|max:255|min:3',
+            'body' => 'required|string|min:3',
+            'updaters' => 'required|integer|exists:updaters,id',
+            // 'organization_id' => 'required|integer|exists:organizations,id',
+        ];
     }
 
-
-    public function save($organization)
+    public function messages()
     {
-        $post = $organization->posts()->create($this->except(['picture', 'updaters']));
-        $post->updaters()->sync($this->get('updaters') ?: []);
-        (new Form($post, $this))->handler();
-        return $post;
-    }
-
-    public function update($id)
-    {
-        $post = $this->post->update($id, $this->except(['picture', 'updaters']));
-        $post->updaters()->sync($this->get('updaters') ?: []);
-        (new Form($post, $this))->handler();
-        return $post;
+        return [
+            'body.required' => 'Článok neobsahuje žiadny text.',
+            'title.required' => 'Článok musí mať nadpist.',
+            'title.min' => 'Minimálna dľžka nadpisu sú 3 znaky.',
+            'title.max' => 'Maximálna dľžka nadpisu je 255 znakov.',
+        ];
     }
 }
