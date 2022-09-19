@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\UpdatePost;
+use App\Contracts\StorePostContract;
 use App\Models\Post;
 use App\Filters\PostFilters;
 use App\Models\Organization;
@@ -37,15 +39,16 @@ class OrganizationPostController extends Controller
         return view('posts.edit', compact('post', 'organization'));
     }
 
-    public function update(Organization $organization, Post $post,  PostSaveRequest $request)
+    public function update(Organization $organization, Post $post,  PostSaveRequest $request, UpdatePost $updatePost)
     {
-        $post = $request->update($post->id);
+        $updatePost->handle($post, $request);
         return redirect()->route('post.show', [$post->id, $post->slug]);
     }
 
-    public function store(Organization $organization, PostSaveRequest $request)
+    public function store(Organization $organization, PostSaveRequest $request, StorePostContract $storePost)
     {
-       $post = $request->save($organization);
+        $storePost->handle($organization, $request);
+
         return redirect()->route('organization.post.index', [$organization->id]);
     }
 

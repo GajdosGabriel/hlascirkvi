@@ -44,10 +44,6 @@ class PostController extends Controller
 
         $creditUser->setPostHistory($post);
 
-        //        session()->push('postsHistory',  $post );
-        //                session()->forget('postsHistory');
-        //        dd(\Session::get('postsHistory'));
-
         event(new VisitModel($post));
 
         $posts = $this->post->postsBelongToOrganization($post->organization_id);
@@ -55,7 +51,6 @@ class PostController extends Controller
 
 
         return view('posts.show', ['post' => $post])
-            // ->with('messages' , $questions ?? null)
             ->with('posts', $posts);
     }
 }
