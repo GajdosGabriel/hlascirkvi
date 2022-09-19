@@ -179,6 +179,7 @@ return [
         App\Providers\ViewServiceProvider::class,
         App\Providers\EloquentServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
+        App\Providers\ActionServiceProvider::class,
 
     ],
 

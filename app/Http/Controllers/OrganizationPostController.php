@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Contracts\StorePostContract;
 use App\Models\Post;
 use App\Filters\PostFilters;
 use App\Models\Organization;
@@ -42,9 +44,10 @@ class OrganizationPostController extends Controller
         return redirect()->route('post.show', [$post->id, $post->slug]);
     }
 
-    public function store(Organization $organization, PostSaveRequest $request)
+    public function store(Organization $organization, PostSaveRequest $request, StorePostContract $storePost)
     {
-       $post = $request->save($organization);
+        $storePost->storePost($organization, $request);
+
         return redirect()->route('organization.post.index', [$organization->id]);
     }
 
