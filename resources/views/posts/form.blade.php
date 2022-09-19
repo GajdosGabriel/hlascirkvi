@@ -6,16 +6,15 @@
             <option value="" selected disabled>Vybrať kategóriu</option>
             @forelse(\App\Models\Updater::all() as $updater)
                 @if ($updater->type == 'post')
-                    <option class="option" value="{{ $updater->id }}" @foreach ($post['updaters'] as $up)
+                    <option class="option" value="{{ $updater->id }}"
+                        @foreach ($post['updaters'] as $up)
                         @if ($up->pivot->updater_id == $updater->id)
                             selected
-                        @endif
-                @endforeach
-                >
-                {{ $updater->title }}<br>
-            @endif
-        @empty
-            žiadny tag
+                        @endif @endforeach>
+                        {{ $updater->title }}<br>
+                @endif
+            @empty
+                žiadny tag
             @endforelse
         </select>
     </div>
@@ -35,20 +34,17 @@
                 <option value="" selected disabled>Autor</option>
                 @if (auth()->user()->email == env('ADMIN_EMAIL'))
                     @foreach (\App\Models\Organization::orderBy('title', 'asc')->get() as $organization)
-                        <option @if (isset($post->organization_id) and $post->organization_id == $organization->id or $organization->id == auth()->user()->org_id)
-                            selected
-                    @endif
-                    value="{{ $organization->id }}">{{ $organization->title }}
-                    </option>
-                @endforeach
-            @else
-                @foreach (auth()->user()->organizations as $organization)
-                    <option @if (isset($post->organization_id) and $post->organization_id == $organization->id)
-                        selected
-                @endif
-                value="{{ $organization->id }}">{{ $organization->title }}
-                </option>
-                @endforeach
+                        <option @if (isset($post->organization_id) and $post->organization_id == $organization->id or
+                            $organization->id == auth()->user()->org_id) selected @endif value="{{ $organization->id }}">
+                            {{ $organization->title }}
+                        </option>
+                    @endforeach
+                @else
+                    @foreach (auth()->user()->organizations as $organization)
+                        <option @if (isset($post->organization_id) and $post->organization_id == $organization->id) selected @endif value="{{ $organization->id }}">
+                            {{ $organization->title }}
+                        </option>
+                    @endforeach
                 @endif
             </select>
         </div>
@@ -101,7 +97,19 @@
 {{-- </div> --}}
 
 {{-- Add post Field --}}
-<div class="">
+<div class="block">
+
+    @foreach ($post->images as $image)
+        <div style="max-width: 17rem; float: left; padding: 1rem "
+            class="border-2 border-gray-300 rounded-md mx-2 shadow-lg hover:bg-gray-100">
+
+            <event-picture-viewer :image="{{ $image }}" />
+
+        </div>
+    @endforeach
+</div>
+
+<div>
 
     <div class="form-group">
         <label>Obrázok</label>
