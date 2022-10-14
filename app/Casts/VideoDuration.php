@@ -21,7 +21,8 @@ class VideoDuration implements CastsAttributes
         if ($value) {
             $duration = new DateInterval($value);
             // return $duration->h;
-            return "{$duration->i}:{$duration->s}";
+            $time = date('s', $duration->s);
+            return "{$duration->i}:{$time}";
         }
         return $value;
     }
