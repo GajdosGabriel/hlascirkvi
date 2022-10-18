@@ -8,6 +8,7 @@ use App\Traits\HasComments;
 use App\Traits\HasFavorites;
 use App\Traits\HasImages;
 use App\Traits\HasOrganization;
+use App\Traits\HasRoute;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,9 +19,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model implements Viewable
 {
-    use SoftDeletes, InteractsWithViews, HasFactory, HasFavorites, HasComments, HasImages, HasOrganization;
+    use SoftDeletes, InteractsWithViews, HasFactory, HasFavorites, HasComments, HasImages, HasOrganization, HasRoute;
     protected $guarded = [];
-    protected $appends = ['url'];
+    protected $appends = [];
 
 
 
@@ -102,11 +103,6 @@ class Event extends Model implements Viewable
     public function activeSubscribed()
     {
         return $this->subscribes()->whereActive(1)->count();
-    }
-
-    public function getUrlAttribute()
-    {
-        return route('event.show', [$this->id, $this->slug]);
     }
 
     public function getImagethumbAttribute()

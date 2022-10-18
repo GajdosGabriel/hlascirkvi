@@ -3,15 +3,16 @@
 namespace App\Models;
 
 
-use App\Casts\DateTimeHuman;
-use App\Casts\VideoDuration;
 use Carbon\Carbon;
+use App\Traits\HasRoute;
+use App\Traits\HasImages;
 use App\Traits\HasBigThink;
 use App\Traits\HasComments;
-use App\Traits\HasFavorites;
-use App\Traits\HasImages;
-use App\Traits\HasOrganization;
 use Illuminate\Support\Str;
+use App\Casts\DateTimeHuman;
+use App\Casts\VideoDuration;
+use App\Traits\HasFavorites;
+use App\Traits\HasOrganization;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,13 +23,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model implements Viewable
 {
-    use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink;
+    use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute;
 
     protected $guarded = [];
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['favorites', 'images', 'organization'];
-    protected $appends = ['favoritesCount', 'isFavorited', 'url', 'thumbImage', 'hasUpdater'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'thumbImage', 'hasUpdater'];
 
     protected $casts = [
         'video_duration' => VideoDuration::class,
@@ -95,11 +96,6 @@ class Post extends Model implements Viewable
     {
         if ($this->user->organization) return $this->user->organization;
         return $this->user->fullname;
-    }
-
-    public function getUrlAttribute()
-    {
-        return route('post.show', [$this->id, $this->slug]);
     }
 
     public function getCreatedAtHumanAttribute()

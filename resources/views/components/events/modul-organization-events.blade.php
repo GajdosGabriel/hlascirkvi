@@ -2,7 +2,7 @@
     <ul>
         @forelse( $post->eventsBelongsToOrganization as $event)
             <x-cards.carditem>
-                <a href="{{ $event->url }}">
+                <a href="{{ $event->routeShow() }}">
                     <span style="font-weight: bold">{{ $event->start_at->format('d. m. Y') }}</span>
                     {{ $event->title }}
                 </a>

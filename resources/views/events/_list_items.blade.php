@@ -4,7 +4,7 @@
 </p>
 <div class="md:grid grid-cols-8 gap-4 mb-10 hover:bg-gray-50 p-2 hover:bg-gray-50">
     <div class="col-span-1 overflow-hidden">
-        <a href="{{ $event->url }}">
+        <a href="{{ $event->routeShow() }}">
             @if ($event->imagethumb)
                 <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"
                     alt="{{ $event->title }}">
@@ -18,7 +18,7 @@
     <div class="col-span-5">
         <div class="post-header">
             <div class="title flex justify-between">
-                <h5 class="text-lg font-semibold"><a href="{{ $event->url }}">{{ $event->title }}</a></h5>
+                <h5 class="text-lg font-semibold"><a href="{{ $event->routeShow() }}">{{ $event->title }}</a></h5>
 
                 @can('update', $event)
                     <event-dropdown :post="{{ $event }}" />

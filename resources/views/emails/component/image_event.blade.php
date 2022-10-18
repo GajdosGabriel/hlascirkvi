@@ -1,5 +1,5 @@
 
-    <a href="{{ $event->url }}">
+    <a href="{{ $event->routeShow() }}">
         @if ($event->images()->whereType('img')->exists())
             @foreach($event->images()->whereType('img')->get() as $image)
                 <img src="{{ url($image->ThumbImageUrl) }}"

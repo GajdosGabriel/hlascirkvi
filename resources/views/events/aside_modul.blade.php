@@ -4,7 +4,7 @@
         <ul class="border-2 border-gray-300 rounded-sm text-sm ">
 
             @forelse( $events as $event)
-                <a href="{{ $event->url }}">
+                <a href="{{ $event->routeShow() }}">
                     <x-cards.carditem>
                         <div class="card-body grid grid-cols-6 gap-3">
                             <div class="col-span-2  overflow-hidden h-22">

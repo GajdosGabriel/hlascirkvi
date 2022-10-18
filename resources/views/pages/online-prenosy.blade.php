@@ -49,7 +49,7 @@
                                             <div>
                                                 <i class="far fa-dot-circle"></i>
 
-                                                <a href="{{ $post->url }}">
+                                                <a href="{{ $post->routeShow() }}">
                                                     {{ $post->title }}
                                                 </a>
 
