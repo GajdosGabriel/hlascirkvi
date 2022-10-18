@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Event;
 use App\Services\Form;
 use App\Models\Organization;
@@ -14,8 +13,6 @@ class OrganizationEventController extends Controller
 {
     public function index(Organization $organization, EventFilters $filters)
     {
-        $this->authorize('viewAny', $organization);
-  
         $events = $organization->events()->filter($filters)
             ->latest()->paginate(30);
         return view('profiles.events.index', compact('events', 'organization'));
@@ -23,19 +20,18 @@ class OrganizationEventController extends Controller
 
     public function create(Organization $organization)
     {
-        $this->authorize('viewAny', $organization);
+        $this->authorize('create', $organization);
         return view('events.create', ['event' => new Event(), 'organization' => $organization]);
     }
 
     public function show(Organization $organization, Event $event)
     {
-        $this->authorize('viewAny', $organization);
+        $this->authorize('view', $event);
         return view('profiles.events.show', compact('event', 'organization'));
     }
 
     public function edit(Organization $organization, Event $event)
     {
-        $this->authorize('viewAny', $organization);
         $this->authorize('update', $event);
         return view('events.edit', compact('event', 'organization'));
     }

@@ -53,7 +53,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        return auth()->user()->organizations()->whereId($post->organization_id)->exists();
+        return $user->organizations()->whereId($post->organization_id)->exists();
     }
 
     /**

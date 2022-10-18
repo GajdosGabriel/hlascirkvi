@@ -30,7 +30,7 @@ class OrganizationPolicy
      */
     public function view(User $user, Organization $organization)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class OrganizationPolicy
      */
     public function update(User $user, Organization $organization)
     {
-        $user->id() == $organization->users()->exists();
+        return $user->org_id == $organization->id;
     }
 
     /**
