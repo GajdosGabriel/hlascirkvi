@@ -26,6 +26,10 @@ class EventStartEndAction implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (!is_string($value) && !is_numeric($value)) {
+            return false;
+        }
+
         // Validacia pre admina 
         $startAt = new Carbon($value);
         $dateNow = Carbon::now();
@@ -37,13 +41,13 @@ class EventStartEndAction implements Rule
         return $startAt > $dateNow;
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return 'Dátum a čas musí byť vyšší ako je teraz.';
-    }
+    // /**
+    //  * Get the validation error message.
+    //  *
+    //  * @return string
+    //  */
+    // public function message()
+    // {
+    //     return 'Dátum a čas musí byť vyšší ako je teraz.';
+    // }
 }

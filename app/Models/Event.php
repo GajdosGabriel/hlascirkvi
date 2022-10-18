@@ -109,20 +109,6 @@ class Event extends Model implements Viewable
         return route('event.show', [$this->id, $this->slug]);
     }
 
-
-    public function addComment($comment)
-    {
-        if (auth()->check()) {
-            $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->id()]));
-            return $comment;
-        }
-        // user_id 100 in unknowle user for anonyms comments
-        $comment = $this->comments()->create(array_merge($comment, ['user_id' => 100]));
-        $comment->delete();
-
-        return $comment;
-    }
-
     public function getImagethumbAttribute()
     {
         if ($this->images()->whereType('img')->exists()) {
