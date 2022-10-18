@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasFilter;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -12,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use  HasApiTokens,HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use  HasApiTokens,HasFactory, Notifiable, SoftDeletes, HasRoles, HasFilter;
 
     protected $with = ['roles', 'permissions'];
 
@@ -70,12 +71,6 @@ class User extends Authenticatable
     {
         return 'users/' . $this->id . '/' . $this->avatar;
     }
-
-    public function scopeFilter($query, $filters)
-    {
-        return $filters->apply($query);
-    }
-
 
     public function getFullnameAttribute()
     {

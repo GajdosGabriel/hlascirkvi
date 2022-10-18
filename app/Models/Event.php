@@ -6,6 +6,7 @@ use Carbon\Carbon;
 
 use App\Traits\HasComments;
 use App\Traits\HasFavorites;
+use App\Traits\HasFilter;
 use App\Traits\HasImages;
 use App\Traits\HasOrganization;
 use App\Traits\HasRoute;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model implements Viewable
 {
-    use SoftDeletes, InteractsWithViews, HasFactory, HasFavorites, HasComments, HasImages, HasOrganization, HasRoute;
+    use SoftDeletes, InteractsWithViews, HasFactory, HasFavorites, HasComments, HasImages, HasOrganization, HasRoute, HasFilter;
     protected $guarded = [];
     protected $appends = [];
 
@@ -31,12 +32,6 @@ class Event extends Model implements Viewable
     //        'start_at'  => 'datetime:Y-m-d H:i',
     //        'end_at'    => 'datetime:Y-m-d H:i',
     //    ];
-
-    public function scopeFilter($query, $filters)
-    {
-        return $filters->apply($query);
-    }
-
 
     public function village()
     {

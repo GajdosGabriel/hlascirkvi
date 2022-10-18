@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 use App\Traits\HasFavorites;
+use App\Traits\HasFilter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Comment extends Model
 {
-    use SoftDeletes, HasFactory, HasFavorites;
+    use SoftDeletes, HasFactory, HasFavorites, HasFilter;
 
     protected $guarded= [];
     protected $hidden = ['commentable_type', 'updated_at', 'deleted_at'];
@@ -29,12 +30,6 @@ class Comment extends Model
     {
         return $this->morphTo();
     }
-
-    public function scopeFilter($query, $filters)
-    {
-        return $filters->apply($query);
-    }
-    
 
     // public function setBodyAttribute($value)
     // {

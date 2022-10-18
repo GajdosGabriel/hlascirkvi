@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\Casts\DateTimeHuman;
 use App\Casts\VideoDuration;
 use App\Traits\HasFavorites;
+use App\Traits\HasFilter;
 use App\Traits\HasOrganization;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -23,7 +24,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model implements Viewable
 {
-    use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute;
+    use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute, HasFilter;
 
     protected $guarded = [];
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
@@ -84,13 +85,6 @@ class Post extends Model implements Viewable
         $this->attributes['title'] = cleanTitle(ucfirst($value));
         $this->attributes['slug']  = Str::slug($value);
     }
-
-
-    public function scopeFilter($query, $filters)
-    {
-        return $filters->apply($query);
-    }
-
 
     public function getPersonAttribute()
     {

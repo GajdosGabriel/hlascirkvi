@@ -6,6 +6,7 @@ use App\Models\Prayer;
 use Illuminate\Support\Str;
 use App\Services\PhoneSanitizer;
 use App\Traits\HasFavorites;
+use App\Traits\HasFilter;
 use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
-    use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages;
+    use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages, HasFilter;
     protected $guarded = [];
 
 
@@ -67,12 +68,6 @@ class Organization extends Model
     {
         return $this->hasMany(BigThink::class);
     }
-
-    public function scopeFilter($query, $filters)
-    {
-        return $filters->apply($query);
-    }
-
 
     public function setTitleAttribute($value)
     {
