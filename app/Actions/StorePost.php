@@ -13,7 +13,7 @@ class StorePost implements StorePostContract
     public function handle(Organization $organization, $request)
     {
         
-        $post = $organization->posts()->create($request->except(['picture', 'updaters']));
+        $post = $organization->posts()->create($request->except(['pictures', 'updaters']));
 
         AddUpdater::make($post, $request->get('updaters'));
 

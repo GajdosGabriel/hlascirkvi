@@ -113,7 +113,7 @@
 
     <div class="form-group">
         <label>Obrázok</label>
-        <input type="file" name="picture[]" multiple class="form-control" accept="image/*">
+        <input type="file" name="pictures[]" multiple class="form-control" accept="image/*">
     </div>
 
     <div class="flex justify-between">
