@@ -15,45 +15,36 @@
             <div class="flex">
 
                 <ul class="my-2 flex  space-x-4 mr-4">
-                    <li>
-                        <x-navigation.link class="flex" href="{{ route('online-prenosy') }}"
-                            active="{{ request()->routeIs('online-prenosy') }}">
-                            Nedeľné prenosy
 
-                            @if (session()->has('countUnwatchedVideos'))
-                                <div
-                                    class="w-5 h-5 p-3 bg-red-500 text-white rounded-full flex justify-center items-center ml-1">
-                                    <span class="pb-1">{{ session()->get('countUnwatchedVideos') }}</span>
-                                </div>
-                            @endif
-                        </x-navigation.link>
-                    </li>
-                    <li>
-                        <x-navigation.link href="{{ route('konferencie.pute') }}"
-                            active="{{ request()->routeIs('konferencie.pute') }}">Vzdelávanie</x-navigation.link>
-                    </li>
-                    {{-- <li><a href="{{ route('zdravie') }}">Zdravie z Božej ruky</a></li> --}}
+                    <x-navigation.li class="flex" route="{{ route('online-prenosy') }}">
+                        Nedeľné prenosy
+                        @if (session()->has('countUnwatchedVideos'))
+                            <div
+                                class="w-5 h-5 p-3 bg-red-500 text-white rounded-full flex justify-center items-center ml-1">
+                                <span class="pb-1">{{ session()->get('countUnwatchedVideos') }}</span>
+                            </div>
+                        @endif
+                    </x-navigation.li>
+
+                    <x-navigation.li route="{{ route('konferencie.pute') }}">
+                        Vzdelávanie
+                    </x-navigation.li>
+
                 </ul>
 
                 <ul class="my-2 flex space-x-4">
                     <radio-button></radio-button>
-                    <li class="border-2 rounded-md px-2 whitespace-nowrap">
-                        <x-navigation.link href="{{ route('modlitby.index') }}"
-                            active="{{ request()->routeIs('modlitby.index') }}">
-                            <i class="fas fa-praying-hands mr-2 text-gray-300"></i>
-                            Modlitby
-                        </x-navigation.link>
-                    </li>
 
-                    <li class="border-2 rounded-md px-2 whitespace-nowrap">
-                        <x-navigation.link href="{{ route('akcie.index') }}"
-                            active="{{ request()->routeIs('akcie.index') }}">
-                            <i class="fa fa-share-alt mr-2 text-gray-300" aria-hidden="true"></i>
-                            Podujatia
-                        </x-navigation.link>
-                    </li>
+                    <x-navigation.li route="{{ route('modlitby.index') }}">
+                        <i class="fas fa-praying-hands mr-2 text-gray-300"></i>
+                        Modlitby
+                    </x-navigation.li>
 
-                    {{-- <li><a href="{{ route('akcie.index') }}">Podujatia</a></li> --}}
+                    <x-navigation.li route="{{ route('akcie.index') }}">
+                        <i class="fa fa-share-alt mr-2 text-gray-300" aria-hidden="true"></i>
+                        Podujatia
+                    </x-navigation.li>
+
                 </ul>
             </div>
         </div>

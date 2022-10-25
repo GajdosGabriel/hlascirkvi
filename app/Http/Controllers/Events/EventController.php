@@ -28,7 +28,7 @@ class EventController extends Controller
 
     public function index(EventFilters $filters)
     {
-        $events = $this->event->orderByStarting()->paginate()
+        $events = $this->event->orderByStarting()->filter($filters)->paginate()
             ;
         return view('events.index', compact('events'));
     }
