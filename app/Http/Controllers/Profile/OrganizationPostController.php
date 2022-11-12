@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Profile;
 
 use App\Actions\UpdatePost;
 use App\Contracts\StorePostContract;
@@ -9,6 +9,7 @@ use App\Filters\PostFilters;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostSaveRequest;
+use App\Http\Controllers\Controller;
 
 class OrganizationPostController extends Controller
 {

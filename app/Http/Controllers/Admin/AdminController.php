@@ -14,6 +14,7 @@ use App\Repositories\Eloquent\EloquentPostRepository;
 class AdminController extends Controller
 {
     protected $posts;
+    
     public function __construct(PostRepository $posts)
     {
         $this->posts = $posts;

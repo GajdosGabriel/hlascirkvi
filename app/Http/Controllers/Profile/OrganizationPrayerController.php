@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Profile;
 
 use App\Models\Prayer;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Http\Requests\SavePrayerRequest;
+use App\Http\Controllers\Controller;
 
 class OrganizationPrayerController extends Controller
 {
