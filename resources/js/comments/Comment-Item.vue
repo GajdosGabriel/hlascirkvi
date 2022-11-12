@@ -104,7 +104,7 @@ export default {
             if (!window.confirm("Skutočne vymazať!")) {
                 return;
             }
-            axios.delete(this.comment.url.destroy);
+            axios.delete('/api/comments/' + this.comment.id);
 
             $(this.$el).fadeOut(300, () => {
                 this.$emit("deleted", this.comment.id);

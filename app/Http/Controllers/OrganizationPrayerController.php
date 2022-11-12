@@ -45,6 +45,6 @@ class OrganizationPrayerController extends Controller
     {
         $prayer->delete();
 
-        return redirect()->route('organization.prayer.index', $organization);
+        return back();
     }
 }

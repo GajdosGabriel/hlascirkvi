@@ -17,4 +17,9 @@ class CommentController extends Controller
         return  CommentResource::collection(Comment::latest()->take(7)->get());
     }
 
+    public function destroy(Comment $comment)
+    {
+        $comment->delete();
+    }
+
 }
