@@ -3,13 +3,12 @@
 
 Auth::routes();
 
-Route::get('/', 'PostController@index')->name('posts.index');
+Route::get('/', 'Public\PostController@index')->name('posts.index');
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/gdpr', 'HomeController@gdpr')->name('gdpr');
-Route::get('/online-prenosy', 'HomeController@zivePrenosy')->name('online-prenosy');
-Route::get('/konferencie-a-pute', 'HomeController@seminare')->name('konferencie.pute');
-Route::get('/zdravie-z-bozej-ruky', 'HomeController@zdravie')->name('zdravie');
+Route::get('/gdpr', 'Public\HomeController@gdpr')->name('gdpr');
+Route::get('/online-prenosy', 'Public\HomeController@zivePrenosy')->name('online-prenosy');
+Route::get('/konferencie-a-pute', 'Public\HomeController@seminare')->name('konferencie.pute');
+Route::get('/zdravie-z-bozej-ruky', 'Public\HomeController@zdravie')->name('zdravie');
 
 
 // oAuth Routes...
@@ -26,12 +25,12 @@ Route::middleware('checkBanned')->group(function () {
     Route::resources([
         'akcie'                 => Events\EventController::class,
         'favorites'             => FavoriteController::class,
-        'organizations'         => OrganizationController::class,
+        'organizations'         => Public\OrganizationController::class,
         'posts'                 => PostController::class,
         'seminars'              => Seminars\SeminarController::class,
         'seminars.posts'        => Seminars\SeminarPostController::class,
         'userSupport'           => UserSupportController::class,
-        'modlitby'              => PrayerController::class,
+        'modlitby'              => Public\PrayerController::class,
     ]);
 });
 
@@ -44,7 +43,7 @@ Route::middleware(['auth', 'checkBanned'])->group(function () {
         'organization.post'     => Profile\OrganizationPostController::class,
         'organization.event'    => Profile\OrganizationEventController::class,
         'organization.prayer'   => Profile\OrganizationPrayerController::class,
-        'profile'               => ProfileController::class,
+        'profile'               => Profile\ProfileController::class,
         'user.organization'     => Profile\UserOrganizationController::class,
         'post.think'            => PostThingController::class,
     ]);
@@ -84,7 +83,7 @@ Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->nam
 
 
 Route::middleware('checkBanned')->group(function () {
-    Route::get('post/{post}/{slug}', 'PostController@show')->name('post.show');
+    Route::get('post/{post}/{slug}', 'Public\PostController@show')->name('post.show');
 });
 
 Route::middleware('auth')->group(function () {

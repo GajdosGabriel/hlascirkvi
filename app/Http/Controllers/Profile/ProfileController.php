@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Profile;
 
 use App\Models\Post;
 use App\Models\Event;
@@ -9,6 +9,7 @@ use App\Models\Messenger;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {

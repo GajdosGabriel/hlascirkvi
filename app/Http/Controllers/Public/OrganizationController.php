@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Public;
 
 use App\Models\User;
 use App\Models\Messenger;
@@ -9,6 +9,7 @@ use App\Filters\PostFilters;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrganizationsRequest;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Http\Controllers\Controller;
 
 class OrganizationController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Public;
 
 use Carbon\Carbon;
 use App\Models\User;
@@ -10,6 +10,7 @@ use App\Notifications\Prayer\NewPrayer;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Prayer\ConfirmFulfilledPrayer;
 use App\Repositories\Eloquent\EloquentUserRepository;
+use App\Http\Controllers\Controller;
 
 class PrayerController extends Controller
 {

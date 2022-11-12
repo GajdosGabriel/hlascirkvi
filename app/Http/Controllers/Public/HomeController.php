@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Public;
 
 use Cache;
 use \Alaouy\Youtube;
 use App\Models\Seminar;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\EloquentPostRepository;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -15,15 +16,6 @@ class HomeController extends Controller
         //
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('pages.home');
-    }
 
     public function zivePrenosy(EloquentPostRepository $posts)
     {
