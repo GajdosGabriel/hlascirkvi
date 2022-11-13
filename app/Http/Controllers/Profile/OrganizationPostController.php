@@ -13,15 +13,15 @@ use App\Http\Controllers\Controller;
 
 class OrganizationPostController extends Controller
 {
-    public function __construct(Organization $organization)
+    public function __construct()
     {
-        $this->organization = $organization;
-        // $this->authorizeResource(Organization::class, 'organization');
+        // $this->organization = $organization;
+        $this->authorizeResource(Organization::class, 'organization');
+        $this->authorizeResource(Post::class, 'post');
     }
 
     public function index(Organization $organization, PostFilters $filters)
     {
-        $this->authorize('viewAny', $organization);
         $posts = $organization->posts()->filter($filters)->latest()->paginate(30);
 
         return view('profiles.posts.index', compact('posts', 'organization'));
@@ -29,13 +29,11 @@ class OrganizationPostController extends Controller
 
     public function create(Organization $organization) 
     {
-        $this->authorize('viewAny', $organization);
         return view('posts.create', ['post' => new Post, 'organization' => $organization]);
     }
 
     public function edit(Organization $organization, Post $post)
     {
-        $this->authorize('viewAny', $this->organization);
         $this->authorize('update', $post);
         return view('posts.edit', compact('post', 'organization'));
     }
