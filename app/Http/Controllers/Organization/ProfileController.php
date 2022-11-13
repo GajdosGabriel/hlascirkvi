@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Profile;
+namespace App\Http\Controllers\Organization;
 
 use App\Models\Post;
 use App\Models\Event;

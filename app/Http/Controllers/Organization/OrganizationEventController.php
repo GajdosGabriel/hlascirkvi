@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Profile;
+namespace App\Http\Controllers\Organization;
 
 use App\Models\Event;
 use App\Services\Form;

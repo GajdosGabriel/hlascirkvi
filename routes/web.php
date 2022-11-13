@@ -39,12 +39,12 @@ Route::middleware(['auth', 'checkBanned'])->group(function () {
         'images'                => ImageController::class,
         'event.subscribe'       => Events\EventSubscribeController::class,
         'event.favorite'        => Events\EventFavoriteController::class,
-        'organization.seminar'  => Profile\OrganizationSeminarController::class,
-        'organization.post'     => Profile\OrganizationPostController::class,
-        'organization.event'    => Profile\OrganizationEventController::class,
-        'organization.prayer'   => Profile\OrganizationPrayerController::class,
-        'profile'               => Profile\ProfileController::class,
-        'user.organization'     => Profile\UserOrganizationController::class,
+        'organization.seminar'  => Organization\OrganizationSeminarController::class,
+        'organization.post'     => Organization\OrganizationPostController::class,
+        'organization.event'    => Organization\OrganizationEventController::class,
+        'organization.prayer'   => Organization\OrganizationPrayerController::class,
+        'profile'               => Organization\ProfileController::class,
+        'user.organization'     => Organization\UserOrganizationController::class,
         'post.think'            => PostThingController::class,
     ]);
 });

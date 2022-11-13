@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Profile;
+namespace App\Http\Controllers\Organization;
 
 use App\Models\Prayer;
 use App\Models\Organization;
