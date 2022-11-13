@@ -16,8 +16,8 @@ class OrganizationPostController extends Controller
     public function __construct()
     {
         // $this->organization = $organization;
-        $this->authorizeResource(Organization::class, 'organization');
         $this->authorizeResource(Post::class, 'post');
+        $this->authorizeResource(Organization::class, 'organization');
     }
 
     public function index(Organization $organization, PostFilters $filters)
