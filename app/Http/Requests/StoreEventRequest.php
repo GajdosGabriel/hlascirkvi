@@ -3,8 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Services\Form;
-use App\Rules\EventStartEndAction;
-use App\Services\EventImageGenerator;
+use App\Rules\EventDatetimeRule;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Repositories\Eloquent\EloquentEventRepository;
 
@@ -34,8 +33,8 @@ class StoreEventRequest extends FormRequest
     {
         $rules = [
             'title' => 'required|max:250',
-            'start_at' => ['required', new EventStartEndAction],
-            'end_at' =>  ['required', new EventStartEndAction],
+            'start_at' => ['required', new EventDatetimeRule],
+            'end_at' =>  ['required', new EventDatetimeRule],
             // 'end_at' => 'required|date|after:yesterday',
             'organization_id' => 'required|integer|exists:organizations,id',
             'registration' => 'required',

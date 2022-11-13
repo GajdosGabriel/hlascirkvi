@@ -5,7 +5,7 @@ namespace App\Rules;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
-class EventStartEndAction implements Rule
+class EventDatetimeRule implements Rule
 {
     /**
      * Create a new rule instance.
@@ -34,20 +34,20 @@ class EventStartEndAction implements Rule
         $startAt = new Carbon($value);
         $dateNow = Carbon::now();
 
-        if (auth()->user()->hasRole('superadmin')) {
-            return true;
-        }
+        // if (auth()->user()->hasRole('superadmin')) {
+        //     return true;
+        // }
 
         return $startAt > $dateNow;
     }
 
-    // /**
-    //  * Get the validation error message.
-    //  *
-    //  * @return string
-    //  */
-    // public function message()
-    // {
-    //     return 'Dátum a čas musí byť vyšší ako je teraz.';
-    // }
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    public function message()
+    {
+        return 'The validation error message.';
+    }
 }
