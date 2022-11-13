@@ -30,7 +30,7 @@ class EventPolicy
      */
     public function view(User $user, Event $event)
     {
-        return true;
+        return $user->org_id == $event->organization_id;
     }
 
     /**

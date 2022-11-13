@@ -18,7 +18,7 @@ class PrayerPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class PrayerPolicy
      */
     public function view(User $user, Prayer $prayer)
     {
-        //
+        return $user->org_id == $prayer->organization_id;
     }
 
     /**
@@ -41,7 +41,7 @@ class PrayerPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user;
     }
 
     /**
@@ -53,7 +53,7 @@ class PrayerPolicy
      */
     public function update(User $user, Prayer $prayer)
     {
-        //
+        return $user->org_id == $prayer->organization_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class PrayerPolicy
      */
     public function delete(User $user, Prayer $prayer)
     {
-        //
+        return $user->org_id == $prayer->organization_id;
     }
 
     /**

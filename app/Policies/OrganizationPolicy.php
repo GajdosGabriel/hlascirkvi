@@ -39,9 +39,9 @@ class OrganizationPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function create(User $user, Organization $organization)
+    public function create(User $user)
     {
-        return $user->org_id == $organization->id;
+        return auth();
     }
 
     /**

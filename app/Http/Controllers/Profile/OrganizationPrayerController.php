@@ -10,10 +10,14 @@ use App\Http\Controllers\Controller;
 
 class OrganizationPrayerController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Prayer::class, 'prayer');
+        $this->authorizeResource(Organization::class, 'organization');
+    }
+
     public function index(Organization $organization)
     {
-        // $this->authorize('viewAny', $organization);
-
         $prayers = $organization->prayers()
             ->latest()->paginate(30);
         return view('profiles.prayers.index', compact('prayers', 'organization'));
