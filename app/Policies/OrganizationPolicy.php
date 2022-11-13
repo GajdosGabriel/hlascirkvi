@@ -30,7 +30,7 @@ class OrganizationPolicy
      */
     public function view(User $user, Organization $organization)
     {
-        return true;
+        return $user->org_id == $organization->id;
     }
 
     /**
@@ -39,9 +39,9 @@ class OrganizationPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, Organization $organization)
     {
-        //
+        return $user->org_id == $organization->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class OrganizationPolicy
      */
     public function delete(User $user, Organization $organization)
     {
-        //
+        return $user->org_id == $organization->id;
     }
 
     /**
