@@ -14,6 +14,7 @@ class OrganizationEventController extends Controller
 {
     public function __construct()
     {
+        $this->authorizeResource(Event::class, 'event');
         $this->authorizeResource(Organization::class, 'organization');
     }
 
@@ -31,19 +32,16 @@ class OrganizationEventController extends Controller
 
     public function show(Organization $organization, Event $event)
     {
-        $this->authorize('view', $event);
         return view('profiles.events.show', compact('event', 'organization'));
     }
 
     public function edit(Organization $organization, Event $event)
     {
-        $this->authorize('update', $event);
         return view('events.edit', compact('event', 'organization'));
     }
 
     public function update(Organization $organization, StoreEventRequest $request, Event $event)
     {
-        $this->authorize('update', $event);
 
         $event->update($request->except(['picture', 'file', 'vizitka']));
 
@@ -64,7 +62,6 @@ class OrganizationEventController extends Controller
 
     public function destroy(Organization $organization, Event $event)
     {
-        $this->authorize('update', $event);
         $event->delete();
         session()->flash('flash', 'Podujatie bolo zmazané!');
         return redirect()->route('organization.event.index', $organization->id);

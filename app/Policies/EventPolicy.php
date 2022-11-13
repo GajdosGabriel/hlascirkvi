@@ -2,7 +2,6 @@
 
 namespace App\Policies;
 
-use App\Models\Organization;
 use App\Models\User;
 use App\Models\Event;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -19,7 +18,7 @@ class EventPolicy
      */
     public function viewAny(User $user)
     {
-        return false;
+        return true;
     }
 
     /**
