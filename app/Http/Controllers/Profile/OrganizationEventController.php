@@ -12,9 +12,13 @@ use App\Http\Controllers\Controller;
 
 class OrganizationEventController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Organization::class, 'organization');
+    }
+
     public function index(Organization $organization, EventFilters $filters)
     {
-        $this->authorize('viewAny', $organization);
         $events = $organization->events()->filter($filters)
             ->latest()->paginate(30);
         return view('profiles.events.index', compact('events', 'organization'));
@@ -22,7 +26,6 @@ class OrganizationEventController extends Controller
 
     public function create(Organization $organization)
     {
-        $this->authorize('create', $organization);
         return view('events.create', ['event' => new Event(), 'organization' => $organization]);
     }
 
@@ -35,14 +38,12 @@ class OrganizationEventController extends Controller
     public function edit(Organization $organization, Event $event)
     {
         $this->authorize('update', $event);
-        $this->authorize('update', $organization);
         return view('events.edit', compact('event', 'organization'));
     }
 
     public function update(Organization $organization, StoreEventRequest $request, Event $event)
     {
         $this->authorize('update', $event);
-        $this->authorize('update', $organization);
 
         $event->update($request->except(['picture', 'file', 'vizitka']));
 
@@ -56,7 +57,6 @@ class OrganizationEventController extends Controller
     public function store(Organization $organization, StoreEventRequest $request)
     {
         $event = $organization->events()->create($request->except(['picture', 'file']));
-        $this->authorize('create', $organization);
         (new Form($event, $request))->handler();
         session()->flash('flash', 'Podujatie bolo uložené!');
         return redirect()->route('akcie.show', [$event->id]);
@@ -65,7 +65,6 @@ class OrganizationEventController extends Controller
     public function destroy(Organization $organization, Event $event)
     {
         $this->authorize('update', $event);
-        $this->authorize('delete', $organization);
         $event->delete();
         session()->flash('flash', 'Podujatie bolo zmazané!');
         return redirect()->route('organization.event.index', $organization->id);
