@@ -53,6 +53,9 @@ class EventPolicy
      */
     public function update(User $user, Event $event)
     {
+        if ($user->hasRole('superadmin')) {
+            return true;
+        }
         return $user->org_id == $event->organization_id;
     }
 
