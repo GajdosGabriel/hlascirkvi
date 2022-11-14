@@ -34,9 +34,9 @@ class EventDatetimeRule implements Rule
         $startAt = new Carbon($value);
         $dateNow = Carbon::now();
 
-        // if (auth()->user()->hasRole('superadmin')) {
-        //     return true;
-        // }
+        if (auth()->user()->hasRole('superadmin')) {
+            return true;
+        }
 
         return $startAt > $dateNow;
     }
