@@ -33,10 +33,8 @@ class EventController extends Controller
         return view('events.index', compact('events'));
     }
 
-    public function show($event)
+    public function show(Event $event)
     {
-        $event = $this->event->find($event);
-
         event(new VisitModel ($event));
 
         $commentsLook = $event->comments()->where('type', 'look')->get();

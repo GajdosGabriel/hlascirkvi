@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Carbon\Carbon;
 
-use App\Traits\HasComments;
-use App\Traits\HasFavorites;
+use App\Traits\HasRoute;
 use App\Traits\HasFilter;
 use App\Traits\HasImages;
-use App\Traits\HasOrganization;
-use App\Traits\HasRoute;
+use App\Traits\HasComments;
 use Illuminate\Support\Str;
+use App\Traits\HasFavorites;
+use App\Traits\HasOrganization;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -115,4 +115,23 @@ class Event extends Model implements Viewable
         }
         return asset('images/foto.jpg');
     }
+
+
+    // public function url()
+    // {
+    //     $url = [];
+    //     if (auth()->user()->can('view', $this)) {
+    //         array_push($url, [ 'show'     =>  route('admin.events.show', $this->id)]);
+    //     }
+    //     if (auth()->user()->can('create', $this)) {
+    //         array_push($url, [ 'create'     =>  route('admin.events.create')]);
+    //     } 
+    //     if (auth()->user()->can('update', $this)) {
+    //         array_push($url, [ 'edit'     =>  route('admin.events.update', $this->id)]);
+    //     }
+    //     if (auth()->user()->can('delete', $this)) {
+    //         array_push($url, [ 'delete'     =>  route('admin.events.destroy', $this->id)]);
+    //     }
+    //     return $url;
+    // }
 }
