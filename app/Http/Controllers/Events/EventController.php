@@ -20,30 +20,12 @@ use App\Repositories\Eloquent\EloquentEventRepository;
 
 class EventController extends Controller
 {
-    public function __construct(EventRepository $event)
+    public function __construct()
     {
-        $this->event = $event;
-        $this->middleware('auth')->except('index', 'show', 'finished');
+        $this->middleware('auth');
     }
 
-    public function index(EventFilters $filters)
-    {
-        $events = $this->event->orderByStarting()->filter($filters)->paginate()
-            ;
-        return view('events.index', compact('events'));
-    }
-
-    public function show(Event $event)
-    {
-        event(new VisitModel ($event));
-
-        $commentsLook = $event->comments()->where('type', 'look')->get();
-        //        $commentsLook = $event->comments()->where('type', 'look')->get();
-        $commentsOffer = $event->comments()->where('type', 'offer')->get();
-
-        return view('events.show', compact('event', 'commentsOffer', 'commentsLook'));
-    }
-
+   
     public function eventInfoPanel(Event $event, Request $request)
     {
         $request->validate([

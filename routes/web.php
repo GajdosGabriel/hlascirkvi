@@ -23,7 +23,7 @@ Route::get('zamyslenia/{slug?}', 'VerseController@index')->name('verses.index');
 // Front routes
 Route::middleware('checkBanned')->group(function () {
     Route::resources([
-        'akcie'                 => Events\EventController::class,
+        'akcie'                 => Public\EventController::class,
         'favorites'             => FavoriteController::class,
         'organizations'         => Public\OrganizationController::class,
         'posts'                 => PostController::class,
@@ -99,7 +99,7 @@ Route::middleware('auth')->group(function () {
 
 // Event
 Route::prefix('akcie/')->name('event.')->group(function () {
-    Route::get('{event}/{title}', 'Events\EventController@show')->name('show');
+    Route::get('{event}/{title}', 'Public\EventController@show')->name('show');
     Route::post('{event}/form/subscribe', 'EventSubscribeController@subscribeByForm')->name('subscribeByForm');
 
     Route::middleware('auth')->group(function () {
