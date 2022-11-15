@@ -30,9 +30,6 @@ class OrganizationPolicy
      */
     public function view(User $user, Organization $organization)
     {
-        if ($user->hasRole('superadmin')) {
-            return true;
-        }
         return $user->org_id == $organization->id;
     }
 
@@ -56,9 +53,6 @@ class OrganizationPolicy
      */
     public function update(User $user, Organization $organization)
     {
-        if ($user->hasRole('superadmin')) {
-            return true;
-        }
         return $user->org_id == $organization->id;
     }
 
