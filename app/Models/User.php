@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use  HasApiTokens,HasFactory, Notifiable, SoftDeletes, HasRoles, HasFilter;
+    use  HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, HasFilter;
 
     protected $with = ['roles', 'permissions'];
 
@@ -44,7 +44,6 @@ class User extends Authenticatable
     public function setFirstNameAttribute($value)
     {
         $this->attributes['first_name'] = ucfirst($value);
-
     }
 
     public function setLastNameAttribute($value)
@@ -54,15 +53,18 @@ class User extends Authenticatable
 
 
 
-    public function addresBooks() {
+    public function addresBooks()
+    {
         return $this->hasMany(AddresBook::class);
     }
 
-    public function organizations() {
+    public function organizations()
+    {
         return $this->belongsToMany(Organization::class);
     }
 
-    public function organization() {
+    public function organization()
+    {
         return $this->belongsTo(Organization::class, 'org_id');
     }
 
@@ -74,21 +76,14 @@ class User extends Authenticatable
 
     public function getFullnameAttribute()
     {
-        return $this->last_name . ' '. $this->first_name;
+        return $this->last_name . ' ' . $this->first_name;
     }
 
     public function getNameAttribute()
     {
-        if($this->id == $this->person) return $this->getFullnameAttribute();
+        if ($this->id == $this->person) return $this->getFullnameAttribute();
         return $this->organization;
     }
-
-//Nahradené spatie
-//    public function isAdmin()
-//    {
-//        return in_array($this->email, ['gajdosgabo@gmail.com'] );
-//    }
-
 
     public function getPostsCountAttribute()
     {
@@ -100,8 +95,8 @@ class User extends Authenticatable
         return $this->organizations()->first();
     }
 
-
-
-
-
+    public function banned()
+    {
+        return $this->disabled;
+    }
 }
