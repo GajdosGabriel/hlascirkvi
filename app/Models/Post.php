@@ -35,7 +35,7 @@ class Post extends Model implements Viewable
 
     protected $casts = [
         'video_duration' => VideoDuration::class,
-        'created_at' => DateTimeHuman::class
+        // 'created_at' => DateTimeHuman::class
     ];
 
 

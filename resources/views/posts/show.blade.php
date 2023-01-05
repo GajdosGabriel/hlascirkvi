@@ -78,7 +78,6 @@
                                 | zobrazení: {{ $post->count_view }}
                             </div>
                         </div>
-
                     </div>
 
                     {{-- Social button --}}

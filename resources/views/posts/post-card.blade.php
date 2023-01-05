@@ -37,7 +37,7 @@
         <a href="{{ route('organizations.show', [$post->organization->id]) }}">
             {{ $post->organization->title }}
         </a>
-        <time datetime="{{ $post->created_at }}">{{ $post->created_at }}</time>
+        <time datetime="{{ $post->created_at }}">{{ $post->createdAtHuman }}</time>
 
         @if (Route::is('admin.buffers.index'))
             <post-publish-buttons :post="{{ $post }}" />
