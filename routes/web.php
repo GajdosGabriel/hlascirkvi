@@ -82,7 +82,7 @@ Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->nam
 // Route::put('notifications/{notification}', 'NotificationController@update')->name('notification.update');
 
 
-Route::middleware('checkBanned')->group(function () {
+Route::middleware('bannedOrganization')->group(function () {
     Route::get('post/{post}/{slug}', 'Public\PostController@show')->name('post.show');
 });
 
