@@ -13,6 +13,7 @@ use App\Casts\DateTimeHuman;
 use App\Casts\VideoDuration;
 use App\Traits\HasFavorites;
 use App\Traits\HasFilter;
+use App\Traits\HasFormaten;
 use App\Traits\HasOrganization;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model implements Viewable
 {
-    use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute, HasFilter;
+    use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute, HasFilter, HasFormaten;
 
     protected $guarded = [];
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
@@ -92,11 +93,7 @@ class Post extends Model implements Viewable
         return $this->user->fullname;
     }
 
-    public function getCreatedAtHumanAttribute()
-    {
-        return $this->created_at->diffForHumans();
-    }
-
+   
     public function getHasUpdaterAttribute()
     {
         return $this->updaters()->exists();

@@ -35,7 +35,7 @@
                             {{ comment.body.slice(0, 40) }}
                         </div>
                         <div class="text-xs">
-                            {{ comment.created_at_human }}
+                            {{ comment.created_at_humans }}
                         </div>
                     </div>
                 </a>

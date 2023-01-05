@@ -41,7 +41,7 @@
                         <div
                             class="text-xs bg-blue-200 border-blue-600 border-1 text-gray-700 rounded-md px-2 pt-1 "
                         >
-                            {{ prayer.created_at_human }}
+                            {{ prayer.created_at_humans }}
                         </div>
                         <!-- <span class="text-xs flex items-center  flex-shrink-0">
                             <svg

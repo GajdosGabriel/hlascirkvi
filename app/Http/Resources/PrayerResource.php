@@ -25,7 +25,7 @@ class PrayerResource extends JsonResource
             'isFavorited' => $this->isFavorited,
             'fulfilled_at' => $this->fulfilled_at,
             'created_at' => $this->created_at,
-            'created_at_human' => $this->created_at->diffForHumans(),
+            'created_at_humans' => $this->created_at->diffForHumans(),
         ];
     }
 }
