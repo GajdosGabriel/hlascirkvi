@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ "Všetky organizácie" }}</title>
+@endsection
+
 @section('content')
 
 

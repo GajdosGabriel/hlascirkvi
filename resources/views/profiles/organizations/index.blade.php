@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ "Vaše kanály" }}</title>
+@endsection
+
 @section('content')
     <x-pages.admin>
         <x-slot name="title">

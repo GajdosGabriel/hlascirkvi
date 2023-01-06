@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ "Admin tágy (nálepky)" }}</title>
+@endsection
+
 @section('content')
 
 

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ "Admin nezverejnené videa" }}</title>
+@endsection
+
 @section('content')
 
 

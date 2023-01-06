@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ "Admin images" }}</title>
+@endsection
+
 @section('content')
 
     <div class="container">

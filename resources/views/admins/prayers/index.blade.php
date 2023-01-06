@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title>
+    <title>{{ "Admin modlitby" }}</title>
 @endsection
 
 @section('content')

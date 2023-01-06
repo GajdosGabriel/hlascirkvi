@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ "Admin štatistika" }}</title>
+@endsection
+
 @section('content')
     <x-pages.admin>
 

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ "Všetky semináre {$organization->title }" }}</title>
+@endsection
+
 @section('content')
 
     <x-pages.admin>

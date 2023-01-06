@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ "Admin dashboard" }}</title>
+@endsection
+
 @section('content')
     <x-pages.admin>
 

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ "Admin nezverejnevé videa" }}</title>
+@endsection
+
 @section('content')
 
     <x-pages.admin>

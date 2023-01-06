@@ -1,5 +1,7 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Akcie a podujatia.' }}</title> @endsection
+@section('title')
+    <title>{{ "Admin akcie a podujatia" }}</title>
+@endsection
 
 @section('content')
 
