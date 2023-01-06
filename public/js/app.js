@@ -6233,7 +6233,7 @@ var render = function render() {
       staticClass: "block text-gray-800"
     }, [_vm._v("\n                        " + _vm._s(comment.body.slice(0, 40)) + "\n                    ")]), _vm._v(" "), _c("div", {
       staticClass: "text-xs"
-    }, [_vm._v("\n                        " + _vm._s(comment.created_at_human) + "\n                    ")])])])]);
+    }, [_vm._v("\n                        " + _vm._s(comment.created_at_humans) + "\n                    ")])])])]);
   }), 0)]);
 };
 
@@ -9100,7 +9100,7 @@ var render = function render() {
     staticClass: "font-semibold mr-1 whitespace-nowrap"
   }, [_vm._v(_vm._s(_vm.prayer.user_name))])]), _vm._v(" "), _c("div", {
     staticClass: "text-xs bg-blue-200 border-blue-600 border-1 text-gray-700 rounded-md px-2 pt-1"
-  }, [_vm._v("\n                        " + _vm._s(_vm.prayer.created_at_human) + "\n                    ")])])])])])]);
+  }, [_vm._v("\n                        " + _vm._s(_vm.prayer.created_at_humans) + "\n                    ")])])])])])]);
 };
 
 var staticRenderFns = [];
