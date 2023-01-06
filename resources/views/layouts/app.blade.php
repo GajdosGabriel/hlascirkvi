@@ -57,7 +57,8 @@
         @include('layouts.nav')
 
         <main>
-            @include('partials.errors')
+            @include('layouts.errors')
+            
             @yield('content')
             <notification message="{{ session('flash') }}"></notification>
         </main>

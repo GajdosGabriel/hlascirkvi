@@ -27,7 +27,7 @@ class EventController extends Controller
         return view('events.index', compact('events'));
     }
 
-    public function show(Event $event)
+    public function show(Event $event, $slug)
     {
         event(new VisitModel ($event));
 

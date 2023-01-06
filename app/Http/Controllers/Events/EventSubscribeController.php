@@ -43,6 +43,7 @@ class EventSubscribeController extends Controller
     public function destroy(Event $event, EventSubscribe $subscribe)
     {
         $subscribe->delete();
+        session()->flash('flash', 'Ste odhlásený z akcie!');
         return back();
     }
 

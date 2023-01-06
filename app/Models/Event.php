@@ -75,7 +75,7 @@ class Event extends Model implements Viewable
 
     public function subscribe()
     {
-        if ($this->subscribes()->whereOrganizationId(auth()->id())->exists()) {
+        if ($this->subscribes()->withTrashed()->whereOrganizationId(auth()->id())->exists()) {
             if ($this->subscribes()->whereOrganizationId(auth()->id())->where('active', 0)->exists()) {
                 $this->subscribes()->update(['active' => 1]);
                 session()->flash('flash', 'Ste prihlásený na akciu!!');

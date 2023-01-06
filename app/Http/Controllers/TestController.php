@@ -28,6 +28,8 @@ use App\Services\Extractor\ExtractEcav;
 use App\Services\Extractor\ExtractTkkbs;
 use Illuminate\Database\Eloquent\Builder;
 use App\Services\Extractor\ExtractVyveska;
+use App\Notifications\User\NewRegistration;
+use Illuminate\Support\Facades\Notification;
 use App\Repositories\Contracts\UserRepository;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
@@ -47,6 +49,11 @@ class TestController extends Controller
 
     public function newsletter()
     {
+        $user = User::first();
+          //  Send notification new User registration to admin
+          Notification::send(User::role('admin')->get(), new NewRegistration($user));
+
+          
        dd( Post::whereVideoAvailable(0)->get()->count() );
 
 

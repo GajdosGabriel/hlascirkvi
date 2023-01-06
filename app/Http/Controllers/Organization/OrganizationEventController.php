@@ -57,7 +57,7 @@ class OrganizationEventController extends Controller
         $event = $organization->events()->create($request->except(['picture', 'file']));
         (new Form($event, $request))->handler();
         session()->flash('flash', 'Podujatie bolo uložené!');
-        return redirect()->route('akcie.show', [$event->id]);
+        return redirect()->route('organization.event.index', [$organization->id, $event->id]);
     }
 
     public function destroy(Organization $organization, Event $event)

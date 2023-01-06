@@ -38,7 +38,7 @@
                         <tr class="border-2 border-gray-300">
                             <td class="td text-center">{{ $loop->iteration }}.</td>
                             <td class="td text-center">
-                                <a href="{{ $e´vent->routeShow() }}" target="_blank" class="hover:underline ">
+                                <a href="{{ $event->routeShow() }}" target="_blank" class="hover:underline ">
                                 {{ $event->id }}
                             </a>
                             </td>
