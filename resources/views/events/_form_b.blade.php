@@ -89,6 +89,11 @@
     </select>
 </div>
 
+<div class="form-group">
+    <label for="online_link">Online link</label>
+    <input type="text" id="online_link" name="online_link" value="{{ old('online_link') ?? $event->online_link }}"  placeholder="Link na odkaz" class="form-control input-sm" >
+</div>
+
 <div class="flex justify-between my-3">
     <div class="inline">
         <label for="publishet1">{{ trans('web.events_published_now') }}</label>

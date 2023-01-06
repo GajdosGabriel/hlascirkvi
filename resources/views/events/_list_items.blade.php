@@ -18,7 +18,13 @@
     <div class="col-span-5">
         <div class="post-header">
             <div class="title flex justify-between">
-                <h5 class="text-lg font-semibold"><a href="{{ $event->routeShow() }}">{{ $event->title }}</a></h5>
+                <h5 class="text-lg font-semibold"><a href="{{ $event->routeShow() }}">
+                    {{ $event->title }}
+                    @if ($event->online_link)
+                        - Online
+                    @endif
+                </a>
+            </h5>
 
                 @can('update', $event)
                     <event-dropdown :post="{{ $event }}" />

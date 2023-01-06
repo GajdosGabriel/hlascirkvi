@@ -30,7 +30,15 @@
             Dňa: {{ $event->start_at->format('d. m. Y') }}, o {{ $event->start_at->format('H.i') }} -
             {{ $event->end_at->format('H.i') }} hod.
         @endif
+
+      
     </h5>
+
+    @if ($event->online_link)
+    <a href="{{ $event->online_link }}" target="_blank">
+     <span class="font-bold text-red-500">Online prenos:</span>  {{ $event->online_link }}
+    </a> 
+    @endif
 </div>
 
 <div class="">
