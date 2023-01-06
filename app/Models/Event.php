@@ -81,7 +81,7 @@ class Event extends Model implements Viewable
                 session()->flash('flash', 'Ste prihlásený na akciu!!');
             } else {
                 $this->subscribes()->update(['active' => 0]);
-                session()->flash('flash', 'Ste odhlásený z akcie!');
+                session()->flash('flash', 'Odhlásili ste sa z akcie!');
             }
         } else {
             $this->subscribes()->create(['organization_id' => auth()->id()]);

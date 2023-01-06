@@ -22,7 +22,7 @@
                 <thead class="bg-gray-500 text-white">
                     <tr>
                         <th>P.č.</th>
-                        <th>ID</th>
+                        <th>Akcia</th>
                         <th>Prijatá</th>
                         <th>Meno</th>
                         <th>GDPR</th>
