@@ -16,16 +16,8 @@
                 d="M19 9l-7 7-7-7"
             />
         </svg>
-        <ul class="dropdown-menu" v-if="open">
-            <a
-                :href="
-                    '/organization/' +
-                    post.organization_id +
-                    '/post/' +
-                    post.id +
-                    '/edit'
-                "
-            >
+        <ul class="dropdown-menu z-50" v-if="open">
+            <a :href="'/posts/' + post.id + '/edit'">
                 <li class="dropdown-item">upraviť</li>
             </a>
 
@@ -60,13 +52,8 @@ export default {
 
         deletePost: function () {
             axios
-                .delete(
-                    "/organization/" +
-                        this.post.organization_id +
-                        "/post/" +
-                        this.post.id
-                )
-                .then((window.location.href = "/"));
+                .delete("/posts/" + this.post.id)
+                .then((window.location.href = "/posts"));
         },
 
         updatePost: function () {
