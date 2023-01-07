@@ -164,7 +164,7 @@
 
     </div>
     <span class="font-bold">Link na Skype účasť obdržíte po zadaní emailu.</span>
-    <form action="{{ route('register') }}" method="post" class="bg-gray-100 p-3 rounded flex justify-between">
+    <form action="{{ route('register') }}" method="post" class="bg-gray-100 p-3 rounded flex justify-between items-center">
         {{ csrf_field() }}
         <input type="hidden" name="last_name" value="AMT2023">
         <input type="hidden" name="password" value="AMT2023">

@@ -33,6 +33,20 @@ class Post extends Model implements Viewable
     protected $with = ['favorites', 'images', 'organization'];
     protected $appends = ['favoritesCount', 'isFavorited', 'thumbImage', 'hasUpdater'];
 
+    protected $fillable = [
+        'organization_id',
+        'title',
+        'body',
+        'slug',
+        'youtube_blocked',
+        'youtube',
+        'video_id',
+        'count_view',
+        'published',
+        'video_available',
+        'video_duration',
+    ];
+
     protected $casts = [
         'video_duration' => VideoDuration::class,
         // 'created_at' => DateTimeHuman::class
