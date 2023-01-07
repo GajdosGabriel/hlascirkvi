@@ -2,13 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
 use App\Models\Event;
 use App\Models\Prayer;
 use App\Models\Seminar;
 use App\Models\Organization;
+use App\Policies\PostPolicy;
+use App\Policies\EventPolicy;
 use App\Policies\PrayerPolicy;
 use App\Policies\SeminarPolicy;
-use App\Policies\EventPolicy;
 use App\Policies\OrganizationPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -25,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         Seminar::class => SeminarPolicy::class,
         Event::class => EventPolicy::class,
         Organization::class => OrganizationPolicy::class,
+        Post::class => PostPolicy::class,
     ];
 
     /**
@@ -36,10 +39,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-          \Gate::before( function ()
-          {
-               if( \Auth::user()->email == env('ADMIN_EMAIL')  ) return true;
+        //   \Gate::before( function ()
+        //   {
+        //        if( \Auth::user()->email == env('ADMIN_EMAIL')  ) return true;
 
-          });
+        //   });
     }
 }
