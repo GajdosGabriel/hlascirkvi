@@ -10,8 +10,9 @@ namespace App\Repositories;
 
 
 
-use App\Repositories\Contracts\InterfaceRepository;
+use Illuminate\Support\Arr;
 use App\Repositories\Criteria\CriteriaInterface;
+use App\Repositories\Contracts\InterfaceRepository;
 
 
 abstract class AbstractRepository implements InterfaceRepository, CriteriaInterface
@@ -71,7 +72,7 @@ abstract class AbstractRepository implements InterfaceRepository, CriteriaInterf
 
     public function withCriteria(...$criteria)
     {
-        $criteria = array_flatten($criteria);
+        $criteria = Arr::flatten($criteria);
 
         foreach( $criteria as $criterion) {
             $this->entity = $criterion->apply($this->entity);
