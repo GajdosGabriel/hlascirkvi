@@ -6,8 +6,9 @@
 .dropdown-menu {
     @apply flex flex-col absolute right-0 border-2 border-gray-500 bg-white text-gray-500 rounded-md;
 }
+
 .dropdown-item {
-    @apply p-2 px-6 hover:bg-gray-300 hover:text-gray-700;
+    @apply p-2 px-6 hover: bg-gray-300 hover:text-gray-700;
 }
 
 .card {
@@ -19,21 +20,22 @@
 }
 
 .card_body {
-    @apply  px-3;
+    @apply px-3;
 }
 
 .page {
-    @apply container mx-auto text-gray-700 min-h-screen md:py-10 p-2;
+    @apply container mx-auto text-gray-700 min-h-screen md: py-10 p-2;
 }
 
 .page_title {
-    @apply text-gray-600 mb-4 md:flex justify-between font-semibold items-center text-center;
+    @apply text-gray-600 mb-4 md: flex justify-between font-semibold items-center text-center;
 }
 
 /* Forms*/
 .form-group {
     @apply mb-3 w-full;
 }
+
 .form-control {
     @apply border-2 border-gray-300 rounded-md py-2 w-full px-2;
 }
@@ -43,44 +45,67 @@
 }
 
 .btn-small {
-    @apply text-sm border-2 border-gray-300 py-1 px-3 rounded-md hover:bg-gray-200;
+    @apply text-sm border-2 border-gray-300 py-1 px-3 rounded-md hover: bg-gray-200;
 }
 
 .btn-primary {
-    @apply bg-blue-800 text-white hover:bg-blue-600;
+    @apply bg-blue-800 text-white hover: bg-blue-600;
 }
 
 
 .btn-default {
-    @apply bg-white text-gray-700 hover:bg-blue-200;
+    @apply bg-white text-gray-700 hover: bg-blue-200;
 }
 
 .btn-success {
-    @apply bg-green-600 text-gray-100 hover:bg-green-700;
+    @apply bg-green-600 text-gray-100 hover: bg-green-700;
 }
 
 .label-primary {
-    @apply bg-blue-600 text-gray-100 hover:bg-blue-700 px-2 rounded-md;
+    @apply bg-blue-600 text-gray-100 px-2 rounded-md;
+}
+
+.label-primary:hover {
+    @apply hover: bg-blue-700;
 }
 
 .label-success {
-    @apply bg-green-600 text-gray-100 hover:bg-green-700 px-2 rounded-md;
+    @apply bg-green-600 text-gray-100 px-2 rounded-md;
+}
+
+.label-success:hover {
+    @apply hover: bg-green-700;
 }
 
 .label-danger {
-    @apply bg-red-600 text-gray-100 hover:bg-red-700 px-2 rounded-md;
+    @apply bg-red-600 text-gray-100 px-2 rounded-md;
+}
+
+.label-danger:hover {
+    @apply hover: bg-red-700;
 }
 
 .label-default {
-    @apply bg-gray-100 text-gray-500 hover:bg-gray-200 px-2 rounded-md;
+    @apply bg-gray-100 text-gray-500 px-2 rounded-md;
 }
 
-.fade-enter-active, .fade-leave-active {
+.label-default {
+    @apply hover: bg-gray-200;
+}
+
+.fade-enter-active,
+.fade-leave-active {
     @apply duration-300;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+    {
     @apply opacity-0;
 }
+
 /* html elementy */
 /* a {
     @apply hover:underline;
