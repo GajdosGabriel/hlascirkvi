@@ -1,6 +1,6 @@
 <div class="border-2 border-gray-400 rounded-md shadow-md text-xs md:text-sm flex my-4">
 
-    <div style="max-height: 11rem; overflow: hidden;">
+    <div style="max-height: 11rem; overflow: hidden; max-width: 160px;" class="p-2">
         @if ($post->favorites()->count())
             <div class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200">
                 Doporúčené
@@ -22,9 +22,20 @@
 
     <div class="w-full p-2">
 
-        <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
-            <h6 class="font-semibold" title="{{ $post->title }}">{{ Str::limit($post->title, 48) }}</h6>
-        </a>
+        <div class="flex justify-between">
+
+            <h6 class="font-semibold" title="{{ $post->title }}">
+                <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
+                    {{ Str::limit($post->title, 48) }}
+                </a>
+            </h6>
+
+
+            @can('update', $post)
+                <article-dropdown :post="{{ $post }}" />
+            @endcan
+        </div>
+
 
 
         <div class="flex space-x-5 ">
