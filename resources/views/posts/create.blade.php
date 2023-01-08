@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+    <title>{{ "Nový článok" }}</title>
+@endsection
 
 @section('content')
 

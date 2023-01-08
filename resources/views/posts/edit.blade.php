@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+    <title>{{ "Upraviť článok" }}</title>
+@endsection
 
 @section('content')
     <x-pages.admin>
