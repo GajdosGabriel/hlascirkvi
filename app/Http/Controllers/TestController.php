@@ -13,6 +13,7 @@ use App\Models\Event;
 use App\Models\Prayer;
 use App\Models\Comment;
 use App\Services\Buffer;
+use App\Mail\EventInvite;
 use App\Models\FirstName;
 use App\Models\Messenger;
 use App\Mail\PostNewsletter;
@@ -49,17 +50,20 @@ class TestController extends Controller
 
     public function newsletter()
     {
+        $event = Event::find(3677);
+
+        return new EventInvite($event);
         $user = User::first();
-          //  Send notification new User registration to admin
-          Notification::send(User::role('admin')->get(), new NewRegistration($user));
-
-          
-       dd( Post::whereVideoAvailable(0)->get()->count() );
+        //  Send notification new User registration to admin
+        Notification::send(User::role('admin')->get(), new NewRegistration($user));
 
 
+        dd(Post::whereVideoAvailable(0)->get()->count());
 
-                 $xx =   (new ExtractTkkbs())->parseListUrl();
-          dd($xx);
+
+
+        $xx =   (new ExtractTkkbs())->parseListUrl();
+        dd($xx);
 
 
         // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
@@ -254,7 +258,7 @@ class TestController extends Controller
 
 
 
- 
+
 
         $url = "http://www.youtube.com/watch?v=C4kxS1ksqtw&feature=relate";
         parse_str(parse_url($url, PHP_URL_QUERY), $my_array_of_vars);
