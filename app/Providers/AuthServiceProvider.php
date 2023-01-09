@@ -39,10 +39,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //   \Gate::before( function ()
-        //   {
-        //        if( \Auth::user()->email == env('ADMIN_EMAIL')  ) return true;
+           \Gate::before( function ()
+           {
+                if( \Auth::user()->email == env('ADMIN_EMAIL')  ) return true;
 
-        //   });
+           });
     }
 }
