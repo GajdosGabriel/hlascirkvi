@@ -1555,11 +1555,13 @@ video {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
 }
+
 .dropdown-item {
   padding: 0.5rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
+
 .dropdown-item:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity));
@@ -1666,6 +1668,7 @@ video {
   margin-bottom: 0.75rem;
   width: 100%;
 }
+
 .form-control {
   width: 100%;
   border-radius: 0.375rem;
@@ -1727,11 +1730,11 @@ video {
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
-
 .btn-default:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(191 219 254 / var(--tw-bg-opacity));
 }
+
 
 .btn-success {
   --tw-bg-opacity: 1;
@@ -1754,7 +1757,8 @@ video {
   --tw-text-opacity: 1;
   color: rgb(243 244 246 / var(--tw-text-opacity));
 }
-.label-primary:hover:hover {
+
+.label-primary:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
@@ -1769,7 +1773,7 @@ video {
   color: rgb(243 244 246 / var(--tw-text-opacity));
 }
 
-.label-success:hover:hover {
+.label-success:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(21 128 61 / var(--tw-bg-opacity));
 }
@@ -1784,7 +1788,7 @@ video {
   color: rgb(243 244 246 / var(--tw-text-opacity));
 }
 
-.label-danger:hover:hover {
+.label-danger:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(185 28 28 / var(--tw-bg-opacity));
 }
@@ -1804,12 +1808,16 @@ video {
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
-.fade-enter-active,  .fade-leave-active {
+.fade-enter-active, 
+.fade-leave-active {
   transition-duration: 300ms;
 }
-.fade-enter,  .fade-leave-to {
+
+.fade-enter, 
+.fade-leave-to {
   opacity: 0;
 }
+
 /* html elementy */
 /* a {
     @apply hover:underline;

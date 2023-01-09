@@ -8,7 +8,7 @@
 }
 
 .dropdown-item {
-    @apply p-2 px-6 hover: bg-gray-300 hover:text-gray-700;
+    @apply p-2 px-6 hover:bg-gray-300 hover:text-gray-700;
 }
 
 .card {
@@ -24,11 +24,11 @@
 }
 
 .page {
-    @apply container mx-auto text-gray-700 min-h-screen md: py-10 p-2;
+    @apply container mx-auto text-gray-700 min-h-screen md:py-10 p-2;
 }
 
 .page_title {
-    @apply text-gray-600 mb-4 md: flex justify-between font-semibold items-center text-center;
+    @apply text-gray-600 mb-4 md:flex justify-between font-semibold items-center text-center;
 }
 
 /* Forms*/
@@ -45,20 +45,37 @@
 }
 
 .btn-small {
-    @apply text-sm border-2 border-gray-300 py-1 px-3 rounded-md hover: bg-gray-200;
+    @apply text-sm border-2 border-gray-300 py-1 px-3 rounded-md;
+}
+
+.btn-small:hover {
+    @apply bg-gray-200;
 }
 
 .btn-primary {
-    @apply bg-blue-800 text-white hover: bg-blue-600;
+    @apply bg-blue-800 text-white;
+}
+
+.btn-primary:hover {
+    @apply bg-blue-600;
 }
 
 
 .btn-default {
-    @apply bg-white text-gray-700 hover: bg-blue-200;
+    @apply bg-white text-gray-700;
 }
 
+.btn-default:hover {
+    @apply bg-blue-200;
+}
+
+
 .btn-success {
-    @apply bg-green-600 text-gray-100 hover: bg-green-700;
+    @apply bg-green-600 text-gray-100;
+}
+
+.btn-success:hover {
+    @apply bg-green-700;
 }
 
 .label-primary {
@@ -66,7 +83,7 @@
 }
 
 .label-primary:hover {
-    @apply hover: bg-blue-700;
+    @apply bg-blue-700;
 }
 
 .label-success {
@@ -74,7 +91,7 @@
 }
 
 .label-success:hover {
-    @apply hover: bg-green-700;
+    @apply bg-green-700;
 }
 
 .label-danger {
@@ -82,15 +99,15 @@
 }
 
 .label-danger:hover {
-    @apply hover: bg-red-700;
+    @apply bg-red-700;
 }
 
 .label-default {
     @apply bg-gray-100 text-gray-500 px-2 rounded-md;
 }
 
-.label-default {
-    @apply hover: bg-gray-200;
+.label-default:hover {
+    @apply bg-gray-200;
 }
 
 .fade-enter-active,
