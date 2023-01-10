@@ -14,9 +14,12 @@ use App\Services\PostService\PostService;
 
 class OrganizationPostController extends Controller
 {
-    public function __construct()
+    protected $postService;
+
+    public function __construct(PostService $postService)
     {
-        // $this->organization = $organization;
+
+        $this->postService = $postService;
         $this->authorizeResource(Post::class, 'post');
         $this->authorizeResource(Organization::class, 'organization');
     }
@@ -39,16 +42,16 @@ class OrganizationPostController extends Controller
         return view('posts.edit', compact('post', 'organization'));
     }
 
-    public function update(Organization $organization, Post $post,  PostSaveRequest $request, PostService $postService)
+    public function update(Organization $organization, Post $post,  PostSaveRequest $request)
     {
-        $postService->update($post, $request);
+        $this->postService->update($post, $request);
         
         return redirect()->route('post.show', [$post->id, $post->slug]);
     }
 
-    public function store(Organization $organization, PostSaveRequest $request, PostService $postService)
+    public function store(Organization $organization, PostSaveRequest $request)
     {
-        $postService->store($organization, $request);
+        $this->postService->store($organization, $request);
 
         return redirect()->route('organization.post.index', [$organization->id]);
     }

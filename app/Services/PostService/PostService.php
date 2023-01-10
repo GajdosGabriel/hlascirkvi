@@ -21,7 +21,7 @@ class PostService {
     {
         $post = $organization->posts()->create($request->all());
 
-        $post->updaters()->sync($this->request->get('updaters') ?: []);
+        $post->updaters()->sync($request->get('updaters') ?: []);
 
         $this->fileService->store($post, $request);
     }

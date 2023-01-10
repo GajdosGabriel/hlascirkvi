@@ -19,11 +19,14 @@ class FileService
         if (!$request->pictures) return false;
 
         foreach ($request->pictures as $image) {
-            $file_name = $model->slug . '-' . rand(1000, 90000) . '.' .  $image->extension();
-            $url = $image->storeAs($this->folderPath($model), $file_name, 'public');
+
+            $url = Storage::disk('public')->put("posts/" , $image);
+
+            // $model->slug . '-' . rand(1000, 90000) . '.' .  $image->extension();
+            // $url = $image->storeAs($this->folderPath($model), $file_name, 'public');
 
             $this->image = $model->images()->create([
-                'url' => $this->folderPath() . basename($url),
+                'url' => $url,
                 'name' => $model->slug,
                 'thumb' => $this->folderPath() . 'thumb/' . basename($url),
                 'org_name' => $image->getClientOriginalName(),
@@ -31,14 +34,16 @@ class FileService
                 'mime' => $image->extension()
             ]);
 
-            $this->resizePostImage($big = 1000, $thumb = 280);
+            $this->resizePostImage();
         }
     }
 
 
 
-    protected function resizePostImage($big, $thumb)
+    protected function resizePostImage()
     {
+        $big = 1000;
+        $thumb = 280;
 
         $image = array('jpg', 'jpeg', 'gif', 'png');
         if (!in_array(strtolower($this->image->mime), $image)) return;
