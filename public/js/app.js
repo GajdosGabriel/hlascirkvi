@@ -4136,7 +4136,7 @@ __webpack_require__.r(__webpack_exports__);
       this.open = !this.open;
     },
     deletePost: function deletePost() {
-      axios["delete"]("/posts/" + this.post.id).then(window.location.href = "/posts");
+      axios["delete"]("/organization/" + this.post.organization_id + "/post/" + this.post.id).then(window.location.href = "/posts");
     },
     updatePost: function updatePost() {
       axios.put("/api/postSupport/" + this.post.id, {}).then(window.location.href = "/");
@@ -8420,7 +8420,7 @@ var render = function render() {
     staticClass: "dropdown-menu z-50"
   }, [_c("a", {
     attrs: {
-      href: "/posts/" + _vm.post.id + "/edit"
+      href: "/organization/" + _vm.post.organization_id + "/post/" + _vm.post.id + "/edit"
     }
   }, [_c("li", {
     staticClass: "dropdown-item"

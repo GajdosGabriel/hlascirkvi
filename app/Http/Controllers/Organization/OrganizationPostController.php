@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Organization;
 
-use App\Actions\UpdatePost;
-use App\Contracts\StorePostContract;
 use App\Models\Post;
+use App\Actions\UpdatePost;
 use App\Filters\PostFilters;
 use App\Models\Organization;
 use Illuminate\Http\Request;
-use App\Http\Requests\PostSaveRequest;
+use App\Contracts\StorePostContract;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostSaveRequest;
+use App\Services\PostService\PostService;
 
 class OrganizationPostController extends Controller
 {
@@ -27,7 +28,7 @@ class OrganizationPostController extends Controller
         return view('profiles.posts.index', compact('posts', 'organization'));
     }
 
-    public function create(Organization $organization) 
+    public function create(Organization $organization)
     {
         return view('posts.create', ['post' => new Post, 'organization' => $organization]);
     }
@@ -38,15 +39,16 @@ class OrganizationPostController extends Controller
         return view('posts.edit', compact('post', 'organization'));
     }
 
-    public function update(Organization $organization, Post $post,  PostSaveRequest $request, UpdatePost $updatePost)
+    public function update(Organization $organization, Post $post,  PostSaveRequest $request, PostService $postService)
     {
-        $updatePost->handle($post, $request);
+        $postService->update($post, $request);
+        
         return redirect()->route('post.show', [$post->id, $post->slug]);
     }
 
-    public function store(Organization $organization, PostSaveRequest $request, StorePostContract $storePost)
+    public function store(Organization $organization, PostSaveRequest $request, PostService $postService)
     {
-        $storePost->handle($organization, $request);
+        $postService->store($organization, $request);
 
         return redirect()->route('organization.post.index', [$organization->id]);
     }

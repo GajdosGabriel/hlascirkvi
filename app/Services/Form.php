@@ -23,16 +23,16 @@ class Form
 
     public function handler()
     {
-        if ($this->request->picture) $this->uploadImages();
+        if ($this->request->pictures) $this->uploadImages();
         if ($this->request->video_id) $this->getVideoPicture();
     }
 
     public function uploadImages()
     {
 
-        if (!$this->request->picture) return false;
+        if (!$this->request->pictures) return false;
 
-        foreach ($this->request->picture as $image) {
+        foreach ($this->request->pictures as $image) {
             $file_name = $this->model->slug . '-' . rand(1000, 90000) . '.' .  $image->extension();
             $url = $image->storeAs($this->folderPath(), $file_name, 'public');
 
