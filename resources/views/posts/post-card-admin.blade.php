@@ -1,6 +1,6 @@
 <div class="border-2 border-gray-400 rounded-md hover:shadow-md shadow-sm text-xs md:text-sm flex my-4">
 
-    <div style="max-height: 11rem; overflow: hidden; max-width: 160px;" class="p-2">
+    <div style="max-width: 160px;" class="p-2">
         @if ($post->favorites()->count())
             <div class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200">
                 Doporúčené
@@ -13,9 +13,11 @@
             </div>
         @endif
 
-        <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
-            @include('posts.image')
-        </a>
+        <div style="height: 81px; overflow: hidden;">
+            <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
+                @include('posts.image')
+            </a>
+        </div>
     </div>
 
 
@@ -55,8 +57,8 @@
                 <div>Zobrazenia {{ $post->count_view }}</div>
             </div>
             <div>
-               <span class="label-primary">label</span>
-               <span class="label-success">label</span>
+                <span class="label-primary">label</span>
+                <span class="label-success">label</span>
             </div>
         </div>
     </div>

@@ -4136,7 +4136,11 @@ __webpack_require__.r(__webpack_exports__);
       this.open = !this.open;
     },
     deletePost: function deletePost() {
-      axios["delete"]("/organization/" + this.post.organization_id + "/post/" + this.post.id).then(window.location.href = "/posts");
+      if (!window.confirm("Skutočne vymazať!")) {
+        return;
+      }
+
+      axios["delete"]("/organization/" + this.post.organization_id + "/post/" + this.post.id).then(window.location.href = "/organization/" + this.post.organization_id + "/post/");
     },
     updatePost: function updatePost() {
       axios.put("/api/postSupport/" + this.post.id, {}).then(window.location.href = "/");

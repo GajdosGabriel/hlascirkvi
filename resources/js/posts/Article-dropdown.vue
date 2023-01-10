@@ -20,10 +20,10 @@
             <a
                 :href="
                     '/organization/' +
-                        post.organization_id +
-                        '/post/' +
-                        post.id +
-                        '/edit'
+                    post.organization_id +
+                    '/post/' +
+                    post.id +
+                    '/edit'
                 "
             >
                 <li class="dropdown-item">upraviť</li>
@@ -59,6 +59,9 @@ export default {
         },
 
         deletePost: function () {
+            if (!window.confirm("Skutočne vymazať!")) {
+                return;
+            }
             axios
                 .delete(
                     "/organization/" +
@@ -66,7 +69,10 @@ export default {
                         "/post/" +
                         this.post.id
                 )
-                .then((window.location.href = "/posts"));
+                .then(
+                    (window.location.href =
+                        "/organization/" + this.post.organization_id + "/post/")
+                );
         },
 
         updatePost: function () {
