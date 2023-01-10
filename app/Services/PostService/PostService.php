@@ -2,8 +2,6 @@
 
 namespace App\Services\PostService;
 
-use App\Services\Form;
-use App\Models\Organization;
 use App\Services\FileService\FileService;
 
 
@@ -11,20 +9,21 @@ use App\Services\FileService\FileService;
 class PostService {
 
     protected $fileService;
+    protected $request;
 
 
-    public function __construct(FileService $fileService)
+    public function __construct()
     {    
-        $this->fileService = $fileService;        
+        $this->fileService = new FileService();               
     }
 
     public function store($organization, $request) 
     {
         $post = $organization->posts()->create($request->all());
 
-        $post->updaters()->sync($request->get('updaters') ?: []);
+        $post->updaters()->sync($this->request->get('updaters') ?: []);
 
-        $this->addImages($post, $request);
+        $this->fileService->store($post, $request);
     }
 
     public function update($post, $request) 
@@ -33,18 +32,9 @@ class PostService {
 
         $post->updaters()->sync($request->get('updaters') ?: []);
 
-        $this->addImages($post, $request);
+        $this->fileService->store($post, $request);
 
         return $post;
     }
-
-    private function addImages($post, $request)
-    {
-        (new Form($post, $request))->handler();
-    }
-
-
-
-
   
 }

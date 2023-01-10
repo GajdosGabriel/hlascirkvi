@@ -38,6 +38,7 @@ use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
 use App\Services\Extractor\ExtractSluzobniceDuchaSvateho;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Services\PostService\PostService;
 
 class TestController extends Controller
 {
@@ -48,8 +49,11 @@ class TestController extends Controller
         $this->user = $user;
     }
 
-    public function newsletter()
+    public function newsletter(PostService $postService)
     {
+        dd($postService);
+
+
         $event = Event::find(3677);
 
         return new EventInvite($event);
