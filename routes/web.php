@@ -31,6 +31,7 @@ Route::middleware('checkBanned')->group(function () {
         'seminars.posts'        => Seminars\SeminarPostController::class,
         'userSupport'           => UserSupportController::class,
         'modlitby'              => Public\PrayerController::class,
+        'event.subscribeGuest'  => Events\EventSubscribeGuestController::class,
     ]);
 });
 

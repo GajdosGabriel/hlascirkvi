@@ -33,19 +33,50 @@
             {{--  --}}
         @endif
 
-        <form method="post" action="{{ route('event.subscribe.store', [$event->id]) }}">
-            @csrf @method('POST')
-            @if ($event->isSubscribed())
+
+        @if ($event->isSubscribed())
+            <form method="post" action="{{ route('event.subscribe.store', [$event->id]) }}">
+                @csrf @method('POST')
                 <button type="submit" class="btn btn-success w-full">
                     <i class="fas fa-check"></i>
                     Ste prihlásený na akciu
                 </button>
+            </form>
+        @else
+            @guest
+                <form method="post" action="{{ route('event.subscribeGuest.store', [$event->id]) }}">
+                    @csrf @method('POST')
+                    <dropdown-slot>
+                        <template v-slot:button>
+                            <button class="btn btn-primary w-full">
+                                Prihlásiť sa na akciu
+                            </button>
+                        </template>
+
+                        <input type="text" name="first_name" class="border-2 border-gray-500 rounded-md p-2 mb-3"
+                            value="{{ old('first_name') }}" required placeholder="Meno">
+
+                        <input type="text" name="last_name" class="border-2 border-gray-500 rounded-md p-2"
+                            value="{{ old('last_name') }}" required placeholder="Priezvisko">
+
+                        <input type="email" name="email" class="border-2 border-gray-500 rounded-md p-2 mb-3"
+                            value="{{ old('email') }}" required placeholder="email na zaslanie linku">
+
+                        <button type="submit" class="btn btn-primary w-full">
+                            Prihlásiť sa na akciu
+                        </button>
+                    </dropdown-slot>
+                </form>
             @else
-                <button type="submit" class="btn btn-primary w-full">
-                    Prihlásiť sa na akciu
-                </button>
-            @endif
-        </form>
+                <form method="post" action="{{ route('event.subscribe.store', [$event->id]) }}">
+                    @csrf @method('POST')
+                    <button type="submit" class="btn btn-primary w-full">
+                        Prihlásiť sa na akciu
+                    </button>
+                </form>
+            @endguest
+        @endif
+
     </div>
 
     {{-- Modul event panel info --}}

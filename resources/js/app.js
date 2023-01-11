@@ -71,6 +71,7 @@ Vue.component('seminar-title', require('./seminars/seminar-title.vue').default);
 Vue.component('seminar-info', require('./seminars/seminar-info.vue').default);
 Vue.component('seminar-description', require('./seminars/seminar-description.vue').default);
 Vue.component('comment-card', require('./comments/comments-card.vue').default);
+Vue.component('dropdown-slot', require('./components/DropdownSlot.vue').default);
 
 
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);

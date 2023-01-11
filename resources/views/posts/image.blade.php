@@ -1,6 +1,6 @@
 @if(!empty($post->images))
     @forelse($post->images as $image)
-        <img alt="{{ $post->organization->title }} / {{ $post->title }}" data-src="{{ url($image->ThumbImageUrl) }}"  class="lazyload"  data-sizes="auto">
+        <img alt="{{ $post->organization->title }} / {{ $post->title }}" title="{{ $image->name }}" data-src="{{ url($image->ThumbImageUrl) }}"  class="lazyload w-full"  data-sizes="auto">
         @break
         @empty
 
