@@ -44,6 +44,11 @@ class Organization extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'org_id');
+    }
+
     public function updaters()
     {
         return $this->belongsToMany(Updater::class);

@@ -7,6 +7,8 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventSubscribeForm;
+use App\Notifications\Subscribe\NewSubscribe;
+use Illuminate\Support\Facades\Notification;
 
 class EventSubscribeGuestController extends Controller
 {
@@ -30,7 +32,9 @@ class EventSubscribeGuestController extends Controller
              \Auth::login($user, true);
          }
  
-         $event->subscribe();
+         $subscribe = $event->subscribe();
+
+         Notification::send( [auth()->user(), $event->organization->user] , new NewSubscribe($subscribe));
  
          return redirect('akcie/'. $event->id . '/'. $event->slug);
      }

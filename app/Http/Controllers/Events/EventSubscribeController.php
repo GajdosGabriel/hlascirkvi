@@ -6,11 +6,13 @@ use App\Role;
 
 use App\Models\User;
 use App\Models\Event;
-use App\Models\EventSubscribe;
 use Illuminate\Http\Request;
+use App\Models\EventSubscribe;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventSubscribeForm;
-use App\Repositories\Contracts\UserRepository;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\Subscribe\NewSubscribe;
+
 
 class EventSubscribeController extends Controller
 {
@@ -35,8 +37,12 @@ class EventSubscribeController extends Controller
 
     public function store(Event $event, Request $request)
     {
-        $event->subscribe();
+        $subscribe =  $event->subscribe();
+
         session()->flash('flash', 'Ste prihlásený na akciu!');
+
+        Notification::send( [$subscribe->organization->user, $event->organization->user] , new NewSubscribe($subscribe));
+
         return back();
     }
 

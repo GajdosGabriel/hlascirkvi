@@ -13,7 +13,7 @@
             <x-profil_menu :url="route('admin.organizations.index')">
                 <x-slot name="title">
                     <i class="fas fa-sitemap mr-2 ml-8"></i>
-                    Kanály
+                   <div>Kanály</div>
                 </x-slot>
             </x-profil_menu>
 

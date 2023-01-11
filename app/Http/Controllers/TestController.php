@@ -22,15 +22,18 @@ use App\Services\Newsletter;
 use Illuminate\Http\Request;
 use App\Services\VideoUpload;
 use App\Events\User\NotifyBell;
+use App\Models\EventSubscribe;
 use App\Services\VideoUploadFilter;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Services\Extractor\ExtractEcav;
 use App\Services\Extractor\ExtractTkkbs;
+use App\Services\PostService\PostService;
 use Illuminate\Database\Eloquent\Builder;
 use App\Services\Extractor\ExtractVyveska;
 use App\Notifications\User\NewRegistration;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\Subscribe\NewSubscribe;
 use App\Repositories\Contracts\UserRepository;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
@@ -38,7 +41,6 @@ use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
 use App\Services\Extractor\ExtractSluzobniceDuchaSvateho;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
-use App\Services\PostService\PostService;
 
 class TestController extends Controller
 {
@@ -51,11 +53,18 @@ class TestController extends Controller
 
     public function newsletter(PostService $postService)
     {
-        dd($postService);
+  
 
 
         $event = Event::find(3677);
+        $subscribe = EventSubscribe::first();
 
+     
+        
+        Notification::send( [$subscribe->organization->user, $event->organization->user] , new NewSubscribe($subscribe));
+        dd($subscribe->event->organization->user);
+
+        
         return new EventInvite($event);
         $user = User::first();
         //  Send notification new User registration to admin

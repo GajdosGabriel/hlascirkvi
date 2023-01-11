@@ -84,7 +84,7 @@ class Event extends Model implements Viewable
                 session()->flash('flash', 'Odhlásili ste sa z akcie!');
             }
         } else {
-            $this->subscribes()->create(['organization_id' => auth()->id()]);
+            return  $this->subscribes()->create(['organization_id' => auth()->id()]);
             session()->flash('flash', 'Ste prihlásený na akciu!');
         }
     }
@@ -92,7 +92,7 @@ class Event extends Model implements Viewable
 
     public function isSubscribed()
     {
-        return !! $this->subscribes()->where('organization_id', auth()->id())->where('active', 1)->exists();
+        return !!$this->subscribes()->where('organization_id', auth()->id())->where('active', 1)->exists();
     }
 
     public function activeSubscribed()
