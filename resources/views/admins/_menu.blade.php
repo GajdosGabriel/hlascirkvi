@@ -1,5 +1,4 @@
 @if (auth()->user()->hasRole('admin'))
-
     <div class="grid col-span-2  min-h-screen">
         <div class="flex flex-col bg-gray-200">
 
@@ -26,12 +25,11 @@
             </x-profil_menu>
 
             <x-profil_menu :url="route('admin.events.index')">
-                <x-slot name="title" class="flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-                      </svg>
-
-                    {{-- <i class="fa fa-share-alt mr-2 ml-8" aria-hidden="true"></i> --}}
+                <x-slot name="title" class="">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 mr-2 ml-8" viewBox="0 0 448 512">
+                        <path
+                            d="M152 64H296V24C296 10.75 306.7 0 320 0C333.3 0 344 10.75 344 24V64H384C419.3 64 448 92.65 448 128V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V128C0 92.65 28.65 64 64 64H104V24C104 10.75 114.7 0 128 0C141.3 0 152 10.75 152 24V64zM48 448C48 456.8 55.16 464 64 464H384C392.8 464 400 456.8 400 448V192H48V448z" />
+                    </svg>
                     Podujatia
                 </x-slot>
             </x-profil_menu>
@@ -80,6 +78,4 @@
 
         </div>
     </div>
-
-
 @endif

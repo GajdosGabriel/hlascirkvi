@@ -781,6 +781,9 @@ video {
 .h-9 {
   height: 2.25rem;
 }
+.h-3 {
+  height: 0.75rem;
+}
 .max-h-16 {
   max-height: 4rem;
 }
