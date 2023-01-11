@@ -16,6 +16,7 @@ use Illuminate\Notifications\Notification;
 
 class Buffer
 {
+    protected $post;
 
     public function __construct(PostRepository $postRepository)
     {

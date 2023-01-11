@@ -22,15 +22,12 @@ class FileService
 
             $url = Storage::disk('public')->put("posts/" , $image);
 
-            // $model->slug . '-' . rand(1000, 90000) . '.' .  $image->extension();
-            // $url = $image->storeAs($this->folderPath($model), $file_name, 'public');
-
             $this->image = $model->images()->create([
                 'url' => $url,
                 'name' => $model->slug,
                 'thumb' => $this->folderPath() . 'thumb/' . basename($url),
                 'org_name' => $image->getClientOriginalName(),
-                'size' => $image->getClientOriginalExtension(),
+                'size' => $image->getSize(),
                 'mime' => $image->extension()
             ]);
 

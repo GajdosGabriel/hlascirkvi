@@ -22,10 +22,10 @@
 
         <x-slot name="page">
 
-            <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
+            <div class="">
 
                 @forelse($posts as $post)
-                    @include('posts.post-card')
+                    @include('posts.post-card-admin')
                 @empty
                     bez záznamu
                 @endforelse

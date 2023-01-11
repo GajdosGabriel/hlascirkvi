@@ -3,23 +3,18 @@
 namespace App\Http\Controllers\Organization;
 
 use App\Models\Post;
-use App\Actions\UpdatePost;
 use App\Filters\PostFilters;
 use App\Models\Organization;
 use Illuminate\Http\Request;
-use App\Contracts\StorePostContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostSaveRequest;
 use App\Services\PostService\PostService;
 
 class OrganizationPostController extends Controller
 {
-    protected $postService;
 
-    public function __construct(PostService $postService)
+    public function __construct(private PostService $postService)
     {
-
-        $this->postService = $postService;
         $this->authorizeResource(Post::class, 'post');
         $this->authorizeResource(Organization::class, 'organization');
     }

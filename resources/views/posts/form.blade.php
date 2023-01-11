@@ -27,6 +27,24 @@
             placeholder="Odkaz na video Youtube">
     </div>
 
+    <div class="form-category md:pr-2">
+        <label for="publishet1" class="whitespace-nowrap ">{{ trans('web.events_published_now') }}</label>
+        <div class="flex space-x-5 form-control">
+
+            <div class="flex space-x-2">
+                <label for="publishet1" class="whitespace-nowrap  ">Teraz</label>
+                <input type="radio" value="{{ date('Y-m-d H:i:s') }}" @if ($post->published != null) checked @endif
+                    id="publishet1" name="published">
+            </div>
+
+            <div class="flex space-x-2">
+                <label for="publishet2" class="whitespace-nowrap ">Neskôr</label>
+                <input type="radio" value="" @if ($post->published == null) checked @endif id="publishet2"
+                    name="published">
+            </div>
+        </div>
+    </div>
+
     @can('admin')
         <div class="form-author">
             <label>Kanál</label>

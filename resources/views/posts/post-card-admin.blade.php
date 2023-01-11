@@ -57,6 +57,10 @@
                 <div>Zobrazenia {{ $post->count_view }}</div>
             </div>
             <div>
+                @if (!$post->published)
+                    <span
+                        class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Nepublikované</span>
+                @endif
                 <span class="label-primary">label</span>
                 <span class="label-success">label</span>
             </div>

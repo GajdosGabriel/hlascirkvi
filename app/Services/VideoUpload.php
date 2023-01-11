@@ -20,6 +20,8 @@ use App\Repositories\Eloquent\EloquentOrganizationRepository;
 class VideoUpload
 {
 
+    protected $organizations;
+
     public function __construct()
     {
         $this->organizations = new EloquentOrganizationRepository;
@@ -97,9 +99,10 @@ class VideoUpload
         $post = $this->organizations->createPost(
             $organization->id,
             [
-                'title' => $video->snippet->title,
-                'video_id' => $videoId,
-                'body' => $video->snippet->description
+                'title'     => $video->snippet->title,
+                'video_id'  => $videoId,
+                'body'      => $video->snippet->description,
+                'published' => date('Y-m-d H:i:s'),
             ]
         );
 
