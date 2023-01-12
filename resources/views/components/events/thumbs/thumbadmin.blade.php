@@ -16,10 +16,11 @@
 
     <i title="Počet zobrazení" class="fa fa-eye mt-1"> {{ $event->count_view }} </i>
 
-    <div>
-        <a href="{{ route('event.subscribe.index', [$event->id]) }}">Prihlásených:
-            {{ $event->subscribes()->count() }}</a>
-    </div>
+
+    <a href="{{ route('event.subscribe.index', [$event->id]) }}" class="hover:underline ">Prihlásených:
+        {{ $event->subscribes()->count() }}
+    </a>
+
 
     @if (!$event->published)
         <span class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Nepublikované</span>

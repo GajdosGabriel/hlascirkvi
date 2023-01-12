@@ -29,17 +29,13 @@ class EventSubscribeController extends Controller
 
     public function update(Event $event, EventSubscribe $subscribe, Request $request)
     {
-        $subscribe->update([
-            'confirmed' => $request->input('confirmed')
-        ]);
+        $subscribe->update($request->all());
         return back();
     }
 
     public function store(Event $event, Request $request)
     {
         $subscribe =  $event->subscribe();
-
-        session()->flash('flash', 'Ste prihlásený na akciu!');
 
         Notification::send( [$subscribe->organization->user, $event->organization->user] , new NewSubscribe($subscribe));
 

@@ -9,7 +9,10 @@
     <x-pages.admin>
 
         <x-slot name="title">
-            Prihlášky na: {{ $event->title }}
+            Prihlášky na:
+            <a href="{{ route('event.show', [$event->id, $event->slug]) }}">
+                {{ $event->title }}
+            </a>
         </x-slot>
 
 
@@ -29,6 +32,7 @@
                         <th>Prihláška</th>
                         <th>Vstupenka</th>
                         <th>Platba</th>
+                        <th>Prihláška</th>
                         <th>Zmazať</th>
                     </tr>
                 </thead>
@@ -39,8 +43,8 @@
                             <td class="td text-center">{{ $loop->iteration }}.</td>
                             <td class="td text-center">
                                 <a href="{{ $event->routeShow() }}" target="_blank" class="hover:underline ">
-                                {{ $event->id }}
-                            </a>
+                                    {{ $event->id }}
+                                </a>
                             </td>
                             <td class="text-center">{{ date('d M Y', strtotime($subcription->created_at)) }}</td>
                             <td class="text-center">
@@ -56,16 +60,15 @@
                                 <form method="post"
                                     action="{{ route('event.subscribe.update', [$event->id, $subcription->id]) }}">
                                     @csrf @method('PUT')
-                                    @if ($subcription->confirmed)
-                                        <input name="confirmed" value="{{ null }}" type="hidden" />
-                                        <button title="Zrušiť potvrdenie!" class="label-success">Potvrdená</button>
+                                    @if ($subcription->active)
+                                        <input name="active" value="0" type="hidden" />
+                                        <button title="Zrušiť potvrdenie!" class="label-success">Aktívna</button>
                                     @else
-                                        <input name="confirmed" value="{{ now() }}" type="hidden" />
-                                        <button class="label-danger">Potvrdiť</button>
+                                        <input name="active" value="1" type="hidden" />
+                                        <button class="label-default">Zrušená</button>
                                     @endif
                                 </form>
                             </td>
-
                             <td class="text-center">
                                 <span class="label-primary">Generovaná</span>
                             </td>
@@ -75,6 +78,19 @@
                                 @else
                                     <span class="label-danger">{{ $subcription->paid }}.-€</span>
                                 @endif
+                            </td>
+                            <td class="text-center">
+                                <form method="post"
+                                    action="{{ route('event.subscribe.update', [$event->id, $subcription->id]) }}">
+                                    @csrf @method('PUT')
+                                    @if ($subcription->confirmed)
+                                        <input name="confirmed" value="{{ null }}" type="hidden" />
+                                        <button title="{{ $subcription->confirmed }}" class="label-success">Potvrdená</button>
+                                    @else
+                                        <input name="confirmed" value="{{ now() }}" type="hidden" />
+                                        <button class="label-danger">Čakajúca</button>
+                                    @endif
+                                </form>
                             </td>
                             <td class="text-center">
                                 <form method="post"
