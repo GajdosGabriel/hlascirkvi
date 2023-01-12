@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>{{ "Vaše kanály" }}</title>
+    <title>{{ 'Vaše kanály' }}</title>
 @endsection
 
 @section('content')
@@ -14,10 +14,10 @@
             {{-- // --}}
         </x-slot>
 
-
-
         <x-slot name="page">
-            <new-organization></new-organization>
+            <div class="md:w-1/2">
+                <new-organization></new-organization>
+            </div>
 
             @include('organizations._organization-table')
 

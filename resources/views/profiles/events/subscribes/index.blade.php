@@ -9,10 +9,11 @@
     <x-pages.admin>
 
         <x-slot name="title">
-            Prihlášky na:
+            
             <a href="{{ route('event.show', [$event->id, $event->slug]) }}" class="hover:underline">
                 {{ $event->title }}
             </a>
+            <div class="text-sm my-3 font-normal ">Zoznam prihlásených na akciu</div>
         </x-slot>
 
 
@@ -59,7 +60,7 @@
                                         <button title="Zrušiť potvrdenie!" class="label-success">Aktívna</button>
                                     @else
                                         <input name="active" value="1" type="hidden" />
-                                        <button class="label-default">Zrušená</button>
+                                        <button class="label-default">Odhlásený</button>
                                     @endif
                                 </form>
                             </td>

@@ -3,7 +3,7 @@
     class="w-full mb-2 border-2 rounded p-2 border-gray-300" required />
 
 <label>Modlitebná prosba</label>
-<textarea name="body" rows="5" placeholder="Obsah modlitby" class="w-full mb-2 border-2 rounded p-2 border-gray-300"
+<textarea name="body" rows="5" placeholder="Text modlitby" class="w-full mb-2 border-2 rounded p-2 border-gray-300"
     required>{{ old('body') ?? $prayer->body }}</textarea>
 
     <label>Uviesť zmenené, alebo anonymné meno</label>

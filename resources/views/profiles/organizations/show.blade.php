@@ -17,13 +17,7 @@
             <div class="flex">
 
                 <div class="mb-7 w-1/3 p-6">
-                    <div>
-                        <h3 class="font-semibold">Štatistika</h3>
-                        <h3>Počet videi: {{ $organization->posts()->count() }}</h3>
-                        <h3>Nepublikované články: {{ $organization->posts()->count() }}</h3>
-                        <h3>Zmazané články: </h3>
-                        <h3>Počet akcii: {{ $organization->events->count() }}</h3>
-                    </div>
+                    <x-organization.statistic />
                 </div>
 
                 <div class="mb-7 w-1/3 p-6">
