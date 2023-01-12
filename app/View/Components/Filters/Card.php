@@ -41,6 +41,7 @@ class Card extends Component
             'organization.prayers.index',
             'organization.post.index',
             'organization.event.index',
+            'event.subscribe.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }

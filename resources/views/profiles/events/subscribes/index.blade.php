@@ -10,7 +10,7 @@
 
         <x-slot name="title">
             Prihlášky na:
-            <a href="{{ route('event.show', [$event->id, $event->slug]) }}">
+            <a href="{{ route('event.show', [$event->id, $event->slug]) }}" class="hover:underline">
                 {{ $event->title }}
             </a>
         </x-slot>
@@ -25,7 +25,6 @@
                 <thead class="bg-gray-500 text-white">
                     <tr>
                         <th>P.č.</th>
-                        <th>Akcia</th>
                         <th>Prijatá</th>
                         <th>Meno</th>
                         <th>GDPR</th>
@@ -38,14 +37,9 @@
                 </thead>
 
                 <tbody>
-                    @forelse($event->subscribes as $subcription)
+                    @forelse($subscribes as $subcription)
                         <tr class="border-2 border-gray-300">
                             <td class="td text-center">{{ $loop->iteration }}.</td>
-                            <td class="td text-center">
-                                <a href="{{ $event->routeShow() }}" target="_blank" class="hover:underline ">
-                                    {{ $event->id }}
-                                </a>
-                            </td>
                             <td class="text-center">{{ date('d M Y', strtotime($subcription->created_at)) }}</td>
                             <td class="text-center">
                                 {{ $subcription->organization->title }}

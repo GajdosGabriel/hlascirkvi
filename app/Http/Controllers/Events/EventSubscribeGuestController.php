@@ -12,31 +12,30 @@ use Illuminate\Support\Facades\Notification;
 
 class EventSubscribeGuestController extends Controller
 {
-     // Neregistrovaný user. Nového usera najprv zaregistruje, potom prihlási a nakoniec odhlási.
-     public function store(EventSubscribeForm $request, Event $event)
-     {
- 
-         if ($user = User::whereEmail($request->email)->first()) {
-             \Auth::login($user, true);
-         } else {
-             $user = new User([
-                 'first_name' =>  $request->first_name,
-                 'last_name' =>  $request->last_name,
-                 'slug' =>  $request->first_name . '-' . $request->last_name,
-                 'email' =>  $request->email,
-                 'password' => bcrypt('registracnyformularheslo'),
-             ]);
- 
-             $user->save();
- 
-             \Auth::login($user, true);
-         }
- 
-         $subscribe = $event->subscribe();
+    // Neregistrovaný user. Nového usera najprv zaregistruje, potom prihlási a nakoniec odhlási.
+    public function store(EventSubscribeForm $request, Event $event)
+    {
 
-         Notification::send( [auth()->user(), $event->organization->user] , new NewSubscribe($subscribe));
- 
-         return redirect('akcie/'. $event->id . '/'. $event->slug);
-     }
- 
+        if ($user = User::whereEmail($request->email)->first()) {
+            \Auth::login($user, true);
+        } else {
+            $user = new User([
+                'first_name' =>  $request->first_name,
+                'last_name' =>  $request->last_name,
+                'slug' =>  $request->first_name . '-' . $request->last_name,
+                'email' =>  $request->email,
+                'password' => bcrypt('registracnyformularheslo'),
+            ]);
+
+            $user->save();
+
+            \Auth::login($user, true);
+        }
+
+        $subscribe = $event->subscribe();
+
+        Notification::send([$subscribe->organization->user, $event->organization->user], new NewSubscribe($subscribe));
+
+        return redirect('akcie/' . $event->id . '/' . $event->slug);
+    }
 }

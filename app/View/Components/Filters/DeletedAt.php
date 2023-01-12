@@ -36,6 +36,7 @@ class DeletedAt extends Component
             'admin.posts.index',
             'admin.organizations.index',
             'admin.users.index',
+            'event.subscribe.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }

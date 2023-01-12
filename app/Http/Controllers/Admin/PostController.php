@@ -10,6 +10,8 @@ use App\Repositories\Eloquent\EloquentPostRepository;
 
 class PostController extends Controller
 {
+    protected $post;
+    
     public function __construct()
     {
         $this->post = new EloquentPostRepository;

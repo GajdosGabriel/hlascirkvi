@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Events;
 
+use App\Filters\SubscribeFilters;
 use App\Role;
 
 use App\Models\User;
@@ -21,10 +22,13 @@ class EventSubscribeController extends Controller
         $this->middleware('auth')->except('subscribeByForm');
     }
 
-    public function index(Event $event)
+    public function index(Event $event, SubscribeFilters $filters)
     {
         $this->authorize('update', $event);
-        return view('profiles.events.users.index', compact('event'));
+
+        $subscribes = $event->subscribes()->filter($filters)->paginate();
+
+        return view('profiles.events.subscribes.index', [ 'subscribes'=> $subscribes, 'event'=> $event]);
     }
 
     public function update(Event $event, EventSubscribe $subscribe, Request $request)
