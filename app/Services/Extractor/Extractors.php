@@ -17,6 +17,8 @@ use App\Repositories\Eloquent\EloquentEventRepository;
 
 abstract class Extractors
 {
+    protected $event;
+
     public function __construct()
     {
         $this->event = new EloquentEventRepository;
@@ -42,7 +44,7 @@ abstract class Extractors
         }
     }
 
-    protected function createEvent($data, $published = 0)
+    protected function createEvent($data)
     {
         foreach ($data as $item) {
             // Remove white space from left
@@ -75,7 +77,7 @@ abstract class Extractors
                 'registration' => 'no',
                 'village_id' => 4209, // Celé Slovensko
                 'entryFee' => 'no',
-                'published' => $published,
+                'published' => date("Y-m-d H:i:s"),
                 'created_at' => Carbon::now()->subHours(2)->toDateTimeString(),
             ]);
             $this->parseEvent($item['href'], $event);

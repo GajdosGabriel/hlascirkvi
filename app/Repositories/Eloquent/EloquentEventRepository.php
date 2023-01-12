@@ -30,8 +30,8 @@ class EloquentEventRepository extends AbstractRepository implements EventReposit
     public function organizationPublished()
     {
         return $this->entity->whereHas('organization', function (Builder $query) {
-            $query->wherePublished(1);
-        })->wherePublished(1);
+            $query->whereNotNull('published');
+        })->whereNotNull('published');
     }
 
     /*

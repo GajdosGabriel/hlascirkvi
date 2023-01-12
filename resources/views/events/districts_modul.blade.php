@@ -34,7 +34,7 @@
                 @endif
                 Nepublikované
             </a>
-            <span>{{ \App\Models\Event::where('published', 0)->get()->count() }}</span>
+            <span>{{ \App\Models\Event::whereNull('published')->get()->count() }}</span>
         </li>
     @endcan
 </ul>

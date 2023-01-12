@@ -39,7 +39,7 @@ class StoreEventRequest extends FormRequest
             'organization_id' => 'required|integer|exists:organizations,id',
             'registration' => 'required',
             'entryFee' => 'required',
-            'published' => 'required'
+            // 'published' => 'required'
         ];
 
         return $rules;

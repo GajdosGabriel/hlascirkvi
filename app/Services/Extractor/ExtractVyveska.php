@@ -52,7 +52,7 @@ class ExtractVyveska extends Extractors
                 'href' => str_replace('?utm_source=vyveska.sk&utm_content=simple&utm_medium=rss', '', str_replace('http://www.vyveska.sk/', '', $link['link']))
             );
         }
-        $this->createEvent($extractedLinks, 1);
+        $this->createEvent($extractedLinks);
     }
 
 

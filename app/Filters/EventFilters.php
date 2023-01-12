@@ -34,7 +34,7 @@ class EventFilters extends Filters
 
     public function unpublished($value)
     {
-       return $this->builder->where('published', 0);
+       return $this->builder->whereNull('published');
     }
 
     public function organization($value)
