@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Gabriel
@@ -14,8 +15,8 @@ class CleanBodyText
     protected $post;
 
     protected $invalitWords =
-        [
-            // Martin dom
+    [
+        // Martin dom
         'Web: http://martindom.sk/',
         'FB: https://www.facebook.com/spolocenstvomartindom/',
         'https://www.facebook.com/martindomworship/',
@@ -36,8 +37,8 @@ class CleanBodyText
         'Web: http://www.cbpo.sk',
         'Sledujte nás aj na Facebooku: https://www.facebook.com/CirkevBratskaVPresove',
 
-         // Michal Zamkovský
-         'http://www.slovo.sk'
+        // Michal Zamkovský
+        'http://www.slovo.sk'
     ];
 
     public function __construct($post)
@@ -45,13 +46,18 @@ class CleanBodyText
         $this->post = $post;
     }
 
+
+    public function startToEnd()
+    {
+        // $var = "Posted On April 6th By Some Dude";
+       return substr($this->post, 0, strpos($this->post, " Objednávka"));
+    }
+
     public function handle()
     {
-        $this->post->update( [
-            'body' => str_replace($this->invalitWords ,'', $this->post->body),
+        $this->post->update([
+            'body' => str_replace($this->invalitWords, '', $this->post->body),
             'title' => cleanTitle($this->post->title)
         ]);
     }
-
-
 }
