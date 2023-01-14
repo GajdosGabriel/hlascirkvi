@@ -51,8 +51,24 @@ class TestController extends Controller
         $this->user = $user;
     }
 
-    public function newsletter(PostService $postService)
+    public function index(PostService $postService)
     {
+// dd(date("Y"));
+
+        
+        // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
+        // $href = 'https://www.tkkbs.sk/view.php?cisloclanku=20211202023';
+        $href = 'https://www.vyveska.sk/mozaika-lasky.html';
+        $event = Event::first();
+
+
+        //    $events = (new ExtractVyveska())->parseListUrl();
+        // $events = (new ExtractTkkbs())->parseEvent($href, $event);
+        $events = (new ExtractVyveska())->parseEvent($href, $event);
+
+        dd($events);
+
+
   
 
 
@@ -231,15 +247,6 @@ class TestController extends Controller
 
         // dd('nie je');
 
-        // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
-        $href = 'https://www.tkkbs.sk/view.php?cisloclanku=20211202023';
-        $event = Event::first();
-        // dd($event);
-
-        //    $events = (new ExtractVyveska())->parseListUrl();
-        $events = (new ExtractTkkbs())->parseEvent($href, $event);
-
-        dd($events);
 
 
         $posts =

@@ -1,9 +1,10 @@
-<p class="font-semibold mb-3">
+<div class="font-semibold mb-3 w-fit border-b-4 border-gray-400 ">
     {{ ucfirst(localized_date('l', $event->start_at)) }}
     {{ localized_date('d. m. Y', $event->start_at) }}
-</p>
-<div class="md:grid grid-cols-8 gap-4 mb-10 hover:bg-gray-50 p-2 hover:bg-gray-50">
-    <div class="col-span-1 overflow-hidden">
+</div>
+
+<section class="md:grid grid-cols-8 gap-4 mb-10 hover:bg-gray-50 p-2">
+    <section class="col-span-1 overflow-hidden">
         <a href="{{ $event->routeShow() }}">
             @if ($event->imagethumb)
                 <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"
@@ -13,9 +14,9 @@
                     alt="{{ $event->title }}">
             @endif
         </a>
-    </div>
+    </section>
 
-    <div class="col-span-5">
+    <section class="col-span-5">
         <div class="post-header">
             <div class="title flex justify-between">
                 <h5 class="text-lg font-semibold"><a href="{{ $event->routeShow() }}">
@@ -43,8 +44,9 @@
             <x-events.thumbs.thumbadmin :event="$event" />
         @endcan
 
-    </div>
-    <div class="col-span-2">
+    </section>
+    
+    <section class="col-span-2">
         {{-- <strong class="pull-right">{{ localized_date('l', $event->dateStart) }}</strong><br> --}}
         {{-- <span class="">{{ $event->organization->city }} </span> --}}
         <a href="?location={{ $event->village->district->id }}">
@@ -54,5 +56,5 @@
         <a href="?organization={{ $event->organization_id }}">
             <div class="">Pridal: {{ $event->organization->title }}</div>
         </a>
-    </div>
-</div>
+    </section>
+</section>

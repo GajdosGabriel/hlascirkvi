@@ -41,7 +41,7 @@
     @endif
 </div>
 
-<div class="">
+<section>
 
     {!! $event->body !!}
 
@@ -90,7 +90,7 @@
         @endforeach
     </div>
 
-</div>
+</section>
 
 
 
