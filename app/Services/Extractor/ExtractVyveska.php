@@ -191,6 +191,9 @@ class ExtractVyveska extends Extractors
 
 
             $zmensovac = $countWords;
+
+            $organization = null;
+            
             while ($zmensovac >= 1) {
                 // Postupné osekávnie vety výrazu zo zadu po jednom slove.
                 $hladanyVyraz = array_slice($arrayWords, 0, $zmensovac);
