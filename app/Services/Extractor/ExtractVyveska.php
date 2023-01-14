@@ -96,7 +96,7 @@ class ExtractVyveska extends Extractors
         $dateString = implode("|", $extractedDates[0]);
 
 
-        if (substr_count($dateString, 2022) > 1) {
+        if (substr_count($dateString, date("Y")) > 1) {
             // Ak sú dva dátumy začiatok a koniec
             $date =  explode("-", $dateString);
             $startDate = $date[0];

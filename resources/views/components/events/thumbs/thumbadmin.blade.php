@@ -1,4 +1,4 @@
-<div class="flex justify-between items-center">
+<section class="flex justify-between items-center">
     @if (!$event->displayStatus())
         <div><label class="badge badge-default " title="Podujatie sa skončilo">
                 {{ trans('web.events_users_finished') }}</label>
@@ -26,4 +26,4 @@
         <span class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Nepublikované</span>
     @endif
 
-</div>
+</section>
