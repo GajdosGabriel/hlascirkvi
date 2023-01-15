@@ -6,11 +6,14 @@
 <section class="md:grid grid-cols-8 gap-4 mb-10 hover:bg-gray-50 p-2">
     <section class="col-span-1 overflow-hidden">
         <a href="{{ $event->routeShow() }}">
-            @if ($event->imagethumb)
+            @if ($event->imagethumb and is_file($event->imagethumb))
                 <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"
                     alt="{{ $event->title }}">
-            @else
+            @elseif($event->imagecard and is_file($event->imagecard))
                 <img data-src="{{ url($event->imagecard) }}" class="lazyload rounded w-full" data-sizes="auto"
+                    alt="{{ $event->title }}">
+            @else
+                <img data-src="{{ asset('images/foto.jpg') }}" class="lazyload rounded w-full" data-sizes="auto"
                     alt="{{ $event->title }}">
             @endif
         </a>
@@ -20,12 +23,12 @@
         <div class="post-header">
             <div class="title flex justify-between">
                 <h5 class="text-lg font-semibold"><a href="{{ $event->routeShow() }}">
-                    {{ $event->title }}
-                    @if ($event->online_link)
-                        - Online
-                    @endif
-                </a>
-            </h5>
+                        {{ $event->title }}
+                        @if ($event->online_link)
+                            - Online
+                        @endif
+                    </a>
+                </h5>
 
                 @can('update', $event)
                     <event-dropdown :post="{{ $event }}" />
@@ -45,7 +48,7 @@
         @endcan
 
     </section>
-    
+
     <section class="col-span-2">
         {{-- <strong class="pull-right">{{ localized_date('l', $event->dateStart) }}</strong><br> --}}
         {{-- <span class="">{{ $event->organization->city }} </span> --}}

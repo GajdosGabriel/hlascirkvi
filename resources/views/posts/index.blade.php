@@ -26,7 +26,7 @@
         <x-slot name="page">
 
             {{-- @include('posts.sviatok') --}}
-            @include('cases.amt')
+            {{-- @include('cases.amt') --}}
 
 
 

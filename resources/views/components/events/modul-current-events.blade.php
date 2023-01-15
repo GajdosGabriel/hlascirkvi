@@ -6,15 +6,15 @@
             <div class="flex flex-col hover:bg-gray-100 p-2 relative">
                 <div class="inset-0 overflow-hidden max-h-16">
                     <a href="{{ $event->routeShow() }}">
-                        @if ($event->imagethumb)
-                            <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full"
-                                data-sizes="auto" alt="{{ $event->title }}">
-
-                        @else
-
+                        @if ($event->imagethumb and is_file($event->imagethumb))
+                            <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"
+                                alt="{{ $event->title }}">
+                        @elseif($event->imagecard and is_file($event->imagecard))
                             <img data-src="{{ url($event->imagecard) }}" class="lazyload rounded w-full"
                                 data-sizes="auto" alt="{{ $event->title }}">
-
+                        @else
+                            <img data-src="{{ asset('images/foto.jpg') }}" class="lazyload rounded w-full"
+                                data-sizes="auto" alt="{{ $event->title }}">
                         @endif
                     </a>
                 </div>
