@@ -3,14 +3,22 @@
 
         <ul class="border-2 border-gray-300 rounded-sm text-sm ">
 
-            @forelse( $events as $event)
+            @forelse($events as $event)
                 <a href="{{ $event->routeShow() }}">
                     <x-cards.carditem>
                         <div class="card-body grid grid-cols-6 gap-3">
                             <div class="col-span-2  overflow-hidden h-22">
 
-                                <img data-src="{{ url($event->imagethumb) }}" class="lazyload mr-4 rounded-md"
-                                    data-sizes="auto" title="{{ $event->title }}">
+                                @if ($event->imagethumb and is_file($event->imagethumb))
+                                    <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full mr-4"
+                                        data-sizes="auto" alt="{{ $event->title }}">
+                                @elseif($event->imagecard and is_file($event->imagecard))
+                                    <img data-src="{{ url($event->imagecard) }}" class="lazyload rounded w-full mr-4"
+                                        data-sizes="auto" alt="{{ $event->title }}">
+                                @else
+                                    <img data-src="{{ asset('images/foto.jpg') }}" class="lazyload rounded w-full mr-4"
+                                        data-sizes="auto" alt="{{ $event->title }}">
+                                @endif
 
                             </div>
                             <div class="col-span-4">
