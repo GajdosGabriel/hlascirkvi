@@ -104,16 +104,16 @@ class Event extends Model implements Viewable
 
     public function getImagethumbAttribute()
     {
-        if ($this->images()->whereType('img')->exists()) {
-            return "storage/{$this->images()->whereType('img')->first()->thumb}";
+        if ($image = $this->images()->whereType('img')->first()) {
+            return "storage/{$image->thumb}";
         }
         return $this->imagecard;
     }
 
     public function getImagecardAttribute()
     {
-        if ($this->images()->whereType('card')->exists()) {
-            return "storage/{$this->images()->whereType('card')->first()->thumb}";
+        if ($image = $this->images()->whereType('card')->first()) {
+            return "storage/{$image->thumb}";
         }
         return asset('images/foto.jpg');
     }
