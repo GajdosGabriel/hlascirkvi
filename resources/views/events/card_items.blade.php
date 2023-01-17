@@ -1,9 +1,9 @@
-<div class="font-semibold mb-3 w-fit border-b-4 border-gray-400 ">
+<div class="font-semibold mb-3 w-fit border-b-4 border-gray-400">
     {{ ucfirst(localized_date('l', $event->start_at)) }}
     {{ localized_date('d. m. Y', $event->start_at) }}
 </div>
 
-<section class="md:grid grid-cols-8 gap-4 mb-10 hover:bg-gray-50 p-2">
+<section class="md:grid grid-cols-8 gap-4 mb-10 hover:bg-gray-50 p-2 border-2 rounded-md shadow-lg">
     <section class="col-span-1 overflow-hidden">
         <a href="{{ $event->routeShow() }}">
             @if ($event->imagethumb and is_file($event->imagethumb))
@@ -19,7 +19,7 @@
         </a>
     </section>
 
-    <section class="col-span-5">
+    <section class="col-span-5 relative">
         <div class="post-header">
             <div class="title flex justify-between">
                 <h5 class="text-lg font-semibold"><a href="{{ $event->routeShow() }}">
