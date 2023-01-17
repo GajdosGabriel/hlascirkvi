@@ -56,6 +56,6 @@ class OrganizationPostController extends Controller
         $this->authorize('update', $post);
         $post->comments()->delete();
         $post->delete();
-        // return redirect('/')->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
+        return redirect()->route('organization.post.index', $organization->id)->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
     }
 }

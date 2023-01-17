@@ -34,7 +34,30 @@
 
 
             @can('update', $post)
-                <article-dropdown :post="{{ $post }}" />
+                <dropdown-slot>
+
+                    <ul class="dropdown-menu z-50">
+                        <a href={{ route('organization.post.edit', [$post->organization_id, $post->id]) }}>
+                            <li class="dropdown-item">upraviť</li>
+                        </a>
+
+                        <li class="dropdown-item">
+                            <form action="{{ route('organization.post.destroy', [$post->organization_id, $post->id]) }}"
+                                method="post">
+                                @csrf @method('DELETE')
+                                <button>zmazať</button>
+                            </form>
+                        </li>
+
+                        <li class="dropdown-item whitespace-nowrap">
+
+                            <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
+                                @csrf @method('PUT')
+                                <button>Do buffer</button>
+                            </form>
+                        </li>
+                    </ul>
+                </dropdown-slot>
             @endcan
         </div>
 

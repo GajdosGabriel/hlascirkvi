@@ -6292,14 +6292,29 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", {}, [_vm.open ? _c("div", {}, [_vm._t("default")], 2) : _vm._e(), _vm._v(" "), !_vm.open ? _c("div", {
-    attrs: {
-      title: ""
-    },
+  return _c("div", {
+    staticClass: "relative z-10 px-2"
+  }, [_c("div", {
     on: {
       click: _vm.toggle
     }
-  }, [_vm._t("button")], 2) : _vm._e()]);
+  }, [_c("svg", {
+    staticClass: "h-7 w-7 cursor-pointer bg-gray-100 rounded-full text-gray-400 hover:bg-gray-200 p-1",
+    attrs: {
+      xmlns: "http://www.w3.org/2000/svg",
+      fill: "none",
+      viewBox: "0 0 24 24",
+      stroke: "currentColor",
+      title: "Spravovať článok"
+    }
+  }, [_c("path", {
+    attrs: {
+      "stroke-linecap": "round",
+      "stroke-linejoin": "round",
+      "stroke-width": "2",
+      d: "M19 9l-7 7-7-7"
+    }
+  })])]), _vm._v(" "), _vm.open ? _c("div", {}, [_vm._t("default")], 2) : _vm._e()]);
 };
 
 var staticRenderFns = [];
