@@ -6,7 +6,8 @@ use App\Models\Event;
 use App\Notifications\Admin\NewEvent;
 use App\Services\EventImageGenerator;
 use App\Models\User;
-
+use App\Services\FileService\FileService;
+use File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
@@ -41,12 +42,20 @@ class EventObserver
     public function updated(Event $event)
     {
         if ($event->published) {
-            $event->images()->whereType('card')->delete();
-            (new EventImageGenerator($event))->checkIfEvent();
+
+            if ($event->isDirty([ 'title', 'start_at', 'end_at', 'village_id'])) {
+
+                $fileService = new FileService;
+                foreach ($event->images()->whereType('card')->get() as $image) {
+                    $fileService->destroy($image);
+                }
+
+                $event->images()->whereType('card')->delete();
+
+                // (new EventImageGenerator($event))->checkIfEvent();
+            }
         }
 
-//        if($event->start_at)
-//        $event->update(['end_at' => $event->start_at->addHours(2)]);
     }
 
     /**
