@@ -15,8 +15,7 @@ class FileService
     public function __construct($model, $images)
     {
         $this->model = $model;
-        $this->images = $images;
-        
+        $this->images = $images;       
     }
 
     public function store()
@@ -26,7 +25,7 @@ class FileService
 
         foreach ($this->images as $image) {
 
-            $url = Storage::disk('public')->put( $this->folderPath() , $image);
+            $url = Storage::disk('public')->put($this->folderPath(), $image);
 
             $this->image = $this->model->images()->create([
                 'url' => $url,
@@ -39,6 +38,13 @@ class FileService
 
             $this->resizePostImage();
         }
+    }
+
+
+    public function destroy($image)
+    {
+        Storage::disk('public')->delete($image->url);
+        Storage::disk('public')->delete($image->thumb);
     }
 
 

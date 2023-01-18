@@ -45,8 +45,9 @@ class EventObserver
 
             if ($event->isDirty([ 'title', 'start_at', 'end_at', 'village_id'])) {
 
-                $fileService = new FileService;
+
                 foreach ($event->images()->whereType('card')->get() as $image) {
+                    $fileService = new FileService($event, $image);
                     $fileService->destroy($image);
                 }
 
