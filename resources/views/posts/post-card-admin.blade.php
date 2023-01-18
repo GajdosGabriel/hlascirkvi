@@ -87,6 +87,16 @@
                 <span class="label-primary">label</span>
                 <span class="label-success">label</span>
             </div>
+
+            <div>
+                @foreach ($post->updaters as $updater)
+                    <span class="label-default">
+                        {{ $updater->title }}
+                    </span>
+                @endforeach
+                <span class="label-primary">label</span>
+                <span class="label-success">label</span>
+            </div>
         </div>
     </div>
 
