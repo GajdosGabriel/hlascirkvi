@@ -33,14 +33,14 @@
 
             <div class="flex space-x-2">
                 <label for="publishet1" class="whitespace-nowrap  ">Teraz</label>
-                <input type="radio" value="{{ date('Y-m-d H:i:s') }}" @if ($post->published != null) checked @endif
-                    id="publishet1" name="published">
+                <input type="radio" value="{{ date('Y-m-d H:i:s') }}" @if (is_string($post->published)) checked @endif
+                    required id="publishet1" name="published">
             </div>
 
             <div class="flex space-x-2">
                 <label for="publishet2" class="whitespace-nowrap ">Neskôr</label>
-                <input type="radio" value="" @if ($post->published == null) checked @endif id="publishet2"
-                    name="published">
+                <input type="radio" value="null"  @if ( $post->created_at and $post->published == null) checked @endif required
+                    id="publishet2" name="published">
             </div>
         </div>
     </div>
@@ -53,7 +53,7 @@
                 @if (auth()->user()->email == env('ADMIN_EMAIL'))
                     @foreach (\App\Models\Organization::orderBy('title', 'asc')->get() as $organization)
                         <option @if (isset($post->organization_id) and $post->organization_id == $organization->id or
-                            $organization->id == auth()->user()->org_id) selected @endif value="{{ $organization->id }}">
+                                $organization->id == auth()->user()->org_id) selected @endif value="{{ $organization->id }}">
                             {{ $organization->title }}
                         </option>
                     @endforeach

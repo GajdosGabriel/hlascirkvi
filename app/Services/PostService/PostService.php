@@ -2,32 +2,36 @@
 
 namespace App\Services\PostService;
 
+use Illuminate\Support\Facades\DB;
 use App\Services\FileService\FileService;
 
 
 
-class PostService {
+class PostService
+{
 
     protected $fileService;
     protected $request;
 
 
     public function __construct()
-    {    
+    {
         // $this->fileService = ;               
     }
 
-    public function store($organization, $request) 
+    public function store($organization, $request)
     {
-        $post = $organization->posts()->create($request->all());
+        DB::transaction(function () use ($organization, $request) {
+            $post = $organization->posts()->create($request->all());
 
-        $post->updaters()->sync($request->get('updaters') ?: []);
+            $post->updaters()->sync($request->get('updaters') ?: []);
 
-        $file = new FileService($post, $request);
-        $file->store();
+            $file = new FileService($post, $request);
+            $file->store();
+        });
     }
 
-    public function update($post, $request) 
+    public function update($post, $request)
     {
         $post->update($request->all());
 
@@ -38,5 +42,4 @@ class PostService {
 
         return $post;
     }
-  
 }
