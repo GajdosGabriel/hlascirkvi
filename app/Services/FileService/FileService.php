@@ -15,15 +15,18 @@ class FileService
     public function __construct($model, $images)
     {
         $this->model = $model;
-        $this->images = $images;       
+        $this->images = $images;
     }
 
     public function store()
     {
 
 
+        if (!$this->images->pictures) return;
 
-        foreach ($this->images as $image) {
+        $this->createDirectory();
+
+        foreach ($this->images->pictures as $image) {
 
             $url = Storage::disk('public')->put($this->folderPath(), $image);
 
