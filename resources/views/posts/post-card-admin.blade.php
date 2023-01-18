@@ -1,6 +1,6 @@
 <div class="border-2 border-gray-400 rounded-md hover:shadow-md shadow-sm text-xs md:text-sm flex my-4">
 
-    <div style="max-width: 160px;" class="p-2">
+    <section style="max-width: 160px;" class="p-2">
         @if ($post->favorites()->count())
             <div class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200">
                 Doporúčené
@@ -18,11 +18,11 @@
                 @include('posts.image')
             </a>
         </div>
-    </div>
+    </section>
 
 
 
-    <div class="w-full p-2 flex flex-col">
+    <section class="w-full p-2 flex flex-col">
 
         <div class="flex justify-between">
 
@@ -32,33 +32,11 @@
                 </a>
             </h6>
 
-
-            @can('update', $post)
-                <dropdown-slot>
-
-                    <ul class="dropdown-menu z-50">
-                        <a href={{ route('organization.post.edit', [$post->organization_id, $post->id]) }}>
-                            <li class="dropdown-item">upraviť</li>
-                        </a>
-
-                        <li class="dropdown-item">
-                            <form action="{{ route('organization.post.destroy', [$post->organization_id, $post->id]) }}"
-                                method="post">
-                                @csrf @method('DELETE')
-                                <button>zmazať</button>
-                            </form>
-                        </li>
-
-                        <li class="dropdown-item whitespace-nowrap">
-
-                            <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
-                                @csrf @method('PUT')
-                                <button>Do buffer</button>
-                            </form>
-                        </li>
-                    </ul>
-                </dropdown-slot>
-            @endcan
+            <div class="text-gray-500" title="{{ $post->organization->title }}">
+                <a href="{{ route('organization.post.index', [$post->organization_id]) }}">
+                    {{ $post->organization->title }}
+                </a>
+            </div>
         </div>
 
 
@@ -94,11 +72,36 @@
                         {{ $updater->title }}
                     </span>
                 @endforeach
-                <span class="label-primary">label</span>
-                <span class="label-success">label</span>
             </div>
         </div>
-    </div>
+    </section>
 
+    <section class="p-2">
+        @can('update', $post)
+            <dropdown-slot>
 
+                <ul class="dropdown-menu z-50">
+                    <a href={{ route('organization.post.edit', [$post->organization_id, $post->id]) }}>
+                        <li class="dropdown-item">upraviť</li>
+                    </a>
+
+                    <li class="dropdown-item">
+                        <form action="{{ route('organization.post.destroy', [$post->organization_id, $post->id]) }}"
+                            method="post">
+                            @csrf @method('DELETE')
+                            <button>zmazať</button>
+                        </form>
+                    </li>
+
+                    <li class="dropdown-item whitespace-nowrap">
+
+                        <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
+                            @csrf @method('PUT')
+                            <button>Do buffer</button>
+                        </form>
+                    </li>
+                </ul>
+            </dropdown-slot>
+        @endcan
+    </section>
 </div>
