@@ -9,22 +9,28 @@ use Image;
 class FileService
 {
     protected $model;
-    protected $image;
+    protected $images;
 
-    public function store($model, $request)
+
+    public function __construct($model, $images)
+    {
+        $this->model = $model;
+        $this->images = $images;
+        
+    }
+
+    public function store()
     {
 
-        $this->model = $model;
 
-        if (!$request->pictures) return false;
 
-        foreach ($request->pictures as $image) {
+        foreach ($this->images as $image) {
 
-            $url = Storage::disk('public')->put("posts/" , $image);
+            $url = Storage::disk('public')->put( $this->folderPath() , $image);
 
-            $this->image = $model->images()->create([
+            $this->image = $this->model->images()->create([
                 'url' => $url,
-                'name' => $model->slug,
+                'name' => $this->model->slug,
                 'thumb' => $this->folderPath() . 'thumb/' . basename($url),
                 'org_name' => $image->getClientOriginalName(),
                 'size' => $image->getSize(),

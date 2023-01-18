@@ -4,16 +4,17 @@ namespace App\View\Components\Events\Thumbs;
 
 use Illuminate\View\Component;
 
-class Item extends Component
+class FooterAdmin extends Component
 {
+    public $event;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($event)
     {
-        //
+        $this->event = $event;
     }
 
     /**
@@ -23,6 +24,6 @@ class Item extends Component
      */
     public function render()
     {
-        return view('components.events.thumbs.item');
+        return view('components.events.cards.footer-admin');
     }
 }

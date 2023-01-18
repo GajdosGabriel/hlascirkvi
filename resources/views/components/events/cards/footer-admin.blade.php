@@ -1,7 +1,13 @@
 <section class="flex justify-between items-center absolute bottom-0 w-full">
+
+    <div class="badge badge-default " title="Podujatie sa skončilo">
+        Vytvorené {{ $event->created_at->format('d. m. Y') }}
+    </div>
+
+
     @if (!$event->displayStatus())
         <div><label class="badge badge-default " title="Podujatie sa skončilo">
-               Vytvorené {{  $event->created_at->format('d. m. Y') }}</label>
+                Skončené
         </div>
     @elseif($event->published)
         <div title="Kliknutím pozastavíte publikovanie akcie.">

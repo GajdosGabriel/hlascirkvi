@@ -44,7 +44,7 @@
 
         {{-- ------- Admin panel ----------------- --}}
         @can('update', $event)
-            <x-events.thumbs.thumbadmin :event="$event" />
+            <x-events.cards.footer-admin :event="$event" />
         @endcan
 
     </section>

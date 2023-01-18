@@ -14,7 +14,7 @@ class PostService {
 
     public function __construct()
     {    
-        $this->fileService = new FileService();               
+        // $this->fileService = ;               
     }
 
     public function store($organization, $request) 
@@ -23,7 +23,8 @@ class PostService {
 
         $post->updaters()->sync($request->get('updaters') ?: []);
 
-        $this->fileService->store($post, $request);
+        $file = new FileService($post, $request);
+        $file->store();
     }
 
     public function update($post, $request) 
@@ -32,7 +33,8 @@ class PostService {
 
         $post->updaters()->sync($request->get('updaters') ?: []);
 
-        $this->fileService->store($post, $request);
+        $file = new FileService($post, $request);
+        $file->store();
 
         return $post;
     }
