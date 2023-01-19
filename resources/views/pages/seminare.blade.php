@@ -39,7 +39,7 @@
             <div class="md:grid md:grid-cols-4 lg:grid-cols-7 gap-6 mb-10">
                 @foreach ($seminar->posts as $post)
 
-                    @include('posts.post-card')
+                    @include('posts.card-front')
 
                 @endforeach
 
@@ -80,7 +80,7 @@
                         @endforeach
 
                         @foreach ($v as $post)
-                            @include('posts.post-card')
+                            @include('posts.card-front')
                         @endforeach
                     @endforeach
                 </div>

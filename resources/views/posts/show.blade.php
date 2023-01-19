@@ -239,7 +239,7 @@
 
         <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-8  gap-4  w-11/12">
             @forelse($posts as $post)
-                @include('posts.post-card')
+                @include('posts.card-front')
             @empty
                 bez záznamu
             @endforelse

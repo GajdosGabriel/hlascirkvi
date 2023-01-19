@@ -66,8 +66,8 @@
 
             <div class="grid md:grid-cols-3 lg:grid-cols-4 md:gap-7 grid-cols-2 gap-2">
                 @forelse($posts as $post)
-                    {{-- <post-card :post="{{ $post }}"></post-card> --}}
-                    @include('posts.post-card')
+                    {{-- <card-front :post="{{ $post }}"></card-front> --}}
+                    @include('posts.card-front')
                 @empty
                     bez záznamu
                 @endforelse
