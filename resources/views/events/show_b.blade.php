@@ -34,6 +34,47 @@
         @endif
 
 
+
+
+        @guest
+            <form method="post" action="{{ route('event.subscribeGuest.store', [$event->id]) }}"
+                class="border-2 rounded-md">
+                @csrf @method('POST')
+
+                <div class="text-lg font-semibold bg-gray-600 text-gray-100 mb-6 p-2">
+                    Prihlásiť sa na akciu
+                </div>
+
+
+                <div class="p-2">
+
+                    <input type="text" name="first_name" class="border-2 border-gray-500 rounded-md p-2 mb-3"
+                        value="{{ old('first_name') }}" required placeholder="Meno">
+
+                    <input type="text" name="last_name" class="border-2 border-gray-500 rounded-md p-2"
+                        value="{{ old('last_name') }}" required placeholder="Priezvisko">
+
+                    <input type="email" name="email" class="border-2 border-gray-500 rounded-md p-2 mb-3"
+                        value="{{ old('email') }}" required placeholder="email na zaslanie potvrdenia">
+
+                    <div>
+                        <label>
+                            <input type="number" class="border-2 border-gray-500 rounded-md p-2 mb-3" name="iamHuman"
+                                placeholder="Zadajte číslo 5" required>
+                            Zadajte číslo 5
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-full">
+                        Odoslať registráciu
+                    </button>
+                </div>
+
+            </form>
+        @endguest
+
+
+
         @if ($event->isSubscribed())
             <form method="post" action="{{ route('event.subscribe.store', [$event->id]) }}">
                 @csrf @method('POST')
@@ -42,39 +83,6 @@
                     Ste prihlásený na akciu
                 </button>
             </form>
-        @else
-            @guest
-                <form method="post" action="{{ route('event.subscribeGuest.store', [$event->id]) }}">
-                    @csrf @method('POST')
-                    <dropdown-slot>
-                        <template v-slot:button>
-                            <button class="btn btn-primary w-full">
-                                Prihlásiť sa na akciu
-                            </button>
-                        </template>
-
-                        <input type="text" name="first_name" class="border-2 border-gray-500 rounded-md p-2 mb-3"
-                            value="{{ old('first_name') }}" required placeholder="Meno">
-
-                        <input type="text" name="last_name" class="border-2 border-gray-500 rounded-md p-2"
-                            value="{{ old('last_name') }}" required placeholder="Priezvisko">
-
-                        <input type="email" name="email" class="border-2 border-gray-500 rounded-md p-2 mb-3"
-                            value="{{ old('email') }}" required placeholder="email na zaslanie linku">
-
-                        <button type="submit" class="btn btn-primary w-full">
-                            Prihlásiť sa na akciu
-                        </button>
-                    </dropdown-slot>
-                </form>
-            @else
-                <form method="post" action="{{ route('event.subscribe.store', [$event->id]) }}">
-                    @csrf @method('POST')
-                    <button type="submit" class="btn btn-primary w-full">
-                        Prihlásiť sa na akciu
-                    </button>
-                </form>
-            @endguest
         @endif
 
     </div>
@@ -93,7 +101,10 @@
                     @else
                         <div>{{ $event->ticket_available }}</div>
                     @endif
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M112 128c0-29.5 16.2-55 40-68.9V256h48V48h48v208h48V59.1c23.8 13.9 40 39.4 40 68.9v128h48V128C384 57.3 326.7 0 256 0h-64C121.3 0 64 57.3 64 128v128h48zm334.3 213.9l-10.7-32c-4.4-13.1-16.6-21.9-30.4-21.9H42.7c-13.8 0-26 8.8-30.4 21.9l-10.7 32C-5.2 362.6 10.2 384 32 384v112c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V384h256v112c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V384c21.8 0 37.2-21.4 30.3-42.1z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path
+                            d="M112 128c0-29.5 16.2-55 40-68.9V256h48V48h48v208h48V59.1c23.8 13.9 40 39.4 40 68.9v128h48V128C384 57.3 326.7 0 256 0h-64C121.3 0 64 57.3 64 128v128h48zm334.3 213.9l-10.7-32c-4.4-13.1-16.6-21.9-30.4-21.9H42.7c-13.8 0-26 8.8-30.4 21.9l-10.7 32C-5.2 362.6 10.2 384 32 384v112c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V384h256v112c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V384c21.8 0 37.2-21.4 30.3-42.1z" />
+                    </svg>
                 </div>
                 <div class="text-center ">
                     <div>{{ now()->diffInDays($event->start_at->format('d-m-Y')) }}</div>

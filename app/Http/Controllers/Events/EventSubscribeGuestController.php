@@ -6,14 +6,14 @@ use App\Models\User;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EventSubscribeForm;
+use App\Http\Requests\EventSubscribeGuestForm;
 use App\Notifications\Subscribe\NewSubscribe;
 use Illuminate\Support\Facades\Notification;
 
 class EventSubscribeGuestController extends Controller
 {
     // Neregistrovaný user. Nového usera najprv zaregistruje, potom prihlási a nakoniec odhlási.
-    public function store(EventSubscribeForm $request, Event $event)
+    public function store(EventSubscribeGuestForm $request, Event $event)
     {
 
         if ($user = User::whereEmail($request->email)->first()) {
@@ -22,7 +22,6 @@ class EventSubscribeGuestController extends Controller
             $user = new User([
                 'first_name' =>  $request->first_name,
                 'last_name' =>  $request->last_name,
-                'slug' =>  $request->first_name . '-' . $request->last_name,
                 'email' =>  $request->email,
                 'password' => bcrypt('registracnyformularheslo'),
             ]);
