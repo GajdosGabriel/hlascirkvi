@@ -19,9 +19,9 @@
         <div class="grid md:grid-cols-3 lg:grid-cols-5 md:gap-5 grid-cols-2 gap-2 pb-2 px-2">
             @forelse($videos as $post)
 
-                <post-card :post="{{ $post }}" :createdat="{{ json_encode(false) }}"
-                    :shortertext="{{ json_encode(false) }}"></post-card>
-                {{-- @include('posts.post-card') --}}
+                <card-front :post="{{ $post }}" :createdat="{{ json_encode(false) }}"
+                    :shortertext="{{ json_encode(false) }}"></card-front>
+                {{-- @include('posts.card-front') --}}
             @empty
                 bez záznamu
             @endforelse

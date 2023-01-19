@@ -25,7 +25,7 @@
             <div class="">
 
                 @forelse($posts as $post)
-                    @include('posts.post-card-admin')
+                    @include('posts.card-admin')
                 @empty
                     bez záznamu
                 @endforelse
