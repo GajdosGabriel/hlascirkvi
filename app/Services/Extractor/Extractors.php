@@ -79,6 +79,7 @@ abstract class Extractors
                 'entryFee' => 'no',
                 'published' => date("Y-m-d H:i:s"),
                 'created_at' => Carbon::now()->subHours(2)->toDateTimeString(),
+                'orginal_source' => $item['href'],
             ]);
             $this->parseEvent($item['href'], $event);
         }

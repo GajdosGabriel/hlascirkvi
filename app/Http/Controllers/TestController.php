@@ -55,18 +55,18 @@ class TestController extends Controller
     {
 // dd(date("Y"));
 
-        
+               $event = Event::find(3677);
         // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
-        // $href = 'https://www.tkkbs.sk/view.php?cisloclanku=20211202023';
-        $href = 'https://www.vyveska.sk/mozaika-lasky.html';
+         $href = 'view.php?cisloclanku=20230119020';
+        // $href = 'https://www.vyveska.sk/mozaika-lasky.html';
         $event = Event::first();
 
 
         //    $events = (new ExtractVyveska())->parseListUrl();
-        // $events = (new ExtractTkkbs())->parseEvent($href, $event);
-        $events = (new ExtractVyveska())->parseEvent($href, $event);
+        $events = (new ExtractTkkbs())->parseEvent($href, $event);
+        // $events = (new ExtractVyveska())->parseEvent($href, $event);
 
-        dd($events);
+        dd($event);
 
 
   
