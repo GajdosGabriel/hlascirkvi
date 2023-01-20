@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\DetectorService;
+namespace App\Services\DetectService;
 
-class detectDateTime
+class DetectDateTime
 {
 
     //https://github.com/etiennetremel/PHP-Find-Date-in-String

@@ -35,7 +35,13 @@
 
     @if ($event->orginal_source)
         <a href="{{ $event->orginal_source }}">
-            <span class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Source link</span>
+            <span class="label-primary">Source link</span>
+        </a>
+    @endif
+
+    @if ($event->orginal_source)
+        <a href="{{ route('eventServices.newReolad', $event->id) }}">
+            <span class="label-default">New reload</span>
         </a>
     @endif
 

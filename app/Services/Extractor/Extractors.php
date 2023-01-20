@@ -13,7 +13,7 @@ namespace App\Services\Extractor;
 use DB;
 use Carbon\Carbon;
 use App\Repositories\Eloquent\EloquentEventRepository;
-use App\Services\DetectorService\detectDateTime;
+use App\Services\DetectService\DetectDateTime;
 
 abstract class Extractors
 {

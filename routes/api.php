@@ -24,6 +24,7 @@ Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal');
 Route::get('test/test', 'TestController@index');
 Route::get('test/grecky', 'TestController@greckyMagazin');
 Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled');
+Route::get('eventServices/{event}', 'Api\EventServiceController@newReolad')->name('eventServices.newReolad');
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
