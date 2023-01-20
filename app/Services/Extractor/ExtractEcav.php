@@ -182,7 +182,8 @@ class ExtractEcav extends Extractors
 
 
         // Detect datetime
-        $startAt = $this->find_date($event->body);
+        $startAt = $this->detectDateTime->find_date($event->body);
+        
         $event->update([
             'start_at' => $startAt,
             'end_at' => Carbon::parse($startAt)->addHours(2)

@@ -115,13 +115,13 @@ class ExtractVyveska extends Extractors
         // Check if event one or two days
 
 
-        // dd($this->find_date($startDate));
-        // dd($this->find_date($endDate));
+        // dd($this->detectDateTime->find_date($startDate));
+        // dd($this->detectDateTime->find_date($endDate));
         // dd($endDate);
 
         $event->update([
-            'start_at' => $this->find_date($startDate),
-            'end_at' => $this->find_date($endDate),
+            'start_at' => $this->detectDateTime->find_date($startDate),
+            'end_at' => $this->detectDateTime->find_date($endDate),
         ]);
 
 

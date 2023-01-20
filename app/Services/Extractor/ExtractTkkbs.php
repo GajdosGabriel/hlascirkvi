@@ -59,7 +59,7 @@ class ExtractTkkbs extends Extractors
             //Add the link to our $extractedLinks array.
             $extractedLinks[] = array(
                 'title' => $linkText,
-                'href' =>  $linkHref
+                'href' =>  $this->prefix . $linkHref
             );
         }
         $this->createEvent($extractedLinks);
@@ -69,7 +69,7 @@ class ExtractTkkbs extends Extractors
     public function parseEvent($href, $event)
     {
         // $url = "https://www.ecav.sk/aktuality/pozvanky";
-        $html = file_get_contents($this->prefix . $href);
+        $html = file_get_contents($href);
         // $html = file_get_contents('https://www.tkkbs.sk/view.php?cisloclanku=20191219020');
 
         //Instantiate the DOMDocument class.
@@ -116,7 +116,7 @@ class ExtractTkkbs extends Extractors
         $moveSentence  = $this->first_sentence_move($body);
 
         // Detect datetime
-        $startAt = $this->find_date($moveSentence);
+        $startAt = $this->detectDateTime->find_date($moveSentence);
 
         $event->update([
             'body'      => $moveSentence

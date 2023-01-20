@@ -32,4 +32,11 @@
         <span class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Nepublikované</span>
     @endif
 
+
+    @if ($event->orginal_source)
+        <a href="{{ $event->orginal_source }}">
+            <span class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Source link</span>
+        </a>
+    @endif
+
 </section>
