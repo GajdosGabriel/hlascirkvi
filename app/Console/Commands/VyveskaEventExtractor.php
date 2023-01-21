@@ -12,7 +12,7 @@ class VyveskaEventExtractor extends Command
      *
      * @var string
      */
-    protected $signature = 'vyveska:extract';
+    protected $signature = 'event:vyveska';
 
     /**
      * The console command description.

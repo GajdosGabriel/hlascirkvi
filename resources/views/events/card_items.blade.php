@@ -36,7 +36,7 @@
 
             </div>
 
-            <div class="text-gray-600">
+            <div class="text-gray-600 text-sm">
                 {{ html_entity_decode(strip_tags(\Illuminate\Support\Str::limit($event->body, 200))) }}
             </div>
         </div>

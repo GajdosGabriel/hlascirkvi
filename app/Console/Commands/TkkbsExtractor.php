@@ -14,7 +14,7 @@ class TkkbsExtractor extends Command
      *
      * @var string
      */
-    protected $signature = 'tkkbs:extract';
+    protected $signature = 'event:tkkbs';
 
     /**
      * The console command description.

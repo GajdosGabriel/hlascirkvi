@@ -68,8 +68,8 @@ class Kernel extends ConsoleKernel
 
         // Nevyriešenei kodovanie a preto dupľuje záznamy
         // $schedule->command('ecav:extract')->hourly();
-        $schedule->command('tkkbs:extract')->hourly();
-        $schedule->command('vyveska:extract')->hourly();
+        $schedule->command('event:tkkbs')->hourly();
+        $schedule->command('event:vyveska')->hourly();
         $schedule->command('prayer:zdruzenieMedaily')->hourly();
         $schedule->command('prayer:sluzobniceDuchaSvateho')->hourly();
         // Dočasné vypnuté lebo sa opakuje
