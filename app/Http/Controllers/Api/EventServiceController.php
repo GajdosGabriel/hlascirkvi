@@ -15,13 +15,9 @@ class EventServiceController extends Controller
 
         if($event->organization_id == 101 ) {
             $event = (new ExtractTkkbs())->parseEvent($event->orginal_source, $event);
-        }
-
-        if($event->organization_id == 271 ) {
+        }elseif($event->organization_id == 271 ) {
             $event = (new ExtractVyveska())->parseEvent($event->orginal_source, $event);
-        }
-
-        if($event->organization_id == 102 ) {
+        }elseif($event->organization_id == 102 ) {
             $event = (new ExtractEcav())->parseEvent($event->orginal_source, $event);
         }
 
