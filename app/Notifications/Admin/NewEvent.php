@@ -49,7 +49,7 @@ class NewEvent extends Notification implements ShouldQueue
             ->action('Upraviť event', url(route('organization.event.edit', [$this->event->organization_id, $this->event->id]) ))
             ->line('Dátum: ' . $this->event->start_at)
             ->line('Miesto: ' . $this->event->village->fullname)
-            ->line('Publikovaný: ' . $this->event->published->format("Y-m-d H:i:s"))
+            ->line('Publikovaný: ' . $this->event->published)
             ->line('Organizácia: ' . $this->event->organization->title)
             ->line('Názov: ' . $this->event->body);
 
