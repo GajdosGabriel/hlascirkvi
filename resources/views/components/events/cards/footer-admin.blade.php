@@ -1,4 +1,4 @@
-<section class="flex justify-between items-center absolute bottom-0 w-full">
+<section class="md:flex justify-between items-center bottom-0 w-full">
 
     <div class="badge badge-default " title="Podujatie sa skončilo">
         Vytvorené {{ $event->created_at->format('d. m. Y') }}

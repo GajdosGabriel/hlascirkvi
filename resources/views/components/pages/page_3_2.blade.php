@@ -1,21 +1,23 @@
-<div class="mx-auto w-10/12">
+<div class="md:mx-auto w-10/12">
 
     {{ $page_full ?? null }}
 
 </div>
 
-<div class="page md:grid grid-cols-12 gap-10">
+<div class="md:w-10/12 mx-auto">
+    <div class="page md:grid grid-cols-12 gap-10">
 
-    <div class="col-span-8">
+        <div class="col-span-8">
 
-        {{ $page }}
+            {{ $page }}
 
-    </div>
+        </div>
 
-    <div class="col-span-3">
+        <div class="col-span-3">
 
 
-        {{ $aside }}
+            {{ $aside }}
 
+        </div>
     </div>
 </div>
