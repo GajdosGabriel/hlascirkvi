@@ -66,6 +66,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
         'tags'                  => Admin\TagController::class,
         'updaters'              => Admin\UpdaterController::class,
         'updater.organization'  => Admin\UpdaterOrganizationController::class,
+        'eventSubscribes'       => Admin\EventSubscribeController::class,
     ]);
 });
 

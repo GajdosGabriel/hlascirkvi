@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\BigThink;
 use App\Models\Messenger;
 use App\Models\Organization;
+use App\Models\EventSubscribe;
 use App\Observers\PostObserver;
 use App\Observers\UserObserver;
 use App\Observers\EventObserver;
@@ -19,6 +20,8 @@ use App\Observers\BigThinkObserver;
 use App\Observers\MessengerObserver;
 use App\Observers\OrganizationObserver;
 use Illuminate\Support\ServiceProvider;
+use App\Observers\EventSubscribeObserver;
+
 
 
 class EloquentServiceProvider extends ServiceProvider
@@ -48,5 +51,7 @@ class EloquentServiceProvider extends ServiceProvider
         Organization::observe(OrganizationObserver::class);
         BigThink::observe(BigThinkObserver::class);
         Prayer::observe(PrayerObserver::class);
+        EventSubscribe::observe(EventSubscribeObserver::class);
+
     }
 }
