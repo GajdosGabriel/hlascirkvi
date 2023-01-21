@@ -19,27 +19,46 @@
         </a>
     </section>
 
-    <section class="col-span-5 relative">
-        <div class="post-header">
-            <div class="title flex justify-between">
-                <h5 class="text-lg font-semibold"><a href="{{ $event->routeShow() }}">
-                        {{ $event->title }}
-                        @if ($event->online_link)
-                            - Online
-                        @endif
-                    </a>
-                </h5>
+    <div class="col-span-7">
 
-                @can('update', $event)
-                    <event-dropdown :post="{{ $event }}" />
-                @endcan
+        <div class="md:grid grid-cols-8 gap-4">
+            <div class="col-span-6">
+                <div class="post-header">
+                    <div class="title flex justify-between">
+                        <h5 class="text-lg font-semibold"><a href="{{ $event->routeShow() }}">
+                                {{ $event->title }}
+                                @if ($event->online_link)
+                                    - Online
+                                @endif
+                            </a>
+                        </h5>
 
+                        @can('update', $event)
+                            <event-dropdown :post="{{ $event }}" />
+                        @endcan
+
+                    </div>
+
+                    <div class="text-gray-600 text-sm">
+                        {{ html_entity_decode(strip_tags(\Illuminate\Support\Str::limit($event->body, 200))) }}
+                    </div>
+                </div>
             </div>
 
-            <div class="text-gray-600 text-sm">
-                {{ html_entity_decode(strip_tags(\Illuminate\Support\Str::limit($event->body, 200))) }}
+            <div class="col-span-2 bg-gray-100 p-2 rounded-md">
+                {{-- <strong class="pull-right">{{ localized_date('l', $event->dateStart) }}</strong><br> --}}
+                {{-- <span class="">{{ $event->organization->city }} </span> --}}
+                <a href="?location={{ $event->village->district->id }}">
+                    <div class="">{{ $event->village->district->name }}</div>
+                </a>
+                <div class="">{{ $event->start_at->diffForHumans() }}</div>
+                <a href="?organization={{ $event->organization_id }}">
+                    <div class="">Pridal: {{ $event->organization->title }}</div>
+                </a>
             </div>
         </div>
+
+
 
 
         {{-- ------- Admin panel ----------------- --}}
@@ -47,17 +66,6 @@
             <x-events.cards.footer-admin :event="$event" />
         @endcan
 
-    </section>
+    </div>
 
-    <section class="col-span-2">
-        {{-- <strong class="pull-right">{{ localized_date('l', $event->dateStart) }}</strong><br> --}}
-        {{-- <span class="">{{ $event->organization->city }} </span> --}}
-        <a href="?location={{ $event->village->district->id }}">
-            <div class="">{{ $event->village->district->name }}</div>
-        </a>
-        <div class="">{{ $event->start_at->diffForHumans() }}</div>
-        <a href="?organization={{ $event->organization_id }}">
-            <div class="">Pridal: {{ $event->organization->title }}</div>
-        </a>
-    </section>
 </section>
