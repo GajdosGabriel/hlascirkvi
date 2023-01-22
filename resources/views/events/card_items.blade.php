@@ -52,9 +52,12 @@
                     <div class="">{{ $event->village->district->name }}</div>
                 </a>
                 <div class="">{{ $event->start_at->diffForHumans() }}</div>
-                <a href="?organization={{ $event->organization_id }}">
-                    <div class="">Pridal: {{ $event->organization->title }}</div>
-                </a>
+
+                <div>Pridal:
+                    <a href="?organization={{ $event->organization_id }}" class="hover:underline">
+                        {{ $event->organization->title }}
+                    </a>
+                </div>
             </div>
         </div>
 

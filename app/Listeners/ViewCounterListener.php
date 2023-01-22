@@ -5,12 +5,15 @@ namespace App\Listeners;
 
 use App\Events\VisitModel;
 use App\Services\SessionService;
-use App\Notifications\User\CountView;
+use App\Services\VisitModels\Counter;
+use App\Services\VisitModels\Miles;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ViewCounterListener
 {
+
+    protected $miles;
 
 
     /**
@@ -18,9 +21,9 @@ class ViewCounterListener
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Miles $miles)
     {
-
+        $this->miles = $miles;
     }
 
     /**
@@ -31,23 +34,15 @@ class ViewCounterListener
      */
     public function handle(VisitModel $event)
     {
-        $event->model->increment('count_view');
+        $counter = new Counter($event->model); 
+        $counter->handle();
 
-//        (new SessionService())->counterView($event);
+        //        (new SessionService())->counterView($event);
 
         // delayInSession($minutes)
         views($event->model)->cooldown(60)->record();
 
 
-//        // Sending notification email about article reading
-//        // Nefunguje organizácia nemá email
-//        $visiting = $event->model->count_view;
-//        if (  $visiting == 103 ||  $visiting == 305 ||  $visiting == 605 ||  $visiting == 1005
-//                AND  $event->model->organization->user->send_email == 1 )
-//        {
-//            $event->model->organization->user->notify(new CountView($event->model));
-//        }
-
-
+        $this->miles->visitingMiles($event->model);
     }
 }

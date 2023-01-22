@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>{{ "Admin Prihlásený" }}</title>
+    <title>{{ 'Admin Prihlásený' }}</title>
 @endsection
 
 @section('content')
-
     <x-pages.admin>
 
 
@@ -16,7 +15,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-          
+
         </x-slot>
 
 
@@ -25,9 +24,8 @@
             <div class="">
 
                 @forelse($items as $item)
-              <div class="font-semibold">{{ $item->created_at }}</div> <br/>
-              <div class="font-semibold">{{ $item->event->title }}</div> <br/>
-                {{ $item->organization->title }} <br/>
+                    <div><span class="font-semibold">{{ $item->organization->title }}</span> {{ $item->created_at }}</div>
+                    <div>{{ $item->event->title }}</div>
                     {{-- @include('posts.card-admin') --}}
                 @empty
                     bez záznamu
@@ -47,5 +45,4 @@
 
         </x-slot>
     </x-pages.admin>
-
 @endsection
