@@ -64,7 +64,7 @@ abstract class Extractors
             // Find existing or create new record
             if (DB::table('events')->whereTitle($title)
                 // ->whereOrganization_id($this->organizationId)
-                ->where('created_at', '>', Carbon::now()->subMonths(3))
+                ->where('created_at', '>', Carbon::now()->subMonths(2))
                 ->first()
             ) {
                 continue;
