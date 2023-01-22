@@ -174,11 +174,11 @@ class ExtractEcav extends Extractors
 
 
 
-            // Try find village from body text
-            $event->update([
-                'village_id' => $this->finderVillages($event->body)
-            ]);
-  
+        // Try find village from body text
+        $event->update([
+            'village_id' => $this->finderVillages($event->body)
+        ]);
+
 
 
         // Detect datetime

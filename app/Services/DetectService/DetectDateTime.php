@@ -2,6 +2,8 @@
 
 namespace App\Services\DetectService;
 
+use DateTime;
+
 class DetectDateTime
 {
 
@@ -144,8 +146,11 @@ class DetectDateTime
             return false;
         } else {
 
-            return $date['year'] . '-' . $date['month'] . '-' . $date['day'] . $this->timeRecogniser($string);
-            //  return $date['year'].'-'.$date['month'].'-'.$date['day'] . ' 23:59:59';
+            if ($this->validateDate($date['year'] . '-' . $date['month'] . '-' . $date['day'] . $this->timeRecogniser($string))) {
+                return $date['year'] . '-' . $date['month'] . '-' . $date['day'] . $this->timeRecogniser($string);
+            }
+
+            return null;
         }
     }
 
@@ -164,5 +169,12 @@ class DetectDateTime
         }
 
         return ' 00:00:00';
+    }
+
+
+    function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
     }
 }
