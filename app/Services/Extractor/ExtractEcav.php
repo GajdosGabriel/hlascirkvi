@@ -72,18 +72,17 @@ class ExtractEcav extends Extractors
 
             //Add the link to our $extractedLinks array.
             $extractedLinks[] = array(
-                'title' => mb_convert_encoding($linkText, "Windows-1252", "UTF-8"),
-                'href' =>  mb_convert_encoding($linkHref, "Windows-1252", "UTF-8")
+                'title' => utf8_decode($linkText),
+                'href' => $this->prefix . $linkHref
             );
         }
-
         $this->createEvent($extractedLinks);
     }
 
     public function parseEvent($href, $event)
     {
         //        $url = "https://www.ecav.sk/aktuality/pozvanky";
-        $html = file_get_contents($this->prefix . $href);
+        $html = file_get_contents($href);
         //        $html = file_get_contents('https://www.ecav.sk/aktuality/pozvanky/spevacky-zbor-z-diakoviec-pozyva-na-koncert');
 
 
@@ -148,11 +147,14 @@ class ExtractEcav extends Extractors
 
         //Extract the img from the HTML.
         $imgUrls = $htmlDom->getElementsByTagName('img');
+
+
         //Loop through the DOMNodeList.
         //We can do this because the DOMNodeList object is traversable.
         foreach ($imgUrls as $link) {
             //Get the link in the href attribute.
             $linkHref = $link->getAttribute('src');
+
 
             if (!stripos($linkHref, '/rails/active_storage/')) {
                 continue;
@@ -172,18 +174,16 @@ class ExtractEcav extends Extractors
 
 
 
-
-
-        // Try find village from body text
-        $event->update([
-            'village_id' => $this->finderVillages($event->body)
-        ]);
-
+            // Try find village from body text
+            $event->update([
+                'village_id' => $this->finderVillages($event->body)
+            ]);
+  
 
 
         // Detect datetime
         $startAt = $this->detectDateTime->find_date($event->body);
-        
+
         $event->update([
             'start_at' => $startAt,
             'end_at' => Carbon::parse($startAt)->addHours(2)

@@ -104,7 +104,7 @@ class DetectDateTime
                 if ($matches_month_word && $matches_month_word[1])
                     $month = array_search(strtolower($matches_month_word[1]), $short_month_names);
             }
-            $month = $month + 1;
+            $month = (int) $month + 1;
         }
         // Match 5th 1st day:
         if (empty($day)) {
@@ -140,7 +140,7 @@ class DetectDateTime
             'day' => $day
         );
         // Return false if nothing found:
-        if (!checkdate($month, $day, $year)) {
+        if (!checkdate($month, (int) $day, (int) $year)) {
             return false;
         } else {
 
