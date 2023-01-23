@@ -1,4 +1,4 @@
-<section class="md:flex justify-between items-center bottom-0 w-full">
+<section class="md:flex justify-between items-center w-full col-span-8">
 
     <div class="badge badge-default " title="Podujatie sa skončilo">
         Vytvorené {{ $event->created_at->format('d. m. Y') }}
@@ -23,7 +23,7 @@
     <i title="Počet zobrazení" class="fa fa-eye mt-1"> {{ $event->count_view }} </i>
 
 
-    <a href="{{ route('event.subscribe.index', [$event->id]) }}" class="hover:underline ">Prihlásených:
+    <a href="{{ route('event.subscribe.index', [$event->id]) }}" class="hover:underline">Prihlásených:
         {{ $event->subscribes()->count() }}
     </a>
 
@@ -34,14 +34,8 @@
 
 
     @if ($event->orginal_source)
-        <a href="{{ $event->orginal_source }}">
-            <span class="label-primary">Source link</span>
-        </a>
-    @endif
-
-    @if ($event->orginal_source)
-        <a href="{{ route('eventServices.newReolad', $event->id) }}">
-            <span class="label-default">New reload</span>
+        <a href="{{ $event->orginal_source }}" target="_blank" class="hover:underline">
+            Orginal
         </a>
     @endif
 

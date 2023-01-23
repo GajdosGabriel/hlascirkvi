@@ -60,15 +60,9 @@
                 </div>
             </div>
         </div>
-
-
-
-
+    </div>
         {{-- ------- Admin panel ----------------- --}}
         @can('update', $event)
             <x-events.cards.footer-admin :event="$event" />
         @endcan
-
-    </div>
-
 </section>

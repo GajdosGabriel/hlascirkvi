@@ -35,6 +35,16 @@
                     Administrácia
                 </li>
             </a>
+
+            <a
+                v-if="$auth.isAdmin() && post.orginal_source"
+                :href="'eventServices/' + post.id + '/newReolad'"
+            >
+                <li class="dropdown-item whitespace-nowrap">
+                    New reload
+                </li>
+            </a>
+
         </ul>
     </div>
 </template>
