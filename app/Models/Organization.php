@@ -38,6 +38,11 @@ class Organization extends Model
         return $this->hasMany(Messenger::class);
     }
 
+    public function eventSunscribes()
+    {
+        return $this->hasMany(EventSubscribe::class);
+    }
+
 
     public function users()
     {

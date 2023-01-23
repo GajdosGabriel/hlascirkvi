@@ -10,7 +10,7 @@
 
         <x-slot name="title">
 
-            Všetky prihlásenia
+            Všetky prihlášky
 
         </x-slot>
 

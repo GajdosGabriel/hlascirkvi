@@ -37,16 +37,17 @@ Route::middleware('checkBanned')->group(function () {
 
 Route::middleware(['auth', 'checkBanned'])->group(function () {
     Route::resources([
-        'images'                => ImageController::class,
-        'event.subscribe'       => Events\EventSubscribeController::class,
-        'event.favorite'        => Events\EventFavoriteController::class,
-        'organization.seminar'  => Organization\OrganizationSeminarController::class,
-        'organization.post'     => Organization\OrganizationPostController::class,
-        'organization.event'    => Organization\OrganizationEventController::class,
-        'organization.prayer'   => Organization\OrganizationPrayerController::class,
-        'profile'               => Organization\ProfileController::class,
-        'user.organization'     => Organization\UserOrganizationController::class,
-        'post.think'            => PostThingController::class,
+        'images'                        => ImageController::class,
+        'event.subscribe'               => Events\EventSubscribeController::class,
+        'event.favorite'                => Events\EventFavoriteController::class,
+        'organization.seminar'          => Organization\OrganizationSeminarController::class,
+        'organization.post'             => Organization\OrganizationPostController::class,
+        'organization.event'            => Organization\OrganizationEventController::class,
+        'organization.prayer'           => Organization\OrganizationPrayerController::class,
+        'organization.eventSubscribe'   => Organization\OrganizationEventSubscribeController::class,
+        'profile'                       => Organization\ProfileController::class,
+        'user.organization'             => Organization\UserOrganizationController::class,
+        'post.think'                    => PostThingController::class,
     ]);
 });
 

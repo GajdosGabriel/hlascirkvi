@@ -1,7 +1,7 @@
-<section class="md:flex justify-between items-center w-full col-span-8">
+<section class="md:flex justify-between items-center w-full col-span-8 mt-1">
 
     <div class="badge badge-default " title="Podujatie sa skončilo">
-        Vytvorené {{ $event->created_at->format('d. m. Y') }}
+        Vytvorené {{ $event->created_at->format('d. m. Y H:m') }} hod.
     </div>
 
 
