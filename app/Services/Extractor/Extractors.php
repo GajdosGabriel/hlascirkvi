@@ -79,7 +79,7 @@ abstract class Extractors
                 'registration' => 'no',
                 'village_id' => 4209, // Celé Slovensko
                 'entryFee' => 'no',
-                'published' => date("Y-m-d H:i:s"),
+                // 'published' => date("Y-m-d H:i:s"),
                 'created_at' => Carbon::now()->subHours(2)->toDateTimeString(),
                 'orginal_source' => $item['href'],
             ]);
