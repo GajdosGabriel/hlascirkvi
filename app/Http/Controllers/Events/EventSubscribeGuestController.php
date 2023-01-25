@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Notification;
 
 class EventSubscribeGuestController extends Controller
 {
+
+    // Prichádzalo mnoho chybových hlásení
+    public function index()
+    {
+        abort(404);
+        return back();
+    }
+    
     // Neregistrovaný user. Nového usera najprv zaregistruje, potom prihlási a nakoniec odhlási.
     public function store(EventSubscribeGuestForm $request, Event $event)
     {

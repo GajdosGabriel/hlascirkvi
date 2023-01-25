@@ -47,7 +47,7 @@
         <x-slot name="aside">
 
             @include('events.districts_modul')
-            @include('events.finished_event_modul')
+            {{-- @include('events.finished_event_modul') --}}
 
         </x-slot>
     </x-pages.page_3_2>
