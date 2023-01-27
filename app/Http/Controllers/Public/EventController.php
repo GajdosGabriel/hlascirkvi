@@ -20,16 +20,23 @@ class EventController extends Controller
         $this->event = $event;
     }
 
+
     public function index(EventFilters $filters)
     {
-        $events = $this->event->orderByStarting()->filter($filters)->paginate()
-            ;
+        $events = $this->event->orderByStarting()->filter($filters)->paginate();
         return view('events.index', compact('events'));
+    }
+
+
+
+    public function create()
+    {
+        return back();
     }
 
     public function show(Event $event, $slug)
     {
-        event(new VisitModel ($event));
+        event(new VisitModel($event));
 
         $commentsLook = $event->comments()->where('type', 'look')->get();
         //        $commentsLook = $event->comments()->where('type', 'look')->get();
@@ -37,5 +44,4 @@ class EventController extends Controller
 
         return view('events.show', compact('event', 'commentsOffer', 'commentsLook'));
     }
-   
 }

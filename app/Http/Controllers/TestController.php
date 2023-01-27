@@ -57,7 +57,7 @@ class TestController extends Controller
 
                $event = Event::find(4236);
         // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
-         $href = 'https://www.ecav.sk/aktuality/pozvanky/dalsie-studium-proroka-izaiasa';
+         $href = 'https://www.ecav.sk/aktuality/pozvanky/kurz-zaklady-vyucovania-deti-a-dorastu';
         // $href = 'https://www.vyveska.sk/mozaika-lasky.html';
         // $event = Event::first();
 
@@ -67,7 +67,7 @@ class TestController extends Controller
         // $event = (new ExtractTkkbs())->parseEvent($href, $event);
         // $events = (new ExtractVyveska())->parseEvent($href, $event);
 
-        dd($event);
+        dd();
 
 
   
