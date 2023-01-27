@@ -11,17 +11,15 @@ use App\Services\Extractor\ExtractEcav;
 
 class EventServiceController extends Controller
 {
-    public function newReolad(Event $event) {
-
-        if($event->organization_id == 101 ) {
+    public function newReolad(Event $event)
+    {
+        if ($event->organization_id == 101) {
             $event = (new ExtractTkkbs())->parseEvent($event->orginal_source, $event);
-        }elseif($event->organization_id == 271 ) {
+        } elseif ($event->organization_id == 271) {
             $event = (new ExtractVyveska())->parseEvent($event->orginal_source, $event);
-        }elseif($event->organization_id == 102 ) {
+        } elseif ($event->organization_id == 102) {
             $event = (new ExtractEcav())->parseEvent($event->orginal_source, $event);
         }
-
         return back();
-
     }
 }

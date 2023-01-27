@@ -38,7 +38,7 @@
 
             <a
                 v-if="$auth.isAdmin() && post.orginal_source"
-                :href="'eventServices/' + post.id + '/newReolad'"
+                :href="'/api/eventServices/' + post.id + '/newReolad'"
             >
                 <li class="dropdown-item whitespace-nowrap">
                     New reload

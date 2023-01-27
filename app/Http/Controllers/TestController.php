@@ -57,7 +57,8 @@ class TestController extends Controller
 
                $event = Event::find(4236);
         // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
-         $href = 'https://www.ecav.sk/aktuality/pozvanky/kurz-zaklady-vyucovania-deti-a-dorastu';
+         $href = 'https://www.ecav.sk/aktuality/pozvanky/ciel-na-obzore-modlitebny-tyzden';
+        //  $href = 'https://www.ecav.sk/aktuality/pozvanky/kurz-zaklady-vyucovania-deti-a-dorastu';
         // $href = 'https://www.vyveska.sk/mozaika-lasky.html';
         // $event = Event::first();
 

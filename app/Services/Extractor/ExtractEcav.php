@@ -81,72 +81,40 @@ class ExtractEcav extends Extractors
 
     public function parseEvent($href, $event)
     {
-        //        $url = "https://www.ecav.sk/aktuality/pozvanky";
         $html = file_get_contents($href);
         //        $html = file_get_contents('https://www.ecav.sk/aktuality/pozvanky/spevacky-zbor-z-diakoviec-pozyva-na-koncert');
 
 
-        //Instantiate the DOMDocument class.
-        $htmlDom = new DOMDocument;
+        $dom = new DOMDocument();
 
-        //Parse the HTML of the page using DOMDocument::loadHTML
-        @$htmlDom->loadHTML($html);
+        @$dom->loadHTML($html);
 
-        //Extract the links from the HTML.
-        $bodyText = $htmlDom->getElementsByTagName('p');
+        // $divs = $dom->getElementsByTagName('div');
 
+
+        $xpath = new DOMXPath($dom);
+
+        $content = $xpath->query("//div[@class='fr-view']");
         //Array that will contain our extracted links.
-        $extractedLinks = array();
+        $div_array = null;
 
-        //Loop through the DOMNodeList.
-        //We can do this because the DOMNodeList object is traversable.
-        foreach ($bodyText as $link) {
-            //Get the link text.
-            $linkText = $link->nodeValue;
+        foreach ($content as $div) {
+            $div_text = $div->textContent;
 
-            // validation
-            if ($linkText == "\n") {
-                continue;
-            }
-
-            if ($linkText == "") {
-                continue;
-            }
-
-            $linkText = preg_replace('/\xc2\xa0/', ' ', $linkText);
-            $linkText =  mb_convert_encoding($linkText, "Windows-1252", "UTF-8");
-            //            Convert to string from Binary casting
-            //            $linkText = preg_replace('/[[:^print:]]/', '', $linkText);
-
-
-            //            $extractedLinks[] = array(
-            //                'src' => $linkText
-            //            );
-            //            dd($extractedLinks);
-
-
-            // Because is multi arrays
-            $event->update([
-                'body' => $event->body . '<p>' . $linkText . '</p>'
-            ]);
+            $div_text = preg_replace('/\xc2\xa0/', ' ', $div_text);
+            // $div_text=  mb_convert_encoding($div_text, "Windows-1252", "UTF-8");
+            $div_array =  $div_text;
         }
 
-        //        $linkText =  mb_convert_encoding($event->body, "Windows-1252", "UTF-8");
-
-        //        dd($linkText);
-        //        $event->update([
-        //            'body' => $linkText
-        //        ]);
-
-
-
-
+        $event->update([
+            'body' =>  utf8_decode( $div_array)
+        ]);
 
 
         // ----------------------------  GET  IMAGE  ----------------------------------
 
         //Extract the img from the HTML.
-        $imgUrls = $htmlDom->getElementsByTagName('img');
+        $imgUrls =  $dom->getElementsByTagName('img');
 
 
         //Loop through the DOMNodeList.
@@ -159,13 +127,6 @@ class ExtractEcav extends Extractors
             if (!stripos($linkHref, '/rails/active_storage/')) {
                 continue;
             }
-
-            //Add the link to our $extractedLinks array.
-            //            $extractedLinks[] = array(
-            //                'src' => $linkHref
-            //            );
-            //
-            //            dd($extractedLinks);
 
             (new Form($event, $linkHref))->getPictureFromEvent();
 
