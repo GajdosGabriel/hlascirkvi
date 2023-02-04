@@ -13,8 +13,8 @@ use Imagick;
 use DOMXPath;
 use DOMDocument;
 use App\Services\Form;
-use App\Models\Organization;
 use App\Services\Extractor\Extractors;
+use App\Services\DetectService\DetectDateTime;
 
 class ExtractVyveska extends Extractors
 {
@@ -23,12 +23,13 @@ class ExtractVyveska extends Extractors
     protected $organizationId = 271;
 
 
-    public $organization;
+    public $detectDateTime;
 
 
     public function __construct()
     {
-        $this->organization = Organization::whereId(271)->first();
+        $this->detectDateTime = new DetectDateTime();
+        $this->setOrganization($this->organizationId);
     }
 
 
@@ -130,8 +131,8 @@ class ExtractVyveska extends Extractors
         // dd($endDate);
 
         $this->event->update([
-            'start_at' => $this->find_date($startDate),
-            'end_at' => $this->find_date($endDate),
+            'start_at' => $this->detectDateTime->find_date($startDate),
+            'end_at' => $this->detectDateTime->find_date($endDate),
         ]);
 
 

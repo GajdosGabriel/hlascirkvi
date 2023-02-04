@@ -9,11 +9,11 @@
 
 namespace App\Services\Extractor;
 
-use App\Models\Organization;
 use DOMXPath;
 use DOMDocument;
 use Carbon\Carbon;
 use App\Services\Form;
+use App\Services\DetectService\DetectDateTime;
 
 
 
@@ -23,14 +23,14 @@ class ExtractEcav extends Extractors
     protected $prefix = 'https://www.ecav.sk';
     protected $url = 'https://www.ecav.sk/aktuality/pozvanky';
     protected $organizationId = 102;
-    public $organization;
+    public $detectDateTime;
 
 
     public function __construct()
     {
-        $this->organization = Organization::whereId(102)->first();
+        $this->detectDateTime = new DetectDateTime();
+        $this->setOrganization($this->organizationId);
     }
-
 
 
     public function parseListUrl()
@@ -91,7 +91,7 @@ class ExtractEcav extends Extractors
     public function parseEvent($href)
     {
         $html = file_get_contents($href);
-        //        $html = file_get_contents('https://www.ecav.sk/aktuality/pozvanky/spevacky-zbor-z-diakoviec-pozyva-na-koncert');
+        // $html = file_get_contents('https://www.ecav.sk/aktuality/pozvanky/spevacky-zbor-z-diakoviec-pozyva-na-koncert');
 
 
         $dom = new DOMDocument();
@@ -152,7 +152,7 @@ class ExtractEcav extends Extractors
 
 
         // Detect datetime
-        $startAt = $this->find_date($this->event->body);
+        $startAt = $this->detectDateTime->find_date($this->event->body);
 
         $this->event->update([
             'start_at' => $startAt,

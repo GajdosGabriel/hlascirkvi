@@ -15,8 +15,8 @@ use DOMXPath;
 use DOMDocument;
 use Carbon\Carbon;
 use App\Services\Form;
-use App\Models\Organization;
 use App\Services\Extractor\Extractors;
+use App\Services\DetectService\DetectDateTime;
 
 
 class ExtractTkkbs extends Extractors
@@ -25,12 +25,13 @@ class ExtractTkkbs extends Extractors
     protected $url = 'https://www.tkkbs.sk/search.php?rstext=pozvanka&rskde=tsl';
     protected $organizationId = 101;
 
-    public $organization;
+    public $detectDateTime;
 
 
     public function __construct()
     {
-        $this->organization = Organization::whereId(101)->first();
+        $this->detectDateTime = new DetectDateTime();
+        $this->setOrganization($this->organizationId);
     }
 
 
@@ -125,7 +126,7 @@ class ExtractTkkbs extends Extractors
         $moveSentence  = $this->first_sentence_move($body);
 
         // Detect datetime
-        $startAt = $this->find_date($moveSentence);
+        $startAt = $this->detectDateTime->find_date($moveSentence);
 
         $this->event->update([
             'body'      => $moveSentence

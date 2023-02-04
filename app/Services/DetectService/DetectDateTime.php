@@ -24,7 +24,6 @@ class DetectDateTime
     //    protected $string = 'some text 01/01/2012 some text v vvvv ';
     public function find_date($string)
     {
-        dd(7777);
         $shortenize = function ($string) {
             return substr($string, 0, 3);
         };
