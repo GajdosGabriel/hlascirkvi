@@ -29,7 +29,7 @@ class PostController extends Controller
 
     public function index(PostFilters $filters)
     {
-        $posts = $this->post->postsByUpdater(15)->filter($filters)->paginate(28);
+        $posts = $this->post->postsByUpdater(15)->filter($filters)->paginate(30);
 
         return view('posts.index', compact('posts'));
     }

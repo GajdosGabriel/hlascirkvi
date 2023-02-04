@@ -53,7 +53,7 @@ class Newsletter
     public function prayerFulfilledHandle($prayers)
     {
         foreach ($prayers as $prayer) {
-            Notification::send($prayer->user, new PrayerFulfilledOrNotYet($prayer));
+            Notification::send($prayer->organization->user, new PrayerFulfilledOrNotYet($prayer));
         }
     }
         // End of Notifikácie vypočutia modlitieb
