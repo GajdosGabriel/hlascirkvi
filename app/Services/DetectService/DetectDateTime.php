@@ -7,6 +7,8 @@ use DateTime;
 class DetectDateTime
 {
 
+   public $xxx = 'sssssssssssssssss';
+
     //https://github.com/etiennetremel/PHP-Find-Date-in-String
     /**
      * Find Date in a String
@@ -22,6 +24,7 @@ class DetectDateTime
     //    protected $string = 'some text 01/01/2012 some text v vvvv ';
     public function find_date($string)
     {
+        dd(7777);
         $shortenize = function ($string) {
             return substr($string, 0, 3);
         };

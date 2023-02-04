@@ -53,6 +53,12 @@ class TestController extends Controller
 
     public function index(PostService $postService)
     {
+        $event = Event::find(4236);
+
+        $xx =   new ExtractEcav();
+        dd($xx);
+
+
 // dd(date("Y"));
 
                $event = Event::find(4236);
@@ -93,8 +99,7 @@ class TestController extends Controller
 
 
 
-        $xx =   (new ExtractTkkbs())->parseListUrl();
-        dd($xx);
+      
 
 
         // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';

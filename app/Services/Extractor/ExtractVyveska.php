@@ -9,17 +9,27 @@
 
 namespace App\Services\Extractor;
 
-use App\Services\Extractor\Extractors;
-use App\Services\Form;
-use DOMDocument;
-use DOMXPath;
 use Imagick;
+use DOMXPath;
+use DOMDocument;
+use App\Services\Form;
+use App\Models\Organization;
+use App\Services\Extractor\Extractors;
 
 class ExtractVyveska extends Extractors
 {
     protected $prefix = 'http://www.vyveska.sk/';
     protected $url = 'http://www.vyveska.sk/22601/milujuca-naruc-duchovne-cvicenia-pre-zranenych-spontannym-potratom-a-bezdetne-pary.html';
     protected $organizationId = 271;
+
+
+    public $organization;
+
+
+    public function __construct()
+    {
+        $this->organization = Organization::whereId(271)->first();
+    }
 
 
     public function parseListUrl()
@@ -57,7 +67,7 @@ class ExtractVyveska extends Extractors
 
 
 
-    public function parseEvent($href, $event)
+    public function parseEvent($href)
     {
 
         // $url = "https://www.ecav.sk/aktuality/pozvanky";
@@ -119,16 +129,10 @@ class ExtractVyveska extends Extractors
         // dd($this->detectDateTime->find_date($endDate));
         // dd($endDate);
 
-        $event->update([
-            'start_at' => $this->detectDateTime->find_date($startDate),
-            'end_at' => $this->detectDateTime->find_date($endDate),
+        $this->event->update([
+            'start_at' => $this->find_date($startDate),
+            'end_at' => $this->find_date($endDate),
         ]);
-
-
-
-
-
-
 
 
 
@@ -169,7 +173,7 @@ class ExtractVyveska extends Extractors
 
 
 
-        $event->update([
+        $this->event->update([
             'body'      =>  $textBody,
             'village_id' => $this->finderVillages(implode("|", $bodyWithLocation[0])),
         ]);
@@ -209,7 +213,7 @@ class ExtractVyveska extends Extractors
             }
 
             if ($organization) {
-                $event->update([
+                $this->event->update([
                     'organization_id' =>  $organization->id
                 ]);
             };
@@ -248,6 +252,6 @@ class ExtractVyveska extends Extractors
         // dd($imgLinks);
 
         // Save images from url event
-        (new Form($event, $this->prefix . $imgLinks))->getPictureFromEvent();
+        (new Form($this->event, $this->prefix . $imgLinks))->getPictureFromEvent();
     }
 }

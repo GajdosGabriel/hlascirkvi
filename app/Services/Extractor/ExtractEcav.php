@@ -9,7 +9,7 @@
 
 namespace App\Services\Extractor;
 
-
+use App\Models\Organization;
 use DOMXPath;
 use DOMDocument;
 use Carbon\Carbon;
@@ -23,10 +23,19 @@ class ExtractEcav extends Extractors
     protected $prefix = 'https://www.ecav.sk';
     protected $url = 'https://www.ecav.sk/aktuality/pozvanky';
     protected $organizationId = 102;
+    public $organization;
+
+
+    public function __construct()
+    {
+        $this->organization = Organization::whereId(102)->first();
+    }
+
 
 
     public function parseListUrl()
     {
+
         $html = file_get_contents($this->url);
 
         //Instantiate the DOMDocument class.
@@ -79,7 +88,7 @@ class ExtractEcav extends Extractors
         $this->createEvent($extractedLinks);
     }
 
-    public function parseEvent($href, $event)
+    public function parseEvent($href)
     {
         $html = file_get_contents($href);
         //        $html = file_get_contents('https://www.ecav.sk/aktuality/pozvanky/spevacky-zbor-z-diakoviec-pozyva-na-koncert');
@@ -106,8 +115,8 @@ class ExtractEcav extends Extractors
             $div_array =  $div_text;
         }
 
-        $event->update([
-            'body' =>  utf8_decode( $div_array)
+        $this->event->update([
+            'body' =>  utf8_decode($div_array)
         ]);
 
 
@@ -128,7 +137,7 @@ class ExtractEcav extends Extractors
                 continue;
             }
 
-            (new Form($event, $linkHref))->getPictureFromEvent();
+            (new Form($this->event, $linkHref))->getPictureFromEvent();
 
             break;
         }
@@ -136,16 +145,16 @@ class ExtractEcav extends Extractors
 
 
         // Try find village from body text
-        $event->update([
-            'village_id' => $this->finderVillages($event->body)
+        $this->event->update([
+            'village_id' => $this->finderVillages($this->event->body)
         ]);
 
 
 
         // Detect datetime
-        $startAt = $this->detectDateTime->find_date($event->body);
+        $startAt = $this->find_date($this->event->body);
 
-        $event->update([
+        $this->event->update([
             'start_at' => $startAt,
             'end_at' => Carbon::parse($startAt)->addHours(2)
         ]);

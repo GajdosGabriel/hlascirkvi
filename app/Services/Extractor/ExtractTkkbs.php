@@ -15,6 +15,7 @@ use DOMXPath;
 use DOMDocument;
 use Carbon\Carbon;
 use App\Services\Form;
+use App\Models\Organization;
 use App\Services\Extractor\Extractors;
 
 
@@ -23,6 +24,14 @@ class ExtractTkkbs extends Extractors
     protected $prefix = 'https://www.tkkbs.sk/';
     protected $url = 'https://www.tkkbs.sk/search.php?rstext=pozvanka&rskde=tsl';
     protected $organizationId = 101;
+
+    public $organization;
+
+
+    public function __construct()
+    {
+        $this->organization = Organization::whereId(101)->first();
+    }
 
 
     public function parseListUrl()
@@ -66,7 +75,7 @@ class ExtractTkkbs extends Extractors
     }
 
 
-    public function parseEvent($href, $event)
+    public function parseEvent($href)
     {
         // $url = "https://www.ecav.sk/aktuality/pozvanky";
         $html = file_get_contents($href);
@@ -116,13 +125,13 @@ class ExtractTkkbs extends Extractors
         $moveSentence  = $this->first_sentence_move($body);
 
         // Detect datetime
-        $startAt = $this->detectDateTime->find_date($moveSentence);
+        $startAt = $this->find_date($moveSentence);
 
-        $event->update([
+        $this->event->update([
             'body'      => $moveSentence
         ]);
 
-        $event->update([
+        $this->event->update([
             'start_at' => $startAt,
             'end_at' => Carbon::parse($startAt)->addHours(2)
         ]);
@@ -130,7 +139,7 @@ class ExtractTkkbs extends Extractors
 
 
         // Generate paragraps in the event body
-        $this->paragraphGenerator($event);
+        $this->paragraphGenerator($this->event);
 
         // ----------------------------  GET  IMAGE  ----------------------------------
         //Loop through the DOMNodeList.
@@ -159,10 +168,10 @@ class ExtractTkkbs extends Extractors
                 continue;
             }
 
-            (new Form($event, $url))->getPictureFromEvent();
+            (new Form($this->event, $url))->getPictureFromEvent();
         }
 
-        $event->update([
+        $this->event->update([
             'village_id' => $this->finderVillages($moveSentence)
         ]);
     }
