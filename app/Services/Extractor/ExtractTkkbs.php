@@ -133,12 +133,13 @@ class ExtractTkkbs extends Extractors
         $startAt = $this->detectDateTime->find_date($moveSentence);
 
         $this->event->update([
-            'body'      => $moveSentence
+            'body' => $moveSentence
         ]);
 
         $this->event->update([
             'start_at' => $startAt,
-            'end_at' => Carbon::parse($startAt)->addHours(2)
+            'end_at' => Carbon::parse($startAt)->addHours(2),
+            'published' => $startAt ? $this->event->published : null
         ]);
 
 

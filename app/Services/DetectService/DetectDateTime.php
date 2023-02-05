@@ -145,7 +145,7 @@ class DetectDateTime
         );
         // Return false if nothing found:
         if (!checkdate($month, (int) $day, (int) $year)) {
-            return false;
+            return null;
         } else {
 
             if ($this->validateDate($date['year'] . '-' . $date['month'] . '-' . $date['day'] . $this->timeRecogniser($string))) {

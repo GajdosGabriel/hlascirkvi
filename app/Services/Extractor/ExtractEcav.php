@@ -146,21 +146,18 @@ class ExtractEcav extends Extractors
             break;
         }
 
-
-
         // Try find village from body text
         $this->event->update([
             'village_id' => $this->finderVillages($this->event->body)
         ]);
-
-
 
         // Detect datetime
         $startAt = $this->detectDateTime->find_date($this->event->body);
 
         $this->event->update([
             'start_at' => $startAt,
-            'end_at' => Carbon::parse($startAt)->addHours(2)
+            'end_at' => Carbon::parse($startAt)->addHours(2),
+            'published' => $startAt ? $this->event->published : null
         ]);
     }
 }

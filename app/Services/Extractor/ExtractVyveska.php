@@ -133,10 +133,12 @@ class ExtractVyveska extends Extractors
         // dd($this->detectDateTime->find_date($startDate));
         // dd($this->detectDateTime->find_date($endDate));
         // dd($endDate);
+        
 
         $this->event->update([
             'start_at' => $this->detectDateTime->find_date($startDate),
             'end_at' => $this->detectDateTime->find_date($endDate),
+            'published' => $this->detectDateTime->find_date($startDate) ? $this->event->published : null
         ]);
 
 
