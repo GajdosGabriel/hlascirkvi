@@ -1,4 +1,4 @@
-<section class="md:flex justify-between items-center w-full col-span-8 mt-1">
+<section class="md:flex justify-between items-center w-full col-span-8 mt-1 text-sm">
 
     <div class="badge badge-default " title="Podujatie sa skončilo">
         Vytvorené {{ $event->created_at->format('d. m. Y H:m') }} hod.
@@ -15,8 +15,8 @@
                 title="Pozastaviť zobrazovanie?">{{ trans('web.events_users_is_active') }}</label>
         </div>
     @else
-        <div title="Spustíť publikovanie akcie.">{{ $event->count_view }} <label class="badge badge-danger"
-                style="cursor: pointer">{{ trans('web.events_users_no_active') }}</label>
+        <div title="Spustíť publikovanie akcie.">{{ $event->count_view }} <label
+                class="badge badge-danger cursor-pointer">{{ trans('web.events_users_no_active') }}</label>
         </div>
     @endif
 

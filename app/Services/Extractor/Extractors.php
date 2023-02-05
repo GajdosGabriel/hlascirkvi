@@ -10,11 +10,10 @@
 namespace App\Services\Extractor;
 
 use DB;
-use DateTime;
 use Carbon\Carbon;
 use App\Models\Organization;
 
-abstract class Extractors
+class Extractors
 {
     public $event;
     public $organization;
@@ -69,7 +68,7 @@ abstract class Extractors
                 continue;
             }
 
-           $this->event = $this->organization->events()->create([
+            $this->event = $this->organization->events()->create([
                 'title' => $title,
                 'body' => '',
                 'start_at' => Carbon::now()->toDateTimeString(),
@@ -166,5 +165,4 @@ abstract class Extractors
 
         return $splitText;
     }
-
 }
