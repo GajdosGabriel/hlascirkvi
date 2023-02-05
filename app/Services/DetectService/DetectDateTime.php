@@ -7,7 +7,7 @@ use DateTime;
 class DetectDateTime
 {
 
-   public $xxx = 'sssssssssssssssss';
+    public $xxx = 'sssssssssssssssss';
 
     //https://github.com/etiennetremel/PHP-Find-Date-in-String
     /**
@@ -149,7 +149,7 @@ class DetectDateTime
         } else {
 
             if ($this->validateDate($date['year'] . '-' . $date['month'] . '-' . $date['day'] . $this->timeRecogniser($string))) {
-                return $date['year'] . '-' . $date['month'] . '-' . $date['day'] . $this->timeRecogniser($string);
+                return $this->checkYear($date['year']) . '-' . $date['month'] . '-' . $date['day'] . $this->timeRecogniser($string);
             }
 
             return null;
@@ -171,6 +171,16 @@ class DetectDateTime
         }
 
         return ' 00:00:00';
+    }
+
+    function checkYear($year)
+    {
+        if (date("Y") >= $year) {
+
+            return $year;
+        }
+
+        return date("Y");
     }
 
 

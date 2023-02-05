@@ -76,8 +76,12 @@ class ExtractTkkbs extends Extractors
     }
 
 
-    public function parseEvent($href)
+    public function parseEvent($href, $event = null)
     {
+        // Používam pri znova načítani cez EventServiceController
+        if($event)
+        $this->event = $event;
+        
         // $url = "https://www.ecav.sk/aktuality/pozvanky";
         $html = file_get_contents($href);
         // $html = file_get_contents('https://www.tkkbs.sk/view.php?cisloclanku=20191219020');

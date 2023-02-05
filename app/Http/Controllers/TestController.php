@@ -56,7 +56,7 @@ class TestController extends Controller
         $event = Event::find(4236);
 
         $xx =   new ExtractEcav();
-        dd($xx);
+        dd($xx->detectDateTime->find_date('ggggggggggggg'));
 
 
 // dd(date("Y"));

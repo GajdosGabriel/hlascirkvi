@@ -88,8 +88,12 @@ class ExtractEcav extends Extractors
         $this->createEvent($extractedLinks);
     }
 
-    public function parseEvent($href)
+    public function parseEvent($href, $event = null)
     {
+        // Používam pri znova načítani cez EventServiceController
+        if($event)
+        $this->event = $event;
+
         $html = file_get_contents($href);
         // $html = file_get_contents('https://www.ecav.sk/aktuality/pozvanky/spevacky-zbor-z-diakoviec-pozyva-na-koncert');
 
