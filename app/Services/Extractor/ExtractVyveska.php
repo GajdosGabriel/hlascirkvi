@@ -14,7 +14,7 @@ use DOMXPath;
 use DOMDocument;
 use App\Services\Form;
 use App\Services\Extractor\Extractors;
-use App\Services\DetectService\DetectDateTime;
+
 
 class ExtractVyveska extends Extractors
 {
@@ -28,7 +28,6 @@ class ExtractVyveska extends Extractors
 
     public function __construct()
     {
-        $this->detectDateTime = new DetectDateTime();
         $this->setOrganization($this->organizationId);
     }
 

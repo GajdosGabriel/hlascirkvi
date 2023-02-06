@@ -16,7 +16,7 @@ use DOMDocument;
 use Carbon\Carbon;
 use App\Services\Form;
 use App\Services\Extractor\Extractors;
-use App\Services\DetectService\DetectDateTime;
+
 
 
 class ExtractTkkbs extends Extractors
@@ -30,7 +30,6 @@ class ExtractTkkbs extends Extractors
 
     public function __construct()
     {
-        $this->detectDateTime = new DetectDateTime();
         $this->setOrganization($this->organizationId);
     }
 

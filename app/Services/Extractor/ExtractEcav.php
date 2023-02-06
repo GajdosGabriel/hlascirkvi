@@ -13,7 +13,7 @@ use DOMXPath;
 use DOMDocument;
 use Carbon\Carbon;
 use App\Services\Form;
-use App\Services\DetectService\DetectDateTime;
+
 
 
 
@@ -23,12 +23,11 @@ class ExtractEcav extends Extractors
     protected $prefix = 'https://www.ecav.sk';
     protected $url = 'https://www.ecav.sk/aktuality/pozvanky';
     protected $organizationId = 102;
-    public $detectDateTime;
+
 
 
     public function __construct()
     {
-        $this->detectDateTime = new DetectDateTime();
         $this->setOrganization($this->organizationId);
     }
 

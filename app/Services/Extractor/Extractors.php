@@ -12,16 +12,19 @@ namespace App\Services\Extractor;
 use DB;
 use Carbon\Carbon;
 use App\Models\Organization;
+use App\Services\DetectService\DetectDateTime;
 
 class Extractors
 {
     public $event;
     public $organization;
+    public $detectDateTime;
 
 
     public function setOrganization($id)
     {
         $this->organization = Organization::whereId($id)->first();
+        $this->detectDateTime = new DetectDateTime();
     }
 
     protected function createPrayer($data)
