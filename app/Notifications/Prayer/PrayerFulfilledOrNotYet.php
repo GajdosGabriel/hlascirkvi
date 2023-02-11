@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PrayerFulfilledOrNotYet extends Notification
+class PrayerFulfilledOrNotYet extends Notification implements ShouldQueue
 {
     use Queueable;
 

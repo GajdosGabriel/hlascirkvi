@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Services\Newsletter;
+
 use Illuminate\Console\Command;
+use App\Services\Prayers\UnansweredPrayers;
 
 class PrayerFulfilled extends Command
 {
@@ -38,6 +39,7 @@ class PrayerFulfilled extends Command
      */
     public function handle()
     {
-        (new Newsletter)->prayerFulfilledOrNotYet();
+        $prayers = new UnansweredPrayers; 
+        $prayers->prayersForAsking();
     }
 }

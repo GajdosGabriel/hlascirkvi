@@ -3141,7 +3141,11 @@ __webpack_require__.r(__webpack_exports__);
       this.open = !this.open;
     },
     deletePost: function deletePost() {
-      axios["delete"]('/organization/' + this.post.organization_id + '/event/' + this.post.id).than(window.location.href = '/organization/' + this.post.organization_id + '/event/', this.toggle());
+      if (!window.confirm("Skutočne vymazať!")) {
+        return;
+      }
+
+      axios["delete"]("/organization/" + this.post.organization_id + "/event/" + this.post.id).than(window.location.href = "/organization/" + this.post.organization_id + "/event/", this.toggle());
     }
   },
   computed: {
@@ -6815,24 +6819,24 @@ var render = function render() {
     }
   }, [_c("li", {
     staticClass: "dropdown-item"
-  }, [_vm._v("\n                upraviť\n            ")])]), _vm._v(" "), _c("li", {
-    staticClass: "dropdown-item",
-    on: {
-      click: _vm.deletePost
-    }
-  }, [_vm._v("\n            zmazať\n        ")]), _vm._v(" "), _vm.$auth.isAdmin() ? _c("a", {
+  }, [_vm._v("upraviť")])]), _vm._v(" "), _vm.$auth.isAdmin() ? _c("a", {
     attrs: {
       href: "/event/" + _vm.post.id + "/subscribe"
     }
   }, [_c("li", {
     staticClass: "dropdown-item whitespace-nowrap"
-  }, [_vm._v("\n                Administrácia\n            ")])]) : _vm._e(), _vm._v(" "), _vm.$auth.isAdmin() && _vm.post.orginal_source ? _c("a", {
+  }, [_vm._v("Administrácia")])]) : _vm._e(), _vm._v(" "), _c("li", {
+    staticClass: "dropdown-item",
+    on: {
+      click: _vm.deletePost
+    }
+  }, [_vm._v("zmazať")]), _vm._v(" "), _vm.$auth.isAdmin() && _vm.post.orginal_source ? _c("a", {
     attrs: {
       href: "/api/eventServices/" + _vm.post.id + "/newReolad"
     }
   }, [_c("li", {
     staticClass: "dropdown-item whitespace-nowrap"
-  }, [_vm._v("\n                New reload\n            ")])]) : _vm._e()]) : _vm._e()]);
+  }, [_vm._v("New reload")])]) : _vm._e()]) : _vm._e()]);
 };
 
 var staticRenderFns = [];

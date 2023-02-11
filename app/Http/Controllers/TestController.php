@@ -21,8 +21,8 @@ use App\Models\Organization;
 use App\Services\Newsletter;
 use Illuminate\Http\Request;
 use App\Services\VideoUpload;
-use App\Events\User\NotifyBell;
 use App\Models\EventSubscribe;
+use App\Events\User\NotifyBell;
 use App\Services\VideoUploadFilter;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -36,11 +36,14 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\Subscribe\NewSubscribe;
 use App\Repositories\Contracts\UserRepository;
 use App\Services\Extractor\ExtractMojaKomunita;
+use App\Repositories\Contracts\PrayerRepository;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentEventRepository;
+use App\Repositories\Eloquent\EloquentPrayerRepository;
 use App\Services\Extractor\ExtractSluzobniceDuchaSvateho;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Services\Prayers\UnansweredPrayers;
 
 class TestController extends Controller
 {
@@ -51,8 +54,15 @@ class TestController extends Controller
         $this->user = $user;
     }
 
-    public function index(PostService $postService)
+    public function index()
     {
+        $prayers = new UnansweredPrayers; 
+
+        $prayers->prayersForAsking();
+        dd('end');
+
+
+
         $event = Event::find(4236);
 
         $xx =   new ExtractEcav();
