@@ -78,9 +78,9 @@ class ExtractTkkbs extends Extractors
     public function parseEvent($href, $event = null)
     {
         // Používam pri znova načítani cez EventServiceController
-        if($event)
-        $this->event = $event;
-        
+        if ($event)
+            $this->event = $event;
+
         // $url = "https://www.ecav.sk/aktuality/pozvanky";
         $html = file_get_contents($href);
         // $html = file_get_contents('https://www.tkkbs.sk/view.php?cisloclanku=20191219020');
@@ -166,15 +166,25 @@ class ExtractTkkbs extends Extractors
 
         // Save images from url event
         foreach ($imgLinks as $link) {
-            $url =  'https://www.tkkbs.sk/' . $link['image'];
+            $url[] = [
+                'size' => getimagesize('https://www.tkkbs.sk/' . $link['image']),
+                'url' => 'https://www.tkkbs.sk/' . $link['image'],
+            ];
 
-            // Obrázkok ukrajiny sa objavoval v každom evente
-            if($url == 	'https://www.tkkbs.sk/image/UAvlajka.jpg') {
-                continue;
-            }
+            // // Obrázkok ukrajiny sa objavoval v každom evente
+            // if($url == 	'https://www.tkkbs.sk/image/UAvlajka.jpg') {
+            //     continue;
+            // }
 
-            (new Form($this->event, $url))->getPictureFromEvent();
+            // (new Form($this->event, $url))->getPictureFromEvent();
         }
+
+        // Sortovanie podľa rozmeru
+        krsort($url);
+        // dd($url[0]['url']);
+
+        // Vyberie najväčší a generuje obrázok
+         (new Form($this->event, $url[0]['url']))->getPictureFromEvent();
 
         $this->event->update([
             'village_id' => $this->finderVillages($moveSentence)
