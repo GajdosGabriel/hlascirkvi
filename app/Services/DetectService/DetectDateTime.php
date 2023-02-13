@@ -175,7 +175,7 @@ class DetectDateTime
 
     function checkYear($year)
     {
-        if (date("Y") >= $year) {
+        if (date("Y") <= $year) {
 
             return $year;
         }
