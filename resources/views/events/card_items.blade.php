@@ -35,7 +35,9 @@
                             </h5>
 
                             @can('update', $event)
-                                <event-dropdown :post="{{ $event }}" />
+                                <event-dropdown>
+                                    @include('events._drop-down', ['item' => $event])
+                                </event-dropdown>
                             @endcan
 
                         </div>

@@ -17,33 +17,7 @@
             />
         </svg>
         <ul class="dropdown-menu" v-if="open">
-            <a
-                :href="
-                    '/organization/' +
-                    post.organization_id +
-                    '/event/' +
-                    post.id +
-                    '/edit'
-                "
-            >
-                <li class="dropdown-item">upraviť</li>
-            </a>
-
-            <a
-                v-if="$auth.isAdmin()"
-                :href="'/event/' + post.id + '/subscribe'"
-            >
-                <li class="dropdown-item whitespace-nowrap">Administrácia</li>
-            </a>
-
-            <li @click="deletePost" class="dropdown-item">zmazať</li>
-
-            <a
-                v-if="$auth.isAdmin() && post.orginal_source"
-                :href="'/api/eventServices/' + post.id + '/newReolad'"
-            >
-                <li class="dropdown-item whitespace-nowrap">New reload</li>
-            </a>
+            <slot></slot>
         </ul>
     </div>
 </template>
@@ -52,7 +26,6 @@ import { createdMixin } from "../mixins/createdMixin";
 
 export default {
     mixins: [createdMixin],
-    props: ["post"],
     data: function () {
         return {
             open: false,
@@ -62,26 +35,6 @@ export default {
     methods: {
         toggle: function () {
             this.open = !this.open;
-        },
-
-        deletePost: function () {
-            if (!window.confirm("Skutočne vymazať!")) {
-                return;
-            }
-            axios
-                .delete(
-                    "/organization/" +
-                        this.post.organization_id +
-                        "/event/" +
-                        this.post.id
-                )
-                .than(
-                    (window.location.href =
-                        "/organization/" +
-                        this.post.organization_id +
-                        "/event/"),
-                    this.toggle()
-                );
         },
     },
 

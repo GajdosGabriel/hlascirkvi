@@ -54,19 +54,14 @@ class TestController extends Controller
         $this->user = $user;
     }
 
-    public function index()
+    public function index(PrayerRepository $prayers)
     {
-        $prayers = new UnansweredPrayers; 
-
-        $prayers->prayersForAsking();
-        dd('end');
-
-
-
         $event = Event::find(4236);
 
-        $xx =   new ExtractEcav();
-        dd($xx->detectDateTime->find_date('ggggggggggggg'));
+          $event = (new ExtractTkkbs())->parseEvent('https://www.tkkbs.sk/view.php?cisloclanku=20230213030', $event);
+
+        // $xx =   new ExtractEcav();
+        dd($event);
 
 
 // dd(date("Y"));
