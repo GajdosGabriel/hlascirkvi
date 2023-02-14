@@ -42,6 +42,34 @@ class DetectDateTime
             "novembra",
             "decembra"
         );
+        $month_names_official = array(
+            "január",
+            "február",
+            "marec",
+            "apriľ",
+            "máj",
+            "jún",
+            "júl",
+            "august",
+            "september",
+            "október",
+            "november",
+            "december"
+        );
+        $month_names_incorrect = array(
+            "januar",
+            "februar",
+            "marec",
+            "april",
+            "maj",
+            "jun",
+            "jul",
+            "august",
+            "september",
+            "oktober",
+            "november",
+            "december"
+        );
         $short_month_names = array_map($shortenize, $month_names);
         // Define day name
         $day_names = array(
@@ -84,7 +112,11 @@ class DetectDateTime
                 $year = $matches[3];
         }
         // Match dates: March 1st 2015; March 1 2015; March-1st-2015
-        preg_match('/(' . implode('|', $month_names) . '|' . implode('|', $short_month_names) . ')[ ,\-_\/]*([0-9]?[0-9])[ ,\-_\/]*(?:' . implode('|', $ordinal_number) . ')?[ ,\-_\/]+([0-9]{4})/i', $string, $matches);
+        preg_match('/(' 
+        . implode('|', $month_names) . '|' 
+        . implode('|', $month_names_official) . '|' // ja doprogramoval
+        . implode('|', $month_names_incorrect) . '|' //ja doprogramoval
+        . implode('|', $short_month_names) . ')[ ,\-_\/]*([0-9]?[0-9])[ ,\-_\/]*(?:' . implode('|', $ordinal_number) . ')?[ ,\-_\/]+([0-9]{4})/i', $string, $matches);
         if ($matches) {
             if (empty($month) && $matches[1]) {
                 $month = array_search(strtolower($matches[1]), $short_month_names);
