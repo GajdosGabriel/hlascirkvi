@@ -32,7 +32,7 @@ class DetectDateTime
             "januára",
             "februára",
             "marca",
-            "apriľa",
+            "aprila",
             "mája",
             "júna",
             "júla",
