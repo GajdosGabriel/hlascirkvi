@@ -3130,7 +3130,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
-  props: ["post"],
   data: function data() {
     return {
       open: false
@@ -3139,9 +3138,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     toggle: function toggle() {
       this.open = !this.open;
-    },
-    deletePost: function deletePost() {
-      axios["delete"]('/organization/' + this.post.organization_id + '/event/' + this.post.id).than(window.location.href = '/organization/' + this.post.organization_id + '/event/', this.toggle());
     }
   },
   computed: {
@@ -6809,30 +6805,7 @@ var render = function render() {
     }
   })]), _vm._v(" "), _vm.open ? _c("ul", {
     staticClass: "dropdown-menu"
-  }, [_c("a", {
-    attrs: {
-      href: "/organization/" + _vm.post.organization_id + "/event/" + _vm.post.id + "/edit"
-    }
-  }, [_c("li", {
-    staticClass: "dropdown-item"
-  }, [_vm._v("\n                upraviť\n            ")])]), _vm._v(" "), _c("li", {
-    staticClass: "dropdown-item",
-    on: {
-      click: _vm.deletePost
-    }
-  }, [_vm._v("\n            zmazať\n        ")]), _vm._v(" "), _vm.$auth.isAdmin() ? _c("a", {
-    attrs: {
-      href: "/event/" + _vm.post.id + "/subscribe"
-    }
-  }, [_c("li", {
-    staticClass: "dropdown-item whitespace-nowrap"
-  }, [_vm._v("\n                Administrácia\n            ")])]) : _vm._e(), _vm._v(" "), _vm.$auth.isAdmin() && _vm.post.orginal_source ? _c("a", {
-    attrs: {
-      href: "/api/eventServices/" + _vm.post.id + "/newReolad"
-    }
-  }, [_c("li", {
-    staticClass: "dropdown-item whitespace-nowrap"
-  }, [_vm._v("\n                New reload\n            ")])]) : _vm._e()]) : _vm._e()]);
+  }, [_vm._t("default")], 2) : _vm._e()]);
 };
 
 var staticRenderFns = [];

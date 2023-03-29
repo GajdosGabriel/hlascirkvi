@@ -44,10 +44,11 @@ class NewRegistration extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject( 'Nová registrácia '. $this->user->fullName)
+            ->subject('Nová registrácia ' . $this->user->fullName)
             ->greeting('Dobrý deň,')
             ->line('Na kresťanskom portály HlasCirkvi.sk ')
-            ->line('sa registroval nový užívateľ '.  $this->user->fullName)
+            ->line('sa registroval nový užívateľ ' .  $this->user->fullName)
+            ->line($this->user->email)
             ->line('Ďakujeme že píšete skvelé príspevky!');
     }
 

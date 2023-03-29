@@ -26,7 +26,6 @@ Route::middleware('checkBanned')->group(function () {
         'akcie'                 => Public\EventController::class,
         'favorites'             => FavoriteController::class,
         'organizations'         => Public\OrganizationController::class,
-        'posts'                 => PostController::class,
         'seminars'              => Seminars\SeminarController::class,
         'seminars.posts'        => Seminars\SeminarPostController::class,
         'userSupport'           => UserSupportController::class,
