@@ -38,7 +38,7 @@
 
                 @if (auth()->guest())
                     <div class="form-group">
-                        <label>Som človek 3+2 = </label>
+                        <label>Som človek 5+3 = </label>
                         <input type="number" name="iamHuman" class="form-control" placeholder="Zadajte číslo 5"
                             style="opacity: .85;color: black; width: 25%" required>
                         <button type="submit" class="btn btn-small" style="float: right">Uložiť</button>
