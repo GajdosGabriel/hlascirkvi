@@ -26,7 +26,7 @@ class BigThingsRequest extends FormRequest
         if(auth()->guest() ) {
             return [
                 'body' => 'bail|required|min:3',
-                'iamHuman' => 'required|in:5',
+                'iamHuman' => 'required|in:10',
             ];
         }
 

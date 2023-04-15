@@ -26,7 +26,7 @@ class StoreMessengerRequest extends FormRequest
         if(auth()->guest()) {
             return [
                 // Vypnuté preto aby user-card mohol cez ajax zasielať správy
-                'iamHuman' => 'required|in:5',
+                'iamHuman' => 'required|in:10',
                 'body' => 'required|min:3',
             ];
         }
@@ -44,7 +44,7 @@ class StoreMessengerRequest extends FormRequest
     public function messages()
     {
         return [
-            'iamHuman.required' => 'Číslo musí byť 5',
+            'iamHuman.required' => 'Číslo musí byť 10',
             'body.required'  => 'Správa musí obsahovať min. 3 znaky',
         ];
     }

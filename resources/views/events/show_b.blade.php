@@ -60,8 +60,8 @@
                     <div>
                         <label>
                             <input type="number" class="border-2 border-gray-500 rounded-md p-2 mb-3" name="iamHuman"
-                                placeholder="Zadajte číslo 5" required>
-                            Zadajte číslo 5
+                                placeholder="Zadajte číslo" required>
+                            Zadajte číslo
                         </label>
                     </div>
 

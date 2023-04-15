@@ -31,7 +31,7 @@ class EventSubscribeGuestForm extends FormRequest
             'first_name.*' => 'required|min:3',
             'last_name.*' => 'required|min:3',
             'email.*' => 'required|email|max:255',
-            'iamHuman' => 'required|in:5',
+            'iamHuman' => 'required|in:10',
         ];
     }
 

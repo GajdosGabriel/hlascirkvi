@@ -43,8 +43,8 @@
                     </div>
 
                     <div class="mb-6">
-                        <span class="text-sm">Som človek  5+3 = </span>
-                        <input type="number" v-model="iamHuman" placeholder="Zadajte číslo 8" class="border-2 border-gray-300 w-full text-sm w-fullrounded-md px-2 py-1" required>
+                        <span class="text-sm">Som človek 7 plus 3 = </span>
+                        <input type="number" v-model="iamHuman" placeholder="Zadajte výsledné číslo" class="border-2 border-gray-300 w-full text-sm w-fullrounded-md px-2 py-1" required>
                         <div style="color: red" v-text="errors.iamHuman"></div>
                     </div>
 

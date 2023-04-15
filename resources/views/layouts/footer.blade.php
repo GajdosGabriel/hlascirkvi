@@ -33,9 +33,9 @@
                 <div class="form-group md:flex items-center mt-4">
 
                     @if(auth()->guest())
-                        <label>Som človek 5+3 = </label>
+                        <label>Som človek 7 plus 3 = </label>
                         <input class="mx-2 rounded-sm text-gray-800" type="number" name="iamHuman"
-                               placeholder="Zadajte číslo 8"
+                               placeholder="Zadajte číslo"
                                required>
                     @endif
 

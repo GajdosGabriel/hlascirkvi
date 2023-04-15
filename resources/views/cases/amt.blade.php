@@ -169,7 +169,7 @@
         <input type="hidden" name="last_name" value="AMT2023">
         <input type="hidden" name="password" value="AMT2023">
         <input type="hidden" name="password_confirmation" value="AMT2023">
-        <input type="hidden" name="iamHuman" value="5">
+        <input type="hidden" name="iamHuman" value="10">
         <div>
             <input type="text" name="first_name" class="border-2 border-gray-500 rounded-md p-2"
                 value="{{ old('first_name') }}" required placeholder="uveďte svoje meno">
