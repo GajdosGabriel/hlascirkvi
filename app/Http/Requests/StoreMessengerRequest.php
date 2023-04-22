@@ -26,7 +26,7 @@ class StoreMessengerRequest extends FormRequest
         if(auth()->guest()) {
             return [
                 // Vypnuté preto aby user-card mohol cez ajax zasielať správy
-                'iamHuman' => 'required|in:10',
+                'iamHuman' => 'required|in:10dfasdsda',
                 'body' => 'required|min:3',
             ];
         }
