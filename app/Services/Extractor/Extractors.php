@@ -59,8 +59,14 @@ class Extractors
             $title = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $title)));
 
 
-            // Remove extra spaces but not space between two words "a&nbsp;"
+            // Remove extra spaces but not space between two words "&nbsp;"
             $title = preg_replace('/\xc2\xa0/', ' ', $title);
+
+             // Another Remove extra spaces but not space between two words "&nbsp;"
+            $title = preg_replace('\xc2\xa0', ' ', $title);
+
+            // Sanitize every type of white spaces.
+            $title = preg_replace("/\s+/u", " ", $title);
 
             // Find existing or create new record
             if (DB::table('events')->whereTitle($title)
