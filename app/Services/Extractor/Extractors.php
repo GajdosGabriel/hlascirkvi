@@ -62,8 +62,6 @@ class Extractors
             // Remove extra spaces but not space between two words "&nbsp;"
             $title = preg_replace('/\xc2\xa0/', ' ', $title);
 
-             // Another Remove extra spaces but not space between two words "&nbsp;"
-            $title = preg_replace('\xc2\xa0', ' ', $title);
 
             // Sanitize every type of white spaces.
             $title = preg_replace("/\s+/u", " ", $title);
