@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,6 +17,10 @@ class Image extends Model
 
     public function getThumbImageUrlAttribute()
     {
+        if(App::environment('local')) {
+            return "https://hlascirkvi.sk/storage/{$this->thumb}";
+        };
+
         return "storage/{$this->thumb}";
     }
 
