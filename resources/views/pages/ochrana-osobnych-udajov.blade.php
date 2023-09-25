@@ -215,7 +215,9 @@
 
             <h4> Podmienky spracovania osobných údajov prostredníctvom tretích strán</h4>
             <a target="_blank" href="https://www.youtube.com/t/terms">YouTube podmienky.</a> <br />
+            <a target="_blank" href="https://developers.google.com/youtube/terms/developer-policies#a.-api-client-terms-of-use-and-privacy-policies">Súhlas s podmienkami YouTube api.</a> <br />
             <a target="_blank" href="https://policies.google.com/privacy">Google podmienky.</a>
+            <a target="_blank" href="https://developers.google.com/youtube/terms/developer-policies#e.-handling-youtube-data-and-content">Držanie a mazanie údajov.</a>
 
         </div>
     </div>
