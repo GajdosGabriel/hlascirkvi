@@ -29,7 +29,7 @@ class EventObserver
 
         // 271 Výveska
         if ($event->organization_id != 271) {
-            Notification::send(User::role('admin')->get(), new NewEvent($event));
+            // Notification::send(User::role('admin')->get(), new NewEvent($event));
         }
     }
 
