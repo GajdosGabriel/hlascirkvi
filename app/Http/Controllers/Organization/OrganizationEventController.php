@@ -43,7 +43,7 @@ class OrganizationEventController extends Controller
     public function update(Organization $organization, StoreEventRequest $request, Event $event)
     {
 
-        $event->update($request->except(['picture', 'file', 'vizitka']));
+        $event->update($request->except(['pictures', 'file', 'vizitka']));
 
         (new Form($event, $request))->handler();
 
@@ -54,7 +54,7 @@ class OrganizationEventController extends Controller
 
     public function store(Organization $organization, StoreEventRequest $request)
     {
-        $event = $organization->events()->create($request->except(['picture', 'file']));
+        $event = $organization->events()->create($request->except(['pictures', 'file']));
         (new Form($event, $request))->handler();
         session()->flash('flash', 'Podujatie bolo uložené!');
         return redirect()->route('organization.event.index', [$organization->id, $event->id]);
