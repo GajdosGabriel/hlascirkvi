@@ -10,7 +10,7 @@
     <x-pages.admin>
 
         <x-slot name="title">
-            Organizácie
+            Kanály
         </x-slot>
 
         <x-slot name="title_right">

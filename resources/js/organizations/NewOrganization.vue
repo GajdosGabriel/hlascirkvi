@@ -1,10 +1,16 @@
 <template>
-    <div>
-        <h4 style="margin: 2rem 0rem; cursor: pointer" @click="toggle">
-            Nový kanál
-            <i v-if="!showForm" class="far fa-plus-square"></i>
-            <i v-if="showForm" class="far fa-minus-square"></i>
-        </h4>
+    <div class="w-128">
+
+        <div class="flex justify-between mb-6">
+            <button class="btn btn-primary" @click="toggle">
+                Nový kanál
+            </button>
+
+            <button class="btn btn-default" @click="toggle" v-if="showForm">
+                X
+            </button>
+        </div>
+
 
         <form @submit.prevent="saveOrganization" v-if="showForm">
             <div class="form-group">
