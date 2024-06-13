@@ -2090,7 +2090,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.password.length < 6) {
         return false;
       }
-
       ;
       return this.emailIsValid() && this.password;
     }
@@ -2110,7 +2109,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     attemptRegister: function attemptRegister() {
       var _this = this;
-
       //                this.errors = [];
       this.loading = true;
       axios.post('/register', {
@@ -2126,16 +2124,16 @@ __webpack_require__.r(__webpack_exports__);
         _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
           body: 'Vitajte, rezistrácia je úspešná.'
         });
-      }) //                .catch (error => this.errors = error.response.data);
+      })
+
+      //                .catch (error => this.errors = error.response.data);
       ["catch"](function (error) {
         _this.loading = false;
         _this.errors = error.response.data.errors;
-
         if (error.response.status == 422) {
           _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
             body: 'Údaje nie sú správne. Skúste znova.'
           });
-
           _this.errors.push('Prihlasovacie údaje nie sú správne.');
         } else {
           _this.errors.push('Niečo zlyhalo, skúste znova načítať web a prihlásiť sa.');
@@ -2187,7 +2185,6 @@ __webpack_require__.r(__webpack_exports__);
         this.showRegisterForm = false;
         this.showLoginForm = true;
       }
-
       if (xxx == "register") {
         this.closeCard = false;
         this.showRegisterForm = true;
@@ -2196,7 +2193,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    axios.get("/sanctum/csrf-cookie").then(function (response) {// Login...
+    axios.get("/sanctum/csrf-cookie").then(function (response) {
+      // Login...
     });
   }
 });
@@ -2242,7 +2240,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.password.length < 6) {
         return false;
       }
-
       ;
       return this.emailIsValid() && this.password;
     }
@@ -2262,7 +2259,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     attemptLogin: function attemptLogin() {
       var _this = this;
-
       //                this.errors = [];
       this.loading = true;
       axios.post('/login', {
@@ -2274,16 +2270,16 @@ __webpack_require__.r(__webpack_exports__);
         _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
           body: 'Vitajte, ste úspešne prihlásený.'
         });
-      }) //                .catch (error => this.errors = error.response.data);
+      })
+
+      //                .catch (error => this.errors = error.response.data);
       ["catch"](function (error) {
         _this.loading = false;
         _this.errors = error.response.data;
-
         if (error.response.status == 422) {
           _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
             body: 'Údaje nie sú správne. Skúste znova.'
           });
-
           _this.errors.push('Prihlasovacie údaje nie sú správne.');
         } else {
           _this.errors.push('Niečo zlyhalo, skúste znova načítať web a prihlásiť sa.');
@@ -2350,11 +2346,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     canUpdate: function canUpdate() {
       var _this = this;
-
       if (this.editComment) {
         return false;
       }
-
       return this.authorize(function (user) {
         return window.App.user.id == 1 || _this.comment.user.id == window.App.user.id;
       });
@@ -2363,7 +2357,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.comment.deleted_at != null) {
         return "Váš komentár čaká na schválenie.";
       }
-
       return this.comment.body;
     },
     redText: function redText() {
@@ -2373,11 +2366,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     destroy: function destroy() {
       var _this2 = this;
-
       if (!window.confirm("Skutočne vymazať!")) {
         return;
       }
-
       axios["delete"]('/api/comments/' + this.comment.id);
       $(this.$el).fadeOut(300, function () {
         _this2.$emit("deleted", _this2.comment.id);
@@ -2385,7 +2376,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateComment: function updateComment() {
       var _this3 = this;
-
       axios.put(this.comment.url.update, this.comment).then(function (response) {
         _this3.comment = response.comment;
       });
@@ -2438,7 +2428,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var _this = this;
-
     axios.get('/api/posts/' + this.post.id + '/comments').then(function (response) {
       _this.comments = response.data;
     });
@@ -2501,7 +2490,6 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.signedIn) {
         return alert("Najprv sa prihláste!");
       }
-
       axios.put("/favorites/" + this.reply.id, {
         model: "Comment",
         model_id: this.reply.id
@@ -2533,10 +2521,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       body: "",
       email: "",
-      endpoint: "/comment" + location.pathname //                endpoint:'/store/comment/xx/qwe' + location.pathname
-
+      endpoint: "/comment" + location.pathname
+      //                endpoint:'/store/comment/xx/qwe' + location.pathname
     };
   },
+
   computed: {
     signedIn: function signedIn() {
       return window.App.signedIn;
@@ -2547,12 +2536,10 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.signedIn) {
         return this.toggle();
       }
-
       this.storeComment();
     },
     storeComment: function storeComment() {
       var _this = this;
-
       axios.post("/api/posts/" + this.post.id + "/comments", {
         body: this.body,
         email: this.email
@@ -2560,9 +2547,7 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref.data;
         _this.body = "";
         _this.email = "";
-
         _this.$emit("newComment", data);
-
         _this.modal = false;
       });
     }
@@ -2597,7 +2582,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getComments: function getComments() {
       var _this = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/comments").then(function (response) {
         _this.comments = response.data;
       });
@@ -2666,10 +2650,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   filters: {
     dateTime: function dateTime(value) {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).subtract(1, "hours").format("D.M.Y, H:mm"); //                return moment(value).format('lll');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).subtract(1, "hours").format("D.M.Y, H:mm");
+      //                return moment(value).format('lll');
       //                return moment(value).format('LT D.M.Y');
     }
   },
+
   computed: {
     itemWithActive: function itemWithActive() {
       this.computedItems = this.items.map(function (item) {
@@ -2687,7 +2673,6 @@ __webpack_require__.r(__webpack_exports__);
     //domáce správy //domov
     domace: function domace(canal) {
       var _this = this;
-
       axios.get("/api/rss-reader-canal/" + canal).then(function (response) {
         return _this.items = response.data.channel.item;
       });
@@ -2699,13 +2684,11 @@ __webpack_require__.r(__webpack_exports__);
         this.isDomace = true;
         this.isZahranicie = false;
       }
-
       if (canal == "zahranicie") {
         this.isTlacove = false;
         this.isDomace = false;
         this.isZahranicie = true;
       }
-
       if (canal == "press") {
         this.isTlacove = true;
         this.isDomace = false;
@@ -2749,11 +2732,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var _this = this;
-
     _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on('flex justify-between', function (data) {
       _this.showNotify(data);
     });
-
     if (this.message) {
       this.body = this.message;
       this.banner = true;
@@ -2774,7 +2755,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     hide: function hide() {
       var _this2 = this;
-
       setTimeout(function () {
         _this2.banner = false;
       }, 5000);
@@ -2804,7 +2784,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var _this = this;
-
     axios.get('/hanusove-dni/').then(function (response) {
       return _this.videos = response.data;
     })["catch"](function (error) {
@@ -2837,6 +2816,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_createdMixin__WEBPACK_IMPORTED_MODULE_0__.createdMixin],
   // props: ["post", "model"],
+
   props: {
     post: {
       type: Object,
@@ -2929,13 +2909,10 @@ __webpack_require__.r(__webpack_exports__);
       if (this.body.length > 3) {
         return true;
       }
-
       this.errors = [];
-
       if (!this.body) {
         this.errors.push('Text sa vyžaduje.');
       }
-
       e.preventDefault();
     },
     sendmessage: function sendmessage() {
@@ -2950,7 +2927,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     hide: function hide() {
       var _this = this;
-
       setTimeout(function () {
         _this.annotation = false;
       }, 3000);
@@ -3015,13 +2991,10 @@ __webpack_require__.r(__webpack_exports__);
       if (this.body.length > 3) {
         return true;
       }
-
       this.errors = [];
-
       if (!this.body) {
         this.errors.push('Text sa vyžaduje.');
       }
-
       e.preventDefault();
     },
     sendmessage: function sendmessage() {
@@ -3036,7 +3009,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     hide: function hide() {
       var _this = this;
-
       setTimeout(function () {
         _this.annotation = false;
       }, 3000);
@@ -3075,7 +3047,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     canUpdate: function canUpdate() {
       var _this = this;
-
       return this.authorize(function (user) {
         return _this.data.user_id == window.App.user.id;
       });
@@ -3105,7 +3076,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     hide: function hide() {
       var _this2 = this;
-
       setTimeout(function () {
         _this2.showMessenger = false;
       }, 3000);
@@ -3187,21 +3157,20 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     sendComment: function sendComment() {
       var _this = this;
-
       if (this.body.length < 7) {
         this.emptyBody = true;
         return false;
       }
-
       this.emptyBody = false;
-
       if (!this.disabled) {
         this.emptyEmail = true;
-      } //                if(this.emailInput.length < 5 ) {
+      }
+
+      //                if(this.emailInput.length < 5 ) {
       //                    return false;
       //                }
-      //                this.emptyEmail = false;
 
+      //                this.emptyEmail = false;
 
       axios.post("/comments", {
         body: this.body,
@@ -3212,7 +3181,6 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (_ref) {
         var data = _ref.data;
         _this.body = "";
-
         _this.$emit("created", data);
       });
     }
@@ -3259,21 +3227,20 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     sendComment: function sendComment() {
       var _this = this;
-
       if (this.body.length < 7) {
         this.emptyBody = true;
         return false;
       }
-
       this.emptyBody = false;
-
       if (!this.disabled) {
         this.emptyEmail = true;
-      } //                if(this.emailInput.length < 5 ) {
+      }
+
+      //                if(this.emailInput.length < 5 ) {
       //                    return false;
       //                }
-      //                this.emptyEmail = false;
 
+      //                this.emptyEmail = false;
 
       axios.post("/comments", {
         body: this.body,
@@ -3284,7 +3251,6 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (_ref) {
         var data = _ref.data;
         _this.body = "";
-
         _this.$emit("created", data);
       });
     }
@@ -3379,12 +3345,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     getVillages: function getVillages() {
       var _this = this;
-
       if (this.searchVillage.length < 1) {
         this.list = false;
         return;
       }
-
       this.list = true;
       axios.get('/api/villages/' + this.searchVillage).then(function (response) {
         _this.villages = response.data;
@@ -3509,14 +3473,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     sendMessage: function sendMessage() {
       var _this = this;
-
       axios.post('/user/message/' + this.user.id + '/newMessage', {
         body: this.body
       }).then(function (_ref) {
         var data = _ref.data;
-
         _this.$emit('created', data);
-
         _this.body = '';
       });
     }
@@ -3557,15 +3518,13 @@ __webpack_require__.r(__webpack_exports__);
       // Bežne date zapisuje o 2 hod. menej
       var dt = new Date();
       dt.setHours(dt.getHours() + 2);
-
       if (this.user.countNotifycation == 0) {
         return this.toggle();
       }
-
       axios.put("/api/users/" + this.user.id, {
         notify_bell: dt
-      }); //     .then(response => (this.notifications = response.data));
-
+      });
+      //     .then(response => (this.notifications = response.data));
       this.toggle();
     }
   },
@@ -3614,7 +3573,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     getUser: function getUser() {
       var _this = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/user").then(function (response) {
         _this.user = response.data;
         _this.organization = response.data.organization;
@@ -3738,7 +3696,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     fetchVillage: function fetchVillage() {
       var _this = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/villages", {
         name: this.search
       }).then(function (response) {
@@ -3747,14 +3704,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     fetchUser: function fetchUser() {
       var _this2 = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/user").then(function (response) {
         _this2.user = response.data;
       });
     },
     fetchUpdaters: function fetchUpdaters() {
       var _this3 = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/updaters").then(function (response) {
         _this3.updaters = response.data;
       });
@@ -3849,13 +3804,10 @@ __webpack_require__.r(__webpack_exports__);
       if (this.body.length > 3) {
         return true;
       }
-
       this.errors = [];
-
       if (!this.body) {
         this.errors.push('Text sa vyžaduje.');
       }
-
       e.preventDefault();
     },
     sendmessage: function sendmessage() {
@@ -3911,15 +3863,12 @@ __webpack_require__.r(__webpack_exports__);
         this.annotation = true;
         return console.log('neprihlásený');
       }
-
       axios.get('/users/' + this.user.id + '/favorites/user');
-
       if (this.isFavorite) {
         this.favoritedCount--;
       } else {
         this.favoritedCount++;
       }
-
       this.toggle();
       this.notificationAnnonce();
     },
@@ -4032,14 +3981,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     onClickSubscribeButton: function onClickSubscribeButton() {
       var _this = this;
-
       if (!this.signedIn) {
         return this.toggleLogin();
       }
-
       axios.post("/api/organizations/" + this.organization.id + "/favorites").then(function (response) {
         _this.toggleFavorited();
-
         _this.messageNotification();
       });
     },
@@ -4053,10 +3999,11 @@ __webpack_require__.r(__webpack_exports__);
           body: "Ste odhlásený!"
         });
       }
-    } // openModal: function () {
+    }
+
+    // openModal: function () {
     //     bus.$emit('openModalHelpUs');
     // }
-
   }
 });
 
@@ -4092,7 +4039,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var _this = this;
-
     _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on('openModalHelpUs', function () {
       _this.show = true;
     });
@@ -4112,7 +4058,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     hide: function hide() {
       var _this2 = this;
-
       setTimeout(function () {
         _this2.annotation = false;
       }, 3000);
@@ -4121,13 +4066,10 @@ __webpack_require__.r(__webpack_exports__);
       if (this.body) {
         return true;
       }
-
       this.errors = [];
-
       if (!this.body) {
         this.errors.push('Text sa vyžaduje.');
       }
-
       e.preventDefault();
     }
   }
@@ -4164,7 +4106,6 @@ __webpack_require__.r(__webpack_exports__);
       if (!window.confirm("Skutočne vymazať!")) {
         return;
       }
-
       axios["delete"]("/organization/" + this.post.organization_id + "/post/" + this.post.id).then(window.location.href = "/organization/" + this.post.organization_id + "/post/");
     },
     updatePost: function updatePost() {
@@ -4217,12 +4158,10 @@ __webpack_require__.r(__webpack_exports__);
           'favorited': this.isFavorite
         };
       }
-
       if (!this.isFavorite) {
         if (this.favoriteCount > 0) {
           this.recommended = 'Odporúčať príspevok ' + this.favoriteCount;
         }
-
         _app__WEBPACK_IMPORTED_MODULE_0__.bus.$emit('flash', {
           body: 'Odporúčanie zrušené!'
         });
@@ -4242,7 +4181,6 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.signedIn) {
         return this.showLoginForm = true;
       }
-
       this.toggle();
       this.save();
     },
@@ -4362,7 +4300,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var _this = this;
-
     _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on("openModalPrayer", function () {
       _this.show = true;
     });
@@ -4377,7 +4314,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     savePrayer: function savePrayer() {
       var _this2 = this;
-
       // Update prayer
       if (this.form.id) {
         console.log(this.form);
@@ -4391,9 +4327,8 @@ __webpack_require__.r(__webpack_exports__);
           window.location.reload();
         });
         return;
-      } // Save prayer
-
-
+      }
+      // Save prayer
       axios__WEBPACK_IMPORTED_MODULE_2___default().post("/api/prayers", this.form).then(function (response) {
         _this2.form = {};
         _this2.show = false;
@@ -4435,7 +4370,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var _this = this;
-
     _app__WEBPACK_IMPORTED_MODULE_0__.bus.$on("passToModalPrayer", function (prayer) {
       _this.prayer = prayer;
     });
@@ -4446,7 +4380,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     saveFavorites: function saveFavorites() {
       var _this2 = this;
-
       axios.put("/favorites/" + this.prayer.id, {
         model: "Prayer",
         model_id: this.prayer.id,
@@ -4584,7 +4517,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getPrayers: function getPrayers() {
       var _this = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(this.url).then(function (response) {
         _this.prayers = response.data.data;
       });
@@ -4657,14 +4589,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     prayerDestroy: function prayerDestroy() {
       var _this = this;
-
       if (!window.confirm("Skutočne chcete zmazať položku?")) {
         return;
       }
-
       axios__WEBPACK_IMPORTED_MODULE_3___default()["delete"]("/api/prayers/" + this.prayer.id).then(function () {
         _this.toggle();
-
         window.location.reload();
       });
     }
@@ -4723,7 +4652,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getPrayers: function getPrayers() {
       var _this = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(this.url).then(function (response) {
         _this.prayers = response.data.data;
         _this.meta = response.data.meta;
@@ -4793,7 +4721,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getPrayers: function getPrayers() {
       var _this = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(this.url).then(function (response) {
         _this.prayers = response.data;
         _this.meta = response.data.meta;
@@ -4865,7 +4792,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.seminar.published == null) {
         return "Publikovať";
       }
-
       return "Nepublikovať";
     },
     signedIn: function signedIn() {
@@ -4878,7 +4804,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.signedIn) {
         return [this.user.org_id == this.seminar.organization_id ? false : true];
       }
-
       return false;
     }
   },
@@ -4959,13 +4884,10 @@ __webpack_require__.r(__webpack_exports__);
       if (this.body.length > 3) {
         return true;
       }
-
       this.errors = [];
-
       if (!this.body) {
         this.errors.push('Text sa vyžaduje.');
       }
-
       e.preventDefault();
     },
     sendmessage: function sendmessage() {
@@ -4980,7 +4902,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     hide: function hide() {
       var _this = this;
-
       setTimeout(function () {
         _this.annotation = false;
       }, 3000);
@@ -5023,15 +4944,12 @@ __webpack_require__.r(__webpack_exports__);
         this.annotation = true;
         return console.log('neprihlásený');
       }
-
       axios.get('/users/' + this.user.id + '/favorites/user');
-
       if (this.isFavorite) {
         this.favoritedCount--;
       } else {
         this.favoritedCount++;
       }
-
       this.toggle();
       this.notificationAnnonce();
     },
@@ -5117,7 +5035,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     relayoutTheGrid: function relayoutTheGrid() {
       var _this = this;
-
       setTimeout(function () {
         var elem = document.querySelector('.grid');
         console.log(elem);
@@ -5129,7 +5046,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     imageProgress: function imageProgress(instance, img) {
       this.counter++;
-
       if (this.counter == this.videos.length) {
         this.relayoutTheGrid();
       }
@@ -5193,7 +5109,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     var _this = this;
-
     _Search__WEBPACK_IMPORTED_MODULE_1___default()({
       apiKey: 'AIzaSyBy0rsl9DUYGGKT7OoEDiXb8_7V7hWL7cE',
       term: this.user,
@@ -5232,8 +5147,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "container mx-auto md:p-8"
   }, [_c("div", {
@@ -5369,13 +5283,11 @@ var render = function render() {
     on: {
       change: function change($event) {
         var $$a = _vm.password,
-            $$el = $event.target,
-            $$c = $$el.checked ? true : false;
-
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
         if (Array.isArray($$a)) {
           var $$v = null,
-              $$i = _vm._i($$a, $$v);
-
+            $$i = _vm._i($$a, $$v);
           if ($$el.checked) {
             $$i < 0 && (_vm.password = $$a.concat([$$v]));
           } else {
@@ -5459,13 +5371,11 @@ var render = function render() {
     on: {
       change: function change($event) {
         var $$a = _vm.password_confirmation,
-            $$el = $event.target,
-            $$c = $$el.checked ? true : false;
-
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
         if (Array.isArray($$a)) {
           var $$v = null,
-              $$i = _vm._i($$a, $$v);
-
+            $$i = _vm._i($$a, $$v);
           if ($$el.checked) {
             $$i < 0 && (_vm.password_confirmation = $$a.concat([$$v]));
           } else {
@@ -5573,11 +5483,9 @@ var render = function render() {
     }
   })]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)])])]);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "flex"
   }, [_c("button", {
@@ -5588,8 +5496,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("\n                        Registrovať sa\n                    ")])]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "border-t px-10 py-6"
   }, [_c("div", {
@@ -5625,8 +5532,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "container mx-auto md:p-8"
   }, [_vm.closeCard ? _c("div", {
@@ -5655,18 +5561,15 @@ var render = function render() {
     }
   }, [_vm._m(2)])])])]) : _vm._e(), _vm._v(" "), _vm.showRegisterForm ? _c("LoginRegister") : _vm._e(), _vm._v(" "), _vm.showLoginForm ? _c("LoginForm") : _vm._e()], 1);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("h5", [_c("i", {
     staticClass: "fas fa-check"
   }), _vm._v(" Už som registrovaný\n                    ")]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "mb-6"
   }, [_c("a", {
@@ -5679,8 +5582,7 @@ var staticRenderFns = [function () {
   }), _vm._v(" Pokračovať pomocou\n                            Facebooku\n                        ")])])]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("h5", [_c("i", {
     staticClass: "fas fa-check"
   }), _vm._v(" Vytvoriť novú\n                        registráciu\n                    ")]);
@@ -5704,8 +5606,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "container mx-auto md:p-8"
   }, [_c("div", {
@@ -5777,13 +5678,11 @@ var render = function render() {
     on: {
       change: function change($event) {
         var $$a = _vm.password,
-            $$el = $event.target,
-            $$c = $$el.checked ? true : false;
-
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
         if (Array.isArray($$a)) {
           var $$v = null,
-              $$i = _vm._i($$a, $$v);
-
+            $$i = _vm._i($$a, $$v);
           if ($$el.checked) {
             $$i < 0 && (_vm.password = $$a.concat([$$v]));
           } else {
@@ -5855,11 +5754,9 @@ var render = function render() {
     }
   }, [_vm._v(" " + _vm._s(_vm.inputType ? "Skryť" : "Zobraziť") + " heslo")])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)])])]);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "flex"
   }, [_c("button", {
@@ -5870,8 +5767,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("\n                        Vstúpiť\n                    ")])]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "border-t px-10 py-6"
   }, [_c("div", {
@@ -5907,8 +5803,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md"
   }, [_c("div", {
@@ -5952,7 +5847,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.comment, "body", $event.target.value);
       }
     }
@@ -5990,7 +5884,6 @@ var render = function render() {
     }
   }, [_vm._v("Zmazať")])]) : _vm._e()]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6011,8 +5904,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", [_c("div", {
     staticClass: "px-3"
   }, [_c("h4", {
@@ -6063,7 +5955,6 @@ var render = function render() {
     }
   }) : _vm._e()], 2)]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6084,8 +5975,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     on: {
       click: function click($event) {
@@ -6118,7 +6008,6 @@ var render = function render() {
     }
   })]), _vm._v(" "), _c("span", [_vm._v(_vm._s(_vm.reply.favorites_count))])])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6139,8 +6028,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("form", {
     on: {
       submit: function submit($event) {
@@ -6201,11 +6089,9 @@ var render = function render() {
     staticClass: "text-xs block"
   }, [_vm._v("Email nebude nikde zverejnený.")])]) : _vm._e(), _vm._v(" "), _vm._m(0)])]);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "flex w-full justify-end"
   }, [_c("button", {
@@ -6231,8 +6117,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("section", {
     staticClass: "card"
   }, [_c("header", {
@@ -6265,7 +6150,6 @@ var render = function render() {
     }, [_vm._v("\n                        " + _vm._s(comment.created_at_humans) + "\n                    ")])])])]);
   }), 0)]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6286,8 +6170,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "relative z-10 px-2"
   }, [_c("div", {
@@ -6312,7 +6195,6 @@ var render = function render() {
     }
   })])]), _vm._v(" "), _vm.open ? _c("div", {}, [_vm._t("default")], 2) : _vm._e()]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6333,8 +6215,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("section", {
     staticClass: "card"
   }, [_vm._m(0), _vm._v(" "), _c("div", [_c("div", {
@@ -6402,11 +6283,9 @@ var render = function render() {
     }, [_vm._v("\n                    " + _vm._s(_vm._f("dateTime")(item.pubdate)) + "\n                ")])]) : _vm._e();
   }), 0)])]);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("header", {
     staticClass: "card_header"
   }, [_c("h4", [_vm._v("Aktuálne správy")]), _vm._v(" "), _c("i", {
@@ -6432,8 +6311,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "fixed bottom-10 right-3"
   }, [_c("transition", {
@@ -6447,7 +6325,6 @@ var render = function render() {
     staticClass: "fas fa-info-circle fa-lg mr-4"
   }), _vm._v("\n            " + _vm._s(_vm.body) + "\n        ")]) : _vm._e()])], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6468,8 +6345,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", _vm._l(_vm.videos, function (video) {
     return _c("div", [_vm.show ? _c("div", [_c("p", [_vm._v("nahľad")]), _vm._v(" "), _c("img", {
       key: video.snippet.resourceId.videoId,
@@ -6502,7 +6378,6 @@ var render = function render() {
     }, [_vm._v("bb")])])]) : _vm._e()]);
   }), 0);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6523,8 +6398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "relative z-10 px-2"
   }, [_c("svg", {
@@ -6561,7 +6435,6 @@ var render = function render() {
     }
   }, [_vm._v("\n            zmazať\n        ")])]) : _vm._e()]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6582,8 +6455,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", [_c("h4", {
     staticClass: "font-semibold"
   }, [_vm._v("Hľadám na akciu:")]), _vm._v(" "), _vm._l(_vm.comments, function (comment, index) {
@@ -6608,7 +6480,6 @@ var render = function render() {
     }
   })], 2);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6629,8 +6500,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", [_c("h4", {
     staticClass: "font-semibold"
   }, [_vm._v("Ponúkam na akciu:")]), _vm._v(" "), _vm._l(_vm.comments, function (comment, index) {
@@ -6655,7 +6525,6 @@ var render = function render() {
     }
   })], 2);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6676,8 +6545,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "comment"
   }, [_c("div", {
@@ -6759,7 +6627,6 @@ var render = function render() {
     }
   }, [_vm._v("Odoslať")])])])]) : _vm._e()])], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6780,8 +6647,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "relative z-10 px-2"
   }, [_c("svg", {
@@ -6807,7 +6673,6 @@ var render = function render() {
     staticClass: "dropdown-menu"
   }, [_vm._t("default")], 2) : _vm._e()]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -6828,8 +6693,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("form", {
     on: {
       submit: function submit($event) {
@@ -6890,11 +6754,9 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("br")]) : _vm._e(), _vm._v(" "), _vm._m(0)]);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "w-full flex justify-end"
   }, [_c("button", {
@@ -6920,8 +6782,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("form", {
     on: {
       submit: function submit($event) {
@@ -6988,11 +6849,9 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("br")]) : _vm._e(), _vm._v(" "), _vm._m(0)]);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "w-full flex justify-end"
   }, [_c("button", {
@@ -7018,8 +6877,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     "class": {
       "fixed inset-0 bg-gray-600": _vm.open
@@ -7052,7 +6910,6 @@ var render = function render() {
     }
   }, [_vm._v("\n        zmazať\n    ")]) : _vm._e()], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -7073,8 +6930,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
@@ -7111,7 +6967,6 @@ var render = function render() {
     }, [_vm._v(_vm._s(village.fullname) + " " + _vm._s(village.zip))]);
   }), 0) : _vm._e()]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -7132,8 +6987,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "other"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
@@ -7148,11 +7002,9 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.data.created_at))])])]);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "avatar"
   }, [_c("img", {
@@ -7180,8 +7032,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _vm.showModul ? _c("section", {
     staticClass: "module"
   }, [_c("div", {
@@ -7214,7 +7065,6 @@ var render = function render() {
     }
   })], 1) : _vm._e();
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -7235,8 +7085,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("form", {
     on: {
       submit: function submit($event) {
@@ -7275,7 +7124,6 @@ var render = function render() {
     staticClass: "btn btn-small"
   }, [_vm._v("Odoslať")])])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -7296,8 +7144,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "relative mr-3",
     on: {
@@ -7360,7 +7207,6 @@ var render = function render() {
     staticClass: "block bg-gray-800 text-white text-center font-bold py-2 w-full"
   }, [_vm._v("\n            See all notifications\n        ")])], 2) : _vm._e()]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -7381,8 +7227,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _vm.user ? _c("div", {
     staticClass: "relative z-10 flex"
   }, [_c("bell", {
@@ -7444,7 +7289,6 @@ var render = function render() {
     }
   }, [_vm._v("\n                Odhlásiť\n            ")])])]) : _vm._e()], 1) : _vm._e();
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -7465,8 +7309,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", [_c("li", {
     staticClass: "border-2 rounded-md px-2 whitespace-nowrap",
     on: {
@@ -7511,11 +7354,9 @@ var render = function render() {
     }
   })])])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)]) : _vm._e()]);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("a", {
     attrs: {
       id: "navbarDropdown",
@@ -7528,8 +7369,7 @@ var staticRenderFns = [function () {
   })]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("li", {
     staticClass: "p-2 px-6 hover:bg-gray-300"
   }, [_c("a", {
@@ -7541,8 +7381,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("Rádio\n                Lumen")])]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("li", {
     staticClass: "p-2 px-6 hover:bg-gray-300"
   }, [_c("a", {
@@ -7554,8 +7393,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("Lumen\n                Gospel")])]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("li", {
     staticClass: "p-2 px-6 hover:bg-gray-300"
   }, [_c("a", {
@@ -7585,8 +7423,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", [_c("div", {
     staticClass: "form-group"
   }, [_c("label", [_vm._v("Organizátor podujatia vue")]), _vm._v(" "), _c("select", {
@@ -7646,7 +7483,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.selected, "id", $event.target.value);
       }
     }
@@ -7675,7 +7511,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.selected, "street", $event.target.value);
       }
     }
@@ -7704,13 +7539,11 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.selected, "city", $event.target.value);
       }
     }
   })])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -7731,8 +7564,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "w-128"
   }, [_c("div", {
@@ -7775,7 +7607,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.form, "title", $event.target.value);
       }
     }
@@ -7799,7 +7630,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.form, "street", $event.target.value);
       }
     }
@@ -7865,7 +7695,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.form, "phone", $event.target.value);
       }
     }
@@ -7902,11 +7731,9 @@ var render = function render() {
     }, [_vm._v(_vm._s(updater.title))])]);
   }), _vm._v(" "), _vm._m(0)], 2) : _vm._e()]);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "form-group text-right"
   }, [_c("button", {
@@ -7932,8 +7759,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "flex-shrink-0"
   }, [_vm.organization.avatar ? _c("img", {
@@ -7945,7 +7771,6 @@ var render = function render() {
     staticClass: "h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
   }, [_vm._v("\n        " + _vm._s(_vm.organization.initialName) + "\n    ")])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -7966,8 +7791,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", [_c("div", {
     staticClass: "level",
     staticStyle: {
@@ -8084,7 +7908,6 @@ var render = function render() {
     }
   })]) : _vm._e()])])], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -8105,8 +7928,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "card-header",
     staticStyle: {
@@ -8131,7 +7953,6 @@ var render = function render() {
     }
   }, [_vm._v("\n                    Najprv sa registrujte cez Facebook\n                ")])]) : _vm._e()])], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -8152,8 +7973,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "card"
   }, [_c("organization-card-header", {
@@ -8184,7 +8004,6 @@ var render = function render() {
     }
   })], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -8205,8 +8024,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "md:flex justify-between text-gray-700 pb-3 col-span-12 items-center",
     on: {
@@ -8277,7 +8095,6 @@ var render = function render() {
     }
   }, [_vm._v("Pokračovať")])]) : _vm._e()])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -8298,8 +8115,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _vm.show ? _c("div", {
     staticClass: "fixed z-10 inset-0 overflow-y-auto"
   }, [_c("div", {
@@ -8405,11 +8221,9 @@ var render = function render() {
     }
   }, [_vm._v("\n                    Zrušiť\n                ")])])])])]) : _vm._e();
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "fixed inset-0 transition-opacity",
     attrs: {
@@ -8420,8 +8234,7 @@ var staticRenderFns = [function () {
   })]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "mt-5"
   }, [_c("iframe", {
@@ -8454,8 +8267,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "relative z-10 px-2"
   }, [_c("svg", {
@@ -8497,7 +8309,6 @@ var render = function render() {
     }
   }, [_vm._v("\n            Do buffer\n        ")]) : _vm._e()]) : _vm._e()]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -8518,8 +8329,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "grow cursor-pointer"
   }, [_c("div", {
@@ -8552,7 +8362,6 @@ var render = function render() {
     }
   }, [_vm._v("Pokračovať")])]) : _vm._e()])], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -8573,8 +8382,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "flex justify-between w-full"
   }, [_c("button", {
@@ -8589,7 +8397,6 @@ var render = function render() {
     }
   }, [_vm._v("Blokovať")])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -8610,8 +8417,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _vm.show ? _c("div", {
     staticClass: "fixed z-10 inset-0 overflow-y-auto"
   }, [_c("div", {
@@ -8685,7 +8491,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.form, "title", $event.target.value);
       }
     }
@@ -8719,7 +8524,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.form, "body", $event.target.value);
       }
     }
@@ -8754,7 +8558,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.form, "user_name", $event.target.value);
       }
     }
@@ -8789,7 +8592,6 @@ var render = function render() {
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-
         _vm.$set(_vm.form, "email", $event.target.value);
       }
     }
@@ -8812,11 +8614,9 @@ var render = function render() {
     }
   }, [_vm._v("\n                                    Uložiť\n                                ")])])])])])])])])]) : _vm._e();
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "fixed inset-0 transition-opacity",
     attrs: {
@@ -8845,8 +8645,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _vm.prayer ? _c("div", {
     staticClass: "fixed z-10 inset-0 overflow-y-auto"
   }, [_c("div", {
@@ -8948,11 +8747,9 @@ var render = function render() {
     }
   }, [_vm._v("\n                    Zavrieť\n                ")])])])])]) : _vm._e();
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "fixed inset-0 transition-opacity",
     attrs: {
@@ -8963,8 +8760,7 @@ var staticRenderFns = [function () {
   })]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "mt-3"
   }, [_c("p", {
@@ -8974,15 +8770,13 @@ var staticRenderFns = [function () {
   }, [_vm._v("Modlitba je stále aktuálna")])])]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("p", {
     staticClass: "font-semibold mb-2 text-gray-500 text-sm"
   }, [_vm._v("\n                                    Vložením emailu sa pripojíte k modlitbe.\n                                    "), _c("br"), _vm._v("\n                                    Email sa nikde zverejňuje.\n                                ")]);
 }, function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "flex justify-center"
   }, [_c("button", {
@@ -9011,8 +8805,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", [_c("button", {
     staticClass: "btn-small text-xs whitespace-nowrap"
   }, [_vm._v("Modlím sa\n        "), _vm.prayer.favoritesCount > 0 ? _c("span", {
@@ -9020,7 +8813,6 @@ var render = function render() {
     "class": _vm.visibleFavoritesCounter
   }, [_vm._v(_vm._s(_vm.prayer.favoritesCount))]) : _vm._e()])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9041,8 +8833,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "flex justify-center my-10 space-x-3"
   }, [_c("button", {
@@ -9099,7 +8890,6 @@ var render = function render() {
     }
   })])])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9120,8 +8910,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "px-4 py-2 text-base hover:bg-gray-100"
   }, [_c("div", {
@@ -9163,7 +8952,6 @@ var render = function render() {
     staticClass: "text-xs bg-blue-200 border-blue-600 border-1 text-gray-700 rounded-md px-2 pt-1"
   }, [_vm._v("\n                        " + _vm._s(_vm.prayer.created_at_humans) + "\n                    ")])])])])])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9184,8 +8972,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("section", {
     staticClass: "card"
   }, [_c("header", {
@@ -9205,7 +8992,6 @@ var render = function render() {
     })], 1);
   }), 0), _vm._v(" "), _c("modal-show-prayer")], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9226,8 +9012,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "px-6 py-2 border-2 border-gray-400 my-6 rounded-md shadow-lg",
     "class": _vm.isFulfilledAt
@@ -9331,7 +9116,6 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.prayer.body))])])])])])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9352,8 +9136,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("section", {}, [_c("div", {
     staticClass: "page_title"
   }, [_c("h2", {
@@ -9386,7 +9169,6 @@ var render = function render() {
     }
   })], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9407,8 +9189,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("section", {}, [_vm._m(0), _vm._v(" "), _c("ul", {
     staticClass: "mt-3"
   }, _vm._l(_vm.prayers.data, function (prayer) {
@@ -9430,11 +9211,9 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("modal-new-prayer"), _vm._v(" "), _c("modal-show-prayer")], 1);
 };
-
 var staticRenderFns = [function () {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "page_title"
   }, [_c("h2", {
@@ -9460,11 +9239,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _vm.seminar.description ? _c("div", [_vm._v("\n    " + _vm._s(_vm.seminar.description) + "\n")]) : _vm._e();
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9485,8 +9262,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", [_c("div", {
     staticClass: "flex text-sm space-x-3 text-gray-400 mt-1"
   }, [_c("div", {
@@ -9518,7 +9294,6 @@ var render = function render() {
     }
   }, [_vm._v("Pridať video\n            ")]) : _vm._e()]) : _vm._e()])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9539,15 +9314,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     "class": _vm.publishedSeminar
   }, [_vm._v("\n    " + _vm._s(_vm.seminar.title) + "\n    "), _vm.seminar.posts_count ? _c("span", {
     staticClass: "text-sm ml-2 text-gray-500"
   }, [_vm._v("\n        (" + _vm._s(_vm.seminar.posts_count) + ")\n    ")]) : _vm._e()]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9568,8 +9341,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "bg-blue-800 p-2"
   }, [_c("div", {
@@ -9673,7 +9445,6 @@ var render = function render() {
     }
   })]) : _vm._e()])])], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9694,8 +9465,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "bg-blue-800 p-2 text-gray-100"
   }, [_c("div", {
@@ -9716,7 +9486,6 @@ var render = function render() {
     }
   }, [_vm._v("\n                    Najprv sa registrujte cez Facebook\n                ")])]) : _vm._e()])], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9737,8 +9506,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "card"
   }, [_c("user-card-header", {
@@ -9765,7 +9533,6 @@ var render = function render() {
     }
   })], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9786,8 +9553,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "VideoGroup__wrapper"
   }, _vm._l(_vm.videos, function (video) {
@@ -9809,7 +9575,6 @@ var render = function render() {
     });
   }), 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9830,8 +9595,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "card"
   }, [_c("a", {
@@ -9853,7 +9617,6 @@ var render = function render() {
     }
   })])]);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9874,8 +9637,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var render = function render() {
   var _vm = this,
-      _c = _vm._self._c;
-
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "YoutubeDash__wrapper"
   }, [_c("video-group", {
@@ -9884,7 +9646,6 @@ var render = function render() {
     }
   })], 1);
 };
-
 var staticRenderFns = [];
 render._withStripped = true;
 
@@ -9902,19 +9663,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Auth)
 /* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var Auth = /*#__PURE__*/function () {
   function Auth(user) {
     _classCallCheck(this, Auth);
-
     this.user = user;
   }
-
   _createClass(Auth, [{
     key: "roles",
     value: function roles() {
@@ -9933,18 +9692,17 @@ var Auth = /*#__PURE__*/function () {
     key: "isAdmin",
     value: function isAdmin() {
       return this.roles().includes('superadmin');
-    } // can('permisionName')
+    }
 
+    // can('permisionName')
   }, {
     key: "can",
     value: function can($permissionName) {
       return this.permissions().includes($permissionName);
     }
   }]);
-
   return Auth;
 }();
-
 
 
 /***/ }),
@@ -9967,19 +9725,22 @@ __webpack_require__.r(__webpack_exports__);
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
- //Autorizovanie pre canUpdate
 
+//Autorizovanie pre canUpdate
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.authorize = function (handler) {
   var user = window.App.user;
   return user ? handler(user) : false;
-}; ////////////  ACL   /////////////////
+};
+
+////////////  ACL   /////////////////
 // console.log(window.App.user);
 
 
-
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$auth = new _Auth__WEBPACK_IMPORTED_MODULE_1__["default"](window.App.user); ///////////////////////////////
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$auth = new _Auth__WEBPACK_IMPORTED_MODULE_1__["default"](window.App.user);
+///////////////////////////////
 
 /**
  * The following block of code may be used to automatically register your
@@ -9988,8 +9749,10 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].prototype.$auth = new _Auth__WEBPACK
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
+
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('messenger-modul', (__webpack_require__(/*! ./messenger/Messenger-modul.vue */ "./resources/js/messenger/Messenger-modul.vue")["default"]));
@@ -10027,9 +9790,12 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('seminar-title', (__webpac
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('seminar-info', (__webpack_require__(/*! ./seminars/seminar-info.vue */ "./resources/js/seminars/seminar-info.vue")["default"]));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('seminar-description', (__webpack_require__(/*! ./seminars/seminar-description.vue */ "./resources/js/seminars/seminar-description.vue")["default"]));
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('comment-card', (__webpack_require__(/*! ./comments/comments-card.vue */ "./resources/js/comments/comments-card.vue")["default"]));
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('dropdown-slot', (__webpack_require__(/*! ./components/DropdownSlot.vue */ "./resources/js/components/DropdownSlot.vue")["default"])); // Vue.component('post-counter', require('./posts/Video-counter.vue').default);
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('dropdown-slot', (__webpack_require__(/*! ./components/DropdownSlot.vue */ "./resources/js/components/DropdownSlot.vue")["default"]));
+
+// Vue.component('post-counter', require('./posts/Video-counter.vue').default);
 
 var bus = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]();
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -10049,6 +9815,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0__["default"]({
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -10057,24 +9824,30 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 try {
   window.Popper = (__webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"]);
-  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"); // require('bootstrap');
+  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+
+  // require('bootstrap');
 } catch (e) {}
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
+
 // import Echo from 'laravel-echo';
+
 // window.Pusher = require('pusher-js');
+
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
 //     key: process.env.MIX_PUSHER_APP_KEY,
@@ -10135,7 +9908,8 @@ var filterMixin = {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).format('D.M.Y, H:mm');
     },
     humanDateTime: function humanDateTime(value) {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).locale("sk").startOf('hour').fromNow(); // return moment(value).locale("sk").format('D.M.Y, H:mm');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(value).locale("sk").startOf('hour').fromNow();
+      // return moment(value).locale("sk").format('D.M.Y, H:mm');
     }
   }
 };
@@ -10149,14 +9923,11 @@ var filterMixin = {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-
 var BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
-
 module.exports = function (options, callback) {
   if (!options.apiKey) {
     throw new Error('Youtube search would require a key');
   }
-
   var params = {
     part: 'snippet',
     key: options.apiKey,
@@ -11859,7 +11630,7 @@ return Vertical;
 /***/ (function(module, exports) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.6.0
+ * jQuery JavaScript Library v3.6.4
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -11869,7 +11640,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2021-03-02T17:08Z
+ * Date: 2023-03-08T15:28Z
  */
 ( function( global, factory ) {
 
@@ -11883,7 +11654,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 		// (such as Node.js), expose a factory as module.exports.
 		// This accentuates the need for the creation of a real `window`.
 		// e.g. var jQuery = require("jquery")(window);
-		// See ticket #14549 for more info.
+		// See ticket trac-14549 for more info.
 		module.exports = global.document ?
 			factory( global, true ) :
 			function( w ) {
@@ -12011,7 +11782,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.6.0",
+	version = "3.6.4",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -12382,14 +12153,14 @@ function isArrayLike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v2.3.6
+ * Sizzle CSS Selector Engine v2.3.10
  * https://sizzlejs.com/
  *
  * Copyright JS Foundation and other contributors
  * Released under the MIT license
  * https://js.foundation/
  *
- * Date: 2021-02-16
+ * Date: 2023-02-14
  */
 ( function( window ) {
 var i,
@@ -12493,7 +12264,7 @@ var i,
 		whitespace + "+$", "g" ),
 
 	rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
-	rcombinators = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace +
+	rleadingCombinator = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace +
 		"*" ),
 	rdescend = new RegExp( whitespace + "|>" ),
 
@@ -12710,7 +12481,7 @@ function Sizzle( selector, context, results, seed ) {
 				// as such selectors are not recognized by querySelectorAll.
 				// Thanks to Andrew Dupont for this technique.
 				if ( nodeType === 1 &&
-					( rdescend.test( selector ) || rcombinators.test( selector ) ) ) {
+					( rdescend.test( selector ) || rleadingCombinator.test( selector ) ) ) {
 
 					// Expand context for sibling selectors
 					newContext = rsibling.test( selector ) && testContext( context.parentNode ) ||
@@ -13034,6 +12805,24 @@ setDocument = Sizzle.setDocument = function( node ) {
 			!el.querySelectorAll( ":scope fieldset div" ).length;
 	} );
 
+	// Support: Chrome 105 - 110+, Safari 15.4 - 16.3+
+	// Make sure the the `:has()` argument is parsed unforgivingly.
+	// We include `*` in the test to detect buggy implementations that are
+	// _selectively_ forgiving (specifically when the list includes at least
+	// one valid selector).
+	// Note that we treat complete lack of support for `:has()` as if it were
+	// spec-compliant support, which is fine because use of `:has()` in such
+	// environments will fail in the qSA path and fall back to jQuery traversal
+	// anyway.
+	support.cssHas = assert( function() {
+		try {
+			document.querySelector( ":has(*,:jqfake)" );
+			return false;
+		} catch ( e ) {
+			return true;
+		}
+	} );
+
 	/* Attributes
 	---------------------------------------------------------------------- */
 
@@ -13300,6 +13089,17 @@ setDocument = Sizzle.setDocument = function( node ) {
 		} );
 	}
 
+	if ( !support.cssHas ) {
+
+		// Support: Chrome 105 - 110+, Safari 15.4 - 16.3+
+		// Our regular `try-catch` mechanism fails to detect natively-unsupported
+		// pseudo-classes inside `:has()` (such as `:has(:contains("Foo"))`)
+		// in browsers that parse the `:has()` argument as a forgiving selector list.
+		// https://drafts.csswg.org/selectors/#relational now requires the argument
+		// to be parsed unforgivingly, but browsers have not yet fully adjusted.
+		rbuggyQSA.push( ":has" );
+	}
+
 	rbuggyQSA = rbuggyQSA.length && new RegExp( rbuggyQSA.join( "|" ) );
 	rbuggyMatches = rbuggyMatches.length && new RegExp( rbuggyMatches.join( "|" ) );
 
@@ -13312,7 +13112,14 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// As in, an element does not contain itself
 	contains = hasCompare || rnative.test( docElem.contains ) ?
 		function( a, b ) {
-			var adown = a.nodeType === 9 ? a.documentElement : a,
+
+			// Support: IE <9 only
+			// IE doesn't have `contains` on `document` so we need to check for
+			// `documentElement` presence.
+			// We need to fall back to `a` when `documentElement` is missing
+			// as `ownerDocument` of elements within `<template/>` may have
+			// a null one - a default behavior of all modern browsers.
+			var adown = a.nodeType === 9 && a.documentElement || a,
 				bup = b && b.parentNode;
 			return a === bup || !!( bup && bup.nodeType === 1 && (
 				adown.contains ?
@@ -14102,7 +13909,7 @@ Expr = Sizzle.selectors = {
 			return elem.nodeName.toLowerCase() === "input" &&
 				elem.type === "text" &&
 
-				// Support: IE<8
+				// Support: IE <10 only
 				// New HTML5 attribute values (e.g., "search") appear with elem.type === "text"
 				( ( attr = elem.getAttribute( "type" ) ) == null ||
 					attr.toLowerCase() === "text" );
@@ -14202,7 +14009,7 @@ tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
 		matched = false;
 
 		// Combinators
-		if ( ( match = rcombinators.exec( soFar ) ) ) {
+		if ( ( match = rleadingCombinator.exec( soFar ) ) ) {
 			matched = match.shift();
 			tokens.push( {
 				value: matched,
@@ -14989,8 +14796,8 @@ jQuery.fn.extend( {
 var rootjQuery,
 
 	// A simple way to check for HTML strings
-	// Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
-	// Strict HTML recognition (#11290: must start with <)
+	// Prioritize #id over <tag> to avoid XSS via location.hash (trac-9521)
+	// Strict HTML recognition (trac-11290: must start with <)
 	// Shortcut simple #id case for speed
 	rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/,
 
@@ -15947,7 +15754,7 @@ jQuery.extend( {
 	isReady: false,
 
 	// A counter to track how many items to wait for before
-	// the ready event fires. See #6781
+	// the ready event fires. See trac-6781
 	readyWait: 1,
 
 	// Handle when the DOM is ready
@@ -16075,7 +15882,7 @@ function fcamelCase( _all, letter ) {
 
 // Convert dashed to camelCase; used by the css and data modules
 // Support: IE <=9 - 11, Edge 12 - 15
-// Microsoft forgot to hump their vendor prefix (#9572)
+// Microsoft forgot to hump their vendor prefix (trac-9572)
 function camelCase( string ) {
 	return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
 }
@@ -16111,7 +15918,7 @@ Data.prototype = {
 			value = {};
 
 			// We can accept data for non-element nodes in modern browsers,
-			// but we should not, see #8335.
+			// but we should not, see trac-8335.
 			// Always return an empty object.
 			if ( acceptData( owner ) ) {
 
@@ -16350,7 +16157,7 @@ jQuery.fn.extend( {
 					while ( i-- ) {
 
 						// Support: IE 11 only
-						// The attrs elements can be null (#14894)
+						// The attrs elements can be null (trac-14894)
 						if ( attrs[ i ] ) {
 							name = attrs[ i ].name;
 							if ( name.indexOf( "data-" ) === 0 ) {
@@ -16773,9 +16580,9 @@ var rscriptType = ( /^$|^module$|\/(?:java|ecma)script/i );
 		input = document.createElement( "input" );
 
 	// Support: Android 4.0 - 4.3 only
-	// Check state lost if the name is set (#11217)
+	// Check state lost if the name is set (trac-11217)
 	// Support: Windows Web Apps (WWA)
-	// `name` and `type` must use .setAttribute for WWA (#14901)
+	// `name` and `type` must use .setAttribute for WWA (trac-14901)
 	input.setAttribute( "type", "radio" );
 	input.setAttribute( "checked", "checked" );
 	input.setAttribute( "name", "t" );
@@ -16799,7 +16606,7 @@ var rscriptType = ( /^$|^module$|\/(?:java|ecma)script/i );
 } )();
 
 
-// We have to close these tags to support XHTML (#13200)
+// We have to close these tags to support XHTML (trac-13200)
 var wrapMap = {
 
 	// XHTML parsers do not magically insert elements in the
@@ -16825,7 +16632,7 @@ if ( !support.option ) {
 function getAll( context, tag ) {
 
 	// Support: IE <=9 - 11 only
-	// Use typeof to avoid zero-argument method invocation on host objects (#15151)
+	// Use typeof to avoid zero-argument method invocation on host objects (trac-15151)
 	var ret;
 
 	if ( typeof context.getElementsByTagName !== "undefined" ) {
@@ -16908,7 +16715,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 				// Remember the top-level container
 				tmp = fragment.firstChild;
 
-				// Ensure the created nodes are orphaned (#12392)
+				// Ensure the created nodes are orphaned (trac-12392)
 				tmp.textContent = "";
 			}
 		}
@@ -17329,15 +17136,15 @@ jQuery.event = {
 
 			for ( ; cur !== this; cur = cur.parentNode || this ) {
 
-				// Don't check non-elements (#13208)
-				// Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
+				// Don't check non-elements (trac-13208)
+				// Don't process clicks on disabled elements (trac-6911, trac-8165, trac-11382, trac-11764)
 				if ( cur.nodeType === 1 && !( event.type === "click" && cur.disabled === true ) ) {
 					matchedHandlers = [];
 					matchedSelectors = {};
 					for ( i = 0; i < delegateCount; i++ ) {
 						handleObj = handlers[ i ];
 
-						// Don't conflict with Object.prototype properties (#13203)
+						// Don't conflict with Object.prototype properties (trac-13203)
 						sel = handleObj.selector + " ";
 
 						if ( matchedSelectors[ sel ] === undefined ) {
@@ -17591,7 +17398,7 @@ jQuery.Event = function( src, props ) {
 
 		// Create target properties
 		// Support: Safari <=6 - 7 only
-		// Target should not be a text node (#504, #13143)
+		// Target should not be a text node (trac-504, trac-13143)
 		this.target = ( src.target && src.target.nodeType === 3 ) ?
 			src.target.parentNode :
 			src.target;
@@ -17714,10 +17521,10 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 			return true;
 		},
 
-		// Suppress native focus or blur as it's already being fired
-		// in leverageNative.
-		_default: function() {
-			return true;
+		// Suppress native focus or blur if we're currently inside
+		// a leveraged native-event stack
+		_default: function( event ) {
+			return dataPriv.get( event.target, type );
 		},
 
 		delegateType: delegateType
@@ -17816,7 +17623,8 @@ var
 
 	// checked="checked" or checked
 	rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
-	rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;
+
+	rcleanScript = /^\s*<!\[CDATA\[|\]\]>\s*$/g;
 
 // Prefer a tbody over its parent table for containing new rows
 function manipulationTarget( elem, content ) {
@@ -17930,7 +17738,7 @@ function domManip( collection, args, callback, ignored ) {
 
 			// Use the original fragment for the last item
 			// instead of the first because it can end up
-			// being emptied incorrectly in certain situations (#8070).
+			// being emptied incorrectly in certain situations (trac-8070).
 			for ( ; i < l; i++ ) {
 				node = fragment;
 
@@ -17971,6 +17779,12 @@ function domManip( collection, args, callback, ignored ) {
 								}, doc );
 							}
 						} else {
+
+							// Unwrap a CDATA section containing script contents. This shouldn't be
+							// needed as in XML documents they're already not visible when
+							// inspecting element contents and in HTML documents they have no
+							// meaning but we're preserving that logic for backwards compatibility.
+							// This will be removed completely in 4.0. See gh-4904.
 							DOMEval( node.textContent.replace( rcleanScript, "" ), node, doc );
 						}
 					}
@@ -18253,9 +18067,12 @@ jQuery.each( {
 } );
 var rnumnonpx = new RegExp( "^(" + pnum + ")(?!px)[a-z%]+$", "i" );
 
+var rcustomProp = /^--/;
+
+
 var getStyles = function( elem ) {
 
-		// Support: IE <=11 only, Firefox <=30 (#15098, #14150)
+		// Support: IE <=11 only, Firefox <=30 (trac-15098, trac-14150)
 		// IE throws on elements created in popups
 		// FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
 		var view = elem.ownerDocument.defaultView;
@@ -18289,6 +18106,15 @@ var swap = function( elem, options, callback ) {
 
 
 var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
+
+var whitespace = "[\\x20\\t\\r\\n\\f]";
+
+
+var rtrimCSS = new RegExp(
+	"^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$",
+	"g"
+);
+
 
 
 
@@ -18355,7 +18181,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 	}
 
 	// Support: IE <=9 - 11 only
-	// Style of cloned element affects source element cloned (#8908)
+	// Style of cloned element affects source element cloned (trac-8908)
 	div.style.backgroundClip = "content-box";
 	div.cloneNode( true ).style.backgroundClip = "";
 	support.clearCloneStyle = div.style.backgroundClip === "content-box";
@@ -18435,6 +18261,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 
 function curCSS( elem, name, computed ) {
 	var width, minWidth, maxWidth, ret,
+		isCustomProp = rcustomProp.test( name ),
 
 		// Support: Firefox 51+
 		// Retrieving style before computed somehow
@@ -18445,10 +18272,41 @@ function curCSS( elem, name, computed ) {
 	computed = computed || getStyles( elem );
 
 	// getPropertyValue is needed for:
-	//   .css('filter') (IE 9 only, #12537)
-	//   .css('--customProperty) (#3144)
+	//   .css('filter') (IE 9 only, trac-12537)
+	//   .css('--customProperty) (gh-3144)
 	if ( computed ) {
+
+		// Support: IE <=9 - 11+
+		// IE only supports `"float"` in `getPropertyValue`; in computed styles
+		// it's only available as `"cssFloat"`. We no longer modify properties
+		// sent to `.css()` apart from camelCasing, so we need to check both.
+		// Normally, this would create difference in behavior: if
+		// `getPropertyValue` returns an empty string, the value returned
+		// by `.css()` would be `undefined`. This is usually the case for
+		// disconnected elements. However, in IE even disconnected elements
+		// with no styles return `"none"` for `getPropertyValue( "float" )`
 		ret = computed.getPropertyValue( name ) || computed[ name ];
+
+		if ( isCustomProp && ret ) {
+
+			// Support: Firefox 105+, Chrome <=105+
+			// Spec requires trimming whitespace for custom properties (gh-4926).
+			// Firefox only trims leading whitespace. Chrome just collapses
+			// both leading & trailing whitespace to a single space.
+			//
+			// Fall back to `undefined` if empty string returned.
+			// This collapses a missing definition with property defined
+			// and set to an empty string but there's no standard API
+			// allowing us to differentiate them without a performance penalty
+			// and returning `undefined` aligns with older jQuery.
+			//
+			// rtrimCSS treats U+000D CARRIAGE RETURN and U+000C FORM FEED
+			// as whitespace while CSS does not, but this is not a problem
+			// because CSS preprocessing replaces them with U+000A LINE FEED
+			// (which *is* CSS whitespace)
+			// https://www.w3.org/TR/css-syntax-3/#input-preprocessing
+			ret = ret.replace( rtrimCSS, "$1" ) || undefined;
+		}
 
 		if ( ret === "" && !isAttached( elem ) ) {
 			ret = jQuery.style( elem, name );
@@ -18545,7 +18403,6 @@ var
 	// except "table", "table-cell", or "table-caption"
 	// See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
 	rdisplayswap = /^(none|table(?!-c[ea]).+)/,
-	rcustomProp = /^--/,
 	cssShow = { position: "absolute", visibility: "hidden", display: "block" },
 	cssNormalTransform = {
 		letterSpacing: "0",
@@ -18781,15 +18638,15 @@ jQuery.extend( {
 		if ( value !== undefined ) {
 			type = typeof value;
 
-			// Convert "+=" or "-=" to relative numbers (#7345)
+			// Convert "+=" or "-=" to relative numbers (trac-7345)
 			if ( type === "string" && ( ret = rcssNum.exec( value ) ) && ret[ 1 ] ) {
 				value = adjustCSS( elem, name, ret );
 
-				// Fixes bug #9237
+				// Fixes bug trac-9237
 				type = "number";
 			}
 
-			// Make sure that null and NaN values aren't set (#7116)
+			// Make sure that null and NaN values aren't set (trac-7116)
 			if ( value == null || value !== value ) {
 				return;
 			}
@@ -19413,7 +19270,7 @@ function Animation( elem, properties, options ) {
 				remaining = Math.max( 0, animation.startTime + animation.duration - currentTime ),
 
 				// Support: Android 2.3 only
-				// Archaic crash bug won't allow us to use `1 - ( 0.5 || 0 )` (#12497)
+				// Archaic crash bug won't allow us to use `1 - ( 0.5 || 0 )` (trac-12497)
 				temp = remaining / animation.duration || 0,
 				percent = 1 - temp,
 				index = 0,
@@ -19803,7 +19660,6 @@ jQuery.fx.speeds = {
 
 
 // Based off of the plugin by Clint Helfers, with permission.
-// https://web.archive.org/web/20100324014747/http://blindsignals.com/index.php/2009/07/jquery-delay/
 jQuery.fn.delay = function( time, type ) {
 	time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
 	type = type || "fx";
@@ -20028,8 +19884,7 @@ jQuery.extend( {
 				// Support: IE <=9 - 11 only
 				// elem.tabIndex doesn't always return the
 				// correct value when it hasn't been explicitly set
-				// https://web.archive.org/web/20141116233347/http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/
-				// Use proper attribute retrieval(#12072)
+				// Use proper attribute retrieval (trac-12072)
 				var tabindex = jQuery.find.attr( elem, "tabindex" );
 
 				if ( tabindex ) {
@@ -20133,8 +19988,7 @@ function classesToArray( value ) {
 
 jQuery.fn.extend( {
 	addClass: function( value ) {
-		var classes, elem, cur, curValue, clazz, j, finalValue,
-			i = 0;
+		var classNames, cur, curValue, className, i, finalValue;
 
 		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
@@ -20142,36 +19996,35 @@ jQuery.fn.extend( {
 			} );
 		}
 
-		classes = classesToArray( value );
+		classNames = classesToArray( value );
 
-		if ( classes.length ) {
-			while ( ( elem = this[ i++ ] ) ) {
-				curValue = getClass( elem );
-				cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
+		if ( classNames.length ) {
+			return this.each( function() {
+				curValue = getClass( this );
+				cur = this.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 				if ( cur ) {
-					j = 0;
-					while ( ( clazz = classes[ j++ ] ) ) {
-						if ( cur.indexOf( " " + clazz + " " ) < 0 ) {
-							cur += clazz + " ";
+					for ( i = 0; i < classNames.length; i++ ) {
+						className = classNames[ i ];
+						if ( cur.indexOf( " " + className + " " ) < 0 ) {
+							cur += className + " ";
 						}
 					}
 
 					// Only assign if different to avoid unneeded rendering.
 					finalValue = stripAndCollapse( cur );
 					if ( curValue !== finalValue ) {
-						elem.setAttribute( "class", finalValue );
+						this.setAttribute( "class", finalValue );
 					}
 				}
-			}
+			} );
 		}
 
 		return this;
 	},
 
 	removeClass: function( value ) {
-		var classes, elem, cur, curValue, clazz, j, finalValue,
-			i = 0;
+		var classNames, cur, curValue, className, i, finalValue;
 
 		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
@@ -20183,44 +20036,41 @@ jQuery.fn.extend( {
 			return this.attr( "class", "" );
 		}
 
-		classes = classesToArray( value );
+		classNames = classesToArray( value );
 
-		if ( classes.length ) {
-			while ( ( elem = this[ i++ ] ) ) {
-				curValue = getClass( elem );
+		if ( classNames.length ) {
+			return this.each( function() {
+				curValue = getClass( this );
 
 				// This expression is here for better compressibility (see addClass)
-				cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
+				cur = this.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 				if ( cur ) {
-					j = 0;
-					while ( ( clazz = classes[ j++ ] ) ) {
+					for ( i = 0; i < classNames.length; i++ ) {
+						className = classNames[ i ];
 
 						// Remove *all* instances
-						while ( cur.indexOf( " " + clazz + " " ) > -1 ) {
-							cur = cur.replace( " " + clazz + " ", " " );
+						while ( cur.indexOf( " " + className + " " ) > -1 ) {
+							cur = cur.replace( " " + className + " ", " " );
 						}
 					}
 
 					// Only assign if different to avoid unneeded rendering.
 					finalValue = stripAndCollapse( cur );
 					if ( curValue !== finalValue ) {
-						elem.setAttribute( "class", finalValue );
+						this.setAttribute( "class", finalValue );
 					}
 				}
-			}
+			} );
 		}
 
 		return this;
 	},
 
 	toggleClass: function( value, stateVal ) {
-		var type = typeof value,
+		var classNames, className, i, self,
+			type = typeof value,
 			isValidValue = type === "string" || Array.isArray( value );
-
-		if ( typeof stateVal === "boolean" && isValidValue ) {
-			return stateVal ? this.addClass( value ) : this.removeClass( value );
-		}
 
 		if ( isFunction( value ) ) {
 			return this.each( function( i ) {
@@ -20231,17 +20081,20 @@ jQuery.fn.extend( {
 			} );
 		}
 
-		return this.each( function() {
-			var className, i, self, classNames;
+		if ( typeof stateVal === "boolean" && isValidValue ) {
+			return stateVal ? this.addClass( value ) : this.removeClass( value );
+		}
 
+		classNames = classesToArray( value );
+
+		return this.each( function() {
 			if ( isValidValue ) {
 
 				// Toggle individual class names
-				i = 0;
 				self = jQuery( this );
-				classNames = classesToArray( value );
 
-				while ( ( className = classNames[ i++ ] ) ) {
+				for ( i = 0; i < classNames.length; i++ ) {
+					className = classNames[ i ];
 
 					// Check each className given, space separated list
 					if ( self.hasClass( className ) ) {
@@ -20375,7 +20228,7 @@ jQuery.extend( {
 					val :
 
 					// Support: IE <=10 - 11 only
-					// option.text throws exceptions (#14686, #14858)
+					// option.text throws exceptions (trac-14686, trac-14858)
 					// Strip and collapse whitespace
 					// https://html.spec.whatwg.org/#strip-and-collapse-whitespace
 					stripAndCollapse( jQuery.text( elem ) );
@@ -20402,7 +20255,7 @@ jQuery.extend( {
 					option = options[ i ];
 
 					// Support: IE <=9 only
-					// IE8-9 doesn't update selected after form reset (#2551)
+					// IE8-9 doesn't update selected after form reset (trac-2551)
 					if ( ( option.selected || i === index ) &&
 
 							// Don't return options that are disabled or in a disabled optgroup
@@ -20545,8 +20398,8 @@ jQuery.extend( jQuery.event, {
 			return;
 		}
 
-		// Determine event propagation path in advance, per W3C events spec (#9951)
-		// Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
+		// Determine event propagation path in advance, per W3C events spec (trac-9951)
+		// Bubble up to document, then to window; watch for a global ownerDocument var (trac-9724)
 		if ( !onlyHandlers && !special.noBubble && !isWindow( elem ) ) {
 
 			bubbleType = special.delegateType || type;
@@ -20598,7 +20451,7 @@ jQuery.extend( jQuery.event, {
 				acceptData( elem ) ) {
 
 				// Call a native DOM method on the target with the same name as the event.
-				// Don't do default actions on window, that's where global variables be (#6170)
+				// Don't do default actions on window, that's where global variables be (trac-6170)
 				if ( ontype && isFunction( elem[ type ] ) && !isWindow( elem ) ) {
 
 					// Don't re-trigger an onFOO event when we call its FOO() method
@@ -20872,7 +20725,7 @@ var
 	rantiCache = /([?&])_=[^&]*/,
 	rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg,
 
-	// #7653, #8125, #8152: local protocol detection
+	// trac-7653, trac-8125, trac-8152: local protocol detection
 	rlocalProtocol = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/,
 	rnoContent = /^(?:GET|HEAD)$/,
 	rprotocol = /^\/\//,
@@ -20895,7 +20748,7 @@ var
 	 */
 	transports = {},
 
-	// Avoid comment-prolog char sequence (#10098); must appease lint and evade compression
+	// Avoid comment-prolog char sequence (trac-10098); must appease lint and evade compression
 	allTypes = "*/".concat( "*" ),
 
 	// Anchor tag for parsing the document origin
@@ -20966,7 +20819,7 @@ function inspectPrefiltersOrTransports( structure, options, originalOptions, jqX
 
 // A special extend for ajax options
 // that takes "flat" options (not to be deep extended)
-// Fixes #9887
+// Fixes trac-9887
 function ajaxExtend( target, src ) {
 	var key, deep,
 		flatOptions = jQuery.ajaxSettings.flatOptions || {};
@@ -21377,12 +21230,12 @@ jQuery.extend( {
 		deferred.promise( jqXHR );
 
 		// Add protocol if not provided (prefilters might expect it)
-		// Handle falsy url in the settings object (#10093: consistency with old signature)
+		// Handle falsy url in the settings object (trac-10093: consistency with old signature)
 		// We also use the url parameter if available
 		s.url = ( ( url || s.url || location.href ) + "" )
 			.replace( rprotocol, location.protocol + "//" );
 
-		// Alias method option to type as per ticket #12004
+		// Alias method option to type as per ticket trac-12004
 		s.type = options.method || options.type || s.method || s.type;
 
 		// Extract dataTypes list
@@ -21425,7 +21278,7 @@ jQuery.extend( {
 		}
 
 		// We can fire global events as of now if asked to
-		// Don't fire events if jQuery.event is undefined in an AMD-usage scenario (#15118)
+		// Don't fire events if jQuery.event is undefined in an AMD-usage scenario (trac-15118)
 		fireGlobals = jQuery.event && s.global;
 
 		// Watch for a new set of requests
@@ -21454,7 +21307,7 @@ jQuery.extend( {
 			if ( s.data && ( s.processData || typeof s.data === "string" ) ) {
 				cacheURL += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data;
 
-				// #9682: remove data so that it's not used in an eventual retry
+				// trac-9682: remove data so that it's not used in an eventual retry
 				delete s.data;
 			}
 
@@ -21727,7 +21580,7 @@ jQuery._evalUrl = function( url, options, doc ) {
 	return jQuery.ajax( {
 		url: url,
 
-		// Make this explicit, since user can override this through ajaxSetup (#11264)
+		// Make this explicit, since user can override this through ajaxSetup (trac-11264)
 		type: "GET",
 		dataType: "script",
 		cache: true,
@@ -21836,7 +21689,7 @@ var xhrSuccessStatus = {
 		0: 200,
 
 		// Support: IE <=9 only
-		// #1450: sometimes IE returns 1223 when it should be 204
+		// trac-1450: sometimes IE returns 1223 when it should be 204
 		1223: 204
 	},
 	xhrSupported = jQuery.ajaxSettings.xhr();
@@ -21908,7 +21761,7 @@ jQuery.ajaxTransport( function( options ) {
 								} else {
 									complete(
 
-										// File: protocol always yields status 0; see #8605, #14207
+										// File: protocol always yields status 0; see trac-8605, trac-14207
 										xhr.status,
 										xhr.statusText
 									);
@@ -21969,7 +21822,7 @@ jQuery.ajaxTransport( function( options ) {
 					xhr.send( options.hasContent && options.data || null );
 				} catch ( e ) {
 
-					// #14683: Only rethrow if this hasn't been notified as an error yet
+					// trac-14683: Only rethrow if this hasn't been notified as an error yet
 					if ( callback ) {
 						throw e;
 					}
@@ -22613,7 +22466,9 @@ jQuery.each(
 
 // Support: Android <=4.0 only
 // Make sure we trim BOM and NBSP
-var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+// Require that the "whitespace run" starts from a non-whitespace
+// to avoid O(N^2) behavior when the engine would try matching "\s+$" at each space position.
+var rtrim = /^[\s\uFEFF\xA0]+|([^\s\uFEFF\xA0])[\s\uFEFF\xA0]+$/g;
 
 // Bind a function to a context, optionally partially applying any
 // arguments.
@@ -22680,7 +22535,7 @@ jQuery.isNumeric = function( obj ) {
 jQuery.trim = function( text ) {
 	return text == null ?
 		"" :
-		( text + "" ).replace( rtrim, "" );
+		( text + "" ).replace( rtrim, "$1" );
 };
 
 
@@ -22729,8 +22584,8 @@ jQuery.noConflict = function( deep ) {
 };
 
 // Expose jQuery and $ identifiers, even in AMD
-// (#7102#comment:10, https://github.com/jquery/jquery/pull/557)
-// and CommonJS for browser emulators (#13566)
+// (trac-7102#comment:10, https://github.com/jquery/jquery/pull/557)
+// and CommonJS for browser emulators (trac-13566)
 if ( typeof noGlobal === "undefined" ) {
 	window.jQuery = window.$ = jQuery;
 }
@@ -72145,7 +72000,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "watchSyncEffect": () => (/* binding */ watchSyncEffect)
 /* harmony export */ });
 /*!
- * Vue.js v2.7.8
+ * Vue.js v2.7.14
  * (c) 2014-2022 Evan You
  * Released under the MIT License.
  */
@@ -72257,7 +72112,13 @@ var isReservedAttribute = makeMap('key,ref,slot,slot-scope,is');
  * Remove an item from an array.
  */
 function remove$2(arr, item) {
-    if (arr.length) {
+    var len = arr.length;
+    if (len) {
+        // fast path for the only / last item
+        if (item === arr[len - 1]) {
+            arr.length = len - 1;
+            return;
+        }
         var index = arr.indexOf(item);
         if (index > -1) {
             return arr.splice(index, 1);
@@ -72795,13 +72656,13 @@ if (true) {
             'referenced during render. Make sure that this property is reactive, ' +
             'either in the data option, or for class-based components, by ' +
             'initializing the property. ' +
-            'See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.', target);
+            'See: https://v2.vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.', target);
     };
     var warnReservedPrefix_1 = function (target, key) {
         warn$2("Property \"".concat(key, "\" must be accessed with \"$data.").concat(key, "\" because ") +
             'properties starting with "$" or "_" are not proxied in the Vue instance to ' +
             'prevent conflicts with Vue internals. ' +
-            'See: https://vuejs.org/v2/api/#data', target);
+            'See: https://v2.vuejs.org/v2/api/#data', target);
     };
     var hasProxy_1 = typeof Proxy !== 'undefined' && isNative(Proxy);
     if (hasProxy_1) {
@@ -72886,6 +72747,15 @@ var __assign = function() {
 };
 
 var uid$2 = 0;
+var pendingCleanupDeps = [];
+var cleanupDeps = function () {
+    for (var i = 0; i < pendingCleanupDeps.length; i++) {
+        var dep = pendingCleanupDeps[i];
+        dep.subs = dep.subs.filter(function (s) { return s; });
+        dep._pending = false;
+    }
+    pendingCleanupDeps.length = 0;
+};
 /**
  * A dep is an observable that can have multiple
  * directives subscribing to it.
@@ -72893,6 +72763,8 @@ var uid$2 = 0;
  */
 var Dep = /** @class */ (function () {
     function Dep() {
+        // pending subs cleanup
+        this._pending = false;
         this.id = uid$2++;
         this.subs = [];
     }
@@ -72900,7 +72772,15 @@ var Dep = /** @class */ (function () {
         this.subs.push(sub);
     };
     Dep.prototype.removeSub = function (sub) {
-        remove$2(this.subs, sub);
+        // #12696 deps with massive amount of subscribers are extremely slow to
+        // clean up in Chromium
+        // to workaround this, we unset the sub for now, and clear them on
+        // next scheduler flush.
+        this.subs[this.subs.indexOf(sub)] = null;
+        if (!this._pending) {
+            this._pending = true;
+            pendingCleanupDeps.push(this);
+        }
     };
     Dep.prototype.depend = function (info) {
         if (Dep.target) {
@@ -72912,7 +72792,7 @@ var Dep = /** @class */ (function () {
     };
     Dep.prototype.notify = function (info) {
         // stabilize the subscriber list first
-        var subs = this.subs.slice();
+        var subs = this.subs.filter(function (s) { return s; });
         if ( true && !config.async) {
             // subs aren't sorted in scheduler if not running async
             // we need to sort them now to make sure they fire in correct
@@ -72920,12 +72800,12 @@ var Dep = /** @class */ (function () {
             subs.sort(function (a, b) { return a.id - b.id; });
         }
         for (var i = 0, l = subs.length; i < l; i++) {
+            var sub = subs[i];
             if ( true && info) {
-                var sub = subs[i];
                 sub.onTrigger &&
                     sub.onTrigger(__assign({ effect: subs[i] }, info));
             }
-            subs[i].update();
+            sub.update();
         }
     };
     return Dep;
@@ -73078,21 +72958,18 @@ var Observer = /** @class */ (function () {
  * or the existing observer if the value already has one.
  */
 function observe(value, shallow, ssrMockReactivity) {
-    if (!isObject(value) || isRef(value) || value instanceof VNode) {
-        return;
+    if (value && hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
+        return value.__ob__;
     }
-    var ob;
-    if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
-        ob = value.__ob__;
-    }
-    else if (shouldObserve &&
+    if (shouldObserve &&
         (ssrMockReactivity || !isServerRendering()) &&
         (isArray(value) || isPlainObject(value)) &&
         Object.isExtensible(value) &&
-        !value.__v_skip /* ReactiveFlags.SKIP */) {
-        ob = new Observer(value, shallow, ssrMockReactivity);
+        !value.__v_skip /* ReactiveFlags.SKIP */ &&
+        !isRef(value) &&
+        !(value instanceof VNode)) {
+        return new Observer(value, shallow, ssrMockReactivity);
     }
-    return ob;
 }
 /**
  * Define a reactive property on an Object.
@@ -73325,7 +73202,10 @@ function toRaw(observed) {
     return raw ? toRaw(raw) : observed;
 }
 function markRaw(value) {
-    def(value, "__v_skip" /* ReactiveFlags.SKIP */, true);
+    // non-extensible objects won't be observed anyway
+    if (Object.isExtensible(value)) {
+        def(value, "__v_skip" /* ReactiveFlags.SKIP */, true);
+    }
     return value;
 }
 /**
@@ -73493,6 +73373,9 @@ function createReadonly(target, shallow) {
             }
         }
         return target;
+    }
+    if ( true && !Object.isExtensible(target)) {
+        warn$2("Vue 2 does not support creating readonly proxy for non-extensible object.");
     }
     // already a readonly object
     if (isReadonly(target)) {
@@ -74981,8 +74864,13 @@ function lifecycleMixin(Vue) {
             vm.$el.__vue__ = vm;
         }
         // if parent is an HOC, update its $el as well
-        if (vm.$vnode && vm.$parent && vm.$vnode === vm.$parent._vnode) {
-            vm.$parent.$el = vm.$el;
+        var wrapper = vm;
+        while (wrapper &&
+            wrapper.$vnode &&
+            wrapper.$parent &&
+            wrapper.$vnode === wrapper.$parent._vnode) {
+            wrapper.$parent.$el = wrapper.$el;
+            wrapper = wrapper.$parent;
         }
         // updated hook is called by the scheduler to ensure that children are
         // updated in a parent's updated hook.
@@ -75337,6 +75225,7 @@ function flushSchedulerQueue() {
     // call component updated and activated hooks
     callActivatedHooks(activatedQueue);
     callUpdatedHooks(updatedQueue);
+    cleanupDeps();
     // devtool hook
     /* istanbul ignore if */
     if (devtools && config.devtools) {
@@ -75544,8 +75433,7 @@ function doWatch(source, cb, _a) {
     var oldValue = isMultiSource ? [] : INITIAL_WATCHER_VALUE;
     // overwrite default run
     watcher.run = function () {
-        if (!watcher.active &&
-            !(flush === 'pre' && instance && instance._isBeingDestroyed)) {
+        if (!watcher.active) {
             return;
         }
         if (cb) {
@@ -75625,6 +75513,7 @@ var activeEffectScope;
 var EffectScope = /** @class */ (function () {
     function EffectScope(detached) {
         if (detached === void 0) { detached = false; }
+        this.detached = detached;
         /**
          * @internal
          */
@@ -75637,8 +75526,8 @@ var EffectScope = /** @class */ (function () {
          * @internal
          */
         this.cleanups = [];
+        this.parent = activeEffectScope;
         if (!detached && activeEffectScope) {
-            this.parent = activeEffectScope;
             this.index =
                 (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(this) - 1;
         }
@@ -75687,7 +75576,7 @@ var EffectScope = /** @class */ (function () {
                 }
             }
             // nested scope, dereference from parent to avoid memory leaks
-            if (this.parent && !fromParent) {
+            if (!this.detached && this.parent && !fromParent) {
                 // optimized O(1) removal
                 var last = this.parent.scopes.pop();
                 if (last && last !== this) {
@@ -75695,6 +75584,7 @@ var EffectScope = /** @class */ (function () {
                     last.index = this.index;
                 }
             }
+            this.parent = undefined;
             this.active = false;
         }
     };
@@ -76119,17 +76009,21 @@ var onBeforeUpdate = createLifeCycle('beforeUpdate');
 var onUpdated = createLifeCycle('updated');
 var onBeforeUnmount = createLifeCycle('beforeDestroy');
 var onUnmounted = createLifeCycle('destroyed');
-var onErrorCaptured = createLifeCycle('errorCaptured');
 var onActivated = createLifeCycle('activated');
 var onDeactivated = createLifeCycle('deactivated');
 var onServerPrefetch = createLifeCycle('serverPrefetch');
 var onRenderTracked = createLifeCycle('renderTracked');
 var onRenderTriggered = createLifeCycle('renderTriggered');
+var injectErrorCapturedHook = createLifeCycle('errorCaptured');
+function onErrorCaptured(hook, target) {
+    if (target === void 0) { target = currentInstance; }
+    injectErrorCapturedHook(hook, target);
+}
 
 /**
  * Note: also update dist/vue.runtime.mjs when adding new exports to this file.
  */
-var version = '2.7.8';
+var version = '2.7.14';
 /**
  * @internal type is manually declared in <root>/types/v3-define-component.d.ts
  */
@@ -76152,6 +76046,7 @@ function _traverse(val, seen) {
     var i, keys;
     var isA = isArray(val);
     if ((!isA && !isObject(val)) ||
+        val.__v_skip /* ReactiveFlags.SKIP */ ||
         Object.isFrozen(val) ||
         val instanceof VNode) {
         return;
@@ -76188,11 +76083,16 @@ var uid$1 = 0;
  */
 var Watcher = /** @class */ (function () {
     function Watcher(vm, expOrFn, cb, options, isRenderWatcher) {
-        recordEffectScope(this, activeEffectScope || (vm ? vm._scope : undefined));
-        if ((this.vm = vm)) {
-            if (isRenderWatcher) {
-                vm._watcher = this;
-            }
+        recordEffectScope(this, 
+        // if the active effect scope is manually created (not a component scope),
+        // prioritize it
+        activeEffectScope && !activeEffectScope._vm
+            ? activeEffectScope
+            : vm
+                ? vm._scope
+                : undefined);
+        if ((this.vm = vm) && isRenderWatcher) {
+            vm._watcher = this;
         }
         // options
         if (options) {
@@ -76463,7 +76363,7 @@ function initData(vm) {
         data = {};
          true &&
             warn$2('data functions should return an object:\n' +
-                'https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function', vm);
+                'https://v2.vuejs.org/v2/guide/components.html#data-Must-Be-a-Function', vm);
     }
     // proxy data on instance
     var keys = Object.keys(data);
@@ -76761,6 +76661,7 @@ function initMixin$1(Vue) {
         vm.__v_skip = true;
         // effect scope
         vm._scope = new EffectScope(true /* detached */);
+        vm._scope._vm = true;
         // merge options
         if (options && options._isComponent) {
             // optimize internal component instantiation
@@ -77270,7 +77171,8 @@ if (true) {
 /**
  * Helper that recursively merges two data objects together.
  */
-function mergeData(to, from) {
+function mergeData(to, from, recursive) {
+    if (recursive === void 0) { recursive = true; }
     if (!from)
         return to;
     var key, toVal, fromVal;
@@ -77284,7 +77186,7 @@ function mergeData(to, from) {
             continue;
         toVal = to[key];
         fromVal = from[key];
-        if (!hasOwn(to, key)) {
+        if (!recursive || !hasOwn(to, key)) {
             set(to, key, fromVal);
         }
         else if (toVal !== fromVal &&
@@ -77445,7 +77347,19 @@ strats.props =
                         extend(ret, childVal);
                     return ret;
                 };
-strats.provide = mergeDataOrFn;
+strats.provide = function (parentVal, childVal) {
+    if (!parentVal)
+        return childVal;
+    return function () {
+        var ret = Object.create(null);
+        mergeData(ret, isFunction(parentVal) ? parentVal.call(this) : parentVal);
+        if (childVal) {
+            mergeData(ret, isFunction(childVal) ? childVal.call(this) : childVal, false // non-recursive
+            );
+        }
+        return ret;
+    };
+};
 /**
  * Default strategy.
  */
@@ -79314,7 +79228,16 @@ function normalizeDirectives(dirs, vm) {
         }
         res[getRawDirName(dir)] = dir;
         if (vm._setupState && vm._setupState.__sfc) {
-            dir.def = dir.def || resolveAsset(vm, '_setupState', 'v-' + dir.name);
+            var setupDef = dir.def || resolveAsset(vm, '_setupState', 'v-' + dir.name);
+            if (typeof setupDef === 'function') {
+                dir.def = {
+                    bind: setupDef,
+                    update: setupDef,
+                };
+            }
+            else {
+                dir.def = setupDef;
+            }
         }
         dir.def = dir.def || resolveAsset(vm.$options, 'directives', dir.name, true);
     }
@@ -83197,7 +83120,7 @@ function genFor(el, state, altGen, altHelper) {
         !el.key) {
         state.warn("<".concat(el.tag, " v-for=\"").concat(alias, " in ").concat(exp, "\">: component lists rendered with ") +
             "v-for should have explicit keys. " +
-            "See https://vuejs.org/guide/list.html#key for more info.", el.rawAttrsMap['v-for'], true /* tip */);
+            "See https://v2.vuejs.org/v2/guide/list.html#key for more info.", el.rawAttrsMap['v-for'], true /* tip */);
     }
     el.forProcessed = true; // avoid recursion
     return ("".concat(altHelper || '_l', "((").concat(exp, "),") +
