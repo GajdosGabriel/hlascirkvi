@@ -35,9 +35,9 @@
                             </h5>
 
                             @can('update', $event)
-                                <event-dropdown>
+                                <dropdown-slot>
                                     @include('events._drop-down', ['item' => $event])
-                                </event-dropdown>
+                                </dropdown-slot>
                             @endcan
 
                         </div>

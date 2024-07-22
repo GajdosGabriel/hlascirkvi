@@ -65,7 +65,6 @@ Vue.component('post-publish-buttons', require('./posts/card/buttons.vue').defaul
 Vue.component('event-picture-viewer', require('./events/Event-picture-viewer.vue').default);
 Vue.component('navigation-main', require('./navigation/Navigation-main.vue').default);
 Vue.component('article-dropdown', require('./posts/Article-dropdown.vue').default);
-Vue.component('event-dropdown', require('./events/Event-dropdown.vue').default);
 Vue.component('c-article-dropdown', require('./components/c-article-dropdown.vue').default);
 Vue.component('seminar-title', require('./seminars/seminar-title.vue').default);
 Vue.component('seminar-info', require('./seminars/seminar-info.vue').default);

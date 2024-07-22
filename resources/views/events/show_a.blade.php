@@ -8,7 +8,9 @@
     <x-slot name="title_right">
 
         @can('update', $event)
-            <event-dropdown :post="{{ $event }}" />
+            <dropdown-slot>
+                @include('events._drop-down', ['item' => $event])
+            </dropdown-slot>
         @endcan
 
     </x-slot>
