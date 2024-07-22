@@ -12,7 +12,7 @@ namespace App\Services\Extractor;
 use DOMXPath;
 use DOMDocument;
 use Carbon\Carbon;
-use App\Services\Form;
+use App\Services\Files\Form;
 
 
 

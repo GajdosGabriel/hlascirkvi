@@ -4,9 +4,9 @@ namespace App\Observers;
 
 use App\Models\Event;
 use App\Notifications\Admin\NewEvent;
-use App\Services\EventImageGenerator;
 use App\Models\User;
-use App\Services\FileService\FileService;
+use App\Services\Files\Files;
+use App\Services\EventImageGenerator;
 use File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -22,11 +22,7 @@ class EventObserver
      * @return void
      */
     public function created(Event $event)
-    {
-        if ($event->published) {
-            (new EventImageGenerator($event))->checkIfEvent();
-        }
-
+    {   
         // 271 Výveska
         if ($event->organization_id != 271) {
             // Notification::send(User::role('admin')->get(), new NewEvent($event));
@@ -45,18 +41,18 @@ class EventObserver
 
             if ($event->isDirty([ 'title', 'start_at', 'end_at', 'village_id'])) {
 
-
                 foreach ($event->images()->whereType('card')->get() as $image) {
-                    $fileService = new FileService($event, $image);
+                    $fileService = new Files($event, $image);
                     $fileService->destroy($image);
                 }
 
                 $event->images()->whereType('card')->delete();
 
-                // (new EventImageGenerator($event))->checkIfEvent();
+                if($event->images()->whereType('img')) {
+                (new EventImageGenerator($event))->checkIfEvent();
+                }
             }
         }
-
     }
 
     /**
@@ -67,7 +63,7 @@ class EventObserver
      */
     public function deleted(Event $event)
     {
-        $event->images()->delete();
+        // $event->images()->delete();
     }
 
     /**

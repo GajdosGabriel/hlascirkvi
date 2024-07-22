@@ -15,6 +15,8 @@ use App\Repositories\Contracts\EventRepository;
 
 class EventController extends Controller
 {
+    protected $event;
+    
     public function __construct(EventRepository $event)
     {
         $this->event = $event;

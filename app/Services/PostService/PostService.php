@@ -3,7 +3,7 @@
 namespace App\Services\PostService;
 
 use Illuminate\Support\Facades\DB;
-use App\Services\FileService\FileService;
+use App\Services\Files\Files;
 
 
 
@@ -26,7 +26,7 @@ class PostService
 
             $post->updaters()->sync($request->get('updaters') ?: []);
 
-            $file = new FileService($post, $request);
+            $file = new Files($post, $request);
             $file->store();
         });
     }
@@ -37,7 +37,7 @@ class PostService
 
         $post->updaters()->sync($request->get('updaters') ?: []);
 
-        $file = new FileService($post, $request);
+        $file = new Files($post, $request);
         $file->store();
 
         return $post;

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\FileService;
+namespace App\Services\Files;
 
 use Illuminate\Support\Facades\Storage;
 use Image;
 
 
-class FileService
+class Files
 {
     protected $model;
     protected $images;

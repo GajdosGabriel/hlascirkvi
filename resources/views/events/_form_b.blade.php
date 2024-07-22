@@ -97,14 +97,15 @@
 <div class="flex justify-between my-3">
     <div class="inline">
         <label for="publishet1">{{ trans('web.events_published_now') }}</label>
-        <input type="radio" value="{{ date("Y-m-d H:i:s") }}"
-               @if( $event->published)
+        <input type="checkbox" value="{{ date("Y-m-d H:i:s") }}"
+               @if($event->published)
                checked @endif
                id="publishet1"
-               name="published">
+               name="published" 
+               >
     </div>
 
-    <div class="inline">
+    {{-- <div class="inline">
         <label for="publishet0">{{ trans('web.events_published_later') }}</label>
         <input type="radio" value="{{ NULL }}"
                @if( $event->published == NULL)
@@ -112,7 +113,7 @@
                @endif
                id="publishet0"
                name="published">
-    </div>
+    </div> --}}
 </div>
 
 <div class="form-group my-5">

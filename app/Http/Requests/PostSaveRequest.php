@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Models\Image;
 use App\Models\Post;
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Services\Form;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

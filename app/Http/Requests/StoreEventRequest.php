@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Services\Form;
 use App\Rules\EventDatetimeRule;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Repositories\Eloquent\EloquentEventRepository;

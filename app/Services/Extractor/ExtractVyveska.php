@@ -12,7 +12,7 @@ namespace App\Services\Extractor;
 use Imagick;
 use DOMXPath;
 use DOMDocument;
-use App\Services\Form;
+use App\Services\Files\Form;
 use App\Services\Extractor\Extractors;
 
 

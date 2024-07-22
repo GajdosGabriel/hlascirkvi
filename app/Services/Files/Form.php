@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Files;
 
 
 use Illuminate\Support\Facades\Storage;
 use Image;
 use App\Enums\ImageSize;
-use Illuminate\Validation\Rules\Enum;
+
 
 class Form
 {
 
     protected $model;
     protected $request;
+    protected $image;
 
-    public function __construct($model, $request)
+    public function __construct($model, $request, $image = null)
     {
         $this->model = $model;
         $this->request = $request;
+        $this->image = $image;
     }
 
     public function handler()
@@ -44,8 +46,6 @@ class Form
                 'mime' => $image->extension()
             ]);
 
-
-
             $this->resizePostImage();
         }
     }
@@ -65,11 +65,11 @@ class Form
         $this->image->update(['type' => 'img']);
 
         $img = Image::make(Storage::disk('public')->get($this->image->url));
-        $img->widen(new Enum(ImageSize::Large->value))->save(storage_path('app/public/' . $this->image->url));
+        $img->widen(ImageSize::Large->value)->save(storage_path('app/public/' . $this->image->url));
 
 
         Storage::disk('public')->makeDirectory($this->folderPath() . '/thumb');
-        $img->widen(new Enum(ImageSize::Small->value))->save(storage_path('app/public/' . $this->folderPath() . '/thumb/' . basename($this->image->url)));
+        $img->widen(ImageSize::Small->value)->save(storage_path('app/public/' . $this->folderPath() . '/thumb/' . basename($this->image->url)));
     }
 
     protected function createDirectory()

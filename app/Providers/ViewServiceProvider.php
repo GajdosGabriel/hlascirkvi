@@ -104,7 +104,7 @@ class ViewServiceProvider extends ServiceProvider
             $view->with(
                 'districts',
                 $districts = DB::table('events')
-                    ->where('end_at', '>', Carbon::now())
+                    ->where('start_at', '>', Carbon::now())
                     ->whereNotNull('published')
                     ->where('deleted_at', null)
                     ->join('villages', 'events.village_id', '=', 'villages.id')

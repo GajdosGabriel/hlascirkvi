@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Organization;
 
 use App\Models\Event;
-use App\Services\Form;
+use App\Services\Files\Form;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Filters\EventFilters;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Controllers\Controller;
+use App\Services\EventImageGenerator;
 
 class OrganizationEventController extends Controller
 {
@@ -56,6 +57,11 @@ class OrganizationEventController extends Controller
     {
         $event = $organization->events()->create($request->except(['pictures', 'file']));
         (new Form($event, $request))->handler();
+        if ($event->published) {
+            if (!$request->pictures) {
+                (new EventImageGenerator($event))->checkIfEvent();
+            }
+        }
         session()->flash('flash', 'Podujatie bolo uložené!');
         return redirect()->route('organization.event.index', [$organization->id, $event->id]);
     }
