@@ -34,7 +34,7 @@
 
             {{-- Upcoming events --}}
             @forelse($events as $event)
-                @include('events.card_items')
+                @include('events.card_item')
             @empty
                 bez podujatí
             @endforelse

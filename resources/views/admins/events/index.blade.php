@@ -1,10 +1,9 @@
 @extends('layouts.app')
 @section('title')
-    <title>{{ "Admin akcie a podujatia" }}</title>
+    <title>{{ 'Admin akcie a podujatia' }}</title>
 @endsection
 
 @section('content')
-
     <x-pages.admin>
 
         <x-slot name="title">
@@ -13,13 +12,13 @@
 
 
         <x-slot name="title_right">
-           {{--  --}}
+            {{--  --}}
         </x-slot>
 
         <x-slot name="page">
             {{-- Upcoming events --}}
             @forelse($events as $event)
-                @include('events.card_items')
+                @include('events.card_item')
             @empty
                 bez podujatí
             @endforelse
@@ -30,5 +29,4 @@
 
         </x-slot>
     </x-pages.admin>
-
 @endsection
