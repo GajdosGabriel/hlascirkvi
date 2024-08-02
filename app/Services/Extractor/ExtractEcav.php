@@ -12,7 +12,7 @@ namespace App\Services\Extractor;
 use DOMXPath;
 use DOMDocument;
 use Carbon\Carbon;
-use App\Services\Files\Form;
+use App\Services\Files\FilePozvanky;
 
 
 
@@ -140,7 +140,7 @@ class ExtractEcav extends Extractors
                 continue;
             }
 
-            (new Form($this->event, $linkHref))->getPictureFromEvent();
+            (new FilePozvanky($this->event, $linkHref))->getPictureFromEvent();
 
             break;
         }

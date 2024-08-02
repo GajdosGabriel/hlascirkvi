@@ -89,7 +89,11 @@
                         <form action="{{ route('organization.post.destroy', [$post->organization_id, $post->id]) }}"
                             method="post">
                             @csrf @method('DELETE')
-                            <button>zmazať</button>
+                            @if ($post->deleted_at)
+                                <button>odnoviť</button>
+                            @else()
+                                <button>zmazať</button>
+                            @endif()
                         </form>
                     </li>
 
@@ -97,7 +101,7 @@
 
                         <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
                             @csrf @method('PUT')
-                            <button>Do buffer</button>
+                            <button>Do bufferyyy</button>
                         </form>
                     </li>
                 </ul>

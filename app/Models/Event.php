@@ -118,6 +118,11 @@ class Event extends Model implements Viewable
         return asset('images/foto.jpg');
     }
 
+    public function scopeUnpublished()
+    {
+        return $this->wherePublished(null);
+    }
+
 
    
 

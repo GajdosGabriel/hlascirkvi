@@ -9,7 +9,11 @@
 <li class="dropdown-item">
     <form action="{{ route('organization.event.destroy', [$item->organization_id, $item->id]) }}" method="POST">
         @csrf @method('DELETE')
-        <button>zmazať</button>
+        @if ($item->deleted_at)
+            <button>odnoviť</button>
+        @else
+            <button>zmazať</button>
+        @endif
     </form>
 
 </li>

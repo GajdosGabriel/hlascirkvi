@@ -2,8 +2,9 @@
 
 namespace App\Services\PostService;
 
+use App\Exceptions\Handler;
 use Illuminate\Support\Facades\DB;
-use App\Services\Files\Files;
+use App\Services\Files\Form;
 
 
 
@@ -26,8 +27,8 @@ class PostService
 
             $post->updaters()->sync($request->get('updaters') ?: []);
 
-            $file = new Files($post, $request);
-            $file->store();
+            $file = (new Form($post, $request))->handler();
+            // $file->store();
         });
     }
 
@@ -37,8 +38,8 @@ class PostService
 
         $post->updaters()->sync($request->get('updaters') ?: []);
 
-        $file = new Files($post, $request);
-        $file->store();
+        $file =  (new Form($post, $request))->handler();
+        // $file->store();
 
         return $post;
     }

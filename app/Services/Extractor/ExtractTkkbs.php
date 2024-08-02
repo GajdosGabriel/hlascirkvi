@@ -14,7 +14,7 @@ use Imagick;
 use DOMXPath;
 use DOMDocument;
 use Carbon\Carbon;
-use App\Services\Files\Form;
+use App\Services\Files\FilePozvanky;
 use App\Services\Extractor\Extractors;
 
 
@@ -176,7 +176,7 @@ class ExtractTkkbs extends Extractors
             //     continue;
             // }
 
-            // (new Form($this->event, $url))->getPictureFromEvent();
+            // (new FilePozvanky($this->event, $url))->getPictureFromEvent();
         }
 
         // Sortovanie podľa rozmeru
@@ -184,7 +184,7 @@ class ExtractTkkbs extends Extractors
         // dd($url[0]['url']);
 
         // Vyberie najväčší a generuje obrázok
-         (new Form($this->event, $url[0]['url']))->getPictureFromEvent();
+         (new FilePozvanky($this->event, $url[0]['url']))->getPictureFromEvent();
 
         $this->event->update([
             'village_id' => $this->finderVillages($moveSentence)

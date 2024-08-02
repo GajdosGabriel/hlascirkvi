@@ -120,4 +120,10 @@ class Post extends Model implements Viewable
         return $this->organization->events()->wherePublished(1)->where('start_at', '>', Carbon::now())->orderBy('start_at', 'asc')->paginate(10);
     }
 
+    public function scopeUnpublished()
+    {
+        return $this->wherePublished(null);
+    }
+
+
 }

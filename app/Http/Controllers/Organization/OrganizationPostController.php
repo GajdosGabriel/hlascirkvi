@@ -40,7 +40,7 @@ class OrganizationPostController extends Controller
     public function update(Organization $organization, Post $post,  PostSaveRequest $request)
     {
         $this->postService->update($post, $request);
-        
+
         return redirect()->route('post.show', [$post->id, $post->slug]);
     }
 
@@ -51,11 +51,22 @@ class OrganizationPostController extends Controller
         return redirect()->route('organization.post.index', [$organization->id]);
     }
 
-    public function destroy(Organization $organization, Post $post)
+    // Zmazať alebo obnoviť Post
+    public function destroy(Organization $organization, $post)
     {
         $this->authorize('update', $post);
-        $post->comments()->delete();
-        $post->delete();
+
+        $post = Post::withTrashed()->find($post);
+
+        if ($post->deleted_at) {
+            $post->restore();
+            $post->comments()->restore();
+            return redirect()->route('organization.post.index', $organization->id)->with(session()->flash('flash', 'Príspevok bol obnovený!'));
+        } else {
+            $post->comments()->delete();
+            $post->delete();
+        }
+
         return redirect()->route('organization.post.index', $organization->id)->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
     }
 }

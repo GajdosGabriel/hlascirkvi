@@ -66,9 +66,16 @@ class OrganizationEventController extends Controller
         return redirect()->route('organization.event.index', [$organization->id, $event->id]);
     }
 
-    public function destroy(Organization $organization, Event $event)
+    public function destroy(Organization $organization, $event)
     {
-        $event->delete();
+        $post = Event::withTrashed()->find($event);
+
+        if ($post->deleted_at) {
+            $post->restore();
+            session()->flash('flash', 'Podujatie bolo obnovené!');
+        } else {
+            $post->delete();
+        }
         session()->flash('flash', 'Podujatie bolo zmazané!');
         return redirect()->route('organization.event.index', $organization->id);
     }
