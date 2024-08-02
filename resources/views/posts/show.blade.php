@@ -1,5 +1,7 @@
 @extends('layouts.app')
-@section('title') <title>{{ $post->title }}</title> @endsection
+@section('title')
+    <title>{{ $post->title }}</title>
+@endsection
 
 @section('script-header')
     <link rel="stylesheet" href="https://cdn.plyr.io/3.5.3/plyr.css" />
@@ -14,7 +16,8 @@
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ $post->title }}" />
     <meta property="og:description" content="{!! \Illuminate\Support\Str::limit($post->body, 130) !!}" />
-    <meta property="og:image" content="@forelse($post->images as $image) {{ url($image->originalImageUrl) }}@empty @endforelse" />
+    <meta property="og:image"
+        content="@forelse($post->images as $image) {{ url($image->originalImageUrl) }}@empty @endforelse" />
     <meta property="og:image:width" content="360" />
     <meta property="og:image:height" content="210" />
     <meta property="og:image:alt" content="{{ $post->title }}" />
@@ -22,143 +25,133 @@
 
 @section('content')
 
+    <x-pages.page_standart>
 
-    <div class="page">
+        <x-slot name="page">
+            <div>
+                <div class="">
+                    <div>
+                        @if (!$post->images)
+                            @forelse($post->images as $image)
+                                <img class="rounded" style="width: 100%; margin-bottom: 2rem"
+                                    src="{{ url($image->originalImageUrl) }}">
+                            @empty
+                            @endforelse
+                        @endif
+                    </div>
+                    <div>
 
-        <div class="lg:grid grid-cols-12 gap-10">
-            {{-- Header and video --}}
-            <div class="col-span-8">
+                    </div>
+
+                </div>
+            </div>
+
+            {{-- Video --}}
+            @if ($post->video_id)
+                <div id="player">
+                    <iframe
+                        src="https://www.youtube.com/embed/{{ $post->video_id }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                        allowfullscreen allowtransparency allow="autoplay"></iframe>
+                </div>
+            @else
+                @forelse($post->images as $image)
+                    <img class="rounded" style="width: 100%; margin-bottom: 2rem" src="{{ url($image->OriginalImageUrl) }}">
+                @empty
+                @endforelse
+            @endif
 
 
-                <div>
-                    <div class="">
-                        <div>
-                            @if (!$post->images)
-                                @forelse($post->images as $image)
-                                    <img class="rounded" style="width: 100%; margin-bottom: 2rem"
-                                        src="{{ url($image->originalImageUrl) }}">
-                                @empty
-                                @endforelse
-                            @endif
+            <div class="mt-2 lg:flex justify-between border-b-2 border-gray-300">
+                {{-- Title video --}}
+                <div class="">
+                    <div class="flex flex-col items-start flex-shrink-0">
+                        <h1 class="text-lg font-semibold">{{ $post->title }}</h1>
+                        <div class="text-sm text-gray-400">
+                            <span> pridal: </span>
+                            <a href="{{ route('organizations.show', [$post->organization_id]) }}">
+                                {{ $post->organization->title }}</a>
+                            |
+                            <time datetime="{{ $post->created_at }}">dňa: {{ $post->datetime }}</time>
+                            | zobrazení: {{ $post->count_view }}
                         </div>
-                        <div>
-
-                        </div>
-
                     </div>
                 </div>
 
-                {{-- Video --}}
-                @if ($post->video_id)
-                    <div id="player">
-                        <iframe
-                            src="https://www.youtube.com/embed/{{ $post->video_id }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
-                            allowfullscreen allowtransparency allow="autoplay"></iframe>
-                    </div>
-                @else
-                    @forelse($post->images as $image)
-                        <img class="rounded" style="width: 100%; margin-bottom: 2rem"
-                            src="{{ url($image->OriginalImageUrl) }}">
-                    @empty
-                    @endforelse
-                @endif
+                {{-- Social button --}}
+                <div class="flex space-x-2 mt-3">
 
-
-                <div class="mt-2 lg:flex justify-between border-b-2 border-gray-300">
-                    {{-- Title video --}}
-                    <div class="">
-                        <div class="flex flex-col items-start flex-shrink-0">
-                            <h1 class="text-lg font-semibold">{{ $post->title }}</h1>
-                            <div class="text-sm text-gray-400">
-                                <span> pridal: </span>
-                                <a href="{{ route('organizations.show', [$post->organization_id]) }}">
-                                    {{ $post->organization->title }}</a>
-                                |
-                                <time datetime="{{ $post->created_at }}">dňa: {{ $post->datetime }}</time>
-                                | zobrazení: {{ $post->count_view }}
-                            </div>
+                    @if ($post->video_id)
+                        {{-- // Facebook --}}
+                        <div id="fb-root"></div>
+                        <div class="fb-share-button" data-href="{{ route('post.show', [$post->id, $post->slug]) }}"
+                            data-layout="button" data-size="small">
+                            <a target="_blank"
+                                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                                class="fb-xfbml-parse-ignore">
+                                Zdieľať
+                            </a>
                         </div>
-                    </div>
+                    @endif
 
-                    {{-- Social button --}}
-                    <div class="flex space-x-2 mt-3">
-
+                    @if (Session::get($post->slug) == $post->id)
+                        <a style="float: right" class="disabled" title="Video ste už doporúčali">Odporúčili
+                            ste</a>
+                    @else
                         @if ($post->video_id)
-                            {{-- // Facebook --}}
-                            <div id="fb-root"></div>
-                            <div class="fb-share-button" data-href="{{ route('post.show', [$post->id, $post->slug]) }}"
-                                data-layout="button" data-size="small">
-                                <a target="_blank"
-                                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
-                                    class="fb-xfbml-parse-ignore">
-                                    Zdieľať
-                                </a>
-                            </div>
+                            <favorite-post :post="{{ $post }}"></favorite-post>
+                            {{-- <recomend-video :data="{{ $post }}"></recomend-video> --}}
                         @endif
-
-                        @if (Session::get($post->slug) == $post->id)
-                            <a style="float: right" class="disabled" title="Video ste už doporúčali">Odporúčili
-                                ste</a>
-                        @else
-                            @if ($post->video_id)
-                                <favorite-post :post="{{ $post }}"></favorite-post>
-                                {{-- <recomend-video :data="{{ $post }}"></recomend-video> --}}
-                            @endif
-                        @endif
+                    @endif
 
 
-                        @can('update', $post)
-                            <article-dropdown :post="{{ $post }}" />
-                        @endcan
-
-                    </div>
+                    @can('update', $post)
+                        <article-dropdown :post="{{ $post }}" />
+                    @endcan
 
                 </div>
 
-                {{-- Body section --}}
-                <div class="md:grid grid-cols-12 gap-4 mt-4">
+            </div>
 
-                    <organization-page-header :organization="{{ $post->organization }}">
-                    </organization-page-header>
+            {{-- Body section --}}
+            <div class="md:grid grid-cols-12 gap-4 mt-4">
 
-                    <div class="col-span-8">
+                <organization-page-header :organization="{{ $post->organization }}">
+                </organization-page-header>
+
+                <div class="col-span-8">
 
 
-                        <div>{!! $post->body !!}</div>
+                    <div>{!! $post->body !!}</div>
 
-                        @if (!$post->video_id)
-                            {{-- // Facebook --}}
-                            <div>
-                                <div class="fb-like" data-share="true" data-width="350" data-show-faces="true">
-                                </div>
+                    @if (!$post->video_id)
+                        {{-- // Facebook --}}
+                        <div>
+                            <div class="fb-like" data-share="true" data-width="350" data-show-faces="true">
                             </div>
-                        @endif
+                        </div>
+                    @endif
 
-                        @auth
-                            @include('bigthink._form')
-                        @endauth
+                    @auth
+                        @include('bigthink._form')
+                    @endauth
 
-                        <comments-post :post="{{ $post }}"></comments-post>
-                    </div>
+                    <comments-post :post="{{ $post }}"></comments-post>
+                </div>
 
-                    {{-- Body plánované akcie --}}
-                    <div class="col-span-4 mb-4">
+                {{-- Body plánované akcie --}}
+                <div class="col-span-4 mb-4">
 
-                        <x-events.modul-organization-events :organization="$post->organization" :post="$post" />
-
-                    </div>
+                    <x-events.modul-organization-events :organization="$post->organization" :post="$post" />
 
                 </div>
-            </div>
 
-
-            {{-- Aside section --}}
-            <div class="col-span-3">
-                {{-- <news-rss></news-rss> --}}
-                @include('events.aside_modul')
             </div>
-        </div>
-    </div>
+        </x-slot>
+
+        <x-slot name="aside">
+            @include('events.aside_modul')
+        </x-slot>
+    </x-pages.page_standart>
 
 
     {{-- Image section --}}
@@ -262,5 +255,4 @@
     </script>
     <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/sk_SK/sdk.js#xfbml=1&version=v5.0&appId=500741757380226"></script>
-
 @endsection
