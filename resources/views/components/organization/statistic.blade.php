@@ -12,11 +12,12 @@
     <div class="card_body">
         <h3>Počet článkov: {{ $organization()->posts()->count() }}</h3>
         <h3>Počet podujatí: {{ $organization()->events()->count() }}</h3>
+        <h3>Počet komentárov: {{ $organization()->comments()->count() }}</h3>
         <h3>Zmazané články: {{ $organization()->posts()->onlyTrashed()->count() }}</h3>
         <h3>Zmazané podujatia: {{ $organization()->events()->onlyTrashed()->count() }}</h3>
         <h3>Nepublikované články: {{ $organization()->posts()->unpublished()->count() }}</h3>
         <h3>Nepublikované podujatia: {{ $organization()->events()->unpublished()->count() }}</h3>
-        <h3>Komentáre podujatia: {{ $organization()->comments()->count() }}</h3>
+
 
 
     </div>
