@@ -17,13 +17,13 @@ class Comment extends Model
     protected $guarded= [];
     protected $hidden = ['commentable_type', 'updated_at', 'deleted_at'];
 
-    protected $with = ['favorites', 'user'];
+    protected $with = ['favorites', 'organization'];
     protected $appends = ['favoritesCount', 'isFavorited'];
 
 
-    public function user() {
+    public function organization() {
 
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Organization::class);
     }
 
     public function commentable()
