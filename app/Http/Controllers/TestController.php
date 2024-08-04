@@ -221,10 +221,10 @@ class TestController extends Controller
                 if (strlen($bodyComment) > 10) {
 
                     $post->comments()->create([
-                        'user_id' => 100,
+                        'organization_id' => 100,
                         'body' => $comment->snippet->topLevelComment->snippet->textDisplay,
                         'user_avatar' => $comment->snippet->topLevelComment->snippet->authorProfileImageUrl,
-                        'user_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
+                        'organization_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
                         // 'created_at' => \Carbon\Carbon::parse($comment->snippet->topLevelComment->snippet->publishedAt)->format('Y-m-d h:i:s'),
                     ]);
                 }

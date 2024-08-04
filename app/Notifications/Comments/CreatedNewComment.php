@@ -57,7 +57,7 @@ class CreatedNewComment extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->comment->user->fullName .
+            'message' => $this->comment->organization->title .
             ' komentoval ' . $this->comment->commentable->title,
             'link' => $this->comment->commentable->path()
         ];

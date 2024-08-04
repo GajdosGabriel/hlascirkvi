@@ -6,7 +6,7 @@
 
                     <small> {{ $comment->user->Fullname }}: </small>
 
-                @if(auth()->user() AND $comment->user_id == auth()->user()->id)
+                @if(auth()->user() AND $comment->organization_id == auth()->user()->org_id)
                     <small><a href="{{ route('comment.destroy', [$comment->id]) }}">zmazať</a></small>
 
                 @else
@@ -39,7 +39,7 @@
 
                 <small> {{ $comment->user->Fullname }}: </small>
 
-                @if(auth()->user() AND $comment->user_id == auth()->user()->id)
+                @if(auth()->user() AND $comment->organization_id == auth()->user()->org_id)
                     <small><a href="{{ route('comment.destroy', [$comment->id]) }}">zmazať</a></small>
 
                 @else

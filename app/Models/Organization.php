@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Prayer;
 use Illuminate\Support\Str;
 use App\Services\PhoneSanitizer;
+use App\Traits\HasComments;
 use App\Traits\HasFavorites;
 use App\Traits\HasFilter;
 use App\Traits\HasImages;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
-    use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages, HasFilter;
+    use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages, HasFilter, HasComments;
     protected $guarded = [];
 
 
