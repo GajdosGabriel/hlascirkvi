@@ -35,7 +35,7 @@ class PostCommentController extends Controller
 
         $comment = $saveComments->save($post);
 
-        if (!$comment->user_id == auth()->user()->id) {
+        if (!$comment->organization_id == auth()->user()->org_id) {
             $comment->user->notify(new CreatedNewComment($comment));
         }
 

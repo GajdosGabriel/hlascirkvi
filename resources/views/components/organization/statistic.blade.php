@@ -16,6 +16,8 @@
         <h3>Zmazané podujatia: {{ $organization()->events()->onlyTrashed()->count() }}</h3>
         <h3>Nepublikované články: {{ $organization()->posts()->unpublished()->count() }}</h3>
         <h3>Nepublikované podujatia: {{ $organization()->events()->unpublished()->count() }}</h3>
+        <h3>Komentáre podujatia: {{ $organization()->comments()->count() }}</h3>
+
 
     </div>
 
