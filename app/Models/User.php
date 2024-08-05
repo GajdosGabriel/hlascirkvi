@@ -59,6 +59,11 @@ class User extends Authenticatable
         return $this->hasMany(AddresBook::class);
     }
 
+    public function commentss()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function organizations()
     {
         return $this->belongsToMany(Organization::class);

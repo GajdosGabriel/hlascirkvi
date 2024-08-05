@@ -31,6 +31,11 @@ class Comment extends Model
         return $this->morphTo();
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     // public function setBodyAttribute($value)
     // {
     //     $this->attributes['body'] = cleanHardSpace($value);

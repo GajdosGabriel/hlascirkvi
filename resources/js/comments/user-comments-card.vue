@@ -1,7 +1,7 @@
 <template>
     <section class="card">
         <header class="card_header">
-            <h4>Posledné komentáre</h4>
+            <h4>Vaše komentáre</h4>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5"
