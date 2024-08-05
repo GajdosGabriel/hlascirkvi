@@ -83,7 +83,7 @@
         <x-slot name="aside">
             <div class="col-span-3">
 
-                <comment-card></comment-card>
+                <comments-card></comments-card>
                 <prayers-card></prayers-card>
 
 

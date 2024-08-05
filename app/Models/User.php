@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasComments;
 use App\Traits\HasFilter;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;

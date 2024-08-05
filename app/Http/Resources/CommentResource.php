@@ -14,7 +14,7 @@ class CommentResource extends JsonResource
      */
     public function toArray($request)
     {
-        // dd($this->orgaization);
+        // dd($this->comments()->user);
         return [
             'id' => $this->id,
             'body' => $this->body,
@@ -25,8 +25,8 @@ class CommentResource extends JsonResource
             'post_slug' => $this->commentable->slug,
             'post_title' => $this->commentable->title,
             'user' => $this->user,
-            'organization_name' => $this->user_name ? $this->user_name : "{$this->user->first_name} {$this->user->last_name}",
-            'organization_avatar' => $this->user_avatar ? $this->user_avatar : $this->user->avatar,
+            'user_name' => $this->user_name ? $this->user_name : "{$this->user->first_name} {$this->user->last_name}",
+            'user_avatar' => $this->user_avatar ? $this->user_avatar : $this->user->avatar,
             'favorites' => $this->favorites,
             'is_favorited' => $this->isFavorited,
             'favorites_count' => $this->favoritesCount,
