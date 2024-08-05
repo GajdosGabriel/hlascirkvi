@@ -23,7 +23,9 @@
                     </header>
                 </section>
 
-                <section class="card">
+                <user-comments-card></user-comments-card>
+
+                {{-- <section class="card">
                     <header class="card_header">
                         <h4>Okno 3</h4>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -32,7 +34,7 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </header>
-                </section>
+                </section> --}}
 
             </div>
         </x-slot>
