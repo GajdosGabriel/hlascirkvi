@@ -94,7 +94,7 @@ class ExtractYoutubeComment
                 }
 
                 $post->comments()->create([
-                    'organization_id' => 100,
+                    'user_id' => 100,
                     'body' => cleanHardSpace($comment->snippet->topLevelComment->snippet->textDisplay),
                     'user_avatar' => $comment->snippet->topLevelComment->snippet->authorProfileImageUrl,
                     'organization_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
