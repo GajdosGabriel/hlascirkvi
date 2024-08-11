@@ -1,4 +1,4 @@
-<div class="grid col-span-2  min-h-screen">
+<div class="grid col-span-2 md:min-h-screen">
     <div class="flex flex-col bg-gray-200">
 
         <x-profil_menu :url="route('user.organization.index', auth()->user()->id)">

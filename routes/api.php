@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResources([
         'notifications'         => Api\NotificationController::class,
         'users'                 => Api\UserController::class,
+        'users.comments'        => Api\User\UserCommentController::class,
         'users.organizations'   => Api\UserOrganizationController::class,
         'villages'              => Api\VillageController::class,
         'updaters'              => Api\UpdaterController::class,

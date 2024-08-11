@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasComments;
 use App\Traits\HasFilter;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
@@ -56,6 +57,11 @@ class User extends Authenticatable
     public function addresBooks()
     {
         return $this->hasMany(AddresBook::class);
+    }
+
+    public function commentss()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function organizations()
