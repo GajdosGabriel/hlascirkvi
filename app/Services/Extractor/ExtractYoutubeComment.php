@@ -53,7 +53,7 @@ class ExtractYoutubeComment
             };
 
             // Put video duration
-            if (!$post->duration) {
+            if (!$post->duration  && isset($video->contentDetails->duration)) {
                 $post->update(['video_duration' => $video->contentDetails->duration]);
             };
 
