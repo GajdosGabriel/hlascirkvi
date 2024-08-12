@@ -97,7 +97,7 @@ class ExtractYoutubeComment
                     'user_id' => 100,
                     'body' => cleanHardSpace($comment->snippet->topLevelComment->snippet->textDisplay),
                     'user_avatar' => $comment->snippet->topLevelComment->snippet->authorProfileImageUrl,
-                    'organization_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
+                    'user_name' => $comment->snippet->topLevelComment->snippet->authorDisplayName,
                     // 'created_at' => \Carbon\Carbon::parse($comment->snippet->topLevelComment->snippet->publishedAt)->format('Y-m-d h:i:s'),
                 ]);
             }
