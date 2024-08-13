@@ -31,7 +31,7 @@ class FilePozvanky
 
         $this->createDirectory();
 
-        $img = Image::make($this->request);
+        $img = Image::make($this->image);
 
         $img->save($url = storage_path('app/public/' . $this->folderPath() . '/' . $file_name, $img));
         $img->save($url = storage_path('app/public/' . $this->folderPath() . '/thumb/' . $file_name, $img));
