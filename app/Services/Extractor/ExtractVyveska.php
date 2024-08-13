@@ -10,7 +10,7 @@
 namespace App\Services\Extractor;
 
 use DOMDocument;
-use App\Services\Files\FilePozvanky;
+use App\Services\Files\FileFromUrl;
 use App\Services\Extractor\Extractors;
 
 
@@ -256,6 +256,6 @@ class ExtractVyveska extends Extractors
         // dd($imgLinks);
 
         // Save images from url event
-        (new FilePozvanky($this->event, $this->prefix . $imgLinks))->getPictureFromEvent();
+        (new FileFromUrl($this->event, $this->prefix . $imgLinks))->getPictureFromEvent();
     }
 }

@@ -8,7 +8,7 @@ use App\Services\Files\FileName;
 use App\Services\Files\FileExtention;
 
 
-class FilePozvanky
+class FileFromUrl
 {
     use FileName, FileExtention, FileResize;
 
