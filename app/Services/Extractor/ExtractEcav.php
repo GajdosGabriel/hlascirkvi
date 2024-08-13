@@ -140,7 +140,7 @@ class ExtractEcav extends Extractors
                 continue;
             }
 
-            (new FileFromUrl($this->event, $linkHref))->getPictureFromEvent();
+            new FileFromUrl($this->event, $linkHref);
 
             break;
         }

@@ -14,30 +14,31 @@ class FileFromUrl
 
 
     protected $model;
-    protected $image;
+    protected $url;
     protected $savedImage;
 
-    public function __construct($model, $image)
+    public function __construct($model, $url)
     {
         $this->model = $model;
-        $this->image = $image;
+        $this->url = $url;
+        $this->makePictureFromUrl();
     }
 
     // Create img from event/ POZVANKY
-    public function getPictureFromEvent()
+    public function makePictureFromUrl()
     {
         $file_name = $this->model->slug . '-' . rand(1000, 90000) . '.jpg';
         //        $file_name = bin2hex(openssl_random_pseudo_bytes(24)) . '.jpg';
 
         $this->createDirectory();
 
-        $img = Image::make($this->image);
+        $img = Image::make($this->url);
 
         $img->save($url = storage_path('app/public/' . $this->folderPath() . '/' . $file_name, $img));
         $img->save($url = storage_path('app/public/' . $this->folderPath() . '/thumb/' . $file_name, $img));
 
-        $this->image = $this->model->images()->create([
-            'name' => $this->getName($this->image),
+        $this->savedImage = $this->model->images()->create([
+            'name' => $this->getName($this->url),
             'url' => $this->folderPath() . basename($url),
             'thumb' => $this->folderPath() . 'thumb/' . basename($url),
             'org_name' => '',

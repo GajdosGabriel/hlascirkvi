@@ -176,7 +176,7 @@ class ExtractTkkbs extends Extractors
             //     continue;
             // }
 
-            // (new FileFromUrl($this->event, $url))->getPictureFromEvent();
+            // new FileFromUrl($this->event, $url);
         }
 
         // Sortovanie podľa rozmeru
@@ -184,7 +184,7 @@ class ExtractTkkbs extends Extractors
         // dd($url[0]['url']);
 
         // Vyberie najväčší a generuje obrázok
-         (new FileFromUrl($this->event, $url[0]['url']))->getPictureFromEvent();
+         new FileFromUrl($this->event, $url[0]['url']);
 
         $this->event->update([
             'village_id' => $this->finderVillages($moveSentence)

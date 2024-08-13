@@ -256,6 +256,6 @@ class ExtractVyveska extends Extractors
         // dd($imgLinks);
 
         // Save images from url event
-        (new FileFromUrl($this->event, $this->prefix . $imgLinks))->getPictureFromEvent();
+        new FileFromUrl($this->event, $this->prefix . $imgLinks);
     }
 }
