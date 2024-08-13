@@ -57,10 +57,19 @@ class ExtractVyveska extends Extractors
             //Add the link to our $extractedLinks array.
             $extractedLinks[] = array(
                 'title' => $link['title'],
-                'href' => str_replace('?utm_source=vyveska.sk&utm_content=simple&utm_medium=rss', '', str_replace('http://www.vyveska.sk/', '', $link['link']))
+                'href' => str_replace('?utm_source=vyveska.sk&utm_content=simple&utm_medium=rss', '', $this->checkIfUrlContainImage($link['link']))
             );
         }
         $this->createEvent($extractedLinks);
+    }
+
+    public function checkIfUrlContainImage($url)
+    {
+        if (@getimagesize($url)) {
+            return $url;
+        }
+
+        return  str_replace('http://www.vyveska.sk/', '', $url);
     }
 
 
@@ -68,9 +77,9 @@ class ExtractVyveska extends Extractors
     public function parseEvent($href, $event = null)
     {
         // Používam pri znova načítani cez EventServiceController
-        if($event)
-        $this->event = $event;
-        
+        if ($event)
+            $this->event = $event;
+
 
         // $url = "https://www.ecav.sk/aktuality/pozvanky";
         $html = file_get_contents($href);
@@ -130,7 +139,7 @@ class ExtractVyveska extends Extractors
         // dd($this->detectDateTime->find_date($startDate));
         // dd($this->detectDateTime->find_date($endDate));
         // dd($endDate);
-        
+
 
         $this->event->update([
             'start_at' => $this->detectDateTime->find_date($startDate),
@@ -201,7 +210,7 @@ class ExtractVyveska extends Extractors
             $zmensovac = $countWords;
 
             $organization = null;
-            
+
             while ($zmensovac >= 1) {
                 // Postupné osekávnie vety výrazu zo zadu po jednom slove.
                 $hladanyVyraz = array_slice($arrayWords, 0, $zmensovac);

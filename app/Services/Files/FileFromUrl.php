@@ -38,7 +38,7 @@ class FileFromUrl
         $img->save($url = storage_path('app/public/' . $this->folderPath() . '/thumb/' . $file_name, $img));
 
         $this->savedImage = $this->model->images()->create([
-            'name' => $this->getName($this->url),
+            'name' => $this->generateUniqueName(),
             'url' => $this->folderPath() . basename($url),
             'thumb' => $this->folderPath() . 'thumb/' . basename($url),
             'org_name' => '',
