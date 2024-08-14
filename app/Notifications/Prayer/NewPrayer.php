@@ -59,7 +59,7 @@ class NewPrayer extends Notification implements ShouldQueue
     {
         return [
             'logo' =>  $this->prayer->user->owner->initialName,
-            'message' => $this->prayer->user->fullName . ' Pridal modlitbu ' . $this->prayer->title,
+            'message' => $this->prayer->user->fullname . ' Pridal modlitbu ' . $this->prayer->title,
             'link' => route('modlitby.index')
         ];
     }
