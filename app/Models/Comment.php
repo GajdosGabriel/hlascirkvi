@@ -18,7 +18,7 @@ class Comment extends Model
     protected $hidden = ['commentable_type', 'updated_at', 'deleted_at'];
 
     protected $with = ['favorites', 'organization'];
-    protected $appends = ['favoritesCount', 'isFavorited'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'datetime'];
 
 
     public function organization() {
@@ -34,6 +34,11 @@ class Comment extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getDatetimeAttribute()
+    {
+        return date('d m Y', strtotime($this->created_at));
     }
 
     // public function setBodyAttribute($value)

@@ -1,60 +1,47 @@
 <template>
-    <div
-        class="text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md"
-    >
-        <div
-            class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3 bg-gray-100"
-        >
+    <div class="text-gray-600 mb-6 shadow-md border-2 border-gray-100 rounded-md">
+        <div class="flex justify-between py-2 border-b border-gray-200 pl-3 pr-3 bg-gray-100">
             <strong v-text="comment.user_name"></strong>
 
             <favorite :reply="comment"></favorite>
         </div>
 
         <div class="flex">
-            <img
-                v-if="!editComment"
-                :src="comment.user_avatar"
-                class="h-14 py-2 rounded-full ml-2"
-            />
+            <img v-if="!editComment" :src="comment.user_avatar" class="h-14 py-2 rounded-full ml-2" />
 
             <div v-if="!editComment" class="px-3 mb-2" :class="redText">
                 {{ cakanaschvalenie }}
             </div>
         </div>
 
-        <div v-if="editComment" class="p-3">
-            <textarea
-                class="w-full p-2 border-2 border-gray-400 rounded-md"
-                v-model="comment.body"
-                rows="2"
-                placeholder="Pridajte nový komentár ..."
-                required
-            ></textarea>
-            <div class="flex justify-between mt-2" v-if="editComment">
-                <button
-                    class="btn btn-small"
-                    @click.prevent="editComment = false"
-                >
-                    Zrušiť
-                </button>
+        <div class="flex justify-between">
 
-                <button class="btn btn-primary" @click="updateComment">
-                    Uložiť
-                </button>
+            <div class="text-right text-xs px-2 mb-2" v-if="canUpdate">
+                <span class="hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer">
+                   Vytvorené {{ comment.datetime }}
+                </span>
             </div>
-        </div>
-        <div class="text-right text-xs px-2 mb-2" v-if="canUpdate">
-            <span
-                class="hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer"
-                @click="editComment = true"
-            >
-                Upraviť
-            </span>
-            <span
-                class="hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer"
-                @click.prevent="destroy()"
-                >Zmazať</span
-            >
+
+            <div v-if="editComment" class="p-3">
+                <textarea class="w-full p-2 border-2 border-gray-400 rounded-md" v-model="comment.body" rows="2"
+                    placeholder="Pridajte nový komentár ..." required></textarea>
+                <div class="flex justify-between mt-2" v-if="editComment">
+                    <button class="btn btn-small" @click.prevent="editComment = false">
+                        Zrušiť
+                    </button>
+
+                    <button class="btn btn-primary" @click="updateComment">
+                        Uložiť
+                    </button>
+                </div>
+            </div>
+            <div class="text-right text-xs px-2 mb-2" v-if="canUpdate">
+                <span class="hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer" @click="editComment = true">
+                    Upraviť
+                </span>
+                <span class="hover:bg-gray-200 px-2 py-1 rounded-md cursor-pointer"
+                    @click.prevent="destroy()">Zmazať</span>
+            </div>
         </div>
     </div>
 </template>
