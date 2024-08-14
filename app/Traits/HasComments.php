@@ -15,7 +15,7 @@ trait HasComments
     public function addComment($comment)
     {
         if (auth()->check()) {
-            $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->user()->org_id]));
+            $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->user()->id]));
             return $comment;
         }
         // organization_id 100 in unknowle user for anonyms comments
