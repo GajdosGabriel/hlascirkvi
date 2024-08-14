@@ -44,7 +44,7 @@
         <div class="flex justify-between  mt-auto">
             <div class="flex space-x-5">
 
-                <time datetime="{{ $post->created_at }}">{{ $post->dateForHumans() }}</time>
+                <time datetime="{{ $post->created_at }}">{{ $post->dateForHumans }}</time>
 
                 <div class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">

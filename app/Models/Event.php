@@ -8,6 +8,7 @@ use App\Traits\HasRoute;
 use App\Traits\HasFilter;
 use App\Traits\HasImages;
 use App\Traits\HasComments;
+use App\Traits\HasDatetime;
 use Illuminate\Support\Str;
 use App\Traits\HasFavorites;
 use App\Traits\HasOrganization;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model implements Viewable
 {
-    use SoftDeletes, InteractsWithViews, HasFactory, HasFavorites, HasComments, HasImages, HasOrganization, HasRoute, HasFilter;
+    use SoftDeletes, InteractsWithViews, HasFactory, HasFavorites, HasComments, HasImages, HasOrganization, HasRoute, HasFilter, HasDatetime;
     protected $guarded = [];
     protected $appends = [];
 

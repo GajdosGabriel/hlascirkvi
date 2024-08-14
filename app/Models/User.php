@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\HasComments;
+use App\Traits\HasDatetime;
 use App\Traits\HasFilter;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use  HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, HasFilter;
+    use  HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, HasFilter, HasDatetime;
 
     protected $with = ['roles', 'permissions'];
 

@@ -9,6 +9,8 @@ use App\Traits\HasComments;
 use App\Traits\HasFavorites;
 use App\Traits\HasFilter;
 use App\Traits\HasImages;
+use App\Traits\Datetime;
+use App\Traits\HasDatetime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
-    use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages, HasFilter, HasComments;
+    use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages, HasFilter, HasComments, HasDatetime;
     protected $guarded = [];
 
 

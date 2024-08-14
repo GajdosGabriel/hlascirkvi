@@ -5,6 +5,7 @@ namespace App\Models;
 
 
 use App\Traits\HasComments;
+use App\Traits\HasDatetime;
 use App\Traits\HasFavorites;
 use App\Traits\HasFilter;
 use App\Traits\HasOrganization;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Prayer extends Model
 {
-    use Notifiable, HasFactory, SoftDeletes, HasFavorites , HasComments, HasOrganization, HasFilter;
+    use Notifiable, HasFactory, SoftDeletes, HasFavorites , HasComments, HasOrganization, HasFilter, HasDatetime;
 
     protected $guarded = ['id'];
     protected $appends = ['favoritesCount', 'isFavorited'];

@@ -27,7 +27,7 @@ class PostResource extends JsonResource
             'favoritesCount' => $this->favoritesCount,
             'isFavorited' => $this->isFavorited,
             'created_at' => $this->created_at,
-            'createdAtHuman' => $this->dateForHumans(),
+            'createdAtHuman' => $this->dateForHumans,
             'thumbImage' => $this->thumbImage,
 //            'images' => Image::collection($this->images),
             'organization' => new OrganizationResource($this->organization),
