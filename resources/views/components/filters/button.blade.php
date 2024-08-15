@@ -7,7 +7,7 @@
             {{ $name() }}
             @if (Request::has($type()))
                 <a href="{{ URL::current() }}">
-                    <div class="px-2 hover:text-gray-400">
+                    <div class="px-2 hover:text-gray-400 text-sm">
                         X
                     </div>
                 </a>
