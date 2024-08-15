@@ -40,7 +40,7 @@ class EventFilters extends Filters
     public function ongoing($value)
     {
         return $this->builder->where('start_at', '<=', Carbon::now())
-            ->whereDate('end_at', '>=', Carbon::now());
+            ->where('end_at', '>=', Carbon::now());
     }
 
     public function unpublished($value)
