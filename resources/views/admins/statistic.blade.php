@@ -32,7 +32,7 @@
                     <tr>
                         <th style="width: 7%">Id</th>
                         <th>Názov článku</th>
-                        <th>Organizácia</th>
+                        <th>Kanál</th>
                         <th>Akt./All</th>
                     </tr>
                 </thead>
