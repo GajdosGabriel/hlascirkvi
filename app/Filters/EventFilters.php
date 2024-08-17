@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 class EventFilters extends Filters
 {
-    protected $filters = ['location', 'search', 'finished', 'unpublished', 'organization', 'deletedAt'];
+    protected $filters = ['location', 'search', 'finished', 'unpublished', 'organization', 'deletedAt', 'active', 'ongoing'];
 
     public function location($value)
     {
@@ -32,19 +32,30 @@ class EventFilters extends Filters
         return $this->builder->where('end_at', '<', Carbon::now())->orderBy('start_at', 'desc');
     }
 
+    public function active($value)
+    {
+        return $this->builder->where('end_at', '>', Carbon::now())->orderBy('start_at', 'desc');
+    }
+
+    public function ongoing($value)
+    {
+        return $this->builder->where('start_at', '<=', Carbon::now())
+            ->where('end_at', '>=', Carbon::now());
+    }
+
     public function unpublished($value)
     {
-       return $this->builder->whereNull('published');
+        return $this->builder->whereNull('published');
     }
 
     public function organization($value)
     {
-       return $this->builder->where('organization_id', $value);
+        return $this->builder->where('organization_id', $value);
     }
 
     public function deletedAt()
     {
-         return $this->builder->onlyTrashed();
+        return $this->builder->onlyTrashed();
     }
 
     public function search()
