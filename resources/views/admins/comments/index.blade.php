@@ -1,9 +1,10 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Admin komentáre.' }}</title> @endsection
+@section('title')
+    <title>{{ 'Admin komentáre.' }}</title>
+@endsection
 
 @section('content')
-
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             {{ $title ?? 'Komentáre' }}
@@ -11,14 +12,13 @@
 
 
         <x-slot name="title_right">
-           {{--  --}}
+            {{--  --}}
         </x-slot>
 
         <x-slot name="page">
             {{-- index of comments --}}
             @forelse($posts as $post)
-
-            <comment-item :comment="{{ $post }}"></comment-item>
+                <comment-item :comment="{{ $post }}"></comment-item>
 
             @empty
                 bez komentárov
@@ -29,6 +29,5 @@
             </div>
 
         </x-slot>
-    </x-pages.admin>
-
-@endsection
+        </x-pages.admin>
+    @endsection

@@ -6,10 +6,10 @@
 @section('content')
     {{-- @section('title', $title) --}}
 
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
-            
+
             <a href="{{ route('event.show', [$event->id, $event->slug]) }}" class="hover:underline">
                 {{ $event->title }}
             </a>
@@ -80,7 +80,8 @@
                                     @csrf @method('PUT')
                                     @if ($subcription->confirmed)
                                         <input name="confirmed" value="{{ null }}" type="hidden" />
-                                        <button title="{{ $subcription->confirmed }}" class="label-success">Potvrdená</button>
+                                        <button title="{{ $subcription->confirmed }}"
+                                            class="label-success">Potvrdená</button>
                                     @else
                                         <input name="confirmed" value="{{ now() }}" type="hidden" />
                                         <button class="label-danger">Čakajúca</button>
@@ -108,5 +109,5 @@
 
             </table>
         </x-slot>
-    </x-pages.admin>
-@endsection
+        </x-pages.admin>
+    @endsection

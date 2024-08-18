@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>{{ "Admin štatistika" }}</title>
+    <title>{{ 'Admin štatistika' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Štatistika návštev - unikátne view
@@ -61,5 +61,5 @@
 
         </x-slot>
 
-    </x-pages.admin>
-@endsection
+        </x-pages.admin>
+    @endsection

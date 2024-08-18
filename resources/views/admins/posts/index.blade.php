@@ -1,12 +1,11 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>{{ "Admin články" }}</title>
+    <title>{{ 'Admin články' }}</title>
 @endsection
 
 @section('content')
-
-    <x-pages.admin>
+    <x-pages.dashboard>
 
 
         <x-slot name="title">
@@ -16,7 +15,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-          
+
         </x-slot>
 
 
@@ -43,6 +42,5 @@
             </div>
 
         </x-slot>
-    </x-pages.admin>
-
-@endsection
+        </x-pages.admin>
+    @endsection

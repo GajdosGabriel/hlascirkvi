@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('title')
-    <title>{{ "Upraviť článok" }}</title>
+    <title>{{ 'Upraviť článok' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         @include('layouts.errors')
 
@@ -30,6 +30,5 @@
             @include('posts.editor')
 
         </x-slot>
-    </x-pages.admin>
-
-@endsection
+        </x-pages.admin>
+    @endsection

@@ -5,7 +5,7 @@
 
 
 @section('content')
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Nové podujatie
@@ -17,8 +17,8 @@
 
         <x-slot name="page">
             <div class="grid col-span-10 p-5">
-                <form method="post" action="{{ route('organization.event.store', $organization->id) }}"
-                    class="flex" enctype="multipart/form-data"> @csrf
+                <form method="post" action="{{ route('organization.event.store', $organization->id) }}" class="flex"
+                    enctype="multipart/form-data"> @csrf
 
                     <div class="page-content">
                         @include('events._form_a')
@@ -31,7 +31,7 @@
                 </form>
             </div>
         </x-slot>
-    </x-pages.admin>
-@endsection
+        </x-pages.admin>
+    @endsection
 
-@include('posts.editor')
+    @include('posts.editor')

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>{{ "Admin dashboard" }}</title>
+    <title>{{ 'Admin dashboard' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Admin panel
@@ -47,5 +47,5 @@
 
             </div>
         </x-slot>
-    </x-pages.admin>
-@endsection
+        </x-pages.admin>
+    @endsection

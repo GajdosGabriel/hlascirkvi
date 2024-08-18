@@ -1,13 +1,11 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>{{ "Admin nezverejnené videa" }}</title>
+    <title>{{ 'Admin nezverejnené videa' }}</title>
 @endsection
 
 @section('content')
-
-
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Updater
@@ -20,8 +18,7 @@
 
         <x-slot name="page">
 
-            @forelse ( $updaters as $tag )
-
+            @forelse ($updaters as $tag)
                 <div class="flex justify-between p-2 border-b-2 hover:bg-gray-50 border-dashed">
                     <a href="{{ route('admin.updater.organization.index', [$tag->id]) }}">
                         <h4 class="font-semibold text-lg">{{ $tag->id }}. {{ $tag->title }}</h4>
@@ -40,11 +37,8 @@
                 žiadne updaters
             @endforelse
 
-    
+
 
         </x-slot>
-    </x-pages.admin>
-
-
-
-@endsection
+        </x-pages.admin>
+    @endsection

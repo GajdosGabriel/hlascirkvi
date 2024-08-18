@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             {{ $title ?? 'Pozvánky na podujatia' }}
@@ -29,5 +29,5 @@
             </div>
 
         </x-slot>
-    </x-pages.admin>
-@endsection
+        </x-pages.admin>
+    @endsection

@@ -1,9 +1,10 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title> @endsection
+@section('title')
+    <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title>
+@endsection
 
 @section('content')
-
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Upraviť seminár
@@ -23,6 +24,5 @@
             </form>
 
         </x-slot>
-    </x-pages.admin>
-
-@endsection
+        </x-pages.admin>
+    @endsection

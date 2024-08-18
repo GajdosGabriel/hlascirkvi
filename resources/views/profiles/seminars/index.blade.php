@@ -1,12 +1,11 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>{{ "Všetky semináre {$organization->title }" }}</title>
+    <title>{{ "Všetky semináre {$organization->title}" }}</title>
 @endsection
 
 @section('content')
-
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
 
@@ -27,7 +26,5 @@
             @include('profiles.seminars._list')
 
         </x-slot>
-    </x-pages.admin>
-
-
-@endsection
+        </x-pages.admin>
+    @endsection

@@ -54,7 +54,7 @@
 
 
     <div id="app">
-        @include('layouts.nav')
+        <x-navigation.main-menu/>
 
         <main>
             @include('layouts.errors')

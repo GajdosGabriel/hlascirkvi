@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('title')
-    <title>{{ "Admin modlitby" }}</title>
+    <title>{{ 'Admin modlitby' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Modlitby
@@ -53,5 +53,5 @@
                 {{ $prayers->onEachSide(1)->links() }}
             </div>
         </x-slot>
-    </x-pages.admin>
-@endsection
+        </x-pages.admin>
+    @endsection

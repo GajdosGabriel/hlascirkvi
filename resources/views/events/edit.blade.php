@@ -5,7 +5,7 @@
 
 
 @section('content')
-    <x-pages.admin>
+    <x-pages.dashboard>
 
 
         <x-slot name="title">
@@ -33,7 +33,7 @@
 
             </form>
         </x-slot>
-    </x-pages.admin>
-@endsection
+        </x-pages.admin>
+    @endsection
 
-@include('posts.editor')
+    @include('posts.editor')

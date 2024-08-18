@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components\Pages;
+namespace App\View\Components\navigation;
 
 use Illuminate\View\Component;
 
-class Admin extends Component
+class MainMenu extends Component
 {
     /**
      * Create a new component instance.
@@ -23,10 +23,6 @@ class Admin extends Component
      */
     public function render()
     {
-        return view('components.pages.admin');
-    }
-
-    public function typeMenu(){
-        return request()->is('admin/*') ? 'admins._menu' : 'profiles._menu';
+        return view('components.navigation.main-menu');
     }
 }

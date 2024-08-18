@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Import kontaktov do adresára
@@ -37,6 +36,5 @@
 
 
         </x-slot>
-    </x-pages.admin>
-
-@endsection
+        </x-pages.admin>
+    @endsection

@@ -1,11 +1,10 @@
 @extends('layouts.app')
 @section('title')
-    <title>{{ "Všetky modlitby {$organization->title }" }}</title>
+    <title>{{ "Všetky modlitby {$organization->title}" }}</title>
 @endsection
 
 @section('content')
-
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Modlitby
@@ -38,6 +37,5 @@
                 @endforeach
             </ul>
         </x-slot>
-    </x-pages.admin>
-
-@endsection
+        </x-pages.admin>
+    @endsection

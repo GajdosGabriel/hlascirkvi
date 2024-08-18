@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Kanály pre {{ $updater->title }}
@@ -12,12 +12,12 @@
             {{-- <h2 class="page_title">Pridať kanál</h2> --}}
 
             {{-- <form action="{{ route('admin.updater.organization.store', [$updater->id, $tag->id]) }}" method="POST" --}}
-                {{-- class="flex justify-between border-b-2 hover:bg-gray-50 border-dashed p-2"> --}}
-                @csrf @method('POST')
-                <x-organization.select-input />
-                <div>
-                    <button class="btn btn-primary">Uložiť</button>
-                </div>
+            {{-- class="flex justify-between border-b-2 hover:bg-gray-50 border-dashed p-2"> --}}
+            @csrf @method('POST')
+            <x-organization.select-input />
+            <div>
+                <button class="btn btn-primary">Uložiť</button>
+            </div>
             {{-- </form> --}}
 
         </x-slot>
@@ -47,5 +47,5 @@
 
         </x-slot>
 
-    </x-pages.admin>
-@endsection
+        </x-pages.admin>
+    @endsection

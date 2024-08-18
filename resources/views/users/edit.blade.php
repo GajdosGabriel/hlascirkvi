@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-pages.admin>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             Upraviť užívateľa
@@ -39,13 +39,14 @@
                         <div class="flex justify-between my-3">
                             <div class="inline">
                                 <label>Účet blokovaný</label>
-                                <input type="radio" value="1" @if (isset($user->disabled) and $user->disabled == 1) checked @else checked @endif
-                                    name="disabled">
+                                <input type="radio" value="1"
+                                    @if (isset($user->disabled) and $user->disabled == 1) checked @else checked @endif name="disabled">
                             </div>
 
                             <div class="inline">
                                 <label>Účet aktívny</label>
-                                <input type="radio" value="0" @if (isset($user->disabled) and $user->disabled == 0) checked @endif name="disabled">
+                                <input type="radio" value="0" @if (isset($user->disabled) and $user->disabled == 0) checked @endif
+                                    name="disabled">
                             </div>
                         </div>
                     @endcan
@@ -53,5 +54,5 @@
                     <button type="submit" class="btn btn-primary">Uložiť</button>
             </form>
         </x-slot>
-    </x-pages.admin>
-@endsection
+        </x-pages.admin>
+    @endsection
