@@ -54,19 +54,19 @@ Route::middleware(['auth', 'checkBanned'])->group(function () {
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 'checkBanned'])->group(function () {
     Route::resources([
         'home'                  => Admin\AdminController::class,
-        'buffers'               => Admin\BufferController::class,
-        'posts'                 => Admin\PostController::class,
-        'prayers'               => Admin\PrayerController::class,
-        'events'                => Admin\EventController::class,
-        'comments'              => Admin\CommentController::class,
-        'users'                 => Admin\UserController::class,
-        'organizations'         => Admin\OrganizationController::class,
+        'buffer'               => Admin\BufferController::class,
+        'post'                 => Admin\PostController::class,
+        'prayer'               => Admin\PrayerController::class,
+        'event'                => Admin\EventController::class,
+        'comment'              => Admin\CommentController::class,
+        'user'                 => Admin\UserController::class,
+        'organization'         => Admin\OrganizationController::class,
         'image'                 => Admin\ImageController::class,
         'statistic'             => Admin\StatisticController::class,
-        'tags'                  => Admin\TagController::class,
-        'updaters'              => Admin\UpdaterController::class,
+        'tag'                  => Admin\TagController::class,
+        'updater'              => Admin\UpdaterController::class,
         'updater.organization'  => Admin\UpdaterOrganizationController::class,
-        'eventSubscribes'       => Admin\EventSubscribeController::class,
+        'eventSubscribe'       => Admin\EventSubscribeController::class,
     ]);
 });
 

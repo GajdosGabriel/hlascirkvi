@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use DB;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\PostRepository;
-use CyrildeWit\EloquentViewable\Support\Period;
-use App\Repositories\Eloquent\Criteria\LatestFirst;
-use App\Repositories\Eloquent\EloquentPostRepository;
 
 class AdminController extends Controller
 {
