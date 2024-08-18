@@ -16,7 +16,7 @@
 
                 <ul class="my-2 flex  space-x-4 mr-4">
 
-                    <x-navigation.li class="flex" route="{{ route('online-prenosy') }}">
+                    <x-navigation.main-menu-item class="flex" route="{{ route('online-prenosy') }}">
                         Nedeľné prenosy
                         @if (session()->has('countUnwatchedVideos'))
                             <div
@@ -24,23 +24,23 @@
                                 <span class="pb-1">{{ session()->get('countUnwatchedVideos') }}</span>
                             </div>
                         @endif
-                    </x-navigation.li>
+                    </x-navigation.main-menu-item>
 
-                    <x-navigation.li route="{{ route('konferencie.pute') }}">
+                    <x-navigation.main-menu-item route="{{ route('konferencie.pute') }}">
                         Vzdelávanie
-                    </x-navigation.li>
+                    </x-navigation.main-menu-item>
 
                 </ul>
 
                 <ul class="my-2 flex space-x-4">
                     <radio-button></radio-button>
 
-                    <x-navigation.li route="{{ route('modlitby.index') }}">
+                    <x-navigation.main-menu-item route="{{ route('modlitby.index') }}">
                         <i class="fas fa-praying-hands mr-2 text-gray-300"></i>
                         Modlitby
-                    </x-navigation.li>
+                    </x-navigation.main-menu-item>
 
-                    <x-navigation.li route="{{ route('akcie.index') }}" class="flex items-center">
+                    <x-navigation.main-menu-item route="{{ route('akcie.index') }}" class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-5 h-5 mr-2">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -50,7 +50,7 @@
                         {{-- <i class="fa fa-share-alt mr-2 mr-2" aria-hidden="true"></i> --}}
 
                         Podujatia
-                    </x-navigation.li>
+                    </x-navigation.main-menu-item>
 
                 </ul>
             </div>

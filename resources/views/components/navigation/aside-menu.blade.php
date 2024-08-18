@@ -3,21 +3,21 @@
 <div class="grid col-span-2 md:min-h-screen">
     <div class="flex flex-col bg-gray-200">
 
-        <x-profil_menu :url="route('user.organization.index', auth()->user()->id)">
+        <x-navigation.aside-menu-item :url="route('user.organization.index', auth()->user()->id)">
             <x-slot name="title">
                 <i class="fas fa-sitemap mr-2 ml-8"></i>
                 Kanály
             </x-slot>
-        </x-profil_menu>
+        </x-navigation.aside-menu-item>
 
-        <x-profil_menu :url="route('organization.post.index', auth()->user()->org_id)">
+        <x-navigation.aside-menu-item :url="route('organization.post.index', auth()->user()->org_id)">
             <x-slot name="title">
                 <i class="fas fa-copy mr-2 ml-8"></i>
                 Články
             </x-slot>
-        </x-profil_menu>
+        </x-navigation.aside-menu-item>
 
-        <x-profil_menu :url="route('organization.event.index', auth()->user()->org_id)">
+        <x-navigation.aside-menu-item :url="route('organization.event.index', auth()->user()->org_id)">
             <x-slot name="title" class="">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 mr-2 ml-8" viewBox="0 0 448 512">
                     <path
@@ -25,35 +25,35 @@
                 </svg>
                 Podujatia
             </x-slot>
-        </x-profil_menu>
+        </x-navigation.aside-menu-item>
 
-        <x-profil_menu :url="route('organization.seminar.index', auth()->user()->org_id)">
+        <x-navigation.aside-menu-item :url="route('organization.seminar.index', auth()->user()->org_id)">
             <x-slot name="title">
                 <i class="fas fa-chalkboard-teacher mr-2 ml-8"></i>
                 Semináre
             </x-slot>
-        </x-profil_menu>
+        </x-navigation.aside-menu-item>
 
-        <x-profil_menu :url="route('organization.prayer.index', auth()->user()->org_id)">
+        <x-navigation.aside-menu-item :url="route('organization.prayer.index', auth()->user()->org_id)">
             <x-slot name="title">
                 <i class="fas fa-praying-hands mr-2 ml-8"></i>
                 Modlitby
             </x-slot>
-        </x-profil_menu>
+        </x-navigation.aside-menu-item>
 
-        <x-profil_menu :url="route('addresBook.importContacts', [auth()->id(), auth()->user()->slug])">
+        <x-navigation.aside-menu-item :url="route('addresBook.importContacts', [auth()->id(), auth()->user()->slug])">
             <x-slot name="title">
                 <i class="fas fa-address-card mr-2 ml-8"></i>
                 Moje kontakty
             </x-slot>
-        </x-profil_menu>
+        </x-navigation.aside-menu-item>
 
-        <x-profil_menu :url="route('organization.eventSubscribe.index', auth()->user()->org_id)">
+        <x-navigation.aside-menu-item :url="route('organization.eventSubscribe.index', auth()->user()->org_id)">
             <x-slot name="title">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 mr-2 ml-8" viewBox="0 0 576 512"><path d="M128 160h320v192H128V160zm400 96c0 26.51 21.49 48 48 48v96c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48v-96c26.51 0 48-21.49 48-48s-21.49-48-48-48v-96c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v96c-26.51 0-48 21.49-48 48zm-48-104c0-13.255-10.745-24-24-24H120c-13.255 0-24 10.745-24 24v208c0 13.255 10.745 24 24 24h336c13.255 0 24-10.745 24-24V152z"/></svg>
                 Prihlášky na akcie
             </x-slot>
-        </x-profil_menu>
+        </x-navigation.aside-menu-item>
 
     </div>
 </div>
@@ -64,28 +64,28 @@
         <div class="flex flex-col bg-gray-200">
 
 
-            <x-profil_menu :url="route('admin.users.index')">
+            <x-navigation.aside-menu-item :url="route('admin.users.index')">
                 <x-slot name="title">
                     <i class="fas fa-user mr-2 ml-8"></i>
                     Užívatelia 
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.organizations.index')">
+            <x-navigation.aside-menu-item :url="route('admin.organizations.index')">
                 <x-slot name="title">
                     <i class="fas fa-sitemap mr-2 ml-8"></i>
                    <div>Kanály</div>
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.posts.index')">
+            <x-navigation.aside-menu-item :url="route('admin.posts.index')">
                 <x-slot name="title">
                     <i class="fas fa-copy mr-2 ml-8"></i>
                     Články
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.events.index')">
+            <x-navigation.aside-menu-item :url="route('admin.events.index')">
                 <x-slot name="title" class="">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 mr-2 ml-8" viewBox="0 0 448 512">
                         <path
@@ -93,56 +93,56 @@
                     </svg>
                     Podujatia
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.prayers.index')">
+            <x-navigation.aside-menu-item :url="route('admin.prayers.index')">
                 <x-slot name="title">
                     <i class="fas fa-praying-hands mr-2 ml-8"></i>
                     Modlitby
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.comments.index')">
+            <x-navigation.aside-menu-item :url="route('admin.comments.index')">
                 <x-slot name="title">
                     <i class="far fa-comment-dots mr-2 ml-8"></i>
                     Komentáre
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.statistic.index')">
+            <x-navigation.aside-menu-item :url="route('admin.statistic.index')">
                 <x-slot name="title">
                     <i class="far fa-chart-bar mr-2 ml-8"></i>
                     Štatistika
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.tags.index')">
+            <x-navigation.aside-menu-item :url="route('admin.tags.index')">
                 <x-slot name="title">
                     <i class="fas fa-tags mr-2 ml-8"></i>
                     Tagy
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.updaters.index')">
+            <x-navigation.aside-menu-item :url="route('admin.updaters.index')">
                 <x-slot name="title">
                     <i class="fas fa-list-ul mr-2 ml-8"></i>
                     Updaters
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.buffers.index')">
+            <x-navigation.aside-menu-item :url="route('admin.buffers.index')">
                 <x-slot name="title">
                     <i class="fab fa-youtube mr-2 ml-8"></i>
                     Buffer
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
-            <x-profil_menu :url="route('admin.eventSubscribes.index')">
+            <x-navigation.aside-menu-item :url="route('admin.eventSubscribes.index')">
                 <x-slot name="title">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 mr-2 ml-8" viewBox="0 0 576 512"><path d="M128 160h320v192H128V160zm400 96c0 26.51 21.49 48 48 48v96c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48v-96c26.51 0 48-21.49 48-48s-21.49-48-48-48v-96c0-26.51 21.49-48 48-48h480c26.51 0 48 21.49 48 48v96c-26.51 0-48 21.49-48 48zm-48-104c0-13.255-10.745-24-24-24H120c-13.255 0-24 10.745-24 24v208c0 13.255 10.745 24 24 24h336c13.255 0 24-10.745 24-24V152z"/></svg>
                     Prihlášky na akcie
                 </x-slot>
-            </x-profil_menu>
+            </x-navigation.aside-menu-item>
 
         </div>
     </div>

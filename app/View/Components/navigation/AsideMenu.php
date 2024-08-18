@@ -27,4 +27,12 @@ class AsideMenu extends Component
         return view('components.navigation.aside-menu');
     }
 
+    public function adminMenu() {
+        return [
+            [
+
+            ],
+        ];
+    }
+
 }
