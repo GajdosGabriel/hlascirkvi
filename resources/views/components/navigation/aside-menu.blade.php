@@ -3,6 +3,13 @@
 <div class="grid col-span-2 md:min-h-screen">
     <div class="flex flex-col bg-gray-200">
 
+        <x-navigation.aside-menu-item :url="route('profile.index')">
+            <x-slot name="title">
+                <i class="fa fa-user mr-2 ml-8"></i>
+                Úvod
+            </x-slot>
+        </x-navigation.aside-menu-item>
+
         <x-navigation.aside-menu-item :url="route('user.organization.index', auth()->user()->id)">
             <x-slot name="title">
                 <i class="fas fa-sitemap mr-2 ml-8"></i>

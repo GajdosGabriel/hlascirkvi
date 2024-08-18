@@ -41,9 +41,7 @@
                     </header>
                 </section>
 
-                <section class="card">
-                    <comments-card></comments-card>
-                </section>
+                <comments-card></comments-card>
 
             </div>
         </x-slot>
