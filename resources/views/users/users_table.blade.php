@@ -40,7 +40,7 @@
                 <td>{{ $user->set_denomination }}</td>
                 <td class="text-sm">{{ $user->created_at->diffForHumans() }}</td>
                 <td class="td">
-                    <a href="{{ route('admin.users.edit', [$user->id]) }}">
+                    <a href="{{ route('admin.user.edit', [$user->id]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>
                     </a>
                 </td>

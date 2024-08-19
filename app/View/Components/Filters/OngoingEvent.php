@@ -30,7 +30,7 @@ class OngoingEvent extends Component
     {
         // Povolené route names.
        $routeName = array(
-            'admin.events.index',
+            'admin.event.index',
             'organization.event.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);

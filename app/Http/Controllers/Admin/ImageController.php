@@ -38,6 +38,6 @@ class ImageController extends Controller
 
         session()->flash('flash', 'Obrázky boli definitívne vymazané!');
 
-        return redirect()->route('admin.images.index');
+        return redirect()->route('admin.image.index');
     }
 }

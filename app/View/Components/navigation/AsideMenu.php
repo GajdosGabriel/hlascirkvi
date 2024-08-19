@@ -41,42 +41,42 @@ class AsideMenu extends Component
         return [
             [
                 'url' => route('profile.index'),
-                'icon' => 'fa fa-user',
+                'icon' => 'home',
                 'name' => 'Úvod',
             ],
             [
                 'url' => route('user.organization.index', auth()->user()->id),
-                'icon' => 'fas fa-sitemap',
+                'icon' => 'canal',
                 'name' => 'Kanály',
             ],
             [
                 'url' => route('organization.post.index', auth()->user()->org_id),
-                'icon' => 'fas fa-copy',
+                'icon' => 'post',
                 'name' => 'Články',
             ],
             [
                 'url' => route('organization.event.index', auth()->user()->org_id),
-                'icon' => 'fas fa-copy',
+                'icon' => 'event',
                 'name' => 'Podujatia',
             ],
             [
                 'url' => route('organization.seminar.index', auth()->user()->org_id),
-                'icon' => 'fas fa-chalkboard-teacher',
+                'icon' => 'seminar',
                 'name' => 'Semináre',
             ],
             [
                 'url' => route('organization.prayer.index', auth()->user()->org_id),
-                'icon' => 'fas fa-praying-hands',
+                'icon' => 'pray',
                 'name' => 'Modlitby',
             ],
             [
                 'url' => route('addresBook.importContacts', [auth()->id(), auth()->user()->slug]),
-                'icon' => 'fas fa-address-card',
+                'icon' => 'contact',
                 'name' => 'Moje kontakty',
             ],
             [
                 'url' => route('organization.eventSubscribe.index', auth()->user()->org_id),
-                'icon' => 'fas fa-address-card',
+                'icon' => 'ticket',
                 'name' => 'Prihlášky na akcie',
             ],
         ];
@@ -87,67 +87,67 @@ class AsideMenu extends Component
         return [
             [
                 'url' => route('admin.home.index'),
-                'icon' => 'fa fa-user',
+                'icon' => 'home',
                 'name' => 'Úvod',
             ],
             [
                 'url' => route('admin.user.index'),
-                'icon' => 'fas fa-user',
+                'icon' => 'user',
                 'name' => 'Užívatelia',
             ],
             [
                 'url' => route('admin.organization.index'),
-                'icon' => 'fas fa-sitemap',
+                'icon' => 'canal',
                 'name' => 'Kanály',
             ],
             [
                 'url' => route('admin.post.index'),
-                'icon' => 'fas fa-copy',
+                'icon' => 'post',
                 'name' => 'Články',
             ],
             [
                 'url' => route('admin.event.index'),
-                'icon' => 'fas fa-copy',
+                'icon' => 'event',
                 'name' => 'Podujatia',
             ],
             [
                 'url' => route('admin.prayer.index'),
-                'icon' => 'fas fa-praying-hands',
+                'icon' => 'pray',
                 'name' => 'Modlitby',
             ],
             [
                 'url' => route('admin.comment.index'),
-                'icon' => 'far fa-comment-dots',
+                'icon' => 'comment',
                 'name' => 'Komentáre',
             ],
             [
                 'url' => route('admin.statistic.index'),
-                'icon' => 'far fa-chart-bar',
+                'icon' => 'pray',
                 'name' => 'Štatistika',
             ],
             [
                 'url' => route('admin.tag.index'),
-                'icon' => 'fas fa-tags',
+                'icon' => 'tag',
                 'name' => 'Tagy',
             ],
             [
                 'url' => route('admin.updater.index'),
-                'icon' => 'fas fa-list-ul',
+                'icon' => 'statistic',
                 'name' => 'Updaters',
             ],
             [
                 'url' => route('admin.buffer.index'),
-                'icon' => 'fab fa-youtube',
+                'icon' => 'buffer',
                 'name' => ' Buffer',
             ],
             [
                 'url' => route('addresBook.importContacts', [auth()->id(), auth()->user()->slug]),
-                'icon' => 'fas fa-address-card',
+                'icon' => 'contact',
                 'name' => 'Moje kontakty',
             ],
             [
                 'url' => route('admin.eventSubscribe.index'),
-                'icon' => 'fas fa-address-card',
+                'icon' => 'ticket',
                 'name' => 'Prihlášky na akcie',
             ],
         ];

@@ -31,14 +31,14 @@ class Card extends Component
     {
         // Povolené route names.
        $routeName = array(
-            'admin.users.index',
-            'admin.posts.index',
-            'admin.organizations.index',
-            'admin.events.index',
-            'admin.comments.index',
-            'admin.prayers.index',
+            'admin.user.index',
+            'admin.post.index',
+            'admin.organization.index',
+            'admin.event.index',
+            'admin.comment.index',
+            'admin.prayer.index',
             'user.organization.index',
-            'organization.prayers.index',
+            'organization.prayer.index',
             'organization.post.index',
             'organization.event.index',
             'event.subscribe.index',

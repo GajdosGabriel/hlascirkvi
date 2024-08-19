@@ -132,16 +132,16 @@ class Event extends Model implements Viewable
     // {
     //     $url = [];
     //     if (auth()->user()->can('view', $this)) {
-    //         array_push($url, [ 'show'     =>  route('admin.events.show', $this->id)]);
+    //         array_push($url, [ 'show'     =>  route('admin.event.show', $this->id)]);
     //     }
     //     if (auth()->user()->can('create', $this)) {
-    //         array_push($url, [ 'create'     =>  route('admin.events.create')]);
+    //         array_push($url, [ 'create'     =>  route('admin.event.create')]);
     //     } 
     //     if (auth()->user()->can('update', $this)) {
-    //         array_push($url, [ 'edit'     =>  route('admin.events.update', $this->id)]);
+    //         array_push($url, [ 'edit'     =>  route('admin.event.update', $this->id)]);
     //     }
     //     if (auth()->user()->can('delete', $this)) {
-    //         array_push($url, [ 'delete'     =>  route('admin.events.destroy', $this->id)]);
+    //         array_push($url, [ 'delete'     =>  route('admin.event.destroy', $this->id)]);
     //     }
     //     return $url;
     // }

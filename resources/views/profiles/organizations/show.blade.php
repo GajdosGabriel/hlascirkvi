@@ -22,7 +22,7 @@
 
                 <div class="mb-7 w-1/3 p-6">
                     <h3 class="font-semibold">Prihlásiť sa do kanálu</h3>
-                    <form action="{{ route('admin.users.update', auth()->id()) }}" method="post" class="mr-4 mb-4">
+                    <form action="{{ route('admin.user.update', auth()->id()) }}" method="post" class="mr-4 mb-4">
                         @method('PUT') @csrf
                         <input type="hidden" name="org_id" value="{{ $organization->id }}" />
                         <button

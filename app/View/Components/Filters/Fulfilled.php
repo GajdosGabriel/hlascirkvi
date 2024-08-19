@@ -30,7 +30,7 @@ class Fulfilled extends Component
     {
         // Povolené route names.
         $routeName = array(
-            'admin.prayers.index'
+            'admin.prayer.index'
         );
         return in_array(\Route::currentRouteName(), $routeName);
     }

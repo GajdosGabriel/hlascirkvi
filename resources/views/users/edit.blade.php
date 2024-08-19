@@ -13,7 +13,7 @@
 
 
         <x-slot name="page">
-            <form method="post" action="{{ route('admin.users.update', [$user->id]) }}">
+            <form method="post" action="{{ route('admin.user.update', [$user->id]) }}">
                 @csrf @method('PUT')
                 <div class="card-body" style="width: 50%">
 

@@ -30,12 +30,12 @@ class DeletedAt extends Component
     {
         // Povolené route names.
        $routeName = array(
-            'admin.prayers.index',
-            'admin.comments.index',
-            'admin.events.index',
-            'admin.posts.index',
-            'admin.organizations.index',
-            'admin.users.index',
+            'admin.prayer.index',
+            'admin.comment.index',
+            'admin.event.index',
+            'admin.post.index',
+            'admin.organization.index',
+            'admin.user.index',
             'organization.post.index',
             'organization.event.index',
             'event.subscribe.index',

@@ -39,7 +39,7 @@
         </a>
         <time datetime="{{ $post->created_at }}">{{ $post->dateForHumans }}</time>
 
-        @if (Route::is('admin.buffers.index'))
+        @if (Route::is('admin.buffer.index'))
             <post-publish-buttons :post="{{ $post }}" />
         @endif
     </div>

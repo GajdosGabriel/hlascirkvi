@@ -30,7 +30,7 @@ class VideoAvailable extends Component
     {
         // Povolené route names.
         $routeName = array(
-            'admin.posts.index'
+            'admin.post.index'
         );
         return in_array(\Route::currentRouteName(), $routeName);
     }
