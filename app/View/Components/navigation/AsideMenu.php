@@ -111,6 +111,11 @@ class AsideMenu extends Component
                 'name' => 'Podujatia',
             ],
             [
+                'url' => route('admin.eventSubscribe.index'),
+                'icon' => 'ticket',
+                'name' => 'Prihlášky na akcie',
+            ],
+            [
                 'url' => route('admin.prayer.index'),
                 'icon' => 'pray',
                 'name' => 'Modlitby',
@@ -122,7 +127,7 @@ class AsideMenu extends Component
             ],
             [
                 'url' => route('admin.statistic.index'),
-                'icon' => 'pray',
+                'icon' => 'statistic',
                 'name' => 'Štatistika',
             ],
             [
@@ -144,11 +149,6 @@ class AsideMenu extends Component
                 'url' => route('addresBook.importContacts', [auth()->id(), auth()->user()->slug]),
                 'icon' => 'contact',
                 'name' => 'Moje kontakty',
-            ],
-            [
-                'url' => route('admin.eventSubscribe.index'),
-                'icon' => 'ticket',
-                'name' => 'Prihlášky na akcie',
             ],
         ];
     }
