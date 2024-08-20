@@ -2,6 +2,7 @@
 
 use App\Enums\PageType;
 
+// Detect typeMenu accourding to pageRouteName
 function typePage()
 {
     if (Str::contains( request()->route()->getName(), PageType::Admin->value)) {
