@@ -31,7 +31,7 @@ class ActiveEvent extends Component
         // Povolené route names.
        $routeName = array(
             'admin.event.index',
-            'organization.event.index',
+            'profile.organization.event.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }

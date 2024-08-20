@@ -1,5 +1,18 @@
 <?php
 
+use App\Enums\PageType;
+
+function typePage()
+{
+    if (Str::contains( request()->route()->getName(), PageType::Admin->value)) {
+        return PageType::Admin->value;
+    } elseif (Str::contains( request()->route()->getName(), PageType::Profile->value)) {
+        return PageType::Profile->value;
+    } else {
+        return  PageType::Public->value;
+    };
+}
+
 // Remove HardSpace text
 function cleanHardSpace($text)
 {

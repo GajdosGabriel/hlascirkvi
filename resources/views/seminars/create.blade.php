@@ -16,7 +16,7 @@
 
 
         <x-slot name="page">
-            <form class="" method="post" action="{{ route('organization.seminar.store', $organization->id) }}">
+            <form class="" method="post" action="{{ route('profile.organization.seminar.store', $organization->id) }}">
                 @csrf @method('POST')
 
                 @include('seminars.form')

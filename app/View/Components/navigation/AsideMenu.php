@@ -2,19 +2,19 @@
 
 namespace App\View\Components\navigation;
 
+use App\Enums\PageType;
 use Illuminate\View\Component;
 
 class AsideMenu extends Component
 {
-    public $typeMenu;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($typeMenu)
+    public function __construct()
     {
-        $this->typeMenu = $typeMenu;
+       
     }
 
     /**
@@ -29,43 +29,45 @@ class AsideMenu extends Component
 
     public function activeMenu()
     {
-        if ($this->typeMenu == 'user_menu')
+        if (typePage() == PageType::Profile->value) {
             return $this->userMenu();
-
-        if ($this->typeMenu == 'admin_menu' and auth()->user()->hasRole('admin'))
-            return  $this->adminMenu();
+        } elseif (typePage() == PageType::Admin->value and auth()->user()->hasRole('admin')) {
+            return $this->adminMenu();
+        } else {
+           return [];
+        }
     }
 
     public function userMenu()
     {
         return [
             [
-                'url' => route('profile.index'),
+                'url' => route('profile.profile.index'),
                 'icon' => 'home',
                 'name' => 'Úvod',
             ],
             [
-                'url' => route('user.organization.index', auth()->user()->id),
+                'url' => route('profile.user.organization.index', auth()->user()->id),
                 'icon' => 'canal',
                 'name' => 'Kanály',
             ],
             [
-                'url' => route('organization.post.index', auth()->user()->org_id),
+                'url' => route('profile.organization.post.index', auth()->user()->org_id),
                 'icon' => 'post',
                 'name' => 'Články',
             ],
             [
-                'url' => route('organization.event.index', auth()->user()->org_id),
+                'url' => route('profile.organization.event.index', auth()->user()->org_id),
                 'icon' => 'event',
                 'name' => 'Podujatia',
             ],
             [
-                'url' => route('organization.seminar.index', auth()->user()->org_id),
+                'url' => route('profile.organization.seminar.index', auth()->user()->org_id),
                 'icon' => 'seminar',
                 'name' => 'Semináre',
             ],
             [
-                'url' => route('organization.prayer.index', auth()->user()->org_id),
+                'url' => route('profile.organization.prayer.index', auth()->user()->org_id),
                 'icon' => 'pray',
                 'name' => 'Modlitby',
             ],
@@ -75,7 +77,7 @@ class AsideMenu extends Component
                 'name' => 'Moje kontakty',
             ],
             [
-                'url' => route('organization.eventSubscribe.index', auth()->user()->org_id),
+                'url' => route('profile.organization.eventSubscribe.index', auth()->user()->org_id),
                 'icon' => 'ticket',
                 'name' => 'Prihlášky na akcie',
             ],

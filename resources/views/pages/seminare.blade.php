@@ -14,7 +14,7 @@
 
                 @auth
                 <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
-                    href="{{ route('organization.seminar.create', auth()->user()->org_id) }}"><i class="fas fa-plus"></i>
+                    href="{{ route('profile.organization.seminar.create', auth()->user()->org_id) }}"><i class="fas fa-plus"></i>
                     Nový seminár
                 </a>
                 @endauth

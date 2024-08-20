@@ -20,7 +20,7 @@
 
         <x-slot name="page">
 
-            <form method="post" action="{{ route('user.organization.update', [$user->id, $organization->id]) }}">
+            <form method="post" action="{{ route('profile.user.organization.update', [$user->id, $organization->id]) }}">
                 @csrf @method('PUT')
                 <div>
 
@@ -94,7 +94,7 @@
 
 
                             <form method="POST"
-                                action="{{ route('user.organization.update', [$user->id, $organization->id]) }}">
+                                action="{{ route('profile.user.organization.update', [$user->id, $organization->id]) }}">
                                 @csrf @method('PUT')
                                 <div class="font-semibold" for="">Kanál je:</div>
                                 @if ($organization->published)

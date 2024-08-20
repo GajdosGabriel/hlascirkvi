@@ -11,7 +11,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <a class="btn btn-default" href="{{ route('organization.prayer.create', auth()->user()->org_id) }}">
+            <a class="btn btn-default" href="{{ route('profile.organization.prayer.create', auth()->user()->org_id) }}">
                 Nová modlitba
             </a>
         </x-slot>
@@ -22,7 +22,7 @@
                     <li class="mb-4 shadow-md border-gray-200 border-2 p-2 rounded">
                         <div class="flex justify-between">
                             <div>{{ $prayer->title }}</div>
-                            <a href="{{ route('organization.prayer.edit', [$organization->id, $prayer->id]) }}"
+                            <a href="{{ route('profile.organization.prayer.edit', [$organization->id, $prayer->id]) }}"
                                 class="text-sm hover:text-gray-400">Upraviť</a>
                         </div>
                         <div>{{ $prayer->body }}</div>

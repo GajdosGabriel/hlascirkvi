@@ -28,6 +28,6 @@ class SeminarController extends Controller
         $videoUploader = new VideoUploadSeminars($seminar, $organization);
         $videoUploader->handle();
 
-        return redirect()->route('organization.seminar.show', [$organization->id, $seminar->id]);
+        return redirect()->route('profile.organization.seminar.show', [$organization->id, $seminar->id]);
     }
 }

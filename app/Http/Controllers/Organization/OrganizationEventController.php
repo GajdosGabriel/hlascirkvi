@@ -50,7 +50,7 @@ class OrganizationEventController extends Controller
 
         session()->flash('flash', 'Podujatie je aktualizované!');
 
-        return redirect()->route('organization.event.show', compact('event', 'organization'));
+        return redirect()->route('profile.organization.event.show', compact('event', 'organization'));
     }
 
     public function store(Organization $organization, StoreEventRequest $request)
@@ -63,7 +63,7 @@ class OrganizationEventController extends Controller
             }
         }
         session()->flash('flash', 'Podujatie bolo uložené!');
-        return redirect()->route('organization.event.index', [$organization->id, $event->id]);
+        return redirect()->route('profile.organization.event.index', [$organization->id, $event->id]);
     }
 
     public function destroy(Organization $organization, $event)
@@ -77,6 +77,6 @@ class OrganizationEventController extends Controller
             $post->delete();
         }
         session()->flash('flash', 'Podujatie bolo zmazané!');
-        return redirect()->route('organization.event.index', $organization->id);
+        return redirect()->route('profile.organization.event.index', $organization->id);
     }
 }

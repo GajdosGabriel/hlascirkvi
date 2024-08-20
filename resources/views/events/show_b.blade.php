@@ -15,7 +15,7 @@
     {{-- Prihlasovanie pre prihláseného usera --}}
     <div class="hover:text-gray-900 pl-2 rounded-sm">
         @if (auth()->check() and !$event->isSubscribed())
-            <form method="post" action="{{ route('event.favorite.store', [$event->id]) }}" class=" mb-4">
+            <form method="post" action="{{ route('profile.event.favorite.store', [$event->id]) }}" class=" mb-4">
                 @csrf @method('POST')
                 @if ($event->isFavorited())
                     <button type="submit" class="btn btn-succenss w-full">
@@ -76,7 +76,7 @@
 
 
         @if ($event->isSubscribed())
-            <form method="post" action="{{ route('event.subscribe.store', [$event->id]) }}">
+            <form method="post" action="{{ route('profile.event.subscribe.store', [$event->id]) }}">
                 @csrf @method('POST')
                 <button type="submit" class="btn btn-success w-full">
                     <i class="fas fa-check"></i>

@@ -1,13 +1,13 @@
-<a target="_blank" href=" {{ route('organization.event.edit', [$item->organization_id, $item->id]) }}">
+<a target="_blank" href=" {{ route('profile.organization.event.edit', [$item->organization_id, $item->id]) }}">
     <li class="dropdown-item">upraviť</li>
 </a>
 
-<a href="{{ route('event.subscribe.index', $item->id) }}">
+<a href="{{ route('profile.event.subscribe.index', $item->id) }}">
     <li class="dropdown-item whitespace-nowrap">Administrácia</li>
 </a>
 
 <li class="dropdown-item">
-    <form action="{{ route('organization.event.destroy', [$item->organization_id, $item->id]) }}" method="POST">
+    <form action="{{ route('profile.organization.event.destroy', [$item->organization_id, $item->id]) }}" method="POST">
         @csrf @method('DELETE')
         @if ($item->deleted_at)
             <button>odnoviť</button>

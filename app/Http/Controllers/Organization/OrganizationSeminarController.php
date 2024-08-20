@@ -42,7 +42,7 @@ class OrganizationSeminarController extends Controller
     {
         Seminar::create(array_merge($request->all(), ['organization_id' => auth()->user()->org_id]));
 
-        return redirect()->route('organization.seminar.index', $organization->id);
+        return redirect()->route('profile.organization.seminar.index', $organization->id);
     }
 
     public function update(Organization $organization, Seminar $seminar, Request $request)
@@ -54,7 +54,7 @@ class OrganizationSeminarController extends Controller
             return $seminar;
         };
 
-        return redirect()->route('organization.seminar.index', $organization->id);
+        return redirect()->route('profile.organization.seminar.index', $organization->id);
     }
 
 

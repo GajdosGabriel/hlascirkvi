@@ -15,7 +15,7 @@
 
         <x-slot name="title_right">
 
-            <a href="{{ route('organization.seminar.create', $organization->id) }}" class="btn btn-default">
+            <a href="{{ route('profile.organization.seminar.create', $organization->id) }}" class="btn btn-default">
                 Nový semimár
             </a>
 

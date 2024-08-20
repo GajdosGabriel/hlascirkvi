@@ -36,14 +36,14 @@ class OrganizationPrayerController extends Controller
     public function update(Organization $organization, Prayer $prayer, SavePrayerRequest $request)
     {
         $prayer->update($request->all());
-        return redirect()->route('organization.prayer.index', $organization);
+        return redirect()->route('profile.organization.prayer.index', $organization);
     }
 
     public function store(Organization $organization, SavePrayerRequest $request)
     {
         $organization->prayers()->create($request->all());
 
-        return redirect()->route('organization.prayer.index', $organization);
+        return redirect()->route('profile.organization.prayer.index', $organization);
     }
 
     public function destroy(Organization $organization, Prayer $prayer)

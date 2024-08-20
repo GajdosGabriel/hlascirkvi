@@ -19,7 +19,7 @@
                 <x-slot name="title_right">
                     @auth
                         <a class="border-2 border-blue-400 p-1 px-2 rounded-md shadow-sm hover:bg-blue-300"
-                            href="{{ route('organization.event.create', auth()->user()->org_id) }}"><i
+                            href="{{ route('profile.organization.event.create', auth()->user()->org_id) }}"><i
                                 class="fas fa-plus"></i>
                             Nové podujatie
                         </a>

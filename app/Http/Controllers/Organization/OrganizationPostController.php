@@ -48,7 +48,7 @@ class OrganizationPostController extends Controller
     {
         $this->postService->store($organization, $request);
 
-        return redirect()->route('organization.post.index', [$organization->id]);
+        return redirect()->route('profile.organization.post.index', [$organization->id]);
     }
 
     // Zmazať alebo obnoviť Post
@@ -61,12 +61,12 @@ class OrganizationPostController extends Controller
         if ($post->deleted_at) {
             $post->restore();
             $post->comments()->restore();
-            return redirect()->route('organization.post.index', $organization->id)->with(session()->flash('flash', 'Príspevok bol obnovený!'));
+            return redirect()->route('profile.organization.post.index', $organization->id)->with(session()->flash('flash', 'Príspevok bol obnovený!'));
         } else {
             $post->comments()->delete();
             $post->delete();
         }
 
-        return redirect()->route('organization.post.index', $organization->id)->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
+        return redirect()->route('profile.organization.post.index', $organization->id)->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
     }
 }

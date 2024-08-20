@@ -46,7 +46,7 @@ class NewSubscribe extends Notification implements ShouldQueue
             ->line('Nová registrácia.')
             ->line("Užívateľ: " . $this->subscribe->event->organization->title)
             ->line('sa prihlásil na akciu ' . $this->subscribe->event->title)
-            ->action('Zobraziť prihlásených', url(route('event.subscribe.index', [$this->subscribe->event->id])))
+            ->action('Zobraziť prihlásených', url(route('profile.event.subscribe.index', [$this->subscribe->event->id])))
             ->line('Správa bola generovaná systémom.');
     }
 

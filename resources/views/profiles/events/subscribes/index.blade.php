@@ -90,7 +90,7 @@
                             </td>
                             <td class="text-center">
                                 <form method="post"
-                                    action="{{ route('event.subscribe.destroy', [$event->id, $subcription->id]) }}">
+                                    action="{{ route('profile.event.subscribe.destroy', [$event->id, $subcription->id]) }}">
                                     @csrf @method('DELETE')
                                     <button class="label-default">Zmazať</button>
                                 </form>

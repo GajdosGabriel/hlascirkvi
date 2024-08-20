@@ -23,7 +23,7 @@
     <i title="Počet zobrazení" class="fa fa-eye mt-1"> {{ $event->count_view }} </i>
 
 
-    <a href="{{ route('event.subscribe.index', [$event->id]) }}" class="hover:underline">Prihlásených:
+    <a href="{{ route('profile.event.subscribe.index', [$event->id]) }}" class="hover:underline">Prihlásených:
         {{ $event->subscribes()->count() }}
     </a>
 

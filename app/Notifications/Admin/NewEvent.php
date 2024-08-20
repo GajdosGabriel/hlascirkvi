@@ -46,7 +46,7 @@ class NewEvent extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('Event ' . $this->event->title)
             ->line('Podujatie čaká na schválenie. ' . $this->event->title)
-            ->action('Upraviť event', url(route('organization.event.edit', [$this->event->organization_id, $this->event->id]) ))
+            ->action('Upraviť event', url(route('profile.organization.event.edit', [$this->event->organization_id, $this->event->id]) ))
             ->line('Dátum: ' . $this->event->start_at)
             ->line('Miesto: ' . $this->event->village->fullname)
             ->line('Publikovaný: ' . $this->event->published)

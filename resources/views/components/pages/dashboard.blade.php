@@ -2,11 +2,8 @@
 
     <div class="grid col-span-2">
         <div class="flex flex-col bg-gray-200">
-{{-- 
-            @include($typeMenu()) --}}
 
-            <x-navigation.aside-menu  :typeMenu="$typeMenu()"
-                ></x-navigation.aside-menu>
+            <x-navigation.aside-menu></x-navigation.aside-menu>
 
         </div>
     </div>

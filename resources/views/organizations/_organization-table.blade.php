@@ -20,7 +20,7 @@
         @if ($organization->id == auth()->user()->org_id) bg-gray-300 @endif ">
                 <td class="td">{{ $organization->id }}</td>
                 <td class="">
-                    <a href="{{ route('user.organization.show', [auth()->user()->id, $organization->id]) }}"
+                    <a href="{{ route('profile.user.organization.show', [auth()->user()->id, $organization->id]) }}"
                         title="{{ $organization->title }}">
                         {{ \Illuminate\Support\Str::limit($organization->title, 30) }}
                     </a>
@@ -101,7 +101,7 @@
 
                 </td>
                 <td class="td">
-                    <a href="{{ route('user.organization.edit', [$user->id, $organization->id]) }}">
+                    <a href="{{ route('profile.user.organization.edit', [$user->id, $organization->id]) }}">
                         <i title="Upraviť" class="fas fa-edit"></i>
                     </a>
 
