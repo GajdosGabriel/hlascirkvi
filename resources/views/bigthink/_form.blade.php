@@ -25,7 +25,7 @@
             @endforelse
 
 
-            <form v-if="showForm" method="post" action="{{ route('post.think.store', [$post->id]) }}"
+            <form v-if="showForm" method="post" action="{{ route('profile.post.think.store', [$post->id]) }}"
                 style="margin-bottom: 4rem">
                 @csrf @method('POST')
 

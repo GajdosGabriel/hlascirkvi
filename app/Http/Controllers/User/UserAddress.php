@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class AddresBookController extends Controller
+class UserAddress extends Controller
 {
-    public function importContacts(User $user)
+    public function index(User $user)
     {
         $users = $user->addresBooks()->latest()->paginate(50);
         return view('profiles.import_contacts', ['user' => $user, 'users' => $users]);
     }
 
 
-    public function storeUsersContact(User $user, Request $request) {
+    public function store(User $user, Request $request) {
 
         $string = trim($request->input('body'));
 

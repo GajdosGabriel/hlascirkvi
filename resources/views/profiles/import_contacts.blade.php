@@ -10,7 +10,7 @@
 
         <x-slot name="page">
 
-            <form action="{{ route('addresBook.storeUsersContact', [auth()->id()]) }}" method="POST"> @csrf
+            <form action="{{ route('profile.user.address.store', auth()->id()) }}" method="POST"> @csrf
 
                 <div class="form-group">
                     <textarea style="width: 100%" class="form-control" rows="5" name="body"

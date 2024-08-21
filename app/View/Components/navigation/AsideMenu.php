@@ -72,7 +72,7 @@ class AsideMenu extends Component
                 'name' => 'Modlitby',
             ],
             [
-                'url' => route('addresBook.importContacts', [auth()->id(), auth()->user()->slug]),
+                'url' => route('profile.user.address.index', auth()->id()),
                 'icon' => 'contact',
                 'name' => 'Moje kontakty',
             ],
@@ -146,12 +146,7 @@ class AsideMenu extends Component
                 'url' => route('admin.buffer.index'),
                 'icon' => 'buffer',
                 'name' => ' Buffer',
-            ],
-            [
-                'url' => route('addresBook.importContacts', [auth()->id(), auth()->user()->slug]),
-                'icon' => 'contact',
-                'name' => 'Moje kontakty',
-            ],
+            ]
         ];
     }
 }

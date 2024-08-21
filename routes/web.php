@@ -1,6 +1,5 @@
 <?php
 
-
 Auth::routes();
 
 Route::get('/', 'Public\PostController@index')->name('posts.index');
@@ -46,6 +45,7 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         'organization.eventSubscribe'   => Organization\OrganizationEventSubscribeController::class,
         'profile'                       => Organization\ProfileController::class,
         'user.organization'             => Organization\UserOrganizationController::class,
+        'user.address'                  => User\UserAddressController::class,
         'post.think'                    => PostThingController::class,
     ]);
 });
@@ -74,10 +74,8 @@ Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name
 Route::get('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideosfromPlaylist')->name('seminars.uploadVideos');
 
 
-Route::get('/user/{user}/{slug}/import', 'AddresBookController@importContacts')->name('addresBook.importContacts');
-Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserSupportController@confirmEmail')->name('confirmEmail');
 
-Route::post('user/import/{user}', 'AddresBookController@storeUsersContact')->name('addresBook.storeUsersContact');
+Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserSupportController@confirmEmail')->name('confirmEmail');
 
 
 
