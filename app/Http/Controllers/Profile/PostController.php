@@ -50,6 +50,7 @@ class PostController extends Controller
 
     public function store(PostSaveRequest $request)
     {
+        $organization  = Organization::where('id', auth()->user()->org_id)->first();
         $this->postService->store($organization, $request);
 
         return redirect()->route('profile.post.index', [$organization->id]);

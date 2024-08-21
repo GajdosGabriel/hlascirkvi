@@ -30,8 +30,8 @@ class Post extends Model implements Viewable
     protected $guarded = [];
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
-    protected $with = ['favorites', 'images', 'organization'];
-    protected $appends = ['favoritesCount', 'isFavorited', 'thumbImage', 'hasUpdater'];
+    protected $with = ['favorites', 'images', 'organization',];
+    protected $appends = ['favoritesCount', 'isFavorited', 'thumbImage', 'hasUpdater', 'url'];
 
     protected $fillable = [
         'organization_id',

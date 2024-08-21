@@ -27,13 +27,13 @@
         <div class="flex justify-between">
 
             <h6 class="font-semibold" title="{{ $post->title }}">
-                <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
+                <a href="{{ $post->url['show'] }}">
                     {{ Str::limit($post->title, 48) }}
                 </a>
             </h6>
 
             <div class="text-gray-500" title="{{ $post->organization->title }}">
-                <a href="{{ route('profile.post.index', [$post->organization_id]) }}">
+                <a href="{{ route('profile.post.show', [$post->organization_id]) }}">
                     {{ $post->organization->title }}
                 </a>
             </div>
@@ -81,13 +81,13 @@
             <dropdown-slot>
 
                 <ul class="dropdown-menu z-50">
-                    <a href={{ route('profile.post.edit', $post->id) }}>
+                    <a href={{ $post->url['edit'] }}>
                         <li class="dropdown-item">upraviť</li>
                     </a>
 
                     <li class="dropdown-item">
                         <form
-                            action="{{ route('profile.post.destroy', $post->id) }}"
+                            action="{{ $post->url['destroy'] }}"
                             method="post">
                             @csrf @method('DELETE')
                             @if ($post->deleted_at)
@@ -100,7 +100,7 @@
 
                     <li class="dropdown-item whitespace-nowrap">
 
-                        <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
+                        <form action="{{ $post->url['update'] }}" method="post">
                             @csrf @method('PUT')
                             <button>Do buffer</button>
                         </form>

@@ -21,7 +21,9 @@
 
         <x-slot name="page">
 
-            <form method="POST" action="{{ route('profile.post.update', [$post->organization_id, $post->id]) }}"
+            {{ $post }}
+
+            <form method="POST" action="{{ route('profile.post.update', $post->id) }}"
                 enctype="multipart/form-data">
                 @csrf @method('PUT')
                 @include('posts.form')
