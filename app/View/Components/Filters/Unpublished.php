@@ -29,15 +29,15 @@ class Unpublished extends Component
     public function showComponent()
     {
         // Povolené route names.
-       $routeName = array(
+        $routeName = array(
             'admin.organization.index',
             'admin.event.index',
             'admin.post.index',
             'admin.comment.index',
             'profile.user.organization.index',
-            'profile.organization.post.index',
+            'profile.post.index',
             'profile.organization.event.index',
-       );
+        );
         return in_array(\Route::currentRouteName(), $routeName);
     }
 

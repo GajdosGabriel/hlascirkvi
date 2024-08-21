@@ -6,16 +6,13 @@ use Illuminate\View\Component;
 
 class Card extends Component
 {
-    
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        
-    }
+    public function __construct() {}
 
     /**
      * Get the view / contents that represent the component.
@@ -30,7 +27,7 @@ class Card extends Component
     public function showComponent()
     {
         // Povolené route names.
-       $routeName = array(
+        $routeName = array(
             'admin.user.index',
             'admin.post.index',
             'admin.organization.index',
@@ -39,10 +36,10 @@ class Card extends Component
             'admin.prayer.index',
             'profile.user.organization.index',
             'profile.organization.prayer.index',
-            'profile.organization.post.index',
+            'profile.post.index',
             'profile.organization.event.index',
             'profile.event.subscribe.index',
-       );
+        );
         return in_array(\Route::currentRouteName(), $routeName);
     }
 }

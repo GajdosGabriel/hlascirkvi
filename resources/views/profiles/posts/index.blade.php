@@ -11,7 +11,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <a href="{{ route('profile.organization.post.create', $organization->id) }}" class="btn btn-primary">Nový článok</a>
+            <a href="{{ route('profile.post.create') }}" class="btn btn-primary">Nový článok</a>
         </x-slot>
 
 

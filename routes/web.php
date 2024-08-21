@@ -39,7 +39,7 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         'event.subscribe'               => Events\EventSubscribeController::class,
         'event.favorite'                => Events\EventFavoriteController::class,
         'organization.seminar'          => Organization\OrganizationSeminarController::class,
-        'organization.post'             => Organization\OrganizationPostController::class,
+        'post'             => Profile\PostController::class,
         'organization.event'            => Organization\OrganizationEventController::class,
         'organization.prayer'           => Organization\OrganizationPrayerController::class,
         'organization.eventSubscribe'   => Organization\OrganizationEventSubscribeController::class,

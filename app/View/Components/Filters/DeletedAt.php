@@ -29,17 +29,17 @@ class DeletedAt extends Component
     public function showComponent()
     {
         // Povolené route names.
-       $routeName = array(
+        $routeName = array(
             'admin.prayer.index',
             'admin.comment.index',
             'admin.event.index',
             'admin.post.index',
             'admin.organization.index',
             'admin.user.index',
-            'profile.organization.post.index',
+            'profile.post.index',
             'profile.organization.event.index',
             'profile.event.subscribe.index',
-       );
+        );
         return in_array(\Route::currentRouteName(), $routeName);
     }
 

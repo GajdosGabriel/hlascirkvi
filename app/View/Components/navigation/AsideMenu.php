@@ -12,10 +12,7 @@ class AsideMenu extends Component
      *
      * @return void
      */
-    public function __construct()
-    {
-       
-    }
+    public function __construct() {}
 
     /**
      * Get the view / contents that represent the component.
@@ -34,7 +31,7 @@ class AsideMenu extends Component
         } elseif (typePage() == PageType::Admin->value and auth()->user()->hasRole('admin')) {
             return $this->adminMenu();
         } else {
-           return [];
+            return [];
         }
     }
 
@@ -52,7 +49,7 @@ class AsideMenu extends Component
                 'name' => 'Kanály',
             ],
             [
-                'url' => route('profile.organization.post.index', auth()->user()->org_id),
+                'url' => route('profile.post.index'),
                 'icon' => 'post',
                 'name' => 'Články',
             ],

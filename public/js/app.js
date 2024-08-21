@@ -4112,7 +4112,7 @@ __webpack_require__.r(__webpack_exports__);
       if (!window.confirm("Skutočne vymazať!")) {
         return;
       }
-      axios["delete"]("/organization/" + this.post.organization_id + "/post/" + this.post.id).then(window.location.href = "/organization/" + this.post.organization_id + "/post/");
+      axios["delete"]("/profile/post/" + this.post.id).then(window.location.href = "/post/index");
     },
     updatePost: function updatePost() {
       axios.put("/api/postSupport/" + this.post.id, {}).then(window.location.href = "/");
@@ -8311,13 +8311,7 @@ var render = function render() {
     }
   })]), _vm._v(" "), _vm.open ? _c("ul", {
     staticClass: "dropdown-menu z-50"
-  }, [_c("a", {
-    attrs: {
-      href: "/organization/" + _vm.post.organization_id + "/post/" + _vm.post.id + "/edit"
-    }
   }, [_c("li", {
-    staticClass: "dropdown-item"
-  }, [_vm._v("upraviť")])]), _vm._v(" "), _c("li", {
     staticClass: "dropdown-item",
     on: {
       click: _vm.deletePost

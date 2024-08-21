@@ -11,6 +11,6 @@ class PostSupportController extends Controller
     public function update(Post $postSupport, Request $request)
     {
         $postSupport->updaters()->detach();
-        return redirect()->route('profile.organization.post.index', $postSupport->organization_id)->with(session()->flash('flash', 'Video presunuté do Buffer!'));
+        return redirect()->route('profile.post.index', $postSupport->organization_id)->with(session()->flash('flash', 'Video presunuté do Buffer!'));
     }
 }

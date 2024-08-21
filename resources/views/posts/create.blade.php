@@ -20,8 +20,7 @@
 
 
         <x-slot name="page">
-            <form method="post" action="{{ route('profile.organization.post.store', $organization->id) }}"
-                enctype="multipart/form-data">
+            <form method="post" action="{{ route('profile.post.store') }}" enctype="multipart/form-data">
                 @csrf @method('POST')
                 @include('posts.form')
             </form>
