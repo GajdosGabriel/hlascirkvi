@@ -44,7 +44,7 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         'organization.prayer'           => Organization\OrganizationPrayerController::class,
         'organization.eventSubscribe'   => Organization\OrganizationEventSubscribeController::class,
         'profile'                       => Organization\ProfileController::class,
-        'user.organization'             => Organization\UserOrganizationController::class,
+        'user.organization'             => User\UserOrganizationController::class,
         'user.address'                  => User\UserAddressController::class,
         'post.think'                    => PostThingController::class,
     ]);
@@ -53,7 +53,7 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 'checkBanned'])->group(function () {
     Route::resources([
-        'home'                  => Admin\AdminController::class,
+        'home'                 => Admin\AdminController::class,
         'buffer'               => Admin\BufferController::class,
         'post'                 => Admin\PostController::class,
         'prayer'               => Admin\PrayerController::class,
