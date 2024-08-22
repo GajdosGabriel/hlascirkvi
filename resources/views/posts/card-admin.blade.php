@@ -33,7 +33,7 @@
             </h6>
 
             <div class="text-gray-500" title="{{ $post->organization->title }}">
-                <a href="{{ route('profile.post.show', [$post->organization_id]) }}">
+                <a href="{{  $post->url['show'] , $post->organization_id }}">
                     {{ $post->organization->title }}
                 </a>
             </div>
