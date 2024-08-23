@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Organization;
+namespace App\Http\Controllers\Profile;
 
 use App\Models\Event;
 use App\Services\Files\Form;
@@ -11,7 +11,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Controllers\Controller;
 use App\Services\EventImageGenerator;
 
-class OrganizationEventController extends Controller
+class EventController extends Controller
 {
     public function __construct()
     {
@@ -19,8 +19,9 @@ class OrganizationEventController extends Controller
         $this->authorizeResource(Organization::class, 'organization');
     }
 
-    public function index(Organization $organization, EventFilters $filters)
+    public function index(EventFilters $filters)
     {
+        $organization  = Organization::where('id', auth()->user()->org_id)->first();
         $events = $organization->events()->filter($filters)
             ->latest()->paginate(30);
         return view('profiles.events.index', compact('events', 'organization'));
@@ -31,8 +32,9 @@ class OrganizationEventController extends Controller
         return view('events.create', ['event' => new Event(), 'organization' => $organization]);
     }
 
-    public function show(Organization $organization, Event $event)
+    public function show(Event $event)
     {
+        $organization  = Organization::where('id', auth()->user()->org_id)->first();
         return view('profiles.events.show', compact('event', 'organization'));
     }
 

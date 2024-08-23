@@ -6,7 +6,7 @@
 <section class="mb-10 hover:bg-gray-50 p-2 border-2 rounded-md shadow-lg">
     <div class="md:grid grid-cols-8 gap-4 ">
         <section class="col-span-1 overflow-hidden">
-            <a href="{{ $event->routeShow() }}">
+            <a href="{{ $event->url['show'] }}">
                 @if ($event->imagethumb and is_file($event->imagethumb))
                     <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"
                         alt="{{ $event->title }}">
@@ -26,7 +26,7 @@
                 <div class="col-span-6">
                     <div class="post-header">
                         <div class="title flex justify-between">
-                            <h5 class="text-lg font-semibold"><a href="{{ $event->routeShow() }}">
+                            <h5 class="text-lg font-semibold"><a href="{{ $event->url['show'] }}">
                                     {{ $event->title }}
                                     @if ($event->online_link)
                                         - Online

@@ -4,7 +4,7 @@
         <ul class="border-2 border-gray-300 rounded-sm text-sm ">
 
             @forelse($events as $event)
-                <a href="{{ $event->routeShow() }}">
+                <a href="{{ $event->url['show'] }}">
                     <x-cards.carditem>
                         <div class="card-body grid grid-cols-6 gap-3">
                             <div class="col-span-2  overflow-hidden h-22">
@@ -56,7 +56,7 @@
                         </a>
                     </div>
                     <div class="flex items-center">
-                        <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('akcie.index') }}">
+                        <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ $event->url['index'] }}">
                             {{ trans('web.events_next') }}
                         </a>
                         <svg class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"

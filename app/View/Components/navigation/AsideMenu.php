@@ -54,7 +54,7 @@ class AsideMenu extends Component
                 'name' => 'Články',
             ],
             [
-                'url' => route('profile.organization.event.index', auth()->user()->org_id),
+                'url' => route('profile.event.index'),
                 'icon' => 'event',
                 'name' => 'Podujatia',
             ],

@@ -12,7 +12,7 @@
 
 
         <x-slot name="title_right">
-            <a href="{{ route('profile.organization.event.create', $organization->id) }}" class="btn btn-primary">Nové podujatie</a>
+            <a href="{{ route('profile.event.create', $organization->id) }}" class="btn btn-primary">Nové podujatie</a>
         </x-slot>
 
         <x-slot name="page">
