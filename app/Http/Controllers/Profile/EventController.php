@@ -27,8 +27,9 @@ class EventController extends Controller
         return view('profiles.events.index', compact('events', 'organization'));
     }
 
-    public function create(Organization $organization)
+    public function create()
     {
+        $organization  = Organization::where('id', auth()->user()->org_id)->first();
         return view('events.create', ['event' => new Event(), 'organization' => $organization]);
     }
 
@@ -38,14 +39,15 @@ class EventController extends Controller
         return view('profiles.events.show', compact('event', 'organization'));
     }
 
-    public function edit(Organization $organization, Event $event)
+    public function edit(Event $event)
     {
+        $organization  = Organization::where('id', auth()->user()->org_id)->first();
         return view('events.edit', compact('event', 'organization'));
     }
 
-    public function update(Organization $organization, StoreEventRequest $request, Event $event)
+    public function update(StoreEventRequest $request, Event $event)
     {
-
+        $organization  = Organization::where('id', auth()->user()->org_id)->first();
         $event->update($request->except(['pictures', 'file', 'vizitka']));
 
         (new Form($event, $request))->handler();
@@ -55,8 +57,9 @@ class EventController extends Controller
         return redirect()->route('profile.event.show', compact('event', 'organization'));
     }
 
-    public function store(Organization $organization, StoreEventRequest $request)
+    public function store(StoreEventRequest $request)
     {
+        $organization  = Organization::where('id', auth()->user()->org_id)->first();
         $event = $organization->events()->create($request->except(['pictures', 'file']));
         (new Form($event, $request))->handler();
         if ($event->published) {
@@ -68,8 +71,9 @@ class EventController extends Controller
         return redirect()->route('profile.event.index', [$organization->id, $event->id]);
     }
 
-    public function destroy(Organization $organization, $event)
+    public function destroy($event)
     {
+        $organization  = Organization::where('id', auth()->user()->org_id)->first();
         $post = Event::withTrashed()->find($event);
 
         if ($post->deleted_at) {

@@ -1,4 +1,4 @@
-<a target="_blank" href=" {{ route('profile.event.edit', [$item->organization_id, $item->id]) }}">
+<a target="_blank" href=" {{ $item->url['edit'] }}">
     <li class="dropdown-item">upraviť</li>
 </a>
 
@@ -7,7 +7,7 @@
 </a>
 
 <li class="dropdown-item">
-    <form action="{{ route('profile.event.destroy', [$item->organization_id, $item->id]) }}" method="POST">
+    <form action="{{ $item->url['destroy'] }}" method="POST">
         @csrf @method('DELETE')
         @if ($item->deleted_at)
             <button>odnoviť</button>
