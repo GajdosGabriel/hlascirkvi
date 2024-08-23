@@ -28,6 +28,12 @@ class PostController extends Controller
         return view('profiles.posts.index', compact('posts', 'organization'));
     }
 
+    public function show(Post $post)
+    {
+        $organization  = Organization::where('id', auth()->user()->org_id)->first();
+        return view('profiles.posts.show', compact('post', 'organization'));
+    }
+
     public function create()
     {
         $organization  = Organization::where('id', auth()->user()->org_id)->first();

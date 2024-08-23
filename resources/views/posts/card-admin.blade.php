@@ -14,8 +14,10 @@
         @endif
 
         <div style="height: 81px; overflow: hidden;">
-            <a href="{{ route('post.show', [$post->id, $post->slug]) }}">
+            <a href="{{ $post->url['show'] }}">
                 @include('posts.image')
+
+              
             </a>
         </div>
     </section>
