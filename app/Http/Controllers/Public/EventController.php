@@ -44,6 +44,6 @@ class EventController extends Controller
         //        $commentsLook = $event->comments()->where('type', 'look')->get();
         $commentsOffer = $event->comments()->where('type', 'offer')->get();
 
-        return view('events.show', compact('event', 'commentsOffer', 'commentsLook'));
+        return view('public.events.show', compact('event', 'commentsOffer', 'commentsLook'));
     }
 }

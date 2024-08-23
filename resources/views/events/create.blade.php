@@ -17,7 +17,7 @@
 
         <x-slot name="page">
             <div class="grid col-span-10 p-5">
-                <form method="post" action="{{ route('profile.organization.event.store', $organization->id) }}" class="flex"
+                <form method="post" action="{{ route('profile.event.store', $organization->id) }}" class="flex"
                     enctype="multipart/form-data"> @csrf
 
                     <div class="page-content">

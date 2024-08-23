@@ -38,12 +38,3 @@
 
 @endsection
 
-
-@section('script')
-    <script src="https://cdn.plyr.io/3.5.3/plyr.js"></script>
-    <script defer>
-        const player = new Plyr('#player');
-    </script>
-    <script async defer crossorigin="anonymous"
-        src="https://connect.facebook.net/sk_SK/sdk.js#xfbml=1&version=v5.0&appId=500741757380226"></script>
-@endsection

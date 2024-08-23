@@ -33,7 +33,7 @@ class Banned extends Component
             'admin.user.index',
             'profile.user.organization.index',
             'profile.post.index',
-            'profile.organization.event.index',
+            'profile.event.index',
         );
         return in_array(\Route::currentRouteName(), $routeName);
     }

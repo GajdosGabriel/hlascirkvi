@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Events\Thumbs;
+namespace App\View\Components\Events\Cards;
 
 use Illuminate\View\Component;
 
