@@ -20,9 +20,10 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 Route::get('zamyslenia/{slug?}', 'VerseController@index')->name('verses.index');
 
 // Front routes
-Route::middleware('checkBanned')->group(function () {
+Route::prefix('profiless')->name('public.')->middleware('checkBanned')->group(function () {
     Route::resources([
-        'akcie'                 => Public\EventController::class,
+        'event'                 => Public\EventController::class,
+        'post'                 => Public\PostController::class,
         'favorites'             => FavoriteController::class,
         'organizations'         => Public\OrganizationController::class,
         'seminars'              => Seminars\SeminarController::class,

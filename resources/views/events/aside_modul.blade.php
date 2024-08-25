@@ -51,7 +51,7 @@
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
 
-                        <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('akcie.create') }}">
+                        <a class="hover:bg-gray-300 p-1 px-2 rounded-md" href="{{ route('profile.event.create') }}">
                             Pridať akciu
                         </a>
                     </div>

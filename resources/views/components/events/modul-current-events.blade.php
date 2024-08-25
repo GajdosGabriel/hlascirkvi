@@ -5,7 +5,7 @@
         @forelse($events as $event)
             <div class="flex flex-col hover:bg-gray-100 p-2 relative">
                 <div class="inset-0 overflow-hidden max-h-16">
-                    <a href="{{ $event->routeShow() }}">
+                    <a href="{{ $event->url['show'] }}">
                         @if ($event->imagethumb and is_file($event->imagethumb))
                             <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"
                                 alt="{{ $event->title }}">
@@ -21,7 +21,7 @@
 
 
                 <div class="flex mb-2">
-                    <a class="hover:text-gray-900 font-semibold " href="{{ $event->routeShow() }}">
+                    <a class="hover:text-gray-900 font-semibold " href="{{ $event->url['show'] }}">
                         {{ Str::limit($event->title, 36, $end = ' ...') }}
                     </a>
                 </div>

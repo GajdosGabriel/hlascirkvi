@@ -1,4 +1,4 @@
-@if ($event->registration != 'no')
+@if ($post->registration != 'no')
     <ticket-form inline-template>
         @include('events._form_ticket')
     </ticket-form>
@@ -7,17 +7,17 @@
 
 <div class="">
     {{-- vizitka --}}
-    @if ($event->images()->whereType('card')->exists())
-        <img alt="" data-src="{{ url($event->images()->whereType('card')->first()->original_image_url) }}"
+    @if ($post->images()->whereType('card')->exists())
+        <img alt="" data-src="{{ url($post->images()->whereType('card')->first()->original_image_url) }}"
             class="lazyload rounded mb-6" data-sizes="auto">
     @endif
 
     {{-- Prihlasovanie pre prihláseného usera --}}
     <div class="hover:text-gray-900 pl-2 rounded-sm">
-        @if (auth()->check() and !$event->isSubscribed())
-            <form method="post" action="{{ route('profile.event.favorite.store', [$event->id]) }}" class=" mb-4">
+        @if (auth()->check() and !$post->isSubscribed())
+            <form method="post" action="{{ route('profile.event.favorite.store', [$post->id]) }}" class=" mb-4">
                 @csrf @method('POST')
-                @if ($event->isFavorited())
+                @if ($post->isFavorited())
                     <button type="submit" class="btn btn-succenss w-full">
                         <i title="Zrušiť prihlásenie" class="fas fa-check"></i>
                         <span class="font-semibold">Odoslaná žiadosť o
@@ -37,7 +37,7 @@
 
 
         @guest
-            <form method="post" action="{{ route('event.subscribeGuest.store', [$event->id]) }}"
+            <form method="post" action="{{ route('public.event.subscribeGuest.store', [$post->id]) }}"
                 class="border-2 rounded-md">
                 @csrf @method('POST')
 
@@ -75,8 +75,8 @@
 
 
 
-        @if ($event->isSubscribed())
-            <form method="post" action="{{ route('profile.event.subscribe.store', [$event->id]) }}">
+        @if ($post->isSubscribed())
+            <form method="post" action="{{ route('profile.event.subscribe.store', [$post->id]) }}">
                 @csrf @method('POST')
                 <button type="submit" class="btn btn-success w-full">
                     <i class="fas fa-check"></i>
@@ -88,18 +88,18 @@
     </div>
 
     {{-- Modul event panel info --}}
-    @can('update', $event)
-        @if (!$event->registration != 'no')
+    @can('update', $post)
+        @if (!$post->registration != 'no')
             <div class="flex justify-between border-gray-300 shadow-md border-2 p-2 rounded-md mt-6">
                 <div class="text-center ">
-                    <div>{{ $event->activeSubscribed() + $event->ticket_staff }}</div>
+                    <div>{{ $post->activeSubscribed() + $post->ticket_staff }}</div>
                     <div>prihlásených</div>
                 </div>
                 <div class="text-center ">
-                    @if ($event->ticket_available == 0)
+                    @if ($post->ticket_available == 0)
                         <span>&#8734;</span>
                     @else
-                        <div>{{ $event->ticket_available }}</div>
+                        <div>{{ $post->ticket_available }}</div>
                     @endif
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                         <path
@@ -107,7 +107,7 @@
                     </svg>
                 </div>
                 <div class="text-center ">
-                    <div>{{ now()->diffInDays($event->start_at->format('d-m-Y')) }}</div>
+                    <div>{{ now()->diffInDays($post->start_at->format('d-m-Y')) }}</div>
                     <div>dni do začiatku</div>
                 </div>
             </div>
@@ -117,20 +117,20 @@
                 <div>
                     <div class="text-right cursor-pointer " @click="toggle">Upraviť</div>
                     <form v-if="show" method="post"
-                        action="{{ route('event.eventInfoPanel', [$event->id, $event->slug]) }}" class="">
+                        action="{{ route('event.eventInfoPanel', [$post->id, $post->slug]) }}" class="">
                         @csrf {{ method_field('put') }}
 
                         <div class="form-group">
                             <label for="">Počet miest, kapacita miestnosti</label>
                             <input type="number" name="ticket_available"
-                                value="{{ old('ticket_available') ?? $event->ticket_available }}"
+                                value="{{ old('ticket_available') ?? $post->ticket_available }}"
                                 placeholder="Kapacita miestností" class="form-control input-sm">
                         </div>
 
                         <div class="form-group">
                             <label for="">Počet už obsadených miest, organizátori a pod.</label>
                             <input type="number" name="ticket_staff"
-                                value="{{ old('ticket_staff') ?? $event->ticket_staff }}"
+                                value="{{ old('ticket_staff') ?? $post->ticket_staff }}"
                                 placeholder="Počet už obsadených miest" class="form-control input-sm">
                         </div>
 
@@ -146,32 +146,32 @@
     @endcan
 
     {{-- aside info panel only if need it --}}
-    @if ($event->registration == 'yes' or $event->registration == 'recomended')
+    @if ($post->registration == 'yes' or $post->registration == 'recomended')
         <div class="border-gray-300 shadow-md border-2 rounded-md mt-6">
             <div class="card-header bg-gray-200 px-2">{{ trans('web.events_info_panel') }}</div>
             <div class="p-2">
 
                 <div class="flex justify-between">
                     <span>Pridal:</span>
-                    <span>{{ $event->organization->title }}</span>
+                    <span>{{ $post->organization->title }}</span>
                 </div>
 
                 {{-- <div class="level"> --}}
                 {{-- <span>Pridal:</span> --}}
-                {{-- <span><a href="#"> {{ $event->organization->title }}</a></span> --}}
+                {{-- <span><a href="#"> {{ $post->organization->title }}</a></span> --}}
                 {{-- </div> --}}
 
                 <div class="flex justify-between">
                     <span>Registrácia:</span>
-                    @if ($event->registration == 'yes')
+                    @if ($post->registration == 'yes')
                         <span>Áno</span>
                     @endif
 
-                    @if ($event->registration == 'no')
+                    @if ($post->registration == 'no')
                         <span>Nie</span>
                     @endif
 
-                    @if ($event->registration == 'recomended')
+                    @if ($post->registration == 'recomended')
                         <span>Doporučená</span>
                     @endif
                 </div>
@@ -179,21 +179,21 @@
 
                 <div class="flex justify-between">
                     <span>Vstupné:</span>
-                    @if ($event->entryFee == 'voluntarily')
+                    @if ($post->entryFee == 'voluntarily')
                         <span>Dobrovoľné</span>
                     @endif
-                    @if ($event->entryFee == 'no')
+                    @if ($post->entryFee == 'no')
                         <span>Nie</span>
                     @endif
-                    @if ($event->entryFee == 'yes')
+                    @if ($post->entryFee == 'yes')
                         <span>Áno</span>
                     @endif
                 </div>
 
-                @if (isset($event->user->phone))
+                @if (isset($post->user->phone))
                     <div class="flex justify-between">
                         <span>Tel.:</span>
-                        <span>{{ $event->user->phone }}</span>
+                        <span>{{ $post->user->phone }}</span>
                     </div>
                 @endif
             </div>
@@ -203,9 +203,9 @@
 
 
     {{-- <div style="margin-top: 3rem">
-        <event-comments-look :event="{{ $event }}" :commentsoffer="{{ $commentsLook }}">
+        <event-comments-look :event="{{ $post }}" :commentsoffer="{{ $commentsLook }}">
         </event-comments-look>
-        <event-comments-offer :event="{{ $event }}" :commentsoffer="{{ $commentsOffer }}">
+        <event-comments-offer :event="{{ $post }}" :commentsoffer="{{ $commentsOffer }}">
         </event-comments-offer>
     </div> --}}
 

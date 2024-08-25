@@ -2,7 +2,7 @@
     <h5 style="font-weight: bold">Okresy Slovenska</h5>
 
     <ul class="divide-y-2 divide-gray-200 divide-dashed">
-        <li><a href="{{ route('akcie.index') }}">
+        <li><a href="{{ route('public.event.index') }}">
                 @if (!request()->has('location'))
                     <i style="color: #3b32b3" class="fas fa-check"></i>
                 @endif Všetky regiony

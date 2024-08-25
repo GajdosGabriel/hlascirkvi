@@ -35,12 +35,12 @@
                 <ul class="my-2 flex space-x-4">
                     <radio-button></radio-button>
 
-                    <x-navigation.main-menu-item route="{{ route('modlitby.index') }}">
+                    <x-navigation.main-menu-item route="{{ route('public.modlitby.index') }}">
                         <i class="fas fa-praying-hands mr-2 text-gray-300"></i>
                         Modlitby
                     </x-navigation.main-menu-item>
 
-                    <x-navigation.main-menu-item route="{{ route('akcie.index') }}" class="flex items-center">
+                    <x-navigation.main-menu-item route="{{ route('public.event.index') }}" class="flex items-center">
 
                         <x-icons.event></x-icons.event>
 

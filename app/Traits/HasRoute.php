@@ -21,8 +21,6 @@ trait HasRoute
     // Genarali routes
     public function getUrlAttribute()
     {
-        if (typePage() == PageType::Public->value) return [];
-        
         return [
             'index'     => route(typePage() . '.' . $this->getClasses() . '.index'),
             'show'      => route(typePage() . '.' . $this->getClasses() . '.show', [$this->id, $this->slug]),

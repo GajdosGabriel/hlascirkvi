@@ -24,7 +24,7 @@
                                             <h4 class="font-semibold md:text-lg">{{ $post->title }}</h4>
                                             <div class="text-gray-400">
                                                 Pridal:
-                                                <a href="{{ route('organizations.show', [$post->organization->id]) }}">
+                                                <a href="{{ route('public.organizations.show', [$post->organization->id]) }}">
                                                     {{ $post->organization->title }}
                                                 </a> |
                                                 dňa: {{ date('d. M. Y', strtotime($post->created_at)) }}

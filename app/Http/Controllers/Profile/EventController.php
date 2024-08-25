@@ -36,7 +36,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
         $organization  = Organization::where('id', auth()->user()->org_id)->first();
-        return view('profiles.events.show', compact('event', 'organization'));
+        return view('profiles.events.show', ['post' => $event, 'organization' => $organization]);
     }
 
     public function edit(Event $event)

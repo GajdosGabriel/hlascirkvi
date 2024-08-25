@@ -36,7 +36,7 @@ class EventController extends Controller
         return back();
     }
 
-    public function show(Event $event, $slug)
+    public function show(Event $event)
     {
         event(new VisitModel($event));
 
@@ -44,6 +44,6 @@ class EventController extends Controller
         //        $commentsLook = $event->comments()->where('type', 'look')->get();
         $commentsOffer = $event->comments()->where('type', 'offer')->get();
 
-        return view('public.events.show', compact('event', 'commentsOffer', 'commentsLook'));
+        return view('public.events.show', ['post' => $event, 'commentsOffer', 'commentsLook']);
     }
 }

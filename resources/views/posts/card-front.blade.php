@@ -34,7 +34,7 @@
 
 
     <div class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm w-full">
-        <a href="{{ route('organizations.show', [$post->organization->id]) }}" class="hover:underline">
+        <a href="{{ route('public.organizations.show', [$post->organization->id]) }}" class="hover:underline">
             {{ $post->organization->title }}
         </a>
         <time datetime="{{ $post->created_at }}">{{ $post->dateForHumans }}</time>

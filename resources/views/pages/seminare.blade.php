@@ -25,7 +25,7 @@
 
         @foreach ($seminars as $seminar)
             <div class="grid col-span-12  mb-4">
-                <a href="{{ route('seminars.show', $seminar->id) }}">
+                <a href="{{ route('public.seminars.show', $seminar->id) }}">
                     <h4 class="text-2xl font-semibold">{{ $seminar->title }}</h4>
                 </a>
 
