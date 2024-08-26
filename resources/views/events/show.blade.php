@@ -8,7 +8,7 @@
 @section('othermeta')
     <title>{{ $event->title }}</title>
     <meta property="fb:app_id" content="241173683337522" />
-    <meta property="og:url" content="{{ $event->routeShow() }}" />
+    <meta property="og:url" content="{{ $event->url['show'] }}" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{{ $event->title }}" />
     <meta property="og:description" content="{!! \Illuminate\Support\Str::limit($event->body, 130) !!}" />

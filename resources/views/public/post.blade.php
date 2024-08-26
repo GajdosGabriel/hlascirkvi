@@ -12,7 +12,7 @@
 @section('othermeta')
     <title>{{ $post->title }}</title>
     <meta property="fb:app_id" content="241173683337522" />
-    <meta property="og:url" content="{{ $post->routeShow() }}" />
+    <meta property="og:url" content="{{ $post->url['show'] }}" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ $post->title }}" />
     <meta property="og:description" content="{!! \Illuminate\Support\Str::limit($post->body, 130) !!}" />

@@ -11,12 +11,6 @@ trait HasRoute
         return strtolower(class_basename(__CLASS__));
     }
 
-    // For the specific event and post
-    public function routeShow()
-    {
-        return route($this->getClasses() . '.show', [$this->id, $this->slug]);
-    }
-
 
     // Genarali routes
     public function getUrlAttribute()

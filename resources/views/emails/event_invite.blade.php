@@ -17,7 +17,7 @@
     border-color: rgb(23, 6, 117); margin-bottom: 10px;">
 
         <h2 style="padding-left:10px; padding-top:10px "> <span style="color:grey"> Online stretnutie:</span> 
-            <a style="text-decoration: none" href="{{ $event->routeShow() }}">
+            <a style="text-decoration: none" href="{{ $event->url['show'] }}">
             {{ $event->title }}
             </a>
         </h2>
@@ -29,7 +29,7 @@
 
 
             <div style="">
-                <a style="text-decoration: none" href="{{ $event->routeShow() }}">
+                <a style="text-decoration: none" href="{{ $event->url['show'] }}">
                     <h2 style="font-size: 130%" title="{{ $event->title }}">
                         {{ $event->title }}
                     </h2>
@@ -45,7 +45,7 @@
         </div>
 
         <h2 style="padding-left:10px; padding-top:10px "> <span style="color:grey">Viac informácií:</span> 
-            <a style="text-decoration: none" href="{{ $event->routeShow() }}">
+            <a style="text-decoration: none" href="{{ $event->url['show'] }}">
            Tu
             </a>
         </h2>

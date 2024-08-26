@@ -59,7 +59,7 @@
 
 
                 <div style="">
-                    <a style="text-decoration: none" href="{{ $event->routeShow() }}">
+                    <a style="text-decoration: none" href="{{ $event->url['show'] }}">
                         <h2 style="font-size: 100%" title="{{ $event->title }}">
                             {{ $event->title }}
                         </h2>

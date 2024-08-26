@@ -24,4 +24,12 @@ class PostController extends Controller
         
         return view('admins.posts.index', compact('posts'));
     }
+
+    public function show(Post $post)
+    {
+  
+    
+        
+        return view('admins.posts.show', compact('post'));
+    }
 }
