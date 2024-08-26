@@ -39,7 +39,7 @@ class AsideMenu extends Component
     {
         return [
             [
-                'url' => route('profile.profile.index'),
+                'url' => route('profile.home.index'),
                 'icon' => 'home',
                 'name' => 'Úvod',
             ],

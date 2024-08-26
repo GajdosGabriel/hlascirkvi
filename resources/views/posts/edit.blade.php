@@ -21,8 +21,6 @@
 
         <x-slot name="page">
 
-            {{ $post }}
-
             <form method="POST" action="{{ route('profile.post.update', $post->id) }}"
                 enctype="multipart/form-data">
                 @csrf @method('PUT')

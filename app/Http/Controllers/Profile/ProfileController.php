@@ -1,12 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Organization;
+namespace App\Http\Controllers\Profile;
 
-use App\Models\Post;
-use App\Models\Event;
-use App\Models\Seminar;
-use App\Models\Messenger;
-use App\Models\Organization;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
 use App\Http\Controllers\Controller;

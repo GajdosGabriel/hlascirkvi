@@ -7292,7 +7292,7 @@ var render = function render() {
     staticClass: "dropdown-item"
   }, [_vm._v("\n                Admin\n            ")])]) : _vm._e(), _vm._v(" "), _c("a", {
     attrs: {
-      href: "/profile"
+      href: "/profile/home"
     }
   }, [_c("li", {
     staticClass: "dropdown-item"

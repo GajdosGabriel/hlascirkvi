@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\PostRepository;
 
-class AdminController extends Controller
+class HomeController extends Controller
 {
     protected $posts;
     

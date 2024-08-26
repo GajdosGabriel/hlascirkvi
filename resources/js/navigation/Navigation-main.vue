@@ -32,7 +32,7 @@
                     Admin
                 </li>
             </a>
-            <a :href="'/profile'">
+            <a :href="'/profile/home'">
                 <li class="dropdown-item">
                     Profil
                 </li>
