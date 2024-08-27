@@ -17,12 +17,12 @@ class OrganizationSeminarController extends Controller
         $seminars = $organization->seminars()->withCount('posts')
             ->orderBy('created_at', 'desc')->get();
 
-        return view('profiles.seminars.index', ['seminars' => $seminars, 'organization' => $organization]);
+        return view('profile.seminars.index', ['seminars' => $seminars, 'organization' => $organization]);
     }
 
     public function show(Organization $organization, Seminar $seminar)
     {
-        return view('profiles.seminars.show', compact('organization', 'seminar'));
+        return view('profile.seminars.show', compact('organization', 'seminar'));
     }
 
 

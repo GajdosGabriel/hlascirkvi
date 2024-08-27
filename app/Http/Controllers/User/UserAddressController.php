@@ -11,7 +11,7 @@ class UserAddressController extends Controller
     public function index(User $user)
     {
         $users = $user->addresBooks()->latest()->paginate(50);
-        return view('profiles.import_contacts', ['user' => $user, 'users' => $users]);
+        return view('profile.import_contacts', ['user' => $user, 'users' => $users]);
     }
 
 

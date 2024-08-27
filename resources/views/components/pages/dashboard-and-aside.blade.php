@@ -13,7 +13,7 @@
     <div class="col-span-6">
 
         <div class="flex justify-between mb-6 mt-6">
-            <h1 class="text-2xl font-semibold">{{ $title }}</h1>
+            <h1 class="text-2xl font-semibold">{{ $title ?? null }}</h1>
 
             <div class="flex">
                 {{ $title_right ?? null }}

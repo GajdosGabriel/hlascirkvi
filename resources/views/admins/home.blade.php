@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <x-pages.dashboard-and-right>
+    <x-pages.dashboard-and-aside>
 
         <x-slot name="title">
             Admin panel
@@ -45,5 +45,5 @@
 
             </div>
         </x-slot>
-    </x-pages.dashboard-and-right>
+    </x-pages.dashboard-and-aside>
 @endsection

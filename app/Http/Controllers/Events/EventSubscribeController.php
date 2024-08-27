@@ -28,7 +28,7 @@ class EventSubscribeController extends Controller
 
         $subscribes = $event->subscribes()->filter($filters)->paginate();
 
-        return view('profiles.events.subscribes.index', [ 'subscribes'=> $subscribes, 'event'=> $event]);
+        return view('profile.events.subscribes.index', [ 'subscribes'=> $subscribes, 'event'=> $event]);
     }
 
     public function update(Event $event, EventSubscribe $subscribe, Request $request)

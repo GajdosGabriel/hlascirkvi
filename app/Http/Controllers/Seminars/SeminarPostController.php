@@ -10,6 +10,6 @@ class SeminarPostController extends Controller
 {
     public function show(Seminar $seminar)
     {
-        return view('profiles.seminars.show', ['seminar' => $seminar]);
+        return view('profile.seminars.show', ['seminar' => $seminar]);
     }
 }

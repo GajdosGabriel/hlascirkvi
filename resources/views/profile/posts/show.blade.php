@@ -9,11 +9,7 @@
 @endsection
 
 @section('content')
-    <x-pages.dashboard-and-right>
-
-        <x-slot name="title">
-            Článok
-        </x-slot>
+    <x-pages.dashboard-and-aside>
 
         <x-slot name="title_right">
             <a href="{{ route('profile.post.create') }}" class="btn btn-primary">Nový článok</a>
@@ -26,7 +22,13 @@
 
         </x-slot>
 
-    </x-pages.dashboard-and-right>
+        <x-slot name="pageRight">
+
+
+
+        </x-slot>
+
+    </x-pages.dashboard-and-aside>
 @endsection
 
 

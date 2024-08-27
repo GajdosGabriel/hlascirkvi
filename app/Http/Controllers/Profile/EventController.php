@@ -24,7 +24,7 @@ class EventController extends Controller
         $organization  = Organization::where('id', auth()->user()->org_id)->first();
         $events = $organization->events()->filter($filters)
             ->latest()->paginate(30);
-        return view('profiles.events.index', compact('events', 'organization'));
+        return view('profile.events.index', compact('events', 'organization'));
     }
 
     public function create()
@@ -36,7 +36,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
         $organization  = Organization::where('id', auth()->user()->org_id)->first();
-        return view('profiles.events.show', ['post' => $event, 'organization' => $organization]);
+        return view('profile.events.show', ['post' => $event, 'organization' => $organization]);
     }
 
     public function edit(Event $event)

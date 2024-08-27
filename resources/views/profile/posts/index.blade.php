@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <x-pages.dashboard-and-right>
+    <x-pages.dashboard-and-aside>
 
         <x-slot name="title">
             Články
@@ -48,5 +48,5 @@
 
         </x-slot>
 
-    </x-pages.dashboard-and-right>
+    </x-pages.dashboard-and-aside>
 @endsection

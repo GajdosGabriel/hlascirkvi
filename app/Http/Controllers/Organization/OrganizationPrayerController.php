@@ -20,7 +20,7 @@ class OrganizationPrayerController extends Controller
     {
         $prayers = $organization->prayers()
             ->latest()->paginate(30);
-        return view('profiles.prayers.index', compact('prayers', 'organization'));
+        return view('profile.prayers.index', compact('prayers', 'organization'));
     }
 
     public function create(Organization $organization)

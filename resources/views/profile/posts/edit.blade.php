@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <x-pages.dashboard-and-right>
+    <x-pages.dashboard-and-aside>
 
         @include('layouts.errors')
 
@@ -21,8 +21,7 @@
 
         <x-slot name="page">
 
-            <form method="POST" action="{{ route('profile.post.update', $post->id) }}"
-                enctype="multipart/form-data">
+            <form method="POST" action="{{ route('profile.post.update', $post->id) }}" enctype="multipart/form-data">
                 @csrf @method('PUT')
                 @include('posts.form')
             </form>
@@ -30,5 +29,5 @@
             @include('posts.editor')
 
         </x-slot>
-        </x-pages.dashboard-and-right >
-    @endsection
+    </x-pages.dashboard-and-aside>
+@endsection

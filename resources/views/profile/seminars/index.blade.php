@@ -23,7 +23,7 @@
 
         <x-slot name="page">
 
-            @include('profiles.seminars._list')
+            @include('profile.seminars._list')
 
         </x-slot>
         </x-pages.admin>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-pages.dashboard-and-right>
+    <x-pages.dashboard-and-aside>
 
         <x-slot name="title">
             Profil home
@@ -38,5 +38,5 @@
             </div>
         </x-slot>
 
-    </x-pages.dashboard-and-right>
+    </x-pages.dashboard-and-aside>
 @endsection
