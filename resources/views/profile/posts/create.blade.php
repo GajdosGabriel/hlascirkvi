@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.dashboard-and-aside>
 
 
         @include('layouts.errors')
@@ -27,5 +27,5 @@
 
             @include('posts.editor')
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard-and-aside>
     @endsection

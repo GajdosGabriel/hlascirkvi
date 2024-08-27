@@ -36,8 +36,7 @@ class PostController extends Controller
 
     public function create()
     {
-        $organization  = Organization::where('id', auth()->user()->org_id)->first();
-        return view('posts.create', ['post' => new Post, 'organization' => $organization]);
+        return view('profile.posts.create', ['post' => new Post]);
     }
 
     public function edit(Post $post)
