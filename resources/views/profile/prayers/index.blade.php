@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.dashboard-and-aside>
 
         <x-slot name="title">
             Modlitby
@@ -37,5 +37,5 @@
                 @endforeach
             </ul>
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard-and-aside>
     @endsection

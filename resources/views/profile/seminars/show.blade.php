@@ -6,7 +6,7 @@
 
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.dashboard-and-aside>
         <x-slot name="title">
 
             <div>
@@ -40,5 +40,5 @@
             </div>
 
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard-and-aside>
     @endsection

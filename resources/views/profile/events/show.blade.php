@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <x-pages.dashboard-and-aside>
+    <x-pages.dashboard>
 
         <x-slot name="title">
             {{ $title ?? 'Pozvánky na podujatia' }}
@@ -27,5 +27,5 @@
                 </div>
             </div>
         </x-slot>
-    </x-pages.dashboard-and-aside>
+    </x-pages.dashboard>
 @endsection

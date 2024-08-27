@@ -18,7 +18,7 @@
 
 
         <x-slot name="page">
-            <form method="post" action="{{ route('profile.event.update', [$organization->id, $event->id]) }}"
+            <form method="post" action="{{ route('profile.event.update', $event->id) }}"
                 class="md:flex" enctype="multipart/form-data">
                 {{ method_field('PATCH') }} @csrf
 

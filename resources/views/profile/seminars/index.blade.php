@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.dashboard-and-aside>
 
         <x-slot name="title">
 
@@ -26,5 +26,5 @@
             @include('profile.seminars._list')
 
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard-and-aside>
     @endsection

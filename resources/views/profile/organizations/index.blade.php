@@ -5,19 +5,19 @@
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.dashboard-and-aside>
         <x-slot name="title">
             Vaše kanály
         </x-slot>
 
         <x-slot name="title_right">
-            {{-- // --}}
+
+            <new-organization></new-organization>
+
         </x-slot>
 
         <x-slot name="page">
-            <div class="md:w-1/2">
-                <new-organization></new-organization>
-            </div>
+
 
             @include('organizations._organization-table')
 
@@ -26,5 +26,5 @@
             </div>
 
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard-and-aside>
     @endsection

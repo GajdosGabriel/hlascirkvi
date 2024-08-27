@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.dashboard-and-aside>
 
         <x-slot name="title">
             Kanál {{ $organization->title }}
@@ -35,5 +35,5 @@
 
             </div>
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard-and-aside>
     @endsection

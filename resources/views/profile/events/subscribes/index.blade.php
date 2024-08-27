@@ -6,7 +6,7 @@
 @section('content')
     {{-- @section('title', $title) --}}
 
-    <x-pages.dashboard>
+    <x-pages.dashboard-and-aside>
 
         <x-slot name="title">
 
@@ -109,5 +109,5 @@
 
             </table>
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard-and-aside>
     @endsection

@@ -49,7 +49,6 @@ class PostController extends Controller
 
     public function update(Post $post,  PostSaveRequest $request)
     {
-        dd($request->all());
         $this->postService->update($post, $request);
 
         return redirect()->route('profile.post.show', [$post->id, $post->slug]);
