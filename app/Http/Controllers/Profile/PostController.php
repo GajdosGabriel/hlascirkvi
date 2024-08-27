@@ -25,13 +25,13 @@ class PostController extends Controller
 
         $posts = $organization->posts()->filter($filters)->latest()->paginate(30);
 
-        return view('profiles.posts.index', compact('posts', 'organization'));
+        return view('profile.posts.index', compact('posts', 'organization'));
     }
 
     public function show(Post $post)
     {
         $organization  = Organization::where('id', auth()->user()->org_id)->first();
-        return view('profiles.posts.show', compact('post', 'organization'));
+        return view('profile.posts.show', compact('post', 'organization'));
     }
 
     public function create()
@@ -44,14 +44,15 @@ class PostController extends Controller
     {
         $organization  = Organization::where('id', auth()->user()->org_id)->first();
         $this->authorize('update', $post);
-        return view('posts.edit', compact('post', 'organization'));
+        return view('profile.posts.edit', compact('post', 'organization'));
     }
 
     public function update(Post $post,  PostSaveRequest $request)
     {
+        dd($request->all());
         $this->postService->update($post, $request);
 
-        return redirect()->route('post.show', [$post->id, $post->slug]);
+        return redirect()->route('profile.post.show', [$post->id, $post->slug]);
     }
 
     public function store(PostSaveRequest $request)
@@ -59,7 +60,7 @@ class PostController extends Controller
         $organization  = Organization::where('id', auth()->user()->org_id)->first();
         $this->postService->store($organization, $request);
 
-        return redirect()->route('profile.post.index', [$organization->id]);
+        return redirect()->route('profile.post.index', $organization->id);
     }
 
     // Zmazať alebo obnoviť Post

@@ -49,6 +49,6 @@ class PostController extends Controller
 
         $posts = $this->post->postsBelongToOrganization($post->organization_id);
 
-        return view('public.post', ['post' => $post, 'posts'=> $posts]);
+        return view('public.post.show', ['post' => $post, 'posts'=> $posts]);
     }
 }

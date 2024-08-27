@@ -10,7 +10,7 @@
         
     </div>
 
-    <div class="col-span-6">
+    <div class="col-span-8">
 
         <div class="flex justify-between mb-6 mt-6">
             <h1 class="text-2xl font-semibold">{{ $title }}</h1>
@@ -27,11 +27,4 @@
 
     </div>
 
-    <div class="grid col-span-2">
-        <div class="flex flex-col">
-
-            {{ $pageRight ?? null }}
-
-        </div>
-    </div>
 </div>
