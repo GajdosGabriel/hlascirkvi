@@ -1,5 +1,7 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Priame prenosy nedeľných služieb božích a omší.' }}</title> @endsection
+@section('title')
+    <title>{{ 'Priame prenosy nedeľných služieb božích a omší.' }}</title>
+@endsection
 @section('content')
     <div class="page">
 
@@ -24,7 +26,8 @@
                                             <h4 class="font-semibold md:text-lg">{{ $post->title }}</h4>
                                             <div class="text-gray-400">
                                                 Pridal:
-                                                <a href="{{ route('public.organizations.show', [$post->organization->id]) }}">
+                                                <a
+                                                    href="{{ route('public.organizations.show', [$post->organization->id]) }}">
                                                     {{ $post->organization->title }}
                                                 </a> |
                                                 dňa: {{ date('d. M. Y', strtotime($post->created_at)) }}
@@ -32,7 +35,7 @@
                                         </div>
 
                                         @can('update', $post)
-                                            <article-dropdown :post="{{ $post }}" />
+                                            @include('posts.drop-down')
                                         @endcan
 
 
@@ -54,34 +57,35 @@
                                                 </a>
 
                                             </div>
-                                        @break($loop->iteration == 5)
-                @endforeach
-            </div>
+                                            @break($loop->iteration == 5)
+                                        @endforeach
+                                    </div>
 
-            @if ($post->organization->person == 0)
-                <div class="flex flex-col justify-between">
-                    <div>
-                        <span class="font-semibold">Plánované akcie</span>
-                        <ul>
-                            @forelse($post->organization->events as $event)
-                                <li>{{ $event->title }}</li>
-                            @empty
-                                <span class=" px-3" style="font-size: 85%">Spoločenstvo neplánuje žiadne
-                                    akcie.</span>
-                            @endforelse
-                        </ul>
+                                    @if ($post->organization->person == 0)
+                                        <div class="flex flex-col justify-between">
+                                            <div>
+                                                <span class="font-semibold">Plánované akcie</span>
+                                                <ul>
+                                                    @forelse($post->organization->events as $event)
+                                                        <li>{{ $event->title }}</li>
+                                                    @empty
+                                                        <span class=" px-3" style="font-size: 85%">Spoločenstvo neplánuje
+                                                            žiadne
+                                                            akcie.</span>
+                                                    @endforelse
+                                                </ul>
+                                            </div>
+
+                                            {{-- <a href="#">Chcem spoznať spoločenstvo</a> --}}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    {{-- <a href="#">Chcem spoznať spoločenstvo</a> --}}
-                </div>
-            @endif
-    </div>
-    </div>
-    </div>
-    </div>
-    @break
+                @break
+            @endforeach
+        </div>
     @endforeach
-    </div>
-    @endforeach
-    </div>
+</div>
 @endsection

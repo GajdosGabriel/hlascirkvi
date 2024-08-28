@@ -17,8 +17,8 @@ trait HasRoute
     {
         return [
             'index'     => route(typePage() . '.' . $this->getClasses() . '.index'),
-            'show'      => route(typePage() . '.' . $this->getClasses() . '.show', [$this->id, $this->slug]),
-            'edit'      => route(typePage() . '.' . $this->getClasses() . '.edit', [$this->id]),
+            'show'      => route(typePage() . '.' . $this->getClasses() . '.show', $this->id),
+            'edit'      => route(typePage() . '.' . $this->getClasses() . '.edit', $this->id),
             'update'    => route(typePage() . '.' . $this->getClasses() . '.update', $this->id),
             'store'     => route(typePage() . '.' . $this->getClasses() . '.store'),
             'destroy'   => route(typePage() . '.' . $this->getClasses() . '.destroy', $this->id),

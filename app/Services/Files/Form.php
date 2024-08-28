@@ -32,7 +32,7 @@ class Form
 
             (new FileYoutube($this->model, $image))->getVideoPicture();
 
-            $this->model->update(['video_id' => $image]);
+            $this->model->update(['video_id' => $this->request->video_id]);
         } 
     }
 
