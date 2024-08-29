@@ -38,7 +38,7 @@ class EventController extends Controller
 
     public function show(Event $event, $slug)
     {
-        event(new VisitModel($event));
+        // event(new VisitModel($event));
 
         $commentsLook = $event->comments()->where('type', 'look')->get();
         //        $commentsLook = $event->comments()->where('type', 'look')->get();
