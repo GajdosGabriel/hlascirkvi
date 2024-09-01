@@ -34,6 +34,8 @@ class ViewCounterListener
      */
     public function handle(VisitModel $event)
     {
+        if(! $event->id) return;
+        
         $counter = new Counter($event->model); 
         $counter->handle();
 

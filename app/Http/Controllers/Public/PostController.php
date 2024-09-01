@@ -45,7 +45,7 @@ class PostController extends Controller
 
         $creditUser->setPostHistory($post);
 
-        // event(new VisitModel($post));
+        event(new VisitModel($post));
 
         $posts = $this->post->postsBelongToOrganization($post->organization_id);
 
