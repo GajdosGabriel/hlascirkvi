@@ -24,7 +24,9 @@ class AsideMenu extends Component
      */
     public function render()
     {
-        return view('components.navigation.aside-menu');
+        return view('components.navigation.aside-menu', [
+            'menu' => $this->activeMenu()
+        ]);
     }
 
     public function activeMenu()
