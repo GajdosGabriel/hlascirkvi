@@ -27,7 +27,7 @@ class Post extends Model implements Viewable
 {
     use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute, HasFilter, HasDatetime;
 
-    protected $guarded = [];
+    protected $guarded = ['title' => \App\Casts\StringLength255::class];
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['favorites', 'images', 'organization'];
@@ -100,13 +100,13 @@ class Post extends Model implements Viewable
         return $this->user->fullname;
     }
 
-   
+
     public function getHasUpdaterAttribute()
     {
         return $this->updaters()->exists();
     }
 
-    
+
 
     public function getEventsBelongsToOrganizationAttribute()
     {
@@ -117,6 +117,4 @@ class Post extends Model implements Viewable
     {
         return $this->wherePublished(null);
     }
-
-
 }

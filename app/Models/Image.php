@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Image extends Model
 {
-    protected $guarded = [];
+    protected $guarded = ['name' => \App\Casts\StringLength255::class];
 
     public function fileable()
     {
@@ -17,7 +17,7 @@ class Image extends Model
 
     public function getThumbImageUrlAttribute()
     {
-        if(App::environment('local')) {
+        if (App::environment('local')) {
             return "https://hlascirkvi.sk/storage/{$this->thumb}";
         };
 
@@ -28,5 +28,4 @@ class Image extends Model
     {
         return "storage/{$this->url}";
     }
-
 }

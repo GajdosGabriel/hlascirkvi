@@ -10,15 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Seminar extends Model
 {
     use  SoftDeletes, HasFactory, HasOrganization;
-    protected $guarded = [];
+    protected $guarded = ['title' => \App\Casts\StringLength255::class];
     // public $timestamps = false;
 
     protected $with = ['organization'];
 
 
-    public function posts() {
+    public function posts()
+    {
         return $this->belongsToMany(Post::class);
     }
-
-
 }

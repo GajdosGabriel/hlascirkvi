@@ -18,7 +18,7 @@ class Prayer extends Model
 {
     use Notifiable, HasFactory, SoftDeletes, HasFavorites , HasComments, HasOrganization, HasFilter, HasDatetime;
 
-    protected $guarded = ['id'];
+    protected $guarded = ['id', 'title' => \App\Casts\StringLength255::class];
     protected $appends = ['favoritesCount', 'isFavorited'];
     protected $with = ['favorites'];
 
