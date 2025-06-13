@@ -27,7 +27,8 @@ class Post extends Model implements Viewable
 {
     use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute, HasFilter, HasDatetime;
 
-    protected $guarded = ['title' => \App\Casts\StringLength255::class];
+    protected $guarded = ['id'];
+
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['favorites', 'images', 'organization'];
@@ -49,6 +50,7 @@ class Post extends Model implements Viewable
 
     protected $casts = [
         'video_duration' => VideoDuration::class,
+        'title' => \App\Casts\StringLength255::class
         // 'created_at' => DateTimeHuman::class
     ];
 

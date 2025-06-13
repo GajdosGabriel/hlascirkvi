@@ -15,15 +15,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Casts\Urlwww;
 
 class Organization extends Model
 {
     use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages, HasFilter, HasComments, HasDatetime;
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
+    protected $casts = [
+        'title' => \App\Casts\StringLength255::class,
+        'url_www' => \App\Casts\Urlwww::class
+    ];
 
     protected $appends = ['favoritesCount', 'isFavorited', 'initialName'];
 
+    // protected $with = ['events'];
 
 
     public function posts()

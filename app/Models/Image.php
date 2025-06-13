@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Image extends Model
 {
-    protected $guarded = ['name' => \App\Casts\StringLength255::class];
+    protected $casts = ['name' => \App\Casts\StringLength255::class];
+    protected $guarded = ['id'];
 
     public function fileable()
     {

@@ -22,7 +22,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Event extends Model implements Viewable
 {
     use SoftDeletes, InteractsWithViews, HasFactory, HasFavorites, HasComments, HasImages, HasOrganization, HasRoute, HasFilter, HasDatetime;
-    protected $guarded = ['title' => \App\Casts\StringLength255::class];
+    protected $guarded = ['id'];
+    protected $casts = ['title' => \App\Casts\StringLength255::class];
     protected $appends = [];
 
 
