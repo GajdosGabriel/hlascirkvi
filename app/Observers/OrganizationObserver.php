@@ -14,7 +14,9 @@ class OrganizationObserver
      */
     public function created(Organization $organization)
     {
-        //
+        if (auth()->check()) {
+            $organization->updaters()->sync([1]); // nastaví iba používateľa s ID 5
+        }
     }
 
     /**
