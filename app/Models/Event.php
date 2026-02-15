@@ -107,7 +107,7 @@ class Event extends Model implements Viewable
     public function getImagethumbAttribute()
     {
         if ($image = $this->images()->whereType('img')->first()) {
-            return "storage/{$image->thumb}";
+            return "https://hlascirkvi.sk/storage/{$image->thumb}";
         }
         return $this->imagecard;
     }
@@ -126,7 +126,7 @@ class Event extends Model implements Viewable
     }
 
 
-   
+
 
 
     // public function url()
@@ -137,7 +137,7 @@ class Event extends Model implements Viewable
     //     }
     //     if (auth()->user()->can('create', $this)) {
     //         array_push($url, [ 'create'     =>  route('admin.event.create')]);
-    //     } 
+    //     }
     //     if (auth()->user()->can('update', $this)) {
     //         array_push($url, [ 'edit'     =>  route('admin.event.update', $this->id)]);
     //     }

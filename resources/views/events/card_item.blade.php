@@ -7,11 +7,8 @@
     <div class="md:grid grid-cols-8 gap-4 ">
         <section class="col-span-1 overflow-hidden">
             <a href="{{ $event->routeShow() }}">
-                @if ($event->imagethumb and is_file($event->imagethumb))
+                @if ($event->imagethumb)
                     <img data-src="{{ url($event->imagethumb) }}" class="lazyload rounded w-full" data-sizes="auto"
-                        alt="{{ $event->title }}">
-                @elseif($event->imagecard and is_file($event->imagecard))
-                    <img data-src="{{ url($event->imagecard) }}" class="lazyload rounded w-full" data-sizes="auto"
                         alt="{{ $event->title }}">
                 @else
                     <img data-src="{{ asset('images/foto.jpg') }}" class="lazyload rounded w-full" data-sizes="auto"
