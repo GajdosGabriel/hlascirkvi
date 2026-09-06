@@ -73,7 +73,13 @@
 
 <section>
 
-    {!! $event->body !!}
+    @if ($event->body_ai)
+        {!! $event->body_ai !!}
+    @else
+        {!! $event->body !!}
+        -------
+        {!! $event->body_ai !!}
+    @endif
 
     <p class="mb-6">Akciu zverejnil: {{ $event->organization->title }}</p>
 
