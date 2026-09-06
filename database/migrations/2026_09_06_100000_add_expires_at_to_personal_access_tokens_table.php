@@ -6,13 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * Sanctum 4 expects an "expires_at" column on the personal access tokens
- * table. The table itself was created before Sanctum stopped shipping its
- * own migrations, so we only add the missing column here.
+ * table, which Sanctum 3 did not have.
+ *
+ * Sanctum 4 also stopped shipping its own migrations, so the table is the
+ * application's responsibility now. It is created here when it is missing
+ * (some environments never got it) and otherwise only gains the new column.
  */
 return new class extends Migration
 {
     public function up(): void
     {
+        if (! Schema::hasTable('personal_access_tokens')) {
+            Schema::create('personal_access_tokens', function (Blueprint $table) {
+                $table->id();
+                $table->morphs('tokenable');
+                $table->text('name');
+                $table->string('token', 64)->unique();
+                $table->text('abilities')->nullable();
+                $table->timestamp('last_used_at')->nullable();
+                $table->timestamp('expires_at')->nullable()->index();
+                $table->timestamps();
+            });
+
+            return;
+        }
+
         if (Schema::hasColumn('personal_access_tokens', 'expires_at')) {
             return;
         }
@@ -24,6 +42,10 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (! Schema::hasTable('personal_access_tokens')) {
+            return;
+        }
+
         if (! Schema::hasColumn('personal_access_tokens', 'expires_at')) {
             return;
         }
