@@ -109,16 +109,17 @@ return [
     | reading from the cache, which hardens the application against
     | deserialization gadget chains should the APP_KEY ever leak.
     |
-    | "null" keeps the pre-Laravel 13 behaviour (any class may be
-    | unserialized). Set this to "false" to forbid objects entirely, or list
-    | the specific classes the application legitimately caches, e.g.:
+    | Nothing in this application caches PHP objects — spatie/laravel-permission
+    | caches a plain array and eloquent-viewable caches integers — so objects
+    | are forbidden outright.
+    |
+    | If something ever does need to be cached as an object, replace "false"
+    | with an explicit allow-list rather than removing the restriction:
     |
     |     'serializable_classes' => [App\Data\SomeCachedObject::class],
     |
-    | Verify nothing in the app caches PHP objects before tightening this.
-    |
     */
 
-    'serializable_classes' => null,
+    'serializable_classes' => false,
 
 ];

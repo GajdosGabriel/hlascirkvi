@@ -29,7 +29,9 @@ class SetCache
         if( session()->has('lastVisit')) {
             $this->repository->countUnwatchedSundayServicesVideos();
         } else {
-          session()->put('lastVisit', Carbon::now());
+          // Uložené ako reťazec, nie ako Carbon objekt - session sa serializuje
+          // do JSON a ten by objekt späť nezložil.
+          session()->put('lastVisit', Carbon::now()->toDateTimeString());
         }
 
         if( isset(auth()->user()->set_denomination )) {

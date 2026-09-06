@@ -124,13 +124,14 @@ return [
     | prevents deserialization gadget chain attacks. New Laravel 13 apps
     | default to "json".
     |
-    | This app stays on "php" so that the sessions that were active during the
-    | upgrade survive it. Switch to "json" once you are willing to log every
-    | user out — and only if nothing stores PHP objects in the session.
+    | The application stores only scalars and arrays in the session, so "json"
+    | is safe here. Note that deploying this change invalidates every active
+    | session, i.e. all users are logged out once. Set SESSION_SERIALIZATION=php
+    | to postpone that.
     |
     */
 
-    'serialization' => env('SESSION_SERIALIZATION', 'php'),
+    'serialization' => env('SESSION_SERIALIZATION', 'json'),
 
     /*
     |--------------------------------------------------------------------------

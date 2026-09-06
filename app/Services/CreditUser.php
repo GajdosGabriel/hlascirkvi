@@ -67,7 +67,14 @@ class CreditUser
     // Set postHistory from postController show
     public function setPostHistory($post)
     {
-       session()->push('postsHistory',  $post );
+        // Do session ide len to, čo história potrebuje vykresliť. Celý model by
+        // sa pri JSON serializácii session nevrátil späť ako objekt a zbytočne
+        // by session nafukoval.
+        session()->push('postsHistory', [
+            'id'    => $post->id,
+            'slug'  => $post->slug,
+            'title' => $post->title,
+        ]);
     }
 
 }
