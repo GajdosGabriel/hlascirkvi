@@ -7,7 +7,8 @@ namespace App\Services\Files;
 
 use App\Services\Files\File;
 use App\Services\Files\FileYoutube;
-use Image;
+use Illuminate\Support\Facades\Http;
+use Intervention\Image\Laravel\Facades\Image;
 
 
 
@@ -28,7 +29,11 @@ class Form
     {
         if ($this->request->pictures) $this->uploadImages();
         if ($this->request->video_id) {
-            $image = Image::make('https://img.youtube.com/vi/' . $this->request->video_id . '/mqdefault.jpg');
+            // Intervention Image 4 no longer reads remote URLs itself, so fetch the
+            // bytes first and decode them from binary.
+            $image = Image::decodeBinary(
+                Http::get('https://img.youtube.com/vi/' . $this->request->video_id . '/mqdefault.jpg')->throw()->body()
+            );
 
             (new FileYoutube($this->model, $image))->getVideoPicture();
 

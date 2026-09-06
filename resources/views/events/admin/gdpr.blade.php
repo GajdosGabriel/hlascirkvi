@@ -9,7 +9,10 @@
 
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">--}}
 
-    <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
+    {{-- Dompdf beží s enable_remote => false, takže tento štýl na PDF reálne
+         nemá vplyv; ponechaný len aby šablóna ostala konzistentná so zvyškom
+         webu, ak sa remote niekedy zapne. --}}
+    @vite('resources/css/app.css')
 
     <!-- Fonts -->
     {{--<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">--}}

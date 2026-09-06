@@ -4,9 +4,11 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import './bootstrap';
 
 import Vue from 'vue';
+
+import Auth from './Auth';
 
 //Autorizovanie pre canUpdate
 Vue.prototype.authorize = function(handler) {
@@ -18,60 +20,87 @@ Vue.prototype.authorize = function(handler) {
 ////////////  ACL   /////////////////
 // console.log(window.App.user);
 
-import Auth from './Auth'
 Vue.prototype.$auth = new Auth(window.App.user);
 ///////////////////////////////
 
 /**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ * Global components. Vite resolves these at build time, so they are listed as
+ * static imports rather than the require() calls Laravel Mix used.
  */
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+import MessengerModul from './messenger/Messenger-modul.vue';
+import FavoritePost from './posts/Favorite-post.vue';
+import Notification from './components/Notification.vue';
+import RadioButton from './navigation/RadioButton.vue';
+import VideoItem from './components/Video-Item.vue';
+import UserCard from './users/User-card.vue';
+import OrganizationCard from './organizations/Organization-card.vue';
+import OrganizationPageHeader from './organizations/Organization-page-header.vue';
+import LoginCard from './auth/LoginCard.vue';
+import YoutubeDash from './youtube/YoutubeDash.vue';
+import SwithFilter from './posts/Swith-filter.vue';
+import Comments from './comments/Comments.vue';
+import CommentItem from './comments/Comment-Item.vue';
+import EventCommentLook from './events/Event-comment-look.vue';
+import EventCommentOffer from './events/Event-comment-offer.vue';
+import NewOrganization from './organizations/NewOrganization.vue';
+import Ticket from './events/Ticket.vue';
+import EventInfoPanel from './events/EventInfoPanel.vue';
+import GetOrganization from './organizations/GetOrganization.vue';
+import NewsRss from './components/News-rss_0.vue';
+import FormOrg from './events/Form-org_0.vue';
+import BigThing from './bigThink/big-thing_0.vue';
+import PrayersCard from './prayer/prayers-card.vue';
+import PrayersIndexPage from './prayer/prayers-index-page.vue';
+import PrayersIndexPage2 from './prayer/prayers-index-page2.vue';
+import PostPublishButtons from './posts/card/buttons.vue';
+import EventPictureViewer from './events/Event-picture-viewer.vue';
+import NavigationMain from './navigation/Navigation-main.vue';
+import ArticleDropdown from './posts/Article-dropdown.vue';
+import CArticleDropdown from './components/c-article-dropdown.vue';
+import SeminarTitle from './seminars/seminar-title.vue';
+import SeminarInfo from './seminars/seminar-info.vue';
+import SeminarDescription from './seminars/seminar-description.vue';
+import CommentsCard from './comments/comments-card.vue';
+import UserCommentsCard from './comments/user-comments-card.vue';
+import DropdownSlot from './components/DropdownSlot.vue';
 
-//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-
-Vue.component('messenger-modul', require('./messenger/Messenger-modul.vue').default);
-Vue.component('favorite-post', require('./posts/Favorite-post.vue').default);
-Vue.component('notification', require('./components/Notification.vue').default);
-Vue.component('radio-button', require('./navigation/RadioButton.vue').default);
-Vue.component('video-item', require('./components/Video-Item.vue').default);
-Vue.component('user-card', require('./users/User-card.vue').default);
-Vue.component('organization-card', require('./organizations/Organization-card.vue').default);
-Vue.component('organization-page-header', require('./organizations/Organization-page-header.vue').default);
-Vue.component('login-card', require('./auth/LoginCard.vue').default);
-Vue.component('youtube-dash', require('./youtube/YoutubeDash.vue').default);
-Vue.component('swith-filter', require('./posts/Swith-filter.vue').default);
-Vue.component('comments-post', require('./comments/Comments.vue').default);
-Vue.component('comment-item', require('./comments/Comment-Item.vue').default);
-Vue.component('event-comments-look', require('./events/Event-comment-look.vue').default);
-Vue.component('event-comments-offer', require('./events/Event-comment-offer.vue').default);
-Vue.component('new-organization', require('./organizations/NewOrganization.vue').default);
-Vue.component('ticket-form', require('./events/Ticket.vue').default);
-Vue.component('event-info-panel', require('./events/EventInfoPanel.vue').default);
-Vue.component('get-organization', require('./organizations/GetOrganization.vue').default);
-Vue.component('news-rss', require('./components/News-rss_0.vue').default);
-Vue.component('form-organization', require('./events/Form-org_0.vue').default);
-Vue.component('big-thing', require('./bigThink/big-thing_0.vue').default);
-Vue.component('prayers-card', require('./prayer/prayers-card.vue').default);
-Vue.component('prayers-index-page', require('./prayer/prayers-index-page.vue').default);
-Vue.component('prayers-index-page2', require('./prayer/prayers-index-page2.vue').default);
-Vue.component('post-publish-buttons', require('./posts/card/buttons.vue').default);
-Vue.component('event-picture-viewer', require('./events/Event-picture-viewer.vue').default);
-Vue.component('navigation-main', require('./navigation/Navigation-main.vue').default);
-Vue.component('article-dropdown', require('./posts/Article-dropdown.vue').default);
-Vue.component('c-article-dropdown', require('./components/c-article-dropdown.vue').default);
-Vue.component('seminar-title', require('./seminars/seminar-title.vue').default);
-Vue.component('seminar-info', require('./seminars/seminar-info.vue').default);
-Vue.component('seminar-description', require('./seminars/seminar-description.vue').default);
-Vue.component('comments-card', require('./comments/comments-card.vue').default);
-Vue.component('user-comments-card', require('./comments/user-comments-card.vue').default);
-Vue.component('dropdown-slot', require('./components/DropdownSlot.vue').default);
+Vue.component('messenger-modul', MessengerModul);
+Vue.component('favorite-post', FavoritePost);
+Vue.component('notification', Notification);
+Vue.component('radio-button', RadioButton);
+Vue.component('video-item', VideoItem);
+Vue.component('user-card', UserCard);
+Vue.component('organization-card', OrganizationCard);
+Vue.component('organization-page-header', OrganizationPageHeader);
+Vue.component('login-card', LoginCard);
+Vue.component('youtube-dash', YoutubeDash);
+Vue.component('swith-filter', SwithFilter);
+Vue.component('comments-post', Comments);
+Vue.component('comment-item', CommentItem);
+Vue.component('event-comments-look', EventCommentLook);
+Vue.component('event-comments-offer', EventCommentOffer);
+Vue.component('new-organization', NewOrganization);
+Vue.component('ticket-form', Ticket);
+Vue.component('event-info-panel', EventInfoPanel);
+Vue.component('get-organization', GetOrganization);
+Vue.component('news-rss', NewsRss);
+Vue.component('form-organization', FormOrg);
+Vue.component('big-thing', BigThing);
+Vue.component('prayers-card', PrayersCard);
+Vue.component('prayers-index-page', PrayersIndexPage);
+Vue.component('prayers-index-page2', PrayersIndexPage2);
+Vue.component('post-publish-buttons', PostPublishButtons);
+Vue.component('event-picture-viewer', EventPictureViewer);
+Vue.component('navigation-main', NavigationMain);
+Vue.component('article-dropdown', ArticleDropdown);
+Vue.component('c-article-dropdown', CArticleDropdown);
+Vue.component('seminar-title', SeminarTitle);
+Vue.component('seminar-info', SeminarInfo);
+Vue.component('seminar-description', SeminarDescription);
+Vue.component('comments-card', CommentsCard);
+Vue.component('user-comments-card', UserCommentsCard);
+Vue.component('dropdown-slot', DropdownSlot);
 
 
 // Vue.component('post-counter', require('./posts/Video-counter.vue').default);

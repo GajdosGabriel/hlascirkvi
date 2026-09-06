@@ -1,8 +1,8 @@
+import axios from 'axios';
 
-let axios = require('axios');
-let BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
+const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
 
-module.exports = function (options, callback) {
+export default function (options, callback) {
     if (!options.apiKey) {
         throw new Error('Youtube search would require a key');
     }

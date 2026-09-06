@@ -1,6 +1,44 @@
 <?php
-
+use OpenAI\Laravel\Facades\OpenAI;
 Auth::routes();
+
+Route::get('/openAi', function() {
+    //  $models = OpenAI::models()->list();
+    //     dd($models);
+
+    $response = OpenAI::chat()->create([
+        'model' => 'gpt-4.1-mini',
+        'messages' => [
+            ['role' => 'user', 'content' => 'Napíš krátky pozdrav']
+        ],
+
+      'response_format' => [
+        'type' => 'json_schema',
+        'json_schema' => [
+            'name' => 'event_extraction',
+            'schema' => [
+                'type' => 'object',
+                'properties' => [
+                    'start_date' => [
+                        'type' => 'string',
+                        'description' => 'Dátum začiatku akcie vo formáte YYYY-MM-DD'
+                    ],
+                    'organizer' => [
+                        'type' => 'string'
+                    ],
+                    'meeting_place' => [
+                        'type' => 'string'
+                    ],
+                ],
+                'required' => ['start_date', 'organizer', 'meeting_place'],
+                'additionalProperties' => false
+            ]
+        ]
+    ],
+]);
+
+    dd($response->choices[0]->message->content);
+});
 
 Route::get('/', 'Public\PostController@index')->name('posts.index');
 
@@ -45,9 +83,12 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         'organization.eventSubscribe'   => Organization\OrganizationEventSubscribeController::class,
         'profile'                       => Organization\ProfileController::class,
         'user.organization'             => User\UserOrganizationController::class,
-        'user.address'                  => User\UserAddressController::class,
         'post.think'                    => PostThingController::class,
     ]);
+
+    // UserAddressController only imports contacts, it has no create/show/edit/
+    // update/destroy actions - registering them would just 500.
+    Route::resource('user.address', User\UserAddressController::class)->only(['index', 'store']);
 });
 
 
@@ -70,7 +111,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     ]);
 });
 
-Route::get('prayer/fulfilled_at/{prayer}', 'PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
+Route::get('prayer/fulfilled_at/{prayer}', 'Public\PrayerController@fulfilledAt')->name('prayer.fulfilledAt');
 Route::get('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideosfromPlaylist')->name('seminars.uploadVideos');
 
 
@@ -100,7 +141,7 @@ Route::middleware('auth')->group(function () {
 // Event
 Route::prefix('akcie/')->name('event.')->group(function () {
     Route::get('{event}/{title}', 'Public\EventController@show')->name('show');
-    Route::post('{event}/form/subscribe', 'EventSubscribeController@subscribeByForm')->name('subscribeByForm');
+    Route::post('{event}/form/subscribe', 'Events\EventSubscribeController@subscribeByForm')->name('subscribeByForm');
 
     Route::middleware('auth')->group(function () {
         Route::get('{event}/{user}/{slug}/print', 'Events\EventController@printGdpr')->name('gdpr');

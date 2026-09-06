@@ -25,8 +25,8 @@
 
     {{-- https://github.com/aFarkas/lazysizes--}}
     <script src="{{ asset('js/lazysizes.min.js') }}" async=""></script>
-    <!-- Styles -->
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <!-- Styles / Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('headerCSS')
 
 
@@ -66,7 +66,6 @@
         @include('layouts.footer')
     </div>
 
-    <script src="{{ mix('js/app.js') }}"></script>
     @yield('script')
 </body>
 </html>

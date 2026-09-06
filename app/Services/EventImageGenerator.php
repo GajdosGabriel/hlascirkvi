@@ -4,7 +4,8 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Image;
+use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\Typography\FontFactory;
 
 class EventImageGenerator
 {
@@ -56,16 +57,15 @@ class EventImageGenerator
         $image = $this->saveCard($url);
 
         // create Image from file
-        $img = Image::make(storage_path( 'app/public/' . $image->url) );
+        $img = Image::decodePath(storage_path( 'app/public/' . $image->url) );
 
 
         // Title od poster
-        $img->text( Str::limit($this->model->title, 31) , 600, 80, function($font) {
-            $font->file(public_path('font/Oswald-Light.ttf'));
+        $img->text( Str::limit($this->model->title, 31) , 600, 80, function(FontFactory $font) {
+            $font->filename(public_path('font/Oswald-Light.ttf'));
             $font->size(100);
             $font->color('#fdf6e3');
-            $font->align('center');
-            $font->valign('top');
+            $font->align('center', 'top');
         });
 
 
@@ -74,41 +74,38 @@ class EventImageGenerator
 
         $adresse = $this->model->street . $comma . $this->model->village->fullname ;
 
-        $img->text( Str::limit( $adresse, 63) , 600, 280, function($font) {
-            $font->file(public_path('font/Oswald-Light.ttf'));
+        $img->text( Str::limit( $adresse, 63) , 600, 280, function(FontFactory $font) {
+            $font->filename(public_path('font/Oswald-Light.ttf'));
             $font->size(50);
             $font->color('#fdf6e3');
-            $font->align('center');
-            $font->valign('top');
+            $font->align('center', 'top');
         });
 
 
         // Date action
         $adresse = localized_date('l', $this->model->start_at). ', '.$this->model->start_at->format('d-m-Y');
 
-        $img->text( Str::limit( $adresse, 63) , 600, 410, function($font) {
-            $font->file(public_path('font/Oswald-Light.ttf'));
+        $img->text( Str::limit( $adresse, 63) , 600, 410, function(FontFactory $font) {
+            $font->filename(public_path('font/Oswald-Light.ttf'));
             $font->size(65);
             $font->color('#fdf6e3');
-            $font->align('center');
-            $font->valign('top');
+            $font->align('center', 'top');
         });
 
 
         // use callback to define details
-        $img->text('Pozýva: '. $this->model->organization->title , 600, 550, function($font) {
-            $font->file(public_path('font/Oswald-Light.ttf'));
+        $img->text('Pozýva: '. $this->model->organization->title , 600, 550, function(FontFactory $font) {
+            $font->filename(public_path('font/Oswald-Light.ttf'));
             $font->size(50);
             $font->color('#fdf6e3');
-            $font->align('center');
-            $font->valign('top');
+            $font->align('center', 'top');
         });
 
-        $img->widen(1000)->save( storage_path( 'app/public/' . $image->url) );
+        $img->scale(width: 1000)->save( storage_path( 'app/public/' . $image->url) );
 
         Storage::disk('public')->makeDirectory($this->imgFolder . '/thumb');
 
-        $img->widen(280)->save(storage_path( 'app/public/'. $this->imgFolder . '/thumb/'. basename($image->url) ));
+        $img->scale(width: 280)->save(storage_path( 'app/public/'. $this->imgFolder . '/thumb/'. basename($image->url) ));
     }
 
 

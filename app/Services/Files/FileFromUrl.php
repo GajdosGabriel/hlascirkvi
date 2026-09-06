@@ -3,7 +3,8 @@
 namespace App\Services\Files;
 
 
-use Image;
+use Illuminate\Support\Facades\Http;
+use Intervention\Image\Laravel\Facades\Image;
 use App\Services\Files\FileName;
 use App\Services\Files\FileExtention;
 
@@ -32,7 +33,9 @@ class FileFromUrl
 
         $this->createDirectory();
 
-        $img = Image::make($this->url);
+        // Intervention Image 4 no longer reads remote URLs itself, so fetch the
+        // bytes first and decode them from binary.
+        $img = Image::decodeBinary(Http::get($this->url)->throw()->body());
 
         $img->save($url = storage_path('app/public/' . $this->folderPath() . '/' . $file_name, $img));
         $img->save($url = storage_path('app/public/' . $this->folderPath() . '/thumb/' . $file_name, $img));

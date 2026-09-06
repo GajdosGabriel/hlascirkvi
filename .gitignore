@@ -1,8 +1,7 @@
 /node_modules
 /public/hot
+/public/build
 /public/storage
-/public/css/app.css
-/public/js/app.js
 /storage/*.key
 /vendor
 .env

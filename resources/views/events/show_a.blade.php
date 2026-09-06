@@ -30,7 +30,8 @@
 
 
             <time>
-                @if ($event->start_at->diffInDays($event->end_at))
+                {{-- Carbon 3 vracia z diffIn* desatinné číslo so znamienkom, preto abs() + (int) --}}
+                @if ((int) abs($event->start_at->diffInDays($event->end_at)))
                     Od: {{ $event->start_at->format('d. m. Y') }}, {{ $event->start_at->format('H.i') }} hod.
                     do: {{ $event->end_at->format('d. m. Y') }}, {{ $event->end_at->format('H.i') }} hod.
                 @else
@@ -73,7 +74,13 @@
 
 <section>
 
-    {!! $event->body !!}
+    @if ($event->body_ai)
+        {!! $event->body_ai !!}
+    @else
+        {!! $event->body !!}
+        -------
+        {!! $event->body_ai !!}
+    @endif
 
     <p class="mb-6">Akciu zverejnil: {{ $event->organization->title }}</p>
 
