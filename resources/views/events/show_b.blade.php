@@ -107,7 +107,8 @@
                     </svg>
                 </div>
                 <div class="text-center ">
-                    <div>{{ now()->diffInDays($event->start_at->format('d-m-Y')) }}</div>
+                    {{-- Carbon 3 vracia z diffIn* desatinné číslo so znamienkom, preto abs() + (int) --}}
+                    <div>{{ (int) abs(now()->diffInDays($event->start_at)) }}</div>
                     <div>dni do začiatku</div>
                 </div>
             </div>

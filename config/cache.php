@@ -100,4 +100,25 @@ return [
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Serializable Classes
+    |--------------------------------------------------------------------------
+    |
+    | Laravel 13 can restrict which PHP classes may be unserialized when
+    | reading from the cache, which hardens the application against
+    | deserialization gadget chains should the APP_KEY ever leak.
+    |
+    | "null" keeps the pre-Laravel 13 behaviour (any class may be
+    | unserialized). Set this to "false" to forbid objects entirely, or list
+    | the specific classes the application legitimately caches, e.g.:
+    |
+    |     'serializable_classes' => [App\Data\SomeCachedObject::class],
+    |
+    | Verify nothing in the app caches PHP objects before tightening this.
+    |
+    */
+
+    'serializable_classes' => null,
+
 ];

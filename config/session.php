@@ -117,6 +117,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Session Serialization
+    |--------------------------------------------------------------------------
+    |
+    | Laravel 13 can serialize session payloads as JSON instead of PHP, which
+    | prevents deserialization gadget chain attacks. New Laravel 13 apps
+    | default to "json".
+    |
+    | This app stays on "php" so that the sessions that were active during the
+    | upgrade survive it. Switch to "json" once you are willing to log every
+    | user out — and only if nothing stores PHP objects in the session.
+    |
+    */
+
+    'serialization' => env('SESSION_SERIALIZATION', 'php'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Session Cookie Name
     |--------------------------------------------------------------------------
     |

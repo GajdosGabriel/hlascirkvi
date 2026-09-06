@@ -8,7 +8,7 @@
 
 namespace App\Services;
 
-use Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ImageResize
 {
@@ -23,12 +23,12 @@ class ImageResize
 
         $file_name = $post->slug . '-' . rand(1000, 90000) . '.jpg';
 
-        $img = Image::make($videoPath);
+        $img = Image::decodePath($videoPath);
 
-        $img->widen(360)
+        $img->scale(width: 360)
             ->save(storage_path('app/public/' . $this->folder($post)  . $file_name));
 
-        $img->widen(195)
+        $img->scale(width: 195)
             ->save(storage_path('app/public/' . $this->folder($post) .'thumb/'  . $file_name));
 
         $post->images()->create([

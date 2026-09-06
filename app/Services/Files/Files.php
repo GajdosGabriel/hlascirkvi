@@ -3,7 +3,7 @@
 namespace App\Services\Files;
 
 use Illuminate\Support\Facades\Storage;
-use Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 
 class Files
@@ -63,12 +63,12 @@ class Files
 
         $this->image->update(['type' => 'img']);
 
-        $img = Image::make(Storage::disk('public')->get($this->image->url));
-        $img->widen($big)->save(storage_path('app/public/' . $this->image->url));
+        $img = Image::decodeBinary(Storage::disk('public')->get($this->image->url));
+        $img->scale(width: $big)->save(storage_path('app/public/' . $this->image->url));
 
 
         Storage::disk('public')->makeDirectory($this->folderPath() . '/thumb');
-        $img->widen($thumb)->save(storage_path('app/public/' . $this->folderPath() . '/thumb/' . basename($this->image->url)));
+        $img->scale(width: $thumb)->save(storage_path('app/public/' . $this->folderPath() . '/thumb/' . basename($this->image->url)));
     }
 
     protected function createDirectory()

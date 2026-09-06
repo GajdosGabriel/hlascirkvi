@@ -2,7 +2,7 @@
 
 namespace App\Services\Files;
 use Illuminate\Support\Facades\Storage;
-use Image;
+use Intervention\Image\Laravel\Facades\Image;
 use App\Enums\ImageSize;
 
 
@@ -12,12 +12,12 @@ trait FileResize
     protected function resizeImage()
     {
 
-        $img = Image::make(Storage::disk('public')->get($this->savedImage->url));
-        $img->widen(ImageSize::Large->value)->save(storage_path('app/public/' . $this->savedImage->url));
+        $img = Image::decodeBinary(Storage::disk('public')->get($this->savedImage->url));
+        $img->scale(width: ImageSize::Large->value)->save(storage_path('app/public/' . $this->savedImage->url));
 
 
         Storage::disk('public')->makeDirectory($this->folderPath() . '/thumb');
-        $img->widen(ImageSize::Small->value)->save(storage_path('app/public/' . $this->folderPath() . '/thumb/' . basename($this->savedImage->url)));
+        $img->scale(width: ImageSize::Small->value)->save(storage_path('app/public/' . $this->folderPath() . '/thumb/' . basename($this->savedImage->url)));
     }
 
     protected function folderPath()
