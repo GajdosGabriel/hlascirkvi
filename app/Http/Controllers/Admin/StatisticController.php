@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use DB;
 use Carbon\Carbon;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\PostRepository;
-use CyrildeWit\EloquentViewable\Support\Period;
 use App\Repositories\Eloquent\Criteria\LatestFirst;
 use App\Repositories\Eloquent\EloquentPostRepository;
 
@@ -22,17 +22,20 @@ class StatisticController extends Controller
 
     public function index(Request $request)
     {
-        $days = $request->lastDays ? $request->lastDays : 1;
+        // Strop je tu preto, že rozsah ide priamo do dopytu — a zároveň
+        // tabuľka `views` siaha len 90 dní dozadu (app:views-prune).
+        $days = min(max((int) $request->lastDays, 1), 90);
 
+        // `unique_view` je počet návštevníkov za obdobie — v tabuľke `views` je
+        // od každého najviac jeden riadok na deň. `count_view` vedľa neho je
+        // trvalý súčet zo samotného príspevku.
         $posts = DB::table('views')
-//           ->take(1000)
-              // This month
-//            ->whereMonth('viewed_at', date('m'))
-            ->whereRaw('DATE(viewed_at) > CURDATE() - INTERVAL ' .  $days .' DAY')
+            ->where('views.viewable_type', Post::class)
+            ->where('views.viewed_on', '>=', Carbon::today()->subDays($days)->toDateString())
             ->join('posts', 'posts.id', '=', 'views.viewable_id')
             ->join('organizations', 'organizations.id', '=', 'posts.organization_id')
-            ->select('viewable_id', DB::raw('count(*) as unique_view , posts.title as title, posts.id as id,  posts.slug as slug, organizations.title as organization , posts.count_view as count_view'))
-            ->groupBy('viewable_id', 'title', 'id', 'count_view')
+            ->select('views.viewable_id', DB::raw('count(*) as unique_view'), 'posts.title as title', 'posts.id as id', 'posts.slug as slug', 'organizations.title as organization', 'posts.count_view as count_view')
+            ->groupBy('views.viewable_id', 'posts.title', 'posts.id', 'posts.slug', 'organizations.title', 'posts.count_view')
             ->orderBy('unique_view', 'desc')
             ->get();
 

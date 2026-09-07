@@ -12,7 +12,6 @@ use App\Models\Post;
 use Carbon\Carbon;
 use App\Repositories\AbstractRepository;
 use App\Repositories\Contracts\PostRepository;
-use CyrildeWit\EloquentViewable\Support\Period;
 
 class EloquentPostRepository extends AbstractRepository implements PostRepository
 {
@@ -262,8 +261,8 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
 
     /**
      * Najsledovanejšie v kanáli. Radí sa podľa stĺpca count_view, nie cez
-     * eloquent-viewable — ten skladá počty zo samostatnej tabuľky návštev
-     * a pre bočný panel by to bol dopyt nad státisícami riadkov navyše.
+     * tabuľku `views` — tá drží len posledných 90 dní a pre bočný panel by to
+     * bol dopyt nad státisícami riadkov navyše.
      */
     public function mostViewedInOrganization($organizationId, $exceptId = null, $limit = 5)
     {
@@ -389,6 +388,6 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     public function newlleterMostVisited()
     {
         return $this->entity->where('created_at', '>', Carbon::now()->subDays(30))
-        ->orderByViews('desc', Period::pastDays(30));
+        ->orderByViewsInPeriod(30);
     }
 }

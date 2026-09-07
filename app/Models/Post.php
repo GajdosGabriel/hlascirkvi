@@ -14,17 +14,16 @@ use App\Traits\HasFavorites;
 use App\Traits\HasFilter;
 use App\Traits\HasOrganization;
 use App\Traits\HasDatetime;
+use App\Traits\HasViews;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use CyrildeWit\EloquentViewable\Contracts\Viewable;
-use CyrildeWit\EloquentViewable\InteractsWithViews;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Post extends Model implements Viewable
+class Post extends Model
 {
-    use HasFactory, Notifiable, SoftDeletes, InteractsWithViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute, HasFilter, HasDatetime;
+    use HasFactory, Notifiable, SoftDeletes, HasViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute, HasFilter, HasDatetime;
 
     protected $guarded = ['id'];
 

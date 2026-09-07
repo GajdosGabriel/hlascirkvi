@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dbe882c22472fe0e8b711c6fd8da5e85",
+    "content-hash": "ae066c025d713e3ef50b8f54e7e63c5f",
     "packages": [
         {
             "name": "alaouy/youtube",
@@ -271,90 +271,6 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
-        },
-        {
-            "name": "cyrildewit/eloquent-viewable",
-            "version": "v7.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cyrildewit/eloquent-viewable.git",
-                "reference": "ae5a9355c500d85a30efdf3112584348f21899cb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cyrildewit/eloquent-viewable/zipball/ae5a9355c500d85a30efdf3112584348f21899cb",
-                "reference": "ae5a9355c500d85a30efdf3112584348f21899cb",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/cache": "^6.0|^7.0|^8.74|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "illuminate/contracts": "^6.0|^7.0|^8.74|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "illuminate/cookie": "^6.0|^7.0|^8.74|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "illuminate/database": "^6.0|^7.0|^8.74|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "illuminate/http": "^6.0|^7.0|^8.74|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "illuminate/support": "^6.0|^7.0|^8.74|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "jaybizzle/crawler-detect": "^1.0",
-                "nesbot/carbon": "^2.0|^3.0",
-                "php": "^7.4|^8.0"
-            },
-            "require-dev": {
-                "illuminate/config": "^6.0|^7.0|^8.74|^9.0|^10.0|^11.0|^12.0|^13.0",
-                "laravel/legacy-factories": "^1.1|^1.3",
-                "mockery/mockery": "^1.2.4",
-                "orchestra/testbench": "^4.9.1|^5.9.1|^6.6.1|^7.0.0|^8.0.0|^9.0.0|^10.0.0",
-                "phpunit/phpunit": "^9.6.0|^10.0|^11.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "CyrildeWit\\EloquentViewable\\EloquentViewableServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/helpers.php"
-                ],
-                "psr-4": {
-                    "CyrildeWit\\EloquentViewable\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Cyril de Wit",
-                    "email": "info@cyrildewit.nl",
-                    "homepage": "http://cyrildewit.nl",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Laravel package that allows you to associate views with Eloquent models",
-            "homepage": "https://github.com/cyrildewit/eloquent-viewable",
-            "keywords": [
-                "counter",
-                "eloquent",
-                "hits",
-                "laravel",
-                "viewable",
-                "views",
-                "visitable",
-                "visits"
-            ],
-            "support": {
-                "issues": "https://github.com/cyrildewit/eloquent-viewable/issues",
-                "source": "https://github.com/cyrildewit/eloquent-viewable/tree/v7.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/cyrildewit",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-07-19T09:54:58+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -1727,58 +1643,6 @@
                 }
             ],
             "time": "2026-07-22T15:00:50+00:00"
-        },
-        {
-            "name": "jaybizzle/crawler-detect",
-            "version": "v1.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "770e00e5bcd35054871a6f790f380123cc3b8b0c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/770e00e5bcd35054871a6f790f380123cc3b8b0c",
-                "reference": "770e00e5bcd35054871a6f790f380123cc3b8b0c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.5.52|^9.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Jaybizzle\\CrawlerDetect\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mark Beech",
-                    "email": "m@rkbee.ch",
-                    "role": "Developer"
-                }
-            ],
-            "description": "CrawlerDetect is a PHP class for detecting bots/crawlers/spiders via the user agent",
-            "homepage": "https://github.com/JayBizzle/Crawler-Detect/",
-            "keywords": [
-                "crawler",
-                "crawler detect",
-                "crawler detector",
-                "crawlerdetect",
-                "php crawler detect"
-            ],
-            "support": {
-                "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
-                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.4.1"
-            },
-            "time": "2026-07-10T14:15:38+00:00"
         },
         {
             "name": "laravel/framework",
