@@ -1,6 +1,6 @@
 <?php
 use OpenAI\Laravel\Facades\OpenAI;
-Auth::routes();
+
 
 Route::get('/openAi', function() {
     //  $models = OpenAI::models()->list();
@@ -156,4 +156,4 @@ Route::middleware('auth')->group(function () {
 Route::post('store/message', 'MessengerController@toAdmin')->name('messengers.store');
 
 
-Auth::routes();
+
