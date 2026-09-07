@@ -34,7 +34,15 @@ abstract class Filters
             }
         }
 
-        return $this->builder->latest();
+        // Filtre ako mostVisited či trends si radenie určujú samy. Bezpodmienečné
+        // latest() im pridávalo created_at ako druhý stĺpec do ORDER BY a tým
+        // znemožnilo použiť index — výpis potom končil filesortom nad celou
+        // tabuľkou.
+        if (empty($this->builder->getQuery()->orders)) {
+            $this->builder->latest();
+        }
+
+        return $this->builder;
     }
 
     public function getFilters()

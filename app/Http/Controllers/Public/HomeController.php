@@ -28,7 +28,13 @@ class HomeController extends Controller
 
     public function seminare()
     {
-        $seminars = Seminar::whereNotNull('published')->orderBy('created_at', 'desc')->get();
+        // Výpis vykresľuje kartu ku každému príspevku seminára. Bez eager loadu
+        // si každý seminár vypýtal svoje príspevky — aj s ich obrázkami,
+        // kanálmi a obľúbenými — vlastnou sériou dopytov.
+        $seminars = Seminar::whereNotNull('published')
+            ->with('posts')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         //  Staré zoradovanie
         // $posts = $this->posts->getPostsByUpdater(17);

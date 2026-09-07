@@ -22,12 +22,28 @@ class PrayerController extends Controller
      */
     public function index()
     {
-        return PrayerResource::collection(Prayer::orderBy('created_at', 'desc')->paginate(15));
+        return PrayerResource::collection(
+            $this->query()->orderBy('created_at', 'desc')->paginate(15)
+        );
     }
 
     public function fulfilled()
     {
-        return PrayerResource::collection(Prayer::whereNotNull('fulfilled_at')->orderBy('fulfilled_at', 'desc')->paginate(15));
+        return PrayerResource::collection(
+            $this->query()->whereNotNull('fulfilled_at')->orderBy('fulfilled_at', 'desc')->paginate(15)
+        );
+    }
+
+    /**
+     * Názov kanála vidí vo výpise len superadmin, takže väzbu naťahujeme len
+     * preňho — ostatným by to bol dopyt navyše na každej stránke.
+     */
+    protected function query()
+    {
+        return Prayer::query()->when(
+            auth()->check() && auth()->user()->hasRole('superadmin'),
+            fn ($query) => $query->with('organization')
+        );
     }
 
     /**

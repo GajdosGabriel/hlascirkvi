@@ -16,7 +16,7 @@
                 d="M19 9l-7 7-7-7"
             />
         </svg>
-        <ul class="dropdown-menu z-50" v-if="open">
+        <ul class="dropdown-menu dropdown-menu--left z-50" v-if="open">
             <a
                 :href="
                     '/organization/' +

@@ -18,7 +18,12 @@ class PrayerResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'organization_id' => $this->organization_id,
-            'organization_title' => $this->when( auth()->user() AND auth()->user()->hasRole(['superadmin']), $this->organization->title),
+            // Hodnota musí byť uzáver, inak sa $this->organization načíta pri
+            // každej modlitbe aj vtedy, keď ju when() nakoniec zahodí.
+            'organization_title' => $this->when(
+                auth()->check() && auth()->user()->hasRole('superadmin'),
+                fn () => $this->organization->title
+            ),
             'user_name' => $this->user_name,
             'body' => $this->body,
             'favoritesCount' => $this->favoritesCount,

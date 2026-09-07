@@ -88,8 +88,4 @@
         </a>
     </section>
 
-    <p class="text-xs leading-relaxed text-stone-400">
-        Podujatia poskytuje
-        <a href="{{ $portalUrl }}" target="_blank" rel="noopener" class="underline hover:text-stone-600">event.hlascirkvi.sk</a>.
-    </p>
 </div>

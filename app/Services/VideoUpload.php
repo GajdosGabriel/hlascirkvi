@@ -120,11 +120,14 @@ class VideoUpload
 
 
         /*
-        * Ak je organizácia zaradená do zoznamu (15 front-post)
-        * bude sa hned publikovať.
+        * Kanály zo zoznamu „default" (updater 4) idú do buffera — publisher
+        * ich vypustí po jednom počas dňa (App\Services\Buffer). Predtým sa
+        * updater pripájal rovno tu, takže celý denný import (okolo 13 videí)
+        * naskočil do zoznamu v jednej sekunde o 16:24; presne tomu má buffer
+        * zabrániť. Späť sa to prepne cez BUFFER_PUBLISH_ON_IMPORT=true.
         */
-        if ($organization->updaters->contains('id', 4)) {
-            $post->updaters()->attach(15);
+        if (config('buffer.publish_on_import') && $organization->updaters->contains('id', 4)) {
+            $post->updaters()->attach(config('buffer.updater_id'));
         }
     }
 

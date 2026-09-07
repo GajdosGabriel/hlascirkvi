@@ -127,6 +127,8 @@ Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserSupportController@conf
 
 
 Route::middleware('bannedOrganization')->group(function () {
+    // Musí stáť pred post/{post}/{slug}, inak by ju pohltil zápis detailu.
+    Route::get('post/{post}/kanal/dalsie', 'Public\PostController@rail')->name('post.rail');
     Route::get('post/{post}/{slug}', 'Public\PostController@show')->name('post.show');
 });
 

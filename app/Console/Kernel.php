@@ -41,20 +41,14 @@ class Kernel extends ConsoleKernel
         $schedule->command('UserSearchByName')->dailyAt('06:55');
 
 
-            //    $schedule->command('PublisherBufferVideo')->everyMinute();
-            //    $schedule->command('PublisherBufferVideo')->twiceDaily(7, 17);
-        //        $schedule->command('PublisherBufferVideo')
-        //            ->twiceDaily(7, 8)
-        //            ->twiceDaily(10, 13)
-        //            ->twiceDaily(15, 17)
-        //        ;
+        // Buffer sa vypúšťa po jednom počas celého dňa. Príkaz beží často, ale
+        // väčšina behov len skončí — sám si drží denný plán nepravidelných
+        // časov (config/buffer.php), aby to nevyzeralo ako dávka o 16:24.
+        $schedule->command('PublisherBufferVideo')
+            ->everyFiveMinutes()
+            ->between('06:50', '21:30')
+            ->withoutOverlapping();
 
-        // $schedule->command('PublisherBufferVideo')->everyMinute();
-        // $schedule->command('PublisherBufferVideo')->twiceDaily(7, 8);
-        $schedule->command('PublisherBufferVideo')->twiceDaily(9, 12);
-        // $schedule->command('PublisherBufferVideo')->twiceDaily(14, 16);
-        $schedule->command('PublisherBufferVideo')->twiceDaily(17, 19);
-        //        $schedule->command('PublisherBufferVideo')->hourly();
 
 
 

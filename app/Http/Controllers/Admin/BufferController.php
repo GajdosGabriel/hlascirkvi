@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
+use App\Services\Buffer;
+use App\Models\Organization;
 use App\Repositories\Contracts\PostRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,7 +18,7 @@ class BufferController extends Controller
         $this->middleware(['auth', 'checkAdmin']);
     }
 
-    public function index(Request $request)
+    public function index(Request $request, Buffer $buffer)
     {
 
         $posts = Post::doesntHave('updaters')->latest();
@@ -29,8 +31,23 @@ class BufferController extends Controller
             'admins.buffer.index',
             [
                 'posts' => $posts->paginate(32),
-                'users' => $posts->get()->groupBy('organization_id')
+                // Bočný zoznam potrebuje len názov kanála a počet čakajúcich
+                // príspevkov. Pôvodné $posts->get()->groupBy() na to načítalo
+                // všetky nezverejnené príspevky aj s obrázkami a kanálmi.
+                'organizations' => $this->organizationsWithUnpublishedPosts(),
+                // Kedy dnes publisher vypustí ďalší príspevok.
+                'status' => $buffer->status(),
             ]
         );
+    }
+
+    protected function organizationsWithUnpublishedPosts()
+    {
+        $unpublished = fn ($query) => $query->doesntHave('updaters');
+
+        return Organization::whereHas('posts', $unpublished)
+            ->withCount(['posts as unpublished_posts_count' => $unpublished])
+            ->orderBy('title')
+            ->get();
     }
 }

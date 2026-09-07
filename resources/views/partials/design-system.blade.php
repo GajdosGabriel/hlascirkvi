@@ -11,6 +11,9 @@
         --ar-line:        #e3e4e8;
         --ar-accent:      #b91c1c;
         --ar-accent-soft: #fdf1f1;
+        /* Zložky akcentu zvlášť: mriežka archívu mieša jeho odtiene cez
+           rgba(), a do tej sa hotová hex hodnota nedá vložiť. */
+        --ar-accent-rgb:  185, 28, 28;
     }
 
     .ar-body {
@@ -145,6 +148,83 @@
         transition: color .15s ease;
     }
     .ar-search button:hover { color: var(--ar-accent); }
+
+    /* ---- Rebríček v paneli "Naj z kanála" ------------------------------ */
+
+    .ar-rank {
+        flex: 0 0 1.25rem;
+        font-family: Inter, system-ui, sans-serif;
+        font-size: 1rem;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        line-height: 1.35;
+        text-align: right;
+        color: #c8ccd4;
+    }
+    .ar-rank--first { color: var(--ar-accent); }
+
+    /* ---- Čísla kanála v hlavičke profilu -------------------------------- */
+
+    .ar-stat { border-left: 2px solid var(--ar-line); padding-left: .7rem; }
+    .ar-stat__value {
+        display: block;
+        font-family: Inter, system-ui, sans-serif;
+        font-size: 1.25rem;
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -.02em;
+        line-height: 1.15;
+    }
+    .ar-stat__label {
+        display: block;
+        margin-top: .1rem;
+        font-size: .7rem;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: #9ca3af;
+    }
+
+    /* ---- Mriežka archívu ------------------------------------------------ */
+
+    /* Rok na riadok, mesiac na stĺpec. Sýtosť políčka je podiel z najsilnejšieho
+       mesiaca kanála, takže na jeden pohľad vidno, kedy sa v kanáli dialo
+       najviac — a zároveň je to navigácia: políčko je odkaz na daný mesiac. */
+    .ar-archive {
+        display: grid;
+        grid-template-columns: 2.35rem repeat(12, 1fr);
+        gap: 2px;
+        align-items: center;
+    }
+    .ar-archive__head {
+        font-size: .55rem;
+        font-weight: 600;
+        text-align: center;
+        color: #b6bac3;
+    }
+    .ar-archive__year {
+        font-size: .7rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        color: var(--ar-ink-soft);
+        transition: color .15s ease;
+    }
+    .ar-archive__year:hover { color: var(--ar-accent); }
+    .ar-archive__year.is-on { color: var(--ar-accent); }
+
+    .ar-month {
+        display: block;
+        aspect-ratio: 1 / 1;
+        border-radius: 3px;
+        background: var(--ar-paper-deep);
+        transition: transform .12s ease, box-shadow .12s ease;
+    }
+    /* Mesiac bez príspevku ostáva prázdny, nesmie sa dať kliknúť. */
+    .ar-month--empty { opacity: .55; }
+    a.ar-month:hover {
+        transform: scale(1.22);
+        box-shadow: 0 0 0 1px #fff, 0 0 0 2px var(--ar-ink);
+    }
+    .ar-month.is-on { box-shadow: 0 0 0 1px #fff, 0 0 0 2px var(--ar-ink); }
 
     /* ---- Drobnosti ---------------------------------------------------- */
 

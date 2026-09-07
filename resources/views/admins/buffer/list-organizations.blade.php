@@ -2,35 +2,14 @@
     <header class="card_header">Kresťanské osobnosti</header>
     <div class="card_body">
 
-        @forelse( $users as $k => $v)
+        {{-- Počet čakajúcich príspevkov ráta withCount v BufferController,
+             takže tu už nič nedopytujeme. --}}
+        @forelse ($organizations as $organization)
             <ul>
-
-                @foreach( $v as $value)
-
-                    @if ($loop->first)
-
-                        <li class="flex justify-between">
-                            <a href="?posts={{ $value->organization->id }}">{{ $value->organization->title }}</a>
-                            <span style="margin-left: 5rem">
-
-                    ({{ $v->count() }})
-                    {{--@can('admin')--}}
-                                {{--<a href="{{ route('videos.searchUserVideo', [$value->organization->id]) }}">--}}
-                                {{--priesk--}}
-                                {{--</a>--}}
-                                {{--@endcan--}}
-
-                                {{--({{ $user->posts()->count() }})--}}
-
-                                {{--@can('admin')--}}
-                                {{--<a href="{{ route('youtube.searchAndSaveUser', [$value->organization->id, $value->organization->slug]) }}">--}}
-                                {{--<i title="Hľadať nové videa" class="fas fa-search"></i>--}}
-                                {{--</a>--}}
-                                {{--@endcan--}}
-                </span>
-                        </li>
-                    @endif
-                @endforeach
+                <li class="flex justify-between">
+                    <a href="?posts={{ $organization->id }}">{{ $organization->title }}</a>
+                    <span style="margin-left: 5rem">({{ $organization->unpublished_posts_count }})</span>
+                </li>
             </ul>
         @empty
             bez záznamu
@@ -38,4 +17,3 @@
     </div>
 
 </section>
-

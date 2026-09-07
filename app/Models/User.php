@@ -16,7 +16,11 @@ class User extends Authenticatable
 {
     use  HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, HasFilter, HasDatetime;
 
-    protected $with = ['roles', 'permissions'];
+    // roles potrebuje hasRole() prakticky pri každej požiadavke. Priame
+    // permissions modelu sa nepoužívajú (oprávnenia visia na rolách), takže ich
+    // eager load bol dopyt navyše ku každému načítaniu užívateľa — spatie si ich
+    // v prípade potreby dotiahne sám.
+    protected $with = ['roles'];
 
     /**
      * The attributes that are mass assignable.

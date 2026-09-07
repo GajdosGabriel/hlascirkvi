@@ -40,7 +40,10 @@ class PostFilters extends Filters
 
     public function mostVisited()
     {
-        return $this->builder->orderBy('count_view', 'desc');
+        // id ako druhý stĺpec drží stránkovanie stabilné pri rovnakom počte
+        // zobrazení a zároveň kopíruje poradie v posts_feed_views_index,
+        // takže sa radí priamo z indexu.
+        return $this->builder->orderBy('count_view', 'desc')->orderBy('id', 'desc');
     }
 
     public function latestComments()

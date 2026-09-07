@@ -104,6 +104,17 @@ class Post extends Model implements Viewable
 
     public function getHasUpdaterAttribute()
     {
+        // Atribút je v $appends, takže sa počíta pri každej serializácii. Bez
+        // týchto dvoch skratiek to bol jeden exists() dopyt na každý príspevok
+        // vo výpise; withExists('updaters') alebo eager load ho ušetria.
+        if (array_key_exists('updaters_exists', $this->attributes)) {
+            return (bool) $this->attributes['updaters_exists'];
+        }
+
+        if ($this->relationLoaded('updaters')) {
+            return $this->updaters->isNotEmpty();
+        }
+
         return $this->updaters()->exists();
     }
 

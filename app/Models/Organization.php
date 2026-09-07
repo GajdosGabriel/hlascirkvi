@@ -29,6 +29,11 @@ class Organization extends Model
 
     protected $appends = ['favoritesCount', 'isFavorited', 'initialName'];
 
+    // favoritesCount aj isFavorited sú v $appends, takže sa počítajú pri každej
+    // serializácii kanála. Bez načítanej väzby si každý kanál vypýtal vlastné
+    // dva dopyty; takto ich Eloquent načíta pre celú dávku naraz.
+    protected $with = ['favorites'];
+
 
     public function posts()
     {

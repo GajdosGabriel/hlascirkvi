@@ -109,3 +109,11 @@ export const bus = new Vue();
 const app = new Vue({
     el: '#app',
 });
+
+/*
+ * Vue pri pripojení prekreslí celý #app, čiže zahodí pôvodné uzly aj
+ * s poslucháčmi, ktoré na ne stihli pripnúť skripty v šablónach (tie bežia
+ * počas parsovania, teda pred týmto modulom). Šablóny sa preto vešajú na
+ * túto udalosť a spúšťajú sa až nad hotovým stromom.
+ */
+document.dispatchEvent(new CustomEvent('app:ready'));

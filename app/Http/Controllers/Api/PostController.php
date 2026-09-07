@@ -19,8 +19,14 @@ class PostController extends Controller
 
     public function index(PostFilters $filters)
     {
-        $posts = $this->post->postsByUpdater(15)->filter($filters)->paginate(28);
-        return  PostResource::collection($posts);
+        // PostResource číta hasUpdater a OrganizationResource vypisuje updaterov
+        // kanála — obe väzby preto naťaháme v dávke, nie riadok po riadku.
+        $posts = $this->post->postsByUpdater(15)
+            ->with(['updaters', 'organization.updaters'])
+            ->filter($filters)
+            ->paginate(28);
+
+        return PostResource::collection($posts);
     }
 
     public function update($post, Request $request)

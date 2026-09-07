@@ -16,7 +16,9 @@ class CommentController extends Controller
 
 
     public function index(CommentFilters $filters){
-        $posts = Comment::latest()->filter($filters)->paginate()->withQueryString();
+        // Komponent comment-item číta comment.user, takže autora načítame
+        // v dávke — inak si ho vypýtal každý riadok stránky zvlášť.
+        $posts = Comment::with('user')->latest()->filter($filters)->paginate()->withQueryString();
         return view('admins.comments.index', compact('posts'));
     }
 }

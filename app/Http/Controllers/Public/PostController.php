@@ -43,12 +43,64 @@ class PostController extends Controller
             abort(405, "Kanál {$post->organization->title} je vypnutý!");
         }
 
+        // Šablóna serializuje $post do Vue komponentov, čo zakaždým vyhodnotí
+        // hasUpdater. S načítanou väzbou sa atribút prečíta z pamäte.
+        $post->load('updaters');
+
         $creditUser->setPostHistory($post);
 
         event(new VisitModel($post));
 
-        $posts = $this->post->postsBelongToOrganization($post->organization_id);
+        return view('posts.show', ['post' => $post] + $this->channelPanels($post));
+    }
 
-        return view('posts.show', ['post' => $post, 'posts'=> $posts]);
+
+    /**
+     * Ďalšia dávka archívu kanála pre vodorovný pás. Vracia hotové karty,
+     * nie dáta — pás tak vyzerá rovnako, nech ho vykreslí Blade pri načítaní
+     * stránky alebo fetch pri posune vpravo, a karta má jednu predlohu.
+     */
+    public function rail(Post $post)
+    {
+        if (!$post->organization->published) {
+            abort(405, "Kanál {$post->organization->title} je vypnutý!");
+        }
+
+        $rail = $this->post->organizationRail($post->organization_id, $post->id);
+
+        return response()->json([
+            'html' => view('posts._rail-items', ['items' => $rail])->render(),
+            // Prázdny kurzor je pre prehliadač znamenie, že archív skončil.
+            'next' => optional($rail->nextCursor())->encode(),
+        ]);
+    }
+
+
+    /**
+     * Panely okolo článku: pás archívu pod ním a výbery z kanála v bočnom
+     * paneli. Sú to krátke dopyty na indexe organizácie, preto stoja pri
+     * sebe — pohľad ich len vykreslí.
+     */
+    protected function channelPanels(Post $post)
+    {
+        $rail  = $this->post->organizationRail($post->organization_id, $post->id);
+        $first = $this->post->firstInOrganization($post->organization_id, $post->id);
+
+        // "Pred rokom" má zmysel len v kanáli, ktorý rok prežil; inak by
+        // ukazoval ten istý príspevok ako "Ako to začalo".
+        $yearAgo = null;
+        $moment  = now()->subYear();
+
+        if ($first && $first->created_at->lt($moment)) {
+            $yearAgo = $this->post->inOrganizationBefore($post->organization_id, $post->id, $moment);
+        }
+
+        return [
+            'rail'      => $rail,
+            'railTotal' => $this->post->countInOrganization($post->organization_id),
+            'topPosts'  => $this->post->mostViewedInOrganization($post->organization_id, $post->id),
+            'firstPost' => $first,
+            'yearAgo'   => $yearAgo && $first && $yearAgo->isNot($first) ? $yearAgo : null,
+        ];
     }
 }

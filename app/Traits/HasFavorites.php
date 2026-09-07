@@ -42,8 +42,20 @@ trait HasFavorites
     }
 
     public function isFavorited() {
-        // return ! ! $this->favorites->where('user_id', auth()->id())->count();
-       return $this->favorites()->whereUserId(auth()->id())->exists();
+        // Neprihlásený návštevník nemôže mať nič obľúbené a user_id je NOT NULL,
+        // takže pôvodný whereUserId(null) minul dopyt na istú nulu.
+        if (! auth()->check()) {
+            return false;
+        }
+
+        // Modely, ktoré atribút vypisujú, majú favorites v $with. Keď je väzba
+        // načítaná, hľadáme v pamäti — inak každý riadok výpisu poslal vlastný
+        // exists() dopyt.
+        if ($this->relationLoaded('favorites')) {
+            return $this->favorites->contains('user_id', auth()->id());
+        }
+
+        return $this->favorites()->whereUserId(auth()->id())->exists();
     }
 
     public function getIsFavoritedAttribute() {
@@ -52,6 +64,11 @@ trait HasFavorites
 
     public function getFavoritesCountAttribute()
     {
+        // withCount('favorites') naplní favorites_count priamo v SELECTe.
+        if (array_key_exists('favorites_count', $this->attributes)) {
+            return (int) $this->attributes['favorites_count'];
+        }
+
         return $this->favorites->count();
     }
 

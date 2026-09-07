@@ -124,6 +124,134 @@
             aspect-ratio: 16 / 9;
             border: 0;
         }
+
+        /* ---- Pás archívu kanála -------------------------------------------- */
+
+        .ar-rail-shell { position: relative; }
+
+        .ar-rail {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x proximity;
+            scroll-behavior: smooth;
+            /* Pás sa ovláda šípkami a ťahom, stav nesie prúžok pod ním —
+               systémová lišta by len rozbíjala rad kariet. */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: .25rem;
+        }
+        .ar-rail::-webkit-scrollbar { display: none; }
+
+        .ar-rail > * {
+            scroll-snap-align: start;
+            /* Karty držia pevnú šírku, aby posun o výrez vždy skončil na
+               celej karte a nie uprostred textu. Posledná je zámerne len
+               načatá — je to jediná stopa, že pás pokračuje. */
+            flex: 0 0 46%;
+        }
+        @media (min-width: 640px) { .ar-rail > * { flex-basis: 30%; } }
+        @media (min-width: 768px) { .ar-rail > * { flex-basis: 23%; } }
+        @media (min-width: 1024px) { .ar-rail > * { flex-basis: 18.4%; } }
+
+        /* Zmiznutie kariet pod okrajom namiesto tvrdého orezu. Kryje sa
+           s farbou papiera, takže pás vyzerá, že pokračuje mimo stránky. */
+        .ar-rail-shell::before,
+        .ar-rail-shell::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 3rem;
+            pointer-events: none;
+            z-index: 4;
+            opacity: 1;
+            transition: opacity .2s ease;
+        }
+        .ar-rail-shell::before {
+            left: 0;
+            background: linear-gradient(to right, var(--ar-paper), rgba(246, 246, 247, 0));
+        }
+        .ar-rail-shell::after {
+            right: 0;
+            background: linear-gradient(to left, var(--ar-paper), rgba(246, 246, 247, 0));
+        }
+        .ar-rail-shell.is-start::before,
+        .ar-rail-shell.is-end::after { opacity: 0; }
+
+        .ar-rail-nav {
+            position: absolute;
+            top: 50%;
+            z-index: 5;
+            display: flex;
+            width: 2.5rem;
+            height: 2.5rem;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(-50%);
+            border: 1px solid var(--ar-line);
+            border-radius: 9999px;
+            background: #fff;
+            color: var(--ar-ink);
+            box-shadow: 0 12px 28px -14px rgba(16, 24, 40, .55);
+            opacity: 0;
+            transition: opacity .2s ease, border-color .15s ease, color .15s ease;
+        }
+        .ar-rail-shell:hover .ar-rail-nav,
+        .ar-rail-nav:focus-visible { opacity: 1; }
+        .ar-rail-nav:hover { border-color: #cfd2da; color: var(--ar-accent); }
+        .ar-rail-nav[hidden] { display: none; }
+        .ar-rail-nav--prev { left: -.9rem; }
+        .ar-rail-nav--next { right: -.9rem; }
+        /* Na dotyku sa pás ťahá prstom a šípky by len zakrývali karty. */
+        @media (hover: none) { .ar-rail-nav { display: none; } }
+
+        /* Dlaždica na konci pásu — miesto tlačidla pod výpisom stojí v rade
+           kariet, takže "ďalej" je tam, kde posun aj tak končí. */
+        .ar-rail-more {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
+            border: 1px dashed #d3d6dd;
+            border-radius: .5rem;
+            background: #fff;
+            color: var(--ar-ink-soft);
+            text-align: center;
+            padding: 1rem;
+            transition: border-color .2s ease, color .2s ease;
+        }
+        .ar-rail-more:hover { border-color: var(--ar-accent); color: var(--ar-accent); }
+        .ar-rail-more__icon {
+            display: flex;
+            width: 2.75rem;
+            height: 2.75rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            background: var(--ar-accent-soft);
+            color: var(--ar-accent);
+        }
+        .ar-rail-more__label { font-size: .8125rem; font-weight: 600; }
+        .ar-rail-more.is-loading { border-style: solid; }
+
+        .ar-rail-progress {
+            height: 2px;
+            border-radius: 2px;
+            background: var(--ar-line);
+            overflow: hidden;
+        }
+        .ar-rail-progress span {
+            display: block;
+            width: 0;
+            height: 100%;
+            background: var(--ar-accent);
+            transition: width .15s ease;
+        }
+
+        /* .ar-rank pre panel "Naj z kanála" prešiel do partials/design-system —
+           rovnaký rebríček nesie aj profil kanála pod layouts/app. */
     </style>
 
     @stack('head')
@@ -148,6 +276,29 @@
 
         @include('layouts.footer')
     </div>
+
+    {{-- Skripty šablón bežia počas parsovania stránky, ale Vue vzápätí
+         prekreslí celý #app a pôvodné uzly aj s ich poslucháčmi zahodí.
+         arReady() ich preto podrží a spustí až nad hotovým stromom.
+         window.load je poistka pre prípad, že by bundle nenabehol. --}}
+    <script>
+        (function () {
+            var pending = [];
+            var started = false;
+
+            var start = function () {
+                if (started) return;
+                started = true;
+                pending.forEach(function (fn) { fn(); });
+                pending = [];
+            };
+
+            window.arReady = function (fn) { started ? fn() : pending.push(fn); };
+
+            document.addEventListener('app:ready', start);
+            window.addEventListener('load', start);
+        })();
+    </script>
 
     @stack('scripts')
 </body>
