@@ -2,48 +2,32 @@
 
 namespace App\Listeners;
 
-
 use App\Events\VisitModel;
-use App\Services\SessionService;
-use App\Services\VisitModels\Counter;
 use App\Services\VisitModels\Miles;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Services\VisitModels\ViewRecorder;
 
 class ViewCounterListener
 {
-
     protected $miles;
 
+    protected $recorder;
 
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct(Miles $miles)
+    public function __construct(Miles $miles, ViewRecorder $recorder)
     {
         $this->miles = $miles;
+        $this->recorder = $recorder;
     }
 
     /**
      * Handle the event.
      *
-     * @param  ViewCounter  $event
      * @return void
      */
     public function handle(VisitModel $event)
     {
-        if(! $event->model->id) return;
-        
-        $counter = new Counter($event->model); 
-        $counter->handle();
-
-        //        (new SessionService())->counterView($event);
-
-        // delayInSession($minutes)
-        views($event->model)->cooldown(60)->record();
-
+        // Poslucháč beží synchrónne v rámci požiadavky na detail príspevku,
+        // takže request() je ten, ktorý zobrazenie vyvolal.
+        $this->recorder->record($event->model, request());
 
         $this->miles->visitingMiles($event->model);
     }

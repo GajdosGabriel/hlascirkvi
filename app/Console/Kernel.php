@@ -67,6 +67,10 @@ class Kernel extends ConsoleKernel
 
         // $schedule->command('prayer:fulfilledOrNotYet')->everyMinute();
         $schedule->command('prayer:fulfilledOrNotYet')->dailyAt('17:20');
+
+        // Tabuľka `views` je len pamäť na „tento návštevník tu dnes už bol",
+        // trvalý počet drží posts.count_view. Bez preriedenia by rástla donekonečna.
+        $schedule->command('app:views-prune')->dailyAt('03:20');
     }
 
     /**

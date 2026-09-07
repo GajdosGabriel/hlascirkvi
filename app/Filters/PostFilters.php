@@ -10,8 +10,6 @@
 namespace App\Filters;
 
 
-use CyrildeWit\EloquentViewable\Support\Period;
-
 class PostFilters extends Filters
 {
 
@@ -76,9 +74,6 @@ class PostFilters extends Filters
     // Najsledovanejšie za dva týždne zo všetkých
     public function trends()
     {
-        return $this->builder->orderByViews('desc', Period::pastDays(14));
-        //        return $this->builder->orderByViews('desc', Period::pastDays(14));
-        // Najsledovanejšie z 2-týždňových videí
-        //          return $this->builder->where('created_at','>', Carbon::now()->subDays(14))->orderByViews('desc');
+        return $this->builder->orderByViewsInPeriod(14);
     }
 }
