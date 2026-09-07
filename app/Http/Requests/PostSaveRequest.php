@@ -2,29 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Image;
-use App\Models\Post;
-use App\Repositories\Eloquent\EloquentPostRepository;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class PostSaveRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return auth()->check();
     }
-
-    public function __construct()
-    {
-        //
-    }
-
 
     /**
      * Get the validation rules that apply to the request.
@@ -38,6 +23,14 @@ class PostSaveRequest extends FormRequest
             'body' => 'required|string|min:3',
             'updaters' => 'required|integer|exists:updaters,id',
             // 'organization_id' => 'required|integer|exists:organizations,id',
+
+            /*
+             * accept="image/*" vo formulári je len nápoveda pre prehliadač,
+             * nie kontrola. Bez týchto pravidiel skončil ľubovoľný súbor
+             * v dekodéri obrázka a používateľ videl 500.
+             */
+            'pictures' => 'sometimes|array|max:20',
+            'pictures.*' => 'file|image|mimes:jpg,jpeg,png,webp,gif|max:15360',
         ];
     }
 
@@ -48,6 +41,10 @@ class PostSaveRequest extends FormRequest
             'title.required' => 'Článok musí mať nadpist.',
             'title.min' => 'Minimálna dľžka nadpisu sú 3 znaky.',
             'title.max' => 'Maximálna dľžka nadpisu je 255 znakov.',
+            'pictures.max' => 'Naraz je možné pridať najviac 20 obrázkov.',
+            'pictures.*.image' => 'Súbor :position nie je obrázok.',
+            'pictures.*.mimes' => 'Povolené formáty sú JPG, PNG, WEBP a GIF.',
+            'pictures.*.max' => 'Obrázok smie mať najviac 15 MB.',
         ];
     }
 }

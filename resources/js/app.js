@@ -6,6 +6,9 @@
 
 import './bootstrap';
 
+// Prehliadač obrázkov na čiernej ploche; visí na `document`, žiadne volanie netreba.
+import './lightbox';
+
 import Vue from 'vue';
 
 import Auth from './Auth';

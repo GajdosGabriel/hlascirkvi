@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Services\ImageResize;
 use App\Jobs\DownloaderYoutube;
 use Illuminate\Console\Command;
 use App\Services\VideoUploadByUserName;

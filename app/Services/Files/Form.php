@@ -2,22 +2,16 @@
 
 namespace App\Services\Files;
 
+use App\Services\Images\StoreImage;
 
-
-
-use App\Services\Files\File;
-use App\Services\Files\FileYoutube;
-use Illuminate\Support\Facades\Http;
-use Intervention\Image\Laravel\Facades\Image;
-
-
-
+/**
+ * Obrázky z formulára článku. Samotné ukladanie robí StoreImage, tu ostáva len
+ * to, čo príde z requestu.
+ */
 class Form
 {
-
     protected $model;
     protected $request;
-
 
     public function __construct($model, $request)
     {
@@ -25,28 +19,41 @@ class Form
         $this->request = $request;
     }
 
-    public function handler()
+    public function handler(): void
     {
-        if ($this->request->pictures) $this->uploadImages();
-        if ($this->request->video_id) {
-            // Intervention Image 4 no longer reads remote URLs itself, so fetch the
-            // bytes first and decode them from binary.
-            $image = Image::decodeBinary(
-                Http::get('https://img.youtube.com/vi/' . $this->request->video_id . '/mqdefault.jpg')->throw()->body()
-            );
-
-            (new FileYoutube($this->model, $image))->getVideoPicture();
-
-            $this->model->update(['video_id' => $image]);
-        } 
+        $this->uploadImages();
+        $this->uploadVideoThumbnail();
     }
 
-    public function uploadImages()
+    protected function uploadImages(): void
     {
-        if (!$this->request->pictures) return false;
+        foreach ((array) $this->request->file('pictures') as $picture) {
+            StoreImage::for($this->model)->fromUpload($picture);
+        }
+    }
 
-        foreach ($this->request->pictures as $image) {
-         (new File($this->model, $image))->uploadImage();
+    /**
+     * Náhľad k YouTube videu. Pôvodná verzia sem zapisovala objekt
+     * Intervention\Image do stĺpca video_id (a do org_name), čo končilo
+     * fatálnou chybou pri každom uložení článku s videom.
+     */
+    protected function uploadVideoThumbnail(): void
+    {
+        $videoId = $this->request->input('video_id');
+
+        if (blank($videoId) || $this->model->images()->exists()) {
+            return;
+        }
+
+        // maxresdefault na starších videách neexistuje a vráti 404,
+        // hqdefault je k dispozícii vždy.
+        foreach (['maxresdefault', 'hqdefault'] as $variant) {
+            $saved = StoreImage::for($this->model)
+                ->tryFromUrl('https://img.youtube.com/vi/' . $videoId . '/' . $variant . '.jpg');
+
+            if ($saved) {
+                return;
+            }
         }
     }
 }

@@ -11,7 +11,8 @@ namespace App\Services;
 
 use App\Models\User;
 use Alaouy\Youtube\Youtube;
-use App\Services\ImageResize;
+use App\Services\Images\StoreImage;
+use App\Services\Images\YoutubeThumbnail;
 use App\Notifications\Admin\Error;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
@@ -106,9 +107,9 @@ class VideoUpload
             ]
         );
 
-        if (isset($video->snippet->thumbnails->medium->url)) {
-            (new ImageResize())->resizeImage($post, $video->snippet->thumbnails->medium->url);
-        }
+        StoreImage::for($post)->tryFromUrl(
+            YoutubeThumbnail::bestUrl($video->snippet->thumbnails ?? null)
+        );
 
         /*
          * Ak je organizácia zaradená do zoznamu (1-živé vysielanie)

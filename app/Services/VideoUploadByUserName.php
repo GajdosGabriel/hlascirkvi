@@ -12,7 +12,8 @@ namespace App\Services;
 use Alaouy\Youtube\Youtube;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Services\ImageResize;
+use App\Services\Images\StoreImage;
+use App\Services\Images\YoutubeThumbnail;
 
 
      // Hľadá názvy jednotlivých userov podla updater dni v týždni
@@ -43,7 +44,9 @@ class VideoUploadByUserName
                         'body' => $video->snippet->description
                     ]);
 
-                    (new ImageResize())->resizeImage($post, $video->snippet->thumbnails->medium->url);
+                    StoreImage::for($post)->tryFromUrl(
+                        YoutubeThumbnail::bestUrl($video->snippet->thumbnails ?? null)
+                    );
                 }
             }
         }

@@ -3,12 +3,10 @@
 namespace App\Traits;
 
 use App\Models\Image;
-use Storage;
-
+use Illuminate\Support\Facades\Storage;
 
 trait HasImages
 {
-
     public function images()
     {
         return $this->morphMany(Image::class, 'fileable');
@@ -17,8 +15,9 @@ trait HasImages
     public function getThumbImageAttribute()
     {
         $image = $this->images->first();
+
         if ($image) {
-            return url($image->ThumbImageUrl);
+            return url($image->thumbImageUrl);
         }
 
         if ($this->organization->avatar) {
@@ -28,20 +27,28 @@ trait HasImages
         return url('images/foto.jpg');
     }
 
-    public function destroyImages()
+    /**
+     * Sady pre atribút srcset. Vracajú null, kým obrázok varianty nemá
+     * (staršie záznamy), vtedy šablóna zostane pri jedinom src.
+     *
+     * Vzťah images je v $with, takže tu nevzniká ďalší dopyt na riadok.
+     */
+    public function getThumbImageSrcsetAttribute(): ?string
     {
+        return $this->images->first()?->srcset('jpg');
+    }
 
-        if ($this->images()->exists()) {
+    public function getThumbImageWebpSrcsetAttribute(): ?string
+    {
+        return $this->images->first()?->srcset('webp');
+    }
 
-            foreach ($this->images as $image) {
-                // delete big img
-                Storage::delete('public/' . $image->url);
-
-                // delete small img
-                Storage::delete('public/' . $image->thumb);
-
-                $image->delete();
-            }
-        }
+    /**
+     * Volá sa pri definitívnom zmazaní modelu. Samotné súbory upratuje
+     * ImageObserver, aby bol úklid na jednom mieste aj pri mazaní z admina.
+     */
+    public function destroyImages(): void
+    {
+        $this->images()->withTrashed()->get()->each->forceDelete();
     }
 }

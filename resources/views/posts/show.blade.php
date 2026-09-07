@@ -106,11 +106,28 @@
         @elseif ($lead)
             <figure class="mb-8">
                 <a href="{{ url($lead->originalImageUrl) }}" target="_blank" rel="noopener"
-                   class="block overflow-hidden rounded-lg border border-[color:var(--ar-line)] bg-white">
-                    {{-- Originál občas v úložisku chýba, náhľad býva vždy — bez
-                         zálohy by nad článkom ostal prázdny rám s alt textom. --}}
-                    <img src="{{ url($lead->originalImageUrl) }}" alt="{{ $post->title }}" class="w-full"
-                         onerror="this.onerror=null; this.src='{{ url($lead->thumbImageUrl) }}';">
+                   data-lightbox="post" data-lightbox-fallback="{{ url($lead->thumbImageUrl) }}"
+                   class="block cursor-zoom-in overflow-hidden rounded-lg border border-[color:var(--ar-line)] bg-white">
+                    @if ($lead->variants)
+                        {{-- Nové obrázky majú viac šírok aj WebP variant. Obrázok
+                             nad článkom je nad ohybom, preto sa načíta rovno
+                             a neprechádza cez lazysizes. --}}
+                        <picture>
+                            @if ($leadWebp = $lead->srcset('webp'))
+                                <source type="image/webp" srcset="{{ $leadWebp }}"
+                                        sizes="(min-width: 1024px) 720px, 100vw">
+                            @endif
+                            <img src="{{ url($lead->originalImageUrl) }}" srcset="{{ $lead->srcset('jpg') }}"
+                                 sizes="(min-width: 1024px) 720px, 100vw"
+                                 alt="{{ $post->title }}" class="w-full">
+                        </picture>
+                    @else
+                        {{-- Staršie záznamy majú jediný súbor a originál občas
+                             v úložisku chýba, náhľad býva vždy — bez zálohy by
+                             nad článkom ostal prázdny rám s alt textom. --}}
+                        <img src="{{ url($lead->originalImageUrl) }}" alt="{{ $post->title }}" class="w-full"
+                             onerror="this.onerror=null; this.src='{{ url($lead->thumbImageUrl) }}';">
+                    @endif
                 </a>
             </figure>
         @endif
@@ -143,10 +160,21 @@
                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
                             @foreach ($gallery as $image)
                                 <a href="{{ url($image->originalImageUrl) }}" target="_blank" rel="noopener"
-                                   class="block overflow-hidden rounded-md border border-[color:var(--ar-line)] bg-white">
-                                    <img data-src="{{ url($image->thumbImageUrl) }}" data-sizes="auto"
-                                         alt="{{ $image->name ?? $post->title }}"
-                                         class="lazyload h-32 w-full object-cover transition hover:scale-105">
+                                   {{-- Na čiernej ploche sa ukazuje originál (miniatúra by sa
+                                        roztiahnutím rozmazala), náhľad z mriežky je záloha. --}}
+                                   data-lightbox="post" data-lightbox-fallback="{{ url($image->thumbImageUrl) }}"
+                                   class="block cursor-zoom-in overflow-hidden rounded-md border border-[color:var(--ar-line)] bg-white">
+                                    <picture class="block">
+                                        @if ($galleryWebp = $image->srcset('webp'))
+                                            <source type="image/webp" data-srcset="{{ $galleryWebp }}"
+                                                    data-sizes="auto">
+                                        @endif
+                                        <img data-src="{{ url($image->thumbImageUrl) }}"
+                                             @if ($gallerySrcset = $image->srcset('jpg')) data-srcset="{{ $gallerySrcset }}" @endif
+                                             data-sizes="auto"
+                                             alt="{{ $image->name ?? $post->title }}"
+                                             class="lazyload h-32 w-full object-cover transition hover:scale-105">
+                                    </picture>
                                 </a>
                             @endforeach
                         </div>

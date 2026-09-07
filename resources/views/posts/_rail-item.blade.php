@@ -13,8 +13,11 @@
    class="ar-card group block overflow-hidden rounded-lg">
 
     <span class="relative block overflow-hidden">
-        <img data-src="{{ $item->thumbImage }}" data-sizes="auto" alt="{{ $item->title }}"
-             class="lazyload ar-thumb">
+        @include('partials.thumb', [
+            'model' => $item,
+            'alt' => $item->title,
+            'class' => 'ar-thumb',
+        ])
 
         @if ($duration)
             <span class="absolute bottom-1.5 right-1.5 rounded bg-black/75 px-1.5 py-0.5 text-[.65rem] font-medium tabular-nums text-white">

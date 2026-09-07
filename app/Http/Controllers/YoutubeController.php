@@ -7,7 +7,8 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Organization;
 use Illuminate\Http\Request;
-use App\Services\ImageResize;
+use App\Services\Images\StoreImage;
+use App\Services\Images\YoutubeThumbnail;
 use App\Events\Posts\BufferPublisherVideo;
 
 class YoutubeController extends Controller
@@ -114,8 +115,9 @@ class YoutubeController extends Controller
                     'published' => 0
                 ]);
 
-                $image = new ImageResize();
-                $image->resizeImage($post, $video->snippet->thumbnails->medium->url);
+                StoreImage::for($post)->tryFromUrl(
+                    YoutubeThumbnail::bestUrl($video->snippet->thumbnails ?? null)
+                );
             }
         }
     }

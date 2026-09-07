@@ -3,61 +3,29 @@
 namespace App\Observers;
 
 use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 
 class ImageObserver
 {
     /**
-     * Handle the Image "created" event.
-     *
-     * @param  \App\Models\Image  $image
-     * @return void
+     * Súbory sa mažú až pri definitívnom zmazaní – kým je záznam len v koši,
+     * musí sa dať vrátiť. Doteraz úklid nikde nebol a po zmazaní obrázka
+     * ostávali varianty na disku ako siroty.
      */
-    public function created(Image $image)
+    public function forceDeleted(Image $image): void
     {
-        //
-    }
+        $paths = [$image->url, $image->thumb];
 
-    /**
-     * Handle the Image "updated" event.
-     *
-     * @param  \App\Models\Image  $image
-     * @return void
-     */
-    public function updated(Image $image)
-    {
-        //
-    }
+        foreach (($image->variants ?? []) as $byWidth) {
+            foreach ($byWidth as $path) {
+                $paths[] = $path;
+            }
+        }
 
-    /**
-     * Handle the Image "deleted" event.
-     *
-     * @param  \App\Models\Image  $image
-     * @return void
-     */
-    public function deleted(Image $image)
-    {
-        //
-    }
+        $paths = array_values(array_filter(array_unique($paths)));
 
-    /**
-     * Handle the Image "restored" event.
-     *
-     * @param  \App\Models\Image  $image
-     * @return void
-     */
-    public function restored(Image $image)
-    {
-        //
-    }
-
-    /**
-     * Handle the Image "force deleted" event.
-     *
-     * @param  \App\Models\Image  $image
-     * @return void
-     */
-    public function forceDeleted(Image $image)
-    {
-        //
+        if ($paths !== []) {
+            Storage::disk(config('images.disk'))->delete($paths);
+        }
     }
 }

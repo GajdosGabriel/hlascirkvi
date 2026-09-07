@@ -14,9 +14,11 @@
 
     {{-- Náhľad so štítkami --}}
     <a href="{{ $postUrl }}" class="relative block overflow-hidden" title="{{ $post->title }}">
-        <img data-src="{{ $post->thumbImage }}" data-sizes="auto"
-             alt="{{ $post->organization->title }} / {{ $post->title }}"
-             class="lazyload ar-thumb">
+        @include('partials.thumb', [
+            'model' => $post,
+            'alt' => $post->organization->title . ' / ' . $post->title,
+            'class' => 'ar-thumb',
+        ])
 
         @if ($isRecommended)
             <span class="absolute left-2 top-2 whitespace-nowrap rounded-full bg-white/95 px-2 py-0.5 text-[.62rem] font-bold uppercase tracking-wide text-[color:var(--ar-accent)] shadow-sm">

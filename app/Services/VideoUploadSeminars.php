@@ -11,7 +11,8 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Organization;
 use Alaouy\Youtube\Youtube;
-use App\Services\ImageResize;
+use App\Services\Images\StoreImage;
+use App\Services\Images\YoutubeThumbnail;
 use App\Notifications\Admin\Error;
 use App\Models\Post;
 use App\Repositories\Eloquent\EloquentPostRepository;
@@ -79,9 +80,9 @@ class VideoUploadSeminars
             ]
         );
 
-        if (isset($video->snippet->thumbnails->medium->url)) {
-            (new ImageResize())->resizeImage($post, $video->snippet->thumbnails->medium->url);
-        }
+        StoreImage::for($post)->tryFromUrl(
+            YoutubeThumbnail::bestUrl($video->snippet->thumbnails ?? null)
+        );
 
         /*
          * Zaradiť do zoznamu (17- Semináre)
