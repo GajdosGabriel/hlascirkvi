@@ -61,6 +61,13 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+
+            // `php artisan schema:dump` volá mysqldump/mysql z PATH. Na
+            // Windows s XAMPP-om tam nie sú, preto sa cesta dá dať cez
+            // DB_DUMP_BINARY_PATH (napr. C:\xampp\mysql\bin\).
+            'dump' => array_filter([
+                'dump_binary_path' => env('DB_DUMP_BINARY_PATH'),
+            ]),
         ],
 
         'pgsql' => [
