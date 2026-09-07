@@ -6,89 +6,57 @@ use App\Models\Seminar;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Všetkých sedem metód tu malo prázdne telo, čiže vracali null = zamietnuť.
+ * `authorize()` nad seminárom preto prechádzal len superadminovi cez
+ * Gate::before — a práve preto `store` v OrganizationSeminarController
+ * autorizáciu vôbec nemal, inak by zakladanie seminárov nefungovalo.
+ *
+ * Seminár patrí kanálu; vlastníctvo kanála je väzba $user->organizations()
+ * rovnako ako v PostPolicy.
+ */
 class SeminarPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any seminars.
-     *
-     * @param  \App\Models\User $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
-    /**
-     * Determine whether the user can view the seminar.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Seminar  $seminar
-     * @return mixed
-     */
-    public function view(User $user, Seminar $seminar)
+    public function view(User $user, Seminar $seminar): bool
     {
-        //
+        return $this->owns($user, $seminar);
     }
 
-    /**
-     * Determine whether the user can create seminars.
-     *
-     * @param  \App\Models\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        //
+        return true;
     }
 
-    /**
-     * Determine whether the user can update the seminar.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Seminar  $seminar
-     * @return mixed
-     */
-    public function update(User $user, Seminar $seminar)
+    public function update(User $user, Seminar $seminar): bool
     {
-        //
+        return $this->owns($user, $seminar);
     }
 
-    /**
-     * Determine whether the user can delete the seminar.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Seminar  $seminar
-     * @return mixed
-     */
-    public function delete(User $user, Seminar $seminar)
+    public function delete(User $user, Seminar $seminar): bool
     {
-        //
+        return $this->owns($user, $seminar);
     }
 
-    /**
-     * Determine whether the user can restore the seminar.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Seminar  $seminar
-     * @return mixed
-     */
-    public function restore(User $user, Seminar $seminar)
+    public function restore(User $user, Seminar $seminar): bool
     {
-        //
+        return $this->owns($user, $seminar);
     }
 
-    /**
-     * Determine whether the user can permanently delete the seminar.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Seminar  $seminar
-     * @return mixed
-     */
-    public function forceDelete(User $user, Seminar $seminar)
+    public function forceDelete(User $user, Seminar $seminar): bool
     {
-        //
+        return false;
+    }
+
+    protected function owns(User $user, Seminar $seminar): bool
+    {
+        return $seminar->organization_id !== null
+            && $user->organizations()->whereKey($seminar->organization_id)->exists();
     }
 }

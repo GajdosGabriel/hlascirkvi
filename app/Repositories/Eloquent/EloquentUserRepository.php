@@ -47,13 +47,19 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
 
 //        dd($name[0]);
 
-       return $this->create([
+       $user = $this->create([
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'email' => $value->email,
                 'password' => Hash::make(rand(8,10)),
-                'email_verified_at' => Carbon::now()
                 ]);
+
+        // email_verified_at nie je v $fillable (App\Models\User) — cez OAuth je
+        // e-mail overený poskytovateľom, takže sa nastaví explicitne.
+        $user->email_verified_at = Carbon::now();
+        $user->save();
+
+        return $user;
     }
 
 

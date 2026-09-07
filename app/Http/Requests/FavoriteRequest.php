@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class FavoriteRequest extends FormRequest
 {
@@ -24,7 +26,10 @@ class FavoriteRequest extends FormRequest
     public function rules()
     {
         return [
-            'model' => 'string|required',
+            // Hodnota sa v controlleri používa na výber modelu, takže musí byť
+            // z uzavretého zoznamu. Kým bola len `string`, dala sa cez ňu
+            // inštanciovať ľubovoľná trieda z App\Models.
+            'model' => ['required', 'string', Rule::in(array_keys(FavoriteController::MODELS))],
             'model_id' => 'integer|required',
         ];
     }

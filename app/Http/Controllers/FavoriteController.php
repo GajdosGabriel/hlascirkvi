@@ -3,19 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\User;
 use App\Models\Prayer;
 use App\Models\Comment;
 use App\Http\Requests\FavoriteRequest;
 use App\Models\Organization;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\Prayer\FavoriteForOwner;
-use App\Notifications\Prayer\FavoriteForUsers;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
 class FavoriteController extends Controller
 {
+    /**
+     * Modely, ktoré sa dajú označiť ako obľúbené (trait App\Traits\HasFavorites).
+     * Pôvodne sa trieda skladala reťazcom z requestu — "App\Models\{$model}" —
+     * a rovno inštanciovala, takže vstup rozhodoval o tom, čo sa vytvorí.
+     */
+    public const MODELS = [
+        'Post'         => Post::class,
+        'Prayer'       => Prayer::class,
+        'Comment'      => Comment::class,
+        'Organization' => Organization::class,
+    ];
+
     public function __construct()
     {
         $this->middleware('auth')->except('update');
@@ -27,10 +34,11 @@ class FavoriteController extends Controller
             (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
 
-        $class = "App\\Models\\{$request->input('model')}";
-        $class = new $class;
+        $class = self::MODELS[$request->validated()['model']];
 
-        $model =  $class->whereId($request->input('model_id'))->first();
+        $model = $class::find($request->validated()['model_id']);
+
+        abort_if($model === null, 404);
 
         $model->favorite();
 

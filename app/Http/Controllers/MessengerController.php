@@ -15,8 +15,11 @@ class MessengerController extends Controller
 
     public function toAdmin(StoreMessengerRequest $request) {
 
+       // Odosielateľ sa berie z prihlásenia, nie z tela požiadavky. Kým sa
+       // čítal z `user_id`, dala sa správa pripísať ktorémukoľvek užívateľovi.
+       // Pri neprihlásenom odosielateľovi zostáva zástupné ID 1 ako doteraz.
        Messenger::create([
-            'user_id' => $request->input('user_id', 1),
+            'user_id' => auth()->id() ?? 1,
             'requested_user' => $request->input('requested_organization', 1),
             'body' => $request->input('body')
         ]);

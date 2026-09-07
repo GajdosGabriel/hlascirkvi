@@ -10,28 +10,22 @@ class VerseController extends Controller
 {
     public function index($slug=null) {
 
-        if($slug==null){
-            $verse = Verse::find(now()->dayOfYear);
-            $id = $verse->id;
-        }else{
-            $verse = Verse::whereSlug($slug)->first();
+        // Neznámy slug alebo diera v ID vracali 500 — ->first() a ->find() môžu
+        // vrátiť null a hneď sa na ňom čítalo ->id / ->slug. Podmienka pre
+        // prvý záznam bola navyše `$id < 1`, čo pri ID z databázy nikdy neplatí.
+        $verse = $slug === null
+            ? Verse::find(now()->dayOfYear)
+            : Verse::whereSlug($slug)->first();
 
-            $id = $verse->id;
-        }
+        abort_if($verse === null, 404);
 
-        // Previous link - get slug
-        if ( ($id) < 1 ) {
-            $previous = Verse::find( Verse::count() )->slug;
-        } else {
-            $previous = Verse::find($id - 1)->slug;
-        }
+        $id = $verse->id;
 
-        // Next link
-        if ( ($id) < Verse::count() ) {
-            $next = Verse::find($id + 1)->slug;
-        } else {
-            $next = Verse::first()->slug;
-        }
+        $previous = optional(Verse::find($id - 1))->slug
+            ?? optional(Verse::orderByDesc('id')->first())->slug;
+
+        $next = optional(Verse::find($id + 1))->slug
+            ?? optional(Verse::orderBy('id')->first())->slug;
 
         $date = $this->date_from_day_of_year(null, $id);
 

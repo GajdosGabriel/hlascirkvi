@@ -31,7 +31,11 @@ class CreatedNewComment extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        // Len zvonček v aplikácii. Mailová vetva bola dodnes nedosiahnuteľná
+        // (podmienka v PostCommentController sa nikdy nevyhodnotila správne)
+        // a jej obsah zostal na stubu z `make:notification`. Kým nemá text,
+        // nemá čo chodiť ľuďom do schránky.
+        return ['database'];
     }
 
     /**
@@ -42,10 +46,12 @@ class CreatedNewComment extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        $commentable = $this->comment->commentable;
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('Nový komentár')
+                    ->line('Pri vašom príspevku „' . ($commentable?->title ?? '') . '" pribudol nový komentár.')
+                    ->action('Zobraziť príspevok', url($commentable?->path() ?? '/'));
     }
 
     /**
@@ -56,10 +62,15 @@ class CreatedNewComment extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
+        // Comment nemá stĺpec organization_id, takže $comment->organization
+        // bolo vždy null a notifikácia padala na ->title. Kanál je až na
+        // komentovanom príspevku.
+        $commentable = $this->comment->commentable;
+
         return [
-            'message' => $this->comment->organization->title .
-            ' komentoval ' . $this->comment->commentable->title,
-            'link' => $this->comment->commentable->path()
+            'message' => ($commentable?->organization?->title ?? 'Niekto')
+                . ' komentoval ' . ($commentable?->title ?? 'príspevok'),
+            'link' => $commentable?->path()
         ];
     }
 }

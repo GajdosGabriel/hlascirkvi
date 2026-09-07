@@ -21,6 +21,8 @@ class PostCommentController extends Controller
 
     public function update(Post $post, Comment $comment, SaveCommentsRequest $request)
     {
+        $this->authorize('update', $comment);
+
         $comment->update($request->only('body'));
 
         return new CommentResource($comment);
@@ -35,8 +37,14 @@ class PostCommentController extends Controller
 
         $comment = $saveComments->save($post);
 
-        if (!$comment->user_id == auth()->user()->org_id) {
-            $comment->user->notify(new CreatedNewComment($comment));
+        // Pôvodne `if (!$comment->user_id == auth()->user()->org_id)`. `!` sa
+        // vyhodnotí skôr než `==`, takže sa porovnávalo `false` s org_id, a pre
+        // neprihláseného návštevníka to navyše siahalo na null. Zmysel je
+        // upovedomiť správcu kanála, ak nekomentoval sám sebe.
+        $owner = $post->organization?->user;
+
+        if ($owner && $owner->id !== (int) $comment->user_id) {
+            $owner->notify(new CreatedNewComment($comment));
         }
 
         return new CommentResource($comment);
@@ -44,6 +52,8 @@ class PostCommentController extends Controller
 
     public function destroy(Post $post, Comment $comment)
     {
+        $this->authorize('delete', $comment);
+
         $comment->delete();
 
         return new CommentResource($comment);

@@ -15,7 +15,11 @@ class OrganizationPostController extends Controller
 
     public function __construct(private PostService $postService)
     {
-        $this->authorizeResource(Post::class, 'post');
+        // `destroy` je z automatickej autorizácie vyňatý zámerne: pracuje aj so
+        // zmazanými príspevkami, takže sa {post} nedá naviazať bežnou implicitnou
+        // väzbou a middleware `can:delete,post` by dostal reťazec s ID. Kontrola
+        // je preto priamo v metóde.
+        $this->authorizeResource(Post::class, 'post', ['except' => ['destroy']]);
         $this->authorizeResource(Organization::class, 'organization');
     }
 
@@ -54,9 +58,15 @@ class OrganizationPostController extends Controller
     // Zmazať alebo obnoviť Post
     public function destroy(Organization $organization, $post)
     {
-        $this->authorize('update', $post);
-
+        // $post prichádzalo ako reťazec (bez typového hintu sa implicitná väzba
+        // nespustí), takže authorize() dostal ID a PostPolicy sa nenašla —
+        // mazanie tak bežným užívateľom vždy odmietlo. A find() mohol vrátiť
+        // null, na ktorom potom padlo ->deleted_at.
         $post = Post::withTrashed()->find($post);
+
+        abort_if($post === null, 404);
+
+        $this->authorize('update', $post);
 
         if ($post->deleted_at) {
             $post->restore();

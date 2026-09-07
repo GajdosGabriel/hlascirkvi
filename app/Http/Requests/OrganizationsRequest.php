@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OrganizationsRequest extends FormRequest
 {
@@ -23,12 +24,32 @@ class OrganizationsRequest extends FormRequest
      */
     public function rules()
     {
+        // Pri úprave musí unique pravidlo ignorovať samotný upravovaný kanál,
+        // inak by sa nedalo uložiť nič bez zmeny názvu.
+        $organization = $this->route('organization');
+
         return [
-            'title' => 'required|string|max:255|min:3|unique:organizations,title',
-            'street' => 'nullable|string|max:255',
-            'phone' => 'nullable|numeric',
-            'email' => 'email',
-            'village_id' => 'required|integer|exists:villages,id',
+            'title' => [
+                'required', 'string', 'max:255', 'min:3',
+                Rule::unique('organizations', 'title')->ignore($organization),
+            ],
+            'description'      => 'nullable|string',
+            'street'           => 'nullable|string|max:255',
+            'phone'            => 'nullable|numeric',
+            'email'            => 'nullable|email',
+            'url_www'          => 'nullable|string|max:255',
+            'mod_title'        => 'nullable|string|max:255',
+            'village_id'       => 'required|integer|exists:villages,id',
+            'youtube_channel'  => 'nullable|string|max:255',
+            'youtube_playlist' => 'nullable|string|max:255',
+            'updaters'         => 'nullable|array',
+            'updaters.*'       => 'integer|exists:updaters,id',
+            // `users` a `published` sa vykresľujú len v @can('superadmin') bloku
+            // formulára (resources/views/organizations/edit.blade.php:82).
+            // Kontrolu role robí controller, tu ide len o tvar dát.
+            'users'            => 'nullable|array',
+            'users.*'          => 'integer|exists:users,id',
+            'published'        => 'nullable|boolean',
         ];
     }
 
@@ -44,8 +65,14 @@ class OrganizationsRequest extends FormRequest
 
     public function save()
     {
-        $organization = auth()->user()->organizations()->create($this->except(['updaters']));
-        $organization->updaters()->sync($this->get('updaters'));
+        // Zakladá sa len z overených polí. `except()` prepúšťalo aj _token,
+        // _method a čokoľvek iné, čo prišlo v tele požiadavky.
+        $data = collect($this->validated())
+            ->except(['updaters', 'users', 'published'])
+            ->all();
+
+        $organization = auth()->user()->organizations()->create($data);
+        $organization->updaters()->sync($this->input('updaters', []));
 
         return $organization;
     }

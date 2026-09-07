@@ -68,7 +68,11 @@ class PrayerController extends Controller
             (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
 
-        $prayer = auth()->user()->organization->prayers()->create($request->all());
+        // `email` je pri neprihlásenom autorovi len vstup pre založenie účtu
+        // vyššie — v tabuľke `prayers` taký stĺpec nie je.
+        $prayer = auth()->user()->organization->prayers()->create(
+            collect($request->validated())->except('email')->all()
+        );
 
         Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
     }
@@ -102,9 +106,16 @@ class PrayerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Prayer $modlitby, SavePrayerRequest $request)
+    /**
+     * Parameter sa volal $modlitby, ale routa má {prayer} — implicitná väzba
+     * sa preto nenaviazala a kontajner dodal prázdny model, takže úprava
+     * modlitby ticho nerobila nič.
+     */
+    public function update(Prayer $prayer, SavePrayerRequest $request)
     {
-        $modlitby->update($request->all());
+        $this->authorize('update', $prayer);
+
+        $prayer->update($request->validated());
     }
 
     /**
@@ -115,6 +126,8 @@ class PrayerController extends Controller
      */
     public function destroy(Prayer $prayer)
     {
+        $this->authorize('delete', $prayer);
+
         $prayer->delete();
     }
 }

@@ -10,12 +10,16 @@ class UserAddressController extends Controller
 {
     public function index(User $user)
     {
+        $this->authorizeUser($user);
+
         $users = $user->addresBooks()->latest()->paginate(50);
         return view('profiles.import_contacts', ['user' => $user, 'users' => $users]);
     }
 
 
     public function store(User $user, Request $request) {
+
+        $this->authorizeUser($user);
 
         $string = trim($request->input('body'));
 
@@ -50,5 +54,15 @@ class UserAddressController extends Controller
 
         return back();
 
+    }
+
+    /**
+     * Adresár je zoznam cudzích e-mailových adries. Routa je pod /user/{user},
+     * ale {user} sa neoveroval, takže si ho ktokoľvek prihlásený vedel vypísať
+     * pre ľubovoľné ID.
+     */
+    protected function authorizeUser(User $user): void
+    {
+        abort_unless(auth()->id() === $user->id, 403);
     }
 }

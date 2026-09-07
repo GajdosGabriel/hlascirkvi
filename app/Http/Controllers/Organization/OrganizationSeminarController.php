@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Organization;
 
 use App\Models\Seminar;
 use App\Models\Organization;
-use Illuminate\Http\Request;
+use App\Http\Requests\SaveSeminarRequest;
 use App\Http\Controllers\Controller;
 
 class OrganizationSeminarController extends Controller
@@ -22,6 +22,8 @@ class OrganizationSeminarController extends Controller
 
     public function show(Organization $organization, Seminar $seminar)
     {
+        $this->authorize('view', $seminar);
+
         return view('profiles.seminars.show', compact('organization', 'seminar'));
     }
 
@@ -34,21 +36,27 @@ class OrganizationSeminarController extends Controller
 
     public function edit(Organization $organization, Seminar $seminar)
     {
-        $this->authorize('viewAny', $organization);
+        $this->authorize('update', $seminar);
         return view('seminars.edit', compact('seminar', 'organization'));
     }
 
-    public function store(Organization $organization, Request $request)
+    public function store(Organization $organization, SaveSeminarRequest $request)
     {
-        Seminar::create(array_merge($request->all(), ['organization_id' => auth()->user()->org_id]));
+        // Autorizácia tu chýbala úplne — a `organization_id` sa bralo z
+        // prihláseného užívateľa, nie z routy, takže sa seminár vždy založil
+        // pod jeho primárnym kanálom bez ohľadu na to, kde bol formulár.
+        $this->authorize('update', $organization);
+
+        $organization->seminars()->create($request->validated());
 
         return redirect()->route('profile.organization.seminar.index', $organization->id);
     }
 
-    public function update(Organization $organization, Seminar $seminar, Request $request)
+    public function update(Organization $organization, Seminar $seminar, SaveSeminarRequest $request)
     {
         $this->authorize('update', $seminar);
-        $seminar->update($request->all());
+
+        $seminar->update($request->validated());
 
         if (request()->expectsJson()) {
             return $seminar;
@@ -59,9 +67,10 @@ class OrganizationSeminarController extends Controller
 
 
 
-    public function destroy(Seminar $seminar)
+    public function destroy(Organization $organization, Seminar $seminar)
     {
-        $this->authorize('update', $seminar);
+        $this->authorize('delete', $seminar);
+
         $seminar->posts()->detach();
         $seminar->delete();
         return redirect()->route('seminars.index');

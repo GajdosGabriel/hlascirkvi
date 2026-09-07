@@ -57,6 +57,22 @@ class OrganizationPolicy
     }
 
     /**
+     * Správa kanála z profilu užívateľa (/user/{user}/organization/{organization}).
+     *
+     * Zoznam, z ktorého sa tam vchádza, stojí na väzbe $user->organizations()
+     * (pivot organization_user), nie na org_id — užívateľ môže spravovať viac
+     * kanálov, ale primárny má len jeden. `update` tu preto nestačí; tá gate-uje
+     * príspevky a modlitby a jej význam nechávame nezmenený.
+     *
+     * @return bool
+     */
+    public function manage(User $user, Organization $organization)
+    {
+        return $user->org_id == $organization->id
+            || $user->organizations()->whereKey($organization->getKey())->exists();
+    }
+
+    /**
      * Determine whether the user can delete the organization.
      *
      * @param  \App\Models\User  $user

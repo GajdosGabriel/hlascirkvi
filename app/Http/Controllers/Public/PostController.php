@@ -38,10 +38,7 @@ class PostController extends Controller
 
     public function show(Post $post, $slug, CreditUser $creditUser)
     {
-        // Kanál(organization) nie je publikovaný a tým aj posts nie je možné zobrazovať.
-        if (!$post->organization->published) {
-            abort(405, "Kanál {$post->organization->title} je vypnutý!");
-        }
+        // Vypnutý kanál odfiltruje middleware `bannedOrganization` (routes/web.php).
 
         // Šablóna serializuje $post do Vue komponentov, čo zakaždým vyhodnotí
         // hasUpdater. S načítanou väzbou sa atribút prečíta z pamäte.
@@ -62,10 +59,6 @@ class PostController extends Controller
      */
     public function rail(Post $post)
     {
-        if (!$post->organization->published) {
-            abort(405, "Kanál {$post->organization->title} je vypnutý!");
-        }
-
         $rail = $this->post->organizationRail($post->organization_id, $post->id);
 
         return response()->json([

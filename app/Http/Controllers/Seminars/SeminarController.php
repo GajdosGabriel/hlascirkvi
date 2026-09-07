@@ -23,7 +23,13 @@ class SeminarController extends Controller
 
     public function uploadVideosfromPlaylist(Seminar $seminar)
     {
+        // Import z YouTube zapisuje do kanála seminára — smie ho spustiť len
+        // jeho správca. Doteraz stačilo byť prihlásený a poznať ID seminára.
+        $this->authorize('update', $seminar);
+
         $organization = Organization::whereId($seminar->organization_id)->first();
+
+        abort_if($organization === null, 404);
 
         $videoUploader = new VideoUploadSeminars($seminar, $organization);
         $videoUploader->handle();

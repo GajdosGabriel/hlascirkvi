@@ -11,19 +11,13 @@ use App\Services\Files\Form;
 class PostService
 {
 
-    protected $fileService;
-    protected $request;
-
-
-    public function __construct()
-    {
-        // $this->fileService = ;               
-    }
-
     public function store($organization, $request)
     {
         DB::transaction(function () use ($organization, $request) {
-            $post = $organization->posts()->create($request->all());
+            // validated() namiesto all() — do modelu sa tak nedostane nič, čo
+            // PostSaveRequest nepovolil (published, count_view, cudzie
+            // organization_id).
+            $post = $organization->posts()->create($request->validated());
 
             $post->updaters()->sync($request->get('updaters') ?: []);
 
@@ -34,7 +28,7 @@ class PostService
 
     public function update($post, $request)
     {
-        $post->update($request->all());
+        $post->update($request->validated());
 
         $post->updaters()->sync($request->get('updaters') ?: []);
 

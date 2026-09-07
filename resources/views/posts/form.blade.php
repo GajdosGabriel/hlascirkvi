@@ -50,7 +50,7 @@
             <label>Kanál</label>
             <select class="form-control" name="organization_id" required>
                 <option value="" selected disabled>Autor</option>
-                @if (auth()->user()->email == env('ADMIN_EMAIL'))
+                @can('superadmin')
                     @foreach (\App\Models\Organization::orderBy('title', 'asc')->get() as $organization)
                         <option @if (isset($post->organization_id) and $post->organization_id == $organization->id or
                                 $organization->id == auth()->user()->org_id) selected @endif value="{{ $organization->id }}">
@@ -63,7 +63,7 @@
                             {{ $organization->title }}
                         </option>
                     @endforeach
-                @endif
+                @endcan
             </select>
         </div>
     @endcan

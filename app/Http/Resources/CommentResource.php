@@ -31,12 +31,18 @@ class CommentResource extends JsonResource
             'is_favorited' => $this->isFavorited,
             'favorites_count' => $this->favoritesCount,
 
+            // `show` sa tu generovalo, hoci PostCommentController takú akciu
+            // nikdy nemal. Podmienka pri `destroy` bola `auth() || ...` —
+            // helper vracia inštanciu guardu, teda vždy true, takže sa odkaz
+            // pridával aj neprihláseným.
             'url' => [
                 'index'     =>  route('posts.comments.index', $this->commentable_id),
-                'show'      =>  route('posts.comments.show', [$this->commentable_id, $this->id]),
                 'update'    =>  route('posts.comments.update', [$this->commentable_id, $this->id]),
                 'store'     =>  route('posts.comments.store', [$this->commentable_id]),
-                'destroy' => $this->when(auth() || auth()->user()->can("delete", $this->resource), route('posts.comments.destroy', [$this->commentable_id, $this->id]))
+                'destroy'   =>  $this->when(
+                    auth()->check() && auth()->user()->can('delete', $this->resource),
+                    fn () => route('posts.comments.destroy', [$this->commentable_id, $this->id])
+                ),
             ],
         ];
     }
