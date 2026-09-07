@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+[v-cloak] {
+    display: none !important;
+}
+
 .dropdown-menu {
     @apply flex flex-col absolute right-0 border-2 border-gray-500 bg-white text-gray-500 rounded-md;
 }

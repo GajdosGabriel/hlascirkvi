@@ -51,9 +51,6 @@
             <div class="col-span-3">
 
                 <comment-card></comment-card>
-                @if (isset($post))
-                    <x-events.modul-organizationEvents :organization="$post->organization" :post="$post" />
-                @endif
                 {{-- @include('organizations.list-users') --}}
 
             </div>

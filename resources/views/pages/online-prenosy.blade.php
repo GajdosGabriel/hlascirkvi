@@ -58,23 +58,6 @@
                 @endforeach
             </div>
 
-            @if ($post->organization->person == 0)
-                <div class="flex flex-col justify-between">
-                    <div>
-                        <span class="font-semibold">Plánované akcie</span>
-                        <ul>
-                            @forelse($post->organization->events as $event)
-                                <li>{{ $event->title }}</li>
-                            @empty
-                                <span class=" px-3" style="font-size: 85%">Spoločenstvo neplánuje žiadne
-                                    akcie.</span>
-                            @endforelse
-                        </ul>
-                    </div>
-
-                    {{-- <a href="#">Chcem spoznať spoločenstvo</a> --}}
-                </div>
-            @endif
     </div>
     </div>
     </div>

@@ -3,12 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Post;
-use App\Models\Event;
 use App\Models\Prayer;
 use App\Models\Seminar;
 use App\Models\Organization;
 use App\Policies\PostPolicy;
-use App\Policies\EventPolicy;
 use App\Policies\PrayerPolicy;
 use App\Policies\SeminarPolicy;
 use App\Policies\OrganizationPolicy;
@@ -25,7 +23,6 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Prayer::class => PrayerPolicy::class,
         Seminar::class => SeminarPolicy::class,
-        Event::class => EventPolicy::class,
         Organization::class => OrganizationPolicy::class,
         Post::class => PostPolicy::class,
     ];

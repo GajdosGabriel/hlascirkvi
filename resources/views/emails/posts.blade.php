@@ -44,38 +44,4 @@
 
 
 
-    {{-- Events --}}
-    <div style="background: white; padding-bottom:2px; max-width: 700px; margin:auto; border-bottom: 5px solid rgb(133, 130, 130);
-    border-color: rgb(23, 6, 117); margin-bottom: 10px;">
-
-        <h2 style="padding-left:10px; padding-top:10px "> Pozvánky na podujatia</h2>
-        {{-- Image --}}
-        @forelse($events as $event)
-
-            <div style=" padding:10px ; margin-bottom: 20px; overflow: hidden; ">
-
-
-                @include('emails.component.image_event')
-
-
-                <div style="">
-                    <a style="text-decoration: none" href="{{ $event->routeShow() }}">
-                        <h2 style="font-size: 100%" title="{{ $event->title }}">
-                            {{ $event->title }}
-                        </h2>
-                    </a>
-                </div>
-
-                <span class="">{{ $event->organization->city }} </span>
-                <span class="">{{ $event->start_at->diffForHumans() }}</span>,
-                <span class="">Miesto: <span style="font-weight: 600"> {{ $event->village->district->name }}</span></span>,
-                <span class="">Pridal: {{ $event->organization->title }}</span>
-
-            </div>
-        @empty
-            bez záznamu
-        @endforelse
-
-
-    </div>
 </div>

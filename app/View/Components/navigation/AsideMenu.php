@@ -59,11 +59,6 @@ class AsideMenu extends Component
                 'name' => 'Články',
             ],
             [
-                'url' => route('profile.organization.event.index', auth()->user()->org_id),
-                'icon' => 'event',
-                'name' => 'Podujatia',
-            ],
-            [
                 'url' => route('profile.organization.seminar.index', auth()->user()->org_id),
                 'icon' => 'seminar',
                 'name' => 'Semináre',
@@ -77,11 +72,6 @@ class AsideMenu extends Component
                 'url' => route('profile.user.address.index', auth()->id()),
                 'icon' => 'contact',
                 'name' => 'Moje kontakty',
-            ],
-            [
-                'url' => route('profile.organization.eventSubscribe.index', auth()->user()->org_id),
-                'icon' => 'ticket',
-                'name' => 'Prihlášky na akcie',
             ],
         ];
     }
@@ -108,16 +98,6 @@ class AsideMenu extends Component
                 'url' => route('admin.post.index'),
                 'icon' => 'post',
                 'name' => 'Články',
-            ],
-            [
-                'url' => route('admin.event.index'),
-                'icon' => 'event',
-                'name' => 'Podujatia',
-            ],
-            [
-                'url' => route('admin.eventSubscribe.index'),
-                'icon' => 'ticket',
-                'name' => 'Prihlášky na akcie',
             ],
             [
                 'url' => route('admin.prayer.index'),

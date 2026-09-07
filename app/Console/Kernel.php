@@ -18,8 +18,6 @@ class Kernel extends ConsoleKernel
         Commands\UserSearchByName::class,
         Commands\BufferPublisher::class,
         Commands\PostNewslleter::class,
-        Commands\EcavEventExtractor::class,
-        Commands\TkkbsExtractor::class
     ];
 
     /**
@@ -66,10 +64,6 @@ class Kernel extends ConsoleKernel
 
         //  $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
 
-        // Nevyriešenei kodovanie a preto dupľuje záznamy
-        $schedule->command('ecav:extract')->hourly();
-        $schedule->command('event:tkkbs')->hourly();
-        $schedule->command('event:vyveska')->hourly();
         $schedule->command('prayer:zdruzenieMedaily')->hourly();
         $schedule->command('prayer:sluzobniceDuchaSvateho')->hourly();
         // Dočasné vypnuté lebo sa opakuje

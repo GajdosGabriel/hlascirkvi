@@ -92,7 +92,6 @@
 
                 @include('organizations.list-users')
 
-                {{-- @include('events.aside_modul') --}}
                 {{-- @include('bigthink.aside_last_big_think') --}}
                 {{-- @include('posts.posts-history') --}}
                 {{-- @include('verses.credit-modul') --}}

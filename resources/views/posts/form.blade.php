@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-category md:pr-2">
-        <label for="publishet1" class="whitespace-nowrap ">{{ trans('web.events_published_now') }}</label>
+        <label for="publishet1" class="whitespace-nowrap ">{{ trans('web.publish_now') }}</label>
         <div class="flex space-x-5 form-control">
 
             <div class="flex space-x-2">
@@ -121,7 +121,7 @@
         <div style="max-width: 17rem; float: left; padding: 1rem "
             class="border-2 border-gray-300 rounded-md mx-2 shadow-lg hover:bg-gray-100">
 
-            <event-picture-viewer :image="{{ $image }}" />
+            <picture-viewer :image="{{ $image }}" />
 
         </div>
     @endforeach

@@ -9,11 +9,9 @@ use http\Message;
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Event;
 use App\Models\Prayer;
 use App\Models\Comment;
 use App\Services\Buffer;
-use App\Mail\EventInvite;
 use App\Models\FirstName;
 use App\Models\Messenger;
 use App\Mail\PostNewsletter;
@@ -21,25 +19,19 @@ use App\Models\Organization;
 use App\Services\Newsletter;
 use Illuminate\Http\Request;
 use App\Services\VideoUpload;
-use App\Models\EventSubscribe;
 use App\Events\User\NotifyBell;
 use App\Services\VideoUploadFilter;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Services\Extractor\ExtractEcav;
-use App\Services\Extractor\ExtractTkkbs;
 use App\Services\PostService\PostService;
 use Illuminate\Database\Eloquent\Builder;
-use App\Services\Extractor\ExtractVyveska;
 use App\Notifications\User\NewRegistration;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\Subscribe\NewSubscribe;
 use App\Repositories\Contracts\UserRepository;
 use App\Services\Extractor\ExtractMojaKomunita;
 use App\Repositories\Contracts\PrayerRepository;
 use App\Services\Extractor\ExtractZdruzenieMedaily;
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Eloquent\EloquentEventRepository;
 use App\Repositories\Eloquent\EloquentPrayerRepository;
 use App\Services\Extractor\ExtractSluzobniceDuchaSvateho;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
@@ -56,67 +48,12 @@ class TestController extends Controller
 
     public function index(PrayerRepository $prayers)
     {
-        $event = Event::find(4236);
-
-          $event = (new ExtractTkkbs())->parseEvent('https://www.tkkbs.sk/view.php?cisloclanku=20230213030', $event);
-
-        // $xx =   new ExtractEcav();
-        dd($event);
-
-
-// dd(date("Y"));
-
-               $event = Event::find(4236);
-        // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
-         $href = 'https://www.ecav.sk/aktuality/pozvanky/ciel-na-obzore-modlitebny-tyzden';
-        //  $href = 'https://www.ecav.sk/aktuality/pozvanky/kurz-zaklady-vyucovania-deti-a-dorastu';
-        // $href = 'https://www.vyveska.sk/mozaika-lasky.html';
-        // $event = Event::first();
-
-
-        //    $events = (new ExtractVyveska())->parseListUrl();
-        $event = (new ExtractEcav())->parseEvent($href, $event);
-        // $event = (new ExtractTkkbs())->parseEvent($href, $event);
-        // $events = (new ExtractVyveska())->parseEvent($href, $event);
-
-        dd();
-
-
-  
-
-
-        $event = Event::find(3677);
-        $subscribe = EventSubscribe::first();
-
-     
-        
-        Notification::send( [$subscribe->organization->user, $event->organization->user] , new NewSubscribe($subscribe));
-        dd($subscribe->event->organization->user);
-
-        
-        return new EventInvite($event);
         $user = User::first();
         //  Send notification new User registration to admin
         Notification::send(User::role('admin')->get(), new NewRegistration($user));
 
 
         dd(Post::whereVideoAvailable(0)->get()->count());
-
-
-
-      
-
-
-        // $href = 'http://www.vyveska.sk/pozvanka-na-prazdniny-u-minoritov.html';
-        $href = 'https://www.tkkbs.sk/view.php?cisloclanku=20211202023';
-        $event = Event::first();
-        // dd($event);
-
-        //    $events = (new ExtractVyveska())->parseListUrl();
-        $events = (new ExtractTkkbs())->parseListUrl();
-
-        dd($events);
-
 
 
         $name = FirstName::whereId(1)->first();

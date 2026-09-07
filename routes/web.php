@@ -57,30 +57,35 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 
 Route::get('zamyslenia/{slug?}', 'VerseController@index')->name('verses.index');
 
+// Podujatia na /akcie sa ťahajú z portálu event.hlascirkvi.sk (App\Services\
+// EventPortal). Lokálna tabuľka `events` a celá agenda okolo nej (zakladanie,
+// prihlasovanie, admin) bola zrušená, takže toto sú jediné routy podujatí.
+Route::middleware('checkBanned')->group(function () {
+    Route::get('akcie', 'Public\EventPortalController@index')->name('akcie.index');
+
+    Route::get('akcie/{event}/{slug?}', 'Public\EventPortalController@show')
+        ->where('event', '[0-9]+')
+        ->name('event.show');
+});
+
 // Front routes
 Route::middleware('checkBanned')->group(function () {
     Route::resources([
-        'akcie'                 => Public\EventController::class,
         'favorites'             => FavoriteController::class,
         'organizations'         => Public\OrganizationController::class,
         'seminars'              => Seminars\SeminarController::class,
         'seminars.posts'        => Seminars\SeminarPostController::class,
         'userSupport'           => UserSupportController::class,
         'modlitby'              => Public\PrayerController::class,
-        'event.subscribeGuest'  => Events\EventSubscribeGuestController::class,
     ]);
 });
 
 Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () {
     Route::resources([
         'images'                        => ImageController::class,
-        'event.subscribe'               => Events\EventSubscribeController::class,
-        'event.favorite'                => Events\EventFavoriteController::class,
         'organization.seminar'          => Organization\OrganizationSeminarController::class,
         'organization.post'             => Organization\OrganizationPostController::class,
-        'organization.event'            => Organization\OrganizationEventController::class,
         'organization.prayer'           => Organization\OrganizationPrayerController::class,
-        'organization.eventSubscribe'   => Organization\OrganizationEventSubscribeController::class,
         'profile'                       => Organization\ProfileController::class,
         'user.organization'             => User\UserOrganizationController::class,
         'post.think'                    => PostThingController::class,
@@ -98,7 +103,6 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
         'buffer'               => Admin\BufferController::class,
         'post'                 => Admin\PostController::class,
         'prayer'               => Admin\PrayerController::class,
-        'event'                => Admin\EventController::class,
         'comment'              => Admin\CommentController::class,
         'user'                 => Admin\UserController::class,
         'organization'         => Admin\OrganizationController::class,
@@ -107,7 +111,6 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
         'tag'                  => Admin\TagController::class,
         'updater'              => Admin\UpdaterController::class,
         'updater.organization'  => Admin\UpdaterOrganizationController::class,
-        'eventSubscribe'       => Admin\EventSubscribeController::class,
     ]);
 });
 
@@ -136,21 +139,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVideoByChannel')->name('youtube.getNewVideoByChannel');
 });
 
-
-
-// Event
-Route::prefix('akcie/')->name('event.')->group(function () {
-    Route::get('{event}/{title}', 'Public\EventController@show')->name('show');
-    Route::post('{event}/form/subscribe', 'Events\EventSubscribeController@subscribeByForm')->name('subscribeByForm');
-
-    Route::middleware('auth')->group(function () {
-        Route::get('{event}/{user}/{slug}/print', 'Events\EventController@printGdpr')->name('gdpr');
-        Route::put('{event}/{slug}/eventInfoPanel', 'Events\EventController@eventInfoPanel')->name('eventInfoPanel');
-    });
-});
-
-
-Route::get('storage/{filepath?}', 'Events\EventController@download')->name('events.download');
 
 
 Route::post('store/message', 'MessengerController@toAdmin')->name('messengers.store');

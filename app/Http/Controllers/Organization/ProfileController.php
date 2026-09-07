@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Organization;
 
 use App\Models\Post;
-use App\Models\Event;
 use App\Models\Seminar;
 use App\Models\Messenger;
 use App\Models\Organization;

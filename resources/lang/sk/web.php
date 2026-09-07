@@ -49,52 +49,9 @@ return [
     'all_categories' => 'Kategórie',
     'login_thrue_fb' => 'Vstup cez Facebook.',
 
-    //    Events
-    'events_all' => 'Podujatia',
-    'events_user' => 'Moje podujatia',
-    'events_new' => 'Nové podujatie',
-    'events_new_add' => 'Pridať nové podujatie',
-    'events_next' => 'Ďalšie podujatia',
-    'events_empty' => 'Žiadne akcie',
-    'events_modul_title' => 'Pozvánky na podujatia',
-    'events_city' => 'Miesto konania:',
-    'events_actual_list' => 'Zoznam podujatí',
-    'events_save_update' => 'Upraviť pozvánku',
-    'events_create' => 'Vytvoriť akciu',
-    'events_deleted' => 'Akcia vymazaná',
-    'events_delete' => 'Vymazať podujatie?',
-    'events_title' => 'Názov podujatia',
-    'events_body' => 'Popis akcie',
-    'events_record_wants' => 'Nemôžem prísť, chcem nahrávku!',
-    'events_record_wants_send' => 'Požiadavka na nahrávku bola zaslaná!',
-    'events_record_wants_unsend' => 'Požiadavka nahrávky bola zrušená!',
-    'events_picture' => 'Vyberte jeden alebo viac obrázkov, jpg, png, pdf, doc, docx',
-    'events_appendFile' => 'Príloha, plagát, Pdf, Word, iné.',
-    'events_dateStart' => 'Deň a hodina začiatku akcie',
-    'events_dateEnd' => 'Koniec akcie',
-    'events_timeStart' => 'Hodina začiatku',
-    'events_street' => 'Ulica a číslo konania podujatia',
-    'events_region_of_event' => 'Miesto konania',
-    'events_clientwww' => 'Link na web alebo prihl. formulár',
-    'events_organizator' => 'Organizátor podujatia',
-    'events_registration' => 'Rezervácia miesta sa:',
-    'events_rezervation_recomended' => 'Rezervácia sa doporučuje!', // veta doproucuje sa
-    'events_rezervation_need' => 'Rezervovanie miesta sa vyžaduje.', // veta vyzaduje sa
-    'events_rezervation' => 'Rezervovať miesto',    // btn rezervovat
-    'events_rezervation_OK' => 'Ste prihlásený!', // btn uz som
-    'events_rezervation_unset' => 'Ste odhlásený!', // btn uz som
-    'events_registration_no_need' => 'Prihlasovanie je vypnuté.',
-    'events_entryFee' => 'Vstupné sa:',
-    'events_time_to_start' => 'Do začiatku podujatia zostáva ešte',
-    'events_published_now' => 'Zverejniť teraz ',
-    'events_published_later' => ' Zverejniť neskôr',
-    'events_users_no_subcribe' => 'Bez záznamu. Zdieľajte túto stránku na FB.',
-    'events_users_subcribe' => 'Prihlásený účastníci',
-    'events_users_finished' => 'Skončené',
-    'events_users_is_active' => 'Aktívna',
-    'events_users_no_active' => 'Neaktívna',
-    'events_fb' => 'Pomôžte s propagáciou podujatia, :-) ďakujeme!',
-    'events_info_panel' => 'Podrobné informácie',
-    'events_add_event' => 'Pridal: ',
+    // Zvyšok po zrušených lokálnych podujatiach — kľúče, ktoré ešte niekto
+    // používa. Ostatné events_* padli spolu s formulármi podujatí.
+    'organization_select' => 'Organizátor podujatia',
+    'publish_now' => 'Zverejniť teraz ',
 
 ];

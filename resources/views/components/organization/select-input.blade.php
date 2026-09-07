@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label>{{ trans('web.events_organizator') }}</label>
+    <label>{{ trans('web.organization_select') }}</label>
     <select class="form-control" name="organization_id" required>
         <option disabled value="" selected hidden>---Vybrať---</option>
         @foreach(auth()->user()->organizations as $organization)

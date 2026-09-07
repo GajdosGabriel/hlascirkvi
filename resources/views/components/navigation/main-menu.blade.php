@@ -1,73 +1,79 @@
-<nav class="bg-blue-900 text-gray-200 px-2 ">
-    <div style="max-width: 80rem" class="flex mx-auto py-2 justify-between flex-wrap">
+@php
+    $navLinks = [
+        [
+            'route' => route('online-prenosy'),
+            'label' => 'Nedeľné prenosy',
+            'icon' => 'video',
+            'badge' => session()->get('countUnwatchedVideos'),
+        ],
+        [
+            'route' => route('konferencie.pute'),
+            'label' => 'Vzdelávanie',
+            'icon' => 'book',
+        ],
+        [
+            'route' => route('modlitby.index'),
+            'label' => 'Modlitby',
+            'icon' => 'pray',
+        ],
+        [
+            'route' => route('akcie.index'),
+            'label' => 'Podujatia',
+            'icon' => 'calendar',
+        ],
+    ];
+@endphp
 
-        <div class="flex">
-            {{-- Vianočný stromček --}}
-            {{-- <img class="embeddedObject"
-                src="https://content.screencast.com/users/fg-a/folders/christmas/media/7d014586-ce64-442b-a1e6-276c8414d7dc/ctree_5a.gif"
-                width="25" height="25" border="0" alt="Clipart" /> --}}
-            <a class="my-2 font-semibold ml-2" href="{{ url('/') }}">
-                Hlas Cirkvi
-            </a>
-        </div>
+<nav class="relative z-40 bg-blue-900 text-blue-100 shadow-lg">
+    <div class="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-2">
 
-        <div class="hidden sm:block">
-            <div class="flex">
+        {{-- Logo --}}
+        <a class="flex shrink-0 items-center rounded-md px-2 py-1 text-lg font-semibold tracking-wide text-white transition-colors hover:bg-blue-800"
+            href="{{ url('/') }}">
+            Hlas Cirkvi
+        </a>
 
-                <ul class="my-2 flex  space-x-4 mr-4">
+        {{-- Menu pre veľké obrazovky --}}
+        <div class="hidden items-center gap-1 lg:flex">
+            @foreach ($navLinks as $link)
+                <x-navigation.main-menu-item :route="$link['route']" :badge="$link['badge'] ?? null">
+                    <x-navigation.nav-icon :name="$link['icon']" />
+                    {{ $link['label'] }}
+                </x-navigation.main-menu-item>
 
-                    <x-navigation.main-menu-item class="flex" route="{{ route('online-prenosy') }}">
-                        Nedeľné prenosy
-                        @if (session()->has('countUnwatchedVideos'))
-                            <div
-                                class="w-5 h-5 p-3 bg-red-500 text-white rounded-full flex justify-center items-center ml-1">
-                                <span class="pb-1">{{ session()->get('countUnwatchedVideos') }}</span>
-                            </div>
-                        @endif
-                    </x-navigation.main-menu-item>
-
-                    <x-navigation.main-menu-item route="{{ route('konferencie.pute') }}">
-                        Vzdelávanie
-                    </x-navigation.main-menu-item>
-
-                </ul>
-
-                <ul class="my-2 flex space-x-4">
+                {{-- Rádiá si držia pôvodné miesto v poradí --}}
+                @if ($loop->index === 1)
                     <radio-button></radio-button>
-
-                    <x-navigation.main-menu-item route="{{ route('modlitby.index') }}">
-                        <i class="fas fa-praying-hands mr-2 text-gray-300"></i>
-                        Modlitby
-                    </x-navigation.main-menu-item>
-
-                    <x-navigation.main-menu-item route="{{ route('akcie.index') }}" class="flex items-center">
-
-                        <x-icons.event></x-icons.event>
-
-                        Podujatia
-                    </x-navigation.main-menu-item>
-
-                </ul>
-            </div>
+                @endif
+            @endforeach
         </div>
-        <ul class="my-2 flex items-center">
+
+        {{-- Prihlásenie / používateľ + hamburger --}}
+        <div class="flex shrink-0 items-center gap-1">
             @guest
-                <li><a href="{{ route('login') }}">{{ __('auth.login') }}</a></li>
-                {{-- <li><a href="{{ route('register') }}">{{ __('auth.Register') }}</a></li> --}}
+                <a class="rounded-md border border-blue-400 px-3 py-1.5 text-sm font-medium text-blue-50 transition-colors hover:bg-blue-800 hover:text-white"
+                    href="{{ route('login') }}">{{ __('auth.login') }}</a>
             @else
-                <ul class="">
+                <navigation-main></navigation-main>
 
-                    <navigation-main></navigation-main>
-
-                </ul>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                     @csrf
                 </form>
-
             @endguest
 
-        </ul>
+            <mobile-menu v-cloak>
+                @foreach ($navLinks as $link)
+                    <x-navigation.main-menu-item variant="mobile" :route="$link['route']" :badge="$link['badge'] ?? null">
+                        <x-navigation.nav-icon :name="$link['icon']" size="h-5 w-5" />
+                        {{ $link['label'] }}
+                    </x-navigation.main-menu-item>
 
+                    @if ($loop->index === 1)
+                        <radio-button variant="mobile"></radio-button>
+                    @endif
+                @endforeach
+            </mobile-menu>
+        </div>
 
     </div>
 </nav>

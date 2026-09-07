@@ -29,8 +29,6 @@ class Organization extends Model
 
     protected $appends = ['favoritesCount', 'isFavorited', 'initialName'];
 
-    // protected $with = ['events'];
-
 
     public function posts()
     {
@@ -46,12 +44,6 @@ class Organization extends Model
     {
         return $this->hasMany(Messenger::class);
     }
-
-    public function eventSunscribes()
-    {
-        return $this->hasMany(EventSubscribe::class);
-    }
-
 
     public function users()
     {
@@ -71,11 +63,6 @@ class Organization extends Model
     public function village()
     {
         return $this->belongsTo(Village::class);
-    }
-
-    public function events()
-    {
-        return $this->hasMany(Event::class);
     }
 
     public function seminars()

@@ -34,14 +34,11 @@ class Card extends Component
             'admin.user.index',
             'admin.post.index',
             'admin.organization.index',
-            'admin.event.index',
             'admin.comment.index',
             'admin.prayer.index',
             'profile.user.organization.index',
             'profile.organization.prayer.index',
             'profile.organization.post.index',
-            'profile.organization.event.index',
-            'profile.event.subscribe.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }

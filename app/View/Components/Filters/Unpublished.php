@@ -31,12 +31,10 @@ class Unpublished extends Component
         // Povolené route names.
        $routeName = array(
             'admin.organization.index',
-            'admin.event.index',
             'admin.post.index',
             'admin.comment.index',
             'profile.user.organization.index',
             'profile.organization.post.index',
-            'profile.organization.event.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }

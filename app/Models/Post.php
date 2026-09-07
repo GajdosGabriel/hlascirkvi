@@ -3,7 +3,6 @@
 namespace App\Models;
 
 
-use Carbon\Carbon;
 use App\Traits\HasRoute;
 use App\Traits\HasImages;
 use App\Traits\HasBigThink;
@@ -109,11 +108,6 @@ class Post extends Model implements Viewable
     }
 
 
-
-    public function getEventsBelongsToOrganizationAttribute()
-    {
-        return $this->organization->events()->wherePublished(1)->where('start_at', '>', Carbon::now())->orderBy('start_at', 'asc')->paginate(10);
-    }
 
     public function scopeUnpublished()
     {

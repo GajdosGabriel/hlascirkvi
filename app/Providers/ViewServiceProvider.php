@@ -6,18 +6,13 @@ namespace App\Providers;
 use App\Models\Post;
 use App\Models\User;
 
-use App\Models\Event;
 use App\Models\Verse;
 use App\Models\BigThink;
 use App\Models\Category;
-use Carbon\Carbon;
 use App\Models\Organization;
-use App\Filters\EventFilters;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Eloquent\EloquentEventRepository;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
 
 
@@ -94,26 +89,5 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('bigThings', BigThink::latest()->take(7)->get());
         });
 
-        //  Active Events
-        view()->composer('events.aside_modul', function ($view) {
-            $view->with('events', (new EloquentEventRepository)->orderByStarting()->take(5)->get());
-        });
-
-        //  District Events count
-        view()->composer('events.districts_modul', function ($view) {
-            $view->with(
-                'districts',
-                $districts = DB::table('events')
-                    ->where('start_at', '>', Carbon::now())
-                    ->whereNotNull('published')
-                    ->where('deleted_at', null)
-                    ->join('villages', 'events.village_id', '=', 'villages.id')
-                    ->join('districts', 'districts.id', '=', 'villages.district_id')
-                    ->select('districts.name', 'districts.id')
-                    ->orderBy('districts.name', 'asc')
-                    ->get()
-                    ->groupBy('name')
-            );
-        });
     }
 }

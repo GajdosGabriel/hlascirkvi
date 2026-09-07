@@ -12,7 +12,7 @@ trait HasRoute
         return strtolower(class_basename(__CLASS__));
     }
 
-    // For the specific event and post
+    // Pre modely s vlastnou routou {model}.show
     public function routeShow()
     {
         return route($this->getClasses() . '.show', [$this->id, $this->slug]);
