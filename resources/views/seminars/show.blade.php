@@ -1,5 +1,24 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title> @endsection
+
+@php
+    /* Značky pre vyhľadávače a náhľady odkazov skladá partials/meta. */
+    $seo = [
+        'title' => $seminar->title,
+        'description' => $seminar->description
+            ?: 'Záznamy prednášok zo seminára ' . $seminar->title . ' na Hlase Cirkvi.',
+        'canonical' => route('seminars.show', [$seminar->id]),
+        'type' => 'article',
+        'author' => optional($seminar->organization)->title,
+        'jsonld' => [
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                ['Vzdelávanie a kurzy', route('konferencie.pute')],
+                [$seminar->title, route('seminars.show', [$seminar->id])],
+            ]),
+        ],
+    ];
+@endphp
+
 
 @section('content')
     <div class="grid grid-cols-12 gap-6 min-h-screen  ">

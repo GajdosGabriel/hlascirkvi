@@ -1,5 +1,20 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Priame prenosy nedeľných služieb božích a omší.' }}</title> @endsection
+
+@php
+    /* Značky pre vyhľadávače a náhľady odkazov skladá partials/meta. */
+    $seo = [
+        'title' => 'Priame prenosy nedeľných bohoslužieb a svätých omší',
+        'description' => 'Živé prenosy nedeľných bohoslužieb a svätých omší z kostolov a zborov '
+            . 'na Slovensku. Sledujte online, keď sa nemôžete zúčastniť osobne.',
+        'jsonld' => [
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                ['Priame prenosy', route('online-prenosy')],
+            ]),
+        ],
+    ];
+@endphp
+
 @section('content')
     <div class="page">
 

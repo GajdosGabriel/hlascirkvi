@@ -1,5 +1,20 @@
 @extends('layouts.app')
 
+@php
+    /* Značky pre vyhľadávače a náhľady odkazov skladá partials/meta. */
+    $seo = [
+        'title' => 'Vzdelávanie, konferencie a púte',
+        'description' => 'Kresťanské konferencie, kurzy, semináre a púte na Slovensku '
+            . 'spolu so záznamami prednášok.',
+        'jsonld' => [
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                ['Vzdelávanie a kurzy', route('konferencie.pute')],
+            ]),
+        ],
+    ];
+@endphp
+
 @section('content')
     <div class="page">
 
@@ -55,6 +70,21 @@
 
 
 {{-- @extends('layouts.app')
+
+@php
+    /* Značky pre vyhľadávače a náhľady odkazov skladá partials/meta. */
+    $seo = [
+        'title' => 'Vzdelávanie, konferencie a púte',
+        'description' => 'Kresťanské konferencie, kurzy, semináre a púte na Slovensku '
+            . 'spolu so záznamami prednášok.',
+        'jsonld' => [
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                ['Vzdelávanie a kurzy', route('konferencie.pute')],
+            ]),
+        ],
+    ];
+@endphp
 
 @section('content')
     <div class="page">

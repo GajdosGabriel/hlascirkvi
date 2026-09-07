@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@php
+    /* Chybová stránka do vyhľadávača nepatrí ani vtedy, keď na ňu vedie odkaz. */
+    $seo = [
+        'title' => 'Na úkon nie ste autorizovaný',
+        'noindex' => true,
+    ];
+@endphp
+
 @section('content')
     <div class="container">
         <div class="page">

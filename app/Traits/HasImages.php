@@ -28,22 +28,6 @@ trait HasImages
     }
 
     /**
-     * Sady pre atribút srcset. Vracajú null, kým obrázok varianty nemá
-     * (staršie záznamy), vtedy šablóna zostane pri jedinom src.
-     *
-     * Vzťah images je v $with, takže tu nevzniká ďalší dopyt na riadok.
-     */
-    public function getThumbImageSrcsetAttribute(): ?string
-    {
-        return $this->images->first()?->srcset('jpg');
-    }
-
-    public function getThumbImageWebpSrcsetAttribute(): ?string
-    {
-        return $this->images->first()?->srcset('webp');
-    }
-
-    /**
      * Volá sa pri definitívnom zmazaní modelu. Samotné súbory upratuje
      * ImageObserver, aby bol úklid na jednom mieste aj pri mazaní z admina.
      */

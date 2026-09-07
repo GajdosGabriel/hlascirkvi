@@ -42,6 +42,16 @@ Route::get('/openAi', function() {
 
 Route::get('/', 'Public\PostController@index')->name('posts.index');
 
+// Mapa webu pre vyhľadávače. /sitemap.xml je rozcestník, samotné adresy sú
+// kvôli počtu príspevkov rozdelené do dávok (App\Http\Controllers\Public\
+// SitemapController). Odkaz na ňu nesie aj public/robots.txt.
+Route::get('sitemap.xml', 'Public\SitemapController@index')->name('sitemap');
+Route::get('sitemap-stranky.xml', 'Public\SitemapController@pages')->name('sitemap.pages');
+Route::get('sitemap-kanaly.xml', 'Public\SitemapController@organizations')->name('sitemap.organizations');
+Route::get('sitemap-prispevky-{page}.xml', 'Public\SitemapController@posts')
+    ->whereNumber('page')
+    ->name('sitemap.posts');
+
 Route::get('/gdpr', 'Public\HomeController@gdpr')->name('gdpr');
 Route::get('/online-prenosy', 'Public\HomeController@zivePrenosy')->name('online-prenosy');
 Route::get('/konferencie-a-pute', 'Public\HomeController@seminare')->name('konferencie.pute');

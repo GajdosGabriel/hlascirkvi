@@ -1,5 +1,26 @@
 @extends('layouts.app')
 
+@php
+    /* Značky pre vyhľadávače a náhľady odkazov skladá partials/meta. Popis
+       skladá samotné zamyslenie, pri ňom stojí biblický verš — to je to,
+       čo z tejto stránky vidno vo vyhľadávaní. */
+    $seo = [
+        'title' => $post->title . ' – zamyslenie na ' . $date,
+        'description' => trim($post->biblicky_vers . ' ' . strip_tags((string) $post->zamyslenie)),
+        'canonical' => route('verses.index', [$post->slug]),
+        'type' => 'article',
+        'author' => $post->autor ?: null,
+        'section' => 'Zamyslenia',
+        'jsonld' => [
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                ['Zamyslenia', route('verses.index')],
+                [$post->title, route('verses.index', [$post->slug])],
+            ]),
+        ],
+    ];
+@endphp
+
 @section('content')
 
     <div class="page">

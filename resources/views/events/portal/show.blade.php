@@ -1,28 +1,30 @@
 @extends('layouts.events')
 
-@section('title')
-    <title>{{ $event->title() }} | Hlas Cirkvi</title>
-@endsection
-
-@section('meta')
-    <meta name="description" content="{{ $event->excerpt(160) }}">
-    <link rel="canonical" href="{{ $event->url() }}">
-
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="{{ $event->title() }}">
-    <meta property="og:description" content="{{ $event->excerpt(200) }}">
-    <meta property="og:url" content="{{ $event->url() }}">
-    @if ($event->hasPoster())
-        <meta property="og:image" content="{{ $event->poster() }}">
-        <meta name="twitter:card" content="summary_large_image">
-    @endif
-
-    {{-- Štruktúrované dáta pre vyhľadávače. Pole skladá RemoteEvent::schemaOrg()
-         — kľúče ako "@context" by Blade v šablóne čítal ako direktívy. --}}
-    <script type="application/ld+json">
-        {!! json_encode($event->schemaOrg(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
-    </script>
-@endsection
+@php
+    /*
+     * Značky pre vyhľadávače a náhľady odkazov skladá partials/meta z tohto
+     * poľa. Schéma podujatia chodí hotová z RemoteEvent::schemaOrg() — kľúče
+     * ako "@context" by Blade v šablóne čítal ako direktívy.
+     */
+    $seo = [
+        'title' => $event->title(),
+        'description' => $event->excerpt(300),
+        'canonical' => $event->url(),
+        'type' => 'article',
+        'image' => $event->hasPoster() ? $event->poster() : null,
+        'image_alt' => $event->title(),
+        'section' => 'Podujatia',
+        'tags' => array_column($event->tags(), 'name'),
+        'jsonld' => [
+            $event->schemaOrg(),
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                ['Podujatia', route('akcie.index')],
+                [$event->title(), $event->url()],
+            ]),
+        ],
+    ];
+@endphp
 
 @section('content')
 

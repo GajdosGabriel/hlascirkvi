@@ -22,6 +22,8 @@ class Image extends Model
         'name' => \App\Casts\StringLength255::class,
         'variants' => 'array',
         'is_primary' => 'boolean',
+        'width' => 'integer',
+        'height' => 'integer',
     ];
 
     public function fileable()

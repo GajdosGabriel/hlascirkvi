@@ -34,6 +34,9 @@ final class StoreImage
     /** @var array<int, string> cesty zapísané v tomto behu, pre úklid po výnimke */
     private array $written = [];
 
+    /** @var array{0: int, 1: int} rozmery najväčšieho variantu, teda toho v url */
+    private array $dimensions = [0, 0];
+
     public function __construct(private readonly Model $model)
     {
     }
@@ -94,7 +97,7 @@ final class StoreImage
         try {
             $variants = $this->writeVariants($image, $this->baseName());
 
-            return DB::transaction(fn () => $this->record($source, $variants));
+            return DB::transaction(fn () => $this->record($source, $variants, $this->dimensions));
         } catch (Throwable $e) {
             $this->cleanUp();
 
@@ -127,6 +130,11 @@ final class StoreImage
             // ako 1200w a prehliadač by ho vybral pre veľké miesto.
             $width = $image->width();
 
+            // Prvý priechod je najväčší variant a práve naň ukazuje stĺpec url.
+            if ($variants === []) {
+                $this->dimensions = [$width, $image->height()];
+            }
+
             foreach ($encoders as $extension => $encoder) {
                 $path = $this->folder() . $base . '-w' . $width . '.' . $extension;
 
@@ -146,8 +154,9 @@ final class StoreImage
 
     /**
      * @param array<string, array<int, string>> $variants
+     * @param array{0: int, 1: int} $dimensions
      */
-    private function record(ImageSource $source, array $variants): ImageModel
+    private function record(ImageSource $source, array $variants, array $dimensions): ImageModel
     {
         $jpg = $variants['jpg'];
 
@@ -161,6 +170,8 @@ final class StoreImage
             'type' => 'img',
             'is_primary' => ! $this->model->images()->exists(),
             'variants' => $variants,
+            'width' => $dimensions[0],
+            'height' => $dimensions[1],
         ]);
     }
 
@@ -192,9 +203,21 @@ final class StoreImage
         return Str::limit($slug ?: 'obrazok', 80, '') . '-' . Str::lower((string) Str::ulid());
     }
 
+    /**
+     * Rok a mesiac v ceste držia priečinky v rozumnej veľkosti. Bez nich mala
+     * najväčšia organizácia 8 255 súborov v jednom adresári a pri šiestich
+     * variantoch na obrázok by ich tam pribudlo desaťnásobne.
+     *
+     * Staré obrázky majú cestu uloženú v DB, takže im to nevadí.
+     */
     private function folder(): string
     {
-        return Str::lower(class_basename($this->model)) . 's/' . $this->model->organization_id . '/';
+        $date = $this->model->created_at ?? now();
+
+        return Str::lower(class_basename($this->model)) . 's/'
+            . $this->model->organization_id . '/'
+            . $date->format('Y') . '/'
+            . $date->format('m') . '/';
     }
 
     private function disk(): FilesystemAdapter

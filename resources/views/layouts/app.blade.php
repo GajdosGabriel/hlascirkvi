@@ -7,8 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @yield('title')
-    @yield('othermeta')
+    @include('partials.meta')
 
             {{--Editor--}}
     @yield('script-header')

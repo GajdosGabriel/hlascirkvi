@@ -1,2 +1,22 @@
 User-agent: *
-Disallow:
+
+# Administrácia, súkromný profil a prihlasovanie do vyhľadávača nepatria.
+# Rovnaké adresy nesú aj značku noindex (config/seo.php), robots.txt je len
+# prvá vrstva — vyhľadávač o zakázanej adrese aj tak môže vedieť z odkazu.
+Disallow: /admin/
+Disallow: /profile/
+Disallow: /user/
+Disallow: /userSupport/
+Disallow: /favorites/
+Disallow: /login
+Disallow: /register
+Disallow: /password/
+Disallow: /email/
+
+# Výsledky hľadania sú len iné poradie toho istého obsahu.
+Disallow: /*?search=
+Disallow: /*&search=
+
+Allow: /
+
+Sitemap: https://hlascirkvi.sk/sitemap.xml

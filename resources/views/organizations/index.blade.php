@@ -63,23 +63,59 @@
     if ($activeSort) $selection[] = mb_strtolower($sorts[$activeSort]['label']);
 @endphp
 
-@section('title')
-    <title>{{ $organization->title }} | Hlas Cirkvi</title>
-@endsection
+@php
+    /*
+     * Značky pre vyhľadávače (partials/meta). Kanonická adresa vychádza
+     * z aktuálnej — archív aj hľadanie držia svoj výber v query — a strany
+     * za prvou sú spojené odkazmi prev/next.
+     *
+     * Náhľad zdieľania berie obrázok z najnovšieho príspevku kanála: je
+     * v pomere 16:9 a dosť veľký na to, aby ho Facebook prijal. Avatar
+     * kanála je na to malý.
+     */
+    $orgUrl = route('organizations.show', [$organization->id]);
 
-@section('othermeta')
-    <meta name="description" content="{{ Str::limit(strip_tags((string) $organization->description) ?: 'Príspevky kanála ' . $organization->title . ' na Hlase Cirkvi.', 160) }}">
+    $orgListUrl = fn ($page) => $page > 1
+        ? request()->fullUrlWithQuery(['page' => $page])
+        : request()->fullUrlWithoutQuery('page');
 
-    <meta property="fb:app_id" content="241173683337522" />
-    <meta property="og:url" content="{{ route('organizations.show', [$organization->id]) }}" />
-    <meta property="og:type" content="profile" />
-    <meta property="og:title" content="{{ $organization->title }}" />
-    <meta property="og:description" content="Kázne kresťanskej komunity" />
-    <meta property="og:image" content="https://hlascirkvi.sk/images/foto.jpg" />
-    <meta property="og:image:width" content="360" />
-    <meta property="og:image:height" content="210" />
-    <meta property="og:image:alt" content="{{ $organization->title }}" />
-@endsection
+    $orgPage = $posts->currentPage();
+
+    $orgImage = optional(optional($posts->first())->images->first())->originalImageUrl;
+
+    $orgDescription = strip_tags((string) $organization->description)
+        ?: 'Kázne, prenosy bohoslužieb a videá kanála ' . $organization->title . ' na Hlase Cirkvi.';
+
+    $seo = [
+        'title' => $orgPage > 1
+            ? $organization->title . ' – strana ' . $orgPage
+            : $organization->title,
+        'description' => $orgDescription,
+        'canonical' => $orgListUrl($orgPage),
+        'prev' => $orgPage > 1 ? $orgListUrl($orgPage - 1) : null,
+        'next' => $posts->hasMorePages() ? $orgListUrl($orgPage + 1) : null,
+        'type' => 'profile',
+        'image' => $orgImage ? url($orgImage) : null,
+        'image_alt' => $organization->title,
+        'jsonld' => [
+            array_filter([
+                '@context' => 'https://schema.org',
+                '@type' => 'Organization',
+                'name' => $organization->title,
+                'description' => \App\Support\Seo::text($orgDescription, 300),
+                'url' => $orgUrl,
+                'logo' => $organization->avatar
+                    ? url(Storage::url('organizations/' . $organization->id . '/' . $organization->avatar))
+                    : null,
+                'sameAs' => array_values(array_filter([$organization->url_www])),
+            ]),
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                [$organization->title, $orgUrl],
+            ]),
+        ],
+    ];
+@endphp
 
 @section('headerCSS')
     {{-- Rovnaké písmo ako na úvodnej stránke a na detaile príspevku. Layout ho

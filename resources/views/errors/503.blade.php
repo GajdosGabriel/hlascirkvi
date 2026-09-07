@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Be right back.</title>
+        <title>Hlas Cirkvi – prebieha údržba</title>
+        {{-- Stránka údržby do vyhľadávača nepatrí. --}}
+        <meta name="robots" content="noindex, nofollow">
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 

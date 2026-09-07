@@ -23,27 +23,93 @@
 
     $postUrl  = route('post.show', [$post->id, $post->slug]);
     $orgUrl   = route('organizations.show', [$post->organization_id]);
+
+    /*
+     * Značky pre vyhľadávače a náhľady odkazov skladá partials/meta z tohto
+     * poľa; vykresľuje ich layout, nie táto šablóna.
+     *
+     * Štruktúrované dáta sú dve. Pri videu VideoObject — z neho má Google
+     * náhľad s dĺžkou a stopou vo výsledkoch aj v záložke Videá; pri texte
+     * Article. Drobčeky idú navyše, tie sa vo výsledku zobrazia namiesto
+     * holej adresy.
+     */
+    // Náhľad zdieľania. Keď príspevok vlastný obrázok nemá, ale nesie video,
+    // zoberie sa náhľad z YouTube — hqdefault existuje ku každému videu
+    // a je dosť veľký na to, aby ho Facebook prijal (maxresdefault nie vždy).
+    $ogImage = $images->first()
+        ? url($images->first()->originalImageUrl)
+        : ($post->video_id ? 'https://i.ytimg.com/vi/' . $post->video_id . '/hqdefault.jpg' : null);
+
+    $schema = [
+        '@context'      => 'https://schema.org',
+        '@type'         => $post->video_id ? 'VideoObject' : 'Article',
+        'name'          => $post->title,
+        'headline'      => \Illuminate\Support\Str::limit($post->title, 110, ''),
+        'description'   => \Illuminate\Support\Str::limit($plain, 300),
+        'url'           => $postUrl,
+        'mainEntityOfPage' => $postUrl,
+        'inLanguage'    => 'sk-SK',
+        'datePublished' => optional($post->created_at)->toAtomString(),
+        'dateModified'  => optional($post->updated_at)->toAtomString(),
+        'author'        => [
+            '@type' => 'Organization',
+            'name'  => $post->organization->title,
+            'url'   => $orgUrl,
+        ],
+        'publisher'     => \App\Support\Seo::publisher(),
+    ];
+
+    if ($ogImage) {
+        $schema[$post->video_id ? 'thumbnailUrl' : 'image'] = $ogImage;
+    }
+
+    if ($post->video_id) {
+        // uploadDate je pri VideoObject povinný a duration musí byť v ISO 8601
+        // (PT12M3S) — presne v tvare, v akom hodnota leží v databáze. Cast
+        // VideoDuration ju pre šablóny prepisuje na „12:03".
+        $schema['uploadDate'] = optional($post->created_at)->toAtomString();
+        $schema['embedUrl']   = 'https://www.youtube.com/embed/' . $post->video_id;
+        $schema['contentUrl'] = 'https://www.youtube.com/watch?v=' . $post->video_id;
+
+        if ($duration = $post->getRawOriginal('video_duration')) {
+            $schema['duration'] = $duration;
+        }
+
+        if ($post->count_view) {
+            $schema['interactionStatistic'] = [
+                '@type' => 'InteractionCounter',
+                'interactionType' => 'https://schema.org/WatchAction',
+                'userInteractionCount' => (int) $post->count_view,
+            ];
+        }
+    }
+
+    $seo = [
+        'title'       => $post->title,
+        'description' => $plain,
+        'canonical'   => $postUrl,
+        'type'        => 'article',
+        'image'       => $ogImage,
+        'image_alt'   => $post->title,
+        'published'   => $post->created_at,
+        'modified'    => $post->updated_at,
+        'author'      => $post->organization->title,
+        'section'     => 'Kázne a videá',
+        // Facebook prehrá video priamo v príspevku, keď mu dáme adresu vloženého
+        // prehrávača; bez nej vykreslí len obrázok s odkazom.
+        'video'       => $post->video_id
+            ? ['url' => 'https://www.youtube.com/embed/' . $post->video_id]
+            : null,
+        'jsonld'      => [
+            $schema,
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                [$post->organization->title, $orgUrl],
+                [$post->title, $postUrl],
+            ]),
+        ],
+    ];
 @endphp
-
-@section('title')
-    <title>{{ $post->title }} | Hlas Cirkvi</title>
-@endsection
-
-@section('meta')
-    <meta name="description" content="{{ Str::limit($plain, 160) }}">
-    <link rel="canonical" href="{{ $postUrl }}">
-
-    <meta property="fb:app_id" content="241173683337522">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ $postUrl }}">
-    <meta property="og:title" content="{{ $post->title }}">
-    <meta property="og:description" content="{{ Str::limit($plain, 200) }}">
-    @if ($images->first())
-        <meta property="og:image" content="{{ url($images->first()->originalImageUrl) }}">
-        <meta property="og:image:alt" content="{{ $post->title }}">
-        <meta name="twitter:card" content="summary_large_image">
-    @endif
-@endsection
 
 @push('head')
     <link rel="stylesheet" href="https://cdn.plyr.io/3.5.3/plyr.css">
@@ -119,6 +185,7 @@
                             @endif
                             <img src="{{ url($lead->originalImageUrl) }}" srcset="{{ $lead->srcset('jpg') }}"
                                  sizes="(min-width: 1024px) 720px, 100vw"
+                                 @if ($lead->width) width="{{ $lead->width }}" height="{{ $lead->height }}" @endif
                                  alt="{{ $post->title }}" class="w-full">
                         </picture>
                     @else
@@ -126,6 +193,7 @@
                              v úložisku chýba, náhľad býva vždy — bez zálohy by
                              nad článkom ostal prázdny rám s alt textom. --}}
                         <img src="{{ url($lead->originalImageUrl) }}" alt="{{ $post->title }}" class="w-full"
+                             @if ($lead->width) width="{{ $lead->width }}" height="{{ $lead->height }}" @endif
                              onerror="this.onerror=null; this.src='{{ url($lead->thumbImageUrl) }}';">
                     @endif
                 </a>

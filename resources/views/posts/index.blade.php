@@ -2,21 +2,34 @@
 
 @section('body-class', 'ar-body')
 
-@section('title')
-    <title>{{ 'Kázne kresťanskej komunity' }}</title>
-@endsection
+@php
+    /*
+     * Značky pre vyhľadávače (partials/meta). Výpis nesie prepínače aj
+     * stránkovanie v adrese, preto sa kanonická adresa skladá z tej
+     * aktuálnej — každý pohľad tak ukazuje sám na seba a strany za prvou
+     * sú spojené odkazmi prev/next namiesto toho, aby si konkurovali.
+     */
+    $listUrl = fn ($page) => $page > 1
+        ? request()->fullUrlWithQuery(['page' => $page])
+        : request()->fullUrlWithoutQuery('page');
 
-@section('othermeta')
-    <meta property="fb:app_id" content="241173683337522" />
-    <meta property="og:url" content="https://hlascirkvi.sk" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="Kázne kresťanskej komunity" />
-    <meta property="og:description" content="Kázne kresťanskej komunity" />
-    <meta property="og:image" content="https://hlascirkvi.sk/images/foto.jpg" />
-    <meta property="og:image:width" content="360" />
-    <meta property="og:image:height" content="210" />
-    <meta property="og:image:alt" content="Kázne kresťanskej komunity" />
-@endsection
+    $listPage = $posts->currentPage();
+
+    $seo = [
+        'title' => $listPage > 1
+            ? 'Kázne a videá kresťanských spoločenstiev – strana ' . $listPage
+            : 'Kázne, videá a modlitby kresťanských spoločenstiev',
+        'description' => 'Kázne, prenosy bohoslužieb a videá kresťanských spoločenstiev na Slovensku '
+            . 'na jednom mieste. Nové príspevky každý deň, modlitebný múr aj denné zamyslenia.',
+        'canonical' => $listUrl($listPage),
+        'prev' => $listPage > 1 ? $listUrl($listPage - 1) : null,
+        'next' => $posts->hasMorePages() ? $listUrl($listPage + 1) : null,
+        'jsonld' => [
+            \App\Support\Seo::website(),
+            \App\Support\Seo::publisher(),
+        ],
+    ];
+@endphp
 
 @section('headerCSS')
     {{-- Rovnaké písmo ako na detaile príspevku, nech na seba obe stránky

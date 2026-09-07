@@ -59,9 +59,9 @@ class Seo
             'description' => Str::limit($description, static::DESCRIPTION_LIMIT),
             'og_description' => Str::limit($description, static::OG_DESCRIPTION_LIMIT),
 
-            'canonical' => static::url($seo['canonical'] ?? null) ?: url()->current(),
-            'prev' => static::url($seo['prev'] ?? null),
-            'next' => static::url($seo['next'] ?? null),
+            'canonical' => static::canonicalUrl($seo['canonical'] ?? null) ?: static::canonicalUrl(url()->current()),
+            'prev' => static::canonicalUrl($seo['prev'] ?? null),
+            'next' => static::canonicalUrl($seo['next'] ?? null),
             'robots' => static::robots($seo['noindex'] ?? null),
 
             'type' => $seo['type'] ?? 'website',
@@ -135,6 +135,39 @@ class Seo
         }
 
         return url($value);
+    }
+
+    /**
+     * Adresa prepísaná na kanonickú doménu z config/seo.php.
+     *
+     * Web je dostupný na viacerých adresách (s www aj bez, http aj https)
+     * a url()->current() vracia tú, cez ktorú návštevník práve prišiel.
+     * Bez prepisu by canonical, og:url aj mapa webu rozdelili jednu stránku
+     * na niekoľko adries a s nimi aj jej pozíciu vo vyhľadávaní.
+     *
+     * Netýka sa obrázkov — tie ležia na vlastnom úložisku a adresu si nesú
+     * celú vlastnú.
+     */
+    public static function canonicalUrl($value): ?string
+    {
+        $value = static::url($value);
+
+        if ($value === null || ! ($base = config('seo.url'))) {
+            return $value;
+        }
+
+        $parts = parse_url($value);
+        $baseParts = parse_url($base);
+
+        if (empty($baseParts['host'])) {
+            return $value;
+        }
+
+        return ($baseParts['scheme'] ?? 'https') . '://'
+            . $baseParts['host']
+            . (isset($baseParts['port']) ? ':' . $baseParts['port'] : '')
+            . ($parts['path'] ?? '/')
+            . (isset($parts['query']) ? '?' . $parts['query'] : '');
     }
 
     /** Schema.org WebSite — meno webu a vyhľadávanie v ňom. */

@@ -79,6 +79,9 @@ return [
         'verification.*',
         'favorites.*',
         'userSupport.*',
+        // Formuláre na zakladanie a úpravu — nech sú kdekoľvek.
+        '*.create',
+        '*.edit',
     ],
 
 ];

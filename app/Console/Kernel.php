@@ -18,6 +18,9 @@ class Kernel extends ConsoleKernel
         Commands\UserSearchByName::class,
         Commands\BufferPublisher::class,
         Commands\PostNewslleter::class,
+        Commands\ImageAudit::class,
+        Commands\ImageDimensions::class,
+        Commands\ImageRefetch::class,
     ];
 
     /**

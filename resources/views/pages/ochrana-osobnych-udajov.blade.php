@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
-{{-- @section('title', 'Ochrana osobných údajov GDPR') --}}
+@php
+    /* Značky pre vyhľadávače a náhľady odkazov skladá partials/meta. */
+    $seo = [
+        'title' => 'Ochrana osobných údajov',
+        'description' => 'Ako Hlas Cirkvi spracúva osobné údaje návštevníkov a používateľov webu.',
+    ];
+@endphp
 
 @section('content')
 

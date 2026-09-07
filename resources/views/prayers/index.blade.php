@@ -1,5 +1,20 @@
 @extends('layouts.app')
-@section('title') <title>{{ 'Modlitebný múr' }}</title> @endsection
+
+@php
+    /* Značky pre vyhľadávače a náhľady odkazov skladá partials/meta. */
+    $seo = [
+        'title' => 'Modlitebný múr',
+        'description' => 'Miesto, kde sa dá poprosiť o modlitbu a modliť sa za prosby ostatných. '
+            . 'Modlitebný múr Hlasu Cirkvi.',
+        'jsonld' => [
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                ['Modlitebný múr', route('modlitby.index')],
+            ]),
+        ],
+    ];
+@endphp
+
 @section('content')
 
 <div class="page">

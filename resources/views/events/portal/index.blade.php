@@ -1,17 +1,24 @@
 @extends('layouts.events')
 
-@section('title')
-    <title>Kresťanské podujatia na Slovensku | Hlas Cirkvi</title>
-@endsection
-
-@section('meta')
-    <meta name="description"
-          content="Prehľad kresťanských podujatí na Slovensku — sväté omše, koncerty, prednášky, duchovné obnovy a púte. Podľa dátumu, mesta aj druhu podujatia.">
-    <link rel="canonical" href="{{ route('akcie.index') }}">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Kresťanské podujatia na Slovensku">
-    <meta property="og:url" content="{{ route('akcie.index') }}">
-@endsection
+@php
+    /*
+     * Značky pre vyhľadávače (partials/meta). Výpis nesie filtre aj stránku
+     * v adrese; kanonická adresa preto vychádza z tej aktuálnej, aby každý
+     * výber ukazoval sám na seba.
+     */
+    $seo = [
+        'title' => 'Kresťanské podujatia na Slovensku',
+        'description' => 'Prehľad kresťanských podujatí na Slovensku — sväté omše, koncerty, prednášky, '
+            . 'duchovné obnovy a púte. Podľa dátumu, mesta aj druhu podujatia.',
+        'canonical' => request()->fullUrl(),
+        'jsonld' => [
+            \App\Support\Seo::breadcrumbs([
+                ['Hlas Cirkvi', url('/')],
+                ['Podujatia', route('akcie.index')],
+            ]),
+        ],
+    ];
+@endphp
 
 @section('content')
 
