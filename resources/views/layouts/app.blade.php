@@ -27,6 +27,9 @@
     <script src="{{ asset('js/lazysizes.min.js') }}" async=""></script>
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @include('partials.design-system')
+
     @yield('headerCSS')
 
 
@@ -44,7 +47,9 @@
 
 
 </head>
-<body>
+{{-- Stránky, ktoré už nosia nový vzhľad, si sem doplnia `ar-body`; ostatné
+     ostávajú na pôvodnom bielom podklade. --}}
+<body class="@yield('body-class')">
 
     @can('admin')
     {{-- Admin nesleduje smartlook a google statistick --}}

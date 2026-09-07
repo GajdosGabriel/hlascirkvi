@@ -25,7 +25,9 @@
 @endphp
 
 <nav class="relative z-40 bg-blue-900 text-blue-100 shadow-lg">
-    <div class="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-2">
+    {{-- max-w-6xl + px-2 drží logo v jednej zvislici s obsahom stránok, ktoré
+         stoja na `mx-auto max-w-6xl px-4` — logo si nesie vlastné px-2 navyše. --}}
+    <div class="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-2">
 
         {{-- Logo --}}
         <a class="flex shrink-0 items-center rounded-md px-2 py-1 text-lg font-semibold tracking-wide text-white transition-colors hover:bg-blue-800"

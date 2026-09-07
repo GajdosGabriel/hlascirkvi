@@ -37,40 +37,11 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- Paleta a stavebné prvky detailu príspevku. Zámerne tu a nie v app.css:
-         týka sa len tejto sekcie a keď sa raz prekreslí, maže sa jeden súbor. --}}
+    @include('partials.design-system')
+
+    {{-- Prvky, ktoré nosí len detail príspevku. Zámerne tu a nie v app.css:
+         týkajú sa jednej šablóny a keď sa raz prekreslí, maže sa jeden blok. --}}
     <style>
-        :root {
-            --ar-paper:       #f6f6f7;
-            --ar-paper-deep:  #ececee;
-            --ar-ink:         #101828;
-            --ar-ink-soft:    #545a67;
-            --ar-line:        #e3e4e8;
-            --ar-accent:      #b91c1c;
-            --ar-accent-soft: #fdf1f1;
-        }
-
-        .ar-body {
-            background-color: var(--ar-paper);
-            color: var(--ar-ink);
-            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
-        }
-
-        /* Nadpisy a čísla — úzke, bezpätkové, s tesným prestrkom. */
-        .ar-display {
-            font-family: Inter, system-ui, -apple-system, sans-serif;
-            letter-spacing: -.022em;
-        }
-
-        /* Nadradený štítok nad titulkom (názov kanála). */
-        .ar-kicker {
-            font-size: .75rem;
-            font-weight: 700;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: var(--ar-accent);
-        }
-
         /* Ukazovateľ prečítanej časti článku. Šírku dopĺňa skript v šablóne. */
         .ar-progress {
             position: fixed;
@@ -80,23 +51,6 @@
             background: var(--ar-accent);
             z-index: 60;
             transition: width .1s linear;
-        }
-
-        .ar-card {
-            background: #fff;
-            border: 1px solid var(--ar-line);
-            transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
-        }
-        .ar-card:hover {
-            border-color: #cfd2da;
-            box-shadow: 0 18px 40px -30px rgba(16, 24, 40, .6);
-            transform: translateY(-2px);
-        }
-
-        /* Náhrada obrázka pri príspevkoch bez fotky aj bez avatara kanála. */
-        .ar-noimage {
-            background: linear-gradient(135deg, var(--ar-paper-deep), #f7f7f8);
-            color: #b3b7c0;
         }
 
         /* ---- Telo článku -------------------------------------------------- */
@@ -170,20 +124,6 @@
             aspect-ratio: 16 / 9;
             border: 0;
         }
-
-        /* ---- Drobnosti ---------------------------------------------------- */
-
-        .ar-rule { display: flex; align-items: center; gap: 1rem; }
-        .ar-rule::after { content: ""; flex: 1; height: 1px; background: var(--ar-line); }
-
-        .ar-link {
-            background-image: linear-gradient(currentColor, currentColor);
-            background-size: 0 1px;
-            background-repeat: no-repeat;
-            background-position: 0 100%;
-            transition: background-size .25s ease;
-        }
-        .ar-link:hover { background-size: 100% 1px; }
     </style>
 
     @stack('head')

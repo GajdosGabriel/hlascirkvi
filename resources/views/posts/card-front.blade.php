@@ -1,52 +1,54 @@
-<div class="border-2 border-gray-400 rounded-md shadow-md relative text-xs md:text-sm flex flex-col h-full">
-    @php
-        $postUrl = route('post.show', [$post->id, $post->slug]);
-        $organizationUrl = route('organizations.show', [$post->organization->id]);
-        $hasFavorites = ($post->favorites_count ?? null) ? $post->favorites_count > 0 : $post->favorites()->exists();
-        $hasComments = ($post->comments_count ?? null) ? $post->comments_count > 0 : $post->comments()->exists();
-    @endphp
+@php
+    $postUrl         = route('post.show', [$post->id, $post->slug]);
+    $organizationUrl = route('organizations.show', [$post->organization->id]);
 
-    <!-- Obrazok a overlay prvky -->
-    <div class="relative">
-        @if ($hasFavorites)
-            <div class="absolute top-0 right-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200 z-10">
-                Doporucene
-            </div>
+    // `favorites` je na modeli v $with, takže sa tu nedopytujeme databázy
+    // pre každú kartu zvlášť — na to doplácal pôvodný favorites()->exists().
+    $isRecommended = $post->favorites->isNotEmpty();
+
+    // Prenosy prídu z YouTube s nulovou dĺžkou; "0:00" na karte nič nehovorí.
+    $duration = $post->video_duration === '0:00' ? null : $post->video_duration;
+@endphp
+
+<article class="ar-card group flex h-full flex-col overflow-hidden rounded-lg">
+
+    {{-- Náhľad so štítkami --}}
+    <a href="{{ $postUrl }}" class="relative block overflow-hidden" title="{{ $post->title }}">
+        <img data-src="{{ $post->thumbImage }}" data-sizes="auto"
+             alt="{{ $post->organization->title }} / {{ $post->title }}"
+             class="lazyload ar-thumb">
+
+        @if ($isRecommended)
+            <span class="absolute left-2 top-2 whitespace-nowrap rounded-full bg-white/95 px-2 py-0.5 text-[.62rem] font-bold uppercase tracking-wide text-[color:var(--ar-accent)] shadow-sm">
+                <i class="fas fa-thumbs-up mr-0.5"></i> Odporúčané
+            </span>
         @endif
 
-        @if ($post->video_duration)
-            <div class="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-sm text-xs text-gray-200 z-10">
-                {{ $post->video_duration }}
-            </div>
+        @if ($duration)
+            <span class="absolute bottom-2 right-2 rounded bg-black/75 px-1.5 py-0.5 text-[.65rem] font-medium tabular-nums text-white">
+                {{ $duration }}
+            </span>
         @endif
-
-        @if ($hasComments)
-            <div class="absolute bottom-0 left-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200 flex z-10">
-                <!-- SVG a pocet komentarov -->
-            </div>
-        @endif
-
-        <a href="{{ $postUrl }}">
-            @include('posts.image')
-        </a>
-    </div>
-
-    <!-- Nadpis -->
-    <a href="{{ $postUrl }}" class="flex-grow">
-        <h6 class="pb-2 px-2 font-semibold" title="{{ $post->title }}">
-            {{ Str::limit($post->title, 48) }}
-        </h6>
     </a>
 
-    <!-- Datum a organizacia -->
-    <div class="text-gray-500 px-2 italic flex flex-col text-xs md:text-sm w-full mt-auto pb-2">
-        <a href="{{ $organizationUrl }}" class="hover:underline">
-            {{ $post->organization->title }}
+    {{-- Text karty --}}
+    <div class="flex flex-1 flex-col p-3">
+        <a href="{{ $postUrl }}" title="{{ $post->title }}"
+           class="ar-display block text-[.8rem] font-semibold leading-snug transition-colors group-hover:text-[color:var(--ar-accent)] md:text-sm">
+            <span class="ar-clamp-3">{{ $post->title }}</span>
         </a>
-        <time datetime="{{ $post->created_at->toIso8601String() }}">{{ $post->dateForHumans }}</time>
+
+        <div class="mt-auto pt-3 text-xs">
+            <a href="{{ $organizationUrl }}" class="ar-link inline-block max-w-full truncate align-bottom font-medium text-gray-600 hover:text-[color:var(--ar-accent)]">
+                {{ $post->organization->title }}
+            </a>
+            <time datetime="{{ $post->created_at->toIso8601String() }}" class="mt-0.5 block text-gray-400">
+                {{ $post->dateForHumans }}
+            </time>
+        </div>
 
         @if (Route::is('admin.buffer.index'))
             <post-publish-buttons :post="{{ $post }}" />
         @endif
     </div>
-</div>
+</article>
