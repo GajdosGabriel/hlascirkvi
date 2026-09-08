@@ -104,6 +104,9 @@ Route::permanentRedirect('profile', 'dashboard');
 
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 'checkBanned'])->group(function () {
+    Route::get('canal', 'Admin\OrganizationController@index')->name('organization.index');
+    Route::permanentRedirect('organization', '/admin/canal');
+
     Route::resources([
         'home'                 => Admin\AdminController::class,
         'buffer'               => Admin\BufferController::class,
@@ -111,7 +114,6 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
         'prayer'               => Admin\PrayerController::class,
         'comment'              => Admin\CommentController::class,
         'user'                 => Admin\UserController::class,
-        'organization'         => Admin\OrganizationController::class,
         'image'                 => Admin\ImageController::class,
         'statistic'             => Admin\StatisticController::class,
         'tag'                  => Admin\TagController::class,

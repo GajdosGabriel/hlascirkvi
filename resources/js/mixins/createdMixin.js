@@ -1,20 +1,19 @@
+// Capture clicks before a dropdown can stop propagation.
 export const createdMixin = {
-    created: function() {
-        let self = this;
-
-        window.addEventListener('click', function(e){
-            // close dropdown when clicked outside
-            if (!self.$el.contains(e.target)){
-                self.open = false
-            }
-        });
-
-        let that = this;
-        document.addEventListener('keyup', function (evt) {
-            if (evt.keyCode === 27) {
-                that.open = false;
-            }
-        });
+    mounted() {
+        document.addEventListener('click', this.closeOnOutsideClick, true);
+        document.addEventListener('keyup', this.closeOnEscape);
     },
-
+    beforeDestroy() {
+        document.removeEventListener('click', this.closeOnOutsideClick, true);
+        document.removeEventListener('keyup', this.closeOnEscape);
+    },
+    methods: {
+        closeOnOutsideClick(event) {
+            if (!this.$el.contains(event.target)) this.open = false;
+        },
+        closeOnEscape(event) {
+            if (event.key === 'Escape') this.open = false;
+        },
+    },
 };

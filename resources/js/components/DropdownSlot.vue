@@ -24,10 +24,11 @@
     </div>
 </template>
 <script>
+import { createdMixin } from "../mixins/createdMixin";
+
 export default {
+    mixins: [createdMixin],
     props: { align: { type: String, default: "right" } },
-    mounted() { document.addEventListener("click", this.onOutsideClick); },
-    beforeDestroy() { document.removeEventListener("click", this.onOutsideClick); },
     data: function () {
         return {
             open: false,
@@ -36,7 +37,6 @@ export default {
 
     methods: {
         close() { this.open = false; this.$refs.trigger.focus(); },
-        onOutsideClick(event) { if (!this.$el.contains(event.target)) this.open = false; },
         toggle: function () {
             this.open = !this.open;
         },

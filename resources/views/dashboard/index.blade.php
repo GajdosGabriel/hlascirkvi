@@ -117,6 +117,32 @@
                 </div>
             @endif
 
+            <div class="mb-6">
+                <p class="ar-kicker mb-3">Dnes · {{ $now->format('j. n. Y') }}</p>
+                <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                    <div class="ar-kpi">
+                        <span class="ar-kpi__label">Načítané zo zdrojov dnes</span>
+                        <span class="ar-kpi__value">{{ $num($today->imported) }}</span>
+                        <span class="ar-kpi__note">Videá prijaté z YouTube dnes</span>
+                    </div>
+                    <div class="ar-kpi">
+                        <span class="ar-kpi__label">Publikované dnes</span>
+                        <span class="ar-kpi__value">{{ $num($today->published) }}</span>
+                        <span class="ar-kpi__note">{{ $num($posts->published) }} publikovaných celkovo</span>
+                    </div>
+                    <div class="ar-kpi">
+                        <span class="ar-kpi__label">Čakajú na publikovanie</span>
+                        <span class="ar-kpi__value">{{ $num($posts->waiting) }}</span>
+                        <span class="ar-kpi__note">Všetky nezverejnené príspevky</span>
+                    </div>
+                    <div class="ar-kpi">
+                        <span class="ar-kpi__label">Zhliadnutia dnes</span>
+                        <span class="ar-kpi__value">{{ $compact($timeline->last()->views) }}</span>
+                        <span class="ar-kpi__note">Zobrazenia príspevkov kanála</span>
+                    </div>
+                </div>
+            </div>
+
             {{-- ---- Čísla za posledných 30 dní -------------------------- --}}
 
             <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">

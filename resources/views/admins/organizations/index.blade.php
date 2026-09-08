@@ -22,9 +22,7 @@
             </div>
 
 
-            <div class="ar-admin__table" role="region" aria-label="Prehľad" tabindex="0">
-@include('organizations._organization-table')
-</div>
+            <x-organization.list :organizations="$organizations" :user="auth()->user()" :admin="true" />
 
 
             <div class="md:block flex justify-center my-8">

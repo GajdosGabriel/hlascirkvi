@@ -34,6 +34,7 @@ class DashboardStats
         return [
             'now'            => $now,
             'posts'          => $posts,
+            'today'          => $this->today($id, $now),
             'timeline'       => $timeline,
             'views'          => $this->viewsSummary($timeline),
             'activity'       => $this->activity($id, $now),
@@ -73,6 +74,23 @@ class DashboardStats
             'seminars' => (int) $this->seminars($id)->total,
             'prayers'  => (int) $this->prayers($id, CarbonImmutable::now())->total,
         ];
+    }
+
+    /** Dnešné importy a publikácie aktuálneho kanála. */
+    protected function today(int $organizationId, CarbonImmutable $now): object
+    {
+        $start = $now->startOfDay();
+
+        // Buffer preserves the import time before replacing posts.created_at.
+        // Other imports are published immediately and retain their creation time.
+        return DB::table('posts')
+            ->leftJoin('buffer_publications as publication', 'publication.post_id', '=', 'posts.id')
+            ->where('posts.organization_id', $organizationId)
+            ->where('posts.youtube_blocked', 0)
+            ->whereNull('posts.deleted_at')
+            ->selectRaw("coalesce(sum(posts.video_id is not null and posts.video_id <> '' and coalesce(publication.arrived_at, posts.created_at) >= ? and coalesce(publication.arrived_at, posts.created_at) <= ?), 0) as imported", [$start, $now])
+            ->selectRaw('coalesce(sum(posts.published >= ? and posts.published <= ?), 0) as published', [$start, $now])
+            ->first();
     }
 
     /**
