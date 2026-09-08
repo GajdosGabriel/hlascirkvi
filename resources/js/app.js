@@ -31,7 +31,6 @@ Vue.prototype.$auth = new Auth(window.App.user);
  * static imports rather than the require() calls Laravel Mix used.
  */
 
-import MessengerModul from './messenger/Messenger-modul.vue';
 import FavoritePost from './posts/Favorite-post.vue';
 import Notification from './components/Notification.vue';
 import RadioButton from './navigation/RadioButton.vue';
@@ -41,12 +40,9 @@ import OrganizationCard from './organizations/Organization-card.vue';
 import OrganizationPageHeader from './organizations/Organization-page-header.vue';
 import LoginCard from './auth/LoginCard.vue';
 import YoutubeDash from './youtube/YoutubeDash.vue';
-import SwithFilter from './posts/Swith-filter.vue';
 import Comments from './comments/Comments.vue';
 import CommentItem from './comments/Comment-Item.vue';
 import NewOrganization from './organizations/NewOrganization.vue';
-import GetOrganization from './organizations/GetOrganization.vue';
-import NewsRss from './components/News-rss_0.vue';
 import PrayersCard from './prayer/prayers-card.vue';
 import PrayersIndexPage from './prayer/prayers-index-page.vue';
 import PrayersIndexPage2 from './prayer/prayers-index-page2.vue';
@@ -61,10 +57,8 @@ import SeminarTitle from './seminars/seminar-title.vue';
 import SeminarInfo from './seminars/seminar-info.vue';
 import SeminarDescription from './seminars/seminar-description.vue';
 import CommentsCard from './comments/comments-card.vue';
-import UserCommentsCard from './comments/user-comments-card.vue';
 import DropdownSlot from './components/DropdownSlot.vue';
 
-Vue.component('messenger-modul', MessengerModul);
 Vue.component('favorite-post', FavoritePost);
 Vue.component('notification', Notification);
 Vue.component('radio-button', RadioButton);
@@ -74,12 +68,9 @@ Vue.component('organization-card', OrganizationCard);
 Vue.component('organization-page-header', OrganizationPageHeader);
 Vue.component('login-card', LoginCard);
 Vue.component('youtube-dash', YoutubeDash);
-Vue.component('swith-filter', SwithFilter);
 Vue.component('comments-post', Comments);
 Vue.component('comment-item', CommentItem);
 Vue.component('new-organization', NewOrganization);
-Vue.component('get-organization', GetOrganization);
-Vue.component('news-rss', NewsRss);
 Vue.component('prayers-card', PrayersCard);
 Vue.component('prayers-index-page', PrayersIndexPage);
 Vue.component('prayers-index-page2', PrayersIndexPage2);
@@ -94,7 +85,6 @@ Vue.component('seminar-title', SeminarTitle);
 Vue.component('seminar-info', SeminarInfo);
 Vue.component('seminar-description', SeminarDescription);
 Vue.component('comments-card', CommentsCard);
-Vue.component('user-comments-card', UserCommentsCard);
 Vue.component('dropdown-slot', DropdownSlot);
 
 

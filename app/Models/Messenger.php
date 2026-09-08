@@ -23,18 +23,4 @@ class Messenger extends Model
         return $this->belongsTo(User::class, 'requested_user');
     }
 
-    public function scopeUserMessages($user)
-    {
-        if(auth()->check()) {
-            $first = $this->whereUserId(auth()->user()->id)->whereRequestedUser($user)->get();
-            $second = $this->whereUserId($user)->whereRequestedUser(auth()->user()->id)->get();
-
-//         spojit dve kolekcie do jednej, zoradit a vratit vysledok
-          return $first->concat($second)->sortBy('created_at');
-        }
-
-    }
-
-
-
 }

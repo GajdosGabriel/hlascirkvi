@@ -118,10 +118,15 @@ class User extends Authenticatable
         return $this->last_name . ' ' . $this->first_name;
     }
 
+    /**
+     * `users` nemá stĺpec `person` (ten je na organizations), takže podmienka
+     * `$this->id == $this->person` nikdy neplatila a atribút vracal celý model
+     * kanála. Laravel pritom číta $user->name pri Mail::to() ako meno príjemcu
+     * — do hlavičky e-mailu tak išiel JSON celého riadku organizácie.
+     */
     public function getNameAttribute()
     {
-        if ($this->id == $this->person) return $this->getFullnameAttribute();
-        return $this->organization;
+        return $this->getFullnameAttribute();
     }
 
     public function getPostsCountAttribute()

@@ -7,7 +7,6 @@ use App\Traits\HasRoute;
 use App\Traits\HasImages;
 use App\Traits\HasComments;
 use Illuminate\Support\Str;
-use App\Casts\DateTimeHuman;
 use App\Casts\VideoDuration;
 use App\Traits\HasFavorites;
 use App\Traits\HasFilter;
@@ -47,8 +46,7 @@ class Post extends Model
 
     protected $casts = [
         'video_duration' => VideoDuration::class,
-        'title' => \App\Casts\StringLength255::class
-        // 'created_at' => DateTimeHuman::class
+        'title' => \App\Casts\StringLength255::class,
     ];
 
 
@@ -91,12 +89,6 @@ class Post extends Model
     {
         $this->attributes['title'] = cleanTitle(ucfirst($value));
         $this->attributes['slug']  = Str::slug($value);
-    }
-
-    public function getPersonAttribute()
-    {
-        if ($this->user->organization) return $this->user->organization;
-        return $this->user->fullname;
     }
 
 
