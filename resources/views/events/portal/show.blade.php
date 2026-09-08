@@ -376,43 +376,4 @@
     </div>
 @endsection
 
-@push('scripts')
-    <script>
-        // Kopírovanie odkazu. clipboard API funguje len cez https, na http
-        // sa tlačidlo správa ako keby sa nič nestalo — preto krátky fallback.
-        //
-        // Poslucháča vešiame až po DOMContentLoaded: Vue mountuje na #app
-        // a prekreslí obsah stránky, takže tlačidlo, ktoré tu je pri
-        // parsovaní, o chvíľu v dokumente už nie je a klik by nikam neviedol.
-        var initCopyLink = function () {
-            document.querySelectorAll('.js-copy-link').forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var url = button.dataset.url;
-                    var done = function () {
-                        var original = button.innerHTML;
-                        button.innerHTML = '<i class="fas fa-check"></i> Skopírované';
-                        setTimeout(function () { button.innerHTML = original; }, 2000);
-                    };
 
-                    if (navigator.clipboard && window.isSecureContext) {
-                        navigator.clipboard.writeText(url).then(done);
-                        return;
-                    }
-
-                    var field = document.createElement('input');
-                    field.value = url;
-                    document.body.appendChild(field);
-                    field.select();
-                    try { document.execCommand('copy'); done(); } catch (e) {}
-                    document.body.removeChild(field);
-                });
-            });
-        };
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initCopyLink);
-        } else {
-            initCopyLink();
-        }
-    </script>
-@endpush

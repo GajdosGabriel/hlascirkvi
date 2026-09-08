@@ -5,6 +5,8 @@
  */
 
 import './bootstrap';
+import { initCopyLink } from './copyLink';
+import { initArticle } from './article';
 
 // Prehliadač obrázkov na čiernej ploche; visí na `document`, žiadne volanie netreba.
 import './lightbox';
@@ -110,3 +112,9 @@ const app = new Vue({
  * túto udalosť a spúšťajú sa až nad hotovým stromom.
  */
 document.dispatchEvent(new CustomEvent('app:ready'));
+
+// Až za mountom Vue — poslucháče sa vešajú na uzly, ktoré zostanú v strome.
+initCopyLink();
+
+// Obe časti sa samy ukončia, keď ich uzly na stránke nie sú.
+initArticle();
