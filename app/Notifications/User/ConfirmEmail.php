@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\URL;
 
 class ConfirmEmail extends Notification implements ShouldQueue
 {
@@ -47,7 +48,9 @@ class ConfirmEmail extends Notification implements ShouldQueue
             ->greeting('Dobrý deň,')
             ->line('autorizujte svoju registráciu na kresťanskom portály HlasCirkvi.sk ')
             ->line('a získajte plný prístup.')
-            ->action('Potvrdiť registráciu', route('confirmEmail', [$this->user->id]) )
+            // Podpísaná URL — routa `confirmEmail` je verejná, takže bez podpisu
+            // by stačilo uhádnuť ID a overiť cudzí e-mail.
+            ->action('Potvrdiť registráciu', URL::signedRoute('confirmEmail', ['user' => $this->user->id]))
             ->line('Ďakujeme za autorizáciu registrácie.');
     }
 

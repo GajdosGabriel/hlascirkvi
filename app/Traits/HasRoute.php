@@ -19,16 +19,17 @@ trait HasRoute
     }
     
 
-    // Genarali routes
+    /**
+     * Adresa detailu. Vracalo sa tu pole odkazov na routy post.edit, post.update,
+     * post.store a post.delete — ani jedna z nich neexistuje (CRUD príspevkov
+     * beží pod menami profile.organization.post.* a admin.post.*), takže každý
+     * prístup k $post->url skončil RouteNotFoundException a zhodil serializáciu
+     * príspevku. Šablóny aj resources/js/posts/card/card.vue pritom čakajú
+     * obyčajný reťazec.
+     */
     public function getUrlAttribute()
     {
-        return [
-            'show'      =>  route($this->getClasses() . '.show', [$this->id, $this->slug]),
-            'edit'      =>  route($this->getClasses() . '.edit', [$this->id]),
-            'update'    =>  route($this->getClasses() . '.update', $this->id),
-            'store'     =>  route($this->getClasses() . '.store'),
-            'destroy'   =>  route($this->getClasses() . '.delete', $this->id),
-        ];
+        return $this->routeShow();
     }
 
     // public function getUrlAttribute()

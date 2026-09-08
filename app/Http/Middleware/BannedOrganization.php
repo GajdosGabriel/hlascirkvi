@@ -2,25 +2,29 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Post;
 use Closure;
 use Illuminate\Http\Request;
 
+/**
+ * Príspevky z vypnutého kanála sa nezobrazujú.
+ *
+ * Telo tejto triedy bolo celé zakomentované, hoci middleware ostal nasadený
+ * na post.show aj post.rail — budil teda dojem ochrany, ktorú nerobil.
+ * Samotná kontrola žila dvakrát nakopírovaná v Public\PostController.
+ */
 class BannedOrganization
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
     public function handle(Request $request, Closure $next)
     {
-        // $post = $request->route('post');
-        // // Kanál(organization) nie je publikovaný a tým aj posts nie je možné zobrazovať.
-        // if (!$post->organization->published) {
-        //     abort(405, "Kanál {$post->organization->title} je vypnutý!");
-        // }
+        $post = $request->route('post');
+
+        // Kanál bez príznaku `published` je pre verejnosť neexistujúci — 404,
+        // nie 405. „Method Not Allowed" hovorí crawlerom niečo úplne iné.
+        if ($post instanceof Post && ! $post->organization?->published) {
+            abort(404);
+        }
+
         return $next($request);
     }
 }

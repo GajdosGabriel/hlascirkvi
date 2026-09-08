@@ -21,8 +21,20 @@
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
+        <!--
+            Schéma sa stavia z database/schema/mysql-schema.sql (php artisan
+            schema:dump), pretože migrácie zakladajúce väčšinu tabuliek
+            v repozitári nikdy neboli. Dump je MySQL-ový a aplikácia sa
+            o MySQL opiera aj inde (fulltext, window funkcie v
+            EloquentPostRepository), takže testy bežia na samostatnej
+            MySQL databáze, nie na SQLite v pamäti.
+
+            Databázu treba raz vytvoriť:
+              CREATE DATABASE hlascirkvi_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        -->
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="hlascirkvi_test"/>
+        <env name="MAIL_MAILER" value="array"/>
         <env name="MAIL_DRIVER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>

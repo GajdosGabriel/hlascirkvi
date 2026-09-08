@@ -27,8 +27,10 @@ class VillageController extends Controller
     // Hľadanie podla názvu obce
     public function store(Request $request)
     {
+        // Vracia sa kolekcia, takže VillageResource::collection — `new VillageResource`
+        // obalil celú kolekciu do jedného resource a klient dostal iný tvar.
         $villages = Village::where('fullname', 'like', $request->input('name') . '%')->take(12)->get();
 
-        return new VillageResource($villages);
+        return VillageResource::collection($villages);
     }
 }

@@ -24,8 +24,8 @@ class Post extends Model
 {
     use HasFactory, Notifiable, SoftDeletes, HasViews, HasFavorites, HasComments, HasImages, HasOrganization, HasRoute, HasFilter, HasDatetime;
 
-    protected $guarded = ['id'];
-
+    // $guarded a $fillable naraz nedávajú zmysel — Eloquent uprednostní
+    // $fillable a $guarded ignoruje, takže tu len mätlo. Platí zoznam nižšie.
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['favorites', 'images', 'organization'];

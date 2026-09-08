@@ -40,7 +40,7 @@
                             <div class="inline">
                                 <label>Účet blokovaný</label>
                                 <input type="radio" value="1"
-                                    @if (isset($user->disabled) and $user->disabled == 1) checked @else checked @endif name="disabled">
+                                    @if (isset($user->disabled) and $user->disabled == 1) checked @endif name="disabled">
                             </div>
 
                             <div class="inline">

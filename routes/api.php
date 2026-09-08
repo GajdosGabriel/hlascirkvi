@@ -8,25 +8,50 @@ use App\Http\Resources\UserResource;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| Verejné sú len čítacie endpointy a tie tri zápisy, ktoré sú zámernou
+| funkciou webu: anonymný komentár, anonymná modlitba a označenie kanála
+| ako obľúbeného bez prihlásenia (viď App\Traits\HasComments::addComment).
+| Všetko ostatné patrí za auth:sanctum — EnsureFrontendRequestsAreStateful
+| v skupine `api` (app/Http/Kernel.php:44) pustí prihláseného SPA klienta
+| cez session cookie, takže tokeny netreba.
 |
 */
 
+/*
+ * Verejné čítanie
+ */
+Route::apiResource('prayers', Api\PrayerController::class)->only(['index']);
+Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled')->name('prayers.fulfilled');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return new UserResource($request->user());
+Route::apiResource('posts', Api\PostController::class)->only(['index']);
+Route::apiResource('comments', Api\CommentController::class)->only(['index']);
+Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['index']);
+Route::apiResource('organization', Api\OrganizationController::class)->only(['show']);
+
+Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal')
+    ->whereIn('canal', ['domov', 'zahranicie', 'press'])
+    ->name('api.rss');
+
+/*
+ * Verejné zápisy — anonymný komentár a anonymné označenie obľúbeného kanála
+ * sú funkcia webu, nie diera. Sú preto obmedzené sadzbou.
+ */
+Route::middleware('throttle:10,1')->group(function () {
+    Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['store']);
+    Route::apiResource('organizations.favorites', Api\OrganizationFavoriteController::class)->only(['store']);
+
+    // Modlitbu vie pridať aj neprihlásený — formulár od neho žiada e-mail
+    // (resources/js/prayer/ModalNewPrayer.vue:103) a EloquentUserRepository
+    // ::checkIfUserAccountExist mu podľa neho založí a prihlási účet.
+    Route::apiResource('prayers', Api\PrayerController::class)->only(['store']);
 });
 
+/*
+ * Zápisy pre prihlásených
+ */
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', fn (Request $request) => new UserResource($request->user()))->name('api.user');
 
-Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal');
-Route::get('test/test', 'TestController@index');
-Route::get('test/grecky', 'TestController@greckyMagazin');
-Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled');
-
-
-Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResources([
         'notifications'         => Api\NotificationController::class,
         'users'                 => Api\UserController::class,
@@ -36,28 +61,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         'updaters'              => Api\UpdaterController::class,
     ]);
 
+    Route::apiResource('prayers', Api\PrayerController::class)->only(['update', 'destroy']);
+    Route::apiResource('comments', Api\CommentController::class)->only(['destroy']);
+    Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['update', 'destroy']);
 
-});
-
-Route::apiResources([
-    'prayers'                   => Api\PrayerController::class,
-    'posts'                     => Api\PostController::class,
-    'postSupport'               => Api\PostSupportController::class,
-    'posts.comments'            => Api\PostCommentController::class,
-    'organization'              => Api\OrganizationController::class,
-    'organizations.favorites'   => Api\OrganizationFavoriteController::class,
-    'comments'                  => Api\CommentController::class,
-]);
-
-
-
-Route::get('artisan/run', function () {
-
-    \Artisan::call('cache:clear');
-    \Artisan::call('view:clear');
-    \Artisan::call('config:clear');
-    \Artisan::call('optimize:clear');
-    // \Artisan::call('queue:work');
-
-    dd("All is cleared");
+    // Zverejnenie / zablokovanie príspevku a presun do Bufferu sú akcie
+    // administrácie — tlačidlá k nim sa vykresľujú len na admin.buffer.index
+    // (resources/views/posts/card-front.blade.php:52).
+    Route::middleware('checkSuperAdmin')->group(function () {
+        Route::apiResource('posts', Api\PostController::class)->only(['update']);
+        Route::apiResource('postSupport', Api\PostSupportController::class)->only(['update']);
+    });
 });

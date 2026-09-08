@@ -29,15 +29,28 @@ class PostController extends Controller
         return PostResource::collection($posts);
     }
 
-    public function update($post, Request $request)
+    /**
+     * Zverejnenie príspevku z Bufferu a zablokovanie YouTube videa.
+     * Iné pole sem neprichádza — tlačidlá sú v resources/js/posts/card/buttons.vue
+     * a vykresľujú sa len na admin.buffer.index.
+     *
+     * Pôvodne tu bolo `Post::whereId($post)->first()->update($request->all())`
+     * na route mimo auth, takže ktokoľvek vedel prepísať ľubovoľný príspevok.
+     */
+    public function update(Post $post, Request $request)
     {
+        $data = $request->validate([
+            'idUpdater'       => 'nullable|integer|exists:updaters,id',
+            'youtube_blocked' => 'nullable|boolean',
+        ]);
 
-        if ($request->idUpdater) {
-            // idUpdater = 15
-            $this->post->findAndPublishPost($post, $request->idUpdater);
+        if (! empty($data['idUpdater'])) {
+            $this->post->findAndPublishPost($post->id, $data['idUpdater']);
             return;
         }
 
-        Post::whereId($post)->first()->update($request->all());
+        if (array_key_exists('youtube_blocked', $data)) {
+            $post->update(['youtube_blocked' => $data['youtube_blocked']]);
+        }
     }
 }

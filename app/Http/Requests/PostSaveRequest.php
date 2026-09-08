@@ -22,7 +22,25 @@ class PostSaveRequest extends FormRequest
             'title' => 'required|string|max:255|min:3',
             'body' => 'required|string|min:3',
             'updaters' => 'required|integer|exists:updaters,id',
-            // 'organization_id' => 'required|integer|exists:organizations,id',
+
+            /*
+             * Výber kanála sa vo formulári ukáže len administrácii
+             * (resources/views/posts/form.blade.php:48). Kým sa hodnota
+             * nevalidovala a do modelu šla cez $request->all(), dal sa
+             * príspevok doposlaním tohto poľa presunúť do cudzieho kanála.
+             */
+            'organization_id' => [
+                'sometimes', 'integer', 'exists:organizations,id',
+                function ($attribute, $value, $fail) {
+                    if (auth()->user()->can('superadmin')) {
+                        return;
+                    }
+
+                    if (! auth()->user()->organizations()->whereKey($value)->exists()) {
+                        $fail('Do tohto kanála nemôžete publikovať.');
+                    }
+                },
+            ],
 
             /*
              * accept="image/*" vo formulári je len nápoveda pre prehliadač,

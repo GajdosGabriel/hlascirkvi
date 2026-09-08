@@ -25,9 +25,31 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
+     * Doteraz tu bolo $guarded = [], čiže hromadne zapisovateľné bolo všetko
+     * vrátane `password`, `disabled`, `email_verified_at` a `org_id`. V spojení
+     * s `$user->update($request->all())` v API to znamenalo prevzatie účtu.
+     *
+     * Stavové stĺpce (disabled, email_verified_at, verified, api_token) sa
+     * zámerne nastavujú priamym priradením tam, kde na to je dôvod.
+     *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'avatar',
+        'description',
+        'slug',
+        'send_email',
+        'front_author',
+        'set_denomination',
+        'org_id',
+        'notify_bell',
+        'vocative',
+        'gender',
+    ];
 
 
     /**
@@ -35,15 +57,22 @@ class User extends Authenticatable
      *
      * @var array
      */
+    // api_token tu chýbal, takže sa posielal klientovi v každej serializácii
+    // užívateľa — napríklad v odpovedi na pridanie komentára.
     protected $hidden = [
-        'password', 'remember_token', 'email', 'send_email', 'front_author', 'disabled', 'updated_at', 'deleted_at', 'set_denomination', 'email_verified_at', 'vocative'
+        'password', 'remember_token', 'api_token', 'email', 'send_email', 'front_author', 'disabled', 'updated_at', 'deleted_at', 'set_denomination', 'email_verified_at', 'vocative'
     ];
 
 
+    // 'created_at' tu bolo bez kľúča, takže skončilo pod indexom 0 a ako cast
+    // sa nikdy neuplatnilo. Boolean stĺpce sa zároveň čítali ako reťazce "0"/"1".
     protected $casts = [
-        'created_at',
-        'email_verified_at' => 'date',
-        // 'notify_bell'
+        'email_verified_at' => 'datetime',
+        'notify_bell' => 'datetime',
+        'disabled' => 'boolean',
+        'send_email' => 'boolean',
+        'front_author' => 'boolean',
+        'verified' => 'boolean',
     ];
 
     public function setFirstNameAttribute($value)

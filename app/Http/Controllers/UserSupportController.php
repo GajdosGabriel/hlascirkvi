@@ -36,15 +36,19 @@ class UserSupportController extends Controller
 
     public function confirmEmail(User $user)
     {
-        if (!$user->email_verified_at == null) {
-            session()->flash('flash', 'Email je autorizovaný! Ďakujeme.');
-            return;
-        };
+        // Pôvodne `!$user->email_verified_at == null` — `!` sa vyhodnotí skôr
+        // než `==`, takže podmienka robila presný opak. A vetva pre už overený
+        // e-mail nevracala odpoveď, čiže návštevník videl prázdnu stránku.
+        if ($user->email_verified_at !== null) {
+            return redirect()->route('posts.index')
+                ->with('flash', 'Email je už autorizovaný! Ďakujeme.');
+        }
 
-        $user->update([
-            'email_verified_at' => Carbon::now()
-        ]);
+        // email_verified_at nie je v $fillable (App\Models\User).
+        $user->email_verified_at = Carbon::now();
+        $user->save();
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index')
+            ->with('flash', 'Email je autorizovaný! Ďakujeme.');
     }
 }

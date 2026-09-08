@@ -33,10 +33,11 @@ class SavePrayerRequest extends FormRequest
             ];
         }
 
+        // 'body' tu bolo dvakrát — druhý zápis prvý ticho prepísal.
         return [
-            'body' => 'bail|required|min:3',
             'title' => [ 'required','min:3', new NoUrlLinkRule],
-            'body' => [ 'required','min:3', new NoUrlLinkRule],
+            'body' => [ 'bail', 'required','min:3', new NoUrlLinkRule],
+            'user_name' => 'nullable|string|min:2|max:255',
         ];
     }
 }

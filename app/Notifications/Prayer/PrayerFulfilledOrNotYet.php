@@ -7,6 +7,7 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\URL;
 
 class PrayerFulfilledOrNotYet extends Notification implements ShouldQueue
 {
@@ -50,7 +51,9 @@ class PrayerFulfilledOrNotYet extends Notification implements ShouldQueue
             ->line($this->prayer->body)
             // ->line('Zverejnená: ' . $this->prayer->created_at)
             ->line('Ak modlitba bola vypočutá, kliknutím na tlačidlo, ju zaradíte zoznamu vypočutých modlitieb.')
-            ->action('Modlitba bola vypočutá' , route('prayer.fulfilledAt', $this->prayer->id))
+            // Podpísaná URL — inak by stačilo uhádnuť ID a označiť cudziu
+            // modlitbu za vypočutú.
+            ->action('Modlitba bola vypočutá', URL::signedRoute('prayer.fulfilledAt', ['prayer' => $this->prayer->id]))
             ->line('V opačnom prípade nereagujte a modlitebný úmysle bude stále aktuálny.')
             // ->line(new HtmlString('<a href="/" style="display:block; margin: 0 auto; width: 180px;">Modlitba bola vypočutá</a>'))
             ->salutation('S pozdravom');
