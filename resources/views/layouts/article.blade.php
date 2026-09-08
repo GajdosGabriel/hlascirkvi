@@ -276,28 +276,7 @@
         @include('layouts.footer')
     </div>
 
-    {{-- Skripty šablón bežia počas parsovania stránky, ale Vue vzápätí
-         prekreslí celý #app a pôvodné uzly aj s ich poslucháčmi zahodí.
-         arReady() ich preto podrží a spustí až nad hotovým stromom.
-         window.load je poistka pre prípad, že by bundle nenabehol. --}}
-    <script>
-        (function () {
-            var pending = [];
-            var started = false;
-
-            var start = function () {
-                if (started) return;
-                started = true;
-                pending.forEach(function (fn) { fn(); });
-                pending = [];
-            };
-
-            window.arReady = function (fn) { started ? fn() : pending.push(fn); };
-
-            document.addEventListener('app:ready', start);
-            window.addEventListener('load', start);
-        })();
-    </script>
+    @include('partials.ar-ready')
 
     @stack('scripts')
 </body>

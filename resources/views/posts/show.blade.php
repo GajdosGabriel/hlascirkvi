@@ -457,8 +457,10 @@
         </script>
     @endif
 
+    {{-- App ID ide z konfigurácie, aby sedelo s fb:app_id v meta značkách
+         a s FB.init v partials/analyticstracking. --}}
     <script async defer crossorigin="anonymous"
-            src="https://connect.facebook.net/sk_SK/sdk.js#xfbml=1&version=v5.0&appId=500741757380226"></script>
+            src="https://connect.facebook.net/sk_SK/sdk.js#xfbml=1&version=v5.0&appId={{ config('seo.facebook_app_id') }}"></script>
 
     <script>
         // Ukazovateľ prečítanej časti — počíta sa z výšky článku, nie stránky,
