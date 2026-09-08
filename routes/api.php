@@ -23,7 +23,13 @@ use App\Http\Resources\UserResource;
 Route::apiResource('prayers', Api\PrayerController::class)->only(['index']);
 Route::get('prayers/fulfilled', 'Api\PrayerController@fulfilled')->name('prayers.fulfilled');
 
-Route::apiResource('posts', Api\PostController::class)->only(['index']);
+// Meno `posts.index` už patrí verejnému výpisu (routes/web.php:63). Bez
+// premenovania ho tento zdroj prebije a `route('posts.index')` v šablónach
+// vráti /api/posts — prepínače nad výpisom potom namiesto stránky otvárali JSON.
+Route::apiResource('posts', Api\PostController::class)
+    ->only(['index'])
+    ->names(['index' => 'api.posts.index']);
+
 Route::apiResource('comments', Api\CommentController::class)->only(['index']);
 Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['index']);
 Route::apiResource('organization', Api\OrganizationController::class)->only(['show']);
