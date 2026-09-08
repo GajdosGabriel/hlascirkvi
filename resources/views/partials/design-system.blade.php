@@ -240,6 +240,146 @@
     }
     .ar-link:hover { background-size: 100% 1px; }
 
+
+    /* ---- Modlitebný múr ------------------------------------------------ */
+
+    /* Tlačidlá múru. Staré .btn* z app.css nosia modrú administrácie, tu
+       potrebujeme rovnaký akcent ako zvyšok verejnej časti. */
+    .ar-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: .45rem;
+        border: 1px solid transparent;
+        border-radius: 9999px;
+        padding: .45rem 1rem;
+        font-size: .8125rem;
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+        transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+    }
+    .ar-btn--accent { background: var(--ar-accent); color: #fff; }
+    .ar-btn--accent:hover { background: #9f1717; }
+    .ar-btn--quiet {
+        background: #fff;
+        border-color: var(--ar-line);
+        color: var(--ar-ink-soft);
+    }
+    .ar-btn--quiet:hover { border-color: var(--ar-accent); color: var(--ar-accent); }
+    /* pointer-events, nie len opacity — inak by sa kliknutie na neaktívne
+       stránkovanie prebublalo na kartu pod ním. */
+    .ar-btn[disabled] { opacity: .35; pointer-events: none; }
+
+    /* Štítky: počet modliacich sa, príznak vypočutej prosby. */
+    .ar-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: .3rem;
+        border: 1px solid transparent;
+        border-radius: 9999px;
+        padding: .1rem .5rem;
+        font-size: .6875rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+    }
+    .ar-badge--count { background: var(--ar-paper-deep); color: var(--ar-ink-soft); }
+    .ar-badge--ok { background: #ecfdf5; border-color: #a7f3d0; color: #047857; }
+
+    /* Kartička prosby — podklad a rám drží .ar-card, tu je len jej vnútro. */
+    .ar-prayer__mark {
+        display: grid;
+        flex: 0 0 2.5rem;
+        height: 2.5rem;
+        place-items: center;
+        border-radius: 9999px;
+        background: var(--ar-accent-soft);
+    }
+    .ar-prayer__mark img { height: 1.4rem; width: auto; }
+
+    .ar-prayer__meta {
+        font-size: .75rem;
+        color: #9ca3af;
+    }
+
+    /* Vypočutá prosba dostane zelený prúžok namiesto pôvodného zeleného
+       podkladu cez celú kartu, na ktorom sa text čítal ťažko. */
+    .ar-prayer--ok { border-left: 3px solid #10b981; }
+    .ar-prayer--ok .ar-prayer__mark { background: #ecfdf5; }
+
+    /* Ponuka vlastníka nad kartou (upraviť/zmazať). */
+    .ar-prayer__menu {
+        position: absolute;
+        right: 0;
+        top: 1.75rem;
+        z-index: 20;
+        min-width: 9rem;
+        overflow: hidden;
+        border: 1px solid var(--ar-line);
+        border-radius: .5rem;
+        background: #fff;
+        box-shadow: 0 18px 40px -24px rgba(16, 24, 40, .55);
+    }
+    .ar-prayer__menu button {
+        display: block;
+        width: 100%;
+        padding: .5rem .75rem;
+        text-align: left;
+        font-size: .8125rem;
+        color: var(--ar-ink-soft);
+    }
+    .ar-prayer__menu button:hover { background: var(--ar-paper); color: var(--ar-ink); }
+
+    /* ---- Modálne okná múru --------------------------------------------- */
+
+    .ar-modal {
+        width: 100%;
+        max-width: 34rem;
+        overflow: hidden;
+        border-radius: .75rem;
+        background: #fff;
+        box-shadow: 0 40px 80px -40px rgba(16, 24, 40, .7);
+    }
+    .ar-modal__head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        border-bottom: 1px solid var(--ar-line);
+        padding: 1rem 1.25rem;
+    }
+    .ar-modal__close {
+        flex: 0 0 auto;
+        color: #9ca3af;
+        line-height: 1;
+        transition: color .15s ease;
+    }
+    .ar-modal__close:hover { color: var(--ar-accent); }
+
+    .ar-label {
+        display: block;
+        margin-bottom: .25rem;
+        font-size: .8125rem;
+        font-weight: 600;
+        color: var(--ar-ink);
+    }
+    .ar-field {
+        width: 100%;
+        border: 1px solid var(--ar-line);
+        border-radius: .5rem;
+        background: #fff;
+        padding: .55rem .75rem;
+        font-size: .9375rem;
+        color: var(--ar-ink);
+        outline: none;
+        transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .ar-field:focus {
+        border-color: var(--ar-accent);
+        box-shadow: 0 0 0 3px rgba(var(--ar-accent-rgb), .12);
+    }
+    .ar-hint { margin-top: .3rem; font-size: .75rem; color: #9ca3af; }
     /* ---- Bočný panel --------------------------------------------------- */
 
     /* Panely vpravo skladajú Vue komponenty a x-cards.card, ktoré nosia

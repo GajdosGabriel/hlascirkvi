@@ -75,11 +75,6 @@ class Organization extends Model
         return $this->hasMany(Seminar::class);
     }
 
-    public function bigThings()
-    {
-        return $this->hasMany(BigThink::class);
-    }
-
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = ucfirst($value);

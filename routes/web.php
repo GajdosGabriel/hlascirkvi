@@ -1,6 +1,64 @@
 <?php
-
 Auth::routes();
+// Prihlasovacie routy stoja explicitne, nie cez macro Auth::routes() z
+// laravel/ui. Kontrolery v App\Http\Controllers\Auth pritom stále stoja na
+// traitoch Illuminate\Foundation\Auth\* (AuthenticatesUsers, RegistersUsers,
+// ResetsPasswords...), ktoré od Laravelu 8 nie sú vo frameworku a dodáva ich
+// práve laravel/ui cez vendor/laravel/ui/auth-backend. Balík preto musí zostať
+// v "require", nie v "require-dev" - produkčné composer install --no-dev inak
+// zhodí celé prihlasovanie.
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
+
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+
+Route::get('password/confirm', 'Auth\ConfirmPasswordController@showConfirmForm')->name('password.confirm');
+Route::post('password/confirm', 'Auth\ConfirmPasswordController@confirm');
+
+Route::get('/openAi', function() {
+    //  $models = OpenAI::models()->list();
+    //     dd($models);
+
+    $response = OpenAI::chat()->create([
+        'model' => 'gpt-4.1-mini',
+        'messages' => [
+            ['role' => 'user', 'content' => 'Napíš krátky pozdrav']
+        ],
+
+      'response_format' => [
+        'type' => 'json_schema',
+        'json_schema' => [
+            'name' => 'event_extraction',
+            'schema' => [
+                'type' => 'object',
+                'properties' => [
+                    'start_date' => [
+                        'type' => 'string',
+                        'description' => 'Dátum začiatku akcie vo formáte YYYY-MM-DD'
+                    ],
+                    'organizer' => [
+                        'type' => 'string'
+                    ],
+                    'meeting_place' => [
+                        'type' => 'string'
+                    ],
+                ],
+                'required' => ['start_date', 'organizer', 'meeting_place'],
+                'additionalProperties' => false
+            ]
+        ]
+    ],
+]);
+
+    dd($response->choices[0]->message->content);
+});
 
 Route::get('/', 'Public\PostController@index')->name('posts.index');
 
@@ -62,7 +120,6 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         'organization.prayer'           => Organization\OrganizationPrayerController::class,
         'profile'                       => Organization\ProfileController::class,
         'user.organization'             => User\UserOrganizationController::class,
-        'post.think'                    => PostThingController::class,
     ]);
 
     // UserAddressController only imports contacts, it has no create/show/edit/

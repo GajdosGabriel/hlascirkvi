@@ -7,7 +7,6 @@ use App\Models\Post;
 use App\Models\User;
 
 use App\Models\Verse;
-use App\Models\BigThink;
 use App\Models\Category;
 use App\Models\Organization;
 use Illuminate\Support\ServiceProvider;
@@ -81,12 +80,6 @@ class ViewServiceProvider extends ServiceProvider
         // Verses daily reading
         view()->composer('verses.daily-modul', function ($view) {
             $view->with('verse', Verse::whereId(now()->dayOfYear)->first());
-        });
-
-
-        //  Big Thing
-        view()->composer('bigthink.aside_last_big_think', function ($view) {
-            $view->with('bigThings', BigThink::latest()->take(7)->get());
         });
 
     }

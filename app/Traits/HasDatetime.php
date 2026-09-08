@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Models\BigThink;
 
 
 trait HasDatetime
