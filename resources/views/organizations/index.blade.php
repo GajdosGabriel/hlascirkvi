@@ -81,7 +81,7 @@
 
     $orgPage = $posts->currentPage();
 
-    $orgImage = optional(optional($posts->first())->images->first())->originalImageUrl;
+    $orgImage = $posts->first()?->images?->first()?->originalImageUrl;
 
     $orgDescription = strip_tags((string) $organization->description)
         ?: 'Kázne, prenosy bohoslužieb a videá kanála ' . $organization->title . ' na Hlase Cirkvi.';
