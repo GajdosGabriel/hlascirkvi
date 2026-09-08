@@ -270,6 +270,9 @@
     /* pointer-events, nie len opacity — inak by sa kliknutie na neaktívne
        stránkovanie prebublalo na kartu pod ním. */
     .ar-btn[disabled] { opacity: .35; pointer-events: none; }
+    /* Nie je to odkaz ani akcia — len konštatovanie stavu. */
+    .ar-btn--still { border-style: dashed; cursor: default; }
+    .ar-btn--still:hover { border-color: var(--ar-line); color: var(--ar-ink-soft); }
 
     /* Štítky: počet modliacich sa, príznak vypočutej prosby. */
     .ar-badge {
@@ -286,6 +289,7 @@
     }
     .ar-badge--count { background: var(--ar-paper-deep); color: var(--ar-ink-soft); }
     .ar-badge--ok { background: #ecfdf5; border-color: #a7f3d0; color: #047857; }
+    .ar-badge--warn { background: #fffbeb; border-color: #fde68a; color: #b45309; }
 
     /* Kartička prosby — podklad a rám drží .ar-card, tu je len jej vnútro. */
     .ar-prayer__mark {
@@ -380,6 +384,207 @@
         box-shadow: 0 0 0 3px rgba(var(--ar-accent-rgb), .12);
     }
     .ar-hint { margin-top: .3rem; font-size: .75rem; color: #9ca3af; }
+    /* ---- Lišta filtrov -------------------------------------------------- */
+
+    /* Prepínače vľavo, hľadanie vpravo. Samotné tlačidlá sú .ar-tab, tu je len
+       ich rozloženie — aby lišta na mobile zalomila a hľadanie ostalo celé. */
+    .ar-filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: .5rem .75rem;
+    }
+    .ar-filters__set {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .4rem;
+        min-width: 0;
+    }
+    .ar-filters__reset {
+        font-size: .75rem;
+        color: #9ca3af;
+        white-space: nowrap;
+        transition: color .15s ease;
+    }
+    .ar-filters__reset:hover { color: var(--ar-accent); }
+
+    /* ---- Nástenka profilu ----------------------------------------------- */
+
+    /* Bočné menu nosí ešte indigo z pôvodného vzhľadu. Prepisuje sa len
+       v rámci .ar-dash, aby ostatné stránky nástenky ostali nedotknuté. */
+    /* Na úzkom displeji je menu vodorovný pás — inak by správca musel pred
+       vlastným výpisom preskrolovať celú navigáciu. Do stĺpca sa skladá až
+       tam, kde má stránka bočný panel (lg). */
+    .ar-dash__menu {
+        display: flex;
+        gap: .35rem;
+        overflow-x: auto;
+        padding-bottom: .25rem;
+        scrollbar-width: none;
+    }
+    .ar-dash__menu::-webkit-scrollbar { display: none; }
+    @media (min-width: 1024px) {
+        .ar-dash__menu { flex-direction: column; gap: .15rem; overflow: visible; padding-bottom: 0; }
+    }
+    .ar-dash__menu > a {
+        display: flex;
+        align-items: center;
+        gap: .55rem;
+        flex: 0 0 auto;
+        width: auto;
+        padding: .5rem .7rem;
+        border: 1px solid transparent;
+        border-radius: .5rem;
+        white-space: nowrap;
+        background: transparent;
+        font-size: .875rem;
+        font-weight: 500;
+        color: var(--ar-ink-soft);
+        transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+    }
+    .ar-dash__menu > a:hover { background: #fff; border-color: var(--ar-line); color: var(--ar-ink); }
+    .ar-dash__menu > a.bg-indigo-500,
+    .ar-dash__menu > a[aria-current="page"] {
+        background: var(--ar-accent-soft);
+        border-color: #f3c9c9;
+        color: var(--ar-accent);
+        font-weight: 600;
+    }
+    @media (min-width: 1024px) {
+        .ar-dash__menu > a { width: 100%; }
+    }
+    .ar-dash__menu svg,
+    .ar-dash__menu i { flex: 0 0 auto; width: 1rem; height: 1rem; }
+
+    /* Riadok kanála. Podklad a rám drží .ar-card, tu je len jeho vnútro. */
+
+    /* Prúžok pri kanáli, do ktorého sa práve zapisuje. Tailwindovská utilita
+       (border-l-[3px]) by tu neprešla — .ar-card nastavuje border skratkou
+       a tento <style> stojí v hlavičke až za vygenerovaným app.css. */
+    .ar-org--active { border-left: 3px solid var(--ar-accent); }
+
+    .ar-org__avatar {
+        position: relative;
+        display: grid;
+        flex: 0 0 3rem;
+        width: 3rem;
+        height: 3rem;
+        place-items: center;
+        overflow: hidden;
+        border-radius: .625rem;
+        background: var(--ar-accent-soft);
+        font-weight: 800;
+        font-size: .9375rem;
+        letter-spacing: -.02em;
+        color: var(--ar-accent);
+        text-transform: uppercase;
+    }
+    /* Obrázok leží nad iniciálami — keď sa nenačíta, ostane pod ním čitateľná
+       skratka namiesto prázdneho rámčeka. */
+    .ar-org__avatar img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Zaradenie kanála a deň aktualizácie — drobné, nekričia na titulok. */
+    .ar-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: .3rem;
+        border: 1px solid var(--ar-line);
+        border-radius: 9999px;
+        padding: .1rem .5rem;
+        font-size: .6875rem;
+        font-weight: 500;
+        color: var(--ar-ink-soft);
+        white-space: nowrap;
+    }
+    .ar-chip i { font-size: .625rem; color: #9ca3af; }
+    .ar-chip--muted { border-style: dashed; color: #9ca3af; }
+
+    /* Prázdny výpis — po zapnutí filtra sa inak stránka javí ako rozbitá. */
+    .ar-empty {
+        border: 1px dashed var(--ar-line);
+        border-radius: .75rem;
+        background: #fff;
+        padding: 3rem 1.5rem;
+        text-align: center;
+        color: var(--ar-ink-soft);
+    }
+    /* Formulár nového kanála skladá Vue komponent na triedach .btn a
+       .form-control z app.css — teda na modrej pôvodného vzhľadu. Prepisuje sa
+       len tu, aby administrácia ostala nedotknutá. */
+    .ar-dash__new .btn {
+        border-radius: 9999px;
+        border-width: 1px;
+        padding: .45rem 1rem;
+        font-size: .8125rem;
+        font-weight: 600;
+    }
+    .ar-dash__new .btn-primary {
+        background: var(--ar-accent);
+        border-color: transparent;
+        color: #fff;
+    }
+    .ar-dash__new .btn-primary:hover { background: #9f1717; }
+    .ar-dash__new .btn-default {
+        background: #fff;
+        border-color: var(--ar-line);
+        color: var(--ar-ink-soft);
+    }
+    .ar-dash__new .btn-default:hover { border-color: var(--ar-accent); color: var(--ar-accent); }
+
+    .ar-dash__new .form-control {
+        border-width: 1px;
+        border-color: var(--ar-line);
+        border-radius: .5rem;
+        font-size: .9375rem;
+    }
+    .ar-dash__new .form-control:focus {
+        border-color: var(--ar-accent);
+        box-shadow: 0 0 0 3px rgba(var(--ar-accent-rgb), .12);
+        outline: none;
+    }
+    .ar-dash__new label {
+        display: block;
+        margin-bottom: .25rem;
+        font-size: .8125rem;
+        font-weight: 600;
+        color: var(--ar-ink);
+    }
+    /* Zoznam obcí pod poľom mesta — bez tlmenia prekrikuje samotný formulár. */
+    .ar-dash__new .form-group .border-2.border-gray-500 {
+        border-width: 1px;
+        border-color: var(--ar-line);
+        border-radius: .5rem;
+        margin-top: .35rem;
+        max-height: 11rem;
+        overflow-y: auto;
+        font-size: .875rem;
+    }
+    /* Prázdny zoznam nesmie visieť pod poľom ako prázdny rámik. */
+    .ar-dash__new .form-group .border-2.border-gray-500:empty { display: none; }
+    /* Vue komponent má koreň .w-128, čo v Tailwinde neexistuje — dá mu šírku
+       podľa karty, nie podľa najdlhšieho názvu obce. */
+    .ar-dash__new .w-128 { width: 100%; max-width: 34rem; }
+
+    /* Kým je formulár zabalený, je na stránke len tlačidlo — prázdna karta by
+       zaberala pás cez celú šírku. Podklad sa nasadí až s otvoreným formulárom.
+       Prehliadač bez :has() nechá formulár na papierovom podklade, čo je len
+       menej pekné, nie rozbité. */
+    .ar-dash__new:has(form) {
+        border: 1px solid var(--ar-line);
+        border-radius: .75rem;
+        background: #fff;
+        padding: 1.25rem;
+    }
+    .ar-dash__new:has(form) .btn-primary + .btn-default { margin-left: auto; }
+
     /* ---- Bočný panel --------------------------------------------------- */
 
     /* Panely vpravo skladajú Vue komponenty a x-cards.card, ktoré nosia

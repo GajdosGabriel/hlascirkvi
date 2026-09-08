@@ -25,7 +25,19 @@ class OrganizationPostController extends Controller
 
     public function index(Organization $organization, PostFilters $filters)
     {
-        $posts = $organization->posts()->filter($filters)->latest()->paginate(30);
+        // withQueryString(): bez neho odkazy stránkovania zahodili zapnutý
+        // filter aj hľadanie a druhá strana sa vrátila k celému výpisu.
+        //
+        // updaters aj počet komentárov potrebuje každý riadok výpisu
+        // (profiles/posts/_row); bez nich to boli dva dopyty na článok, teda
+        // šesťdesiat na stranu.
+        $posts = $organization->posts()
+            ->with('updaters')
+            ->withCount('comments')
+            ->filter($filters)
+            ->latest()
+            ->paginate(30)
+            ->withQueryString();
 
         return view('profiles.posts.index', compact('posts', 'organization'));
     }

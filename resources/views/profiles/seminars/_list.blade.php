@@ -1,16 +1,42 @@
-@forelse ( $seminars as $seminar )
+{{--
+    Riadky výpisu seminárov v správe kanála. Vzhľad drží .ar-item, rovnako ako
+    výpis článkov — obal (panel) patrí stránke, ktorá zoznam vkladá.
 
-    <div class="flex justify-between mb-4">
-        <a href="{{ route('profile.organization.seminar.show', [$organization->id, $seminar->id]) }}" class=" hover:underline">
-            <h4 class="font-semibold text-lg ">
+    Očakáva: $seminars (s withCount('posts')), $organization.
+--}}
+@forelse ($seminars as $seminar)
+
+    <article class="ar-item">
+        <div class="ar-item__body">
+            <a href="{{ route('profile.organization.seminar.show', [$organization->id, $seminar->id]) }}"
+               class="ar-item__title">
                 <seminar-title :seminar="{{ $seminar }}"></seminar-title>
-            </h4>
-        </a>
+            </a>
+
+            <div class="ar-item__meta">
+                @php
+                    $count = (int) ($seminar->posts_count ?? 0);
+                @endphp
+
+                <span>
+                    <i class="far fa-newspaper"></i>
+                    {{ $count }}
+                    {{ $count === 1 ? 'článok' : ($count >= 2 && $count <= 4 ? 'články' : 'článkov') }}
+                </span>
+
+                <time datetime="{{ $seminar->created_at->toIso8601String() }}">
+                    {{ $seminar->created_at->locale('sk')->isoFormat('D. M. YYYY') }}
+                </time>
+            </div>
+        </div>
+
         @can('update', $seminar)
-            <c-article-dropdown :post="{{ $seminar }}" :model="'/seminars/'" :redirect="'seminars'" />
+            <div class="ar-item__actions">
+                <c-article-dropdown :post="{{ $seminar }}" :model="'/seminars/'" :redirect="'seminars'" />
+            </div>
         @endcan
-    </div>
+    </article>
 
 @empty
-    žiadne semináre
+    <p class="ar-empty">Kanál zatiaľ nemá žiadny seminár.</p>
 @endforelse

@@ -4,18 +4,25 @@ namespace App\Http\Controllers\User;
 
 use App\Models\User;
 use App\Models\Organization;
+use App\Filters\OrganizationFilters;
 use App\Http\Requests\OrganizationsRequest;
 use App\Http\Controllers\Controller;
 
 class UserOrganizationController extends Controller
 {
-    public function index(User $user)
+    public function index(User $user, OrganizationFilters $filters)
     {
         $this->authorizeUser($user);
 
-        $organizations =  $user->organizations()->paginate(30);
+        // Lišta filtrov nad výpisom posiela ?search / ?unpublished / ?deletedAt.
+        // Dovtedy sa tie prepínače kreslili, ale výpis ich nečítal.
+        $organizations = $user->organizations()
+            ->with(['village:id,fullname', 'updaters:id,title,slug,type', 'users:id,first_name,last_name'])
+            ->filter($filters)
+            ->paginate(30)
+            ->withQueryString();
 
-        return view('profiles.organizations.index', compact('organizations'));
+        return view('profiles.organizations.index', compact('organizations', 'user'));
     }
 
     public function show(User $user, Organization $organization)
@@ -27,6 +34,25 @@ class UserOrganizationController extends Controller
             'organization' => $organization,
             'user' => $user
         ]);
+    }
+
+    /**
+     * Prepnutie aktívneho kanála (org_id), do ktorého sa zapisujú príspevky.
+     *
+     * Tlačidlo vo výpise pôvodne posielalo org_id na admin.user.update, čo je
+     * za middleware checkSuperAdmin — bežného správcu kanála teda len ticho
+     * presmerovalo na úvodnú stránku. Autorizáciu tu nesie policy `manage`,
+     * rovnako ako pri ostatných akciách nad kanálom z profilu.
+     */
+    public function switchActive(User $user, Organization $organization)
+    {
+        $this->authorizeUser($user);
+        $this->authorize('manage', $organization);
+
+        $user->update(['org_id' => $organization->id]);
+
+        session()->flash('flash', 'Prepnuté na kanál ' . $organization->title . '.');
+        return back();
     }
 
     public function edit(User $user, Organization $organization)

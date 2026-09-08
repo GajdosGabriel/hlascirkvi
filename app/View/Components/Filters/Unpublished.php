@@ -33,8 +33,6 @@ class Unpublished extends Component
             'admin.organization.index',
             'admin.post.index',
             'admin.comment.index',
-            'profile.user.organization.index',
-            'profile.organization.post.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }

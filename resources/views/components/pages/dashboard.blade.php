@@ -1,6 +1,6 @@
 <div class="md:grid grid-cols-12 gap-6">
 
-    <div class="grid col-span-2">
+    <div class="grid col-span-2 md:min-h-screen">
         <div class="flex flex-col bg-gray-200">
 
             <x-navigation.aside-menu></x-navigation.aside-menu>

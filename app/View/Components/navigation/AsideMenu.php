@@ -44,9 +44,9 @@ class AsideMenu extends Component
     {
         return [
             [
-                'url' => route('profile.profile.index'),
+                'url' => route('profile.dashboard'),
                 'icon' => 'home',
-                'name' => 'Úvod',
+                'name' => 'Nástenka',
             ],
             [
                 'url' => route('profile.user.organization.index', auth()->user()->id),

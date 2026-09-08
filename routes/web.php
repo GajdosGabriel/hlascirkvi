@@ -112,20 +112,34 @@ Route::middleware('checkBanned')->group(function () {
     ]);
 });
 
+// Meno skupiny musí ostať `profile.` — helper typePage() (app/Http/helpers.php)
+// podľa neho pozná stránky správcu kanála a vykresľuje im bočné menu.
 Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () {
+    // Nástenka kanála. Resource z nej nikdy nemal viac ako index, preto je to
+    // jediná routa.
+    Route::get('dashboard', Organization\DashboardController::class)->name('dashboard');
+
     Route::resources([
         'images'                        => ImageController::class,
         'organization.seminar'          => Organization\OrganizationSeminarController::class,
         'organization.post'             => Organization\OrganizationPostController::class,
         'organization.prayer'           => Organization\OrganizationPrayerController::class,
-        'profile'                       => Organization\ProfileController::class,
         'user.organization'             => User\UserOrganizationController::class,
     ]);
+
+    // Prepnutie aktívneho kanála z výpisu "Vaše kanály". Nie je to update
+    // kanála ani užívateľa, preto vlastná routa; autorizuje ju policy `manage`.
+    Route::put('user/{user}/organization/{organization}/switch', 'User\UserOrganizationController@switchActive')
+        ->name('user.organization.switch');
 
     // UserAddressController only imports contacts, it has no create/show/edit/
     // update/destroy actions - registering them would just 500.
     Route::resource('user.address', User\UserAddressController::class)->only(['index', 'store']);
 });
+
+// Pôvodná adresa nástenky. Rozposlaná v e-mailoch aj v záložkách správcov
+// kanálov, takže ostáva ako trvalé presmerovanie.
+Route::permanentRedirect('profile', 'dashboard');
 
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 'checkBanned'])->group(function () {

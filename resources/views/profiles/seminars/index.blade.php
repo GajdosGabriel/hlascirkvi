@@ -1,30 +1,44 @@
 @extends('layouts.app')
 
 @section('title')
-    <title>{{ "Všetky semináre {$organization->title}" }}</title>
+    <title>{{ "Semináre {$organization->title}" }}</title>
+@endsection
+
+@section('body-class', 'ar-body')
+
+@section('headerCSS')
+    @include('partials.dashboard-head')
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
 
-        <x-slot name="title">
+    @php
+        $plural = fn (int $n, string $one, string $few, string $many)
+            => $n === 1 ? $one : ($n >= 2 && $n <= 4 ? $few : $many);
 
-            Semináre panel
+        $total = $seminars->count();
+    @endphp
 
+    <x-dashboard.shell :organization="$organization" section="seminars" heading="Semináre">
+
+        <x-slot name="lead">
+            {{ number_format($total, 0, ',', ' ') }}
+            {{ $plural($total, 'seminár', 'semináre', 'seminárov') }} kanála
         </x-slot>
 
-        <x-slot name="title_right">
-
-            <a href="{{ route('profile.organization.seminar.create', $organization->id) }}" class="btn btn-default">
-                Nový semimár
+        <x-slot name="actions">
+            <a href="{{ route('profile.organization.seminar.create', $organization->id) }}" class="ar-btn ar-btn--accent">
+                <i class="fas fa-plus"></i> Nový seminár
             </a>
-
         </x-slot>
 
-        <x-slot name="page">
+        <section class="ar-panel">
+            <header class="ar-panel__head">
+                <h2 class="ar-panel__title">Semináre kanála</h2>
+            </header>
 
             @include('profiles.seminars._list')
+        </section>
 
-        </x-slot>
-        </x-pages.admin>
-    @endsection
+    </x-dashboard.shell>
+@endsection

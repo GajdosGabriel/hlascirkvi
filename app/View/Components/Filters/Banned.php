@@ -31,8 +31,6 @@ class Banned extends Component
         // Povolené route names.
        $routeName = array(
             'admin.user.index',
-            'profile.user.organization.index',
-            'profile.organization.post.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }

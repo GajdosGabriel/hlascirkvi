@@ -1,41 +1,87 @@
 @extends('layouts.app')
+
 @section('title')
-    <title>{{ "Všetky modlitby {$organization->title}" }}</title>
+    <title>{{ "Modlitby {$organization->title}" }}</title>
+@endsection
+
+@section('body-class', 'ar-body')
+
+@section('headerCSS')
+    @include('partials.dashboard-head')
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
 
-        <x-slot name="title">
-            Modlitby
+    @php
+        $plural = fn (int $n, string $one, string $few, string $many)
+            => $n === 1 ? $one : ($n >= 2 && $n <= 4 ? $few : $many);
+
+        $total = $prayers->total();
+    @endphp
+
+    <x-dashboard.shell :organization="$organization" section="prayers" heading="Modlitby">
+
+        <x-slot name="lead">
+            {{ number_format($total, 0, ',', ' ') }}
+            {{ $plural($total, 'modlitba', 'modlitby', 'modlitieb') }} kanála
         </x-slot>
 
-        <x-slot name="title_right">
-            <a class="btn btn-default" href="{{ route('profile.organization.prayer.create', auth()->user()->org_id) }}">
-                Nová modlitba
+        <x-slot name="actions">
+            <a href="{{ route('profile.organization.prayer.create', $organization->id) }}" class="ar-btn ar-btn--accent">
+                <i class="fas fa-plus"></i> Nová modlitba
             </a>
         </x-slot>
 
-        <x-slot name="page">
-            <ul>
-                @foreach ($prayers as $prayer)
-                    <li class="mb-4 shadow-md border-gray-200 border-2 p-2 rounded">
-                        <div class="flex justify-between">
-                            <div>{{ $prayer->title }}</div>
-                            <a href="{{ route('profile.organization.prayer.edit', [$organization->id, $prayer->id]) }}"
-                                class="text-sm hover:text-gray-400">Upraviť</a>
-                        </div>
-                        <div>{{ $prayer->body }}</div>
+        <section class="ar-panel">
+            <header class="ar-panel__head">
+                <h2 class="ar-panel__title">Modlitby kanála</h2>
+                <span class="ar-panel__note">
+                    @if ($prayers->hasPages())
+                        strana {{ $prayers->currentPage() }} z {{ $prayers->lastPage() }}
+                    @endif
+                </span>
+            </header>
 
-                        <div class="flex">
-                            <div class="text-gray-400 text-sm font-semibold mr-4">Meno: {{ $prayer->user_name }}</div>
-                            <div class="text-gray-400 text-sm">Vytvorené: {{ $prayer->created_at->format('m. d. Y') }}
+            @forelse ($prayers as $prayer)
+                <article class="ar-item">
+                    <div class="ar-item__body">
+                        <span class="ar-item__title">{{ $prayer->title }}</span>
+
+                        <p class="mt-1 text-sm text-[color:var(--ar-ink-soft)]">
+                            {{ \Illuminate\Support\Str::limit(strip_tags($prayer->body), 220) }}
+                        </p>
+
+                        <div class="ar-item__meta">
+                            <span><i class="far fa-user"></i>{{ $prayer->user_name ?: 'návštevník' }}</span>
+                            <time datetime="{{ $prayer->created_at->toIso8601String() }}">
+                                {{ $prayer->created_at->locale('sk')->isoFormat('D. M. YYYY') }}
+                            </time>
+                        </div>
+
+                        @if ($prayer->fulfilled_at)
+                            <div class="ar-item__tags">
+                                <span class="ar-badge ar-badge--ok">Vypočuté</span>
                             </div>
-                        </div>
+                        @endif
+                    </div>
 
-                    </li>
-                @endforeach
-            </ul>
-        </x-slot>
-        </x-pages.admin>
-    @endsection
+                    <div class="ar-item__actions">
+                        <a href="{{ route('profile.organization.prayer.edit', [$organization->id, $prayer->id]) }}"
+                           class="ar-act">
+                            <i class="fas fa-pen text-[.7rem]"></i> Upraviť
+                        </a>
+                    </div>
+                </article>
+            @empty
+                <p class="ar-empty">Kanál zatiaľ nemá žiadnu modlitbu.</p>
+            @endforelse
+        </section>
+
+        @if ($prayers->hasPages())
+            <div class="mt-8">
+                {{ $prayers->links() }}
+            </div>
+        @endif
+
+    </x-dashboard.shell>
+@endsection

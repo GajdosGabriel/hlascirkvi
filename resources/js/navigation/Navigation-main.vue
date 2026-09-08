@@ -37,10 +37,10 @@
             </a>
 
             <a
-                href="/profile"
+                href="/dashboard"
                 class="block px-4 py-2 text-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
             >
-                Profil
+                Nástenka
             </a>
 
             <hr class="my-1 border-gray-200" />
