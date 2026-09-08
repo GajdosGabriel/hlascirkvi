@@ -5,7 +5,6 @@ namespace App\Models;
 
 use App\Traits\HasRoute;
 use App\Traits\HasImages;
-use App\Traits\HasBigThink;
 use App\Traits\HasComments;
 use Illuminate\Support\Str;
 use App\Casts\DateTimeHuman;
@@ -23,7 +22,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
-    use HasFactory, Notifiable, SoftDeletes, HasViews, HasFavorites, HasComments, HasImages, HasOrganization, HasBigThink, HasRoute, HasFilter, HasDatetime;
+    use HasFactory, Notifiable, SoftDeletes, HasViews, HasFavorites, HasComments, HasImages, HasOrganization, HasRoute, HasFilter, HasDatetime;
 
     protected $guarded = ['id'];
 

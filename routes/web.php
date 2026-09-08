@@ -119,7 +119,6 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         'organization.prayer'           => Organization\OrganizationPrayerController::class,
         'profile'                       => Organization\ProfileController::class,
         'user.organization'             => User\UserOrganizationController::class,
-        'post.think'                    => PostThingController::class,
     ]);
 
     // UserAddressController only imports contacts, it has no create/show/edit/

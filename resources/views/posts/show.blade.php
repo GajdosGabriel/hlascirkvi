@@ -272,10 +272,6 @@
                     </div>
                 @endif
 
-                @auth
-                    @include('bigthink._form')
-                @endauth
-
                 <div class="mt-10">
                     <comments-post :post="{{ $post }}"></comments-post>
                 </div>
