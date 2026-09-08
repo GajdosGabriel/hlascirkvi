@@ -9,6 +9,7 @@ use Closure;
 
 class SetCache
 {
+    protected PostRepository $repository;
 
     public function __construct(PostRepository $repository)
     {

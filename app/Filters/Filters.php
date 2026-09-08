@@ -45,6 +45,18 @@ abstract class Filters
         return $this->builder;
     }
 
+    /**
+     * Vzor pre LIKE z používateľského vstupu.
+     *
+     * `%` a `_` sú v LIKE zástupné znaky. Neošetrené to znamenalo, že hľadanie
+     * jediného znaku `%` prešlo celú tabuľku a vrátilo všetko — nad 40-tisíc
+     * príspevkami je to plný sken na jedno kliknutie.
+     */
+    protected function likePattern(?string $value): string
+    {
+        return '%' . addcslashes((string) $value, '%_\\') . '%';
+    }
+
     public function getFilters()
     {
         return array_filter($this->request->only($this->filters));

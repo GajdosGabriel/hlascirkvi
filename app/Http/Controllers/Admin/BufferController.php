@@ -21,7 +21,10 @@ class BufferController extends Controller
     public function index(Request $request, Buffer $buffer)
     {
 
-        $posts = Post::doesntHave('updaters')->latest();
+        // withExists využije skratku v Post::getHasUpdaterAttribute(). Atribút
+        // je v $appends, takže bez neho posielal jeden exists() dopyt na každý
+        // z 32 príspevkov na stránke.
+        $posts = Post::doesntHave('updaters')->withExists('updaters')->latest();
 
         if ($request->posts) {
             $posts = $posts->where('organization_id', $request->posts);
@@ -41,6 +44,14 @@ class BufferController extends Controller
         );
     }
 
+    /**
+     * Bočný zoznam kanálov s počtom čakajúcich príspevkov.
+     *
+     * Skúšal som to prepísať na jedno GROUP BY nad `posts`, ale vyšlo to
+     * štyrikrát pomalšie: s globálnym scope `youtube_blocked` si optimalizátor
+     * vyberie index podľa neho a zvyšných ~20-tisíc riadkov musí zoradiť.
+     * Korelovaný poddopyt sa vyhodnotí len pre kanály, ktoré prejdú whereHas.
+     */
     protected function organizationsWithUnpublishedPosts()
     {
         $unpublished = fn ($query) => $query->doesntHave('updaters');
@@ -48,6 +59,6 @@ class BufferController extends Controller
         return Organization::whereHas('posts', $unpublished)
             ->withCount(['posts as unpublished_posts_count' => $unpublished])
             ->orderBy('title')
-            ->get();
+            ->get(['id', 'title']);
     }
 }

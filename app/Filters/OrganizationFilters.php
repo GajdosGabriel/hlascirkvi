@@ -22,8 +22,8 @@ class OrganizationFilters extends Filters
     {
         session()->flash('search', $this->request->search);
         return $this->builder
-            ->where('title', 'LIKE', '%' . $this->request->search . '%')
-            // ->orWhere('city', 'LIKE', '%' . $this->request->search . '%')
+            ->where('title', 'LIKE', $this->likePattern($this->request->search))
+            // ->orWhere('city', 'LIKE', $this->likePattern($this->request->search))
             ;
     }
 

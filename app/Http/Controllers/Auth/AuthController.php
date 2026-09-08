@@ -15,6 +15,8 @@ class AuthController extends Controller
 
     protected $redirectTo = '/';
 
+    protected UserRepository $user;
+
     public function __construct(UserRepository $user)
     {
         $this->user = $user;

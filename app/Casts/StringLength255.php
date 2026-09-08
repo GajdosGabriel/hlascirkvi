@@ -31,6 +31,12 @@ class StringLength255 implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        return substr($value, 0, 255);
+        if ($value === null) {
+            return null;
+        }
+
+        // mb_substr, nie substr — bajtové orezanie vie preseknúť slovenský
+        // znak s diakritikou v strede a do databázy sa dostane neplatné UTF-8.
+        return mb_substr((string) $value, 0, 255);
     }
 }

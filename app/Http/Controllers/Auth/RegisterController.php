@@ -38,6 +38,8 @@ class RegisterController extends Controller
      *
      * @return void
      */
+    protected UserRepository $user;
+
     public function __construct(UserRepository $user)
     {
         $this->middleware('guest');

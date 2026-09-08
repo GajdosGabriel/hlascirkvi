@@ -12,8 +12,18 @@ use Carbon\Carbon;
 class UserObserver
 {
 
+    /**
+     * Beží pri každom uložení užívateľa, aj pri zmene jediného stĺpca. Preto
+     * sa slug a oslovenie prepočítavajú len vtedy, keď sa naozaj zmenilo meno
+     * — dovtedy to boli dva dopyty na `first_names` pri každom $user->update(),
+     * napríklad pri kliknutí na zvonček.
+     */
     public function saving(User $user)
     {
+        if (! $user->isDirty(['first_name', 'last_name'])) {
+            return;
+        }
+
         $user->slug =  Str::slug($user->first_name . " " . $user->last_name, '-');
 
         // Ak zamenia first name s last name
@@ -23,14 +33,23 @@ class UserObserver
             $firstName = FirstName::whereName($user->last_name)->orderBy('count', 'desc')->first();
         }
 
-        $user->api_token = bin2hex(openssl_random_pseudo_bytes(30));
-
         if ($firstName) {
             $user->vocative = $firstName->vocative;
             $user->gender = $firstName->gender;
         } else {
             $user->vocative = null;
         }
+    }
+
+    /**
+     * Stĺpec `api_token` sa nikde nečíta — v kóde je toto jediný zápis a žiadny
+     * guard ho nepoužíva. Pretáčal sa pritom pri každom uložení užívateľa.
+     * Keďže je v schéme NOT NULL bez defaultu, generuje sa aspoň raz pri
+     * založení účtu; zrušiť ho môže až migrácia.
+     */
+    public function creating(User $user)
+    {
+        $user->api_token = bin2hex(openssl_random_pseudo_bytes(30));
     }
 
     /**
