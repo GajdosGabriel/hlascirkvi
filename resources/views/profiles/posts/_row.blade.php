@@ -1,10 +1,4 @@
-{{--
-    Riadok článku v správe kanála. Nahradil posts/card-admin, ktorá bola stavaná
-    ako karta so šírkou obrázka na tretinu riadku a s akciami skrytými vo Vue
-    rozbaľovačke — vo výpise tridsiatich článkov sa v nej nedalo nič nájsť.
-
-    Očakáva: $post, $organization.
---}}
+{{-- Riadok článku v správe kanála. Očakáva: $post, $organization. --}}
 @php
     // Prenosy prídu z YouTube s nulovou dĺžkou; „0:00“ na náhľade nič nehovorí.
     $duration = $post->video_duration === '0:00' ? null : $post->video_duration;
@@ -25,6 +19,9 @@
         <a href="{{ $url }}" class="ar-item__title ar-clamp-2">{{ $post->title }}</a>
 
         <div class="ar-item__meta">
+            @if ($showOrganization ?? false)
+                <a class="ar-link" href="{{ route('profile.organization.post.index', $post->organization_id) }}">{{ $post->organization->title }}</a>
+            @endif
             <time datetime="{{ $post->created_at->toIso8601String() }}">
                 {{ $post->created_at->locale('sk')->isoFormat('D. M. YYYY') }}
             </time>
@@ -56,38 +53,41 @@
 
     @can('update', $post)
         <div class="ar-item__actions">
-            @if (! $post->deleted_at)
-                <a href="{{ route('profile.organization.post.edit', [$post->organization_id, $post->id]) }}"
-                   class="ar-act">
-                    <i class="fas fa-pen text-[.7rem]"></i> Upraviť
-                </a>
+            <dropdown-slot>
+                @if (! $post->deleted_at)
+                    <a href="{{ route('profile.organization.post.edit', [$post->organization_id, $post->id]) }}"
+                       class="ar-act">
+                        <i class="fas fa-pen text-[.7rem]"></i> Upraviť
+                    </a>
 
-                {{-- Odopne štítky aktualizátorov, čím sa článok vráti do buffera
-                     (App\Http\Controllers\Api\PostSupportController). --}}
-                @if ($post->updaters->isNotEmpty())
-                    <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
-                        @csrf @method('PUT')
-                        <button type="submit" class="ar-act">
-                            <i class="fas fa-inbox text-[.7rem]"></i> Do buffera
+                    {{-- Odopne štítky aktualizátorov, čím sa článok vráti do buffera
+                         (App\Http\Controllers\Api\PostSupportController). --}}
+                    @if ($post->updaters->isNotEmpty())
+                        <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
+                            @csrf @method('PUT')
+                            <button type="submit" class="ar-act">
+                                <i class="fas fa-inbox text-[.7rem]"></i> Do buffera
+                            </button>
+                        </form>
+                    @endif
+                @endif
+
+                <form action="{{ route('profile.organization.post.destroy', [$post->organization_id, $post->id]) }}"
+                      method="post">
+                    @csrf @method('DELETE')
+
+                    @if ($post->deleted_at)
+                        <button type="submit" class="ar-act ar-act--ok">
+                            <i class="fas fa-undo text-[.7rem]"></i> Obnoviť
                         </button>
-                    </form>
-                @endif
-            @endif
+                    @else
+                        <button type="submit" class="ar-act ar-act--danger">
+                            <i class="far fa-trash-alt text-[.7rem]"></i> Zmazať
+                        </button>
+                    @endif
+                </form>
 
-            <form action="{{ route('profile.organization.post.destroy', [$post->organization_id, $post->id]) }}"
-                  method="post">
-                @csrf @method('DELETE')
-
-                @if ($post->deleted_at)
-                    <button type="submit" class="ar-act ar-act--ok">
-                        <i class="fas fa-undo text-[.7rem]"></i> Obnoviť
-                    </button>
-                @else
-                    <button type="submit" class="ar-act ar-act--danger">
-                        <i class="far fa-trash-alt text-[.7rem]"></i> Zmazať
-                    </button>
-                @endif
-            </form>
+            </dropdown-slot>
         </div>
     @endcan
 </article>

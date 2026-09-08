@@ -82,9 +82,9 @@
 
     <section class="p-2">
         @can('update', $post)
-            <dropdown-slot>
+            <dropdown-slot align="left">
 
-                <ul class="dropdown-menu z-50">
+                <ul>
                     <a href={{ route('profile.organization.post.edit', [$post->organization_id, $post->id]) }}>
                         <li class="dropdown-item">upraviť</li>
                     </a>
@@ -94,7 +94,7 @@
                             method="post">
                             @csrf @method('DELETE')
                             @if ($post->deleted_at)
-                                <button>odnoviť</button>
+                                <button>Obnoviť</button>
                             @else()
                                 <button>zmazať</button>
                             @endif()
@@ -105,7 +105,7 @@
 
                         <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
                             @csrf @method('PUT')
-                            <button>Do bufferyyy</button>
+                            <button>Do buffera</button>
                         </form>
                     </li>
                 </ul>

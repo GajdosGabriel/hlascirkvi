@@ -63,12 +63,7 @@
             $postUrl = fn ($row) => url("/post/{$row->id}/{$row->slug}");
         @endphp
 
-        {{-- Hlavičku aj záložky nesie spoločný rám správcovských stránok
-             (App\View\Components\Dashboard\Shell) — nástenka a sekcie kanála
-             tak vyzerajú rovnako. Počty pri záložkách sú tu už spočítané
-             v súhrne, takže si ich rám nedopytuje znova. --}}
-        <x-dashboard.shell :organization="$organization" section="dashboard"
-                           :counts="['posts' => $posts->total, 'seminars' => $seminars->total, 'prayers' => $prayers->total]">
+        <x-dashboard.shell :organization="$organization" section="dashboard">
 
             <x-slot name="lead">
                 @if ($posts->last_at)

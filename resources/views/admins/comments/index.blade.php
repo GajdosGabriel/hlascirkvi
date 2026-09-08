@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title')
     <title>{{ 'Admin komentáre.' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
         <x-slot name="title">
             {{ $title ?? 'Komentáre' }}

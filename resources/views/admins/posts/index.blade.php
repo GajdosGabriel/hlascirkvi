@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title')
     <title>{{ 'Admin články' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
 
         <x-slot name="title">
@@ -21,10 +21,10 @@
 
         <x-slot name="page">
 
-            <div class="">
+            <div class="ar-panel">
 
                 @forelse($posts as $post)
-                    @include('posts.card-admin')
+                    @include('profiles.posts._row', ['showOrganization' => true])
                 @empty
                     bez záznamu
                 @endforelse

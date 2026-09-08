@@ -56,12 +56,15 @@
                 </div>
 
                 <div v-if="canUpdate" class="mt-2 flex gap-4 text-xs text-gray-400">
-                    <button type="button" class="hover:text-[color:var(--ar-accent)]" @click="startEdit">
-                        Upraviť
-                    </button>
-                    <button type="button" class="hover:text-[color:var(--ar-accent)]" @click.prevent="destroy()">
-                        Zmazať
-                    </button>
+                    <dropdown-slot align="left">
+                        <button type="button" class="hover:text-[color:var(--ar-accent)]" @click="startEdit">
+                            Upraviť
+                        </button>
+                        <button type="button" class="hover:text-[color:var(--ar-accent)]" @click.prevent="destroy()">
+                            Zmazať
+                        </button>
+
+                    </dropdown-slot>
                 </div>
             </div>
         </div>

@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title')
     <title>{{ 'Admin štatistika' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
         <x-slot name="title">
             Štatistika návštev - unikátne view
@@ -17,7 +17,7 @@
 
 
         <x-slot name="page">
-            <div class="flex space-x-3 mb-2">
+            <div class="flex flex-wrap gap-2 mb-5">
                 <x-cards.buttonRequest name="Dnes" value="1" request="?lastDays=1" />
                 <x-cards.buttonRequest name="Včera" value="2" request="?lastDays=2" />
                 <x-cards.buttonRequest name="Týždeň" value="7" request="?lastDays=7" />
@@ -27,7 +27,7 @@
 
 
 
-            <table class="table-auto border-2 border-gray-400 rounded-md w-full">
+            <div class="ar-admin__table" role="region" aria-label="Štatistiky" tabindex="0"><table class="table-auto border-2 border-gray-400 rounded-md w-full">
                 <thead class="bg-gray-500 text-white">
                     <tr>
                         <th style="width: 7%">Id</th>
@@ -49,15 +49,10 @@
                             <td>{{ $post->organization }}</td>
                             <td>{{ $post->unique_view }} / {{ $post->count_view }}</td>
                         </tr>
-                    @empty
-                        <table>
-                            <thead>
-                                <tr>Bez záznamu</tr>
-                            </thead>
-                        </table>
+                    @empty<tr><td colspan="4" class="ar-empty">Bez záznamu</td></tr>
                     @endforelse
                 </tbody>
-            </table>
+            </table></div>
 
         </x-slot>
 

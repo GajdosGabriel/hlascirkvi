@@ -1,49 +1,28 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title')
-    <title>{{ 'Admin dashboard' }}</title>
+    <title>Administrácia</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
-
-        <x-slot name="title">
-            Admin panel
-        </x-slot>
-
-        <x-slot name="title_right">
-
-        </x-slot>
-
-
+    <x-pages.admin>
+        <x-slot name="title">Administrácia</x-slot>
         <x-slot name="page">
-
-            <div class="md:grid grid-cols-3 gap-10">
-                <section class="card">
-                    <header class="card_header">
-                        <h4>Okno 1</h4>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </header>
-                </section>
-
-                <section class="card">
-                    <header class="card_header">
-                        <h4>Okno 2</h4>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </header>
-                </section>
-
+            <p class="mb-6 text-sm text-[color:var(--ar-ink-soft)]">Správa obsahu, kanálov a používateľov Hlasu Cirkvi.</p>
+            <div class="grid gap-3 sm:grid-cols-2">
+                @foreach ((new \App\View\Components\navigation\AsideMenu)->adminMenu() as $item)
+                    @continue($item['url'] === route('admin.home.index'))
+                    <a href="{{ $item['url'] }}" class="ar-card ar-link flex items-center gap-3 rounded-xl p-4">
+                        <span class="h-5 w-5 shrink-0 text-[color:var(--ar-accent)]">
+                            @include('components.icons.' . $item['icon'])
+                        </span>
+                        <span class="ar-display font-semibold">{{ trim($item['name']) }}</span>
+                    </a>
+                @endforeach
+            </div>
+            <div class="mt-6">
                 <comments-card></comments-card>
-
             </div>
         </x-slot>
-        </x-pages.admin>
-    @endsection
+    </x-pages.admin>
+@endsection

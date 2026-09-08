@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
         <x-slot name="title">
             Upraviť užívateľa
@@ -15,7 +15,7 @@
         <x-slot name="page">
             <form method="post" action="{{ route('admin.user.update', [$user->id]) }}">
                 @csrf @method('PUT')
-                <div class="card-body" style="width: 50%">
+                <div class="ar-panel ar-dash__new p-4 sm:p-5 w-full max-w-xl">
 
                     <div class="form-group">
                         <label for="first_name">Meno</label>
@@ -52,6 +52,7 @@
                     @endcan
 
                     <button type="submit" class="btn btn-primary">Uložiť</button>
+                </div>
             </form>
         </x-slot>
         </x-pages.admin>

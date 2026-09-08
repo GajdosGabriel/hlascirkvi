@@ -66,10 +66,13 @@
                     </div>
 
                     <div class="ar-item__actions">
-                        <a href="{{ route('profile.organization.prayer.edit', [$organization->id, $prayer->id]) }}"
-                           class="ar-act">
-                            <i class="fas fa-pen text-[.7rem]"></i> Upraviť
-                        </a>
+                        <dropdown-slot>
+                            <a href="{{ route('profile.organization.prayer.edit', [$organization->id, $prayer->id]) }}"
+                               class="ar-act">
+                                <i class="fas fa-pen text-[.7rem]"></i> Upraviť
+                            </a>
+
+                        </dropdown-slot>
                     </div>
                 </article>
             @empty

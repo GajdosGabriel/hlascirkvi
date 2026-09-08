@@ -101,9 +101,9 @@
 
                 </td>
                 <td class="td">
-                    <a href="{{ route('profile.user.organization.edit', [$user->id, $organization->id]) }}">
-                        <i title="Upraviť" class="fas fa-edit"></i>
-                    </a>
+                    <dropdown-slot><a href="{{ route('profile.user.organization.edit', [$user->id, $organization->id]) }}">
+                        <i class="fas fa-edit" aria-hidden="true"></i> Upraviť
+                    </a></dropdown-slot>
 
                     @can('admin|superadmin')
                     @endcan

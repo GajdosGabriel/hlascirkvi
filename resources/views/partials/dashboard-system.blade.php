@@ -15,6 +15,7 @@
         border-radius: .625rem;
         background: #fff;
     }
+    .ar-panel:has(.dropdown-slot-menu) { overflow: visible; }
     .ar-panel__head {
         display: flex;
         align-items: baseline;
@@ -300,7 +301,7 @@
     @media (max-width: 640px) {
         .ar-item { flex-wrap: wrap; }
         .ar-item__thumb { flex-basis: 5.5rem; }
-        .ar-item__actions { width: 100%; justify-content: flex-start; }
+        .ar-item__actions { margin-left: auto; }
     }
 
     /* ---- Avatar kanála v hlavičke -------------------------------------- */

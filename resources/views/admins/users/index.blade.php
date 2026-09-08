@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title')
     <title>{{ 'Registrovaný užívatelia.' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
         <x-slot name="title">
             Registrovaný užívatelia
@@ -17,7 +17,9 @@
 
 
         <x-slot name="page">
-            @include('users.users_table')
+            <div class="ar-admin__table" role="region" aria-label="Prehľad" tabindex="0">
+@include('users.users_table')
+</div>
 
             <div class="md:block flex justify-center my-8">
                 {{ $users->links() }}

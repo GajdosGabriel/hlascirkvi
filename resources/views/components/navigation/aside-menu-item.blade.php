@@ -1,7 +1,8 @@
 @php
     // Porovnáva sa adresa bez query stringu — s fullUrl() stratila položka
     // zvýraznenie hneď, ako sa na výpise zapol filter alebo stránkovanie.
-    $active = \Request::url() === $url;
+    $active = \Request::url() === $url
+        || (request()->routeIs('admin.*') && str_starts_with(\Request::url(), rtrim($url, '/') . '/'));
 @endphp
 
 <a class="border-2 rounded-lg border-gray-100 hover:bg-indigo-400 hover:text-gray-200 w-full p-2 flex items-center

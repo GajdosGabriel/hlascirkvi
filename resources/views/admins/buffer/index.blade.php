@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title')
     <title>{{ 'Admin nezverejnevé videa' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
 
         <x-slot name="title">
@@ -22,7 +22,7 @@
 
         <x-slot name="page">
 
-            <div class="grid md:grid-cols-3 lg:grid-cols-5 md:gap-7 grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
 
 
                 @forelse($posts as $post)

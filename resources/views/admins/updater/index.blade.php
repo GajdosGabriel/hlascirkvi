@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title')
     <title>{{ 'Admin nezverejnené videa' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
         <x-slot name="title">
             Updater
@@ -19,7 +19,7 @@
         <x-slot name="page">
 
             @forelse ($updaters as $tag)
-                <div class="flex justify-between p-2 border-b-2 hover:bg-gray-50 border-dashed">
+                <div class="ar-panel mb-3 flex-row flex-wrap items-center justify-between gap-3 p-4">
                     <a href="{{ route('admin.updater.organization.index', [$tag->id]) }}">
                         <h4 class="font-semibold text-lg">{{ $tag->id }}. {{ $tag->title }}</h4>
                     </a>

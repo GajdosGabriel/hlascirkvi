@@ -1,17 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title')
     <title>{{ 'Admin modlitby' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
         <x-slot name="title">
             Modlitby
         </x-slot>
 
         <x-slot name="title_right">
-            <a class="btn btn-default" href="{{ route('profile.organization.prayer.create', auth()->user()->org_id) }}">
+            <a class="ar-btn ar-btn--accent" href="{{ route('profile.organization.prayer.create', auth()->user()->org_id) }}">
                 Nová modlitba
             </a>
         </x-slot>
@@ -19,21 +19,24 @@
         <x-slot name="page">
             <ul>
                 @foreach ($prayers as $prayer)
-                    <li class="mb-4 shadow-md border-gray-200 border-2 p-2 rounded">
-                        <div class="flex justify-between">
+                    <li class="ar-panel mb-3 p-4">
+                        <div class="flex flex-wrap justify-between gap-2">
                             <div>{{ $prayer->title }}</div>
                             <div class="flex space-x-1 items-center">
-                                <a href="{{ route('profile.organization.prayer.edit', [$prayer->organization->id, $prayer->id]) }}"
-                                    class="text-sm hover:text-gray-600 hover:bg-gray-100 px-2 rounded-md">Upraviť
-                                </a>
+                                <dropdown-slot>
+                                    <a href="{{ route('profile.organization.prayer.edit', [$prayer->organization->id, $prayer->id]) }}"
+                                        class="text-sm hover:text-gray-600 hover:bg-gray-100 px-2 rounded-md">Upraviť
+                                    </a>
 
-                                <form
-                                    action="{{ route('profile.organization.prayer.destroy', [$prayer->organization->id, $prayer->id]) }}"
-                                    method="post">
-                                    @method('DELETE') @csrf
-                                    <button
-                                        class="text-sm hover:text-gray-600 hover:bg-gray-100 px-2 rounded-md">Zmazať</button>
-                                </form>
+                                    <form
+                                        action="{{ route('profile.organization.prayer.destroy', [$prayer->organization->id, $prayer->id]) }}"
+                                        method="post">
+                                        @method('DELETE') @csrf
+                                        <button
+                                            class="text-sm hover:text-gray-600 hover:bg-gray-100 px-2 rounded-md">Zmazať</button>
+                                    </form>
+
+                                </dropdown-slot>
                             </div>
 
                         </div>

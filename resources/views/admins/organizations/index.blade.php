@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title')
     <title>{{ 'Všetky organizácie' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
         <x-slot name="title">
             Kanály
@@ -22,7 +22,9 @@
             </div>
 
 
-            @include('organizations._organization-table')
+            <div class="ar-admin__table" role="region" aria-label="Prehľad" tabindex="0">
+@include('organizations._organization-table')
+</div>
 
 
             <div class="md:block flex justify-center my-8">

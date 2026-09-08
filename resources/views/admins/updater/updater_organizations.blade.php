@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
         <x-slot name="title">
             Kanály pre {{ $updater->title }}
@@ -12,7 +12,7 @@
             {{-- <h2 class="page_title">Pridať kanál</h2> --}}
 
             {{-- <form action="{{ route('admin.updater.organization.store', [$updater->id, $tag->id]) }}" method="POST" --}}
-            {{-- class="flex justify-between border-b-2 hover:bg-gray-50 border-dashed p-2"> --}}
+            {{-- class="ar-panel mb-3 flex-row items-center justify-between gap-3 p-4"> --}}
             @csrf @method('POST')
             <x-organization.select-input />
             <div>
@@ -27,7 +27,7 @@
 
             @forelse ($updater->organizations as $tag)
                 <form action="{{ route('admin.updater.organization.destroy', [$updater->id, $tag->id]) }}" method="POST"
-                    class="flex justify-between border-b-2 hover:bg-gray-50 border-dashed p-2">
+                    class="ar-panel mb-3 flex-row items-center justify-between gap-3 p-4">
 
                     @csrf @method('DELETE')
                     <div class="font-semibold text-lg">{{ $tag->title }}</div>

@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title')
     <title>{{ 'Admin tágy (nálepky)' }}</title>
 @endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-pages.admin>
 
         <x-slot name="title">
             Tags panel
@@ -22,7 +22,7 @@
 
         <x-slot name="page">
             @forelse ($tags as $tag)
-                <div class="flex justify-between mb-4">
+                <div class="ar-panel mb-3 flex-row items-center justify-between gap-3 p-4">
                     <h4 class="font-semibold text-lg">{{ $tag->title }}</h4>
 
                     @can('update', $tag)
