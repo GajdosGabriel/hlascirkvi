@@ -158,6 +158,9 @@ class SitemapController extends Controller
     protected function postsQuery()
     {
         return Post::query()
+            // A post without a slug has no valid detail URL. Filter before pagination.
+            ->whereNotNull('slug')
+            ->where('slug', '<>', '')
             ->whereNull('video_available')
             ->whereHas('organization', fn ($query) => $query->where('published', 1));
     }
