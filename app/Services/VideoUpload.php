@@ -16,6 +16,7 @@ use App\Services\Images\YoutubeThumbnail;
 use App\Notifications\Admin\Error;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use Illuminate\Support\Facades\Log;
 
 
 class VideoUpload
@@ -35,22 +36,45 @@ class VideoUpload
     }
 
 
+    /**
+     * Import beží denne nad stovkami kanálov. Jeden nedostupný kanál, vyčerpaná
+     * kvóta YouTube API alebo zmazaný playlist zhodili celý beh a zvyšné kanály
+     * v ten deň neprešli vôbec — preto je každý kanál v samostatnom try/catch.
+     */
     protected function foreachOrganization()
     {
         foreach ($this->organizations->getYoutubeVideos() as $organization) {
-            $this->validateUrlPlaylistOrChannel($organization);
+            try {
+                $this->validateUrlPlaylistOrChannel($organization);
+            } catch (\Throwable $e) {
+                Log::warning('Import videí z YouTube zlyhal: ' . $e->getMessage(), [
+                    'organization_id' => $organization->id,
+                    'channel' => $organization->youtube_channel,
+                    'playlist' => $organization->youtube_playlist,
+                ]);
+            }
         }
     }
 
 
     protected function validateUrlPlaylistOrChannel($organization)
     {
-        if (strlen($organization->youtube_channel) > 7)
-            $videoList = \Youtube::getActivitiesByChannelId($organization->youtube_channel);
+        // $videoList tu nebola inicializovaná — kanál bez youtube_channel aj bez
+        // youtube_playlist (alebo s null, kde strlen() v PHP 8.1+ navyše hlási
+        // deprecation) skončil na "Undefined variable $videoList".
+        $videoList = [];
 
-        if (strlen($organization->youtube_playlist) > 7) {
+        if (strlen((string) $organization->youtube_channel) > 7) {
+            $videoList = \Youtube::getActivitiesByChannelId($organization->youtube_channel);
+        }
+
+        if (strlen((string) $organization->youtube_playlist) > 7) {
             $videoList = \Youtube::getPlaylistItemsByPlaylistId($organization->youtube_playlist);
             $videoList = $videoList['results'];
+        }
+
+        if (empty($videoList)) {
+            return;
         }
 
         $this->foreachVideolist($videoList, $organization);

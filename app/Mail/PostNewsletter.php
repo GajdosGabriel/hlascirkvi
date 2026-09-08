@@ -2,28 +2,26 @@
 
 namespace App\Mail;
 
-use App\Models\User;
-use App\Models\Prayer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Repositories\Eloquent\EloquentPostRepository;
+use Illuminate\Support\Collection;
 
 class PostNewsletter extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public Collection $posts;
+    public Collection $prayers;
 
     /**
-     * Create a new message instance.
-     *
-     * @return void
+     * Obsah prichádza zvonku (App\Services\Newsletter). Predtým si ho build()
+     * doťahoval sám, čiže dvoma dopytmi na každého jedného príjemcu.
      */
-    public function __construct()
+    public function __construct(Collection $posts, Collection $prayers)
     {
-
+        $this->posts = $posts;
+        $this->prayers = $prayers;
     }
 
     /**
@@ -33,9 +31,7 @@ class PostNewsletter extends Mailable
      */
     public function build()
     {
-        $posts   = (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get();
-        $prayers = Prayer::latest()->take(5)->get();
-
-        return $this->subject('Najlepšie kresťanské videa')->view('emails.posts', ['posts' => $posts, 'prayers' => $prayers]);
+        return $this->subject('Najlepšie kresťanské videa')
+            ->view('emails.posts', ['posts' => $this->posts, 'prayers' => $this->prayers]);
     }
 }

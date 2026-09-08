@@ -39,12 +39,14 @@ class VideoUploadSeminars
 
     protected function validateUrlPlaylistOrChannel()
     {
-        if (strlen($this->seminar->youtube_playlist) > 7) {
-            $videoList = \Youtube::getPlaylistItemsByPlaylistId($this->seminar->youtube_playlist);
-            $videoList = $videoList['results'];
+        // Seminár bez playlistu končil na "Undefined variable $videoList".
+        if (strlen((string) $this->seminar->youtube_playlist) < 8) {
+            return;
         }
 
-        $this->foreachVideolist($videoList);
+        $videoList = \Youtube::getPlaylistItemsByPlaylistId($this->seminar->youtube_playlist);
+
+        $this->foreachVideolist($videoList['results'] ?? []);
     }
 
 
