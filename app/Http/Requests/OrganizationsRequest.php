@@ -14,7 +14,17 @@ class OrganizationsRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        if (! auth()->check()) {
+            return false;
+        }
+
+        // Pri úprave existujúceho kanála sa autorizuje ešte pred validáciou.
+        // Inak by cudzí užívateľ dostal 422 a z chybových hlášok vyčítal,
+        // aké polia formulár prijíma, hoci ku kanálu nemá prístup.
+        $organization = $this->route('organization');
+
+        return $organization === null
+            || auth()->user()->can('manage', $organization);
     }
 
     /**
