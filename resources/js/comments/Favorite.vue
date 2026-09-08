@@ -1,76 +1,58 @@
 <template>
-    <div @click="store(reply)">
-        <div class="flex">
-            <svg
-                class="cursor-pointer hover:bg-red-300 text-gray-400 rounded-full h-7 w-7 p-1 "
-                @click="store(reply)"
-                :class="replyClass"
-                title="Hlasovať za komentár"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-            </svg>
-            <span>{{ reply.favorites_count }}</span>
-        </div>
-    </div>
+    <button
+        type="button"
+        @click="store"
+        :title="reply.is_favorited ? 'Hlas ste už dali' : 'Hlasovať za komentár'"
+        class="flex shrink-0 items-center gap-1 text-xs text-gray-400 transition-colors hover:text-[color:var(--ar-accent)]"
+    >
+        <span
+            class="flex h-7 w-7 items-center justify-center rounded-full"
+            :class="replyClass"
+        >
+            <i class="fas fa-heart"></i>
+        </span>
+        <span class="tabular-nums">{{ reply.favorites_count }}</span>
+    </button>
 </template>
 
 <script>
+// bus sa tu volal bez importu — kliknutie na srdiečko končilo výnimkou
+// ReferenceError a hlas sa síce uložil, ale hláška sa nikdy nezobrazila.
+import { bus } from "../app";
+
 export default {
     props: ["reply"],
     computed: {
-        signedIn: function() {
+        signedIn: function () {
             return window.App.signedIn;
         },
 
-        replyManager: function() {
-            if (this.reply.favorites_count > 0) {
-                return ["bg-red-700 text-white"];
-            }
+        replyClass: function () {
+            return this.reply.is_favorited
+                ? "bg-[color:var(--ar-accent)] text-white"
+                : "bg-[color:var(--ar-paper-deep)]";
         },
-
-        replyClass: function() {
-            if (this.reply.is_favorited) {
-                return ["bg-red-700 text-white rounded-full h-7 w-7 p-1"];
-            }
-        },
-
-        replyCounter: function() {
-            return ["fas fa-heart fa-lg fa-disabled"];
-        }
     },
 
     methods: {
-        store: function(reply) {
+        store: function () {
             if (!this.signedIn) {
-                return alert("Najprv sa prihláste!");
+                return bus.$emit("flash", {
+                    body: "Najprv sa prihláste.",
+                    type: "danger",
+                });
             }
+
             axios.put("/favorites/" + this.reply.id, {
                 model: "Comment",
-                model_id: this.reply.id
+                model_id: this.reply.id,
             });
-            this.replyisFavorited = true;
-            bus.$emit("flash", { body: "Pridaný hlas komentáru." });
-        }
-    }
+
+            this.reply.is_favorited = !this.reply.is_favorited;
+            this.reply.favorites_count += this.reply.is_favorited ? 1 : -1;
+
+            bus.$emit("flash", { body: "Hlas komentáru je uložený." });
+        },
+    },
 };
 </script>
-<style>
-.fa-disabled {
-    opacity: 0.6;
-    pointer-events: none;
-    color: red;
-}
-
-.fa-active {
-    color: red;
-}
-</style>

@@ -1,6 +1,6 @@
 /**
- * Skripty detailu príspevku: ukazovateľ prečítanej časti a vodorovný pás
- * archívu kanála.
+ * Skripty detailu príspevku: ukazovateľ prečítanej časti a doťahovanie
+ * ďalších riadkov do mriežky archívu kanála.
  *
  * Bolo to 133 riadkov inline v resources/views/posts/show.blade.php, teda
  * mimo buildu — neminifikované, bez lintu a bez cache. Obe funkcie sa samy
@@ -31,63 +31,37 @@ export function initArticle() {
         update();
     });
 
-    // Pás archívu kanála. Šípky posúvajú o šírku výrezu, doťahovanie beží
-    // samo pred koncom pásu — kým čitateľ dojde k poslednej karte, ďalšia
-    // dávka už v ňom je. Dlaždica na konci ostáva ako ručná poistka
-    // (a bez skriptu ako obyčajný odkaz na kanál).
+    // Archív kanála pod článkom. Dávka zo servera je presne jeden riadok
+    // mriežky na širokej obrazovke, takže kliknutie na "Viac príspevkov"
+    // pridá riadok a stránka sa nikam nepresunie. Bez skriptu ostáva
+    // z tlačidla obyčajný odkaz na kanál.
     window.arReady(function () {
-        var rail = document.querySelector('[data-rail]');
-        if (!rail) return;
+        var archive = document.querySelector('[data-archive]');
+        if (!archive) return;
 
-        var shell = rail.querySelector('[data-rail-shell]');
-        var track = rail.querySelector('[data-rail-track]');
-        var more  = rail.querySelector('[data-rail-more]');
-        if (!shell || !track || !more) return;
+        var grid = archive.querySelector('[data-archive-grid]');
+        var more = archive.querySelector('[data-archive-more]');
+        if (!grid || !more) return;
 
-        var prev  = rail.querySelector('[data-rail-prev]');
-        var next  = rail.querySelector('[data-rail-next]');
-        var bar   = rail.querySelector('[data-rail-bar]');
-        var label = rail.querySelector('[data-rail-more-label]');
+        var label = more.querySelector('[data-archive-label]');
         var icon  = more.querySelector('i');
 
-        var url    = rail.dataset.railUrl;
-        var cursor = rail.dataset.railNext || '';
+        var url    = archive.dataset.archiveUrl;
+        var cursor = archive.dataset.archiveNext || '';
         var busy   = false;
-        var ticking = false;
 
-        // Archív sa minul — dlaždica sa vráti k tomu, čím je bez skriptu:
+        // Archív sa minul — tlačidlo sa vráti k tomu, čím je bez skriptu:
         // odkazu na celý kanál.
         var finish = function () {
             cursor = '';
-            more.classList.add('is-final');
             if (label) label.textContent = 'Zobraziť celý kanál';
-        };
-
-        // Necelý výrez, nech na okraji ostane rozčítaná karta ako stopa,
-        // kde posun pokračuje.
-        var step = function () { return Math.max(240, track.clientWidth * 0.85); };
-
-        var paint = function () {
-            var max  = track.scrollWidth - track.clientWidth;
-            var left = track.scrollLeft;
-            var atStart = left <= 4;
-            var atEnd   = left >= max - 4;
-
-            shell.classList.toggle('is-start', atStart);
-            shell.classList.toggle('is-end', atEnd);
-            if (prev) prev.hidden = atStart;
-            if (next) next.hidden = atEnd && !cursor;
-            if (bar)  bar.style.width = (max > 0 ? Math.min(100, (left / max) * 100) : 100) + '%';
-
-            // Karta a kus navyše pred koncom — dávka stihne doraziť skôr,
-            // než sa čitateľ doposúva na jej miesto.
-            if (max - left < 400) load();
+            if (icon) icon.className = 'fas fa-arrow-right';
         };
 
         var load = function () {
             if (!cursor || busy) return;
             busy = true;
-            more.classList.add('is-loading');
+            if (label) label.textContent = 'Načítavam…';
             if (icon) icon.className = 'fas fa-circle-notch fa-spin';
 
             fetch(url + '?cursor=' + encodeURIComponent(cursor), {
@@ -99,21 +73,23 @@ export function initArticle() {
                     return response.json();
                 })
                 .then(function (data) {
-                    more.insertAdjacentHTML('beforebegin', data.html);
+                    grid.insertAdjacentHTML('beforeend', data.html);
                     cursor = data.next || '';
 
-                    if (!cursor) finish();
+                    if (cursor) {
+                        if (label) label.textContent = 'Viac príspevkov';
+                        if (icon) icon.className = 'fas fa-arrow-down';
+                    } else {
+                        finish();
+                    }
                 })
                 .catch(function () {
-                    // Ticho: v páse ostane, čo už je, a dlaždica vedie na
-                    // kanál, takže sa čitateľ k zvyšku aj tak dostane.
+                    // Ticho: v mriežke ostane, čo už v nej je, a tlačidlo vedie
+                    // na kanál, takže sa čitateľ k zvyšku aj tak dostane.
                     finish();
                 })
                 .then(function () {
                     busy = false;
-                    more.classList.remove('is-loading');
-                    if (icon) icon.className = 'fas fa-arrow-right';
-                    paint();
                 });
         };
 
@@ -123,24 +99,6 @@ export function initArticle() {
             load();
         });
 
-        if (prev) prev.addEventListener('click', function () {
-            track.scrollBy({ left: -step(), behavior: 'smooth' });
-        });
-
-        if (next) next.addEventListener('click', function () {
-            track.scrollBy({ left: step(), behavior: 'smooth' });
-        });
-
-        track.addEventListener('scroll', function () {
-            if (ticking) return;
-            ticking = true;
-            window.requestAnimationFrame(function () { ticking = false; paint(); });
-        }, { passive: true });
-
-        window.addEventListener('resize', paint);
-
         if (!cursor) finish();
-        paint();
     });
-
 }

@@ -1,20 +1,23 @@
 <template>
-    <div class="flex-shrink-0">
+    <div class="shrink-0">
         <img
             v-if="organization.avatar"
-            class="rounded-full w-16 h-16"
+            :alt="organization.title"
+            class="h-12 w-12 rounded-full object-cover ring-1 ring-[color:var(--ar-line)]"
             :src="
                 domain +
-                    'storage/organizations/' +
-                    organization.id +
-                    '/' +
-                    organization.avatar
+                'storage/organizations/' +
+                organization.id +
+                '/' +
+                organization.avatar
             "
         />
 
+        <!-- Bez fotky nesie kanál iniciálky; rozmer musí sedieť s obrázkom,
+             inak riadok pri každom kanáli poskočí. -->
         <div
             v-else
-            class="h-12 w-12 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-2xl"
+            class="flex h-12 w-12 items-center justify-center rounded-full bg-[color:var(--ar-paper-deep)] text-xl font-semibold text-[color:var(--ar-ink-soft)]"
         >
             {{ organization.initialName }}
         </div>
@@ -24,22 +27,10 @@
 <script>
 export default {
     props: ["organization"],
-    data: function() {
+    data: function () {
         return {
-            domain: window.App.baseUrl
+            domain: window.App.baseUrl,
         };
-    }
+    },
 };
 </script>
-
-<style>
-.slide-fade-enter-active,
-.slide-fade-leave-to {
-    transition: opacity 0.5s;
-}
-
-.slide-fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
- {
-    opacity: 0;
-}
-</style>

@@ -59,10 +59,11 @@ return [
     ])),
 
     /*
-     * Farba lišty prehliadača na mobiloch. Drží sa akcentu verejnej časti
-     * (--ar-accent v partials/design-system).
+     * Farba lišty prehliadača na mobiloch. Drží sa modrej hlavného menu
+     * (bg-blue-900) a favicony, nie červeného akcentu verejnej časti — lišta
+     * je pokračovaním hlavičky webu, nie textu na stránke.
      */
-    'theme_color' => '#b91c1c',
+    'theme_color' => '#1e3a8a',
 
     /*
      * Routy, ktoré nemajú čo robiť vo vyhľadávaní: administrácia, súkromný

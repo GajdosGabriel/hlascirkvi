@@ -132,26 +132,53 @@
     <header class="border-b border-[color:var(--ar-line)] bg-white">
         <div class="mx-auto max-w-6xl px-4 py-8 md:py-12">
             {{-- Názov kanála nesú drobčeky nad hlavičkou a lišta kanála pod
-                 ňou; tretíkrát nad titulkom už len opakoval to isté. --}}
-            <div class="max-w-3xl">
-                <h1 class="ar-display text-3xl font-extrabold leading-tight md:text-[2.6rem]">
-                    {{ $post->title }}
-                </h1>
+                 ňou; tretíkrát nad titulkom už len opakoval to isté.
 
-                <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
-                    <time datetime="{{ $post->created_at->toIso8601String() }}">
-                        <i class="far fa-calendar mr-1.5 text-[color:var(--ar-accent)]"></i>
-                        {{ $post->created_at->locale('sk')->isoFormat('D. MMMM YYYY') }}
-                    </time>
+                 Titulok s údajmi drží šírku textu, akcie idú k pravému okraju
+                 stránky — tam, kde sa v článku aj inde hľadá ovládanie. --}}
+            <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
+                <div class="max-w-3xl">
+                    <h1 class="ar-display text-3xl font-extrabold leading-tight md:text-[2.6rem]">
+                        {{ $post->title }}
+                    </h1>
 
-                    @if ($post->video_id && $post->video_duration)
-                        <span><i class="far fa-play-circle mr-1.5"></i>{{ $post->video_duration }}</span>
-                    @elseif ($words > 0)
-                        <span><i class="far fa-clock mr-1.5"></i>{{ $minutes }} min čítania</span>
-                    @endif
+                    <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
+                        <time datetime="{{ $post->created_at->toIso8601String() }}">
+                            <i class="far fa-calendar mr-1.5 text-[color:var(--ar-accent)]"></i>
+                            {{ $post->created_at->locale('sk')->isoFormat('D. MMMM YYYY') }}
+                        </time>
 
-                    <span><i class="far fa-eye mr-1.5"></i>{{ number_format($post->count_view, 0, ',', ' ') }}</span>
+                        @if ($post->video_id && $post->video_duration)
+                            <span><i class="far fa-play-circle mr-1.5"></i>{{ $post->video_duration }}</span>
+                        @elseif ($words > 0)
+                            <span><i class="far fa-clock mr-1.5"></i>{{ $minutes }} min čítania</span>
+                        @endif
+
+                        <span><i class="far fa-eye mr-1.5"></i>{{ number_format($post->count_view, 0, ',', ' ') }}</span>
+                    </div>
                 </div>
+
+                {{-- Akcie článku. Stáli pod textom, kde ich čitateľ našiel až
+                     po dočítaní, a odporúčanie pod poslednou fotkou vyzeralo,
+                     akoby patrilo ku galérii. Pri titulku sú tam, kde sa
+                     o príspevku rozhoduje. --}}
+                @if ($post->video_id || Gate::allows('update', $post))
+                    <div class="flex items-center gap-2">
+                        @if ($post->video_id)
+                            @if (Session::get($post->slug) == $post->id)
+                                <span class="ar-btn ar-btn--still">
+                                    <i class="far fa-thumbs-up"></i> Už ste odporučili
+                                </span>
+                            @else
+                                <favorite-post :post="{{ $post }}"></favorite-post>
+                            @endif
+                        @endif
+
+                        @can('update', $post)
+                            <article-dropdown :post="{{ $post }}" align="right" />
+                        @endcan
+                    </div>
+                @endif
             </div>
         </div>
     </header>
@@ -207,8 +234,11 @@
 
                 {{-- Lišta kanála: avatar, názov a odber. Vlastný Vue komponent,
                      preto stojí na plnú šírku článku a nie v úzkom paneli. --}}
-                <div class="mb-8 rounded-lg border border-[color:var(--ar-line)] bg-white px-4 pt-4">
-                    <organization-page-header :organization="{{ $post->organization }}"></organization-page-header>
+                <div class="mb-8 rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+                    {{-- h1 na tejto stránke patrí titulku článku, kanál preto
+                         dostane obyčajný riadok. --}}
+                    <organization-page-header heading="div"
+                                              :organization="{{ $post->organization }}"></organization-page-header>
                 </div>
 
                 @if (trim(strip_tags($post->body)) !== '')
@@ -249,30 +279,9 @@
                     </div>
                 @endif
 
-                {{-- Akcie autora a odporúčanie. Prázdny riadok by pod textom
-                     nechal osamotenú linku, preto sa vykreslí len keď má čo
-                     niesť. --}}
-                @if ($post->video_id || Gate::allows('update', $post))
-                    <div class="mt-10 flex flex-wrap items-center gap-3 border-t border-[color:var(--ar-line)] pt-5">
-                        @if ($post->video_id)
-                            @if (Session::get($post->slug) == $post->id)
-                                <span class="text-sm text-gray-400">Toto video ste už odporučili.</span>
-                            @else
-                                {{-- Komponent má na koreni `grow`, takže by v pružnom
-                                     riadku zabral celú šírku; obal ho stiahne na obsah. --}}
-                                <div class="inline-flex">
-                                    <favorite-post :post="{{ $post }}"></favorite-post>
-                                </div>
-                            @endif
-                        @endif
-
-                        @can('update', $post)
-                            <article-dropdown :post="{{ $post }}" />
-                        @endcan
-                    </div>
-                @endif
-
-                <div class="mt-10">
+                {{-- Odporúčanie a správa článku sú v hlavičke pri titulku;
+                     pod textom tak nasledujú rovno komentáre. --}}
+                <div class="mt-10 border-t border-[color:var(--ar-line)] pt-8">
                     <comments-post :post="{{ $post }}"></comments-post>
                 </div>
             </article>
@@ -363,12 +372,12 @@
             </aside>
         </div>
 
-        {{-- Archív kanála ako vodorovný pás. Stránkovanie tu delilo archív na
-             strany, ktoré nikto neprelistoval — pás drží čitateľa pri článku
-             a ďalšie dávky doťahuje na mieste. --}}
-        <section class="mt-14" data-rail
-                 data-rail-url="{{ route('post.rail', $post) }}"
-                 data-rail-next="{{ optional($rail->nextCursor())->encode() }}">
+        {{-- Archív kanála. Bol to vodorovný pás: ovládal sa šípkami, na dotyku
+             sa ťahal prstom a v jednom rade toho veľa nebolo vidieť. Mriežka
+             ukáže celý riadok naraz a tlačidlo pod ňou pridá ďalší. --}}
+        <section class="mt-14" data-archive
+                 data-archive-url="{{ route('post.rail', $post) }}"
+                 data-archive-next="{{ optional($rail->nextCursor())->encode() }}">
 
             <div class="ar-rule mb-5">
                 <h2 class="ar-display text-lg font-bold">
@@ -385,33 +394,22 @@
             @if ($rail->isEmpty())
                 <p class="text-sm text-gray-500">Kanál zatiaľ nemá ďalšie príspevky.</p>
             @else
-                <div class="ar-rail-shell is-start" data-rail-shell>
-                    <button type="button" class="ar-rail-nav ar-rail-nav--prev" data-rail-prev
-                            aria-label="Posunúť späť" hidden>
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-
-                    <div class="ar-rail" data-rail-track>
-                        @include('posts._rail-items', ['items' => $rail])
-
-                        {{-- Dlaždica na konci pásu. Bez skriptu je to obyčajný
-                             odkaz na kanál, so skriptom doťahuje ďalšiu dávku
-                             priamo do pásu. --}}
-                        <a href="{{ $orgUrl }}" class="ar-rail-more" data-rail-more>
-                            <span class="ar-rail-more__icon"><i class="fas fa-arrow-right"></i></span>
-                            <span class="ar-rail-more__label" data-rail-more-label>Ďalšie príspevky</span>
-                        </a>
-                    </div>
-
-                    <button type="button" class="ar-rail-nav ar-rail-nav--next" data-rail-next
-                            aria-label="Posunúť ďalej">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+                {{-- Dávka archívu je šesť príspevkov, preto šesť stĺpcov na
+                     širokej obrazovke — jedno kliknutie pridá presne jeden
+                     ďalší riadok. --}}
+                <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6"
+                     data-archive-grid>
+                    @include('posts._rail-items', ['items' => $rail])
                 </div>
 
-                {{-- Koľko archívu už je za nami. Pás nemá posuvník, tak aspoň
-                     takto vidno, že sa niekam ide. --}}
-                <div class="ar-rail-progress mt-4"><span data-rail-bar></span></div>
+                {{-- Bez skriptu je to obyčajný odkaz na kanál, so skriptom
+                     doťahuje ďalšiu dávku rovno pod mriežku. --}}
+                <div class="mt-6 flex justify-center">
+                    <a href="{{ $orgUrl }}" class="ar-btn ar-btn--quiet" data-archive-more>
+                        <i class="fas fa-arrow-down"></i>
+                        <span data-archive-label>Viac príspevkov</span>
+                    </a>
+                </div>
             @endif
         </section>
 

@@ -82,7 +82,11 @@
     <meta name="twitter:site" content="{{ $meta['twitter_site'] }}">
 @endif
 
-<link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+{{-- SVG berú súčasné prehliadače, .ico ostáva pre staršie a pre /favicon.ico,
+     ktoré si niektoré čítačky ťahajú bez ohľadu na značky v hlavičke. --}}
+<link rel="icon" href="{{ asset('favicon.ico') }}" sizes="32x32">
+<link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 <meta name="theme-color" content="{{ config('seo.theme_color') }}">
 
 @foreach ($meta['jsonld'] as $schema)

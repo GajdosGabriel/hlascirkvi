@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Hlas Cirkvi">
+    <title>Hlas Cirkvi</title>
+    <!-- Toto je predloha značky; favicon.ico a apple-touch-icon.png sú z nej
+         odvodené. Pozor: 16x16 v .ico nesie zjednodušenú kresbu (jeden hrubší
+         oblúk a mohutnejší kríž), lebo dva oblúky sa na 16 px zlejú. -->
+    <!-- Podklad drží farbu hlavného menu (bg-blue-900), aby sa značka v paneli
+         kariet spájala s hlavičkou webu. -->
+    <defs>
+        <linearGradient id="hc-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#1f3f96"/>
+            <stop offset="1" stop-color="#16265e"/>
+        </linearGradient>
+    </defs>
+    <rect width="64" height="64" rx="12" fill="url(#hc-bg)"/>
+    <!-- Dva oblúky vychádzajúce z kríža = hlas, ktorý ide von. -->
+    <g fill="#fff">
+        <path d="M34.052 16.394 A21 21 0 0 1 34.052 47.606 L30.037 43.147 A15 15 0 0 0 30.037 20.853 Z"/>
+        <path d="M40.743 8.963 A31 31 0 0 1 40.743 55.037 L36.728 50.579 A25 25 0 0 0 36.728 13.421 Z"/>
+        <path d="M16.5 12h7v40h-7z"/>
+        <path d="M13 21.5h14v7H13z"/>
+    </g>
+</svg>
