@@ -1,140 +1,76 @@
 <template>
-    <!-- This example requires Tailwind CSS v2.0+ -->
-    <div v-if="prayer" class="fixed z-10 inset-0 overflow-y-auto">
-        <div
-            class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
-        >
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-
-            <!-- This element is to trick the browser into centering the modal contents. -->
-            <span
-                class="hidden sm:inline-block sm:align-middle sm:h-screen"
-                aria-hidden="true"
-                >&#8203;</span
-            >
-
-            <div
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="modal-headline"
-            >
-                <div class="bg-blue-900 text-gray-300 p-4">
-                    <!--  Header  -->
-                    <div class="flex justify-between">
-                        <h3
-                            class="text-lg leading-6 font-medium"
-                            id="modal-headline"
-                        >
-                            Modlitbová prosba
+    <div
+        v-if="prayer"
+        class="fixed inset-0 z-40 overflow-y-auto bg-[rgba(16,24,40,.55)] p-4 sm:p-6"
+        @click.self="toggle"
+    >
+        <div class="flex min-h-full items-center justify-center" @click.self="toggle">
+            <div class="ar-modal" role="dialog" aria-modal="true" aria-labelledby="prayer-show-title">
+                <header class="ar-modal__head">
+                    <div class="min-w-0">
+                        <p class="ar-kicker">Modlitebná prosba</p>
+                        <h3 id="prayer-show-title" class="ar-display mt-1 text-lg font-extrabold leading-snug">
+                            {{ prayer.title || "Prosba o modlitbu" }}
                         </h3>
-
-                        <div @click="toggle" class="close-modal cursor-pointer">
-                            &#10006;
-                        </div>
                     </div>
-                </div>
 
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <img :src="'/images/prayed_hand.png'" class="h-20" />
-
-                        <div
-                            class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left"
-                        >
-                            <div class="mt-2">
-                                <p class="text-sm text-gray-500">
-                                    <span class="font-semibold mr-1">{{
-                                        prayer.user_name
-                                    }}</span
-                                    >žiada o modlitbu
-                                </p>
-                            </div>
-
-                            <div class="mt-2">
-                                <p
-                                    class="text-sm text-gray-500 mr-2 font-semibold"
-                                >
-                                    {{ prayer.title }}
-                                </p>
-                            </div>
-
-                            <div class="mt-2">
-                                <p class="text-gray-500 text-lg">
-                                    {{ prayer.body }}
-                                </p>
-                            </div>
-
-                            <div class="mt-3">
-                                <p class="text-sm text-gray-500 flex">
-                                    <span class="mr-3 font-semibold"
-                                        >Modlitba je stále aktuálna</span
-                                    >
-                                    <!-- <svg
-                                        class="h-4 w-4 mr-1 text-gray-500 fill-current"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                            clip-rule="evenodd"
-                                        />
-                                    </svg> -->
-                                    <!-- dňa: {{ prayer.created_at | dateTime }} hod. -->
-                                </p>
-                            </div>
-
-                            <!-- Email for Login-->
-                            <form @submit.prevent="saveFavorites">
-                                <div
-                                    class="mt-4 text-center w-full"
-                                    v-if="!isAuth"
-                                >
-                                    <div class="mb-3">
-                                        <input
-                                            v-model="email"
-                                            type="email"
-                                            class="w-full p-2 border-2 border-gray-700 rounded"
-                                            name="email"
-                                            placeholder="e-mail"
-                                            required
-                                        />
-                                    </div>
-                                    <p
-                                        class="font-semibold mb-2 text-gray-500 text-sm"
-                                    >
-                                        Vložením emailu sa pripojíte k modlitbe.
-                                        <br />
-                                        Email sa nikde zverejňuje.
-                                    </p>
-                                </div>
-
-                                <div class="flex justify-center">
-                                    <button
-                                        type="submit"
-                                        class="btn btn-primary mt-2"
-                                    >
-                                        Pripojiť sa k modlitbe
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
-                >
-                    <button
-                        type="button"
-                        @click="toggle"
-                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    >
-                        Zavrieť
+                    <button type="button" class="ar-modal__close" title="Zavrieť" @click="toggle">
+                        <i class="fas fa-times"></i>
                     </button>
+                </header>
+
+                <div class="px-5 py-5">
+                    <div class="flex items-start gap-3">
+                        <span class="ar-prayer__mark">
+                            <img :src="'/images/prayed_hand.png'" alt="" />
+                        </span>
+
+                        <div class="min-w-0">
+                            <p class="text-sm">
+                                <span class="font-semibold">{{ prayer.user_name }}</span>
+                                <span class="text-gray-500"> prosí o modlitbu</span>
+                            </p>
+                            <p class="ar-prayer__meta mt-0.5">
+                                {{ prayer.created_at_humans }} · {{ prayingLabel }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="mt-4 whitespace-pre-line text-[.95rem] leading-relaxed text-[color:var(--ar-ink-soft)]">
+                        {{ prayer.body }}
+                    </p>
+
+                    <form
+                        class="mt-5 border-t border-[color:var(--ar-line)] pt-4"
+                        @submit.prevent="saveFavorites"
+                    >
+                        <div v-if="!isAuth">
+                            <label class="ar-label" for="prayer-favorite-email">Váš e-mail</label>
+                            <input
+                                id="prayer-favorite-email"
+                                v-model="email"
+                                type="email"
+                                class="ar-field"
+                                name="email"
+                                placeholder="meno@email.sk"
+                                required
+                            />
+                            <p class="ar-hint">
+                                Vložením e-mailu sa pripojíte k modlitbe. E-mail sa nikde
+                                nezverejňuje.
+                            </p>
+                        </div>
+
+                        <div class="mt-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                            <button type="button" class="ar-btn ar-btn--quiet" @click="toggle">
+                                Zavrieť
+                            </button>
+                            <button type="submit" class="ar-btn ar-btn--accent">
+                                <i class="fas fa-praying-hands"></i>
+                                Pripojiť sa k modlitbe
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -147,37 +83,59 @@ import { filterMixin } from "../mixins/filtersMixin";
 
 export default {
     mixins: [filterMixin],
-    data: function() {
+
+    data: function () {
         return {
             prayer: "",
-            email: ""
+            email: "",
         };
     },
+
     computed: {
         isAuth() {
             return window.App.signedIn;
-        }
+        },
+
+        prayingLabel() {
+            const count = this.prayer.favoritesCount;
+
+            if (!count) return "zatiaľ sa nepridal nikto";
+            if (count === 1) return "modlí sa 1 človek";
+            if (count < 5) return `modlia sa ${count} ľudia`;
+
+            return `modlí sa ${count} ľudí`;
+        },
     },
-    created: function() {
-        bus.$on("passToModalPrayer", prayer => {
+
+    created: function () {
+        bus.$on("passToModalPrayer", (prayer) => {
             this.prayer = prayer;
         });
+
+        // Okno visí v komponente na celú životnosť stránky, poslucháč sa
+        // preto neodpája — zaniká až s ňou.
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") this.toggle();
+        });
     },
+
     methods: {
-        toggle: function() {
+        toggle: function () {
             this.prayer = "";
         },
-        saveFavorites: function() {
+
+        saveFavorites: function () {
             axios
                 .put("/favorites/" + this.prayer.id, {
                     model: "Prayer",
                     model_id: this.prayer.id,
-                    email: this.email
+                    email: this.email,
                 })
-                .then(response => {
-                    this.prayer = null;
+                .then(() => {
+                    this.prayer = "";
+                    this.email = "";
                 });
-        }
-    }
+        },
+    },
 };
 </script>

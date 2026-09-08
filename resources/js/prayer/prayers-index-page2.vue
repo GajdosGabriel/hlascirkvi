@@ -1,13 +1,31 @@
 <template>
-    <section class="">
+    <section>
+        <header class="mb-4">
+            <h2 class="ar-display flex items-center gap-2 text-lg font-extrabold">
+                Vypočuté modlitby
+                <span v-if="meta.total" class="ar-badge ar-badge--ok">
+                    {{ total }}
+                </span>
+            </h2>
+            <p class="mt-1 text-sm text-gray-500">
+                Prosby, pri ktorých sa ľudia dočkali odpovede. Ďakujeme za každé
+                svedectvo.
+            </p>
+        </header>
 
-        <div class="page_title">
-            <h2 class="text-2xl">Vypočuté modlitby</h2>
-        </div>
+        <p v-if="loading" class="py-10 text-center text-sm text-gray-400">
+            Načítavam…
+        </p>
 
+        <p
+            v-else-if="!prayers.length"
+            class="rounded-lg border border-dashed border-[color:var(--ar-line)] bg-white px-4 py-10 text-center text-sm text-gray-500"
+        >
+            Zatiaľ tu nie je žiadne svedectvo.
+        </p>
 
-        <ul class="mt-3">
-            <li v-for="prayer in prayers.data" :key="prayer.id" class="hover:bg-gray-200 my-8">
+        <ul v-else class="space-y-4">
+            <li v-for="prayer in prayers" :key="prayer.id">
                 <prayers-index-item :prayer="prayer"></prayers-index-item>
             </li>
         </ul>
@@ -20,55 +38,62 @@
 </template>
 
 <script>
-    import Axios from 'axios';
-    import {bus} from "../app";
-    import prayersIndexItem from '../prayer/prayers-index-item';
-    import pagination from "./pagination";
-    import modalNewPrayer from '../prayer/ModalNewPrayer';
-    import modalShowPrayer from '../prayer/ModalShowPrayer';
+import Axios from "axios";
+import prayersIndexItem from "./prayers-index-item";
+import pagination from "./pagination";
+import modalNewPrayer from "./ModalNewPrayer";
+import modalShowPrayer from "./ModalShowPrayer";
 
+export default {
+    components: { prayersIndexItem, pagination, modalNewPrayer, modalShowPrayer },
 
-    export default {
-        components: {prayersIndexItem, pagination, modalNewPrayer, modalShowPrayer},
-        data() {
-            return {
-                links: '',
-                meta: '',
-                prayers: [],
-                url: '/api/prayers/fulfilled?page=1'
-            }
+    data() {
+        return {
+            links: {},
+            meta: {},
+            prayers: [],
+            loading: true,
+            url: "/api/prayers/fulfilled?page=1",
+        };
+    },
+
+    computed: {
+        total() {
+            return new Intl.NumberFormat("sk-SK").format(this.meta.total);
+        },
+    },
+
+    created() {
+        this.getPrayers();
+    },
+
+    watch: {
+        url() {
+            this.getPrayers(true);
+        },
+    },
+
+    methods: {
+        getPrayers(scroll = false) {
+            this.loading = true;
+
+            Axios.get(this.url).then((response) => {
+                this.prayers = response.data.data;
+                this.meta = response.data.meta;
+                this.links = response.data.links;
+                this.loading = false;
+
+                if (scroll) {
+                    this.$nextTick(() => {
+                        this.$el.scrollIntoView({ behavior: "smooth", block: "start" });
+                    });
+                }
+            });
         },
 
-        created() {
-            this.getPrayers();
+        paginator(url) {
+            this.url = url;
         },
-
-        watch: {
-            url() {
-                this.getPrayers();
-            }
-        },
-        methods: {
-            getPrayers() {
-                Axios.get(this.url).then(
-                    (response) => {
-                        this.prayers = response.data;
-                        this.meta = response.data.meta;
-                        this.links = response.data.links;
-                    }
-                )
-            },
-            openModal() {
-                bus.$emit('openModalPrayer', () => {
-                    true
-                });
-            },
-            paginator(url) {
-                this.url = url;
-            }
-        }
-
-    }
+    },
+};
 </script>
-
-

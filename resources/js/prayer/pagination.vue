@@ -1,41 +1,45 @@
 <template>
-    <div class="flex justify-center my-10 space-x-3">
-        <button @click="fetchPaginate(links.first)"
-                class="flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-1 border-gray-600 rounded-sm cursor-pointer"
-                :disabled="! links.first">
-            <!--  Icon -->
-            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
-            </svg>
+    <nav
+        v-if="meta && meta.last_page > 1"
+        class="mt-6 flex items-center justify-center gap-3"
+        aria-label="Stránkovanie"
+    >
+        <button
+            type="button"
+            class="ar-btn ar-btn--quiet"
+            :disabled="!links.prev"
+            @click="fetchPaginate(links.prev)"
+        >
+            <i class="fas fa-chevron-left"></i>
+            <span>Novšie</span>
         </button>
-        <div
-            class="flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-1 border-gray-600 rounded-sm">
-            {{ meta.current_page}} / {{ meta.last_page}}
-        </div>
-        <button @click="fetchPaginate(links.next)"
-                class="flex items-center justify-center h-8 p-3 font-semibold bg-gray-400 border-1 border-gray-600 rounded-sm cursor-pointer"
-                :disabled="! links.next">
-            <!--  Icon -->
-            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                 stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
-            </svg>
-        </button>
-    </div>
 
+        <span class="text-xs font-semibold tabular-nums text-gray-400">
+            {{ meta.current_page }} / {{ meta.last_page }}
+        </span>
+
+        <button
+            type="button"
+            class="ar-btn ar-btn--quiet"
+            :disabled="!links.next"
+            @click="fetchPaginate(links.next)"
+        >
+            <span>Staršie</span>
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </nav>
 </template>
+
 <script>
+export default {
+    props: ["meta", "links"],
 
-    export default {
-        props: ['meta', 'links'],
+    methods: {
+        fetchPaginate(url) {
+            if (!url) return;
 
-        methods: {
-            fetchPaginate(url) {
-                this.$emit('fetchUrl', url)
-            }
-
-        }
-    }
+            this.$emit("fetchUrl", url);
+        },
+    },
+};
 </script>

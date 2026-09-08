@@ -1,21 +1,15 @@
 <template>
-    <div>
-        <!-- <i class="fas fa-praying-hands text-gray-400" title="modlitbu"></i> -->
-
-        <button class="btn-small text-xs whitespace-nowrap">Modlím sa
-            <span v-if="prayer.favoritesCount > 0" :class="visibleFavoritesCounter" class="text-gray-900">{{ prayer.favoritesCount }}</span>
-            </button>
-    </div>
+    <button type="button" class="ar-btn ar-btn--quiet" title="Pripojiť sa k modlitbe">
+        <i class="fas fa-praying-hands"></i>
+        <span>Modlím sa</span>
+        <span v-if="prayer.favoritesCount > 0" class="ar-badge ar-badge--count">
+            {{ prayer.favoritesCount }}
+        </span>
+    </button>
 </template>
 
 <script>
-    export default {
-        props:['prayer'],
-
-        computed:{
-            visibleFavoritesCounter(){
-                return this.prayer.favoritesCount ? '' : 'invisible'
-            }
-        },
-    }
+export default {
+    props: ["prayer"],
+};
 </script>
