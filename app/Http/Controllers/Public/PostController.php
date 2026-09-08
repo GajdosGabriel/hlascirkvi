@@ -19,6 +19,7 @@ use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
+    protected PostRepository $post;
 
     public function __construct(PostRepository $postRepository)
     {

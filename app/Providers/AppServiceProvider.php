@@ -18,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (env('APP_ENV') !== 'production') {
+        // Nie env('APP_ENV') — po `php artisan config:cache` vracia env()
+        // v produkcii null, takže by sa vývojársky balík registroval aj tam.
+        if (! $this->app->environment('production')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
 

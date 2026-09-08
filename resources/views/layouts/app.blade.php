@@ -70,6 +70,11 @@
         @include('layouts.footer')
     </div>
 
+    @include('partials.ar-ready')
+
+    {{-- Tento layout používa @yield('script'), ostatné dva @stack('scripts').
+         Vyhodnocujeme oboje, aby sa pohľad nemusel starať, pod ktorým beží. --}}
     @yield('script')
+    @stack('scripts')
 </body>
 </html>

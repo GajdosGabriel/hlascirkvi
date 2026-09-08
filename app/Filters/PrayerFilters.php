@@ -21,7 +21,7 @@ class PrayerFilters extends Filters
     public function search()
     {
         session()->flash('search', $this->request->search);
-        return $this->builder->where('body', 'LIKE', '%' . $this->request->search . '%');
+        return $this->builder->where('body', 'LIKE', $this->likePattern($this->request->search));
     }
 
     public function fulfilled()

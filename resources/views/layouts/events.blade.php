@@ -213,6 +213,8 @@
         @include('layouts.footer')
     </div>
 
+    @include('partials.ar-ready')
+
     @stack('scripts')
 </body>
 </html>

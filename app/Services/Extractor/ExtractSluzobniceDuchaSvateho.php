@@ -25,8 +25,11 @@ class ExtractSluzobniceDuchaSvateho extends Extractors
 
     public function parseListUrl() {
 //        $url = "https://www.tkkbs.sk/search.php?rstext=pozvanka&rskde=tsl";
-        $html = file_get_contents($this->url);
-//        $html = file_get_contents($this->url);
+        $html = $this->fetchHtml($this->url);
+
+        if ($html === null) {
+            return;
+        }
 
         //Instantiate the DOMDocument class.
         $htmlDom = new DOMDocument;

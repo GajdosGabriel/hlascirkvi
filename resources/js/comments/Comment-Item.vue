@@ -93,9 +93,11 @@ export default {
             }
             axios.delete('/api/comments/' + this.comment.id);
 
-            $(this.$el).fadeOut(300, () => {
-                this.$emit("deleted", this.comment.id);
-            });
+            // Bolo to jQuery $(el).fadeOut(300). Kvôli tomuto jedinému volaniu
+            // sa do bundlu ťahalo celé jQuery.
+            this.$el.style.transition = "opacity 300ms";
+            this.$el.style.opacity = 0;
+            setTimeout(() => this.$emit("deleted", this.comment.id), 300);
         },
 
         updateComment: function () {

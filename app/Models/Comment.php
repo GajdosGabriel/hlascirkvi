@@ -25,11 +25,6 @@ class Comment extends Model
     protected $appends = ['favoritesCount', 'isFavorited', 'datetime'];
 
 
-    public function organization() {
-
-        return $this->belongsTo(Organization::class);
-    }
-
     public function commentable()
     {
         return $this->morphTo();

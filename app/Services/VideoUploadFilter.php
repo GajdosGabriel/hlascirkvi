@@ -18,6 +18,10 @@ class VideoUploadFilter
     public $organization;
     public $title;
 
+    // Preklep v názve (má byť countWords), ale property sa pod ním číta na
+    // troch miestach v tejto triede — premenovanie patrí k väčšiemu upratovaniu.
+    // Deklarácia tu je preto, že dynamické vlastnosti sú v PHP 9 fatal.
+    public bool $coutWords = false;
 
     public function __construct(Organization $organization, $title)
     {

@@ -21,23 +21,6 @@ CREATE TABLE `addres_books` (
   KEY `addres_books_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `big_thinks`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `big_thinks` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `organization_id` int(10) unsigned NOT NULL,
-  `post_id` int(10) unsigned NOT NULL,
-  `body` text NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT 1,
-  `blocked` tinyint(1) NOT NULL DEFAULT 0,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `big_thinks_organization_id_foreign` (`organization_id`),
-  CONSTRAINT `big_thinks_organization_id_foreign` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `buffer_publications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -86,8 +69,8 @@ CREATE TABLE `comments` (
   `user_name` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `comments_user_id_foreign` (`user_id`),
-  KEY `comments_commentable_type_commentable_id_deleted_at_index` (`commentable_type`,`commentable_id`,`deleted_at`),
   KEY `comments_created_index` (`deleted_at`,`created_at`),
+  KEY `comments_commentable_index` (`commentable_type`,`commentable_id`,`deleted_at`),
   CONSTRAINT `comments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -103,73 +86,6 @@ CREATE TABLE `districts` (
   `use` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 = use the row, 0 = not',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `event_person`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_person` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `person_id` bigint(20) unsigned NOT NULL,
-  `event_id` int(10) unsigned NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `event_person_person_id_foreign` (`person_id`),
-  KEY `event_person_event_id_foreign` (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `event_subscribes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_subscribes` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `event_id` int(10) unsigned NOT NULL,
-  `organization_id` int(10) unsigned NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT 1,
-  `paid` decimal(8,2) DEFAULT 0.00,
-  `confirmed` datetime DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `event_subscribes_organization_id_event_id_unique` (`organization_id`,`event_id`),
-  KEY `event_subscribes_event_id_index` (`event_id`),
-  KEY `event_subscribes_organization_id_index` (`organization_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `events`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `events` (
-  `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(191) NOT NULL,
-  `slug` varchar(191) NOT NULL,
-  `body` text NOT NULL,
-  `body_ai` text DEFAULT NULL,
-  `start_at` datetime DEFAULT NULL,
-  `end_at` datetime DEFAULT NULL,
-  `village_id` int(10) unsigned DEFAULT NULL,
-  `published` datetime DEFAULT NULL,
-  `appendFile` varchar(191) DEFAULT NULL,
-  `count_view` int(11) DEFAULT 0,
-  `ticket_available` int(11) DEFAULT 0,
-  `ticket_staff` int(11) DEFAULT 0,
-  `organization_id` int(10) unsigned NOT NULL,
-  `street` varchar(191) DEFAULT NULL,
-  `registration` varchar(191) NOT NULL,
-  `entryFee` varchar(191) NOT NULL,
-  `disabled` tinyint(1) NOT NULL DEFAULT 0,
-  `clientwww` varchar(191) DEFAULT NULL,
-  `online_link` varchar(191) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `orginal_source` varchar(255) DEFAULT NULL,
-  `published_at` datetime DEFAULT NULL,
-  `status` enum('draft','published','archived','') NOT NULL DEFAULT 'draft',
-  `venue_id` int(10) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `favorites`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -410,6 +326,28 @@ CREATE TABLE `persons` (
   `description` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `post` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `organization_id` int(10) unsigned NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `body` text DEFAULT NULL,
+  `blocked` tinyint(1) NOT NULL DEFAULT 0,
+  `youtube_blocked` tinyint(1) NOT NULL DEFAULT 0,
+  `video_available` tinyint(1) DEFAULT NULL,
+  `video_id` varchar(255) DEFAULT NULL,
+  `video_duration` varchar(255) DEFAULT NULL,
+  `count_view` int(11) NOT NULL,
+  `deleted_at` datetime NOT NULL,
+  `published` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -683,7 +621,7 @@ CREATE TABLE `villages` (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (1,'2014_10_12_000000_create_users_table',1);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (1,'2013_01_08_140242_user_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (2,'2014_10_12_100000_create_password_resets_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (3,'2017_10_09_222556_create_organizations_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (4,'2018_06_13_074916_create_posts_table',1);
@@ -715,11 +653,14 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (32,'2019_12_14_000
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (33,'2021_05_30_134305_create_seminars_table',7);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (34,'2021_05_31_082722_create_post_seminar_table',8);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (35,'2021_12_09_070925_create_sessions_table',8);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (36,'2026_09_06_100000_add_expires_at_to_personal_access_tokens_table',9);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (37,'2026_09_07_130000_add_commentable_index_to_comments_table',10);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (39,'2026_09_07_140000_add_performance_indexes',11);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (40,'2026_09_07_160000_add_organization_views_index',12);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (44,'2026_09_07_170000_create_buffer_publications_table',13);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (45,'2026_09_07_180000_add_variants_to_images_table',14);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (46,'2026_09_07_190000_rebuild_views_table',15);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (47,'2026_09_07_200000_add_dimensions_to_images_table',16);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (36,'2022_01_13_090304_create_post_table',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (37,'2026_09_06_100000_add_expires_at_to_personal_access_tokens_table',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (38,'2026_09_07_120000_drop_local_event_tables',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (39,'2026_09_07_140000_add_performance_indexes',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (40,'2026_09_07_160000_add_organization_views_index',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (41,'2026_09_07_170000_create_buffer_publications_table',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (42,'2026_09_07_180000_add_variants_to_images_table',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (43,'2026_09_07_190000_rebuild_views_table',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (44,'2026_09_07_200000_add_dimensions_to_images_table',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (45,'2026_09_08_100000_drop_big_thinks_table',10);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (46,'2026_09_08_120000_add_commentable_index_to_comments_table',10);

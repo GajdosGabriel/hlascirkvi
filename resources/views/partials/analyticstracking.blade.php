@@ -1,7 +1,10 @@
 <script>
     window.fbAsyncInit = function() {
         FB.init({
-            appId      : '323914761499418',
+            {{-- Rovnaké App ID ako fb:app_id v partials/meta.blade.php.
+                 Predtým tu bolo iné než v konfigurácii aj než v SDK skripte
+                 na detaile príspevku — tri rôzne ID na troch miestach. --}}
+            appId      : '{{ config('seo.facebook_app_id') }}',
             xfbml      : true,
             version    : 'v3.1'
         });
@@ -19,7 +22,9 @@
 
 
 
-@if(env('APP_ENV') == 'production')
+{{-- App::environment(), nie env('APP_ENV') — po `php artisan config:cache`
+     vracia env() null a analytika sa na produkcii ticho vypne. --}}
+@production
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-18613776-13"></script>
 <script>
@@ -39,4 +44,4 @@
     })(document);
     smartlook('init', 'c82e728b86a628d4e1b22b14b3b0258dd413ecf0');
 </script>
-    @endif
+@endproduction

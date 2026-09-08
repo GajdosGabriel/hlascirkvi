@@ -18,13 +18,27 @@ class VideoDuration implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        if ($value) {
-            $duration = new DateInterval($value);
-            // return $duration->h;
-            $time = date('s', $duration->s);
-            return "{$duration->i}:{$time}";
+        if (! $value) {
+            return $value;
         }
-        return $value;
+
+        try {
+            $duration = new DateInterval($value);
+        } catch (\Exception $e) {
+            // Neplatná hodnota v stĺpci zhodila serializáciu celej stránky.
+            return null;
+        }
+
+        // Hodiny sa zahadzovali (riadok bol zakomentovaný), takže PT1H30M
+        // sa zobrazilo ako 30:00. date('s', ...) bolo navyše zneužitie funkcie
+        // na doplnenie nuly — fungovalo len preto, že sekundy sú vždy 0-59.
+        $hours = $duration->h + $duration->d * 24;
+
+        if ($hours > 0) {
+            return sprintf('%d:%02d:%02d', $hours, $duration->i, $duration->s);
+        }
+
+        return sprintf('%d:%02d', $duration->i, $duration->s);
     }
 
     /**

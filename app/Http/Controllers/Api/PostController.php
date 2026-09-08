@@ -12,6 +12,8 @@ use App\Repositories\Eloquent\EloquentPostRepository;
 
 class PostController extends Controller
 {
+    protected PostRepository $post;
+
     public function __construct(PostRepository $postRepository)
     {
         $this->post = $postRepository;

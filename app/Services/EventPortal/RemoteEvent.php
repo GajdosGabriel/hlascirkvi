@@ -105,19 +105,36 @@ class RemoteEvent implements Arrayable
         return $this->date('end_at');
     }
 
+    /** @var array<string, ?Carbon> Rozparsované dátumy, aby sa nerobili opakovane. */
+    protected array $dates = [];
+
+    /**
+     * startAt() sa v triede volá na tucte miest a schemaOrg() k tomu pridá
+     * ďalšie — vykreslenie jednej karty tak spustilo desiatku Carbon::parse().
+     * Pri výpise päťdesiatich podujatí to boli stovky zbytočných parseov.
+     */
     protected function date(string $key): ?Carbon
     {
+        // Carbon je meniteľný a šablóny na ňom volajú ->locale('sk'), preto ide
+        // von kópia — uložená inštancia zostáva nedotknutá. Kopírovanie je proti
+        // parsovaniu zanedbateľné.
+        if (array_key_exists($key, $this->dates)) {
+            return $this->dates[$key]?->copy();
+        }
+
         $raw = $this->data[$key] ?? null;
 
         if (empty($raw)) {
-            return null;
+            return $this->dates[$key] = null;
         }
 
         try {
-            return Carbon::parse($raw)->setTimezone(config('app.timezone'));
+            $this->dates[$key] = Carbon::parse($raw)->setTimezone(config('app.timezone'));
         } catch (\Throwable) {
-            return null;
+            $this->dates[$key] = null;
         }
+
+        return $this->dates[$key]?->copy();
     }
 
     /** Kľúč dňa pre zoskupenie vo výpise (2026-09-07). */

@@ -1,7 +1,9 @@
 <div class="border-2 border-gray-400 rounded-md hover:shadow-md shadow-sm text-xs md:text-sm flex my-4">
 
     <section style="max-width: 160px;" class="p-2">
-        @if ($post->favorites()->count())
+        {{-- `favorites` je na modeli v $with, takže sa tu nedopytujeme databázy
+             pre každú kartu zvlášť — na to doplácal pôvodný favorites()->count(). --}}
+        @if ($post->favorites->isNotEmpty())
             <div class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200">
                 Doporúčené
             </div>
@@ -52,7 +54,9 @@
                             d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
                             clip-rule="evenodd" />
                     </svg>
-                    {{ $post->comments()->count() }}
+                    {{-- withCount('comments') v Admin\PostController; comments()->count()
+                         je dopyt na relation builderi, teda jeden na každú kartu. --}}
+                    {{ $post->comments_count ?? $post->comments()->count() }}
                 </div>
 
                 <div>Zobrazenia {{ $post->count_view }}</div>

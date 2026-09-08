@@ -37,11 +37,18 @@ class Kernel extends ConsoleKernel
         // $schedule->command('MonthlyNewsletter')->monthlyOn(4, '08:20');
 
 
+        /*
+         * Príkazy siahajúce na cudzie API majú withoutOverlapping(). Balík
+         * alaouy/youtube volá curl bez CURLOPT_TIMEOUT, takže zaseknutá
+         * odpoveď dokáže bežať veľmi dlho — bez zámku by sa na ňu ďalšie
+         * spustenia len navrstvili.
+         */
+
         // $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
-        $schedule->command('UserSearchByChannelAndPlaylist')->dailyAt('16:24');
-        
+        $schedule->command('UserSearchByChannelAndPlaylist')->dailyAt('16:24')->withoutOverlapping();
+
         // Na každý den iná zostava podľa updater
-        $schedule->command('UserSearchByName')->dailyAt('06:55');
+        $schedule->command('UserSearchByName')->dailyAt('06:55')->withoutOverlapping();
 
 
         // Buffer sa vypúšťa po jednom počas celého dňa. Príkaz beží často, ale
@@ -57,16 +64,17 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('UserSearchByChannelAndPlaylist')->sundays()
             ->hourly()
-            ->between('12:00', '16:00');
+            ->between('12:00', '16:00')
+            ->withoutOverlapping();
 
         //  $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
 
-        $schedule->command('prayer:zdruzenieMedaily')->hourly();
-        $schedule->command('prayer:sluzobniceDuchaSvateho')->hourly();
+        $schedule->command('prayer:zdruzenieMedaily')->hourly()->withoutOverlapping();
+        $schedule->command('prayer:sluzobniceDuchaSvateho')->hourly()->withoutOverlapping();
         // Dočasné vypnuté lebo sa opakuje
         // $schedule->command('prayer:mojaKomunita')->hourlyAt(45);
-        
-        $schedule->command('youtube:comments')->hourlyAt(17);
+
+        $schedule->command('youtube:comments')->hourlyAt(17)->withoutOverlapping();
 
         // $schedule->command('prayer:fulfilledOrNotYet')->everyMinute();
         $schedule->command('prayer:fulfilledOrNotYet')->dailyAt('17:20');

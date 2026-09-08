@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ class Image extends Model
      * mazal riadok natvrdo (súbory ostali na disku) a admin výpis koša padal
      * na onlyTrashed().
      */
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
 
