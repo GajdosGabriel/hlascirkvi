@@ -15,6 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Role musia byť prvé — UserObserver::created volá assignRole('user')
+        // a bez existujúcej role hodí RoleDoesNotExist.
+        $this->call(RolesSeeder::class);
+
         User::factory(10)->create();
         Post::factory(10)->create();
     }
