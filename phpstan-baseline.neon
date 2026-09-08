@@ -1,0 +1,1264 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^PHPDoc tag @return with type mixed is not subtype of native type string\|null\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: app/Casts/Urlwww.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Image\:\:\$n\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Console/Commands/ImageAudit.php
+
+		-
+			message: '#^Method App\\Console\\Commands\\PrayerSluzobniceDuchaSvateho\:\:handle\(\) should return int but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: app/Console/Commands/PrayerSluzobniceDuchaSvateho.php
+
+		-
+			message: '#^Relation ''posts'' is not found in App\\Models\\Organization model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Admin/BufferController.php
+
+		-
+			message: '#^Relation ''updaters'' is not found in App\\Models\\Post model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Admin/BufferController.php
+
+		-
+			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Admin/CommentController.php
+
+		-
+			message: '#^Relation ''updaters'' is not found in App\\Models\\Organization model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Admin/OrganizationController.php
+
+		-
+			message: '#^Relation ''users'' is not found in App\\Models\\Organization model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Admin/OrganizationController.php
+
+		-
+			message: '#^Relation ''village'' is not found in App\\Models\\Organization model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Admin/OrganizationController.php
+
+		-
+			message: '#^Relation ''updaters'' is not found in App\\Models\\Post model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Admin/PostController.php
+
+		-
+			message: '#^Relation ''organization'' is not found in App\\Models\\Prayer model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Admin/PrayerController.php
+
+		-
+			message: '#^Relation ''commentable'' is not found in App\\Models\\Comment model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/CommentController.php
+
+		-
+			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/CommentController.php
+
+		-
+			message: '#^Result of method Illuminate\\Notifications\\DatabaseNotificationCollection\<int,Illuminate\\Notifications\\DatabaseNotification\>\:\:markAsRead\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 1
+			path: app/Http/Controllers/Api/NotificationController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Post\:\:\$comments\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Api/PostCommentController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Post\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Api/PostCommentController.php
+
+		-
+			message: '#^Call to an undefined method App\\Repositories\\Contracts\\PostRepository\:\:postsByUpdater\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Api/PostController.php
+
+		-
+			message: '#^Result of method Illuminate\\Session\\Store\:\:flash\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 1
+			path: app/Http/Controllers/Api/PostSupportController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Api/PrayerController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\PrayerController\:\:create\(\) should return Illuminate\\Http\\Response but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: app/Http/Controllers/Api/PrayerController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\PrayerController\:\:destroy\(\) should return Illuminate\\Http\\Response but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: app/Http/Controllers/Api/PrayerController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\PrayerController\:\:edit\(\) should return Illuminate\\Http\\Response but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: app/Http/Controllers/Api/PrayerController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\PrayerController\:\:show\(\) should return Illuminate\\Http\\Response but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: app/Http/Controllers/Api/PrayerController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Api\\PrayerController\:\:store\(\) should return Illuminate\\Http\\Response but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: app/Http/Controllers/Api/PrayerController.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$request with type Illuminate\\Http\\Request is not subtype of native type App\\Http\\Requests\\SavePrayerRequest\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: app/Http/Controllers/Api/PrayerController.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$id$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Http/Controllers/Api/PrayerController.php
+
+		-
+			message: '#^Relation ''organization'' is not found in App\\Models\\Prayer model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Api/PrayerController.php
+
+		-
+			message: '#^Access to an undefined property Laravel\\Socialite\\Contracts\\User\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Auth/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Auth\\AuthController\:\:handleProviderCallback\(\) has invalid return type App\\Http\\Controllers\\Auth\\Response\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Http/Controllers/Auth/AuthController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Auth\\AuthController\:\:redirectToProvider\(\) has invalid return type App\\Http\\Controllers\\Auth\\Response\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Http/Controllers/Auth/AuthController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Organization/DashboardController.php
+
+		-
+			message: '#^Result of method Illuminate\\Session\\Store\:\:flash\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 2
+			path: app/Http/Controllers/Organization/OrganizationPostController.php
+
+		-
+			message: '#^Relation ''posts'' is not found in App\\Models\\Seminar model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Public/HomeController.php
+
+		-
+			message: '#^Call to an undefined method App\\Repositories\\Contracts\\PostRepository\:\:countInOrganization\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Public/PostController.php
+
+		-
+			message: '#^Call to an undefined method App\\Repositories\\Contracts\\PostRepository\:\:firstInOrganization\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Public/PostController.php
+
+		-
+			message: '#^Call to an undefined method App\\Repositories\\Contracts\\PostRepository\:\:inOrganizationBefore\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Public/PostController.php
+
+		-
+			message: '#^Call to an undefined method App\\Repositories\\Contracts\\PostRepository\:\:mostViewedInOrganization\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Public/PostController.php
+
+		-
+			message: '#^Call to an undefined method App\\Repositories\\Contracts\\PostRepository\:\:organizationRail\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/Public/PostController.php
+
+		-
+			message: '#^Call to an undefined method App\\Repositories\\Contracts\\PostRepository\:\:postsByUpdater\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/Public/PostController.php
+
+		-
+			message: '#^Relation ''organization'' is not found in App\\Models\\Post model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Http/Controllers/Public/SitemapController.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''May'' \(''May'', ''May''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: app/Http/Controllers/VerseController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Query\\Builder\:\:whereVideoId\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/YoutubeController.php
+
+		-
+			message: '#^Method App\\Http\\Middleware\\Authenticate\:\:redirectTo\(\) should return string\|null but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: app/Http/Middleware/Authenticate.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Post\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Middleware/BannedOrganization.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$body\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$commentable\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$commentable_id\.$#'
+			identifier: property.notFound
+			count: 5
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$favorites\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$favoritesCount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$isFavorited\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$user_avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$user_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Image\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Image.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Image\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Image.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Image\:\:\$is_primary\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Image.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Image\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Image.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Image\:\:\$thumb\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Image.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\Image\:\:\$url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/Image.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$person\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$phone\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$psc\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$published\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$street\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$updaters\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$url_www\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$village_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$youtube_channel\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$youtube_playlist\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/OrganizationResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$body\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$count_view\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$dateForHumans\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$favoritesCount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$hasUpdater\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$isFavorited\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$organization_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$slug\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$thumbImage\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$video_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PostResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$body\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$created_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$favoritesCount\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$fulfilled_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$isFavorited\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$organization_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\PrayerResource\:\:\$user_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/PrayerResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UpdaterResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UpdaterResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UpdaterResource\:\:\$identificator\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UpdaterResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UpdaterResource\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UpdaterResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UpdaterResource\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UpdaterResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$avatar\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$first_name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$gender\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$last_name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$notifications\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$notify_bell\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$org_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$verified\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Call to an undefined method App\\Http\\Resources\\UserResource\:\:notifications\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Resources/UserResource.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''May'' \(''May'', ''May''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: app/Http/helpers.php
+
+		-
+			message: '#^Variable \$aaa might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/Inspect/KeyWords.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$favorites\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Property ''isFavorited'' does not exist in model\.$#'
+			identifier: rules.modelAppends
+			count: 1
+			path: app/Models/Comment.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Organization\:\:\$favorites\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Organization.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Organization\:\:\$images\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Organization.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Organization\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Organization.php
+
+		-
+			message: '#^Property ''isFavorited'' does not exist in model\.$#'
+			identifier: rules.modelAppends
+			count: 1
+			path: app/Models/Organization.php
+
+		-
+			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Models/Organization.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Post\:\:\$favorites\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Post.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Post\:\:\$images\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Post\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Post\:\:\$updaters\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Property ''isFavorited'' does not exist in model\.$#'
+			identifier: rules.modelAppends
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Models/Post.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Prayer\:\:\$favorites\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Prayer.php
+
+		-
+			message: '#^Property ''isFavorited'' does not exist in model\.$#'
+			identifier: rules.modelAppends
+			count: 1
+			path: app/Models/Prayer.php
+
+		-
+			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Models/Prayer.php
+
+		-
+			message: '#^Variable \$path might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/Notifications/Admin/StatisticOfView.php
+
+		-
+			message: '#^Access to an undefined property App\\Notifications\\Messengers\\ComingNewMessage\:\:\$post\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Notifications/Messengers/ComingNewMessage.php
+
+		-
+			message: '#^Variable \$path might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/Notifications/User/CountView.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Messenger\:\:\$requestedUser\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Observers/MessengerObserver.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$messenger with type App\\Messenger is not subtype of native type App\\Models\\Messenger\.$#'
+			identifier: parameter.phpDocType
+			count: 5
+			path: app/Observers/MessengerObserver.php
+
+		-
+			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:created\(\) has invalid type App\\Messenger\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Observers/MessengerObserver.php
+
+		-
+			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:deleted\(\) has invalid type App\\Messenger\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Observers/MessengerObserver.php
+
+		-
+			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:forceDeleted\(\) has invalid type App\\Messenger\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Observers/MessengerObserver.php
+
+		-
+			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:restored\(\) has invalid type App\\Messenger\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Observers/MessengerObserver.php
+
+		-
+			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:updated\(\) has invalid type App\\Messenger\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Observers/MessengerObserver.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Post\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Observers/PostObserver.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$commentable\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Policies/CommentPolicy.php
+
+		-
+			message: '#^Class App\\Actions\\AddUpdater not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/ActionServiceProvider.php
+
+		-
+			message: '#^Class App\\Actions\\StorePost not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/ActionServiceProvider.php
+
+		-
+			message: '#^Class App\\Actions\\UpdatePost not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Providers/ActionServiceProvider.php
+
+		-
+			message: '#^Call to an undefined method App\\Repositories\\AbstractRepository\:\:entity\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Repositories/AbstractRepository.php
+
+		-
+			message: '#^Result of static method Illuminate\\Support\\Facades\\Auth\:\:login\(\) \(void\) is used\.$#'
+			identifier: staticMethod.void
+			count: 1
+			path: app/Repositories/Eloquent/EloquentUserRepository.php
+
+		-
+			message: '#^Method Carbon\\Traits\\Date\:\:dayOfYear\(\) invoked with 0 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 2
+			path: app/Services/CreditUser.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(string  find_date\( '' some text 01/01/2012 some text'' \) or find_date\( '' some text October 5th 86 some text'' \)\)\: Unexpected token "find_date", expected variable at offset 65 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/Services/DetectService/DetectDateTime.php
+
+		-
+			message: '#^Variable \$month in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: app/Services/DetectService/DetectDateTime.php
+
+		-
+			message: '#^Variable \$extractedBody might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/Services/Extractor/ExtractMojaKomunita.php
+
+		-
+			message: '#^Variable \$extractedTitle might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/Services/Extractor/ExtractMojaKomunita.php
+
+		-
+			message: '#^Variable \$toSave might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/Services/Extractor/ExtractMojaKomunita.php
+
+		-
+			message: '#^Variable \$extractedBody might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/Services/Extractor/ExtractSluzobniceDuchaSvateho.php
+
+		-
+			message: '#^Variable \$extractedBody might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/Services/Extractor/ExtractZdruzenieMedaily.php
+
+		-
+			message: '#^Variable \$extractedTitle might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: app/Services/Extractor/ExtractZdruzenieMedaily.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Query\\Builder\:\:whereBody\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Services/Extractor/Extractors.php
+
+		-
+			message: '#^Method Carbon\\Carbon\:\:addMinute\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: app/Services/Extractor/Extractors.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$organization_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Images/StoreImage.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:images\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Services/Images/StoreImage.php
+
+		-
+			message: '#^Result of method App\\Services\\Files\\Form\:\:handler\(\) \(void\) is used\.$#'
+			identifier: method.void
+			count: 2
+			path: app/Services/PostService/PostService.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Query\\Builder\:\:whereVideoId\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Services/VideoUpload.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Query\\Builder\:\:whereVideoId\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Services/VideoUploadByUserName.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$organization_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/VisitModels/ViewRecorder.php
+
+		-
+			message: '''
+				#^PHPDoc tag @include has invalid value \(\('partials\.dashboard\-head'\) v sekcii headerCSS — layout ich
+				nenačítava globálne, staršie stránky ostávajú na pôvodnom podklade\.\)\: Unexpected token "'partials\.dashboard\-head'", expected TOKEN_DOUBLE_QUOTED_STRING at offset 736 on line 16$#
+			'''
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/View/Components/Dashboard/Shell.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\User\:\:\$organization\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/View/Components/Organization/Statistic.php
+
+		-
+			message: '#^Class Api\\CommentController not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\NotificationController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\OrganizationController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\OrganizationFavoriteController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\PostCommentController not found\.$#'
+			identifier: class.notFound
+			count: 3
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\PostController not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\PostSupportController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\PrayerController not found\.$#'
+			identifier: class.notFound
+			count: 3
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\UpdaterController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\UserController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\UserOrganizationController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\User\\UserCommentController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/api.php
+
+		-
+			message: '#^Class Api\\VillageController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/api.php
+
+		-
+			message: '#^Class Admin\\AdminController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\BufferController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\CommentController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\ImageController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\OrganizationController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\PostController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\PrayerController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\StatisticController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\TagController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\UpdaterController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\UpdaterOrganizationController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Admin\\UserController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class FavoriteController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class ImageController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Organization\\DashboardController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Organization\\OrganizationPostController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Organization\\OrganizationPrayerController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Organization\\OrganizationSeminarController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Public\\OrganizationController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Public\\PrayerController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Seminars\\SeminarController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class Seminars\\SeminarPostController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class UserSupportController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class User\\UserAddressController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Class User\\UserOrganizationController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 32
+			path: tests/Feature/ApiAuthorizationTest.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:organizations\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: tests/Feature/ApiAuthorizationTest.php

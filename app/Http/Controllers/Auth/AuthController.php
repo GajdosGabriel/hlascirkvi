@@ -69,11 +69,14 @@ class AuthController extends Controller
 
     }
 
-
-//
-//    public static function isUserLocked(User $user)
-//    {
-//        flash()->error('Váš účet je blokovaný! Kontaktujte administrátora');
-//        return redirect('/login');
-//    }
+    /**
+     * Metóda bola zakomentovaná, ale loginUser() ju volala — blokovaný účet
+     * pri prihlásení cez Facebook teda skončil na "Call to undefined method",
+     * teda päťstovkou. Hlásenie je rovnaké ako v App\Http\Middleware\CheckBanned.
+     */
+    protected function isUserLocked($user)
+    {
+        return redirect()->route('login')
+            ->with('error', 'Váš účet je blokovaný, kontaktujte administrátora webu.');
+    }
 }

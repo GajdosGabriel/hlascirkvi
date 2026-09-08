@@ -1,0 +1,8 @@
+{
+    "preset": "laravel",
+    "exclude": [
+        "database/schema",
+        "public",
+        "storage"
+    ]
+}

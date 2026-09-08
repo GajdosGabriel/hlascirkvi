@@ -1,0 +1,21 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    paths:
+        - app
+        - config
+        - database
+        - routes
+        - tests
+
+    # Začíname na 2. Kód nemá deklarované typy (0 zo 64 relačných metód), takže
+    # vyššia úroveň by hlásila stovky vecí naraz. Baseline drží súčasný stav,
+    # nové chyby prejdú. Úroveň sa dvíha až keď je baseline prázdny.
+    level: 2
+
+    ignoreErrors:
+        # Fasády balíka alaouy/youtube nemajú anotácie.
+        - identifier: staticMethod.notFound
+          path: app/Services/*
