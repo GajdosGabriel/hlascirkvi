@@ -16,7 +16,14 @@
     // by sa v prehliadači zliali do jedného odseku.
     $plainBody = strip_tags($post->body) === $post->body;
 
-    $plain    = trim(preg_replace('/\s+/u', ' ', strip_tags($post->body)));
+    $plain    = \App\Support\Seo::text($post->body);
+    // Nie každé importované video má popis. Náhrada používa iba údaje
+    // zobrazené na stránke a objaví sa aj pod prehrávačom.
+    $description = $plain;
+    if ($post->video_id && $description === '') {
+        $description = 'Video „' . \App\Support\Seo::text($post->title)
+            . '“ z kanála ' . \App\Support\Seo::text($post->organization->title) . '.';
+    }
     $words    = $plain === '' ? 0 : count(preg_split('/\s+/u', $plain));
     // 180 slov za minútu je bežný odhad pre pomalšie, čítané texty.
     $minutes  = max(1, (int) ceil($words / 180));
@@ -45,7 +52,7 @@
         '@type'         => $post->video_id ? 'VideoObject' : 'Article',
         'name'          => $post->title,
         'headline'      => \Illuminate\Support\Str::limit($post->title, 110, ''),
-        'description'   => \Illuminate\Support\Str::limit($plain, 300),
+        'description'   => \Illuminate\Support\Str::limit($description, 300),
         'url'           => $postUrl,
         'mainEntityOfPage' => $postUrl,
         'inLanguage'    => 'sk-SK',
@@ -69,7 +76,7 @@
         // VideoDuration ju pre šablóny prepisuje na „12:03".
         $schema['uploadDate'] = optional($post->created_at)->toAtomString();
         $schema['embedUrl']   = 'https://www.youtube.com/embed/' . $post->video_id;
-        $schema['contentUrl'] = 'https://www.youtube.com/watch?v=' . $post->video_id;
+        // contentUrl patrí priamemu videosúboru; pri YouTube poznáme embedUrl.
 
         if ($duration = $post->getRawOriginal('video_duration')) {
             $schema['duration'] = $duration;
@@ -86,7 +93,7 @@
 
     $seo = [
         'title'       => $post->title,
-        'description' => $plain,
+        'description' => $description,
         'canonical'   => $postUrl,
         'type'        => 'article',
         'image'       => $ogImage,
@@ -241,10 +248,12 @@
                                               :organization="{{ $post->organization }}"></organization-page-header>
                 </div>
 
-                @if (trim(strip_tags($post->body)) !== '')
+                @if ($plain !== '')
                     <div class="ar-prose max-w-none {{ $plainBody ? 'ar-prose--plain' : 'ar-prose--drop' }}">
                         {!! $post->body !!}
                     </div>
+                @elseif ($post->video_id)
+                    <p class="text-gray-500">{{ $description }}</p>
                 @else
                     <p class="text-gray-500">Príspevok zatiaľ nemá text.</p>
                 @endif

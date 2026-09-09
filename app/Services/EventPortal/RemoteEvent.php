@@ -505,6 +505,26 @@ class RemoteEvent implements Arrayable
             ]);
         }
 
+        // Neznáma cena nie je vstup zdarma. API neposkytuje dostupnosť
+        // vstupeniek ani začiatok predaja, preto tieto údaje neodhadujeme.
+        $amount = $this->data['price_amount'] ?? null;
+
+        if (! $this->isPast() && is_numeric($amount) && is_finite((float) $amount) && (float) $amount >= 0) {
+            $schema['offers'] = [
+                '@type' => 'Offer',
+                'price' => (float) $amount,
+                'priceCurrency' => $this->data['price_currency'] ?? 'EUR',
+            ];
+
+            // website môže byť iba zdrojový článok, nie predaj vstupeniek.
+            if ($this->ticketsEnabled()) {
+                $schema['offers']['url'] = $this->portalUrl();
+            }
+        }
+
+        // performer vyžaduje skutočných účinkujúcich. API ich zatiaľ
+        // neposkytuje; canal (organizátor) nie je automaticky účinkujúci.
+
         return $schema;
     }
 
