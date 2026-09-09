@@ -44,18 +44,15 @@
     $monthNames = ['jan', 'feb', 'mar', 'apr', 'máj', 'jún', 'júl', 'aug', 'sep', 'okt', 'nov', 'dec'];
 @endphp
 
-<section class="ar-panel">
-    <header class="ar-panel__head">
-        <h2 class="ar-panel__title">Zhliadnutia za 30 dní</h2>
-        <span class="ar-panel__note">
+<x-dashboard.panel title="Zhliadnutia za 30 dní" flush>
+<x-slot name="note">
             @if ($views->current > 0)
                 najsilnejší deň {{ \Carbon\Carbon::parse($peakDay->day)->format('j. n.') }}
                 — {{ number_format($views->peak, 0, ',', ' ') }}
             @else
                 zatiaľ bez nameraných zhliadnutí
             @endif
-        </span>
-    </header>
+        </x-slot>
 
     <div class="ar-panel__body ar-chart__wrap">
         <svg class="ar-chart" viewBox="0 0 {{ $w }} {{ $h }}" role="img"
@@ -111,4 +108,4 @@
             @endforeach
         </div>
     </div>
-</section>
+</x-dashboard.panel>

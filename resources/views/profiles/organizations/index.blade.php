@@ -1,10 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title')
     <title>Vaše kanály</title>
 @endsection
-
-@section('body-class', 'ar-body')
 
 @section('headerCSS')
     {{-- Rovnaké písmo ako verejná časť. Layout ho nenačítava globálne. --}}
@@ -32,7 +30,9 @@
                 · príspevky sa zapisujú do kanála s aktívnym prihlásením
             @endif
         </x-slot>
-        <x-slot name="actions"><new-organization></new-organization></x-slot>
+        <x-slot name="actions">
+            <a class="btn btn-primary" href="{{ route('profile.user.organization.create', $user) }}">Nový kanál</a>
+        </x-slot>
     </x-dashboard.header>
 
     {{-- Prepínače zodpovedajú kľúčom v App\Filters\OrganizationFilters. --}}

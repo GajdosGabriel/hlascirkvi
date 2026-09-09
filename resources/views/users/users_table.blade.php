@@ -1,7 +1,7 @@
 {{-- <input class="text-gray-700 p-1 border-2 border-gray-700 rounded-sm md:w-3/4"
             placeholder="Search by name, email ..." type="text"> --}}
 
-<table class="table-auto border-2 border-gray-400 rounded-md w-full">
+<x-dashboard.table label="Registrovaní používatelia">
     <thead class="bg-gray-500 text-white">
         <tr>
             <th>Id</th>
@@ -46,11 +46,7 @@
                 </td>
             </tr>
         @empty
-            <table>
-                <thead>
-                    <tr>Bez záznamu</tr>
-                </thead>
-            </table>
+            <tr><td colspan="9"><x-dashboard.empty>Bez záznamu</x-dashboard.empty></td></tr>
         @endforelse
     </tbody>
-</table>
+</x-dashboard.table>

@@ -1,13 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title')
     <title>{{ "Články {$organization->title}" }}</title>
-@endsection
-
-@section('body-class', 'ar-body')
-
-@section('headerCSS')
-    @include('partials.dashboard-head')
 @endsection
 
 @section('content')
@@ -46,28 +40,25 @@
                        :filters="['unpublished' => 'Čaká v bufferi', 'deletedAt' => 'V koši', 'videoAvailable']"
                        search="Hľadať v článkoch" />
 
-        <section class="ar-panel">
-            <header class="ar-panel__head">
-                <h2 class="ar-panel__title">Články kanála</h2>
-                <span class="ar-panel__note">
+        <x-dashboard.panel title="Články kanála" flush>
+<x-slot name="note">
                     @if ($posts->hasPages())
                         strana {{ $posts->currentPage() }} z {{ $posts->lastPage() }}
                     @endif
-                </span>
-            </header>
+                </x-slot>
 
             @forelse ($posts as $post)
                 @include('profiles.posts._row')
             @empty
-                <p class="ar-empty">
+                <x-dashboard.empty>
                     @if ($filtered)
                         Výberu nezodpovedá žiadny článok.
                     @else
                         Kanál zatiaľ nemá žiadny článok.
                     @endif
-                </p>
+                </x-dashboard.empty>
             @endforelse
-        </section>
+        </x-dashboard.panel>
 
         @if ($posts->hasPages())
             <div class="mt-8">

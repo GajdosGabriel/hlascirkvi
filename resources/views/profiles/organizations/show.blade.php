@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
     <x-pages.dashboard>
@@ -14,19 +14,19 @@
 
         <x-slot name="page">
 
-            <div class="flex">
+            <div class="grid gap-5 md:grid-cols-2">
 
-                <div class="mb-7 w-1/3 p-6">
+                <div class="ar-panel p-5">
                     <x-organization.statistic />
                 </div>
 
-                <div class="mb-7 w-1/3 p-6">
+                <div class="ar-panel p-5">
                     <h3 class="font-semibold">Prihlásiť sa do kanálu</h3>
                     <form action="{{ route('admin.user.update', auth()->id()) }}" method="post" class="mr-4 mb-4">
                         @method('PUT') @csrf
                         <input type="hidden" name="org_id" value="{{ $organization->id }}" />
                         <button
-                            class="px-2 bg-blue-700 text-gray-100 rounded border-2 border-blue-900 hover:bg-blue-600">Nastaviť
+                            class="ar-btn ar-btn--accent">Nastaviť
                             {{ $organization->title }}
                         </button>
                     </form>
@@ -35,5 +35,5 @@
 
             </div>
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard>
     @endsection

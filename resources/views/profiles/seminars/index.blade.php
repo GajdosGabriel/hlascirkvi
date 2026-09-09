@@ -1,13 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title')
     <title>{{ "Semináre {$organization->title}" }}</title>
-@endsection
-
-@section('body-class', 'ar-body')
-
-@section('headerCSS')
-    @include('partials.dashboard-head')
 @endsection
 
 @section('content')
@@ -32,13 +26,11 @@
             </a>
         </x-slot>
 
-        <section class="ar-panel">
-            <header class="ar-panel__head">
-                <h2 class="ar-panel__title">Semináre kanála</h2>
-            </header>
+        <x-dashboard.panel title="Semináre kanála" flush>
+
 
             @include('profiles.seminars._list')
-        </section>
+        </x-dashboard.panel>
 
     </x-dashboard.shell>
 @endsection

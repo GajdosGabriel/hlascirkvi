@@ -27,7 +27,7 @@
 
 
 
-            <div class="ar-admin__table" role="region" aria-label="Štatistiky" tabindex="0"><table class="table-auto border-2 border-gray-400 rounded-md w-full">
+            <x-dashboard.table label="Štatistiky">
                 <thead class="bg-gray-500 text-white">
                     <tr>
                         <th style="width: 7%">Id</th>
@@ -52,7 +52,7 @@
                     @empty<tr><td colspan="4" class="ar-empty">Bez záznamu</td></tr>
                     @endforelse
                 </tbody>
-            </table></div>
+            </x-dashboard.table>
 
         </x-slot>
 

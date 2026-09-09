@@ -10,6 +10,27 @@ use App\Http\Controllers\Controller;
 
 class UserOrganizationController extends Controller
 {
+    public function create(User $user)
+    {
+        $this->authorizeUser($user);
+
+        return view('profiles.organizations.create', [
+            'user' => $user,
+            'villages' => \App\Models\Village::orderBy('fullname')->get(['id', 'fullname', 'zip']),
+            'denominations' => \App\Models\Updater::where('type', 'denomination')->orderBy('title')->get(),
+        ]);
+    }
+
+    public function store(User $user, OrganizationsRequest $request)
+    {
+        $this->authorizeUser($user);
+
+        \Illuminate\Support\Facades\DB::transaction(fn () => $request->save());
+
+        return redirect()->route('profile.user.organization.index', $user)
+            ->with('flash', 'Nový kanál bol vytvorený.');
+    }
+
     public function index(User $user, OrganizationFilters $filters)
     {
         $this->authorizeUser($user);

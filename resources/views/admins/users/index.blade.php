@@ -17,9 +17,7 @@
 
 
         <x-slot name="page">
-            <div class="ar-admin__table" role="region" aria-label="Prehľad" tabindex="0">
-@include('users.users_table')
-</div>
+            @include('users.users_table')
 
             <div class="md:block flex justify-center my-8">
                 {{ $users->links() }}

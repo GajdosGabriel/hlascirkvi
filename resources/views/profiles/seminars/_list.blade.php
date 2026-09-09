@@ -38,5 +38,5 @@
     </article>
 
 @empty
-    <p class="ar-empty">Kanál zatiaľ nemá žiadny seminár.</p>
+    <x-dashboard.empty>Kanál zatiaľ nemá žiadny seminár.</x-dashboard.empty>
 @endforelse

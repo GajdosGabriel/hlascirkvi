@@ -1,28 +1,6 @@
-<div class="md:grid grid-cols-12 gap-6">
-
-    <div class="grid col-span-2 md:min-h-screen">
-        <div class="flex flex-col bg-gray-200">
-
-            <x-navigation.aside-menu></x-navigation.aside-menu>
-
-        </div>
-    </div>
-
-    <div class="col-span-8">
-
-        <div class="flex justify-between mb-6 mt-6">
-            <h1 class="text-2xl font-semibold">{{ $title }}</h1>
-
-            <div class="flex">
-                {{ $title_right ?? null }}
-            </div>
-
-        </div>
-        
-        <x-filters.card />
-
-        {{ $page }}
-
-
-    </div>
-</div>
+<x-dashboard.frame>
+    <x-dashboard.header :heading="$title">
+        <x-slot name="actions">{{ $title_right ?? '' }}</x-slot>
+    </x-dashboard.header>
+    <div class="ar-workspace__content min-w-0">{{ $page ?? $slot }}</div>
+</x-dashboard.frame>

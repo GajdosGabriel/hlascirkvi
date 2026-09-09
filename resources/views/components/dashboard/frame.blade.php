@@ -1,6 +1,6 @@
 @props(['label' => 'Váš profil', 'navigationLabel' => 'Profil'])
 
-<div class="ar-dash mx-auto max-w-6xl px-4 py-8">
+<div {{ $attributes->class(['ar-dash mx-auto max-w-6xl px-4 py-8']) }}>
     <div class="grid gap-8 lg:grid-cols-12">
         <aside class="min-w-0 lg:col-span-3">
             <p class="ar-kicker mb-3">{{ $label }}</p>

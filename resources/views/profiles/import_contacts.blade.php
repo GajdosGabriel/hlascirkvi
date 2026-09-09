@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
     <x-pages.dashboard>
@@ -36,5 +36,5 @@
 
 
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard>
     @endsection

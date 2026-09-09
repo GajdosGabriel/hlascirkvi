@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title')
     <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title>
 @endsection
@@ -25,5 +25,5 @@
 
 
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard>
     @endsection

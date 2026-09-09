@@ -1,13 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title')
     <title>{{ "Modlitby {$organization->title}" }}</title>
-@endsection
-
-@section('body-class', 'ar-body')
-
-@section('headerCSS')
-    @include('partials.dashboard-head')
 @endsection
 
 @section('content')
@@ -32,15 +26,12 @@
             </a>
         </x-slot>
 
-        <section class="ar-panel">
-            <header class="ar-panel__head">
-                <h2 class="ar-panel__title">Modlitby kanála</h2>
-                <span class="ar-panel__note">
+        <x-dashboard.panel title="Modlitby kanála" flush>
+<x-slot name="note">
                     @if ($prayers->hasPages())
                         strana {{ $prayers->currentPage() }} z {{ $prayers->lastPage() }}
                     @endif
-                </span>
-            </header>
+                </x-slot>
 
             @forelse ($prayers as $prayer)
                 <article class="ar-item">
@@ -76,9 +67,9 @@
                     </div>
                 </article>
             @empty
-                <p class="ar-empty">Kanál zatiaľ nemá žiadnu modlitbu.</p>
+                <x-dashboard.empty>Kanál zatiaľ nemá žiadnu modlitbu.</x-dashboard.empty>
             @endforelse
-        </section>
+        </x-dashboard.panel>
 
         @if ($prayers->hasPages())
             <div class="mt-8">

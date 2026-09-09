@@ -1,6 +1,4 @@
-<section class="card">
-    <header class="card_header">Dnešný plán zverejňovania</header>
-    <div class="card_body">
+<x-dashboard.panel title="Dnešný plán zverejňovania" class="mt-5">
 
         {{-- Časy počíta App\Services\Buffer\PublishPlan zo semienka podľa
              dátumu, takže sú počas dňa stále rovnaké. --}}
@@ -26,5 +24,4 @@
             @endforelse
         </ul>
 
-    </div>
-</section>
+    </x-dashboard.panel>

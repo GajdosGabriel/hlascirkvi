@@ -40,18 +40,18 @@ class OrganizationsRequest extends FormRequest
 
         return [
             'title' => [
-                'required', 'string', 'max:255', 'min:3',
+                'required', 'string', 'max:191', 'min:3',
                 Rule::unique('organizations', 'title')->ignore($organization),
             ],
             'description'      => 'nullable|string',
-            'street'           => 'nullable|string|max:255',
-            'phone'            => 'nullable|numeric',
-            'email'            => 'nullable|email',
-            'url_www'          => 'nullable|string|max:255',
-            'mod_title'        => 'nullable|string|max:255',
+            'street'           => 'nullable|string|max:191',
+            'phone'            => ['nullable', 'string', 'max:20', 'regex:/^\+?[0-9 ()-]{6,20}$/'],
+            'email'            => 'nullable|email|max:100',
+            'url_www'          => 'nullable|string|max:191',
+            'mod_title'        => 'nullable|string|max:20',
             'village_id'       => 'required|integer|exists:villages,id',
-            'youtube_channel'  => 'nullable|string|max:255',
-            'youtube_playlist' => 'nullable|string|max:255',
+            'youtube_channel'  => 'nullable|string|max:40',
+            'youtube_playlist' => 'nullable|string|max:40',
             'updaters'         => 'nullable|array',
             'updaters.*'       => 'integer|exists:updaters,id',
             // `users` a `published` sa vykresľujú len v @can('superadmin') bloku

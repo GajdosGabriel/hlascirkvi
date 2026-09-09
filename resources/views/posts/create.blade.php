@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title')
     <title>{{ 'Nový článok' }}</title>
 @endsection
@@ -28,5 +28,5 @@
 
             @include('posts.editor')
         </x-slot>
-        </x-pages.admin>
+        </x-pages.dashboard>
     @endsection

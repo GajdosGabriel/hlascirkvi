@@ -1,6 +1,4 @@
-<section class="card">
-    <header class="card_header">Kresťanské osobnosti</header>
-    <div class="card_body">
+<x-dashboard.panel title="Kresťanské osobnosti" class="mt-5">
 
         {{-- Počet čakajúcich príspevkov ráta withCount v BufferController,
              takže tu už nič nedopytujeme. --}}
@@ -14,6 +12,4 @@
         @empty
             bez záznamu
         @endforelse
-    </div>
-
-</section>
+    </x-dashboard.panel>
