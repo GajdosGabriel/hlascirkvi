@@ -41,7 +41,7 @@
                 <span class="ar-badge ar-badge--warn">Čaká v bufferi</span>
             @endif
 
-            @if (! $post->video_available)
+            @if ($post->video_available !== null && ! $post->video_available)
                 <span class="ar-badge ar-badge--warn">Video nedostupné</span>
             @endif
 

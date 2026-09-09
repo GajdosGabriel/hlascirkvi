@@ -195,7 +195,7 @@
                                         @if (! $row->published)
                                             <span class="ar-badge ar-badge--count ml-1">čaká v bufferi</span>
                                         @endif
-                                        @if (! $row->video_available)
+                                        @if ($row->video_available !== null && ! $row->video_available)
                                             <span class="ar-badge ml-1 bg-amber-50 text-amber-700">video nedostupné</span>
                                         @endif
                                     </span>

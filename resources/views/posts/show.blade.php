@@ -191,7 +191,7 @@
                 <div class="ar-player">
                     <div id="player">
                         <iframe
-                            src="https://www.youtube.com/embed/{{ $post->video_id }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                            src="https://www.youtube.com/embed/{{ $post->video_id }}?origin={{ rawurlencode(request()->getSchemeAndHttpHost()) }}&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
                             allowfullscreen allowtransparency allow="autoplay"></iframe>
                     </div>
                 </div>
@@ -424,8 +424,13 @@
 @push('scripts')
     @if ($post->video_id)
         <script src="https://cdn.plyr.io/3.5.3/plyr.js"></script>
-        <script defer>
-            new Plyr('#player');
+        <script>
+            window.arReady(function () {
+                // Vue must finish replacing #app before Plyr attaches its controls.
+                if (typeof window.Plyr === 'function') {
+                    new window.Plyr('#player');
+                }
+            });
         </script>
     @endif
 
