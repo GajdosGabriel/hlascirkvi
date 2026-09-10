@@ -20,7 +20,7 @@
 
             @forelse ($updaters as $tag)
                 <div class="ar-panel mb-3 flex-row flex-wrap items-center justify-between gap-3 p-4">
-                    <a href="{{ route('admin.updater.organization.index', [$tag->id]) }}">
+                    <a href="{{ route('admin.updater.canal.index', [$tag->id]) }}">
                         <h4 class="font-semibold text-lg">{{ $tag->id }}. {{ $tag->title }}</h4>
                     </a>
                     <div class="flex">

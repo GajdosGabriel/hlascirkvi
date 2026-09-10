@@ -26,9 +26,9 @@
         <ul class="dropdown-menu z-50 mt-1" :class="menuClass" v-if="open">
             <a
                 :href="
-                    '/organization/' +
+                    '/dashboard/canals/' +
                     post.organization_id +
-                    '/post/' +
+                    '/posts/' +
                     post.id +
                     '/edit'
                 "
@@ -85,14 +85,14 @@ export default {
             }
             axios
                 .delete(
-                    "/organization/" +
+                    "/dashboard/canals/" +
                         this.post.organization_id +
-                        "/post/" +
+                        "/posts/" +
                         this.post.id
                 )
                 .then(
                     (window.location.href =
-                        "/organization/" + this.post.organization_id + "/post/")
+                        "/dashboard/canals/" + this.post.organization_id + "/posts")
                 );
         },
 

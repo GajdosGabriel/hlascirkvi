@@ -169,7 +169,7 @@
                 <p class="seminars-intro">Vzdelávanie, kurzy a stretnutia, ktoré prehlbujú vieru. Objavte záznamy prednášok a vráťte sa k myšlienkam, ktoré vás oslovili.</p>
             </div>
             @auth
-                <a class="seminars-create" href="{{ route('profile.organization.seminar.create', auth()->user()->org_id) }}">
+                <a class="seminars-create" href="{{ route('profile.canals.seminars.create', auth()->user()->org_id) }}">
                     <i class="fas fa-plus" aria-hidden="true"></i> Nový seminár
                 </a>
             @endauth

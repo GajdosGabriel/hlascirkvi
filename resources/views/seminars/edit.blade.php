@@ -17,7 +17,7 @@
 
         <x-slot name="page">
             <form class="" method="post"
-                action="{{ route('profile.organization.seminar.update', [$organization->id, $seminar->id]) }}">
+                action="{{ route('profile.canals.seminars.update', [$canal->id, $seminar->id]) }}">
                 @csrf @method('PUT')
 
                 @include('seminars.form')

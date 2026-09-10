@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    <title>{{ "Články {$organization->title}" }}</title>
+    <title>{{ "Články {$canal->title}" }}</title>
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
         $filtered = request()->hasAny(['search', 'unpublished', 'deletedAt', 'videoAvailable']);
     @endphp
 
-    <x-dashboard.shell :organization="$organization" section="posts" heading="Články">
+    <x-dashboard.shell :canal="$canal" section="posts" heading="Články">
 
         <x-slot name="lead">
             {{ number_format($total, 0, ',', ' ') }}
@@ -26,10 +26,10 @@
         </x-slot>
 
         <x-slot name="actions">
-            <a href="{{ route('profile.organization.post.create', $organization->id) }}" class="ar-btn ar-btn--accent">
+            <a href="{{ route('profile.canals.posts.create', $canal->id) }}" class="ar-btn ar-btn--accent">
                 <i class="fas fa-plus"></i> Nový článok
             </a>
-            <a href="{{ route('organizations.show', $organization->id) }}" class="ar-btn ar-btn--quiet">
+            <a href="{{ route('organizations.show', $canal->id) }}" class="ar-btn ar-btn--quiet">
                 <i class="far fa-eye"></i> Verejný profil
             </a>
         </x-slot>

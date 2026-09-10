@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use App\Casts\VideoDuration;
 use App\Traits\HasFavorites;
 use App\Traits\HasFilter;
-use App\Traits\HasOrganization;
+use App\Traits\HasCanal;
 use App\Traits\HasDatetime;
 use App\Traits\HasViews;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
-    use HasFactory, Notifiable, SoftDeletes, HasViews, HasFavorites, HasComments, HasImages, HasOrganization, HasRoute, HasFilter, HasDatetime;
+    use HasFactory, Notifiable, SoftDeletes, HasViews, HasFavorites, HasComments, HasImages, HasCanal, HasRoute, HasFilter, HasDatetime;
 
     // $guarded a $fillable naraz nedávajú zmysel — Eloquent uprednostní
     // $fillable a $guarded ignoruje, takže tu len mätlo. Platí zoznam nižšie.

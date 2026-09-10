@@ -9,7 +9,7 @@
 
 namespace App\Services;
 
-use App\Models\Organization;
+use App\Models\Canal;
 
 
 
@@ -23,7 +23,7 @@ class VideoUploadFilter
     // Deklarácia tu je preto, že dynamické vlastnosti sú v PHP 9 fatal.
     public bool $coutWords = false;
 
-    public function __construct(Organization $organization, $title)
+    public function __construct(Canal $organization, $title)
     {
         $this->organization = $organization;
         $this->title = $title;

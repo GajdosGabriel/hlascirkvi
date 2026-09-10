@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
-use App\Models\Organization;
+use App\Models\Canal;
 use App\Models\Post;
 use App\Models\Seminar;
 use App\Models\Verse;
@@ -104,7 +104,7 @@ class SitemapController extends Controller
     public function organizations(): Response
     {
         $xml = Cache::remember('sitemap:organizations', static::TTL, function () {
-            $urls = Organization::where('published', 1)
+            $urls = Canal::where('published', 1)
                 ->orderBy('id')
                 ->get(['id', 'updated_at'])
                 ->map(fn ($organization) => [

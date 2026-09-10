@@ -5,7 +5,7 @@ Oba layouty načítavajú spoločné štýly cez `partials.dashboard-head`.
 
 - `x-dashboard.frame`: rozloženie s navigáciou; `label` a `navigation-label` menia jej označenie.
 - `x-dashboard.header`: nadpis `heading`, sloty `lead` a `actions`.
-- `x-dashboard.shell`: rám a hlavička kanála, povinný `organization`, voliteľný `heading`.
+- `x-dashboard.shell`: rám a hlavička kanála, povinný `canal`, voliteľný `heading`.
 - `x-pages.dashboard`: rovnaký rám pre formuláre a detaily so slotmi `title`, `title_right`, `page`.
 - `x-pages.admin`: rám administrácie so spoločnými filtrami a rovnakými slotmi.
 - `x-dashboard.panel`: panel s voliteľným `title`, slotmi `note`, `footer`; `flush` vypína odsadenie obsahu pre riadkové výpisy a grafy.

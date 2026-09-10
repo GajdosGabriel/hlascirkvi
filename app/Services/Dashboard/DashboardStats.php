@@ -2,7 +2,7 @@
 
 namespace App\Services\Dashboard;
 
-use App\Models\Organization;
+use App\Models\Canal;
 use App\Models\Post;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Collection;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Čísla nástenky kanála (/dashboard).
  *
- * Všetko ide zámerne cez query builder, nie cez modely: Post aj Organization
+ * Všetko ide zámerne cez query builder, nie cez modely: Post aj Canal
  * majú $with a $appends, takže načítanie modelov len kvôli súčtu by spustilo
  * niekoľko dopytov na každý riadok — viď App\Traits\HasFavorites.
  *
@@ -23,7 +23,7 @@ class DashboardStats
     /** Dĺžka porovnávaného okna v dňoch. */
     public const WINDOW = 30;
 
-    public function for(Organization $organization, ?CarbonImmutable $now = null): array
+    public function for(Canal $organization, ?CarbonImmutable $now = null): array
     {
         $now = $now ?: CarbonImmutable::now();
         $id  = $organization->id;
@@ -61,7 +61,7 @@ class DashboardStats
      * ostatné sekcie potrebujú len tieto tri — a musia sedieť s tým, čo
      * ukazuje nástenka, preto stoja tu vedľa dopytov, z ktorých vychádzajú.
      */
-    public function tabCounts(Organization $organization): array
+    public function tabCounts(Canal $organization): array
     {
         $id = $organization->id;
 
@@ -241,7 +241,8 @@ class DashboardStats
     protected function audience(int $organizationId, CarbonImmutable $now): object
     {
         return DB::table('favorites')
-            ->where('favorited_type', Organization::class)
+            // Morph alias, nie názov triedy — v DB je App\Models\Organization.
+            ->where('favorited_type', (new Canal)->getMorphClass())
             ->where('favorited_id', $organizationId)
             ->selectRaw('count(*) as total')
             ->selectRaw('coalesce(sum(created_at >= ?), 0) as current', [$now->subDays(self::WINDOW)])

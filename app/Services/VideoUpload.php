@@ -15,7 +15,7 @@ use App\Services\Images\StoreImage;
 use App\Services\Images\YoutubeThumbnail;
 use App\Notifications\Admin\Error;
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Repositories\Eloquent\EloquentCanalRepository;
 use Illuminate\Support\Facades\Log;
 
 
@@ -26,7 +26,7 @@ class VideoUpload
 
     public function __construct()
     {
-        $this->organizations = new EloquentOrganizationRepository;
+        $this->organizations = new EloquentCanalRepository;
     }
 
 

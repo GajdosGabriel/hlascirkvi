@@ -22,7 +22,7 @@ trait HasRoute
     /**
      * Adresa detailu. Vracalo sa tu pole odkazov na routy post.edit, post.update,
      * post.store a post.delete — ani jedna z nich neexistuje (CRUD príspevkov
-     * beží pod menami profile.organization.post.* a admin.post.*), takže každý
+     * beží pod menami profile.canals.posts.* a admin.post.*), takže každý
      * prístup k $post->url skončil RouteNotFoundException a zhodil serializáciu
      * príspevku. Šablóny aj resources/js/posts/card/card.vue pritom čakajú
      * obyčajný reťazec.

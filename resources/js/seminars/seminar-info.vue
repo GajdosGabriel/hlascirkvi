@@ -20,7 +20,7 @@
 
                 <a
                     v-else
-                    :href="'/organization/'+ seminar.organization_id +'/seminar/' + seminar.id + '/edit'"
+                    :href="'/dashboard/canals/'+ seminar.organization_id +'/seminars/' + seminar.id + '/edit'"
                     class="cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2"
                 >
                     Nevyplnený playlist
@@ -28,7 +28,7 @@
 
                 <a
                     v-if="seminar.youtube_playlist"
-                    :href="'/organization/'+ seminar.organization_id + '/post/create'"
+                    :href="'/dashboard/canals/'+ seminar.organization_id + '/posts/create'"
                     class="cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2"
                     >Pridať video
                 </a>
@@ -80,7 +80,7 @@ export default {
 
     methods: {
         publishedfunction: function() {
-            axios.put('/organization/'+ this.seminar.organization_id +'/seminar/' + this.seminar.id, {
+            axios.put('/dashboard/canals/'+ this.seminar.organization_id +'/seminars/' + this.seminar.id, {
                 published: this.seminar.published ? "" : Date.now()
             });
         }

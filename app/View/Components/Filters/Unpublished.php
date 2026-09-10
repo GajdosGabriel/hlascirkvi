@@ -30,7 +30,7 @@ class Unpublished extends Component
     {
         // Povolené route names.
        $routeName = array(
-            'admin.organization.index',
+            'admin.canal.index',
             'admin.post.index',
             'admin.comment.index',
        );

@@ -46,25 +46,25 @@ class AsideMenu extends Component
             [
                 'url' => route('profile.dashboard'),
                 'icon' => 'home',
-                'name' => 'Nástenka',
+                'name' => 'Dashboard',
             ],
             [
-                'url' => route('profile.user.organization.index', auth()->user()->id),
+                'url' => route('profile.canals.index'),
                 'icon' => 'canal',
                 'name' => 'Kanály',
             ],
             [
-                'url' => route('profile.organization.post.index', auth()->user()->org_id),
+                'url' => route('profile.canals.posts.index', auth()->user()->org_id),
                 'icon' => 'post',
                 'name' => 'Články',
             ],
             [
-                'url' => route('profile.organization.seminar.index', auth()->user()->org_id),
+                'url' => route('profile.canals.seminars.index', auth()->user()->org_id),
                 'icon' => 'seminar',
                 'name' => 'Semináre',
             ],
             [
-                'url' => route('profile.organization.prayer.index', auth()->user()->org_id),
+                'url' => route('profile.canals.prayers.index', auth()->user()->org_id),
                 'icon' => 'pray',
                 'name' => 'Modlitby',
             ],
@@ -90,7 +90,7 @@ class AsideMenu extends Component
                 'name' => 'Užívatelia',
             ],
             [
-                'url' => route('admin.organization.index'),
+                'url' => route('admin.canal.index'),
                 'icon' => 'canal',
                 'name' => 'Kanály',
             ],

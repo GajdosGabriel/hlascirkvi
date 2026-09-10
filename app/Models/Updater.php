@@ -13,7 +13,8 @@ class Updater extends Model
     public $timestamps = false;
 
     public function organizations() {
-        return $this->belongsToMany(Organization::class);
+        // Pivot si drží pôvodné meno z čias modelu Organization.
+        return $this->belongsToMany(Canal::class, 'organization_updater');
     }
 
     public function posts() {

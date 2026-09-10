@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Organization;
+use App\Models\Canal;
 use Illuminate\Http\Request;
 use App\Services\Images\StoreImage;
 use App\Services\Images\YoutubeThumbnail;
@@ -26,7 +26,7 @@ class YoutubeController extends Controller
         return view('users.search-new-video', ['user' => $user]);
     }
 
-    public function searchOrganizationVideo(Organization $organization)
+    public function searchOrganizationVideo(Canal $organization)
     {
         return view('users.search-new-video', ['user' => $organization]);
     }
@@ -41,7 +41,7 @@ class YoutubeController extends Controller
 
 
     // Search by name in title and save/
-    public function searchAndSaveOrganization(Organization $organization, $slug)
+    public function searchAndSaveOrganization(Canal $organization, $slug)
     {
         $videoList = $this->searchVideosByUserName($organization);
         $this->saveFindedVideo($organization, $videoList);

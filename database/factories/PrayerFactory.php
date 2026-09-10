@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Organization;
+use App\Models\Canal;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PrayerFactory extends Factory
@@ -12,7 +12,7 @@ class PrayerFactory extends Factory
         return [
             'title' => $this->faker->sentence(4),
             'body' => $this->faker->paragraph,
-            'organization_id' => Organization::factory(),
+            'organization_id' => Canal::factory(),
         ];
     }
 }

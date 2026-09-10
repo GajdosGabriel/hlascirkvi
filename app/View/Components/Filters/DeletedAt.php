@@ -33,7 +33,7 @@ class DeletedAt extends Component
             'admin.prayer.index',
             'admin.comment.index',
             'admin.post.index',
-            'admin.organization.index',
+            'admin.canal.index',
             'admin.user.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);

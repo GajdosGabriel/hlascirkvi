@@ -8,11 +8,11 @@ use App\Models\User;
 
 use App\Models\Verse;
 use App\Models\Category;
-use App\Models\Organization;
+use App\Models\Canal;
 use Illuminate\Support\ServiceProvider;
 
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Repositories\Eloquent\EloquentCanalRepository;
 
 
 
@@ -35,16 +35,16 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('organizations.list-users', function ($view) {
+        view()->composer('canals.list-users', function ($view) {
             $view->with(
                 'users',
 
-                (new EloquentOrganizationRepository())->frontOrganizationsList()
+                (new EloquentCanalRepository())->frontOrganizationsList()
                 ->orderBy('title', 'asc')->get()
             );
         });
 
-        view()->composer('organizations.list-organizations', function ($view) {
+        view()->composer('canals.list-canals', function ($view) {
             $view->with(
                 'organizations',
                 (new EloquentPostRepository())->getPostsByUpdater(4)

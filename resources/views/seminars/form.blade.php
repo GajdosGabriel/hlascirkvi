@@ -31,6 +31,6 @@
 </fieldset>
 
 <div class="flex flex-wrap justify-end gap-3">
-    <a class="btn btn-default" href="{{ route('profile.organization.seminar.index', $organization->id) }}">Zrušiť</a>
+    <a class="btn btn-default" href="{{ route('profile.canals.seminars.index', $canal->id) }}">Zrušiť</a>
     <button class="btn btn-primary" type="submit">{{ $submitLabel ?? 'Uložiť' }}</button>
 </div>

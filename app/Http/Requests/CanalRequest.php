@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class CanalRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        if (! auth()->check()) {
+            return false;
+        }
+
+        // Pri úprave existujúceho kanála sa autorizuje ešte pred validáciou.
+        // Inak by cudzí užívateľ dostal 422 a z chybových hlášok vyčítal,
+        // aké polia formulár prijíma, hoci ku kanálu nemá prístup.
+        $canal = $this->route('canal');
+
+        return $canal === null
+            || auth()->user()->can('manage', $canal);
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        // Pri úprave musí unique pravidlo ignorovať samotný upravovaný kanál,
+        // inak by sa nedalo uložiť nič bez zmeny názvu.
+        $canal = $this->route('canal');
+
+        return [
+            'title' => [
+                'required', 'string', 'max:191', 'min:3',
+                Rule::unique('organizations', 'title')->ignore($canal),
+            ],
+            'description'      => 'nullable|string',
+            'street'           => 'nullable|string|max:191',
+            'phone'            => ['nullable', 'string', 'max:20', 'regex:/^\+?[0-9 ()-]{6,20}$/'],
+            'email'            => 'nullable|email|max:100',
+            'url_www'          => 'nullable|string|max:191',
+            'mod_title'        => 'nullable|string|max:20',
+            'village_id'       => 'required|integer|exists:villages,id',
+            'youtube_channel'  => 'nullable|string|max:40',
+            'youtube_playlist' => 'nullable|string|max:40',
+            'updaters'         => 'nullable|array',
+            'updaters.*'       => 'integer|exists:updaters,id',
+            // `users` a `published` sa vykresľujú len v @can('superadmin') bloku
+            // formulára (resources/views/dashboard/canals/edit.blade.php).
+            // Kontrolu role robí controller, tu ide len o tvar dát.
+            'users'            => 'nullable|array',
+            'users.*'          => 'integer|exists:users,id',
+            'published'        => 'nullable|boolean',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Názov musí obsahovať aspoň tri znaky',
+            'title.unique' => 'Názov kanála už existuje. Ak si nárokujete názov kanála, kontaktujte administrátora.',
+            'street' => 'maximálna dlžka je 255 znakov.',
+            'phone' => 'Obsahuje veľa znakov. Limit je do 16 znakov',
+        ];
+    }
+
+    public function save()
+    {
+        // Zakladá sa len z overených polí. `except()` prepúšťalo aj _token,
+        // _method a čokoľvek iné, čo prišlo v tele požiadavky.
+        $data = collect($this->validated())
+            ->except(['updaters', 'users', 'published'])
+            ->all();
+
+        $canal = auth()->user()->organizations()->create($data);
+        $canal->updaters()->sync($this->input('updaters', []));
+
+        return $canal;
+    }
+}

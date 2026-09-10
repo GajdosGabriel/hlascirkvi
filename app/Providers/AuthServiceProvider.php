@@ -7,12 +7,12 @@ use App\Models\Post;
 use App\Models\Prayer;
 use App\Models\Seminar;
 use App\Models\User;
-use App\Models\Organization;
+use App\Models\Canal;
 use App\Policies\PostPolicy;
 use App\Policies\PrayerPolicy;
 use App\Policies\SeminarPolicy;
 use App\Policies\CommentPolicy;
-use App\Policies\OrganizationPolicy;
+use App\Policies\CanalPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Prayer::class => PrayerPolicy::class,
         Seminar::class => SeminarPolicy::class,
-        Organization::class => OrganizationPolicy::class,
+        Canal::class => CanalPolicy::class,
         Post::class => PostPolicy::class,
         User::class => UserPolicy::class,
         Comment::class => CommentPolicy::class,

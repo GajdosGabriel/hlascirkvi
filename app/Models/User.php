@@ -99,12 +99,13 @@ class User extends Authenticatable
 
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class);
+        // Pivot si drží pôvodné meno z čias modelu Organization.
+        return $this->belongsToMany(Canal::class, 'organization_user');
     }
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class, 'org_id');
+        return $this->belongsTo(Canal::class, 'org_id');
     }
 
 

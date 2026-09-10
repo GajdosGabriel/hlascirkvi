@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Comment;
 use App\Models\Image;
-use App\Models\Organization;
+use App\Models\Canal;
 use App\Models\Post;
 use App\Models\Prayer;
 use App\Models\User;
@@ -42,7 +42,7 @@ class ApiAuthorizationTest extends TestCase
     protected function userWithOrganization(): array
     {
         $user = User::factory()->create();
-        $organization = Organization::factory()->create();
+        $organization = Canal::factory()->create();
 
         $user->organizations()->attach($organization);
         $user->update(['org_id' => $organization->id]);
@@ -142,7 +142,7 @@ class ApiAuthorizationTest extends TestCase
         $this->putJson("/api/users/{$owner->id}", ['notify_bell' => now()->toDateTimeString()])->assertForbidden();
         $this->deleteJson("/api/comments/{$comment->id}")->assertForbidden();
         $this->deleteJson("/images/{$image->id}")->assertForbidden();
-        $this->putJson("/user/{$owner->id}/organization/{$organization->id}", [
+        $this->putJson("/dashboard/canals/{$organization->id}", [
             'title' => 'Prepísaný kanál',
             'village_id' => $organization->village_id,
         ])->assertForbidden();
@@ -200,7 +200,7 @@ class ApiAuthorizationTest extends TestCase
         [$owner, $organization] = $this->userWithOrganization();
 
         $this->actingAs($owner)
-            ->put("/user/{$owner->id}/organization/{$organization->id}", [
+            ->put("/dashboard/canals/{$organization->id}", [
                 'title' => 'Nový názov kanála',
                 'village_id' => $organization->village_id,
             ])
@@ -220,7 +220,7 @@ class ApiAuthorizationTest extends TestCase
         $organization->update(['published' => 1]);
 
         $this->actingAs($owner)
-            ->put("/user/{$owner->id}/organization/{$organization->id}", [
+            ->put("/dashboard/canals/{$organization->id}", [
                 'title' => $organization->title,
                 'village_id' => $organization->village_id,
                 'published' => 0,

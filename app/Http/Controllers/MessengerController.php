@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Messenger;
-use App\Models\Organization;
+use App\Models\Canal;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreMessengerRequest;
@@ -28,7 +28,7 @@ class MessengerController extends Controller
     }
 
 
-    public function store(StoreMessengerRequest $request, Organization $organization) {
+    public function store(StoreMessengerRequest $request, Canal $organization) {
 
        $message = Messenger::create([
             'user_id' => auth()->user()->id,

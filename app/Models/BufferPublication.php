@@ -24,7 +24,7 @@ class BufferPublication extends Model
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Canal::class);
     }
 
     public function scopeOnDate($query, $date)

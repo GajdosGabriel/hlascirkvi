@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\DownloaderYoutube;
 use Illuminate\Console\Command;
 use App\Services\VideoUploadByUserName;
-use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Repositories\Eloquent\EloquentCanalRepository;
 
 
 class UserSearchByName extends Command

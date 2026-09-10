@@ -2,18 +2,18 @@
 
 namespace App\View\Components\Dashboard;
 
-use App\Models\Organization;
+use App\Models\Canal;
 use Illuminate\View\Component;
 
 /** Spoločná hlavička stránok kanála v rozložení profilu. */
 class Shell extends Component
 {
     public function __construct(
-        public Organization $organization,
+        public Canal $canal,
         public string $section = 'dashboard',
         public ?string $heading = null,
     ) {
-        $this->heading = $heading ?: $organization->title;
+        $this->heading = $heading ?: $canal->title;
     }
 
     public function render()

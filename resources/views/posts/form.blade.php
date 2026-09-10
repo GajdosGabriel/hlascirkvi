@@ -51,7 +51,7 @@
             <select class="form-control" name="organization_id" required>
                 <option value="" selected disabled>Autor</option>
                 @can('superadmin')
-                    @foreach (\App\Models\Organization::orderBy('title', 'asc')->get() as $organization)
+                    @foreach (\App\Models\Canal::orderBy('title', 'asc')->get() as $organization)
                         <option @if (isset($post->organization_id) and $post->organization_id == $organization->id or
                                 $organization->id == auth()->user()->org_id) selected @endif value="{{ $organization->id }}">
                             {{ $organization->title }}

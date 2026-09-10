@@ -65,7 +65,7 @@ Route::middleware('checkBanned')->group(function () {
 Route::middleware('checkBanned')->group(function () {
     Route::resources([
         'favorites'             => FavoriteController::class,
-        'organizations'         => Public\OrganizationController::class,
+        'organizations'         => Public\CanalController::class,
         'seminars'              => Seminars\SeminarController::class,
         'seminars.posts'        => Seminars\SeminarPostController::class,
         'userSupport'           => UserSupportController::class,
@@ -78,20 +78,27 @@ Route::middleware('checkBanned')->group(function () {
 Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () {
     // Nástenka kanála. Resource z nej nikdy nemal viac ako index, preto je to
     // jediná routa.
-    Route::get('dashboard', Organization\DashboardController::class)->name('dashboard');
+    Route::get('dashboard', Canal\DashboardController::class)->name('dashboard');
 
-    Route::resources([
-        'images'                        => ImageController::class,
-        'organization.seminar'          => Organization\OrganizationSeminarController::class,
-        'organization.post'             => Organization\OrganizationPostController::class,
-        'organization.prayer'           => Organization\OrganizationPrayerController::class,
-        'user.organization'             => User\UserOrganizationController::class,
-    ]);
+    Route::resource('images', ImageController::class);
 
-    // Prepnutie aktívneho kanála z výpisu "Vaše kanály". Nie je to update
-    // kanála ani užívateľa, preto vlastná routa; autorizuje ju policy `manage`.
-    Route::put('user/{user}/organization/{organization}/switch', 'User\UserOrganizationController@switchActive')
-        ->name('user.organization.switch');
+    // Správa kanálov prihláseného užívateľa. Užívateľ sa berie z prihlásenia;
+    // kým bol v adrese (/user/{user}/organization), musela ho každá akcia
+    // porovnávať s auth()->id().
+    Route::prefix('dashboard')->group(function () {
+        // Prepnutie aktívneho kanála z výpisu "Vaše kanály". Nie je to update
+        // kanála ani užívateľa, preto vlastná routa; autorizuje ju policy `manage`.
+        Route::put('canals/{canal}/switch', 'Canal\CanalController@switchActive')->name('canals.switch');
+
+        // Kanál sa z nástenky nemaže, destroy by len spadol.
+        Route::resource('canals', Canal\CanalController::class)->except('destroy');
+
+        Route::resources([
+            'canals.posts'      => Canal\CanalPostController::class,
+            'canals.prayers'    => Canal\CanalPrayerController::class,
+            'canals.seminars'   => Canal\CanalSeminarController::class,
+        ]);
+    });
 
     // UserAddressController only imports contacts, it has no create/show/edit/
     // update/destroy actions - registering them would just 500.
@@ -102,9 +109,21 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
 // kanálov, takže ostáva ako trvalé presmerovanie.
 Route::permanentRedirect('profile', 'dashboard');
 
+// Adresy správy kanála spred 9/2026 (/user/{user}/organization/...,
+// /organization/{id}/post/...). Môžu byť v záložkách a e-mailoch; formuláre sa
+// už vykresľujú s novými adresami.
+Route::permanentRedirect('user/{user}/organization/{rest?}', '/dashboard/canals/{rest?}')
+    ->where('rest', '.*');
+Route::permanentRedirect('organization/{canal}/post/{rest?}', '/dashboard/canals/{canal}/posts/{rest?}')
+    ->where('rest', '.*');
+Route::permanentRedirect('organization/{canal}/prayer/{rest?}', '/dashboard/canals/{canal}/prayers/{rest?}')
+    ->where('rest', '.*');
+Route::permanentRedirect('organization/{canal}/seminar/{rest?}', '/dashboard/canals/{canal}/seminars/{rest?}')
+    ->where('rest', '.*');
+
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 'checkBanned'])->group(function () {
-    Route::get('canal', 'Admin\OrganizationController@index')->name('organization.index');
+    Route::get('canal', 'Admin\CanalController@index')->name('canal.index');
     Route::permanentRedirect('organization', '/admin/canal');
 
     Route::resources([
@@ -118,7 +137,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
         'statistic'             => Admin\StatisticController::class,
         'tag'                  => Admin\TagController::class,
         'updater'              => Admin\UpdaterController::class,
-        'updater.organization'  => Admin\UpdaterOrganizationController::class,
+        'updater.canal'         => Admin\UpdaterCanalController::class,
     ]);
 });
 
@@ -140,7 +159,7 @@ Route::post('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideo
     ->name('seminars.uploadVideos');
 
 
-Route::middleware('bannedOrganization')->group(function () {
+Route::middleware('bannedCanal')->group(function () {
     // Musí stáť pred post/{post}/{slug}, inak by ju pohltil zápis detailu.
     Route::get('post/{post}/kanal/dalsie', 'Public\PostController@rail')->name('post.rail');
     Route::get('post/{post}/{slug}', 'Public\PostController@show')->name('post.show');

@@ -1,4 +1,4 @@
-{{-- Riadok článku v správe kanála. Očakáva: $post, $organization. --}}
+{{-- Riadok článku v správe kanála. Očakáva: $post, $canal. --}}
 @php
     // Prenosy prídu z YouTube s nulovou dĺžkou; „0:00“ na náhľade nič nehovorí.
     $duration = $post->video_duration === '0:00' ? null : $post->video_duration;
@@ -20,7 +20,7 @@
 
         <div class="ar-item__meta">
             @if ($showOrganization ?? false)
-                <a class="ar-link" href="{{ route('profile.organization.post.index', $post->organization_id) }}">{{ $post->organization->title }}</a>
+                <a class="ar-link" href="{{ route('profile.canals.posts.index', $post->organization_id) }}">{{ $post->organization->title }}</a>
             @endif
             <time datetime="{{ $post->created_at->toIso8601String() }}">
                 {{ $post->created_at->locale('sk')->isoFormat('D. M. YYYY') }}
@@ -55,7 +55,7 @@
         <div class="ar-item__actions">
             <dropdown-slot>
                 @if (! $post->deleted_at)
-                    <a href="{{ route('profile.organization.post.edit', [$post->organization_id, $post->id]) }}"
+                    <a href="{{ route('profile.canals.posts.edit', [$post->organization_id, $post->id]) }}"
                        class="ar-act">
                         <i class="fas fa-pen text-[.7rem]"></i> Upraviť
                     </a>
@@ -72,7 +72,7 @@
                     @endif
                 @endif
 
-                <form action="{{ route('profile.organization.post.destroy', [$post->organization_id, $post->id]) }}"
+                <form action="{{ route('profile.canals.posts.destroy', [$post->organization_id, $post->id]) }}"
                       method="post">
                     @csrf @method('DELETE')
 

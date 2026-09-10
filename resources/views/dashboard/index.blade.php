@@ -2,18 +2,18 @@
 
 @section('content')
 
-    @if (! $organization)
+    @if (! $canal)
         {{-- Užívateľ bez prideleného kanála. Nemá zmysel mu ukazovať dlaždice
              s nulami, potrebuje vedieť, kde sa kanál rieši. --}}
         <div class="mx-auto max-w-2xl px-4 py-20 text-center">
-            <p class="ar-kicker">Nástenka</p>
+            <p class="ar-kicker">Dashboard</p>
             <h1 class="ar-display mt-2 text-2xl font-bold">Zatiaľ nespravujete žiadny kanál</h1>
             <p class="mt-3 text-sm text-gray-500">
-                Nástenka ukazuje čísla kanála — zhliadnutia, komentáre, čo čaká na zverejnenie.
+                Dashboard ukazuje čísla kanála — zhliadnutia, komentáre, čo čaká na zverejnenie.
                 Kým k vášmu účtu žiadny kanál nepatrí, nemá čo zobraziť.
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-2">
-                <a href="{{ route('profile.user.organization.index', auth()->id()) }}" class="ar-btn ar-btn--accent">
+                <a href="{{ route('profile.canals.index') }}" class="ar-btn ar-btn--accent">
                     <i class="fas fa-broadcast-tower"></i> Moje kanály
                 </a>
                 <a href="{{ route('userSupport.index') }}" class="ar-btn ar-btn--quiet">
@@ -57,7 +57,7 @@
             $postUrl = fn ($row) => url("/post/{$row->id}/{$row->slug}");
         @endphp
 
-        <x-dashboard.shell :organization="$organization" section="dashboard">
+        <x-dashboard.shell :canal="$canal" section="dashboard">
 
             <x-slot name="lead">
                 @if ($posts->last_at)
@@ -72,13 +72,13 @@
             </x-slot>
 
             <x-slot name="actions">
-                <a href="{{ route('profile.organization.post.create', $organization->id) }}" class="ar-btn ar-btn--accent">
+                <a href="{{ route('profile.canals.posts.create', $canal->id) }}" class="ar-btn ar-btn--accent">
                     <i class="fas fa-plus"></i> Nový článok
                 </a>
-                <a href="{{ route('organizations.show', $organization->id) }}" class="ar-btn ar-btn--quiet">
+                <a href="{{ route('organizations.show', $canal->id) }}" class="ar-btn ar-btn--quiet">
                     <i class="far fa-eye"></i> Verejný profil
                 </a>
-                <a href="{{ route('profile.user.organization.edit', [auth()->id(), $organization->id]) }}" class="ar-btn ar-btn--quiet">
+                <a href="{{ route('profile.canals.edit', $canal->id) }}" class="ar-btn ar-btn--quiet">
                     <i class="fas fa-sliders-h"></i> Nastavenia
                 </a>
             </x-slot>
@@ -102,7 +102,7 @@
                         <ul class="mt-2 space-y-1">
                             @foreach ($brokenPosts as $row)
                                 <li class="truncate">
-                                    <a href="{{ route('profile.organization.post.edit', [$organization->id, $row->id]) }}"
+                                    <a href="{{ route('profile.canals.posts.edit', [$canal->id, $row->id]) }}"
                                        class="ar-link font-medium">{{ $row->title }}</a>
                                 </li>
                             @endforeach
@@ -207,7 +207,7 @@
                         @endforelse
 
                         <x-slot name="footer">
-                            <a href="{{ route('profile.organization.post.index', $organization->id) }}" class="ar-link text-gray-500 hover:text-gray-900">
+                            <a href="{{ route('profile.canals.posts.index', $canal->id) }}" class="ar-link text-gray-500 hover:text-gray-900">
                                 Všetky články kanála <i class="fas fa-arrow-right ml-1 text-xs"></i>
                             </a>
                         </x-slot>
@@ -273,7 +273,7 @@
                         </div>
 
                         <x-slot name="footer">
-                            <a href="{{ route('profile.organization.prayer.index', $organization->id) }}" class="ar-link text-gray-500 hover:text-gray-900">
+                            <a href="{{ route('profile.canals.prayers.index', $canal->id) }}" class="ar-link text-gray-500 hover:text-gray-900">
                                 @if ($prayers->current > 0)
                                     {{ $num($prayers->current) }} {{ $plural($prayers->current, 'nová za 30 dní', 'nové za 30 dní', 'nových za 30 dní') }}
                                 @else

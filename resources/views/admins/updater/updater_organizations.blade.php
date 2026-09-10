@@ -11,10 +11,10 @@
 
             {{-- <h2 class="page_title">Pridať kanál</h2> --}}
 
-            {{-- <form action="{{ route('admin.updater.organization.store', [$updater->id, $tag->id]) }}" method="POST" --}}
+            {{-- <form action="{{ route('admin.updater.canal.store', [$updater->id, $tag->id]) }}" method="POST" --}}
             {{-- class="ar-panel mb-3 flex-row items-center justify-between gap-3 p-4"> --}}
             @csrf @method('POST')
-            <x-organization.select-input />
+            <x-canal.select-input />
             <div>
                 <button class="btn btn-primary">Uložiť</button>
             </div>
@@ -26,7 +26,7 @@
         <x-slot name="page">
 
             @forelse ($updater->organizations as $tag)
-                <form action="{{ route('admin.updater.organization.destroy', [$updater->id, $tag->id]) }}" method="POST"
+                <form action="{{ route('admin.updater.canal.destroy', [$updater->id, $tag->id]) }}" method="POST"
                     class="ar-panel mb-3 flex-row items-center justify-between gap-3 p-4">
 
                     @csrf @method('DELETE')

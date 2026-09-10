@@ -6,7 +6,7 @@ use App\Models\Post;
 use App\Models\Prayer;
 use App\Models\Comment;
 use App\Http\Requests\FavoriteRequest;
-use App\Models\Organization;
+use App\Models\Canal;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
 class FavoriteController extends Controller
@@ -20,7 +20,7 @@ class FavoriteController extends Controller
         'Post'         => Post::class,
         'Prayer'       => Prayer::class,
         'Comment'      => Comment::class,
-        'Organization' => Organization::class,
+        'Organization' => Canal::class,
     ];
 
     public function __construct()

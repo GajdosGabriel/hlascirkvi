@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Traits\HasOrganization;
+use App\Traits\HasCanal;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
 class Messenger extends Model
 {
-    use Notifiable, HasOrganization;
+    use Notifiable, HasCanal;
 
     protected $guarded =[];
 

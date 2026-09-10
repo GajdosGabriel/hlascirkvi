@@ -6,7 +6,7 @@
     @php
         $filterOptions = match (Route::currentRouteName()) {
             'admin.user.index' => ['banned', 'deletedAt'],
-            'admin.organization.index', 'admin.comment.index' => ['unpublished', 'deletedAt'],
+            'admin.canal.index', 'admin.comment.index' => ['unpublished', 'deletedAt'],
             'admin.post.index' => ['unpublished', 'deletedAt', 'videoAvailable'],
             'admin.prayer.index' => ['fulfilled', 'deletedAt'],
             default => null,

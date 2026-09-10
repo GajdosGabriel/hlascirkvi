@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\OrganizationResource;
+use App\Http\Resources\CanalResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
@@ -30,7 +30,7 @@ class PostResource extends JsonResource
             'createdAtHuman' => $this->dateForHumans,
             'thumbImage' => $this->thumbImage,
 //            'images' => Image::collection($this->images),
-            'organization' => new OrganizationResource($this->organization),
+            'organization' => new CanalResource($this->organization),
             'hasUpdater' => $this->hasUpdater
         ];
     }

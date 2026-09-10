@@ -10,7 +10,7 @@
 namespace App\Services;
 
 use Alaouy\Youtube\Youtube;
-use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Repositories\Eloquent\EloquentCanalRepository;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Services\Images\StoreImage;
 use App\Services\Images\YoutubeThumbnail;
@@ -24,7 +24,7 @@ class VideoUploadByUserName
 
     public function handle()
     {
-        $organizations = (new EloquentOrganizationRepository())->getUsersByDayOfWeek();
+        $organizations = (new EloquentCanalRepository())->getUsersByDayOfWeek();
 
         // Jeden neúspešný dopyt na YouTube (kvóta, výpadok) zhodil celý denný
         // beh, takže sa nespracovali ani ostatné kanály.

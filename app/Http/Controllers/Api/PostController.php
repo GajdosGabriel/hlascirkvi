@@ -21,7 +21,7 @@ class PostController extends Controller
 
     public function index(PostFilters $filters)
     {
-        // PostResource číta hasUpdater a OrganizationResource vypisuje updaterov
+        // PostResource číta hasUpdater a CanalResource vypisuje updaterov
         // kanála — obe väzby preto naťaháme v dávke, nie riadok po riadku.
         $posts = $this->post->postsByUpdater(15)
             ->with(['updaters', 'organization.updaters'])

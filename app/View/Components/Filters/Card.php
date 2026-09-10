@@ -33,10 +33,10 @@ class Card extends Component
        $routeName = array(
             'admin.user.index',
             'admin.post.index',
-            'admin.organization.index',
+            'admin.canal.index',
             'admin.comment.index',
             'admin.prayer.index',
-            'profile.organization.prayer.index',
+            'profile.canals.prayers.index',
        );
         return in_array(\Route::currentRouteName(), $routeName);
     }

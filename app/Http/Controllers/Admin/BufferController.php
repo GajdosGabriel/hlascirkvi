@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
 use App\Services\Buffer;
-use App\Models\Organization;
+use App\Models\Canal;
 use App\Repositories\Contracts\PostRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -56,7 +56,7 @@ class BufferController extends Controller
     {
         $unpublished = fn ($query) => $query->doesntHave('updaters');
 
-        return Organization::whereHas('posts', $unpublished)
+        return Canal::whereHas('posts', $unpublished)
             ->withCount(['posts as unpublished_posts_count' => $unpublished])
             ->orderBy('title')
             ->get(['id', 'title']);

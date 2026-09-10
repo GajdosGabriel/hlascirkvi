@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 /**
  * Všetkých sedem metód tu malo prázdne telo, čiže vracali null = zamietnuť.
  * `authorize()` nad seminárom preto prechádzal len superadminovi cez
- * Gate::before — a práve preto `store` v OrganizationSeminarController
+ * Gate::before — a práve preto `store` v CanalSeminarController
  * autorizáciu vôbec nemal, inak by zakladanie seminárov nefungovalo.
  *
  * Seminár patrí kanálu; vlastníctvo kanála je väzba $user->organizations()

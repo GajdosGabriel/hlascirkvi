@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    <title>{{ "Semináre {$organization->title}" }}</title>
+    <title>{{ "Semináre {$canal->title}" }}</title>
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
         $total = $seminars->count();
     @endphp
 
-    <x-dashboard.shell :organization="$organization" section="seminars" heading="Semináre">
+    <x-dashboard.shell :canal="$canal" section="seminars" heading="Semináre">
 
         <x-slot name="lead">
             {{ number_format($total, 0, ',', ' ') }}
@@ -21,7 +21,7 @@
         </x-slot>
 
         <x-slot name="actions">
-            <a href="{{ route('profile.organization.seminar.create', $organization->id) }}" class="ar-btn ar-btn--accent">
+            <a href="{{ route('profile.canals.seminars.create', $canal->id) }}" class="ar-btn ar-btn--accent">
                 <i class="fas fa-plus"></i> Nový seminár
             </a>
         </x-slot>

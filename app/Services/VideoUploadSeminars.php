@@ -9,14 +9,14 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Models\Organization;
+use App\Models\Canal;
 use Alaouy\Youtube\Youtube;
 use App\Services\Images\StoreImage;
 use App\Services\Images\YoutubeThumbnail;
 use App\Notifications\Admin\Error;
 use App\Models\Post;
 use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Eloquent\EloquentOrganizationRepository;
+use App\Repositories\Eloquent\EloquentCanalRepository;
 use App\Models\Seminar;
 
 class VideoUploadSeminars
@@ -24,7 +24,7 @@ class VideoUploadSeminars
     public $organization;
     public $seminar;
 
-    public function __construct(Seminar $seminar, Organization $organization)
+    public function __construct(Seminar $seminar, Canal $organization)
     {
         $this->organization = $organization;
         $this->seminar = $seminar;

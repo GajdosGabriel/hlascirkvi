@@ -39,7 +39,7 @@ class PostController extends Controller
 
     public function show(Post $post, $slug, CreditUser $creditUser)
     {
-        // Vypnutý kanál odfiltruje middleware `bannedOrganization` (routes/web.php).
+        // Vypnutý kanál odfiltruje middleware `bannedCanal` (routes/web.php).
 
         // Šablóna serializuje $post do Vue komponentov, čo zakaždým vyhodnotí
         // hasUpdater. S načítanou väzbou sa atribút prečíta z pamäte.

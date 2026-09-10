@@ -32,7 +32,7 @@ Route::apiResource('posts', Api\PostController::class)
 
 Route::apiResource('comments', Api\CommentController::class)->only(['index']);
 Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['index']);
-Route::apiResource('organization', Api\OrganizationController::class)->only(['show']);
+Route::apiResource('organization', Api\CanalController::class)->only(['show']);
 
 Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal')
     ->whereIn('canal', ['domov', 'zahranicie', 'press'])
@@ -44,7 +44,7 @@ Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal')
  */
 Route::middleware('throttle:10,1')->group(function () {
     Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['store']);
-    Route::apiResource('organizations.favorites', Api\OrganizationFavoriteController::class)->only(['store']);
+    Route::apiResource('organizations.favorites', Api\CanalFavoriteController::class)->only(['store']);
 
     // Modlitbu vie pridať aj neprihlásený — formulár od neho žiada e-mail
     // (resources/js/prayer/ModalNewPrayer.vue:103) a EloquentUserRepository
@@ -62,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'notifications'         => Api\NotificationController::class,
         'users'                 => Api\UserController::class,
         'users.comments'        => Api\User\UserCommentController::class,
-        'users.organizations'   => Api\UserOrganizationController::class,
+        'users.organizations'   => Api\UserCanalController::class,
         'villages'              => Api\VillageController::class,
         'updaters'              => Api\UpdaterController::class,
     ]);

@@ -35,7 +35,7 @@
             </h6>
 
             <div class="text-gray-500" title="{{ $post->organization->title }}">
-                <a href="{{ route('profile.organization.post.index', [$post->organization_id]) }}">
+                <a href="{{ route('profile.canals.posts.index', [$post->organization_id]) }}">
                     {{ $post->organization->title }}
                 </a>
             </div>
@@ -85,12 +85,12 @@
             <dropdown-slot align="left">
 
                 <ul>
-                    <a href={{ route('profile.organization.post.edit', [$post->organization_id, $post->id]) }}>
+                    <a href={{ route('profile.canals.posts.edit', [$post->organization_id, $post->id]) }}>
                         <li class="dropdown-item">upraviť</li>
                     </a>
 
                     <li class="dropdown-item">
-                        <form action="{{ route('profile.organization.post.destroy', [$post->organization_id, $post->id]) }}"
+                        <form action="{{ route('profile.canals.posts.destroy', [$post->organization_id, $post->id]) }}"
                             method="post">
                             @csrf @method('DELETE')
                             @if ($post->deleted_at)

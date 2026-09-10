@@ -11,7 +11,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <a class="ar-btn ar-btn--accent" href="{{ route('profile.organization.prayer.create', auth()->user()->org_id) }}">
+            <a class="ar-btn ar-btn--accent" href="{{ route('profile.canals.prayers.create', auth()->user()->org_id) }}">
                 Nová modlitba
             </a>
         </x-slot>
@@ -24,12 +24,12 @@
                             <div>{{ $prayer->title }}</div>
                             <div class="flex space-x-1 items-center">
                                 <dropdown-slot>
-                                    <a href="{{ route('profile.organization.prayer.edit', [$prayer->organization->id, $prayer->id]) }}"
+                                    <a href="{{ route('profile.canals.prayers.edit', [$prayer->organization->id, $prayer->id]) }}"
                                         class="text-sm hover:text-gray-600 hover:bg-gray-100 px-2 rounded-md">Upraviť
                                     </a>
 
                                     <form
-                                        action="{{ route('profile.organization.prayer.destroy', [$prayer->organization->id, $prayer->id]) }}"
+                                        action="{{ route('profile.canals.prayers.destroy', [$prayer->organization->id, $prayer->id]) }}"
                                         method="post">
                                         @method('DELETE') @csrf
                                         <button

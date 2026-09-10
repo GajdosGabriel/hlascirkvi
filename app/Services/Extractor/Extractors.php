@@ -11,7 +11,7 @@ namespace App\Services\Extractor;
 
 use DB;
 use Carbon\Carbon;
-use App\Models\Organization;
+use App\Models\Canal;
 use App\Services\DetectService\DetectDateTime;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +24,7 @@ class Extractors
 
     public function setOrganization($id)
     {
-        $this->organization = Organization::whereId($id)->first();
+        $this->organization = Canal::whereId($id)->first();
         $this->detectDateTime = new DetectDateTime();
     }
 

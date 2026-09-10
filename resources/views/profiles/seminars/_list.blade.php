@@ -2,13 +2,13 @@
     Riadky výpisu seminárov v správe kanála. Vzhľad drží .ar-item, rovnako ako
     výpis článkov — obal (panel) patrí stránke, ktorá zoznam vkladá.
 
-    Očakáva: $seminars (s withCount('posts')), $organization.
+    Očakáva: $seminars (s withCount('posts')), $canal.
 --}}
 @forelse ($seminars as $seminar)
 
     <article class="ar-item">
         <div class="ar-item__body">
-            <a href="{{ route('profile.organization.seminar.show', [$organization->id, $seminar->id]) }}"
+            <a href="{{ route('profile.canals.seminars.show', [$canal->id, $seminar->id]) }}"
                class="ar-item__title">
                 <seminar-title :seminar="{{ $seminar }}"></seminar-title>
             </a>

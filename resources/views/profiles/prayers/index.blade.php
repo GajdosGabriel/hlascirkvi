@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    <title>{{ "Modlitby {$organization->title}" }}</title>
+    <title>{{ "Modlitby {$canal->title}" }}</title>
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
         $total = $prayers->total();
     @endphp
 
-    <x-dashboard.shell :organization="$organization" section="prayers" heading="Modlitby">
+    <x-dashboard.shell :canal="$canal" section="prayers" heading="Modlitby">
 
         <x-slot name="lead">
             {{ number_format($total, 0, ',', ' ') }}
@@ -21,7 +21,7 @@
         </x-slot>
 
         <x-slot name="actions">
-            <a href="{{ route('profile.organization.prayer.create', $organization->id) }}" class="ar-btn ar-btn--accent">
+            <a href="{{ route('profile.canals.prayers.create', $canal->id) }}" class="ar-btn ar-btn--accent">
                 <i class="fas fa-plus"></i> Nová modlitba
             </a>
         </x-slot>
@@ -58,7 +58,7 @@
 
                     <div class="ar-item__actions">
                         <dropdown-slot>
-                            <a href="{{ route('profile.organization.prayer.edit', [$organization->id, $prayer->id]) }}"
+                            <a href="{{ route('profile.canals.prayers.edit', [$canal->id, $prayer->id]) }}"
                                class="ar-act">
                                 <i class="fas fa-pen text-[.7rem]"></i> Upraviť
                             </a>

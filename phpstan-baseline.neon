@@ -19,7 +19,7 @@ parameters:
 			path: app/Console/Commands/PrayerSluzobniceDuchaSvateho.php
 
 		-
-			message: '#^Relation ''posts'' is not found in App\\Models\\Organization model\.$#'
+			message: '#^Relation ''posts'' is not found in App\\Models\\Canal model\.$#'
 			identifier: larastan.relationExistence
 			count: 1
 			path: app/Http/Controllers/Admin/BufferController.php
@@ -37,22 +37,22 @@ parameters:
 			path: app/Http/Controllers/Admin/CommentController.php
 
 		-
-			message: '#^Relation ''updaters'' is not found in App\\Models\\Organization model\.$#'
+			message: '#^Relation ''updaters'' is not found in App\\Models\\Canal model\.$#'
 			identifier: larastan.relationExistence
 			count: 1
-			path: app/Http/Controllers/Admin/OrganizationController.php
+			path: app/Http/Controllers/Admin/CanalController.php
 
 		-
-			message: '#^Relation ''users'' is not found in App\\Models\\Organization model\.$#'
+			message: '#^Relation ''users'' is not found in App\\Models\\Canal model\.$#'
 			identifier: larastan.relationExistence
 			count: 1
-			path: app/Http/Controllers/Admin/OrganizationController.php
+			path: app/Http/Controllers/Admin/CanalController.php
 
 		-
-			message: '#^Relation ''village'' is not found in App\\Models\\Organization model\.$#'
+			message: '#^Relation ''village'' is not found in App\\Models\\Canal model\.$#'
 			identifier: larastan.relationExistence
 			count: 1
-			path: app/Http/Controllers/Admin/OrganizationController.php
+			path: app/Http/Controllers/Admin/CanalController.php
 
 		-
 			message: '#^Relation ''updaters'' is not found in App\\Models\\Post model\.$#'
@@ -184,13 +184,13 @@ parameters:
 			message: '#^Access to an undefined property App\\Models\\User\:\:\$organization\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Controllers/Organization/DashboardController.php
+			path: app/Http/Controllers/Canal/DashboardController.php
 
 		-
 			message: '#^Result of method Illuminate\\Session\\Store\:\:flash\(\) \(void\) is used\.$#'
 			identifier: method.void
 			count: 2
-			path: app/Http/Controllers/Organization/OrganizationPostController.php
+			path: app/Http/Controllers/Canal/CanalPostController.php
 
 		-
 			message: '#^Relation ''posts'' is not found in App\\Models\\Seminar model\.$#'
@@ -262,7 +262,7 @@ parameters:
 			message: '#^Access to an undefined property App\\Models\\Post\:\:\$organization\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Middleware/BannedOrganization.php
+			path: app/Http/Middleware/BannedCanal.php
 
 		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\CommentResource\:\:\$body\.$#'
@@ -367,88 +367,88 @@ parameters:
 			path: app/Http/Resources/Image.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$avatar\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$avatar\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$description\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$description\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$id\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$id\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$person\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$person\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$phone\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$phone\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$psc\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$psc\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$published\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$published\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$street\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$street\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$title\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$title\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$updaters\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$updaters\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$url_www\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$url_www\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$village_id\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$village_id\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$youtube_channel\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$youtube_channel\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\OrganizationResource\:\:\$youtube_playlist\.$#'
+			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$youtube_playlist\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Http/Resources/OrganizationResource.php
+			path: app/Http/Resources/CanalResource.php
 
 		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\PostResource\:\:\$body\.$#'
@@ -721,34 +721,34 @@ parameters:
 			path: app/Models/Comment.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Organization\:\:\$favorites\.$#'
+			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$favorites\.$#'
 			identifier: property.notFound
 			count: 2
-			path: app/Models/Organization.php
+			path: app/Models/Canal.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Organization\:\:\$images\.$#'
+			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$images\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Models/Organization.php
+			path: app/Models/Canal.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Organization\:\:\$organization\.$#'
+			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$organization\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/Models/Organization.php
+			path: app/Models/Canal.php
 
 		-
 			message: '#^Property ''isFavorited'' does not exist in model\.$#'
 			identifier: rules.modelAppends
 			count: 1
-			path: app/Models/Organization.php
+			path: app/Models/Canal.php
 
 		-
 			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
 			identifier: larastan.relationExistence
 			count: 1
-			path: app/Models/Organization.php
+			path: app/Models/Canal.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Post\:\:\$favorites\.$#'
@@ -1021,7 +1021,7 @@ parameters:
 			message: '#^Access to an undefined property App\\Models\\User\:\:\$organization\.$#'
 			identifier: property.notFound
 			count: 1
-			path: app/View/Components/Organization/Statistic.php
+			path: app/View/Components/Canal/Statistic.php
 
 		-
 			message: '#^Class Api\\CommentController not found\.$#'
@@ -1036,13 +1036,13 @@ parameters:
 			path: routes/api.php
 
 		-
-			message: '#^Class Api\\OrganizationController not found\.$#'
+			message: '#^Class Api\\CanalController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/api.php
 
 		-
-			message: '#^Class Api\\OrganizationFavoriteController not found\.$#'
+			message: '#^Class Api\\CanalFavoriteController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/api.php
@@ -1084,7 +1084,7 @@ parameters:
 			path: routes/api.php
 
 		-
-			message: '#^Class Api\\UserOrganizationController not found\.$#'
+			message: '#^Class Api\\UserCanalController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/api.php
@@ -1126,7 +1126,7 @@ parameters:
 			path: routes/web.php
 
 		-
-			message: '#^Class Admin\\OrganizationController not found\.$#'
+			message: '#^Class Admin\\CanalController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php
@@ -1162,7 +1162,7 @@ parameters:
 			path: routes/web.php
 
 		-
-			message: '#^Class Admin\\UpdaterOrganizationController not found\.$#'
+			message: '#^Class Admin\\UpdaterCanalController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php
@@ -1186,31 +1186,31 @@ parameters:
 			path: routes/web.php
 
 		-
-			message: '#^Class Organization\\DashboardController not found\.$#'
+			message: '#^Class Canal\\DashboardController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php
 
 		-
-			message: '#^Class Organization\\OrganizationPostController not found\.$#'
+			message: '#^Class Canal\\CanalPostController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php
 
 		-
-			message: '#^Class Organization\\OrganizationPrayerController not found\.$#'
+			message: '#^Class Canal\\CanalPrayerController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php
 
 		-
-			message: '#^Class Organization\\OrganizationSeminarController not found\.$#'
+			message: '#^Class Canal\\CanalSeminarController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php
 
 		-
-			message: '#^Class Public\\OrganizationController not found\.$#'
+			message: '#^Class Public\\CanalController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php
@@ -1246,7 +1246,7 @@ parameters:
 			path: routes/web.php
 
 		-
-			message: '#^Class User\\UserOrganizationController not found\.$#'
+			message: '#^Class Canal\\CanalController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php

@@ -3,9 +3,9 @@
 
 
 namespace App\Contracts;
-use App\Models\Organization;
+use App\Models\Canal;
 
 interface StorePostContract {
 
-    public function handle(Organization $organization, $request);
+    public function handle(Canal $organization, $request);
 }
