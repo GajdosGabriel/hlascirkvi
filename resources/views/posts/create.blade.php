@@ -20,7 +20,7 @@
 
 
         <x-slot name="page">
-            <form method="post" action="{{ route('profile.canals.posts.store', $canal->id) }}"
+            <form method="post" action="{{ route('profile.posts.store') }}"
                 enctype="multipart/form-data">
                 @csrf @method('POST')
                 @include('posts.form')

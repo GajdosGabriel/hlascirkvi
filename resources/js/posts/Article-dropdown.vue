@@ -24,15 +24,7 @@
         </button>
 
         <ul class="dropdown-menu z-50 mt-1" :class="menuClass" v-if="open">
-            <a
-                :href="
-                    '/dashboard/canals/' +
-                    post.organization_id +
-                    '/posts/' +
-                    post.id +
-                    '/edit'
-                "
-            >
+            <a :href="'/dashboard/posts/' + post.id + '/edit'">
                 <li class="dropdown-item">upraviť</li>
             </a>
 
@@ -84,16 +76,8 @@ export default {
                 return;
             }
             axios
-                .delete(
-                    "/dashboard/canals/" +
-                        this.post.organization_id +
-                        "/posts/" +
-                        this.post.id
-                )
-                .then(
-                    (window.location.href =
-                        "/dashboard/canals/" + this.post.organization_id + "/posts")
-                );
+                .delete("/dashboard/posts/" + this.post.id)
+                .then((window.location.href = "/dashboard/posts"));
         },
 
         updatePost: function () {

@@ -28,7 +28,7 @@
 
                 <a
                     v-if="seminar.youtube_playlist"
-                    :href="'/dashboard/canals/'+ seminar.organization_id + '/posts/create'"
+                    href="/dashboard/posts/create"
                     class="cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2"
                     >Pridať video
                 </a>

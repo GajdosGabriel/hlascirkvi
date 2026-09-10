@@ -9,6 +9,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostSaveRequest;
 use App\Services\PostService\PostService;
 
+/**
+ * Články aktívneho kanála prihláseného užívateľa (/dashboard/posts).
+ *
+ * Do 10. 9. 2026 bol kanál v adrese (/dashboard/canals/{canal}/posts). Výpis
+ * pritom gate-oval len viewAny, takže ktokoľvek prihlásený si podstrčením ID
+ * pozrel cudzí archív aj kôš. Kanál sa teraz berie z users.org_id, rovnako ako
+ * na nástenke; úpravy a mazanie jednotlivých článkov naďalej rozhoduje PostPolicy.
+ */
 class CanalPostController extends Controller
 {
 
@@ -19,11 +27,14 @@ class CanalPostController extends Controller
         // väzbou a middleware `can:delete,post` by dostal reťazec s ID. Kontrola
         // je preto priamo v metóde.
         $this->authorizeResource(Post::class, 'post', ['except' => ['destroy']]);
-        $this->authorizeResource(Canal::class, 'canal');
     }
 
-    public function index(Canal $canal, PostFilters $filters)
+    public function index(PostFilters $filters)
     {
+        if (! $canal = $this->activeCanal()) {
+            return $this->withoutCanal();
+        }
+
         // withQueryString(): bez neho odkazy stránkovania zahodili zapnutý
         // filter aj hľadanie a druhá strana sa vrátila k celému výpisu.
         //
@@ -41,33 +52,40 @@ class CanalPostController extends Controller
         return view('profiles.posts.index', compact('posts', 'canal'));
     }
 
-    public function create(Canal $canal)
+    public function create()
     {
+        if (! $canal = $this->activeCanal()) {
+            return $this->withoutCanal();
+        }
+
         return view('posts.create', ['post' => new Post, 'canal' => $canal]);
     }
 
-    public function edit(Canal $canal, Post $post)
+    public function edit(Post $post)
     {
-        $this->authorize('update', $post);
-        return view('posts.edit', compact('post', 'canal'));
+        return view('posts.edit', compact('post'));
     }
 
-    public function update(Canal $canal, Post $post,  PostSaveRequest $request)
+    public function update(Post $post, PostSaveRequest $request)
     {
         $this->postService->update($post, $request);
 
         return redirect()->route('post.show', [$post->id, $post->slug]);
     }
 
-    public function store(Canal $canal, PostSaveRequest $request)
+    public function store(PostSaveRequest $request)
     {
+        if (! $canal = $this->activeCanal()) {
+            return $this->withoutCanal();
+        }
+
         $this->postService->store($canal, $request);
 
-        return redirect()->route('profile.canals.posts.index', [$canal->id]);
+        return redirect()->route('profile.posts.index');
     }
 
     // Zmazať alebo obnoviť Post
-    public function destroy(Canal $canal, $post)
+    public function destroy($post)
     {
         // $post prichádzalo ako reťazec (bez typového hintu sa implicitná väzba
         // nespustí), takže authorize() dostal ID a PostPolicy sa nenašla —
@@ -82,12 +100,24 @@ class CanalPostController extends Controller
         if ($post->deleted_at) {
             $post->restore();
             $post->comments()->restore();
-            return redirect()->route('profile.canals.posts.index', $canal->id)->with(session()->flash('flash', 'Príspevok bol obnovený!'));
+            return redirect()->route('profile.posts.index')->with(session()->flash('flash', 'Príspevok bol obnovený!'));
         } else {
             $post->comments()->delete();
             $post->delete();
         }
 
-        return redirect()->route('profile.canals.posts.index', $canal->id)->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
+        return redirect()->route('profile.posts.index')->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
+    }
+
+    protected function activeCanal(): ?Canal
+    {
+        return auth()->user()->organization;
+    }
+
+    // Užívateľ bez aktívneho kanála nemá čo vypísať ani kam zapisovať.
+    protected function withoutCanal()
+    {
+        return redirect()->route('profile.canals.index')
+            ->with('flash', 'Najprv si vyberte kanál, s ktorým chcete pracovať.');
     }
 }

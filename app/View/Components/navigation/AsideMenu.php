@@ -54,7 +54,7 @@ class AsideMenu extends Component
                 'name' => 'Kanály',
             ],
             [
-                'url' => route('profile.canals.posts.index', auth()->user()->org_id),
+                'url' => route('profile.posts.index'),
                 'icon' => 'post',
                 'name' => 'Články',
             ],

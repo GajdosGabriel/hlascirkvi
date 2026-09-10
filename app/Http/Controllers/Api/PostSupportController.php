@@ -13,6 +13,6 @@ class PostSupportController extends Controller
         $this->authorize('update', $postSupport);
 
         $postSupport->updaters()->detach();
-        return redirect()->route('profile.canals.posts.index', $postSupport->organization_id)->with(session()->flash('flash', 'Video presunuté do Buffer!'));
+        return redirect()->route('profile.posts.index')->with(session()->flash('flash', 'Video presunuté do Buffer!'));
     }
 }

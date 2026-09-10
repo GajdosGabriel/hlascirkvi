@@ -26,7 +26,7 @@
         </x-slot>
 
         <x-slot name="actions">
-            <a href="{{ route('profile.canals.posts.create', $canal->id) }}" class="ar-btn ar-btn--accent">
+            <a href="{{ route('profile.posts.create') }}" class="ar-btn ar-btn--accent">
                 <i class="fas fa-plus"></i> Nový článok
             </a>
             <a href="{{ route('organizations.show', $canal->id) }}" class="ar-btn ar-btn--quiet">
