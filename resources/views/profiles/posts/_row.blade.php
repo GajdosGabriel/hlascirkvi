@@ -20,7 +20,9 @@
 
         <div class="ar-item__meta">
             @if ($showOrganization ?? false)
-                <a class="ar-link" href="{{ route('profile.canals.posts.index', $post->organization_id) }}">{{ $post->organization->title }}</a>
+                {{-- /dashboard/posts ukazuje vždy aktívny kanál prihláseného,
+                     preto odkaz na verejný profil kanála. --}}
+                <a class="ar-link" href="{{ route('organizations.show', $post->organization_id) }}">{{ $post->organization->title }}</a>
             @endif
             <time datetime="{{ $post->created_at->toIso8601String() }}">
                 {{ $post->created_at->locale('sk')->isoFormat('D. M. YYYY') }}
@@ -55,7 +57,7 @@
         <div class="ar-item__actions">
             <dropdown-slot>
                 @if (! $post->deleted_at)
-                    <a href="{{ route('profile.canals.posts.edit', [$post->organization_id, $post->id]) }}"
+                    <a href="{{ route('profile.posts.edit', $post->id) }}"
                        class="ar-act">
                         <i class="fas fa-pen text-[.7rem]"></i> Upraviť
                     </a>
@@ -72,7 +74,7 @@
                     @endif
                 @endif
 
-                <form action="{{ route('profile.canals.posts.destroy', [$post->organization_id, $post->id]) }}"
+                <form action="{{ route('profile.posts.destroy', $post->id) }}"
                       method="post">
                     @csrf @method('DELETE')
 

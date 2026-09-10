@@ -93,8 +93,12 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         // Kanál sa z nástenky nemaže, destroy by len spadol.
         Route::resource('canals', Canal\CanalController::class)->except('destroy');
 
+        // Články aktívneho kanála (users.org_id) — rovnako ako nástenka nemajú
+        // kanál v adrese. Prepína sa výpisom "Vaše kanály". Detail článku je
+        // verejný (post.show), show tu nikdy nebol.
+        Route::resource('posts', Canal\CanalPostController::class)->except('show');
+
         Route::resources([
-            'canals.posts'      => Canal\CanalPostController::class,
             'canals.prayers'    => Canal\CanalPrayerController::class,
             'canals.seminars'   => Canal\CanalSeminarController::class,
         ]);
@@ -114,7 +118,10 @@ Route::permanentRedirect('profile', 'dashboard');
 // už vykresľujú s novými adresami.
 Route::permanentRedirect('user/{user}/organization/{rest?}', '/dashboard/canals/{rest?}')
     ->where('rest', '.*');
-Route::permanentRedirect('organization/{canal}/post/{rest?}', '/dashboard/canals/{canal}/posts/{rest?}')
+Route::permanentRedirect('organization/{canal}/post/{rest?}', '/dashboard/posts/{rest?}')
+    ->where('rest', '.*');
+// Články kanála mali do 10. 9. 2026 kanál v adrese (/dashboard/canals/{id}/posts).
+Route::permanentRedirect('dashboard/canals/{canal}/posts/{rest?}', '/dashboard/posts/{rest?}')
     ->where('rest', '.*');
 Route::permanentRedirect('organization/{canal}/prayer/{rest?}', '/dashboard/canals/{canal}/prayers/{rest?}')
     ->where('rest', '.*');
