@@ -78,7 +78,7 @@
         $schema['embedUrl']   = 'https://www.youtube.com/embed/' . $post->video_id;
         // contentUrl patrí priamemu videosúboru; pri YouTube poznáme embedUrl.
 
-        if ($duration = $post->getRawOriginal('video_duration')) {
+        if ($duration = \App\Support\Seo::videoDuration($post->getRawOriginal('video_duration'))) {
             $schema['duration'] = $duration;
         }
 

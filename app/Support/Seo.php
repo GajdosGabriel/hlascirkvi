@@ -15,6 +15,28 @@ use Illuminate\Support\Facades\Route;
  */
 class Seo
 {
+    /** Omit unknown, zero and invalid video durations from structured data. */
+    public static function videoDuration(?string $value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        try {
+            $duration = new \DateInterval($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        if ($duration->invert || ! ($duration->y > 0 || $duration->m > 0
+            || $duration->d > 0 || $duration->h > 0 || $duration->i > 0
+            || $duration->s > 0 || $duration->f > 0)) {
+            return null;
+        }
+
+        return $value;
+    }
+
     /** Meta description znesie v Google zhruba toľko znakov. */
     protected const DESCRIPTION_LIMIT = 160;
 
