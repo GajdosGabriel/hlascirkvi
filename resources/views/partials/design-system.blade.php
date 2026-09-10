@@ -384,6 +384,14 @@
         box-shadow: 0 0 0 3px rgba(var(--ar-accent-rgb), .12);
     }
     .ar-hint { margin-top: .3rem; font-size: .75rem; color: #9ca3af; }
+
+    /* Obsah dashboardu a administrácie siaha aspoň po spodok okna — pri
+       prázdnom výpise by inak pätička vyskočila do polovice obrazovky.
+       3.5rem je výška hornej lišty (h-14 v navigation/main-menu). */
+    .ar-screen { min-height: calc(100vh - 3.5rem); }
+    @supports (min-height: 100svh) {
+        .ar-screen { min-height: calc(100svh - 3.5rem); }
+    }
     /* ---- Lišta filtrov -------------------------------------------------- */
 
     /* Prepínače vľavo, hľadanie vpravo. Samotné tlačidlá sú .ar-tab, tu je len

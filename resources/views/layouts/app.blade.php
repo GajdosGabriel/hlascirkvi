@@ -60,7 +60,7 @@
     <div id="app">
         <x-navigation.main-menu/>
 
-        <main>
+        <main class="@yield('main-class')">
             @include('layouts.errors')
             
             @yield('content')

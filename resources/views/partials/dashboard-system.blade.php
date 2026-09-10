@@ -304,6 +304,99 @@
         .ar-item__actions { margin-left: auto; }
     }
 
+    /* ---- Formuláre ----------------------------------------------------- */
+
+    /* Polia v paneli nad sebou; dvojice (ulica/obec, e-mail/telefón) si
+       mriežku skladajú v šablóne. */
+    .ar-form { display: grid; gap: 1.1rem; }
+    .ar-req { color: var(--ar-accent); }
+    textarea.ar-field { min-height: 7rem; resize: vertical; line-height: 1.5; }
+    select.ar-field[multiple] { padding: .35rem; }
+    select.ar-field[multiple] option { border-radius: .3rem; padding: .3rem .45rem; }
+
+    .ar-field--error { border-color: #fca5a5; background: #fffafa; }
+    .ar-error { margin-top: .3rem; font-size: .75rem; font-weight: 500; color: #b91c1c; }
+
+    /* Skupina zaškrtávacích políčok ako štítky — pri desiatke dní v týždni
+       a zoznamov by stĺpec políčok pod sebou zabral celú obrazovku. */
+    .ar-checks { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .ar-check {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        border: 1px solid var(--ar-line);
+        border-radius: 9999px;
+        background: #fff;
+        padding: .3rem .75rem .3rem .55rem;
+        font-size: .8125rem;
+        color: var(--ar-ink-soft);
+        cursor: pointer;
+        transition: border-color .12s ease, background-color .12s ease, color .12s ease;
+    }
+    .ar-check:hover { border-color: rgba(var(--ar-accent-rgb), .45); }
+    .ar-check input { accent-color: var(--ar-accent); }
+    .ar-check:has(input:checked) {
+        border-color: rgba(var(--ar-accent-rgb), .45);
+        background: var(--ar-accent-soft);
+        color: var(--ar-ink);
+    }
+    .ar-check:has(input:focus-visible) { box-shadow: 0 0 0 3px rgba(var(--ar-accent-rgb), .15); }
+
+    /* Prepínač zverejnenia kanála. */
+    .ar-toggle {
+        display: flex;
+        align-items: flex-start;
+        gap: .75rem;
+        cursor: pointer;
+    }
+    .ar-toggle input {
+        appearance: none;
+        position: relative;
+        flex: 0 0 2.5rem;
+        height: 1.4rem;
+        margin-top: .1rem;
+        border-radius: 9999px;
+        background: #d1d5db;
+        cursor: pointer;
+        transition: background-color .15s ease;
+    }
+    .ar-toggle input::after {
+        content: '';
+        position: absolute;
+        top: .2rem;
+        left: .2rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 9999px;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+        transition: transform .15s ease;
+    }
+    .ar-toggle input:checked { background: #10b981; }
+    .ar-toggle input:checked::after { transform: translateX(1.1rem); }
+    .ar-toggle input:focus-visible { box-shadow: 0 0 0 3px rgba(16, 185, 129, .25); }
+
+    /* Lišta s tlačidlami sa drží spodku okna — formulár kanála je dlhý
+       a „Uložiť" by inak bolo až za poslednou sekciou. */
+    .ar-form__bar {
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        gap: .5rem;
+        margin-top: 1.25rem;
+        border: 1px solid var(--ar-line);
+        border-radius: .625rem;
+        background: rgba(255, 255, 255, .94);
+        backdrop-filter: blur(6px);
+        padding: .65rem 1rem;
+        box-shadow: 0 -12px 24px -20px rgba(16, 24, 40, .45);
+    }
+    .ar-form__bar-note { margin-right: auto; font-size: .75rem; color: #9ca3af; }
+
     /* ---- Avatar kanála v hlavičke -------------------------------------- */
 
     /* Rovnaká skladba ako .ar-org__avatar vo výpise kanálov: iniciály ležia
