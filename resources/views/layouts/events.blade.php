@@ -121,6 +121,21 @@
             transform: translateY(-2px);
         }
 
+        /* Modul bočného panelu. Bez vlastného pozadia splýval s papierom
+           stránky — biela karta s jemným tieňom ho od neho oddelí. */
+        .ev-panel {
+            background: #fff;
+            border: 1px solid var(--ev-line);
+            border-radius: .75rem;
+            padding: 1.25rem;
+            box-shadow: 0 1px 0 rgba(28, 25, 23, .03), 0 12px 32px -24px rgba(28, 25, 23, .45);
+        }
+        /* Výzva pre organizátorov — teplejší tón, aby sa nečítala ako ďalší filter. */
+        .ev-panel--accent {
+            background: linear-gradient(160deg, var(--ev-accent-soft), #fff 70%);
+            border-color: #ecd3ad;
+        }
+
         /* Výplň namiesto plagátu — podujatia z importu ho často nemajú. */
         .ev-noposter {
             background:

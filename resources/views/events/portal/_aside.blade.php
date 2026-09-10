@@ -9,7 +9,7 @@
             $maxCount = max(1, (int) $topMunicipalities->max('events_count'));
         @endphp
 
-        <section>
+        <section class="ev-panel">
             <h2 class="ev-rule ev-display mb-3 text-sm font-semibold uppercase tracking-wider text-stone-500">
                 Kde sa to deje
             </h2>
@@ -20,10 +20,10 @@
                     <li>
                         <a href="{{ $evUrl(['municipality' => $isActive ? null : ($municipality['municipality_slug'] ?? null)]) }}"
                            class="group relative flex items-center justify-between overflow-hidden rounded-md px-2 py-1.5 text-sm transition
-                                  {{ $isActive ? 'bg-amber-100 font-semibold text-amber-900' : 'hover:bg-white' }}">
+                                  {{ $isActive ? 'bg-amber-100 font-semibold text-amber-900' : 'hover:bg-stone-50' }}">
                             {{-- Prúžok na pozadí namiesto grafu: pomer podujatí
                                  je vidieť bez toho, aby pribudol ďalší prvok. --}}
-                            <span class="absolute inset-y-0 left-0 -z-0 bg-[color:var(--ev-paper-deep)] transition-all group-hover:bg-amber-50"
+                            <span class="absolute inset-y-0 left-0 -z-0 bg-[color:var(--ev-accent-soft)] transition-all group-hover:bg-amber-100"
                                   style="width: {{ round(((int) $municipality['events_count'] / $maxCount) * 100) }}%"></span>
                             <span class="relative z-10">{{ $municipality['municipality_name'] ?? '' }}</span>
                             <span class="relative z-10 text-xs text-stone-500">{{ $municipality['events_count'] ?? 0 }}</span>
@@ -36,7 +36,7 @@
 
     {{-- Obsahové štítky, zoskupené tak, ako ich vracia portál --}}
     @if ($tagGroups->isNotEmpty())
-        <section>
+        <section class="ev-panel">
             <h2 class="ev-rule ev-display mb-3 text-sm font-semibold uppercase tracking-wider text-stone-500">
                 Čo hľadáte
             </h2>
@@ -62,7 +62,7 @@
                                    class="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs transition
                                           {{ $isActive
                                               ? 'border-amber-500 bg-amber-100 font-semibold text-amber-900'
-                                              : 'border-[color:var(--ev-line)] bg-white text-stone-600 hover:border-amber-400' }}">
+                                              : 'border-[color:var(--ev-line)] bg-[color:var(--ev-paper)] text-stone-600 hover:border-amber-400 hover:bg-white' }}">
                                     @if (! empty($tag['emoji']))<span>{{ $tag['emoji'] }}</span>@endif
                                     {{ $tag['name'] ?? '' }}
                                     <span class="text-stone-400">{{ $tag['events_count'] ?? 0 }}</span>
@@ -76,7 +76,7 @@
     @endif
 
     {{-- Podujatia sa zadávajú na portáli, u nás sa len zobrazujú. --}}
-    <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+    <section class="ev-panel ev-panel--accent">
         <h2 class="ev-display mb-2 text-base font-semibold">Organizujete podujatie?</h2>
         <p class="mb-4 text-sm leading-relaxed text-stone-600">
             Pridajte ho na portál Event — objaví sa aj tu, v tomto výpise.
