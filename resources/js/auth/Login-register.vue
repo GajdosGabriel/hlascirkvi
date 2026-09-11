@@ -60,7 +60,8 @@
                 <div class="border-t px-10 py-6">
                     <div class="md:flex justify-between">
                         <a class="font-bold text-primary hover:text-primary-dark no-underline" href="/login">Späť</a>
-                        <a href="/auth/facebook" class="text-grey-darkest hover:text-black no-underline">Registrácia pomocou Facebooku</a>
+                        <a href="/auth/google" class="text-grey-darkest hover:text-black no-underline">Cez Google</a>
+                        <a href="/auth/facebook" class="text-grey-darkest hover:text-black no-underline">Cez Facebook</a>
                     </div>
                 </div>
             </div>

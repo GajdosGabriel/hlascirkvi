@@ -18,6 +18,17 @@
                     </div>
                     <div class="mb-6">
                         <a
+                            href="/auth/google"
+                            title="Prihlásenie cez Google"
+                        >
+                            <h5>
+                                <i class="fab fa-google"></i> Pokračovať pomocou
+                                Googlu
+                            </h5>
+                        </a>
+                    </div>
+                    <div class="mb-6">
+                        <a
                             href="/auth/facebook"
                             title="Prihlásenie cez Facebook"
                         >

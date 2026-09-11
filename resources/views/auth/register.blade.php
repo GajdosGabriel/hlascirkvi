@@ -76,7 +76,11 @@
 
                         <div class="w-full flex item-center">
                             <div class="text-center">
-                                <a title="Registrácia cez Facebook">
+                                <a href="{{ route('auth.redirect', 'google') }}" title="Registrácia cez Google">
+                                    Registrácia cez Google
+                                </a>
+
+                                <a href="{{ route('auth.redirect', 'facebook') }}" title="Registrácia cez Facebook">
                                     Registrácia cez FB
                                 </a>
 

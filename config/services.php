@@ -38,4 +38,13 @@ return [
         'redirect' => env('APP_URL') . '/auth/facebook/callback',
     ],
 
+    // https://console.cloud.google.com/apis/credentials — OAuth client typu
+    // „Web application“; presne túto adresu treba zapísať medzi
+    // „Authorized redirect URIs“, inak Google vráti redirect_uri_mismatch.
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('APP_URL') . '/auth/google/callback',
+    ],
+
 ];

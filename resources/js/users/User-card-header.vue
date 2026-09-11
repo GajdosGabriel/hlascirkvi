@@ -9,8 +9,8 @@
 
             <transition name="fade">
                 <span style="font-size: 80%" v-if="annotation">
-                    <a href="/auth/facebook">
-                        Najprv sa registrujte cez Facebook
+                    <a href="/login">
+                        Najprv sa prihláste
                     </a>
                 </span>
             </transition>

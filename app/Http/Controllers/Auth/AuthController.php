@@ -41,9 +41,28 @@ class AuthController extends Controller
      */
     public function handleProviderCallback(Request $request, $service)
     {
-        $oauth_user = Socialite::driver($service)->user();
+        // Zrušené prihlásenie (Google vráti ?error=access_denied), vypršaná
+        // session so state alebo výpadok poskytovateľa — bez toho by
+        // používateľ skončil na päťstovke.
+        try {
+            $oauth_user = Socialite::driver($service)->user();
+        } catch (\Throwable $e) {
+            report($e);
 
-        if (!$user = User::whereEmail($oauth_user->email)->first())
+            return $this->loginFailed('Prihlásenie sa nepodarilo dokončiť, skúste to znova.');
+        }
+
+        if (!$oauth_user->getEmail()) {
+            return $this->loginFailed('Poskytovateľ nám neposlal e-mailovú adresu, bez nej sa prihlásiť nedá.');
+        }
+
+        // Účet sa páruje podľa e-mailu, takže neoverená adresa by znamenala
+        // prevzatie cudzieho účtu. Google overenie posiela výslovne.
+        if ($service === 'google' && !($oauth_user->user['email_verified'] ?? false)) {
+            return $this->loginFailed('E-mailová adresa vo vašom Google účte nie je overená.');
+        }
+
+        if (!$user = User::whereEmail($oauth_user->getEmail())->first())
         {
             $user = $this->user->createUserBySocial($oauth_user);
 
@@ -76,7 +95,11 @@ class AuthController extends Controller
      */
     protected function isUserLocked($user)
     {
-        return redirect()->route('login')
-            ->with('error', 'Váš účet je blokovaný, kontaktujte administrátora webu.');
+        return $this->loginFailed('Váš účet je blokovaný, kontaktujte administrátora webu.');
+    }
+
+    protected function loginFailed(string $message)
+    {
+        return redirect()->route('login')->with('error', $message);
     }
 }

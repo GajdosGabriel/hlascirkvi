@@ -41,18 +41,17 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
 
     public function createUserBySocial($value)
     {
-       $name = explode(" ", $value->name);
-        $firstName = $name[1];
-        $lastName = $name[0];
+        [$firstName, $lastName] = $this->splitSocialName($value);
 
-//        dd($name[0]);
-
-       $user = $this->create([
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'email' => $value->email,
-                'password' => Hash::make(rand(8,10)),
-                ]);
+        $user = $this->create([
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'email' => $value->getEmail(),
+            // Heslo bolo Hash::make(rand(8,10)), teda "8", "9" alebo "10" —
+            // do účtu z Facebooku sa dalo prihlásiť formulárom len so
+            // znalosťou e-mailu. Kto chce heslo, nastaví si ho cez obnovu.
+            'password' => Hash::make(Str::random(40)),
+        ]);
 
         // email_verified_at nie je v $fillable (App\Models\User) — cez OAuth je
         // e-mail overený poskytovateľom, takže sa nastaví explicitne.
@@ -60,6 +59,30 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * Google posiela meno a priezvisko zvlášť (given_name/family_name),
+     * Facebook len celé meno. To sa predtým bralo ako "Priezvisko Meno"
+     * a jednoslovné meno skončilo chybou na $name[1].
+     */
+    protected function splitSocialName($value): array
+    {
+        $raw = $value->user ?? [];
+
+        if (!empty($raw['given_name'])) {
+            return [$raw['given_name'], $raw['family_name'] ?? ''];
+        }
+
+        $name = trim((string) $value->getName());
+
+        if ($name === '') {
+            return [Str::before((string) $value->getEmail(), '@'), ''];
+        }
+
+        $parts = preg_split('/\s+/u', $name, 2);
+
+        return [$parts[0], $parts[1] ?? ''];
     }
 
 
@@ -84,7 +107,10 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
             'first_name' => strstr($request->email, '@', true),
             'last_name' => '',
             'email' => $request->email,
-            'password' => bcrypt('registracnyformularheslo'),
+            // Bolo bcrypt('registracnyformularheslo') — rovnaké heslo pre
+            // každého, kto komentoval bez registrácie. Prihlásený je hneď
+            // a heslo si môže nastaviť cez obnovu.
+            'password' => Hash::make(Str::random(40)),
         ]);
         $user->save();
         \Auth::login($user, true);

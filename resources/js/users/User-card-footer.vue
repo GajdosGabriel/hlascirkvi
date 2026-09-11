@@ -16,8 +16,8 @@
 
         <transition name="fade">
             <small v-if="annotation">
-                <a href="/auth/facebook">
-                    Najprv sa registrujte cez Facebook
+                <a href="/login">
+                    Najprv sa prihláste
                 </a>
             </small>
         </transition>

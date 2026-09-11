@@ -59,12 +59,34 @@
     <div class="mx-auto max-w-6xl px-4 py-8">
 
         @if ($stale)
-            <div class="mb-6 flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+            {{-- Zatvorenie platí do konca návštevy (sessionStorage), inak by sa
+                 hlásenie vracalo po každom kliknutí na filter. Poslucháč je
+                 v atribúte onclick, lebo ten mount Vue prežije; skript nižšie
+                 beží cez arReady (viď partials/ar-ready). --}}
+            <div id="ev-stale" class="mb-6 flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
                 <i class="fas fa-exclamation-triangle mt-0.5"></i>
-                <div>
+                <div class="flex-1">
                     Portál s podujatiami je práve nedostupný, zobrazujeme poslednú načítanú verziu zoznamu.
                 </div>
+                <button type="button" aria-label="Zavrieť hlásenie" title="Zavrieť"
+                        class="-my-1 -mr-1 shrink-0 rounded px-2 py-1 leading-none text-amber-700 transition hover:bg-amber-100 hover:text-amber-900"
+                        onclick="try { sessionStorage.setItem('ev-stale-closed', '1') } catch (e) {} this.parentNode.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
+
+            @push('scripts')
+                <script>
+                    window.arReady(function () {
+                        try {
+                            if (sessionStorage.getItem('ev-stale-closed')) {
+                                var box = document.getElementById('ev-stale');
+                                if (box) box.remove();
+                            }
+                        } catch (e) {}
+                    });
+                </script>
+            @endpush
         @endif
 
         <div class="grid gap-10 lg:grid-cols-12">
