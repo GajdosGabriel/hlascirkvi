@@ -23,7 +23,9 @@
 
         </div>
 
-        <div class="w-full">
+        {{-- Kotva: jediný formulár na správu pre administrátora webu je tento,
+             odkazuje sem aj nástenka užívateľa bez kanála. --}}
+        <div class="w-full" id="napiste-nam">
             <h4 class="border-b-2 py-3 border-gray-300 font-semibold">Napíšte nám</h4>
             <form method="post" action="{{ route('messengers.store') }}" class="my-4">
                 {{ csrf_field() }}

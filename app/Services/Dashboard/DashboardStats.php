@@ -249,13 +249,18 @@ class DashboardStats
             ->first();
     }
 
+    /**
+     * Stav zverejnenia nesie pri seminároch stĺpec `published`. `published_at`
+     * pribudlo len príspevkom (migrácia 2026_09_12_170000), premenovanie sa
+     * omylom prenieslo aj sem a nástenka na tom padala.
+     */
     protected function seminars(int $organizationId): object
     {
         return DB::table('seminars')
             ->where('organization_id', $organizationId)
             ->whereNull('deleted_at')
             ->selectRaw('count(*) as total')
-            ->selectRaw('coalesce(sum(published_at is not null), 0) as published')
+            ->selectRaw('coalesce(sum(published is not null), 0) as published')
             ->first();
     }
 

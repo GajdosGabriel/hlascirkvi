@@ -91,7 +91,9 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
     // jediná routa.
     Route::get('dashboard', Canal\DashboardController::class)->name('dashboard');
 
-    Route::resource('images', ImageController::class);
+    // ImageController vie jediné — zmazať obrázok (výpisy aj nahrávanie sú
+    // súčasťou formulárov článku a kanála). Zvyšok resource by len padol.
+    Route::resource('images', ImageController::class)->only('destroy');
 
     // Správa kanálov prihláseného užívateľa. Užívateľ sa berie z prihlásenia;
     // kým bol v adrese (/user/{user}/organization), musela ho každá akcia
@@ -109,10 +111,10 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         // verejný (post.show), show tu nikdy nebol.
         Route::resource('posts', Canal\CanalPostController::class)->except('show');
 
-        Route::resources([
-            'canals.prayers'    => Canal\CanalPrayerController::class,
-            'canals.seminars'   => Canal\CanalSeminarController::class,
-        ]);
+        // Modlitba sa zo správy kanála len zakladá a upravuje — detail
+        // (show) kontroler nemá, registrovaná routa by skončila 500-kou.
+        Route::resource('canals.prayers', Canal\CanalPrayerController::class)->except('show');
+        Route::resource('canals.seminars', Canal\CanalSeminarController::class);
     });
 
     // UserAddressController only imports contacts, it has no create/show/edit/
@@ -159,17 +161,22 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::put('front-list/{canal}/move', 'Admin\FrontListController@move')->name('frontlist.move');
     Route::delete('front-list/{canal}', 'Admin\FrontListController@destroy')->name('frontlist.destroy');
 
-    Route::resources([
-        'home'                 => Admin\AdminController::class,
-        'buffer'               => Admin\BufferController::class,
-        'post'                 => Admin\PostController::class,
-        'prayer'               => Admin\PrayerController::class,
-        'comment'              => Admin\CommentController::class,
-        'user'                 => Admin\UserController::class,
-        'image'                 => Admin\ImageController::class,
-        'statistic'             => Admin\StatisticController::class,
-        'tag'                  => Admin\TagController::class,
-    ]);
+    /*
+     * Administrácia je zväčša len výpis. Celý resource tu registroval sedem
+     * rout na kontroler, ktorý má jedinú metódu — /admin/post/create,
+     * /admin/user/{id} či /admin/comment/{id}/edit tak každému, kto na ne
+     * trafil, vrátili 500 ("Method ... does not exist"). Rovnaké pravidlo
+     * ako pri user.address nižšie: registruje sa len to, čo kontroler vie.
+     */
+    Route::resource('home', Admin\AdminController::class)->only('index');
+    Route::resource('buffer', Admin\BufferController::class)->only('index');
+    Route::resource('post', Admin\PostController::class)->only('index');
+    Route::resource('prayer', Admin\PrayerController::class)->only('index');
+    Route::resource('comment', Admin\CommentController::class)->only('index');
+    Route::resource('statistic', Admin\StatisticController::class)->only('index');
+    Route::resource('user', Admin\UserController::class)->only(['index', 'edit', 'update']);
+    Route::resource('image', Admin\ImageController::class)->only(['index', 'destroy']);
+    Route::resource('tag', Admin\TagController::class)->only(['index', 'store', 'destroy']);
 });
 
 // Obe tieto routy sú odkazy z e-mailu, takže musia zostať GET. Autorizáciu

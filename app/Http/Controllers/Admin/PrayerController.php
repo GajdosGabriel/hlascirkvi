@@ -16,11 +16,11 @@ class PrayerController extends Controller
 
     public function index(PrayerFilters $filters)
     {
-        // Výpis skladá odkazy na úpravu a mazanie cez $prayer->organization->id
-        // (admins/prayers/index.blade.php:26 a :31) — bez eager loadu to bol
-        // dopyt na každý riadok.
+        // Odkazy na úpravu a mazanie potrebujú len číslo kanála, a to nesie
+        // samotná modlitba (`organization_id`). Cez vzťah sa brať nedá: kanál
+        // je mäkko mazaný, takže pri modlitbe zo zmazaného kanála vracia null
+        // a celý výpis padne.
         $prayers = Prayer::query()
-            ->with('organization:id')
             ->orderBy('created_at', 'desc')
             ->filter($filters)
             ->paginate(30)

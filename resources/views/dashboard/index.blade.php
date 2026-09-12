@@ -16,7 +16,10 @@
                 <a href="{{ route('profile.canals.index') }}" class="ar-btn ar-btn--accent">
                     <i class="fas fa-broadcast-tower"></i> Moje kanály
                 </a>
-                <a href="{{ route('userSupport.index') }}" class="ar-btn ar-btn--quiet">
+                {{-- Odkaz viedol na `userSupport.index`, čo je routa bez metódy
+                     v kontroleri — tlačidlo vracalo 500. Správa pre správcu
+                     webu sa píše formulárom v pätičke. --}}
+                <a href="#napiste-nam" class="ar-btn ar-btn--quiet">
                     <i class="far fa-envelope"></i> Napísať správcovi
                 </a>
             </div>
