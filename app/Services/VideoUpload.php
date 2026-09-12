@@ -16,6 +16,9 @@ use App\Services\Images\YoutubeThumbnail;
 use App\Notifications\Admin\Error;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentCanalRepository;
+use App\Services\Youtube\ChannelId;
+use App\Services\Youtube\DisableImport;
+use App\Services\Youtube\PlaylistId;
 use Illuminate\Support\Facades\Log;
 
 
@@ -57,20 +60,54 @@ class VideoUpload
     }
 
 
+    /**
+     * Kanál môže mať zadaný kanál na YouTube, playlist alebo oboje. Keď sa
+     * ani jeden zo zadaných zdrojov na YouTube nenájde, sťahovanie sa kanálu
+     * vypne a superadminovi príde notifikácia — doteraz sa tá istá chyba
+     * písala do logu každý deň a nikto o nej nevedel.
+     */
     protected function validateUrlPlaylistOrChannel($organization)
     {
+        $sources = [];
+
+        if (trim((string) $organization->youtube_channel) !== '') {
+            $sources[] = $this->fromChannel($organization);
+        }
+
+        if (trim((string) $organization->youtube_playlist) !== '') {
+            $sources[] = $this->fromPlaylist($organization);
+        }
+
+        if ($sources === []) {
+            return;
+        }
+
+        $missing = array_values(array_filter(array_column($sources, 'missing')));
+
+        // Vypíname len kanál, ktorému nezostal žiadny funkčný zdroj. Keď mu
+        // druhý zdroj beží, import má odkiaľ brať a stačí hláška v logu.
+        if (count($missing) === count($sources)) {
+            DisableImport::because($organization, implode('; ', $missing));
+
+            return;
+        }
+
+        foreach ($missing as $reason) {
+            Log::warning('Zdroj videí kanála sa nenašiel: ' . $reason, [
+                'organization_id' => $organization->id,
+            ]);
+        }
+
         // $videoList tu nebola inicializovaná — kanál bez youtube_channel aj bez
         // youtube_playlist (alebo s null, kde strlen() v PHP 8.1+ navyše hlási
         // deprecation) skončil na "Undefined variable $videoList".
         $videoList = [];
 
-        if (strlen((string) $organization->youtube_channel) > 7) {
-            $videoList = \Youtube::getActivitiesByChannelId($organization->youtube_channel);
-        }
-
-        if (strlen((string) $organization->youtube_playlist) > 7) {
-            $videoList = \Youtube::getPlaylistItemsByPlaylistId($organization->youtube_playlist);
-            $videoList = $videoList['results'];
+        // Playlist má prednosť pred kanálom — tak to bolo aj doteraz.
+        foreach ($sources as $source) {
+            if ($source['videos'] !== null) {
+                $videoList = $source['videos'];
+            }
         }
 
         if (empty($videoList)) {
@@ -78,6 +115,88 @@ class VideoUpload
         }
 
         $this->foreachVideolist($videoList, $organization);
+    }
+
+
+    /**
+     * Videá z kanála. Adresu kanála (https://www.youtube.com/@meno) prepíše
+     * na ID a uloží — formulár to už robí sám, v databáze však staré hodnoty
+     * zostali a YouTube na takéto `channelId` odpovedá chybou 403
+     * „The request is not properly authorized", nie prázdnym zoznamom.
+     *
+     * @return array{videos: ?array, missing: ?string}
+     */
+    protected function fromChannel($organization): array
+    {
+        $raw = trim((string) $organization->youtube_channel);
+        $channelId = ChannelId::fromInput($raw);
+
+        if ($channelId === null) {
+            $channelId = ChannelId::resolve($raw);
+
+            if ($channelId === null) {
+                return ['videos' => null, 'missing' => 'kanál „' . $raw . '" sa na YouTube nenašiel'];
+            }
+
+            $organization->forceFill(['youtube_channel' => $channelId])->save();
+
+            Log::info('Adresa kanála YouTube prepísaná na ID', [
+                'organization_id' => $organization->id,
+                'from' => $raw,
+                'to' => $channelId,
+            ]);
+        }
+
+        try {
+            return ['videos' => \Youtube::getActivitiesByChannelId($channelId), 'missing' => null];
+        } catch (\Throwable $e) {
+            // Na neexistujúci channelId odpovedá YouTube tou istou chybou 403
+            // ako pri chybnej autorizácii, takže či kanál naozaj zmizol,
+            // povie až channels.list.
+            if ($this->channelIsGone($channelId)) {
+                return ['videos' => null, 'missing' => 'kanál ' . $channelId . ' na YouTube už neexistuje'];
+            }
+
+            throw $e;
+        }
+    }
+
+
+    /**
+     * @return array{videos: ?array, missing: ?string}
+     */
+    protected function fromPlaylist($organization): array
+    {
+        $raw = trim((string) $organization->youtube_playlist);
+        $playlistId = PlaylistId::fromInput($raw);
+
+        if ($playlistId === null) {
+            return ['videos' => null, 'missing' => 'playlist „' . $raw . '" nie je ID playlistu'];
+        }
+
+        try {
+            return ['videos' => \Youtube::getPlaylistItemsByPlaylistId($playlistId)['results'], 'missing' => null];
+        } catch (\Throwable $e) {
+            // Zmazaný playlist YouTube pomenuje priamo.
+            if (str_contains($e->getMessage(), 'playlistNotFound')) {
+                return ['videos' => null, 'missing' => 'playlist ' . $playlistId . ' na YouTube už neexistuje'];
+            }
+
+            throw $e;
+        }
+    }
+
+
+    protected function channelIsGone(string $channelId): bool
+    {
+        try {
+            // Balík vracia pri prázdnej odpovedi false, nie objekt.
+            return ! is_object(\Youtube::getChannelById($channelId, [], ['id']));
+        } catch (\Throwable $e) {
+            // Vyčerpaná kvóta ani výpadok API neznamenajú zmazaný kanál —
+            // v takom prípade import radšej nevypíname.
+            return false;
+        }
     }
 
 

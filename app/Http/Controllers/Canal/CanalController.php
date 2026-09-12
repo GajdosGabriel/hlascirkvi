@@ -115,6 +115,17 @@ class CanalController extends Controller
                 ->all()
         );
 
+        // Sťahovanie videí sa vypína samo, keď zdroj na YouTube zmizne
+        // (App\Services\Youtube\DisableImport). Po zápise iného kanála či
+        // playlistu ho treba zapnúť, inak by import ostal ticho vypnutý.
+        if ($canal->youtube_disabled_at !== null
+            && $canal->wasChanged(['youtube_channel', 'youtube_playlist'])) {
+            $canal->update([
+                'youtube_disabled_at' => null,
+                'youtube_disabled_reason' => null,
+            ]);
+        }
+
         $canal->updaters()->sync($this->updaterIds($request, $canal, $isAdmin));
 
         // Priradenie správcov kanála a jeho publikovanie sú vo formulári

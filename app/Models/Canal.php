@@ -38,7 +38,8 @@ class Canal extends Model
 
     protected $casts = [
         'title' => \App\Casts\StringLength255::class,
-        'url_www' => \App\Casts\Urlwww::class
+        'url_www' => \App\Casts\Urlwww::class,
+        'youtube_disabled_at' => 'datetime',
     ];
 
     protected $appends = ['favoritesCount', 'isFavorited', 'initialName'];

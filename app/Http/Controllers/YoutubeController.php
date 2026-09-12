@@ -9,6 +9,7 @@ use App\Models\Canal;
 use Illuminate\Http\Request;
 use App\Services\Images\StoreImage;
 use App\Services\Images\YoutubeThumbnail;
+use App\Services\Youtube\VideoId;
 use App\Events\Posts\BufferPublisherVideo;
 
 class YoutubeController extends Controller
@@ -83,7 +84,7 @@ class YoutubeController extends Controller
         $params = [
             'q'             => $organization->title,
             'type'          => 'video',
-            'part'          => 'id, snippet',
+            'part'          => 'id,snippet',
             'maxResults'    => 30
         ];
 
@@ -106,10 +107,17 @@ class YoutubeController extends Controller
         }
 
         foreach ($videoList as $video) {
-            if (!\DB::table('posts')->whereVideoId($video->id->videoId)->exists()) {
+            // Medzi výsledkami býva aj položka bez ID videa.
+            $videoId = VideoId::from($video);
+
+            if ($videoId === null) {
+                continue;
+            }
+
+            if (!\DB::table('posts')->whereVideoId($videoId)->exists()) {
                 $post = $organization->posts()->create([
                     'title' => $video->snippet->title,
-                    'video_id' => $video->id->videoId,
+                    'video_id' => $videoId,
                     'body' => $video->snippet->description,
                     'category_id' => 2,
                     'published' => 0

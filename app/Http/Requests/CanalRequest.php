@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Services\Youtube\ChannelId;
+use App\Services\Youtube\PlaylistId;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class CanalRequest extends FormRequest
@@ -50,8 +53,12 @@ class CanalRequest extends FormRequest
             'url_www'          => 'nullable|string|max:191',
             'mod_title'        => 'nullable|string|max:20',
             'village_id'       => 'required|integer|exists:villages,id',
-            'youtube_channel'  => 'nullable|string|max:40',
-            'youtube_playlist' => 'nullable|string|max:40',
+            // Do oboch polí patrí ID, nie adresa kanála. Adresu (aj s @handle)
+            // prepisuje prepareForValidation() na ID; čo sa preložiť nedá,
+            // sa sem dostane nezmenené a skončí chybovou hláškou — inak by
+            // denný import na takom kanáli padal na 403 od YouTube.
+            'youtube_channel'  => ['nullable', 'string', 'regex:' . ChannelId::PATTERN, 'max:40'],
+            'youtube_playlist' => ['nullable', 'string', 'regex:' . PlaylistId::PATTERN, 'max:40'],
             'updaters'         => 'nullable|array',
             'updaters.*'       => 'integer|exists:updaters,id',
             // `users` a `published` sa vykresľujú len v @can('superadmin') bloku
@@ -70,7 +77,55 @@ class CanalRequest extends FormRequest
             'title.unique' => 'Názov kanála už existuje. Ak si nárokujete názov kanála, kontaktujte administrátora.',
             'street' => 'maximálna dlžka je 255 znakov.',
             'phone' => 'Obsahuje veľa znakov. Limit je do 16 znakov',
+            'youtube_channel.regex' => 'Kanál sa nedal určiť. Zadajte ID kanála (UC…) alebo adresu kanála na YouTube.',
+            'youtube_playlist.regex' => 'Playlist sa nedal určiť. Zadajte ID playlistu (PL…) alebo jeho adresu na YouTube.',
         ];
+    }
+
+    /**
+     * Do formulára sa dá vložiť aj adresa kanála — YouTube ju však ako
+     * `channelId` neprijme (403 „The request is not properly authorized"),
+     * takže import kanála padal každý deň. Adresu preto prepíšeme na ID
+     * ešte pred validáciou; handle (@meno) doloží ChannelId z API.
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('youtube_channel')) {
+            $this->merge(['youtube_channel' => $this->channelId($this->input('youtube_channel'))]);
+        }
+
+        if ($this->has('youtube_playlist')) {
+            $playlist = trim((string) $this->input('youtube_playlist'));
+
+            $this->merge([
+                'youtube_playlist' => $playlist === ''
+                    ? null
+                    : (PlaylistId::fromInput($playlist) ?? $playlist),
+            ]);
+        }
+    }
+
+    private function channelId($value): ?string
+    {
+        $value = trim((string) $value);
+
+        if ($value === '') {
+            return null;
+        }
+
+        try {
+            // Nerozlúsknutý vstup necháme tak, ako prišiel — pravidlo regex
+            // na ňom vypíše hlášku, ktorú správca uvidí pri poli.
+            return ChannelId::resolve($value) ?? $value;
+        } catch (\Throwable $e) {
+            // Nedostupné YouTube API nesmie zhodiť ukladanie kanála; ID
+            // zapísané rovno do poľa prejde aj bez dopytu.
+            Log::warning('Preklad adresy kanála YouTube na ID zlyhal: ' . $e->getMessage(), [
+                'value' => $value,
+            ]);
+
+            return ChannelId::fromInput($value) ?? $value;
+        }
     }
 
     public function save()

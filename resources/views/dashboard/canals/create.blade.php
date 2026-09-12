@@ -72,14 +72,14 @@
             @if (auth()->user()->hasRole('admin'))
                 <fieldset class="rounded-lg border bg-white p-6">
                     <legend class="px-2 text-lg font-semibold">YouTube a príspevky</legend>
-                    <p class="mb-4 text-sm text-gray-600">Zadajte identifikátory kanála a playlistu, ktoré sa používajú pri načítaní videí z YouTube.</p>
+                    <p class="mb-4 text-sm text-gray-600">Zadajte ID kanála a playlistu, ktoré sa používajú pri načítaní videí z YouTube. Vložiť sa dá aj adresa kanála — ID si formulár doplní sám.</p>
                     <div class="form-group">
                         <label for="youtube_channel">ID kanála YouTube</label>
-                        <input class="form-control" type="text" id="youtube_channel" name="youtube_channel" value="{{ old('youtube_channel') }}" maxlength="40" placeholder="UC…">
+                        <input class="form-control" type="text" id="youtube_channel" name="youtube_channel" value="{{ old('youtube_channel') }}" maxlength="191" placeholder="UC… alebo adresa kanála">
                     </div>
                     <div class="form-group">
                         <label for="youtube_playlist">ID playlistu YouTube</label>
-                        <input class="form-control" type="text" id="youtube_playlist" name="youtube_playlist" value="{{ old('youtube_playlist') }}" maxlength="40" placeholder="PL…">
+                        <input class="form-control" type="text" id="youtube_playlist" name="youtube_playlist" value="{{ old('youtube_playlist') }}" maxlength="191" placeholder="PL… alebo adresa playlistu">
                     </div>
                     <div class="form-group">
                         <label for="mod_title">Text pred názvom príspevku</label>

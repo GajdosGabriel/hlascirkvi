@@ -192,12 +192,20 @@
                         <span class="ar-panel__note">Admin</span>
                     </div>
                     <div class="ar-panel__body ar-form">
+                        @if ($canal->youtube_disabled_at)
+                            {{-- Vypína App\Services\Youtube\DisableImport, keď zdroj na YouTube zmizne. --}}
+                            <p class="ar-error mb-4">
+                                Sťahovanie videí je vypnuté ({{ $canal->youtube_disabled_reason }}).
+                                Zapne sa po uložení iného ID kanála alebo playlistu.
+                            </p>
+                        @endif
+
                         <div class="grid gap-x-5 gap-y-4 sm:grid-cols-2">
                             <div>
                                 <label class="ar-label" for="youtube_channel">ID kanála YouTube</label>
                                 <input class="{{ $field('youtube_channel') }} font-mono text-sm" type="text" id="youtube_channel"
                                        name="youtube_channel" value="{{ old('youtube_channel', $canal->youtube_channel) }}"
-                                       maxlength="40" placeholder="UC…" spellcheck="false">
+                                       maxlength="191" placeholder="UC… alebo adresa kanála" spellcheck="false">
                                 @error('youtube_channel') <p class="ar-error">{{ $message }}</p> @enderror
                             </div>
 
@@ -205,7 +213,7 @@
                                 <label class="ar-label" for="youtube_playlist">ID playlistu YouTube</label>
                                 <input class="{{ $field('youtube_playlist') }} font-mono text-sm" type="text" id="youtube_playlist"
                                        name="youtube_playlist" value="{{ old('youtube_playlist', $canal->youtube_playlist) }}"
-                                       maxlength="40" placeholder="PL…" spellcheck="false">
+                                       maxlength="191" placeholder="PL… alebo adresa playlistu" spellcheck="false">
                                 @error('youtube_playlist') <p class="ar-error">{{ $message }}</p> @enderror
                             </div>
                         </div>

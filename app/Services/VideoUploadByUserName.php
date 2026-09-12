@@ -14,6 +14,7 @@ use App\Repositories\Eloquent\EloquentCanalRepository;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Services\Images\StoreImage;
 use App\Services\Images\YoutubeThumbnail;
+use App\Services\Youtube\VideoId;
 use Illuminate\Support\Facades\Log;
 
 
@@ -34,17 +35,33 @@ class VideoUploadByUserName
                 $params = [
                     'q'             => $organization->title,
                     'type'          => 'video',
-                    'part'          => 'id, snippet',
+                    'part'          => 'id,snippet',
                     'maxResults'    => 30
                 ];
 
+                // Bez výsledkov vracia balík false, nie prázdne pole, a foreach
+                // nad ním v PHP 8 hlási "must be of type array|object".
                 $videoList = \Youtube::searchAdvanced($params);
+                $videoList = is_iterable($videoList) ? $videoList : [];
+
+                $found = 0;
+                $skipped = 0;
 
                 foreach ($videoList as $video) {
-                    if (!\DB::table('posts')->whereVideoId($video->id->videoId)->exists()) {
+                    $found++;
+
+                    // Medzi výsledkami býva aj položka bez ID videa.
+                    $videoId = VideoId::from($video);
+
+                    if ($videoId === null) {
+                        $skipped++;
+                        continue;
+                    }
+
+                    if (!\DB::table('posts')->whereVideoId($videoId)->exists()) {
                         $post = $organization->posts()->create([
                             'title' => $video->snippet->title,
-                            'video_id' => $video->id->videoId,
+                            'video_id' => $videoId,
                             'body' => $video->snippet->description
                         ]);
 
@@ -52,6 +69,17 @@ class VideoUploadByUserName
                             YoutubeThumbnail::bestUrl($video->snippet->thumbnails ?? null)
                         );
                     }
+                }
+
+                // Preskočené položky sa inak stratia bez stopy. Zaujíma nás,
+                // či ide o ojedinelý výsledok, alebo dopyt vracia samé nevideá.
+                if ($skipped > 0) {
+                    Log::info('Vo výsledkoch hľadania boli položky bez ID videa.', [
+                        'organization_id' => $organization->id,
+                        'title' => $organization->title,
+                        'skipped' => $skipped,
+                        'found' => $found,
+                    ]);
                 }
             } catch (\Throwable $e) {
                 Log::warning('Hľadanie videí podľa názvu kanála zlyhalo: ' . $e->getMessage(), [

@@ -35,19 +35,44 @@ class EloquentCanalRepository extends AbstractRepository implements CanalReposit
         if ($dayNumber == 6) return $this->getResult('sobota');
     }
 
+    /**
+     * Len organizácie bez kanála aj bez playlistu. Kanál s vypnutým sťahovaním
+     * (`youtube_disabled_at`) nespracuje ani jedna z ciest — to je zmysel
+     * vypnutia, nie opomenutie.
+     *
+     * Hľadanie podľa mena je fulltext naprieč celým YouTube: stojí sto jednotiek
+     * kvóty (`activities.list` nad známym kanálom jednu) a nie je obmedzené na
+     * kanál organizácie. Organizáciám s vyplneným kanálom tak ťahalo videá druhý
+     * raz v ten istý deň a vedelo im priradiť aj cudzie video, ktoré len
+     * obsahovalo ich názov (kanál 465 Komunita Blahoslavenstiev). Tie už denne
+     * spracuje `UserSearchByChannelAndPlaylist`, takže podľa mena ostávajú len
+     * osoby, ku ktorým žiadny kanál nepatrí.
+     */
     protected function getResult($slug)
     {
         return $this->entity->whereHas('updaters', function ($query) use ($slug) {
             $query->whereSlug($slug);
+        })->where(function ($query) {
+            $query->whereNull('youtube_channel')->orWhere('youtube_channel', '=', '');
+        })->where(function ($query) {
+            $query->whereNull('youtube_playlist')->orWhere('youtube_playlist', '=', '');
         })->get();
     }
 
 
+    /**
+     * Kanály, ktorým sa sťahujú videá. `youtube_disabled_at` drží tie, ktorých
+     * zdroj na YouTube už neexistuje — bez toho sa tá istá chyba 403 opakovala
+     * v každom dennom behu (App\Services\Youtube\DisableImport).
+     */
     public function getYoutubeVideos()
     {
         return $this->entity
-            ->where('youtube_channel', '<>', "")
-            ->orWhere('youtube_playlist', '<>', "")
+            ->whereNull('youtube_disabled_at')
+            ->where(function ($query) {
+                $query->where('youtube_channel', '<>', "")
+                    ->orWhere('youtube_playlist', '<>', "");
+            })
             ->get();
     }
 
