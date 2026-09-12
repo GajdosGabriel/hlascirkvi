@@ -37,7 +37,7 @@ class PostController extends Controller
 
 
 
-    public function show(Post $post, $slug, CreditUser $creditUser)
+    public function show(Post $post, CreditUser $creditUser, ?string $slug = null)
     {
         // Vypnutý kanál odfiltruje middleware `bannedCanal` (routes/web.php).
 

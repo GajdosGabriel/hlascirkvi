@@ -118,6 +118,10 @@
 
             {{-- Výpis príspevkov --}}
             <div class="lg:col-span-8">
+                {{-- Oznamy správcu webu. Stoja nad mriežkou, aby ich čitateľ
+                     videl skôr než prvý príspevok. --}}
+                <x-announcements placement="home" />
+
                 <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
                     @forelse ($posts as $post)
                         @include('posts.card-front')
@@ -137,6 +141,8 @@
 
             {{-- Bočný panel --}}
             <aside class="ar-aside lg:col-span-4">
+                <x-announcements placement="sidebar" />
+
                 <comments-card></comments-card>
                 <prayers-card></prayers-card>
 

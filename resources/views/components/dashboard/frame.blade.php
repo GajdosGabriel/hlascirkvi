@@ -9,6 +9,10 @@
             </nav>
         </aside>
         <div class="min-w-0 lg:col-span-9">
+            {{-- Oznamy pre správcov kanálov. Rám nesie nástenka aj celá
+                 administrácia, takže jedno miesto pokryje obe. --}}
+            <x-announcements placement="dashboard" />
+
             {{ $slot }}
         </div>
     </div>

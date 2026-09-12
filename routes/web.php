@@ -133,6 +133,14 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::get('canal', 'Admin\CanalController@index')->name('canal.index');
     Route::permanentRedirect('organization', '/admin/canal');
 
+    // Zapnutie a vypnutie oznamu priamo z výpisu. Nie je to úprava oznamu,
+    // preto vlastná routa a nie update s celým formulárom.
+    Route::put('announcement/{announcement}/toggle', 'Admin\AnnouncementController@toggle')
+        ->name('announcement.toggle');
+
+    // Oznam nemá verejný detail — upravuje sa vo formulári, zobrazuje sa na webe.
+    Route::resource('announcement', Admin\AnnouncementController::class)->except('show');
+
     Route::resources([
         'home'                 => Admin\AdminController::class,
         'buffer'               => Admin\BufferController::class,
@@ -169,7 +177,10 @@ Route::post('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideo
 Route::middleware('bannedCanal')->group(function () {
     // Musí stáť pred post/{post}/{slug}, inak by ju pohltil zápis detailu.
     Route::get('post/{post}/kanal/dalsie', 'Public\PostController@rail')->name('post.rail');
-    Route::get('post/{post}/{slug}', 'Public\PostController@show')->name('post.show');
+    // Slug je nepovinný: názvy bez písmen latinky (emoji, interpunkcia) dajú
+    // prázdny Str::slug a príspevku sa potom nedala zostaviť adresa — route()
+    // nechal {slug} nenahradený a zhodil celý výpis kariet.
+    Route::get('post/{post}/{slug?}', 'Public\PostController@show')->name('post.show');
 });
 
 // Routy pre kanál musia mať vlastný prefix. Kým mali rovnaký tvar ako tie

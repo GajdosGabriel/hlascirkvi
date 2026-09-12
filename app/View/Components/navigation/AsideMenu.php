@@ -110,6 +110,11 @@ class AsideMenu extends Component
                 'name' => 'Komentáre',
             ],
             [
+                'url' => route('admin.announcement.index'),
+                'icon' => 'announcement',
+                'name' => 'Oznamy',
+            ],
+            [
                 'url' => route('admin.statistic.index'),
                 'icon' => 'statistic',
                 'name' => 'Štatistika',

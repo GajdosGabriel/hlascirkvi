@@ -142,6 +142,10 @@
     <div id="app">
         <x-navigation.main-menu />
 
+        {{-- Rovnaké oznamy ako pod layouts/app — detail príspevku stojí na
+             vlastnom layoute, takže sa musia vložiť aj sem. --}}
+        <x-announcements placement="top" />
+
         <main>
             @include('layouts.errors')
 
@@ -149,6 +153,8 @@
 
             <notification message="{{ session('flash') }}"></notification>
         </main>
+
+        <x-announcements placement="footer" />
 
         @include('layouts.footer')
     </div>

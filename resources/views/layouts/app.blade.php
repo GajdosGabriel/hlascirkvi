@@ -60,12 +60,18 @@
     <div id="app">
         <x-navigation.main-menu/>
 
+        {{-- Oznamy správcu webu. Sú rovnaké aj v layouts/article — ten stojí
+             mimo tohto layoutu a bez toho by ich detail príspevku nemal. --}}
+        <x-announcements placement="top"/>
+
         <main class="@yield('main-class')">
             @include('layouts.errors')
-            
+
             @yield('content')
             <notification message="{{ session('flash') }}"></notification>
         </main>
+
+        <x-announcements placement="footer"/>
 
         @include('layouts.footer')
     </div>

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/** @extends Factory<\App\Models\User> */
 class UserFactory extends Factory
 {
     /**

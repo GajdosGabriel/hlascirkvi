@@ -1108,6 +1108,12 @@ parameters:
 			path: routes/web.php
 
 		-
+			message: '#^Class Admin\\AnnouncementController not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: routes/web.php
+
+		-
 			message: '#^Class Admin\\BufferController not found\.$#'
 			identifier: class.notFound
 			count: 1
