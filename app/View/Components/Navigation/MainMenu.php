@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\navigation;
+namespace App\View\Components\Navigation;
 
 use Illuminate\View\Component;
 

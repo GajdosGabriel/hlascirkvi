@@ -1,10 +1,21 @@
 <?php
 
-namespace App\View\Components\navigation;
+namespace App\View\Components\Navigation;
 
 use App\Enums\PageType;
 use Illuminate\View\Component;
 
+/**
+ * Bočné menu správcu kanála a administrácie.
+ *
+ * Priečinok sa musí volať `Navigation` s veľkým N: značku <x-navigation.aside-menu />
+ * prekladá Blade na triedu App\View\Components\Navigation\AsideMenu (každý úsek
+ * cez StudlyCase). Kým sa priečinok volal `navigation`, na Windows to prešlo
+ * (cesty sú tam bez ohľadu na veľkosť písmen), ale na produkčnom Linuxe sa
+ * trieda nenačítala, Blade vykreslil pohľad ako anonymný komponent — a ten
+ * spadol na „Undefined variable $menu". S ním padla každá stránka, ktorá menu
+ * vykresľuje, čiže celá administrácia aj nástenka.
+ */
 class AsideMenu extends Component
 {
     /**

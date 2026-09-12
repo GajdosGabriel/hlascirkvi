@@ -10,7 +10,7 @@
         <x-slot name="page">
             <p class="mb-6 text-sm text-[color:var(--ar-ink-soft)]">Správa obsahu, kanálov a používateľov Hlasu Cirkvi.</p>
             <div class="grid gap-3 sm:grid-cols-2">
-                @foreach ((new \App\View\Components\navigation\AsideMenu)->adminMenu() as $item)
+                @foreach ((new \App\View\Components\Navigation\AsideMenu)->adminMenu() as $item)
                     @continue($item['url'] === route('admin.home.index'))
                     <a href="{{ $item['url'] }}" class="ar-card ar-link flex items-center gap-3 rounded-xl p-4">
                         <span class="h-5 w-5 shrink-0 text-[color:var(--ar-accent)]">
