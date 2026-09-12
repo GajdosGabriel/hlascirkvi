@@ -62,20 +62,14 @@
                 <div>Zobrazenia {{ $post->count_view }}</div>
             </div>
             <div>
-                @if (!$post->published)
+                @if (!$post->isPublished)
                     <span
                         class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Nepublikované</span>
                 @endif
-                <span class="label-primary">label</span>
-                <span class="label-success">label</span>
             </div>
 
             <div>
-                @foreach ($post->updaters as $updater)
-                    <span class="label-default">
-                        {{ $updater->title }}
-                    </span>
-                @endforeach
+                <span class="label-default">{{ $post->section?->label() }}</span>
             </div>
         </div>
     </section>

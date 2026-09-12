@@ -21,10 +21,7 @@ class BufferController extends Controller
     public function index(Request $request, Buffer $buffer)
     {
 
-        // withExists využije skratku v Post::getHasUpdaterAttribute(). Atribút
-        // je v $appends, takže bez neho posielal jeden exists() dopyt na každý
-        // z 32 príspevkov na stránke.
-        $posts = Post::doesntHave('updaters')->withExists('updaters')->latest();
+        $posts = Post::unpublished()->latest();
 
         if ($request->posts) {
             $posts = $posts->where('organization_id', $request->posts);
@@ -54,7 +51,7 @@ class BufferController extends Controller
      */
     protected function organizationsWithUnpublishedPosts()
     {
-        $unpublished = fn ($query) => $query->doesntHave('updaters');
+        $unpublished = fn ($query) => $query->unpublished();
 
         return Canal::whereHas('posts', $unpublished)
             ->withCount(['posts as unpublished_posts_count' => $unpublished])

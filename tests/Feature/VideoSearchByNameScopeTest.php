@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Canal;
-use App\Models\Updater;
 use App\Repositories\Eloquent\EloquentCanalRepository;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -41,12 +40,10 @@ class VideoSearchByNameScopeTest extends TestCase
 
     private function canalForSaturday(array $attributes): Canal
     {
-        $updater = Updater::firstOrCreate(['slug' => 'sobota'], ['title' => 'Sobota', 'type' => 'post']);
-
-        $canal = Canal::factory()->create($attributes);
-        $canal->updaters()->attach($updater);
-
-        return $canal;
+        // Deň hľadania nesie stĺpec organizations.import_day (6 = sobota,
+        // rovnaké číslovanie ako Carbon::dayOfWeek). Predtým to bol updater
+        // so slugom `sobota`.
+        return Canal::factory()->create($attributes + ['import_day' => 6]);
     }
 
     public function test_hladanie_podla_mena_preskoci_organizacie_s_kanalom_alebo_playlistom(): void
@@ -77,7 +74,7 @@ class VideoSearchByNameScopeTest extends TestCase
         $this->assertEmpty($podlaMena->intersect($podlaKanala), 'Organizácia sa importuje dvomi behmi naraz.');
 
         // Sobotňajšie organizácie musia byť pokryté práve jedným z behov.
-        $sobotne = Canal::whereHas('updaters', fn ($query) => $query->whereSlug('sobota'))->pluck('id');
+        $sobotne = Canal::where('import_day', 6)->pluck('id');
         $this->assertEmpty($sobotne->diff($podlaMena->merge($podlaKanala)), 'Organizácia vypadla z oboch behov.');
     }
 }

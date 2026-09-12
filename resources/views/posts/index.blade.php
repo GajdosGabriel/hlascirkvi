@@ -147,7 +147,7 @@
                 <prayers-card></prayers-card>
 
                 @include('verses.daily-modul')
-                @include('canals.list-users')
+                <x-front-list-card />
             </aside>
         </div>
     </div>

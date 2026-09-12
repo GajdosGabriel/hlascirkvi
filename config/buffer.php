@@ -7,11 +7,6 @@
  */
 return [
     /*
-     * Updater, ktorým sa príspevok označí ako zverejnený (15 = Front Post).
-     */
-    'updater_id' => 15,
-
-    /*
      * Poistka: pri `true` sa import (App\Services\VideoUpload) vráti
      * k pôvodnému správaniu a videá kanálov zo zoznamu „default" pustí do
      * zoznamu rovno pri sťahovaní — teda celú dennú dávku naraz. Buffer

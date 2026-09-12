@@ -116,11 +116,11 @@ class YoutubeController extends Controller
 
             if (!\DB::table('posts')->whereVideoId($videoId)->exists()) {
                 $post = $organization->posts()->create([
+                    // Bez `published_at` — video ide do frontu, rovnako ako
+                    // pri dennom importe (App\Services\VideoUpload).
                     'title' => $video->snippet->title,
                     'video_id' => $videoId,
                     'body' => $video->snippet->description,
-                    'category_id' => 2,
-                    'published' => 0
                 ]);
 
                 StoreImage::for($post)->tryFromUrl(

@@ -1,49 +1,37 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
-@section('content')
-<div class="page">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Confirm Password') }}</div>
+@php
+    /* Značky pre vyhľadávače a náhľady odkazov skladá partials/meta. */
+    $seo = [
+        'title' => 'Potvrdenie hesla',
+        'description' => 'Pre pokračovanie potvrďte svoje heslo.',
+        'noindex' => true,
+    ];
+@endphp
 
-                <div class="card-body">
-                    {{ __('Please confirm your password before continuing.') }}
+@section('heading', 'Potvrďte heslo')
+@section('subtitle', 'Než budete pokračovať, overte prosím, že pri zariadení stojíte vy.')
 
-                    <form method="POST" action="{{ route('password.confirm') }}">
-                        @csrf
+@section('card')
+    <form method="POST" action="{{ route('password.confirm') }}" class="space-y-4">
+        @csrf
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Confirm Password') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <div>
+            <label class="ar-label" for="password">Heslo</label>
+            <div class="ar-input-wrap">
+                <input id="password" name="password" type="password" autocomplete="current-password" required autofocus
+                       class="ar-input @error('password') ar-input--bad @enderror" style="padding-right:4.5rem">
+                <button type="button" class="ar-reveal" data-reveal="password" aria-pressed="false">Zobraziť</button>
             </div>
+            @error('password')<p class="ar-error">{{ $message }}</p>@enderror
         </div>
-    </div>
-</div>
+
+        <button type="submit" class="ar-btn ar-btn--accent w-full" style="padding:.7rem 1rem;font-size:.9rem">
+            Potvrdiť heslo
+        </button>
+    </form>
+@endsection
+
+@section('footer')
+    <a href="{{ route('password.request') }}" class="ar-link font-semibold">Zabudnuté heslo?</a>
 @endsection

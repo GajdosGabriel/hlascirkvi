@@ -39,7 +39,7 @@
         <div class="ar-item__tags">
             @if ($post->deleted_at)
                 <span class="ar-badge ar-badge--count">V koši</span>
-            @elseif (! $post->published)
+            @elseif (! $post->isPublished)
                 <span class="ar-badge ar-badge--warn">Čaká v bufferi</span>
             @endif
 
@@ -47,9 +47,9 @@
                 <span class="ar-badge ar-badge--warn">Video nedostupné</span>
             @endif
 
-            @foreach ($post->updaters as $updater)
-                <span class="ar-chip">{{ $updater->title }}</span>
-            @endforeach
+            @if ($post->section)
+                <span class="ar-chip">{{ $post->section->label() }}</span>
+            @endif
         </div>
     </div>
 
@@ -62,9 +62,9 @@
                         <i class="fas fa-pen text-[.7rem]"></i> Upraviť
                     </a>
 
-                    {{-- Odopne štítky aktualizátorov, čím sa článok vráti do buffera
+                    {{-- Zmaže čas vydania, čím sa článok vráti do frontu
                          (App\Http\Controllers\Api\PostSupportController). --}}
-                    @if ($post->updaters->isNotEmpty())
+                    @if ($post->isPublished)
                         <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
                             @csrf @method('PUT')
                             <button type="submit" class="ar-act">

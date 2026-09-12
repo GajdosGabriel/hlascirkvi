@@ -9,6 +9,8 @@
 
 namespace App\Services;
 
+use App\Enums\CanalSection;
+use App\Enums\PostSection;
 use App\Models\User;
 use Alaouy\Youtube\Youtube;
 use App\Services\Images\StoreImage;
@@ -18,6 +20,7 @@ use App\Repositories\Eloquent\EloquentPostRepository;
 use App\Repositories\Eloquent\EloquentCanalRepository;
 use App\Services\Youtube\ChannelId;
 use App\Services\Youtube\DisableImport;
+use App\Services\Youtube\NotifyAdmin;
 use App\Services\Youtube\PlaylistId;
 use Illuminate\Support\Facades\Log;
 
@@ -35,6 +38,9 @@ class VideoUpload
 
     public function handle()
     {
+        // Zoznam už rozposlaných hlásení patrí jednému behu importu.
+        NotifyAdmin::forget();
+
         $this->foreachOrganization();
     }
 
@@ -85,17 +91,22 @@ class VideoUpload
         $missing = array_values(array_filter(array_column($sources, 'missing')));
 
         // Vypíname len kanál, ktorému nezostal žiadny funkčný zdroj. Keď mu
-        // druhý zdroj beží, import má odkiaľ brať a stačí hláška v logu.
+        // druhý zdroj beží, import má odkiaľ brať a stačí notifikácia.
         if (count($missing) === count($sources)) {
             DisableImport::because($organization, implode('; ', $missing));
 
             return;
         }
 
+        // Notifikácia, nie log: chýbajúci zdroj je preklep alebo starý údaj
+        // vo formulári kanála a opraviť ho vie len správca.
         foreach ($missing as $reason) {
-            Log::warning('Zdroj videí kanála sa nenašiel: ' . $reason, [
-                'organization_id' => $organization->id,
-            ]);
+            NotifyAdmin::about(
+                $organization,
+                'source-missing',
+                $organization->title . ': ' . $reason
+                    . '. Videá zatiaľ chodia z druhého zdroja — údaj opravte alebo vymažte vo formulári kanála.'
+            );
         }
 
         // $videoList tu nebola inicializovaná — kanál bez youtube_channel aj bez
@@ -140,11 +151,12 @@ class VideoUpload
 
             $organization->forceFill(['youtube_channel' => $channelId])->save();
 
-            Log::info('Adresa kanála YouTube prepísaná na ID', [
-                'organization_id' => $organization->id,
-                'from' => $raw,
-                'to' => $channelId,
-            ]);
+            NotifyAdmin::about(
+                $organization,
+                'channel-rewritten',
+                $organization->title . ': adresa kanála YouTube „' . $raw . '" bola prepísaná na ID '
+                    . $channelId . '. Skontrolujte vo formulári kanála, či ide o správny kanál.'
+            );
         }
 
         try {
@@ -243,10 +255,13 @@ class VideoUpload
         $post = $this->organizations->createPost(
             $organization->id,
             [
+                // Stiahnuté video zatiaľ nie je zverejnené — `published_at`
+                // ostáva prázdne. Predtým sa tu vypĺňal stĺpec `published`,
+                // podľa ktorého potom polovica aplikácie brala čerstvý import
+                // ako hotovú publikáciu.
                 'title'     => $video->snippet->title,
                 'video_id'  => $videoId,
                 'body'      => $video->snippet->description,
-                'published' => date('Y-m-d H:i:s'),
             ]
         );
 
@@ -255,23 +270,33 @@ class VideoUpload
         );
 
         /*
-         * Ak je organizácia zaradená do zoznamu (1-živé vysielanie)
-         * bude sa hned publikovať.
+         * Kanál s prenosmi bohoslužieb (post_section = live) zverejňuje hneď:
+         * čakať deň v bufferi na prenos, ktorý práve beží, nemá zmysel.
+         * Zaradenie predtým nieslo priradenie updatera 1 na kanáli.
          */
-        if ($organization->updaters->contains('id', 1)) {
-            $post->updaters()->attach(16);
+        if ($organization->post_section === CanalSection::Live) {
+            $post->update([
+                'section'      => PostSection::Live,
+                'published_at' => now(),
+            ]);
+
+            return;
         }
 
-
         /*
-        * Kanály zo zoznamu „default" (updater 4) idú do buffera — publisher
-        * ich vypustí po jednom počas dňa (App\Services\Buffer). Predtým sa
-        * updater pripájal rovno tu, takže celý denný import (okolo 13 videí)
-        * naskočil do zoznamu v jednej sekunde o 16:24; presne tomu má buffer
-        * zabrániť. Späť sa to prepne cez BUFFER_PUBLISH_ON_IMPORT=true.
+        * Ostatné kanály idú do buffera — publisher ich vypustí po jednom
+        * počas dňa (App\Services\Buffer). Predtým sa updater pripájal rovno
+        * tu, takže celý denný import (okolo 13 videí) naskočil do zoznamu
+        * v jednej sekunde o 16:24; presne tomu má buffer zabrániť. Späť sa to
+        * prepne cez BUFFER_PUBLISH_ON_IMPORT=true.
+        *
+        * Poistka platila len pre kanály zo zoznamu „default" (updater 4),
+        * teda pre dvadsať z piatich stoviek — čo bol zvyšok pôvodného
+        * číselníka, nie zámer. Teraz platí pre každý kanál, ktorý ide cez
+        * buffer.
         */
-        if (config('buffer.publish_on_import') && $organization->updaters->contains('id', 4)) {
-            $post->updaters()->attach(config('buffer.updater_id'));
+        if (config('buffer.publish_on_import')) {
+            $post->update(['published_at' => now()]);
         }
     }
 

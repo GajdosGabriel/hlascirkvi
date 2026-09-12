@@ -1,4 +1,7 @@
-@if ($errors->any())
+{{-- Pohľad, ktorý si chyby vypisuje sám pri jednotlivých políčkach (napr.
+     auth/register), si vyhlási sekciu `own-errors` a tento súhrnný zoznam sa
+     preň preskočí — inak by tú istú hlášku videl návštevník dvakrát. --}}
+@if ($errors->any() && ! View::hasSection('own-errors'))
     <div class="mt-2">
         <ul>
             @foreach ($errors->all() as $error)

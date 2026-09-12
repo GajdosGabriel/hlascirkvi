@@ -12,24 +12,15 @@
 
         // Po neúspešnej validácii sa formulár vracia s tým, čo užívateľ
         // poslal, nie s tým, čo je v databáze.
-        $selectedUpdaters = collect(old('updaters', $canal->updaters->pluck('id')->all()))
-            ->map(fn ($id) => (int) $id);
-        $denominationId = $selectedUpdaters
-            ->intersect(($updaters['denomination'] ?? collect())->pluck('id'))
-            ->first();
+        $denomination = old('denomination', $canal->denomination?->value);
+        $section      = old('post_section', $canal->post_section?->value);
+        $importDay    = old('import_day', $canal->import_day);
+
         $managerIds = collect(old('users', $canal->users->pluck('id')->all()))
             ->map(fn ($id) => (int) $id);
         $published = (bool) old('published', $canal->published);
 
         $field = fn (string $name) => 'ar-field' . ($errors->has($name) ? ' ar-field--error' : '');
-
-        // Skupiny zaradenia, ktoré nastavuje len administrátor.
-        $adminGroups = [
-            'frontUser'          => ['Kanál na úvodnej stránke', 'Zobrazí sa v zozname kanálov na titulke.'],
-            'post'               => ['Videá publikovať v zozname', 'Do ktorých výpisov sa zaradia nové videá kanála.'],
-            'listOfOrganization' => ['Zaradený do zoznamu', null],
-            'dayOfWeek'          => ['Vyhľadávanie videí v dňoch', 'V ktoré dni sa na YouTube hľadajú nové videá.'],
-        ];
     @endphp
 
     <x-dashboard.frame>
@@ -72,14 +63,14 @@
 
                     <div>
                         <label class="ar-label" for="denomination">Cirkev / zaradenie kanála <span class="ar-req">*</span></label>
-                        <select class="{{ $field('updaters') }}" id="denomination" name="updaters[]" required>
+                        <select class="{{ $field('denomination') }}" id="denomination" name="denomination" required>
                             <option value="">Vyberte zaradenie</option>
-                            @foreach ($updaters['denomination'] ?? [] as $updater)
-                                <option value="{{ $updater->id }}" @selected($denominationId === $updater->id)>{{ $updater->title }}</option>
+                            @foreach ($denominations as $option)
+                                <option value="{{ $option->value }}" @selected($denomination === $option->value)>{{ $option->label() }}</option>
                             @endforeach
                         </select>
                         <p class="ar-hint">Určuje publikum, ktorému sa kanál ponúka.</p>
-                        @error('updaters') <p class="ar-error">{{ $message }}</p> @enderror
+                        @error('denomination') <p class="ar-error">{{ $message }}</p> @enderror
                     </div>
                 </div>
             </section>
@@ -226,24 +217,48 @@
                             @error('mod_title') <p class="ar-error">{{ $message }}</p> @enderror
                         </div>
 
-                        @foreach ($adminGroups as $type => [$label, $hint])
-                            @continue(empty($updaters[$type]) || $updaters[$type]->isEmpty())
-                            <fieldset>
-                                <legend class="ar-label">{{ $label }}</legend>
-                                <div class="ar-checks">
-                                    @foreach ($updaters[$type] as $updater)
-                                        <label class="ar-check">
-                                            <input type="checkbox" name="updaters[]" value="{{ $updater->id }}"
-                                                   @checked($selectedUpdaters->contains($updater->id))>
-                                            {{ $updater->title }}
-                                        </label>
-                                    @endforeach
-                                </div>
-                                @if ($hint)
-                                    <p class="ar-hint">{{ $hint }}</p>
+                        <div>
+                            <span class="ar-label">Predný zoznam na úvodnej stránke</span>
+                            <p class="ar-hint">
+                                @if ($canal->front_listed_at)
+                                    Kanál v prednom zozname je.
+                                @else
+                                    Kanál v prednom zozname nie je.
                                 @endif
-                            </fieldset>
-                        @endforeach
+                                @if ($isSuperadmin)
+                                    {{-- Správa zoznamu beží za checkSuperAdmin. --}}
+                                    <a href="{{ route('admin.frontlist.index') }}">Spravovať zoznam</a>
+                                @endif
+                            </p>
+                        </div>
+
+                        <div class="sm:max-w-md">
+                            <label class="ar-label" for="post_section">Kam idú nové videá kanála</label>
+                            <select class="{{ $field('post_section') }}" id="post_section" name="post_section">
+                                @foreach ($sections as $option)
+                                    <option value="{{ $option->value }}" @selected($section === $option->value)>{{ $option->label() }}</option>
+                                @endforeach
+                            </select>
+                            <p class="ar-hint">
+                                {{ \App\Enums\CanalSection::tryFrom((string) $section)?->hint() ?? '' }}
+                            </p>
+                            @error('post_section') <p class="ar-error">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div class="sm:max-w-xs">
+                            <label class="ar-label" for="import_day">Hľadať videá podľa mena v deň</label>
+                            <select class="{{ $field('import_day') }}" id="import_day" name="import_day">
+                                <option value="">Nehľadať podľa mena</option>
+                                @foreach ($importDays as $cislo => $nazov)
+                                    <option value="{{ $cislo }}" @selected((string) $importDay === (string) $cislo)>{{ $nazov }}</option>
+                                @endforeach
+                            </select>
+                            {{-- Hľadanie podľa mena je fulltext cez celé YouTube a stojí
+                                 sto jednotiek dennej kvóty, preto len jeden deň v týždni
+                                 a len pre kanály bez vlastného kanála či playlistu. --}}
+                            <p class="ar-hint">Len pre kanály bez vlastného kanála aj playlistu na YouTube.</p>
+                            @error('import_day') <p class="ar-error">{{ $message }}</p> @enderror
+                        </div>
                     </div>
                 </section>
             @endif

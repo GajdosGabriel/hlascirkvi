@@ -51,7 +51,10 @@ class PostFilters extends Filters
 
     public function unpublished()
     {
-        return $this->builder->whereNull('published');
+        // Predtým `whereNull('published')`. Ten stĺpec vypĺňa import každému
+        // príspevku hneď pri stiahnutí, takže filter ukazoval niečo iné než
+        // buffer, ktorý sa pýtal na chýbajúci updater.
+        return $this->builder->unpublished();
     }
 
     public function videoAvailable($value)

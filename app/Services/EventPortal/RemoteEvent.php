@@ -272,7 +272,30 @@ class RemoteEvent implements Arrayable
 
     public function organizerWebsite(): ?string
     {
-        return $this->data['canal']['website'] ?? null;
+        return $this->absoluteUrl($this->data['canal']['website'] ?? null);
+    }
+
+    /**
+     * Odkaz na organizátora pre schema.org. Google pri `organizer` očakáva aj
+     * `url` a bez nej hlási chybu štruktúrovaných dát. Keď kanál vlastný web
+     * nemá, ukážeme na detail podujatia u nás — organizátor je na ňom uvedený
+     * a je to jediná adresa, ktorou si sme istí.
+     */
+    public function organizerUrl(): string
+    {
+        return $this->organizerWebsite() ?? $this->url();
+    }
+
+    /** Z API chodia aj prázdne či neúplné adresy. Do odkazu pustíme len http(s). */
+    protected function absoluteUrl(mixed $value): ?string
+    {
+        $url = is_string($value) ? trim($value) : '';
+
+        if ($url === '' || ! Str::startsWith($url, ['http://', 'https://'])) {
+            return null;
+        }
+
+        return filter_var($url, FILTER_VALIDATE_URL) ? $url : null;
     }
 
     public function venue(): ?string
@@ -498,11 +521,11 @@ class RemoteEvent implements Arrayable
         }
 
         if ($this->organizer()) {
-            $schema['organizer'] = array_filter([
+            $schema['organizer'] = [
                 '@type' => 'Organization',
                 'name' => $this->organizer(),
-                'url' => $this->organizerWebsite(),
-            ]);
+                'url' => $this->organizerUrl(),
+            ];
         }
 
         // Neznáma cena nie je vstup zdarma. API neposkytuje dostupnosť

@@ -11,13 +11,10 @@ namespace App\Repositories\Eloquent;
 
 use Hash;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Notifications\Admin\Buffer;
 use Illuminate\Support\Facades\Request;
-use App\Notifications\User\ConfirmEmail;
 use App\Repositories\AbstractRepository;
-use Illuminate\Support\Facades\Notification;
 use App\Repositories\Contracts\UserRepository;
 
 
@@ -54,9 +51,11 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
         ]);
 
         // email_verified_at nie je v $fillable (App\Models\User) — cez OAuth je
-        // e-mail overený poskytovateľom, takže sa nastaví explicitne.
-        $user->email_verified_at = Carbon::now();
-        $user->save();
+        // e-mail overený poskytovateľom, takže sa nastaví explicitne. Registrácia
+        // cez Google teda žiadny potvrdzovací e-mail neposiela, adresa je
+        // overená už pri vzniku účtu (AuthController navyše prijme len účet
+        // s email_verified od Googlu).
+        $user->markEmailAsVerified();
 
         return $user;
     }
@@ -120,8 +119,10 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
 
     protected function sendConfirmEmail($user)
     {
-        if( $user->email_verified_at == null) {
-            Notification::send($user, new ConfirmEmail($user));
+        // Podobu e-mailu aj adresu s podpisom drží User::sendEmailVerificationNotification(),
+        // aby existovala jedna cesta pre registráciu aj pre opätovné poslanie.
+        if (! $user->hasVerifiedEmail()) {
+            $user->sendEmailVerificationNotification();
         }
     }
 

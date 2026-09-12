@@ -22,17 +22,15 @@ class EloquentCanalRepository extends AbstractRepository implements CanalReposit
         return Canal::class;
     }
 
+    /**
+     * Kanály, ktoré sa dnes majú hľadať na YouTube podľa mena. Deň nesie
+     * stĺpec `organizations.import_day` s rovnakým číslovaním ako
+     * Carbon::dayOfWeek — predtým to bol jeden zo siedmich updaterov typu
+     * `dayOfWeek` a výber cez sedem vetiev s natvrdo zapísanými slugmi.
+     */
     public function getUsersByDayOfWeek()
     {
-        $dayNumber = Carbon::parse('now')->dayOfWeek;
-
-        if ($dayNumber == 0) return $this->getResult('nedela');
-        if ($dayNumber == 1) return $this->getResult('pondelok');
-        if ($dayNumber == 2) return $this->getResult('utorok');
-        if ($dayNumber == 3) return $this->getResult('streda');
-        if ($dayNumber == 4) return $this->getResult('stvrtok');
-        if ($dayNumber == 5) return $this->getResult('piatok');
-        if ($dayNumber == 6) return $this->getResult('sobota');
+        return $this->getResult(Carbon::now()->dayOfWeek);
     }
 
     /**
@@ -48,11 +46,9 @@ class EloquentCanalRepository extends AbstractRepository implements CanalReposit
      * spracuje `UserSearchByChannelAndPlaylist`, takže podľa mena ostávajú len
      * osoby, ku ktorým žiadny kanál nepatrí.
      */
-    protected function getResult($slug)
+    protected function getResult(int $day)
     {
-        return $this->entity->whereHas('updaters', function ($query) use ($slug) {
-            $query->whereSlug($slug);
-        })->where(function ($query) {
+        return $this->entity->where('import_day', $day)->where(function ($query) {
             $query->whereNull('youtube_channel')->orWhere('youtube_channel', '=', '');
         })->where(function ($query) {
             $query->whereNull('youtube_playlist')->orWhere('youtube_playlist', '=', '');
@@ -88,31 +84,5 @@ class EloquentCanalRepository extends AbstractRepository implements CanalReposit
     public function createPost($organizationId, array $properties)
     {
         return  $this->find($organizationId)->posts()->create($properties);
-    }
-
-
-    public function frontOrganizationsList()
-    {
-        $postsCount = \DB::table('posts')
-            ->select('organization_id', \DB::raw('count(*) as posts_count'))
-            ->where('youtube_blocked', 0)
-            ->groupBy('organization_id');
-
-
-        return  \DB::table('organizations')
-            ->select([
-                'organizations.slug',
-                'organizations.id',
-                'organizations.title',
-                'posts_count',
-            ])
-            ->join('organization_updater', function ($join) {
-                $join->on('organizations.id', '=', 'organization_updater.organization_id')
-                    ->where('updater_id', 14);
-            })
-
-            ->joinSub($postsCount, 'posts', function ($join) {
-                $join->on('organizations.id', '=', 'posts.organization_id');
-            });
     }
 }

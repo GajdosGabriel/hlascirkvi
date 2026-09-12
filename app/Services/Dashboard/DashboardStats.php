@@ -89,7 +89,7 @@ class DashboardStats
             ->where('posts.youtube_blocked', 0)
             ->whereNull('posts.deleted_at')
             ->selectRaw("coalesce(sum(posts.video_id is not null and posts.video_id <> '' and coalesce(publication.arrived_at, posts.created_at) >= ? and coalesce(publication.arrived_at, posts.created_at) <= ?), 0) as imported", [$start, $now])
-            ->selectRaw('coalesce(sum(posts.published >= ? and posts.published <= ?), 0) as published', [$start, $now])
+            ->selectRaw('coalesce(sum(posts.published_at >= ? and posts.published_at <= ?), 0) as published', [$start, $now])
             ->first();
     }
 
@@ -107,8 +107,8 @@ class DashboardStats
             ->where('organization_id', $organizationId)
             ->where('youtube_blocked', 0)
             ->selectRaw('coalesce(sum(deleted_at is null), 0) as total')
-            ->selectRaw('coalesce(sum(deleted_at is null and published is not null), 0) as published')
-            ->selectRaw('coalesce(sum(deleted_at is null and published is null), 0) as waiting')
+            ->selectRaw('coalesce(sum(deleted_at is null and published_at is not null), 0) as published')
+            ->selectRaw('coalesce(sum(deleted_at is null and published_at is null), 0) as waiting')
             ->selectRaw('coalesce(sum(deleted_at is not null), 0) as trashed')
             ->selectRaw('coalesce(sum(deleted_at is null and video_available = 0), 0) as broken')
             ->selectRaw('coalesce(sum(case when deleted_at is null then count_view end), 0) as views_total')
@@ -255,7 +255,7 @@ class DashboardStats
             ->where('organization_id', $organizationId)
             ->whereNull('deleted_at')
             ->selectRaw('count(*) as total')
-            ->selectRaw('coalesce(sum(published is not null), 0) as published')
+            ->selectRaw('coalesce(sum(published_at is not null), 0) as published')
             ->first();
     }
 
@@ -300,12 +300,16 @@ class DashboardStats
             ->whereNull('deleted_at')
             ->orderByDesc('created_at')
             ->limit($limit)
-            ->get(['id', 'title', 'slug', 'count_view', 'published', 'created_at', 'video_available']);
+            ->get(['id', 'title', 'slug', 'count_view', 'published_at', 'created_at', 'video_available']);
     }
 
     /**
-     * Príspevky, ktoré ešte čakajú v bufferi na zverejnenie (published je
-     * prázdne). Najstaršie hore — tie idú von ako prvé.
+     * Príspevky, ktoré ešte čakajú v bufferi na zverejnenie. Najstaršie hore —
+     * tie idú von ako prvé.
+     *
+     * Podmienka znela `published IS NULL`, čo je stĺpec, ktorý import vypĺňa
+     * každému príspevku hneď pri stiahnutí — nástenka tak ukazovala niečo iné
+     * než buffer sám. Stav nesie `published_at`.
      *
      * @return Collection<int, object>
      */
@@ -315,7 +319,7 @@ class DashboardStats
             ->where('organization_id', $organizationId)
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
-            ->whereNull('published')
+            ->whereNull('published_at')
             ->orderBy('created_at')
             ->limit($limit)
             ->get(['id', 'title', 'slug', 'created_at']);

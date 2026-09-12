@@ -1,13 +1,20 @@
 <template>
-    <div @click="resetNotifyBell" class="relative mr-3">
-        <div class="flex">
+    <div class="relative">
+        <button
+            type="button"
+            class="relative flex h-9 w-9 items-center justify-center rounded-md text-blue-100 transition-colors hover:bg-blue-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+            :aria-expanded="open ? 'true' : 'false'"
+            :aria-label="ariaLabel"
+            @click="resetNotifyBell"
+        >
             <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 cursor-pointer"
+                class="h-5 w-5"
                 :class="bellClass"
+                xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
             >
                 <path
                     stroke-linecap="round"
@@ -17,58 +24,54 @@
                 />
             </svg>
 
-            <div
-                class="w-5 h-5 bg-red-500 text-white rounded-full flex justify-center items-center"
+            <span
                 v-if="user.countNotifycation > 0"
+                class="absolute right-0.5 top-0.5 inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold leading-none text-white ring-2 ring-blue-900"
             >
-                <span class="pb-1">{{ user.countNotifycation }}</span>
-            </div>
-        </div>
+                {{ badgeLabel }}
+            </span>
+        </button>
 
-        <div v-if="open" class="fixed inset-0 h-full w-full z-10"></div>
+        <div v-if="open" class="fixed inset-0 z-10" @click="open = false"></div>
 
-        <ul
+        <div
             v-if="open"
-            class="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20"
-            style="width:20rem;"
+            class="absolute right-0 top-full z-20 mt-2 w-80 max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-md border border-gray-200 bg-white shadow-xl"
         >
-            <li
-                  class=" px-4 py-3 border-b hover:bg-gray-100 -mx-2"
-                v-for="notification in user.notifications"
-                :key="notification.id"
-            >
-                <a
-                    :href="notification.data.link"
-                    @click="markAsRead(notification)"
-                  
+            <ul class="max-h-96 divide-y divide-gray-100 overflow-y-auto">
+                <li
+                    v-for="notification in user.notifications"
+                    :key="notification.id"
                 >
-                    <!-- Initial name -->
-                    <div
-                        v-if="notification.data.logo"
-                        class="mr-3 h-12 w-12 text-gray-700 bg-gray-300 rounded-full flex items-center justify-center font-semibold text-lg float-left"
+                    <a
+                        :href="notification.data.link"
+                        class="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-gray-50"
+                        @click="markAsRead(notification)"
                     >
-                        {{ notification.data.logo }}
-                    </div>
+                        <!-- Iniciály organizácie -->
+                        <span
+                            v-if="notification.data.logo"
+                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-200 text-sm font-semibold text-gray-700"
+                        >
+                            {{ notification.data.logo }}
+                        </span>
 
-                    <!-- <img v-else
-                        class="h-10 w-20 rounded-full object-cover mx-1"
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                        alt="avatar"
-                    /> -->
+                        <span
+                            class="text-sm leading-snug text-gray-600"
+                            :class="{ 'font-semibold text-gray-900': !notification.read_at }"
+                            v-text="notification.data.message"
+                        ></span>
+                    </a>
+                </li>
 
-                    <div
-                        class="text-gray-600 text-sm mx-2 "
-                        :class="{ 'font-semibold': !notification.read_at }"
-                        v-text="notification.data.message"
-                    ></div>
-                </a>
-            </li>
-            <button
-                class="block bg-gray-800 text-white text-center font-bold py-2 w-full"
-            >
-                See all notifications
-            </button>
-        </ul>
+                <li
+                    v-if="!user.notifications || user.notifications.length === 0"
+                    class="px-4 py-6 text-center text-sm text-gray-500"
+                >
+                    Žiadne notifikácie
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -111,6 +114,18 @@ export default {
     computed: {
         bellClass: function() {
             return [this.user.notify_bell > 0 ? " text-red-400" : ""];
+        },
+
+        badgeLabel: function() {
+            return this.user.countNotifycation > 99
+                ? "99+"
+                : this.user.countNotifycation;
+        },
+
+        ariaLabel: function() {
+            return this.user.countNotifycation > 0
+                ? "Notifikácie (" + this.user.countNotifycation + " nových)"
+                : "Notifikácie";
         }
     }
 };

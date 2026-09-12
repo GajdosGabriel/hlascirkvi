@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Public;
 
+use App\Enums\PostSection;
 use Cache;
 use \Alaouy\Youtube;
 use App\Models\Seminar;
@@ -22,7 +23,7 @@ class HomeController extends Controller
         session()->forget('lastVisit');
 
         session()->forget('countUnwatchedVideos');
-        $posts = $posts->getPostsByUpdater(16);
+        $posts = $posts->groupedBySection(PostSection::Live);
         return view('pages.online-prenosy', compact('posts'));
     }
 
@@ -36,8 +37,6 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        //  Staré zoradovanie
-        // $posts = $this->posts->getPostsByUpdater(17);
         return view('pages.seminare', compact('seminars'));
     }
 

@@ -14,9 +14,15 @@ class CanalObserver
      */
     public function created(Canal $organization)
     {
-        if (auth()->check()) {
-            $organization->updaters()->sync([1]); // nastaví iba používateľa s ID 5
-        }
+        /*
+         * Novému kanálu sa tu nastavovalo `updaters()->sync([1])`, teda
+         * zaradenie „živé vysielanie" — jeho videá by sa po importe
+         * zverejňovali okamžite namiesto toho, aby prešli bufferom. Pri kanáli
+         * založenom cez formulár to nič nerobilo (CanalRequest::save hneď
+         * potom synchronizoval updatery znova a zaradenie prepísal), inde
+         * zostalo. Smerovanie nových videí dnes nesie `post_section`
+         * s predvolenou hodnotou `front`, takže netreba nastavovať nič.
+         */
     }
 
     /**

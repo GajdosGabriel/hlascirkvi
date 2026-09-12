@@ -3,16 +3,10 @@
 namespace App\Providers;
 
 
-use App\Models\Post;
 use App\Models\User;
-
 use App\Models\Verse;
 use App\Models\Category;
-use App\Models\Canal;
 use Illuminate\Support\ServiceProvider;
-
-use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Eloquent\EloquentCanalRepository;
 
 
 
@@ -35,39 +29,14 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('canals.list-users', function ($view) {
-            $view->with(
-                'users',
+        // Predný zoznam („Kresťanské osobnosti") si dáta berie sám —
+        // <x-front-list-card /> cez App\Services\FrontList\FrontList.
 
-                (new EloquentCanalRepository())->frontOrganizationsList()
-                ->orderBy('title', 'asc')->get()
-            );
-        });
-
-        view()->composer('canals.list-canals', function ($view) {
-            $view->with(
-                'organizations',
-                (new EloquentPostRepository())->getPostsByUpdater(4)
-            );
-        });
-
-        // Sviatky modul
-        view()->composer('posts.sviatok', function ($view) {
-            $view->with(
-                'videos',
-                (new EloquentPostRepository())->postsByUpdater(15)
-                ->where('title', 'like', '%vianoce%')
-                // ->OrWhere('title', 'like', '%ducha sv%')
-                // ->orWhere('title', 'like', '%turic%')
-
-
-                // ->where('title', 'like', '%duch sv%')
-                // ->OrWhere('title', 'like', '%ducha sv%')
-                // ->orWhere('title', 'like', '%turic%')
-                ->whereNotIn('id', [10606]) // Zdvojené video
-                ->get()->random(10)
-            );
-        });
+        // Zrušené boli aj composery pre `canals.list-canals` a `posts.sviatok`.
+        // Ani jeden z tých pohľadov nebol odnikiaľ vkladaný a oba si pýtali
+        // príspevky podľa čísla updatera — `list-canals` dokonca podľa
+        // updatera 4, ktorý sa k príspevkom nikdy nepriraďoval, takže vracal
+        // vždy prázdno.
 
         view()->composer('posts.form', function ($view) {
             $view->with('users', User::orderBy('last_name', 'asc')->get());

@@ -26,6 +26,13 @@
 <script>
     import {bus} from '../app';
     export default {
+        // Pečiatka z App\Support\HumanCheck. Vykresliť ju vie len server,
+        // takže sem príde z blade šablóny (<messenger :stamp="..."/>) — bez
+        // nej neprejde odoslanie od neprihláseného návštevníka.
+        props: {
+            stamp: { type: String, default: '' }
+        },
+
         data: function() {
             return {
                 errors: [],
@@ -40,7 +47,7 @@
 
                 this.checkForm();
 
-                axios.post('/store/message', { body: this.body });
+                axios.post('/store/message', { body: this.body, form_ts: this.stamp });
                 this.show = false;
                 this.annotation = true;
                 this.hide();

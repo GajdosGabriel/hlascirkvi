@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Enums\PostSection;
 use App\Models\User;
 use App\Models\Canal;
 use Alaouy\Youtube\Youtube;
@@ -87,10 +88,14 @@ class VideoUploadSeminars
         );
 
         /*
-         * Zaradiť do zoznamu (17- Semináre)
-         * lebo inak by skončilo v Buffer a čakať na publikovanie.
+         * Video seminára ide rovno do výpisu konferencií — inak by skončilo
+         * v bufferi a čakalo na zverejnenie, hoci seminár si svoje videá
+         * sťahuje sám a na mieru.
          */
-        $post->updaters()->attach(17);
+        $post->update([
+            'section'      => PostSection::Seminar,
+            'published_at' => now(),
+        ]);
 
         $post->seminars()->attach($this->seminar->id);
     }

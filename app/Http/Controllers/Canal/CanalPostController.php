@@ -38,11 +38,10 @@ class CanalPostController extends Controller
         // withQueryString(): bez neho odkazy stránkovania zahodili zapnutý
         // filter aj hľadanie a druhá strana sa vrátila k celému výpisu.
         //
-        // updaters aj počet komentárov potrebuje každý riadok výpisu
-        // (profiles/posts/_row); bez nich to boli dva dopyty na článok, teda
-        // šesťdesiat na stranu.
+        // Počet komentárov potrebuje každý riadok výpisu
+        // (profiles/posts/_row); bez neho to bol dopyt na článok, teda
+        // tridsať na stranu.
         $posts = $canal->posts()
-            ->with('updaters')
             ->withCount('comments')
             ->filter($filters)
             ->latest()

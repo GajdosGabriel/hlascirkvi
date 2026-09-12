@@ -9,6 +9,7 @@
 
 namespace App\Services\Extractor;
 
+use App\Enums\PostSection;
 use Carbon\Carbon;
 use App\Repositories\Eloquent\EloquentPostRepository;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +27,7 @@ class ExtractYoutubeComment
 
     public function getPosts()
     {
-        return (new EloquentPostRepository)->postsByUpdater(15)->where('video_id', '<>', null)
+        return (new EloquentPostRepository)->postsInSection(PostSection::Front)->where('video_id', '<>', null)
             // ->where('created_at', '<=', Carbon::now()->subWeek(2))
             ->whereVideoDuration(null)
             ->whereVideoAvailable(null)

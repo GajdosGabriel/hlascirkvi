@@ -151,10 +151,7 @@ class Buffer
     protected function pickPost(CarbonImmutable $now, array $status): ?array
     {
         $freshSince = $now->subDays((int) config('buffer.archive_after_days'));
-        $organizations = $this->post->waitingOrganizations(
-            (int) config('buffer.updater_id'),
-            $freshSince
-        );
+        $organizations = $this->post->waitingOrganizations($freshSince);
 
         $order = $this->archiveTurn($status) ? ['archive', 'fresh'] : ['fresh', 'archive'];
 
@@ -286,7 +283,7 @@ class Buffer
         $arrivedAt = $post->created_at;
 
         return DB::transaction(function () use ($post, $at, $archive, $arrivedAt) {
-            $this->post->publishPost($post, (int) config('buffer.updater_id'), $at);
+            $this->post->publishPost($post, $at);
 
             BufferPublication::create([
                 'post_id' => $post->id,

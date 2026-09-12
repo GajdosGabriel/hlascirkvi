@@ -49,11 +49,11 @@
                     placeholder="Potrebné v prípade vytvorenia akcie" />
             </div>
 
-            <span class="font-semibold">Zaradená do zoznamu</span><br />
+            <span class="font-semibold">Cirkev / zaradenie kanála</span><br />
 
-            <div v-for="updater in listDenominations" :key="updater.id">
-                <input type="radio" required v-model="form.updaters" :id="updater.id" :value="updater.id" />
-                <label :for="updater.id">{{ updater.title }}</label>
+            <div v-for="item in denominations" :key="item.value">
+                <input type="radio" required v-model="form.denomination" :id="item.value" :value="item.value" />
+                <label :for="item.value">{{ item.label }}</label>
             </div>
 
             <div class="form-group text-right ">
@@ -71,13 +71,13 @@ export default {
             user: "",
             search: "",
             villages: [],
-            updaters: [],
+            denominations: [],
             form: {
                 title: "",
                 street: "",
                 phone: "",
                 village_id: "",
-                updaters: []
+                denomination: ""
             }
         };
     },
@@ -110,9 +110,11 @@ export default {
             });
         },
 
-        fetchUpdaters: function () {
-            axios.get("/api/updaters").then(response => {
-                this.updaters = response.data;
+        fetchDenominations: function () {
+            // Číselník vracia App\Http\Controllers\Api\DenominationController,
+            // aby popisky neboli druhýkrát tu v JS.
+            axios.get("/api/denominations").then(response => {
+                this.denominations = response.data;
             });
         },
 
@@ -133,17 +135,10 @@ export default {
             this.form = {};
         }
     },
-    computed: {
-        listDenominations: function () {
-            return this.updaters.filter(
-                updater => updater.type == "denomination"
-            );
-        }
-    },
     created() {
         // this.fetchVillage();
         this.fetchUser();
-        this.fetchUpdaters();
+        this.fetchDenominations();
     }
 };
 </script>

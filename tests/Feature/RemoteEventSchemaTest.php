@@ -61,4 +61,31 @@ class RemoteEventSchemaTest extends TestCase
 
         $this->assertArrayNotHasKey('offers', $event->schemaOrg());
     }
+
+    public function test_organizer_always_has_a_url(): void
+    {
+        $event = new RemoteEvent([
+            'id' => 123,
+            'slug' => 'koncert',
+            'canal' => ['name' => 'Organizator', 'website' => 'https://organizator.sk'],
+        ]);
+
+        $this->assertSame('https://organizator.sk', $event->schemaOrg()['organizer']['url']);
+
+        // Kanál bez webu (alebo s nepoužiteľnou adresou) nesmie nechať `url`
+        // prázdnu — Search Console to hlási ako chybu štruktúrovaných dát.
+        foreach ([null, '', '   ', 'www.organizator.sk', 'javascript:alert(1)'] as $website) {
+            $event = new RemoteEvent([
+                'id' => 123,
+                'slug' => 'koncert',
+                'canal' => ['name' => 'Organizator', 'website' => $website],
+            ]);
+
+            $this->assertNull($event->organizerWebsite());
+            $this->assertSame(
+                route('event.show', [123, 'koncert']),
+                $event->schemaOrg()['organizer']['url']
+            );
+        }
+    }
 }

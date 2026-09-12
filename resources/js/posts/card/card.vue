@@ -1,7 +1,7 @@
 <template>
     <div
         class="border-2 bg-white m-2 rounded-md shadow-md relative md:text-sm"
-        :class="isPublished"
+        :class="publishedClass"
     >
         <div style="max-height: 11rem; overflow: hidden; position: relative">
             <div
@@ -36,7 +36,7 @@
                 post.createdAtHuman
             }}</time>
 
-            <card-buttons v-if="!post.hasUpdater" :post="post" />
+            <card-buttons v-if="!post.isPublished" :post="post" />
         </div>
     </div>
 </template>
@@ -57,8 +57,11 @@ export default {
             return this.post.title.slice(0, 36);
         },
 
-        isPublished: function () {
-            return this.post.published ? "" : "border-red-600";
+        // Červený rám okolo príspevku, ktorý ešte čaká v bufferi. Podmienka
+        // čítala `post.published`, čo PostResource nikdy neposielal — rám
+        // teda mala každá karta.
+        publishedClass: function () {
+            return this.post.isPublished ? "" : "border-red-600";
         },
     },
     components: { cardButtons },

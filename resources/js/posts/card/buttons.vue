@@ -10,7 +10,7 @@
         props: ['post'],
         methods: {
             publishVideo() {
-                axios.put('/api/posts/' + this.post.id, { idUpdater: 15}).then(
+                axios.put('/api/posts/' + this.post.id, { publish: 1 }).then(
                     location.reload()
                 )
             },

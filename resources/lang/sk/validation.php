@@ -90,6 +90,13 @@ return [
     'not_in'               => 'označený :attribute je neplatný.',
     'not_regex'            => ':attribute má neplatný formát.',
     'numeric'              => ':attribute musí byť číslo.',
+    'password'             => [
+        'letters'       => ':attribute musí obsahovať aspoň jedno písmeno.',
+        'mixed'         => ':attribute musí obsahovať veľké aj malé písmeno.',
+        'numbers'       => ':attribute musí obsahovať aspoň jednu číslicu.',
+        'symbols'       => ':attribute musí obsahovať aspoň jeden zvláštny znak.',
+        'uncompromised' => 'Toto heslo sa objavilo v úniku dát z iných služieb. Zvoľte si prosím iné.',
+    ],
     'present'              => ':attribute musí byť odoslaný.',
     'regex'                => ':attribute má neplatný formát.',
     'required'             => ':attribute je požadované.',
@@ -148,5 +155,8 @@ return [
         'dateStart' => 'Dátum začiatku',
         'body' => 'Obsah',
         'iamHuman' => '"Som človek"',
+        'email' => 'E-mailová adresa',
+        'password' => 'Heslo',
+        'password_confirmation' => 'Potvrdenie hesla',
     ],
 ];

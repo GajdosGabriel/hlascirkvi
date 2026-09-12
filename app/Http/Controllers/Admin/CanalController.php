@@ -15,12 +15,11 @@ class CanalController extends Controller
     }
     public function index(CanalFilters $filters)
     {
-        // Výpis siaha na obec, updaterov aj správcov kanála
-        // (canals/_canal-table.blade.php:30, 32, 69). Bez eager
-        // loadu si ich pýtal riadok po riadku — pri 50 kanáloch na stránku
-        // to bolo cez 200 dopytov namiesto piatich.
+        // Výpis siaha na obec aj správcov kanála (components/canal/list).
+        // Bez eager loadu si ich pýtal riadok po riadku — pri 50 kanáloch
+        // na stránku to bolo cez 200 dopytov namiesto piatich.
         $organizations = Canal::query()
-            ->with(['village:id,fullname', 'updaters:id,title,slug,type', 'users:id,first_name,last_name'])
+            ->with(['village:id,fullname', 'users:id,first_name,last_name'])
             ->latest()
             ->filter($filters)
             ->paginate(50)

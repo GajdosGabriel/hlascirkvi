@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CanalSection;
+use App\Enums\Denomination;
 use App\Services\Youtube\ChannelId;
 use App\Services\Youtube\PlaylistId;
 use Illuminate\Foundation\Http\FormRequest;
@@ -59,8 +61,12 @@ class CanalRequest extends FormRequest
             // denný import na takom kanáli padal na 403 od YouTube.
             'youtube_channel'  => ['nullable', 'string', 'regex:' . ChannelId::PATTERN, 'max:40'],
             'youtube_playlist' => ['nullable', 'string', 'regex:' . PlaylistId::PATTERN, 'max:40'],
-            'updaters'         => 'nullable|array',
-            'updaters.*'       => 'integer|exists:updaters,id',
+            // Vlastnosti kanála, ktoré do 9/2026 niesli updatery. Zaradenie
+            // vidí každý správca, deň importu a smerovanie videí len admin —
+            // kontrolu role robí controller, tu ide len o tvar dát.
+            'denomination'     => ['nullable', Rule::enum(Denomination::class)],
+            'import_day'       => 'nullable|integer|between:0,6',
+            'post_section'     => ['nullable', Rule::enum(CanalSection::class)],
             // `users` a `published` sa vykresľujú len v @can('superadmin') bloku
             // formulára (resources/views/dashboard/canals/edit.blade.php).
             // Kontrolu role robí controller, tu ide len o tvar dát.
@@ -132,13 +138,14 @@ class CanalRequest extends FormRequest
     {
         // Zakladá sa len z overených polí. `except()` prepúšťalo aj _token,
         // _method a čokoľvek iné, čo prišlo v tele požiadavky.
+        //
+        // Zakladajúci formulár ponúka len zaradenie kanála; deň importu
+        // a smerovanie videí nastavuje admin až v úprave, preto tu ostávajú
+        // na predvolených hodnotách stĺpca.
         $data = collect($this->validated())
-            ->except(['updaters', 'users', 'published'])
+            ->except(['users', 'published', 'import_day', 'post_section'])
             ->all();
 
-        $canal = auth()->user()->organizations()->create($data);
-        $canal->updaters()->sync($this->input('updaters', []));
-
-        return $canal;
+        return auth()->user()->organizations()->create($data);
     }
 }

@@ -9,16 +9,19 @@
 namespace App\Repositories\Contracts;
 
 
+use App\Enums\PostSection;
+
 interface PostRepository extends InterfaceRepository
 {
-    public function getPostsByUpdater($idUpdaters, $perOrganization = 5);
+    public function postsInSection(PostSection $section);
+    public function groupedBySection(PostSection $section, $perOrganization = 5);
     public function countUnwatchedSundayServicesVideos();
-    public function findAndPublishPost($post, $IdUpdater);
+    public function findAndPublishPost($postId);
 
     // Buffer publisher (App\Services\Buffer)
     public function countWaitingPosts();
     public function countWaitingPostsSince($since);
-    public function waitingOrganizations($idUpdater, $freshSince = null);
+    public function waitingOrganizations($freshSince = null);
     public function nextWaitingPost($organizationId, $freshSince = null);
-    public function publishPost($post, $IdUpdater, $publishedAt = null);
+    public function publishPost($post, $publishedAt = null);
 }

@@ -29,7 +29,11 @@ class CanalResource extends JsonResource
             'youtube_playlist' => $this->youtube_playlist,
             'url_www' => $this->url_www,
             'published' => $this->published,
-            'updaters' => $this->updaters,
+            // Do 9/2026 tu bolo pole `updaters` — jedna spojovacia tabuľka
+            // pre vierovyznanie, deň importu aj zaradenie do zoznamov naraz.
+            'denomination' => $this->denomination?->value,
+            'post_section' => $this->post_section?->value,
+            'import_day' => $this->import_day,
         ];
     }
 }

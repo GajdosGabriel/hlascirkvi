@@ -21,6 +21,13 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 Route::get('password/confirm', 'Auth\ConfirmPasswordController@showConfirmForm')->name('password.confirm');
 Route::post('password/confirm', 'Auth\ConfirmPasswordController@confirm');
 
+// Overenie e-mailu. `verification.verify` zámerne nie je za `auth` — odkaz
+// z pošty sa otvára aj v inom prehliadači, než v ktorom človek registroval.
+// Autorizáciu nesie podpis v URL, middleware si dopĺňa samotný controller.
+Route::get('email/verify', 'Auth\VerificationController@notice')->name('verification.notice');
+Route::get('email/verify/{user}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
+Route::post('email/verify/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+
 Route::get('/', 'Public\PostController@index')->name('posts.index');
 
 // Mapa webu pre vyhľadávače. /sitemap.xml je rozcestník, samotné adresy sú
@@ -37,6 +44,10 @@ Route::get('/gdpr', 'Public\HomeController@gdpr')->name('gdpr');
 Route::get('/online-prenosy', 'Public\HomeController@zivePrenosy')->name('online-prenosy');
 Route::get('/konferencie-a-pute', 'Public\HomeController@seminare')->name('konferencie.pute');
 Route::get('/zdravie-z-bozej-ruky', 'Public\HomeController@zdravie')->name('zdravie');
+
+// Celý predný zoznam kanálov. Karta v bočnom paneli ukazuje len prvých pár
+// (config frontlist.card_limit) a odkazuje sem.
+Route::get('/osobnosti', 'Public\FrontListController@index')->name('frontlist.index');
 
 
 // oAuth Routes...
@@ -141,6 +152,13 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     // Oznam nemá verejný detail — upravuje sa vo formulári, zobrazuje sa na webe.
     Route::resource('announcement', Admin\AnnouncementController::class)->except('show');
 
+    // Predný zoznam kanálov na úvodnej stránke. Nie je to CRUD nad vlastným
+    // modelom — zaradenie a poradie sú stĺpce kanála, preto vlastné routy.
+    Route::get('front-list', 'Admin\FrontListController@index')->name('frontlist.index');
+    Route::post('front-list', 'Admin\FrontListController@store')->name('frontlist.store');
+    Route::put('front-list/{canal}/move', 'Admin\FrontListController@move')->name('frontlist.move');
+    Route::delete('front-list/{canal}', 'Admin\FrontListController@destroy')->name('frontlist.destroy');
+
     Route::resources([
         'home'                 => Admin\AdminController::class,
         'buffer'               => Admin\BufferController::class,
@@ -151,8 +169,6 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
         'image'                 => Admin\ImageController::class,
         'statistic'             => Admin\StatisticController::class,
         'tag'                  => Admin\TagController::class,
-        'updater'              => Admin\UpdaterController::class,
-        'updater.canal'         => Admin\UpdaterCanalController::class,
     ]);
 });
 

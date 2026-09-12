@@ -1,21 +1,17 @@
 <div class="md:flex mb-6">
 
-    <div class="form-category md:pr-2 {{ $errors->has('group_id') ? ' has-error' : '' }}">
-        <label>Kategória</label>
-        <select name="updaters" required class="form-control">
-            <option value="" selected disabled>Vybrať kategóriu</option>
-            @forelse(\App\Models\Updater::all() as $updater)
-                @if ($updater->type == 'post')
-                    <option class="option" value="{{ $updater->id }}"
-                        @foreach ($post['updaters'] as $up)
-                        @if ($up->pivot->updater_id == $updater->id)
-                            selected
-                        @endif @endforeach>
-                        {{ $updater->title }}<br>
-                @endif
-            @empty
-                žiadny tag
-            @endforelse
+    <div class="form-category md:pr-2 {{ $errors->has('section') ? ' has-error' : '' }}">
+        <label>Výpis</label>
+        {{-- Do 9/2026 to bol zoznam updaterov typu `post` načítaný priamo
+             v šablóne, pričom ten istý záznam znamenal aj „príspevok je
+             zverejnený". Zaradenie je dnes stĺpec `posts.section`. --}}
+        <select name="section" required class="form-control">
+            <option value="" disabled @selected(! $post->section)>Vybrať výpis</option>
+            @foreach (\App\Enums\PostSection::options() as $option)
+                <option value="{{ $option->value }}" @selected(old('section', $post->section?->value) === $option->value)>
+                    {{ $option->label() }}
+                </option>
+            @endforeach
         </select>
     </div>
 
@@ -29,18 +25,22 @@
 
     <div class="form-category md:pr-2">
         <label for="publishet1" class="whitespace-nowrap ">{{ trans('web.publish_now') }}</label>
+
+        {{-- Prepínač posielal do poľa `published` buď dátum, alebo reťazec
+             „null". Pole nebolo vo validácii, takže ho PostSaveRequest zahodil
+             a voľba nerobila nič. Stav dnes nesie `published_at`. --}}
         <div class="flex space-x-5 form-control">
 
             <div class="flex space-x-2">
                 <label for="publishet1" class="whitespace-nowrap  ">Teraz</label>
-                <input type="radio" value="{{ date('Y-m-d H:i:s') }}" @if (is_string($post->published)) checked @endif
-                    required id="publishet1" name="published">
+                <input type="radio" value="1" @checked((bool) old('publish_now', $post->published_at))
+                    required id="publishet1" name="publish_now">
             </div>
 
             <div class="flex space-x-2">
-                <label for="publishet2" class="whitespace-nowrap ">Neskôr</label>
-                <input type="radio" value="null"  @if ( $post->created_at and $post->published == null) checked @endif required
-                    id="publishet2" name="published">
+                <label for="publishet2" class="whitespace-nowrap ">Nechať vo fronte</label>
+                <input type="radio" value="0" @checked(! (bool) old('publish_now', $post->published_at))
+                    required id="publishet2" name="publish_now">
             </div>
         </div>
     </div>

@@ -27,18 +27,14 @@
             <h4 class="border-b-2 py-3 border-gray-300 font-semibold">Napíšte nám</h4>
             <form method="post" action="{{ route('messengers.store') }}" class="my-4">
                 {{ csrf_field() }}
+                {{-- Bývalé „Som človek 7 plus 3" nahradila neviditeľná kontrola,
+                     vysvetlenie v App\Support\HumanCheck. --}}
+                <x-human-check/>
                 <textarea class="border-2 border-gray-500 rounded-md w-full p-2" name="body" rows="3"
                           class="w-full rounded-md" required placeholder="Napíšte nám svoje podnety ... Ďakujeme"
                           value="{{ old('body') }}"></textarea>
 
                 <div class="form-group md:flex items-center mt-4">
-
-                    @if(auth()->guest())
-                        <label>Som človek 7 plus 3 = </label>
-                        <input class="mx-2 rounded-sm text-gray-800" type="number" name="iamHuman"
-                               placeholder="Zadajte číslo"
-                               required>
-                    @endif
 
                     <button type="submit"
                             class="px-2 p-1 border-2 text-sm rounded-sm mt-2 hover:bg-gray-700">Odoslať

@@ -1,4 +1,7 @@
-<x-dashboard.panel title="Kresťanské osobnosti" class="mt-5">
+{{-- Panel sa volal „Kresťanské osobnosti", čo je názov predného zoznamu na
+     úvodnej stránke — s ním nemá nič spoločné. Sú to kanály, ktorým niečo
+     čaká vo fronte. --}}
+<x-dashboard.panel title="Kanály s čakajúcimi príspevkami" class="mt-5">
 
         {{-- Počet čakajúcich príspevkov ráta withCount v BufferController,
              takže tu už nič nedopytujeme. --}}

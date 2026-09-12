@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use App\Enums\PostSection;
 use App\Traits\HasRoute;
 use App\Traits\HasImages;
 use App\Traits\HasComments;
@@ -28,7 +29,7 @@ class Post extends Model
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
     protected $with = ['favorites', 'images', 'organization'];
-    protected $appends = ['favoritesCount', 'isFavorited', 'thumbImage', 'hasUpdater'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'thumbImage', 'isPublished'];
 
     protected $fillable = [
         'organization_id',
@@ -39,7 +40,8 @@ class Post extends Model
         'youtube',
         'video_id',
         'count_view',
-        'published',
+        'published_at',
+        'section',
         'video_available',
         'video_duration',
     ];
@@ -47,6 +49,8 @@ class Post extends Model
     protected $casts = [
         'video_duration' => VideoDuration::class,
         'title' => \App\Casts\StringLength255::class,
+        'published_at' => 'datetime',
+        'section' => \App\Enums\PostSection::class,
     ];
 
 
@@ -74,12 +78,6 @@ class Post extends Model
         return $this->belongsToMany(Seminar::class);
     }
 
-    public function updaters()
-    {
-        return $this->belongsToMany(Updater::class);
-    }
-
-
     public function setBodyAttribute($value)
     {
         $this->attributes['body'] = cleanBody($value);
@@ -92,26 +90,32 @@ class Post extends Model
     }
 
 
-    public function getHasUpdaterAttribute()
+    /**
+     * Je príspevok vonku? Do 9/2026 sa to zisťovalo cez `hasUpdater`, teda
+     * existenciou riadku v `post_updater` — a keďže atribút je v $appends,
+     * bol to jeden exists() dopyt na každý príspevok vo výpise, kým si ho
+     * volajúci neošetril cez withExists(). Teraz je to obyčajný stĺpec.
+     */
+    public function getIsPublishedAttribute(): bool
     {
-        // Atribút je v $appends, takže sa počíta pri každej serializácii. Bez
-        // týchto dvoch skratiek to bol jeden exists() dopyt na každý príspevok
-        // vo výpise; withExists('updaters') alebo eager load ho ušetria.
-        if (array_key_exists('updaters_exists', $this->attributes)) {
-            return (bool) $this->attributes['updaters_exists'];
-        }
-
-        if ($this->relationLoaded('updaters')) {
-            return $this->updaters->isNotEmpty();
-        }
-
-        return $this->updaters()->exists();
+        return $this->published_at !== null;
     }
 
-
-
-    public function scopeUnpublished()
+    /** Zverejnené príspevky — tie, ktoré publisher vypustil z buffera. */
+    public function scopePublished($query)
     {
-        return $this->wherePublished(null);
+        return $query->whereNotNull('published_at');
+    }
+
+    /** Príspevky čakajúce vo fronte. */
+    public function scopeUnpublished($query)
+    {
+        return $query->whereNull('published_at');
+    }
+
+    /** Príspevky jedného výpisu — úvodná stránka, prenosy, konferencie. */
+    public function scopeSection($query, PostSection $section)
+    {
+        return $query->where('section', $section);
     }
 }

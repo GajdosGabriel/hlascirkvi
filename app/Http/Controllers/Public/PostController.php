@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 
 use Youtube;
+use App\Enums\PostSection;
 use App\Models\Post;
 use App\Filters\PostFilters;
 use App\Services\CreditUser;
@@ -30,7 +31,7 @@ class PostController extends Controller
 
     public function index(PostFilters $filters)
     {
-        $posts = $this->post->postsByUpdater(15)->filter($filters)->paginate(30);
+        $posts = $this->post->postsInSection(PostSection::Front)->filter($filters)->paginate(30);
 
         return view('posts.index', compact('posts'));
     }
@@ -40,10 +41,6 @@ class PostController extends Controller
     public function show(Post $post, CreditUser $creditUser, ?string $slug = null)
     {
         // Vypnutý kanál odfiltruje middleware `bannedCanal` (routes/web.php).
-
-        // Šablóna serializuje $post do Vue komponentov, čo zakaždým vyhodnotí
-        // hasUpdater. S načítanou väzbou sa atribút prečíta z pamäte.
-        $post->load('updaters');
 
         $creditUser->setPostHistory($post);
 

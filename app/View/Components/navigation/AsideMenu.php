@@ -115,6 +115,11 @@ class AsideMenu extends Component
                 'name' => 'Oznamy',
             ],
             [
+                'url' => route('admin.frontlist.index'),
+                'icon' => 'users',
+                'name' => 'Predný zoznam',
+            ],
+            [
                 'url' => route('admin.statistic.index'),
                 'icon' => 'statistic',
                 'name' => 'Štatistika',
@@ -123,11 +128,6 @@ class AsideMenu extends Component
                 'url' => route('admin.tag.index'),
                 'icon' => 'tag',
                 'name' => 'Tagy',
-            ],
-            [
-                'url' => route('admin.updater.index'),
-                'icon' => 'statistic',
-                'name' => 'Updaters',
             ],
             [
                 'url' => route('admin.buffer.index'),

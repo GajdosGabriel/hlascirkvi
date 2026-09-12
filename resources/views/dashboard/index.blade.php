@@ -192,7 +192,7 @@
                                     <span class="ar-row__title ar-clamp-2">{{ $row->title }}</span>
                                     <span class="ar-row__meta">
                                         {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}
-                                        @if (! $row->published)
+                                        @if (! $row->published_at)
                                             <span class="ar-badge ar-badge--count ml-1">čaká v bufferi</span>
                                         @endif
                                         @if ($row->video_available !== null && ! $row->video_available)

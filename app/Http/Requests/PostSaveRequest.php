@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\PostSection;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PostSaveRequest extends FormRequest
 {
@@ -21,7 +23,11 @@ class PostSaveRequest extends FormRequest
         return [
             'title' => 'required|string|max:255|min:3',
             'body' => 'required|string|min:3',
-            'updaters' => 'required|integer|exists:updaters,id',
+            // Do ktorého výpisu príspevok patrí a či ide von hneď. Predtým
+            // to bolo jedno pole `updaters` s id z číselníka, ktoré znamenalo
+            // oboje naraz.
+            'section' => ['required', Rule::enum(PostSection::class)],
+            'publish_now' => 'nullable|boolean',
 
             /*
              * Výber kanála sa vo formulári ukáže len administrácii

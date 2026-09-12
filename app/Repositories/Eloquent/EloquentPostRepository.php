@@ -8,6 +8,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Enums\PostSection;
 use App\Models\Post;
 use Carbon\Carbon;
 use App\Repositories\AbstractRepository;
@@ -22,14 +23,15 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
 
 
     /**
-     * Príspevky updatera zoskupené po kanáloch. Výpisy z každého kanála ukazujú
-     * len prvých pár položiek, preto sa načíta rovno len toľko riadkov —
-     * pôvodné get()->groupBy() ťahalo do pamäte celú históriu (pri nedeľných
-     * prenosoch vyše 9 000 príspevkov aj s obrázkami) a zvyšok zahodilo.
+     * Zverejnené príspevky jedného výpisu zoskupené po kanáloch. Výpisy
+     * z každého kanála ukazujú len prvých pár položiek, preto sa načíta rovno
+     * len toľko riadkov — pôvodné get()->groupBy() ťahalo do pamäte celú
+     * históriu (pri nedeľných prenosoch vyše 9 000 príspevkov aj s obrázkami)
+     * a zvyšok zahodilo.
      */
-    public function getPostsByUpdater($idUpdaters, $perOrganization = 5)
+    public function groupedBySection(PostSection $section, $perOrganization = 5)
     {
-        $ids = $this->latestIdsPerOrganization($idUpdaters, $perOrganization);
+        $ids = $this->latestIdsPerOrganization($section, $perOrganization);
 
         if (empty($ids)) {
             return collect();
@@ -40,15 +42,15 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     }
 
     /**
-     * Id najnovších príspevkov updatera, najviac $perOrganization na kanál.
+     * Id najnovších príspevkov výpisu, najviac $perOrganization na kanál.
      * Okenná funkcia to zvládne jedným prechodom cez index, bez triedenia
      * v PHP.
      */
-    protected function latestIdsPerOrganization($idUpdaters, $perOrganization)
+    protected function latestIdsPerOrganization(PostSection $section, $perOrganization)
     {
         $ranked = \DB::table('posts')
-            ->join('post_updater', 'posts.id', '=', 'post_updater.post_id')
-            ->where('post_updater.updater_id', $idUpdaters)
+            ->where('posts.section', $section->value)
+            ->whereNotNull('posts.published_at')
             ->whereNull('posts.deleted_at')
             ->whereNull('posts.video_available')
             ->where('posts.youtube_blocked', 0)
@@ -62,11 +64,15 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     }
 
 
-    public function postsByUpdater($idUpdaters)
+    /**
+     * Zverejnené príspevky jedného výpisu. `video_available` drží videá, ktoré
+     * na YouTube už nie sú — tie sa nikde neponúkajú.
+     */
+    public function postsInSection(PostSection $section)
     {
-        return $this->entity->whereHas('updaters', function ($query) use ($idUpdaters) {
-            $query->whereId($idUpdaters);
-        })->where('video_available', NULL);
+        return $this->entity->published()
+            ->section($section)
+            ->whereNull('video_available');
     }
 
     public function postsByTag($idTag)
@@ -79,7 +85,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
 
     protected function unpublished()
     {
-        return $this->entity->doesntHave('updaters');
+        return $this->entity->unpublished();
     }
 
     public function unpublishedPaginate($perPage)
@@ -90,7 +96,9 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     // For buffer ---------------
 
     /**
-     * Čakajúce príspevky: bez updatera (teda nezverejnené), s dostupným videom.
+     * Čakajúce príspevky: nezverejnené, s dostupným videom. Predtým to bola
+     * neexistencia riadku v `post_updater`, čo si vyžiadalo poddopyt na každý
+     * riadok; dnes stačí prázdne `published_at`.
      *
      * Zámerne cez query builder — Post má $with (favorites, images,
      * organization) aj $appends, takže načítanie modelov len kvôli počtu by
@@ -102,11 +110,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->whereNull('posts.deleted_at')
             ->where('posts.youtube_blocked', 0)
             ->whereNull('posts.video_available')
-            ->whereNotExists(function ($query) {
-                $query->select(\DB::raw(1))
-                    ->from('post_updater')
-                    ->whereColumn('post_updater.post_id', 'posts.id');
-            });
+            ->whereNull('posts.published_at');
     }
 
     public function countWaitingPosts()
@@ -129,7 +133,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      * a čas, kedy z kanála naposledy niečo vyšlo. Z toho si publisher vyberá,
      * kto je na rade.
      */
-    public function waitingOrganizations($idUpdater, $freshSince = null)
+    public function waitingOrganizations($freshSince = null)
     {
         $organizations = $this->waitingPostsQuery()
             ->groupBy('posts.organization_id')
@@ -146,8 +150,8 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
         }
 
         $lastPublished = \DB::table('posts')
-            ->join('post_updater', 'posts.id', '=', 'post_updater.post_id')
-            ->where('post_updater.updater_id', $idUpdater)
+            ->where('posts.section', PostSection::Front->value)
+            ->whereNotNull('posts.published_at')
             ->whereNull('posts.deleted_at')
             ->whereIn('posts.organization_id', $organizations->pluck('organization_id'))
             ->groupBy('posts.organization_id')
@@ -172,7 +176,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     public function nextWaitingPost($organizationId, $freshSince = null)
     {
         return $this->entity->whereOrganizationId($organizationId)
-            ->doesntHave('updaters')
+            ->unpublished()
             ->whereNull('video_available')
             ->when($freshSince, fn ($query) => $query->where('created_at', '>=', $freshSince))
             ->orderBy('created_at')
@@ -180,18 +184,17 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->first();
     }
 
-    /*
-     * Publishing manually For adminController
-     */
-    public function findAndPublishPost($post, $IdUpdater)
+    /** Ručné zverejnenie z buffera (App\Http\Controllers\Api\PostController). */
+    public function findAndPublishPost($postId)
     {
-        $this->publishPost($this->entity->find($post), $IdUpdater);
+        $this->publishPost($this->entity->find($postId));
     }
 
-    /*
-     * Published for buffer
+    /**
+     * Zverejnenie príspevku. Zaradenie (`section`) sa nemení — to príspevok
+     * dostal už pri importe podľa kanála; tu ide len o okamih vydania.
      */
-    public function publishPost($post, $IdUpdater, $publishedAt = null)
+    public function publishPost($post, $publishedAt = null)
     {
         $publishedAt = $publishedAt ?: now();
 
@@ -200,10 +203,8 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
         // datovaný dňom importu. Práve podľa `created_at` sa radí predný
         // zoznam, čiže staršie príspevky sa po zverejnení nikde neukázali.
         $post->created_at = $publishedAt;
-        $post->published = $publishedAt;
+        $post->published_at = $publishedAt;
         $post->save();
-
-        $post->updaters()->attach($IdUpdater);
 
         return $post;
     }
@@ -228,7 +229,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
         // dostane globálny scope, soft delete aj video_available — a tým aj
         // index posts_feed_created_index, ktorý rozsah created_at prejde bez
         // toho, aby sa dotýkal celej spojovacej tabuľky.
-        $unwatchedVideos = $this->postsByUpdater(16)
+        $unwatchedVideos = $this->postsInSection(PostSection::Live)
             ->where('created_at', '>', session()->get('lastVisit'))
             ->count();
 

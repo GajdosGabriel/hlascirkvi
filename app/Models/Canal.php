@@ -22,9 +22,9 @@ class Canal extends Model
     use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages, HasFilter, HasComments, HasDatetime;
 
     // Model sa do 9/2026 volal Organization a databáza pomenovanie drží dodnes:
-    // tabuľka organizations, cudzie kľúče organization_id, pivoty
-    // organization_user a organization_updater. Bez týchto nastavení by si
-    // Eloquent odvodil canals / canal_id / canal_user.
+    // tabuľka organizations, cudzie kľúče organization_id, pivot
+    // organization_user. Bez týchto nastavení by si Eloquent odvodil
+    // canals / canal_id / canal_user.
     // Polymorfné stĺpce (favorites.favorited_type...) pokrýva morph mapa
     // v AppServiceProvider.
     protected $table = 'organizations';
@@ -40,6 +40,24 @@ class Canal extends Model
         'title' => \App\Casts\StringLength255::class,
         'url_www' => \App\Casts\Urlwww::class,
         'youtube_disabled_at' => 'datetime',
+        'front_listed_at' => 'datetime',
+        'denomination' => \App\Enums\Denomination::class,
+        'post_section' => \App\Enums\CanalSection::class,
+        'import_day' => 'integer',
+    ];
+
+    /**
+     * Dni, v ktoré denný beh hľadá kanál na YouTube podľa mena. Číslovanie
+     * kopíruje Carbon::dayOfWeek, aby sa dopyt dal poskladať bez prekladu.
+     */
+    public const IMPORT_DAYS = [
+        0 => 'Nedeľa',
+        1 => 'Pondelok',
+        2 => 'Utorok',
+        3 => 'Streda',
+        4 => 'Štvrtok',
+        5 => 'Piatok',
+        6 => 'Sobota',
     ];
 
     protected $appends = ['favoritesCount', 'isFavorited', 'initialName'];
@@ -49,6 +67,23 @@ class Canal extends Model
     // dva dopyty; takto ich Eloquent načíta pre celú dávku naraz.
     protected $with = ['favorites'];
 
+
+    /**
+     * Kanály predného zoznamu na úvodnej stránke, v poradí, ktoré im určil
+     * správca. Kanál bez poradia ide na koniec — pridať jeden kanál teda
+     * neznamená prečíslovať celý zoznam.
+     *
+     * Zmazaný kanál odfiltruje SoftDeletes, skrytý (`published` = 0) táto
+     * podmienka. Pôvodný surový dopyt nekontroloval ani jedno a zoznam takýto
+     * kanál pokojne ponúkal ďalej.
+     */
+    public function scopeOnFrontList($query)
+    {
+        return $query->whereNotNull('front_listed_at')
+            ->where('published', 1)
+            ->orderByRaw('front_position is null, front_position')
+            ->orderBy('title');
+    }
 
     public function posts()
     {
@@ -73,11 +108,6 @@ class Canal extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'org_id');
-    }
-
-    public function updaters()
-    {
-        return $this->belongsToMany(Updater::class, 'organization_updater');
     }
 
     public function village()

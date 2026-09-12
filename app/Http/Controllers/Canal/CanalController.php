@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Canal;
 
+use App\Enums\CanalSection;
+use App\Enums\Denomination;
 use App\Models\User;
 use App\Models\Canal;
-use App\Models\Updater;
 use App\Models\Village;
 use App\Filters\CanalFilters;
 use App\Http\Requests\CanalRequest;
@@ -21,14 +22,11 @@ use Illuminate\Support\Facades\DB;
  */
 class CanalController extends Controller
 {
-    /** Skupiny zaradenia, ktoré formulár kanála ponúka. */
-    protected const UPDATER_TYPES = ['denomination', 'frontUser', 'post', 'listOfOrganization', 'dayOfWeek'];
-
     public function create()
     {
         return view('dashboard.canals.create', [
             'villages' => Village::orderBy('fullname')->get(['id', 'fullname', 'zip']),
-            'denominations' => Updater::where('type', 'denomination')->orderBy('title')->get(),
+            'denominations' => Denomination::options(),
         ]);
     }
 
@@ -44,7 +42,7 @@ class CanalController extends Controller
     {
         // Lišta filtrov nad výpisom posiela ?search / ?unpublished / ?deletedAt.
         $canals = $request->user()->organizations()
-            ->with(['village:id,fullname', 'updaters:id,title,slug,type', 'users:id,first_name,last_name'])
+            ->with(['village:id,fullname', 'users:id,first_name,last_name'])
             ->filter($filters)
             ->paginate(30)
             ->withQueryString();
@@ -81,17 +79,16 @@ class CanalController extends Controller
     {
         $this->authorize('manage', $canal);
 
-        $canal->load(['updaters', 'users:id,first_name,last_name']);
+        $canal->load(['users:id,first_name,last_name']);
 
         return view('dashboard.canals.edit', [
             'canal' => $canal,
             'villages' => Village::orderBy('fullname')->get(['id', 'fullname', 'zip']),
-            // Jeden dopyt pre všetky skupiny zaradenia; formulár si ich berie
-            // podľa typu. Predtým sa Updater::all() volalo v šablóne päťkrát.
-            'updaters' => Updater::whereIn('type', self::UPDATER_TYPES)
-                ->orderBy('title')
-                ->get(['id', 'title', 'type'])
-                ->groupBy('type'),
+            // Zaradenie, smerovanie videí a deň importu sú dnes stĺpce kanála
+            // s pevným číselníkom — netreba pre ne dopyt do databázy.
+            'denominations' => Denomination::options(),
+            'sections' => CanalSection::options(),
+            'importDays' => Canal::IMPORT_DAYS,
             // Zoznam všetkých užívateľov potrebuje len superadmin (výber správcov).
             'users' => $request->user()->can('superadmin')
                 ? User::orderBy('last_name')->orderBy('first_name')->get(['id', 'first_name', 'last_name'])
@@ -105,13 +102,16 @@ class CanalController extends Controller
 
         $isAdmin = $request->user()->hasRole('admin');
 
-        // YouTube polia a text pred názvom vykresľuje formulár len adminovi —
-        // rovnaký prípad ako `users`/`published` nižšie, stačilo ich doposlať.
-        $adminOnly = $isAdmin ? [] : ['youtube_channel', 'youtube_playlist', 'mod_title'];
+        // YouTube polia, text pred názvom, deň importu a smerovanie videí
+        // vykresľuje formulár len adminovi — rovnaký prípad ako
+        // `users`/`published` nižšie, stačilo ich doposlať.
+        $adminOnly = $isAdmin
+            ? []
+            : ['youtube_channel', 'youtube_playlist', 'mod_title', 'import_day', 'post_section'];
 
         $canal->update(
             collect($request->validated())
-                ->except(['updaters', 'users', 'published', ...$adminOnly])
+                ->except(['users', 'published', ...$adminOnly])
                 ->all()
         );
 
@@ -125,8 +125,6 @@ class CanalController extends Controller
                 'youtube_disabled_reason' => null,
             ]);
         }
-
-        $canal->updaters()->sync($this->updaterIds($request, $canal, $isAdmin));
 
         // Priradenie správcov kanála a jeho publikovanie sú vo formulári
         // v @can('superadmin') bloku (dashboard/canals/edit.blade.php).
@@ -145,29 +143,4 @@ class CanalController extends Controller
         return back();
     }
 
-    /**
-     * Bežný správca vo formulári vidí len zaradenie (denomination). Kým sa
-     * sync robil priamo zo vstupu, každé jeho uloženie zmazalo zaradenia,
-     * ktoré kanálu nastavil admin (titulka, zoznamy, dni vyhľadávania).
-     */
-    protected function updaterIds(CanalRequest $request, Canal $canal, bool $isAdmin): array
-    {
-        $submitted = collect($request->input('updaters', []))->map(fn ($id) => (int) $id);
-
-        if ($isAdmin) {
-            return $submitted->unique()->values()->all();
-        }
-
-        $denomination = Updater::where('type', 'denomination')
-            ->whereIn('id', $submitted)
-            ->pluck('id');
-
-        return $canal->updaters()
-            ->where('type', '!=', 'denomination')
-            ->pluck('updaters.id')
-            ->merge($denomination)
-            ->unique()
-            ->values()
-            ->all();
-    }
 }

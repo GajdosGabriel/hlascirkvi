@@ -64,6 +64,8 @@
              mimo tohto layoutu a bez toho by ich detail príspevku nemal. --}}
         <x-announcements placement="top"/>
 
+        @include('partials.verify-banner')
+
         <main class="@yield('main-class')">
             @include('layouts.errors')
 

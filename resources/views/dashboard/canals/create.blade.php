@@ -29,10 +29,10 @@
                 </div>
                 <div class="form-group">
                     <label for="denomination">Cirkev / zaradenie kanála *</label>
-                    <select class="form-control" id="denomination" name="updaters[]" required>
+                    <select class="form-control" id="denomination" name="denomination" required>
                         <option value="">Vyberte zaradenie</option>
                         @foreach ($denominations as $denomination)
-                            <option value="{{ $denomination->id }}" @selected(in_array($denomination->id, old('updaters', [])))>{{ $denomination->title }}</option>
+                            <option value="{{ $denomination->value }}" @selected(old('denomination') === $denomination->value)>{{ $denomination->label() }}</option>
                         @endforeach
                     </select>
                 </div>

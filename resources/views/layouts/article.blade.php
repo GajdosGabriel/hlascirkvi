@@ -146,6 +146,8 @@
              vlastnom layoute, takže sa musia vložiť aj sem. --}}
         <x-announcements placement="top" />
 
+        @include('partials.verify-banner')
+
         <main>
             @include('layouts.errors')
 

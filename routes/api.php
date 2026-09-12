@@ -64,7 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'users.comments'        => Api\User\UserCommentController::class,
         'users.organizations'   => Api\UserCanalController::class,
         'villages'              => Api\VillageController::class,
-        'updaters'              => Api\UpdaterController::class,
+        'denominations'         => Api\DenominationController::class,
     ]);
 
     Route::apiResource('prayers', Api\PrayerController::class)->only(['update', 'destroy']);

@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use App\Notifications\User\ConfirmEmail;
 use App\Traits\HasDatetime;
 use App\Traits\HasFilter;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use  HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, HasFilter, HasDatetime;
 
@@ -143,5 +145,16 @@ class User extends Authenticatable
     public function banned()
     {
         return $this->disabled;
+    }
+
+    /**
+     * Model je od zavedenia overovania MustVerifyEmail, takže naň platí
+     * middleware `verified`, hasVerifiedEmail() aj poslucháč na udalosti
+     * Registered. Laravel by ale poslal svoju anglickú šablónu — portál má
+     * vlastnú, slovenskú (App\Notifications\User\ConfirmEmail).
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new ConfirmEmail($this));
     }
 }

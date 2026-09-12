@@ -28,7 +28,7 @@
                 {{--</div>--}}
 
                 <div style="margin-top: auto; font-size: 80%; cursor: pointer">
-                    <messenger></messenger>
+                    <messenger stamp="{{ \App\Support\HumanCheck::stamp() }}"></messenger>
                 </div>
 
             </div>

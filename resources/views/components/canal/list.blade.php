@@ -1,16 +1,6 @@
 @props(['canals', 'admin' => false])
 
 @php
-    // Ikony k zaradeniu kanála. Updaters sú číselník, tu ide len o to, aby
-    // štítok nebol holý text.
-    $updaterIcon = [
-        'front-user'      => 'fas fa-user',
-        'catholic'        => 'fab fa-korvue',
-        'evangelical'     => 'fab fa-product-hunt',
-        'zive-vysielanie' => 'fas fa-church',
-        'vzdelavanie'     => 'fas fa-graduation-cap',
-    ];
-
     $plural = fn (int $n, string $one, string $few, string $many)
         => $n === 1 ? $one : ($n >= 2 && $n <= 4 ? $few : $many);
 @endphp
@@ -20,11 +10,16 @@
         @forelse ($canals as $canal)
             @php
                 $isActive = $canal->id === auth()->user()->org_id;
-                $days = $canal->updaters->where('type', 'dayOfWeek');
-                // `default` je zástupná položka číselníka, správcovi nič nehovorí.
-                $tags = $canal->updaters
-                    ->where('type', '!=', 'dayOfWeek')
-                    ->where('slug', '!=', 'default');
+
+                /*
+                 * Štítky kanála. Do 9/2026 to boli updatery — jedna spojovacia
+                 * tabuľka pre vierovyznanie, deň importu, zaradenie do zoznamov
+                 * aj predný zoznam naraz. Dnes je každá z tých vecí vlastný
+                 * stĺpec, takže sa dajú vypísať priamo.
+                 */
+                $importDay = $canal->import_day === null
+                    ? null
+                    : (\App\Models\Canal::IMPORT_DAYS[$canal->import_day] ?? null);
             @endphp
 
             <article @class([
@@ -69,24 +64,32 @@
                             {{ collect([$canal->street, optional($canal->village)->fullname])->filter()->implode(', ') ?: 'Bez adresy' }}
                         </p>
 
-                        @if ($tags->isNotEmpty() || $days->isNotEmpty())
-                            <div class="mt-2 flex flex-wrap items-center gap-1.5">
-                                @foreach ($tags as $tag)
-                                    <span class="ar-chip">
-                                        @isset($updaterIcon[$tag->slug])
-                                            <i class="{{ $updaterIcon[$tag->slug] }}" aria-hidden="true"></i>
-                                        @endisset
-                                        {{ $tag->title }}
-                                    </span>
-                                @endforeach
+                        <div class="mt-2 flex flex-wrap items-center gap-1.5">
+                            @if ($canal->front_listed_at)
+                                <span class="ar-chip">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                    Predný zoznam
+                                </span>
+                            @endif
 
-                                @if ($days->isNotEmpty())
-                                    <span class="ar-chip ar-chip--muted">
-                                        Aktualizácia: {{ $days->pluck('title')->implode(', ') }}
-                                    </span>
-                                @endif
-                            </div>
-                        @endif
+                            @if ($canal->denomination)
+                                <span class="ar-chip">
+                                    <i class="{{ $canal->denomination->icon() }}" aria-hidden="true"></i>
+                                    {{ $canal->denomination->label() }}
+                                </span>
+                            @endif
+
+                            @if ($canal->post_section === \App\Enums\CanalSection::Live)
+                                <span class="ar-chip">
+                                    <i class="fas fa-church" aria-hidden="true"></i>
+                                    Nedeľné prenosy
+                                </span>
+                            @endif
+
+                            @if ($importDay)
+                                <span class="ar-chip ar-chip--muted">Aktualizácia: {{ $importDay }}</span>
+                            @endif
+                        </div>
 
                         @if ($canal->users->isNotEmpty())
                             <p class="mt-2 text-xs text-[color:var(--ar-ink-soft)]">

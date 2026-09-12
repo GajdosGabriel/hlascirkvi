@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\PostSection;
 use App\Models\Post;
 use App\Filters\PostFilters;
 use Illuminate\Http\Request;
@@ -21,10 +22,7 @@ class PostController extends Controller
 
     public function index(PostFilters $filters)
     {
-        // PostResource číta hasUpdater a CanalResource vypisuje updaterov
-        // kanála — obe väzby preto naťaháme v dávke, nie riadok po riadku.
-        $posts = $this->post->postsByUpdater(15)
-            ->with(['updaters', 'organization.updaters'])
+        $posts = $this->post->postsInSection(PostSection::Front)
             ->filter($filters)
             ->paginate(28);
 
@@ -38,16 +36,20 @@ class PostController extends Controller
      *
      * Pôvodne tu bolo `Post::whereId($post)->first()->update($request->all())`
      * na route mimo auth, takže ktokoľvek vedel prepísať ľubovoľný príspevok.
+     *
+     * Do 9/2026 sa posielalo `idUpdater` — id z číselníka, ktoré zároveň
+     * znamenalo „zverejni". Príspevok si zaradenie nesie sám od importu,
+     * takže tlačidlo posiela už len to, čo naozaj robí.
      */
     public function update(Post $post, Request $request)
     {
         $data = $request->validate([
-            'idUpdater'       => 'nullable|integer|exists:updaters,id',
+            'publish'         => 'nullable|boolean',
             'youtube_blocked' => 'nullable|boolean',
         ]);
 
-        if (! empty($data['idUpdater'])) {
-            $this->post->findAndPublishPost($post->id, $data['idUpdater']);
+        if (! empty($data['publish'])) {
+            $this->post->findAndPublishPost($post->id);
             return;
         }
 

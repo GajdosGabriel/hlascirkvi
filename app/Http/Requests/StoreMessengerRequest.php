@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsHuman;
+use App\Support\HumanCheck;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMessengerRequest extends FormRequest
@@ -23,18 +25,19 @@ class StoreMessengerRequest extends FormRequest
      */
     public function rules()
     {
-        if(auth()->guest()) {
+        if (auth()->guest()) {
             return [
-                // Vypnuté preto aby user-card mohol cez ajax zasielať správy
-                'iamHuman' => 'required|in:10dfasdsda',
+                // Nahradilo „Som človek 7 plus 3" — viď App\Support\HumanCheck.
+                // Prihlásený človek kontrolu nepotrebuje, ten už raz účtom prešiel.
+                HumanCheck::STAMP => ['required', new IsHuman],
                 'body' => 'required|min:3',
             ];
         }
+
         return [
             'body' => 'required|min:3',
         ];
     }
-
 
     /**
      * Get the error messages for the defined validation rules.
@@ -44,8 +47,8 @@ class StoreMessengerRequest extends FormRequest
     public function messages()
     {
         return [
-            'iamHuman.required' => 'Číslo musí byť 10',
-            'body.required'  => 'Správa musí obsahovať min. 3 znaky',
+            HumanCheck::STAMP.'.required' => 'Formulár nie je kompletný, obnovte stránku a skúste to znova.',
+            'body.required' => 'Správa musí obsahovať min. 3 znaky',
         ];
     }
 }

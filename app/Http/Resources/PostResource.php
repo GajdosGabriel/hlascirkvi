@@ -31,7 +31,8 @@ class PostResource extends JsonResource
             'thumbImage' => $this->thumbImage,
 //            'images' => Image::collection($this->images),
             'organization' => new CanalResource($this->organization),
-            'hasUpdater' => $this->hasUpdater
+            'section' => $this->section?->value,
+            'isPublished' => $this->isPublished,
         ];
     }
 }

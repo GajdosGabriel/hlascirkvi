@@ -20,12 +20,11 @@ class PostController extends Controller
 
     public function index(PostFilters $filters)
     {
-        // Karta príspevku vypisuje updaterov a počet komentárov
-        // (posts/card-admin.blade.php:70 a :55). Počet sa berie cez withCount,
-        // lebo comments()->count() je dopyt na relation builderi — vykonal by
-        // sa aj pri načítanej väzbe.
+        // Karta príspevku vypisuje počet komentárov
+        // (posts/card-admin.blade.php:55). Berie sa cez withCount, lebo
+        // comments()->count() je dopyt na relation builderi — vykonal by sa
+        // aj pri načítanej väzbe.
         $posts = Post::query()
-            ->with('updaters:id,title,slug,type')
             ->withCount('comments')
             ->filter($filters)
             ->paginate(40)

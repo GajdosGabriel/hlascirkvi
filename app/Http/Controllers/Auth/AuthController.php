@@ -62,18 +62,22 @@ class AuthController extends Controller
             return $this->loginFailed('E-mailová adresa vo vašom Google účte nie je overená.');
         }
 
+        // Existujúca adresa znamená prihlásenie do už založeného účtu, nová
+        // adresa registráciu. Pre návštevníka je to jedno tlačidlo, ale mal by
+        // vedieť, čo sa práve stalo — najmä keď prišiel z registrácie a účet
+        // pod tou adresou už mal.
         if (!$user = User::whereEmail($oauth_user->getEmail())->first())
         {
             $user = $this->user->createUserBySocial($oauth_user);
 
-            return $this->loginUser($user);
+            return $this->loginUser($user, 'Vitajte! Účet je založený a e-mailová adresa overená.');
         }
 
-        return $this->loginUser($user);
+        return $this->loginUser($user, 'Vitajte späť, ste prihlásený.');
     }
 
 
-    protected function loginUser($user)
+    protected function loginUser($user, ?string $message = null)
     {
         if($user->disabled){
             return $this->isUserLocked($user);
@@ -84,7 +88,7 @@ class AuthController extends Controller
 //        {
 //            return redirect(\Session::get('backUrl'));
 //        }
-        return redirect('/');
+        return redirect('/')->with('flash', $message);
 
     }
 

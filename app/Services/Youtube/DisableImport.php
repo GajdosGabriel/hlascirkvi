@@ -2,7 +2,6 @@
 
 namespace App\Services\Youtube;
 
-use App\Models\User;
 use App\Notifications\Admin\YoutubeSourceMissing;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
@@ -36,15 +35,6 @@ class DisableImport
             'playlist' => $canal->youtube_playlist,
         ]);
 
-        Notification::send(self::superadmins(), new YoutubeSourceMissing($canal, $reason));
-    }
-
-    /**
-     * Vypnutie rieši správu obsahu, nie vlastníka kanála — tomu by ostalo
-     * len neriešiteľné hlásenie.
-     */
-    private static function superadmins()
-    {
-        return User::role('superadmin')->get();
+        Notification::send(NotifyAdmin::superadmins(), new YoutubeSourceMissing($canal, $reason));
     }
 }

@@ -11,7 +11,7 @@
 
         <div class="page-aside">
             {{--@include('users.user-card')--}}
-            @include('canals.list-users')
+            <x-front-list-card />
         </div>
     </div>
 
