@@ -1,4 +1,4 @@
-<x-dashboard.frame label="Administrácia" navigation-label="Administrácia">
+<x-dashboard.frame label="Sekcie" navigation-label="Administrácia">
     <x-dashboard.header :heading="$title">
         <x-slot name="actions">{{ $title_right ?? '' }}</x-slot>
     </x-dashboard.header>

@@ -39,7 +39,10 @@ class StatisticController extends Controller
             ->orderBy('unique_view', 'desc')
             ->get();
 
-        return view('admins.statistic', ['posts' => $posts]);
+        return view('admins.statistic', [
+            'posts' => $posts,
+            'days' => $days,
+        ]);
     }
 
 

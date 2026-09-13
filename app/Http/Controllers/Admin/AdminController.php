@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\PostRepository;
+use App\Services\Dashboard\AdminDashboardStats;
 
 class AdminController extends Controller
 {
@@ -16,8 +17,8 @@ class AdminController extends Controller
     }
 
 
-    public function index()
+    public function index(AdminDashboardStats $stats)
     {
-        return view('admins.home');
+        return view('admins.home', $stats->get());
     }
 }

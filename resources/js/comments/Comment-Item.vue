@@ -1,23 +1,36 @@
 <template>
-    <div class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
-        <div class="flex items-start gap-3">
+    <article class="group rounded-xl border border-[color:var(--ar-line)] bg-white p-4 shadow-sm transition hover:border-gray-300 hover:shadow-md sm:p-5">
+        <div class="flex items-start gap-3 sm:gap-4">
             <img
                 :src="comment.user_avatar"
                 :alt="comment.user_name"
-                class="h-10 w-10 shrink-0 rounded-full object-cover"
+                class="h-10 w-10 shrink-0 rounded-full bg-[color:var(--ar-paper-deep)] object-cover ring-2 ring-white sm:h-11 sm:w-11"
             />
 
             <div class="min-w-0 flex-1">
                 <div class="flex items-start justify-between gap-3">
-                    <div class="min-w-0">
+                    <div class="min-w-0 pr-2">
                         <strong
                             class="block truncate text-sm text-[color:var(--ar-ink)]"
                             v-text="comment.user_name"
                         ></strong>
-                        <span class="text-xs text-gray-400">{{ comment.datetime }}</span>
+                        <span class="mt-0.5 block text-xs text-gray-400">{{ comment.datetime }}</span>
                     </div>
 
-                    <favorite :reply="comment"></favorite>
+                    <div class="flex shrink-0 items-center gap-1.5">
+                        <favorite :reply="comment"></favorite>
+
+                        <dropdown-slot v-if="canUpdate">
+                            <button type="button" @click="startEdit">
+                                <i class="far fa-edit w-4 text-center text-gray-400"></i>
+                                Upraviť
+                            </button>
+                            <button type="button" class="ar-act--danger" @click.prevent="destroy()">
+                                <i class="far fa-trash-alt w-4 text-center text-gray-400"></i>
+                                Zmazať
+                            </button>
+                        </dropdown-slot>
+                    </div>
                 </div>
 
                 <!-- Nezverejnený komentár vidí len jeho autor; trieda redText,
@@ -31,7 +44,7 @@
 
                 <p
                     v-else-if="! editComment"
-                    class="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-gray-700"
+                    class="mt-3 whitespace-pre-line break-words text-sm leading-relaxed text-gray-700"
                 >
                     {{ comment.body }}
                 </p>
@@ -55,20 +68,9 @@
                     </div>
                 </div>
 
-                <div v-if="canUpdate" class="mt-2 flex gap-4 text-xs text-gray-400">
-                    <dropdown-slot align="left">
-                        <button type="button" class="hover:text-[color:var(--ar-accent)]" @click="startEdit">
-                            Upraviť
-                        </button>
-                        <button type="button" class="hover:text-[color:var(--ar-accent)]" @click.prevent="destroy()">
-                            Zmazať
-                        </button>
-
-                    </dropdown-slot>
-                </div>
             </div>
         </div>
-    </div>
+    </article>
 </template>
 
 <script>
