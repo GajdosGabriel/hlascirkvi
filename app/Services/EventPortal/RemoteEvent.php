@@ -143,10 +143,63 @@ class RemoteEvent implements Arrayable
         return $this->startAt()?->toDateString() ?? 'bez-terminu';
     }
 
-    /** Hotový popis termínu z API — "07. 09. 2026 16:00 - 17:30". */
+    /**
+     * Krátky popis termínu — "07. 09. 2026 16:00 - 17:30".
+     *
+     * API posiela aj hotový `date_range_label`, ale formátuje ho v UTC
+     * (celodenné podujatie z neho vyjde ako "17. 09. 2026 22:00 - …"),
+     * preto ho skladáme sami zo start_at/end_at v slovenskom čase.
+     */
     public function dateRangeLabel(): ?string
     {
-        return $this->data['date_range_label'] ?? null;
+        $start = $this->startAt();
+
+        if (! $start) {
+            return null;
+        }
+
+        $end = $this->endAt();
+
+        if ($this->isAllDay()) {
+            return $this->isMultiDay()
+                ? $start->format('d. m. Y') . ' - ' . $end->format('d. m. Y')
+                : $start->format('d. m. Y') . ', celý deň';
+        }
+
+        if (! $end) {
+            return $start->format('d. m. Y H:i');
+        }
+
+        return $start->format('d. m. Y H:i') . ' - '
+            . ($this->isMultiDay() ? $end->format('d. m. Y H:i') : $end->format('H:i'));
+    }
+
+    /**
+     * Deň a dátum do hlavičky — "Piatok, 18. septembra 2026", pri viacdňovom
+     * podujatí "Piatok – nedeľa, 18. – 20. septembra 2026".
+     */
+    public function dateLabel(): ?string
+    {
+        $start = $this->startAt()?->locale('sk');
+
+        if (! $start) {
+            return null;
+        }
+
+        $end = $this->endAt()?->locale('sk');
+
+        if (! $end || ! $this->isMultiDay()) {
+            return ucfirst($start->isoFormat('dddd')) . ', ' . $start->isoFormat('D. MMMM YYYY');
+        }
+
+        $from = match (true) {
+            $start->year !== $end->year => $start->isoFormat('D. MMMM YYYY'),
+            $start->month !== $end->month => $start->isoFormat('D. MMMM'),
+            default => $start->isoFormat('D.'),
+        };
+
+        return ucfirst($start->isoFormat('dddd')) . ' – ' . $end->isoFormat('dddd') . ', '
+            . $from . ' – ' . $end->isoFormat('D. MMMM YYYY');
     }
 
     /**
@@ -183,6 +236,12 @@ class RemoteEvent implements Arrayable
             return null;
         }
 
+        // Celodenné podujatie čas nemá — "00:00" by klamalo. Viacdňové
+        // ostane bez času úplne, termín nesie dátum (ako na portáli).
+        if ($this->isAllDay()) {
+            return $this->isMultiDay() ? null : 'celý deň';
+        }
+
         $end = $this->endAt();
 
         if ($end && ! $this->isMultiDay() && $end->format('H:i') !== $start->format('H:i')) {
@@ -190,6 +249,21 @@ class RemoteEvent implements Arrayable
         }
 
         return $start->format('H:i');
+    }
+
+    /**
+     * Celodenné podujatie portál ukladá ako 00:00 – 23:59 miestneho času
+     * (editor aj AI import) a podľa toho ho aj zobrazuje bez času. Samostatný
+     * príznak v API nie je, takže ho odvodzujeme rovnako ako portál.
+     */
+    public function isAllDay(): bool
+    {
+        $start = $this->startAt();
+        $end = $this->endAt();
+
+        return $start !== null && $end !== null
+            && $start->format('H:i') === '00:00'
+            && $end->format('H:i') === '23:59';
     }
 
     public function isMultiDay(): bool

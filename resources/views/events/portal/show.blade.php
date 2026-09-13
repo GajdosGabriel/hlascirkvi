@@ -78,7 +78,7 @@
                 @if ($event->startAt())
                     <span class="font-medium">
                         <i class="far fa-calendar mr-2 text-[color:var(--ev-accent)]"></i>
-                        {{ ucfirst($event->dayName()) }}, {{ $event->longDate() }}
+                        {{ $event->dateLabel() }}
                         @if ($event->timeLabel())
                             <span class="text-stone-400">·</span> {{ $event->timeLabel() }}
                         @endif

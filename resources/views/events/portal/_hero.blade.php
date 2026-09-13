@@ -58,7 +58,7 @@
 
                     @if ($featured->dayName())
                         <span class="text-sm text-amber-100/90">
-                            {{ ucfirst($featured->dayName()) }}, {{ $featured->longDate() }}
+                            {{ $featured->dateLabel() }}
                             @if ($featured->timeLabel())
                                 <span class="text-white/60">·</span> {{ $featured->timeLabel() }}
                             @endif
