@@ -104,16 +104,6 @@
 </div>
 
 
-{{-- Tags Field --}}
-{{-- <div class="form-group"> --}}
-{{-- @foreach (\App\Tag::all() as $tag) --}}
-{{-- <label class="checkbox-inline"></label> --}}
-{{-- {!! Form::checkbox('tags[]', $tag->id, null) !!} --}}
-{{-- {{ $tag->tag }} --}}
-
-{{-- @endforeach --}}
-{{-- </div> --}}
-
 {{-- Add post Field --}}
 <div class="block">
 

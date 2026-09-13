@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\ModelStatus;
 use App\Filters\UserFilters;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -21,7 +23,10 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        return view('users.edit', [
+            'user' => $user,
+            'statuses' => User::statusOptions(),
+        ]);
     }
 
     /**
@@ -33,18 +38,38 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'first_name' => 'required|string|max:255',
-            'last_name'  => 'nullable|string|max:255',
-            'email'      => 'required|email|max:255|unique:users,email,' . $user->id,
-            'disabled'   => 'nullable|boolean',
+            'last_name' => 'nullable|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,'.$user->id,
+            'status' => ['required', Rule::in(array_column(User::statusOptions(), 'value'))],
+            'status_reason' => 'nullable|required_unless:status,active|string|max:500',
         ]);
 
-        $user->update(collect($data)->except('disabled')->all());
+        $newStatus = ModelStatus::from($data['status']);
 
-        // `disabled` nie je v $fillable — blokovanie účtu je stavová zmena,
-        // ktorú smie robiť len administrácia.
-        $user->disabled = $request->boolean('disabled');
+        if ($user->is($request->user()) && ! $newStatus->isActive()) {
+            return back()->withInput()->withErrors([
+                'status' => 'Nemôžete zneprístupniť vlastný administrátorský účet.',
+            ]);
+        }
+
+        $user->update(collect($data)->except(['status', 'status_reason'])->all());
+
+        if ($user->status !== $newStatus) {
+            $user->status_changed_at = now();
+            $user->status_changed_by = $request->user()->id;
+        }
+
+        $user->status = $newStatus;
+        $user->status_reason = $data['status_reason'] ?? null;
+        // Do odstránenia starého stĺpca ho synchronizujeme pre integrácie,
+        // ktoré ešte rozumejú iba blokácii áno/nie.
+        $user->disabled = $newStatus === ModelStatus::Blocked;
         $user->save();
 
-        return redirect()->route('admin.user.index');
+        if (! $newStatus->isActive()) {
+            $user->tokens()->delete();
+        }
+
+        return redirect()->route('admin.user.index')->with('flash', 'Používateľský účet bol aktualizovaný.');
     }
 }

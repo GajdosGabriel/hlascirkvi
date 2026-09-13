@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use Database\Seeders\RolesSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
@@ -18,6 +21,8 @@ use Tests\TestCase;
  */
 class AdminRoutesTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_kazda_routa_administracie_ma_svoju_metodu(): void
     {
         $missing = [];
@@ -41,9 +46,38 @@ class AdminRoutesTest extends TestCase
                 continue;
             }
 
-            $missing[] = $name . ' → ' . class_basename($controller) . '@' . $method;
+            $missing[] = $name.' → '.class_basename($controller).'@'.$method;
         }
 
-        $this->assertSame([], $missing, "Routy bez metódy v kontroleri:\n" . implode("\n", $missing));
+        $this->assertSame([], $missing, "Routy bez metódy v kontroleri:\n".implode("\n", $missing));
+    }
+
+    public function test_superadmin_otvori_vsetky_hlavne_stranky_administracie(): void
+    {
+        $this->seed(RolesSeeder::class);
+
+        $admin = User::factory()->create();
+        $admin->assignRole(['admin', 'superadmin']);
+
+        $routes = [
+            'admin.announcement.index',
+            'admin.announcement.create',
+            'admin.buffer.index',
+            'admin.canal.index',
+            'admin.comment.index',
+            'admin.frontlist.index',
+            'admin.home.index',
+            'admin.image.index',
+            'admin.post.index',
+            'admin.prayer.index',
+            'admin.statistic.index',
+            'admin.user.index',
+        ];
+
+        foreach ($routes as $route) {
+            $this->actingAs($admin)
+                ->get(route($route))
+                ->assertOk("Administračná stránka {$route} sa nedá otvoriť.");
+        }
     }
 }

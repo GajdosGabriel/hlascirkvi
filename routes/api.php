@@ -55,7 +55,7 @@ Route::middleware('throttle:10,1')->group(function () {
 /*
  * Zápisy pre prihlásených
  */
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'checkBanned'])->group(function () {
     Route::get('/user', fn (Request $request) => new UserResource($request->user()))->name('api.user');
 
     Route::apiResources([

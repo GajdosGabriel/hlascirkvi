@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Repositories\Contracts\UserRepository;
 use Auth;
-use App\Role;
-use App\Models\User;
-use Socialite;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Socialite;
 
 class AuthController extends Controller
 {
-
     protected $redirectTo = '/';
 
     protected UserRepository $user;
@@ -22,7 +20,6 @@ class AuthController extends Controller
         $this->user = $user;
         \Session::put('backUrl', \URL::previous());
     }
-
 
     /**
      * Redirect the user to the Social Provider authentication page.
@@ -52,13 +49,13 @@ class AuthController extends Controller
             return $this->loginFailed('Prihlásenie sa nepodarilo dokončiť, skúste to znova.');
         }
 
-        if (!$oauth_user->getEmail()) {
+        if (! $oauth_user->getEmail()) {
             return $this->loginFailed('Poskytovateľ nám neposlal e-mailovú adresu, bez nej sa prihlásiť nedá.');
         }
 
         // Účet sa páruje podľa e-mailu, takže neoverená adresa by znamenala
         // prevzatie cudzieho účtu. Google overenie posiela výslovne.
-        if ($service === 'google' && !($oauth_user->user['email_verified'] ?? false)) {
+        if ($service === 'google' && ! ($oauth_user->user['email_verified'] ?? false)) {
             return $this->loginFailed('E-mailová adresa vo vašom Google účte nie je overená.');
         }
 
@@ -66,28 +63,27 @@ class AuthController extends Controller
         // adresa registráciu. Pre návštevníka je to jedno tlačidlo, ale mal by
         // vedieť, čo sa práve stalo — najmä keď prišiel z registrácie a účet
         // pod tou adresou už mal.
-        if (!$user = User::whereEmail($oauth_user->getEmail())->first())
-        {
+        if (! $user = User::whereEmail($oauth_user->getEmail())->first()) {
             $user = $this->user->createUserBySocial($oauth_user);
 
-            return $this->loginUser($user, 'Vitajte! Účet je založený a e-mailová adresa overená.');
+            return $this->loginUser($user, $service, 'Vitajte! Účet je založený a e-mailová adresa overená.');
         }
 
-        return $this->loginUser($user, 'Vitajte späť, ste prihlásený.');
+        return $this->loginUser($user, $service, 'Vitajte späť, ste prihlásený.');
     }
 
-
-    protected function loginUser($user, ?string $message = null)
+    protected function loginUser($user, string $service, ?string $message = null)
     {
-        if($user->disabled){
+        if ($user->banned()) {
             return $this->isUserLocked($user);
         }
-        \Auth::login($user, true);
+        Auth::login($user, true);
+        $user->recordLogin($service, request()->ip());
 
-//        if(\Session::has('backUrl'))
-//        {
-//            return redirect(\Session::get('backUrl'));
-//        }
+        //        if(\Session::has('backUrl'))
+        //        {
+        //            return redirect(\Session::get('backUrl'));
+        //        }
         return redirect('/')->with('flash', $message);
 
     }
@@ -99,7 +95,7 @@ class AuthController extends Controller
      */
     protected function isUserLocked($user)
     {
-        return $this->loginFailed('Váš účet je blokovaný, kontaktujte administrátora webu.');
+        return $this->loginFailed($user->accountAccessMessage());
     }
 
     protected function loginFailed(string $message)

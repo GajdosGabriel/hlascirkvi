@@ -7,11 +7,12 @@
             <th>Id</th>
             <th>Názov</th>
             <th>Email</th>
-            <th>5. pád</th>
-            <th>Blokovaný</th>
+            <th>Stav</th>
             <th>Overené</th>
             <th>Denominácia</th>
             <th>Registrácia</th>
+            <th>Posledné prihlásenie</th>
+            <th>Spôsob</th>
             <th>Akcia</th>
         </tr>
     </thead>
@@ -23,22 +24,30 @@
                 <td class="td">
                     <div class="font-semibold">{{ $user->first_name }} {{ $user->last_name }}</div>
                 </td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->vocative }}</td>
-                <td class="text-center ">
-                    @if ($user->disabled)
-                        <span class="bg-red-600 text-gray-200 px-2 rounded-md">{{ $user->disabled }}</span>
-                    @else
-                        {{ $user->disabled }}
-                    @endif
+                <td class="max-w-[14rem] break-all">{{ $user->email }}</td>
+                <td class="text-center" title="{{ $user->status_reason }}">
+                    <span class="px-2 py-1 rounded-md text-xs font-semibold {{ $user->status->isActive() ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                        {{ $user->status->label() }}
+                    </span>
                 </td>
                 <td title="{{ $user->email_verified_at }}">
                     @if ($user->email_verified_at)
                         ano
                     @endif
                 </td>
-                <td>{{ $user->set_denomination }}</td>
+                <td class="max-w-[14rem] break-words">{{ $user->set_denomination }}</td>
                 <td class="text-sm">{{ $user->created_at->diffForHumans() }}</td>
+                <td class="text-sm" title="{{ $user->last_login_at?->format('d.m.Y H:i:s') }}">
+                    @if ($user->last_login_at)
+                        {{ $user->last_login_at->diffForHumans() }}
+                        @if ($user->last_login_ip)
+                            <div class="text-xs text-gray-500">{{ $user->last_login_ip }}</div>
+                        @endif
+                    @else
+                        Nikdy
+                    @endif
+                </td>
+                <td class="text-sm">{{ $user->last_login_via_label ?? '—' }}</td>
                 <td class="td">
                     <dropdown-slot><a href="{{ route('admin.user.edit', [$user->id]) }}">
                         <i class="fas fa-edit" aria-hidden="true"></i> Upraviť
@@ -46,7 +55,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="9"><x-dashboard.empty>Bez záznamu</x-dashboard.empty></td></tr>
+            <tr><td colspan="10"><x-dashboard.empty>Bez záznamu</x-dashboard.empty></td></tr>
         @endforelse
     </tbody>
 </x-dashboard.table>

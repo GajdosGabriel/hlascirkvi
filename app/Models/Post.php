@@ -68,11 +68,6 @@ class Post extends Model
         return "/post/{$this->id}/{$this->slug}";
     }
 
-    public function tags()
-    {
-        return $this->hasMany(Tag::class);
-    }
-
     public function seminars()
     {
         return $this->belongsToMany(Seminar::class);

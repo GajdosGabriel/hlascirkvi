@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -27,7 +28,6 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
-
 
     public function __construct()
     {
@@ -67,5 +67,42 @@ class LoginController extends Controller
         }
 
         return $this->redirectTo;
+    }
+
+    /**
+     * Neaktívny stav prezradíme iba vtedy, keď sedí aj heslo. Samotná znalosť
+     * e-mailu tak nestačí na zistenie interného stavu cudzieho účtu.
+     */
+    protected function attemptLogin(Request $request)
+    {
+        $credentials = $this->credentials($request);
+        $provider = $this->guard()->getProvider();
+        $user = $provider->retrieveByCredentials($credentials);
+
+        if ($user && $provider->validateCredentials($user, $credentials) && $user->banned()) {
+            $request->attributes->set('inactive_account_message', $user->accountAccessMessage());
+
+            return false;
+        }
+
+        return $this->guard()->attempt($credentials, $request->boolean('remember'));
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        if ($message = $request->attributes->get('inactive_account_message')) {
+            return redirect()->route('login')
+                ->withInput($request->only('email'))
+                ->with('error', $message);
+        }
+
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
+    }
+
+    protected function authenticated(Request $request, $user): void
+    {
+        $user->recordLogin('password', $request->ip());
     }
 }

@@ -29,26 +29,6 @@
                 </div>
             </div>
 
-            <p class="ar-kicker mb-3">Rýchla správa</p>
-            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach ((new \App\View\Components\Navigation\AsideMenu)->adminMenu() as $item)
-                    @continue($item['url'] === route('admin.home.index'))
-                    <a href="{{ $item['url'] }}" class="ar-admin-shortcut ar-card ar-link flex items-center gap-3 rounded-xl p-4">
-                        <span class="flex h-5 w-5 shrink-0 items-center justify-center text-[color:var(--ar-accent)]">
-                            @include('components.icons.' . $item['icon'])
-                        </span>
-                        <span class="ar-display font-semibold">{{ trim($item['name']) }}</span>
-                    </a>
-                @endforeach
-            </div>
-            <style>
-                .ar-admin-shortcut svg {
-                    display: block;
-                    width: 1.25rem !important;
-                    height: 1.25rem !important;
-                    margin: 0 !important;
-                }
-            </style>
         </x-slot>
     </x-pages.admin>
 @endsection

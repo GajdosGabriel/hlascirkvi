@@ -136,11 +136,6 @@ class AsideMenu extends Component
                 'name' => 'Štatistika',
             ],
             [
-                'url' => route('admin.tag.index'),
-                'icon' => 'tag',
-                'name' => 'Tagy',
-            ],
-            [
                 'url' => route('admin.buffer.index'),
                 'icon' => 'buffer',
                 'name' => ' Buffer',

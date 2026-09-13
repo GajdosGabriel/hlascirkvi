@@ -2,27 +2,31 @@
 
 namespace App\Models;
 
+use App\Enums\ModelStatus;
 use App\Notifications\User\ConfirmEmail;
 use App\Traits\HasDatetime;
 use App\Traits\HasFilter;
-use Illuminate\Support\Str;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use  HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, HasFilter, HasDatetime;
+    use HasApiTokens, HasDatetime, HasFactory, HasFilter, HasRoles, Notifiable, SoftDeletes;
 
     // roles potrebuje hasRole() prakticky pri každej požiadavke. Priame
     // permissions modelu sa nepoužívajú (oprávnenia visia na rolách), takže ich
     // eager load bol dopyt navyše ku každému načítaniu užívateľa — spatie si ich
     // v prípade potreby dotiahne sám.
     protected $with = ['roles'];
+
+    protected $attributes = [
+        'status' => 'active',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -53,7 +57,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'gender',
     ];
 
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -62,15 +65,17 @@ class User extends Authenticatable implements MustVerifyEmail
     // api_token tu chýbal, takže sa posielal klientovi v každej serializácii
     // užívateľa — napríklad v odpovedi na pridanie komentára.
     protected $hidden = [
-        'password', 'remember_token', 'api_token', 'email', 'send_email', 'front_author', 'disabled', 'updated_at', 'deleted_at', 'set_denomination', 'email_verified_at', 'vocative'
+        'password', 'remember_token', 'api_token', 'email', 'send_email', 'front_author', 'disabled', 'status_changed_by', 'status_reason', 'last_login_ip', 'updated_at', 'deleted_at', 'set_denomination', 'email_verified_at', 'vocative',
     ];
-
 
     // 'created_at' tu bolo bez kľúča, takže skončilo pod indexom 0 a ako cast
     // sa nikdy neuplatnilo. Boolean stĺpce sa zároveň čítali ako reťazce "0"/"1".
     protected $casts = [
         'email_verified_at' => 'datetime',
         'notify_bell' => 'datetime',
+        'status' => ModelStatus::class,
+        'status_changed_at' => 'datetime',
+        'last_login_at' => 'datetime',
         'disabled' => 'boolean',
         'send_email' => 'boolean',
         'front_author' => 'boolean',
@@ -86,8 +91,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->attributes['last_name'] = ucfirst($value);
     }
-
-
 
     public function addresBooks()
     {
@@ -110,15 +113,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Canal::class, 'org_id');
     }
 
-
     public function userPictureUrl()
     {
-        return 'users/' . $this->id . '/' . $this->avatar;
+        return 'users/'.$this->id.'/'.$this->avatar;
     }
 
     public function getFullnameAttribute()
     {
-        return $this->last_name . ' ' . $this->first_name;
+        return $this->last_name.' '.$this->first_name;
     }
 
     /**
@@ -144,7 +146,58 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function banned()
     {
-        return $this->disabled;
+        // `disabled` ostáva počas prechodného obdobia kvôli starším dátam a
+        // prípadným integráciám. Nový enum je zdroj pravdy.
+        return $this->disabled || ! $this->status->isActive();
+    }
+
+    /** @return array<int, ModelStatus> */
+    public static function statusOptions(): array
+    {
+        return [
+            ModelStatus::PendingReview,
+            ModelStatus::Active,
+            ModelStatus::Archived,
+            ModelStatus::Blocked,
+        ];
+    }
+
+    public function recordLogin(string $via, ?string $ip): void
+    {
+        $this->forceFill([
+            'last_login_at' => now(),
+            'last_login_via' => $via,
+            'last_login_ip' => $ip,
+        ])->saveQuietly();
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return $this->status->label();
+    }
+
+    public function accountAccessMessage(): string
+    {
+        $status = $this->disabled && $this->status === ModelStatus::Active
+            ? ModelStatus::Blocked
+            : $this->status;
+
+        return match ($status) {
+            ModelStatus::PendingReview => 'Tento účet čaká na schválenie administrátorom.',
+            ModelStatus::Blocked => 'Tento účet bol zablokovaný. Ak si myslíte, že ide o omyl, kontaktujte administrátora webu.',
+            ModelStatus::Archived => 'Tento účet bol archivovaný. Ak ho chcete obnoviť, kontaktujte administrátora webu.',
+            default => 'Tento účet momentálne nie je aktívny. Kontaktujte administrátora webu.',
+        };
+    }
+
+    public function getLastLoginViaLabelAttribute(): ?string
+    {
+        return match ($this->last_login_via) {
+            'password' => 'E-mail a heslo',
+            'google' => 'Google',
+            'facebook' => 'Facebook',
+            default => $this->last_login_via,
+        };
     }
 
     /**

@@ -9,10 +9,7 @@
 
 namespace App\Filters;
 
-
-use App\Models\Village;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Enums\ModelStatus;
 
 class UserFilters extends Filters
 {
@@ -21,6 +18,7 @@ class UserFilters extends Filters
     public function search()
     {
         session()->flash('search', $this->request->search);
+
         return $this->builder
             ->where('email', 'LIKE', $this->likePattern($this->request->search))
             ->orWhere('first_name', 'LIKE', $this->likePattern($this->request->search))
@@ -28,12 +26,15 @@ class UserFilters extends Filters
             ->orWhere('email', 'LIKE', $this->likePattern($this->request->search));
     }
 
-    public function banned(){
-        return $this->builder->whereDisabled(1);
+    public function banned()
+    {
+        return $this->builder->where(function ($query) {
+            $query->where('status', ModelStatus::Blocked->value)->orWhere('disabled', true);
+        });
     }
 
     public function deletedAt()
     {
-         return $this->builder->onlyTrashed();
+        return $this->builder->onlyTrashed();
     }
 }

@@ -75,14 +75,6 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->whereNull('video_available');
     }
 
-    public function postsByTag($idTag)
-    {
-        return $this->entity->whereHas('tags', function ($query) use ($idTag) {
-            $query->whereId($idTag);
-        });
-    }
-
-
     protected function unpublished()
     {
         return $this->entity->unpublished();

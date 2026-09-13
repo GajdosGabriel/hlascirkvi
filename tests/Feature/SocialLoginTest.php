@@ -79,6 +79,9 @@ class SocialLoginTest extends TestCase
         $this->assertSame('Ján', $user->first_name);
         $this->assertSame('Novák', $user->last_name);
         $this->assertNotNull($user->email_verified_at);
+        $this->assertNotNull($user->last_login_at);
+        $this->assertSame('google', $user->last_login_via);
+        $this->assertSame('127.0.0.1', $user->last_login_ip);
 
         foreach (['8', '9', '10'] as $weak) {
             $this->assertFalse(Hash::check($weak, $user->password));

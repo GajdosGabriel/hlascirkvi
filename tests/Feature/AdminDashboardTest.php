@@ -29,7 +29,7 @@ class AdminDashboardTest extends TestCase
             ->assertOk()
             ->assertSee('Zhliadnutia celkovo')
             ->assertSee('Otvorené modlitby')
-            ->assertSee('Rýchla správa')
+            ->assertDontSee('Rýchla správa')
             ->assertDontSee('<comments-card', false);
     }
 }

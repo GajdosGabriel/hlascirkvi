@@ -36,18 +36,30 @@
                                 required>
                         </div>
 
-                        <div class="flex justify-between my-3">
-                            <div class="inline">
-                                <label>Účet blokovaný</label>
-                                <input type="radio" value="1"
-                                    @if (isset($user->disabled) and $user->disabled == 1) checked @endif name="disabled">
-                            </div>
+                        <div class="form-group">
+                            <label for="status">Stav účtu</label>
+                            <select name="status" id="status" class="form-control" required>
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status->value }}" @selected(old('status', $user->status->value) === $status->value)>
+                                        {{ $status->label() }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('status')<p class="text-red-700 text-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
 
-                            <div class="inline">
-                                <label>Účet aktívny</label>
-                                <input type="radio" value="0" @if (isset($user->disabled) and $user->disabled == 0) checked @endif
-                                    name="disabled">
-                            </div>
+                        <div class="form-group">
+                            <label for="status_reason">Dôvod zmeny stavu</label>
+                            <textarea name="status_reason" id="status_reason" maxlength="500" rows="3"
+                                class="form-control">{{ old('status_reason', $user->status_reason) }}</textarea>
+                            <p class="text-xs text-gray-500 mt-1">Pri neaktívnom stave je dôvod povinný a vidí ho iba administrácia.</p>
+                            @error('status_reason')<p class="text-red-700 text-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div class="rounded-md bg-gray-100 p-3 my-3 text-sm">
+                            <div><strong>Posledné prihlásenie:</strong> {{ $user->last_login_at?->format('d.m.Y H:i:s') ?? 'Nikdy' }}</div>
+                            <div><strong>Spôsob:</strong> {{ $user->last_login_via_label ?? '—' }}</div>
+                            <div><strong>IP adresa:</strong> {{ $user->last_login_ip ?? '—' }}</div>
                         </div>
                     @endcan
 
