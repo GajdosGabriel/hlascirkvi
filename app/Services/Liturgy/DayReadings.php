@@ -101,6 +101,11 @@ final readonly class DayReadings
                 ReadingType::Sequence => 'Sekvencia',
                 ReadingType::Gospel => 'Evanjelium',
             };
+
+            // Kotva pre odkaz z modulu na čítanie na /citania.
+            foreach ($line['options'] ?? [] as $j => $option) {
+                $section['lines'][$i]['options'][$j]['anchor'] = 'citanie-'.Str::slug((string) ($option['citation'] ?? ''));
+            }
         }
 
         return $section;

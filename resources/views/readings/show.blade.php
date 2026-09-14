@@ -101,7 +101,7 @@
                                     <p class="my-3 text-sm font-semibold text-gray-500">{{ $option['label'] ?: 'alebo' }}</p>
                                 @endunless
 
-                                <h3 class="mt-1 text-lg font-bold text-gray-800">
+                                <h3 id="{{ $option['anchor'] }}" class="mt-1 scroll-mt-24 text-lg font-bold text-gray-800">
                                     @if ($option['bible_url'])
                                         <a href="{{ $option['bible_url'] }}" target="_blank" rel="noopener" title="Kontext v Biblii">{{ $option['citation'] }}</a>
                                     @else

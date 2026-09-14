@@ -88,7 +88,25 @@ class LiturgicalReadingsTest extends TestCase
             ->assertSee('Nm 21, 4c-9')
             ->assertSee('Jn 3, 13-17')
             ->assertSee('Rok A')
-            ->assertSee('1. adventnej nedele');
+            ->assertSee('1. adventnej nedele')
+            // Bez textov vedie citácia na stránku čítaní.
+            ->assertSee('#citanie-nm-21-4c-9', false);
+    }
+
+    public function test_klik_na_citaciu_v_module_rozbali_text(): void
+    {
+        config(['liturgy.full_texts' => true]);
+        $this->fakeKbs();
+        $this->artisan('liturgia:stiahnut', ['--od' => '2026-09-14', '--dni' => 1]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('<summary', false)
+            ->assertSee('Ľud začal chabnúť na ceste.')
+            ->assertSee('Ježiš Kristus, hoci má božskú prirodzenosť')
+            ->assertSee('Ježiš povedal Nikodémovi');
+
+        $this->get('/citania')->assertSee('id="citanie-flp-2-6-11"', false);
     }
 
     public function test_pri_vypadku_kbs_modul_ukaze_vypocitany_den(): void

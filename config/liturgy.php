@@ -10,12 +10,12 @@ return [
     'source_url' => env('LITURGY_SOURCE_URL', 'https://lc.kbs.sk/'),
 
     /*
-     * Plné znenie čítaní patrí KBS a jej stránka nemá verejné podmienky
-     * použitia. Kým nie je súhlas, web ukazuje len citácie, nadpisy a odkaz
-     * na plné znenie. Zapnutím sa texty začnú sťahovať (príkaz s --znova ich
-     * doplní aj k starším dňom) a zobrazovať na /citania.
+     * Plné znenie čítaní (preklad KBS) — rozbalí sa po kliknutí na citáciu
+     * v module a je vypísané na /citania. Vypnutím ostanú len citácie,
+     * nadpisy a odkaz na KBS. Po zapnutí doplní texty k starším dňom
+     * príkaz liturgia:stiahnut --znova.
      */
-    'full_texts' => (bool) env('LITURGY_FULL_TEXTS', false),
+    'full_texts' => (bool) env('LITURGY_FULL_TEXTS', true),
 
     /* Koľko dní dopredu drží príkaz liturgia:stiahnut v databáze. */
     'days_ahead' => 45,

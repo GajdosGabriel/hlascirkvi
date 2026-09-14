@@ -39,16 +39,34 @@
                     <li class="{{ $line['type'] === 'gospel' ? '-mx-2 rounded bg-gray-50 p-2' : '' }}">
                         <span class="block text-xs font-semibold uppercase text-gray-500">{{ $line['label'] }}</span>
 
-                        <span class="font-semibold text-gray-800">
-                            @foreach ($line['options'] as $option)
-                                @unless ($loop->first)
-                                    <span class="font-normal text-gray-500">{{ $option['label'] ?: 'alebo' }}</span>
-                                @endunless
-                                {{ $option['citation'] }}
-                            @endforeach
-                        </span>
+                        {{-- Klik na citáciu rozbalí text (details, bez JavaScriptu).
+                             Keď text nemáme, citácia vedie na stránku čítaní. --}}
+                        @foreach ($line['options'] as $option)
+                            @unless ($loop->first)
+                                <span class="block text-xs text-gray-500">{{ $option['label'] ?: 'alebo' }}</span>
+                            @endunless
 
-                        @if ($line['type'] === 'gospel' && ! empty($line['options'][0]['heading']))
+                            @if (! empty($option['text']))
+                                <details class="group">
+                                    <summary class="cursor-pointer font-semibold text-gray-800 hover:underline">
+                                        {{ $option['citation'] }}
+                                        <i class="fa fa-angle-down text-gray-400 group-open:rotate-180" aria-hidden="true"></i>
+                                    </summary>
+
+                                    @if ($option['heading'])
+                                        <p class="mt-1 italic text-gray-700">„{{ $option['heading'] }}“</p>
+                                    @endif
+
+                                    <div class="mt-1 max-h-96 overflow-y-auto whitespace-pre-line leading-relaxed text-gray-700">{{ $option['text'] }}</div>
+                                </details>
+                            @else
+                                <a href="{{ route('readings.show') }}#{{ $option['anchor'] }}" class="font-semibold text-gray-800">
+                                    {{ $option['citation'] }}
+                                </a>
+                            @endif
+                        @endforeach
+
+                        @if ($line['type'] === 'gospel' && ! empty($line['options'][0]['heading']) && empty($line['options'][0]['text']))
                             <span class="block italic text-gray-700">„{{ $line['options'][0]['heading'] }}“</span>
                         @endif
 
