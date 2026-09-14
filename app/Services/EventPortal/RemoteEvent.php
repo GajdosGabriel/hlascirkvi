@@ -221,6 +221,12 @@ class RemoteEvent implements Arrayable
         return $this->startAt()?->locale('sk')->isoFormat('MMM');
     }
 
+    /** "september" – samostatný tvar, nie "septembra" */
+    public function monthName(): ?string
+    {
+        return $this->startAt()?->locale('sk')->isoFormat('MMMM');
+    }
+
     /** "7. septembra 2026" */
     public function longDate(): ?string
     {

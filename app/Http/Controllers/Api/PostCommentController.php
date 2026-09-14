@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
 use App\Http\Requests\SaveCommentsRequest;
 use App\Notifications\Comments\CreatedNewComment;
+use App\Notifications\Comments\RepliedToComment;
 use App\Repositories\Eloquent\EloquentUserRepository;
 
 class PostCommentController extends Controller
@@ -16,7 +17,19 @@ class PostCommentController extends Controller
 
     public function index(Post $post)
     {
-        return CommentResource::collection($post->comments);
+        $comments = $post->comments()
+            ->whereNull('parent_id')
+            ->with('replies')
+            ->get();
+
+        // CommentResource číta z commentable slug a titulok; všetky komentáre
+        // aj odpovede patria tomuto príspevku, netreba ho pýtať pre každý zvlášť.
+        $comments->each(function ($comment) use ($post) {
+            $comment->setRelation('commentable', $post);
+            $comment->replies->each->setRelation('commentable', $post);
+        });
+
+        return CommentResource::collection($comments);
     }
 
     public function update(Post $post, Comment $comment, SaveCommentsRequest $request)
@@ -43,7 +56,15 @@ class PostCommentController extends Controller
         // upovedomiť správcu kanála, ak nekomentoval sám sebe.
         $owner = $post->organization?->user;
 
-        if ($owner && $owner->id !== (int) $comment->user_id) {
+        // Autor komentára, na ktorý sa odpovedá. Anonymné komentáre (user_id
+        // 100) patria spoločnému účtu, tomu nemá zmysel nič posielať.
+        $parentAuthor = $comment->parent_id ? Comment::find($comment->parent_id)?->user : null;
+
+        if ($parentAuthor && $parentAuthor->id !== 100 && $parentAuthor->id !== (int) $comment->user_id) {
+            $parentAuthor->notify(new RepliedToComment($comment));
+        }
+
+        if ($owner && $owner->id !== (int) $comment->user_id && $owner->id !== $parentAuthor?->id) {
             $owner->notify(new CreatedNewComment($comment));
         }
 

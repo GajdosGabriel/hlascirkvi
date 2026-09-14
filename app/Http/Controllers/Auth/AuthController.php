@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepository;
+use App\Services\Canal\SocialAvatar;
 use Auth;
 use Illuminate\Http\Request;
 use Socialite;
@@ -65,11 +66,26 @@ class AuthController extends Controller
         // pod tou adresou už mal.
         if (! $user = User::whereEmail($oauth_user->getEmail())->first()) {
             $user = $this->user->createUserBySocial($oauth_user);
+            $this->attachAvatar($user, $service, $oauth_user);
 
             return $this->loginUser($user, $service, 'Vitajte! Účet je založený a e-mailová adresa overená.');
         }
 
+        // Aj pri prihlásení — účty založené skôr (alebo formulárom) fotku
+        // kanála nemajú. Kanál, ktorý avatar už má, SocialAvatar nechá tak.
+        $this->attachAvatar($user, $service, $oauth_user);
+
         return $this->loginUser($user, $service, 'Vitajte späť, ste prihlásený.');
+    }
+
+    protected function attachAvatar(User $user, string $service, $oauth_user): void
+    {
+        // Zablokovaný účet sa neprihlási, nemá dôvod mu nič sťahovať.
+        if ($service !== 'google' || $user->banned()) {
+            return;
+        }
+
+        app(SocialAvatar::class)->attach($user, $oauth_user->getAvatar());
     }
 
     protected function loginUser($user, string $service, ?string $message = null)

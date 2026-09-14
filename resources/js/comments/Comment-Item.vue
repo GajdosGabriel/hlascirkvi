@@ -1,10 +1,15 @@
 <template>
-    <article class="group rounded-xl border border-[color:var(--ar-line)] bg-white p-4 shadow-sm transition hover:border-gray-300 hover:shadow-md sm:p-5">
+    <article
+        :class="isReply
+            ? 'border-l-2 border-[color:var(--ar-line)] pl-3 sm:pl-4'
+            : 'group rounded-xl border border-[color:var(--ar-line)] bg-white p-4 shadow-sm transition hover:border-gray-300 hover:shadow-md sm:p-5'"
+    >
         <div class="flex items-start gap-3 sm:gap-4">
             <img
                 :src="comment.user_avatar"
                 :alt="comment.user_name"
-                class="h-10 w-10 shrink-0 rounded-full bg-[color:var(--ar-paper-deep)] object-cover ring-2 ring-white sm:h-11 sm:w-11"
+                :class="isReply ? 'h-8 w-8 sm:h-9 sm:w-9' : 'h-10 w-10 sm:h-11 sm:w-11'"
+                class="shrink-0 rounded-full bg-[color:var(--ar-paper-deep)] object-cover ring-2 ring-white"
             />
 
             <div class="min-w-0 flex-1">
@@ -18,8 +23,6 @@
                     </div>
 
                     <div class="flex shrink-0 items-center gap-1.5">
-                        <favorite :reply="comment"></favorite>
-
                         <dropdown-slot v-if="canUpdate">
                             <button type="button" @click="startEdit">
                                 <i class="far fa-edit w-4 text-center text-gray-400"></i>
@@ -68,23 +71,72 @@
                     </div>
                 </div>
 
+                <!-- Na nezverejnený komentár sa odpovedať ani reagovať nedá —
+                     server by odpoveď odmietol. -->
+                <div v-if="! editComment && ! waiting" class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+                    <favorite :reply="comment"></favorite>
+
+                    <button
+                        type="button"
+                        class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 transition-colors hover:text-[color:var(--ar-accent)]"
+                        @click="reply(comment)"
+                    >
+                        <i class="fas fa-reply"></i> Odpovedať
+                    </button>
+                </div>
+
+                <div
+                    v-if="! isReply && (replies.length || replyTo)"
+                    class="mt-4 space-y-4"
+                >
+                    <comment-item
+                        v-for="item in replies"
+                        :key="item.id"
+                        :comment="item"
+                        :post="post"
+                        is-reply
+                        @reply="reply"
+                        @deleted="removeReply"
+                    ></comment-item>
+
+                    <new-reply
+                        v-if="replyTo"
+                        :key="replyTo.id"
+                        :post="post"
+                        :parent-id="replyTo.id"
+                        :initial-body="replyTo.id === comment.id ? '' : '@' + replyTo.user_name + ' '"
+                        @newComment="addReply"
+                        @cancel="replyTo = null"
+                    />
+                </div>
             </div>
         </div>
     </article>
 </template>
 
 <script>
+import { bus } from "../eventBus";
 import Favorite from "./Favorite.vue";
+import NewReply from "./NewReply.vue";
 
 export default {
-    props: ["comment"],
-    components: { Favorite },
+    name: "CommentItem",
+    props: {
+        comment: { required: true },
+        post: { required: true },
+        // Odpovede sa zobrazujú vnútri hlavného komentára a ďalej sa nevnárajú.
+        isReply: { type: Boolean, default: false },
+    },
+    emits: ["deleted", "reply"],
+    components: { Favorite, NewReply },
     data: function () {
         return {
             editComment: false,
             // Úprava beží nad kópiou; v-model priamo nad prop by prepisoval
             // dáta rodiča ešte pred tým, než ich server prijme.
             draft: this.comment.body,
+            // Komentár (hlavný alebo odpoveď), na ktorý je otvorený formulár.
+            replyTo: null,
         };
     },
 
@@ -105,6 +157,10 @@ export default {
         waiting: function () {
             return this.comment.deleted_at != null;
         },
+
+        replies: function () {
+            return this.comment.replies || [];
+        },
     },
 
     methods: {
@@ -115,6 +171,37 @@ export default {
 
         cancelEdit: function () {
             this.editComment = false;
+        },
+
+        // Odpoveď vždy otvára formulár v hlavnom komentári; odpoveď na
+        // odpoveď server zavesí pod ten istý hlavný komentár.
+        reply: function (target) {
+            if (this.isReply) {
+                return this.$emit("reply", target);
+            }
+            this.replyTo = this.replyTo && this.replyTo.id === target.id ? null : target;
+        },
+
+        addReply: function (reply) {
+            if (!this.comment.replies) {
+                this.comment.replies = [];
+            }
+            this.comment.replies.push(reply);
+            this.replyTo = null;
+
+            bus.$emit("flash", { body: "Odpoveď je pridaná!" });
+        },
+
+        removeReply: function (id) {
+            var index = this.replies.findIndex(function (item) {
+                return item.id === id;
+            });
+
+            if (index !== -1) {
+                this.comment.replies.splice(index, 1);
+            }
+
+            bus.$emit("flash", { body: "Odpoveď je zmazaná", type: "danger" });
         },
 
         destroy: function () {

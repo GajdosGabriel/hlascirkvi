@@ -3,13 +3,16 @@
         @submit.prevent="storeComment"
         class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4"
     >
-        <label class="ar-label" for="comment-body">Váš komentár</label>
+        <label class="ar-label" :for="uid + '-body'">
+            {{ parentId ? "Vaša odpoveď" : "Váš komentár" }}
+        </label>
         <textarea
-            id="comment-body"
+            :id="uid + '-body'"
+            ref="body"
             class="ar-field"
             rows="3"
             v-model="body"
-            placeholder="Napíšte, čo si o príspevku myslíte…"
+            :placeholder="parentId ? 'Napíšte odpoveď…' : 'Napíšte, čo si o príspevku myslíte…'"
             required
         ></textarea>
 
@@ -17,9 +20,9 @@
             <!-- Bez účtu treba e-mail; pole má zmysel len vtedy, inak by v
                  riadku ostalo prázdne miesto pred tlačidlom. -->
             <div v-if="! signedIn" class="w-full sm:w-64">
-                <label class="ar-label" for="comment-email">Váš e-mail</label>
+                <label class="ar-label" :for="uid + '-email'">Váš e-mail</label>
                 <input
-                    id="comment-email"
+                    :id="uid + '-email'"
                     type="email"
                     class="ar-field"
                     v-model="email"
@@ -29,21 +32,49 @@
                 <p class="ar-hint">E-mail nebude nikde zverejnený.</p>
             </div>
 
-            <button type="submit" class="ar-btn ar-btn--accent ml-auto">
-                <i class="far fa-paper-plane"></i> Odoslať komentár
-            </button>
+            <div class="ml-auto flex gap-2">
+                <button
+                    v-if="parentId"
+                    type="button"
+                    class="ar-btn ar-btn--quiet"
+                    @click="$emit('cancel')"
+                >
+                    Zrušiť
+                </button>
+                <button type="submit" class="ar-btn ar-btn--accent">
+                    <i class="far fa-paper-plane"></i>
+                    {{ parentId ? "Odoslať odpoveď" : "Odoslať komentár" }}
+                </button>
+            </div>
         </div>
     </form>
 </template>
 
 <script>
+var counter = 0;
+
 export default {
-    props: ["post"],
+    props: {
+        post: { required: true },
+        // Komentár, na ktorý sa odpovedá; bez neho ide o nový hlavný komentár.
+        parentId: { default: null },
+        initialBody: { type: String, default: "" },
+    },
     data: function () {
         return {
-            body: "",
+            // Formulárov je na stránke naraz viac, id pre <label for> musia byť jedinečné.
+            uid: "comment-form-" + ++counter,
+            body: this.initialBody,
             email: "",
         };
+    },
+
+    mounted() {
+        if (this.parentId) {
+            var el = this.$refs.body;
+            el.focus();
+            el.setSelectionRange(el.value.length, el.value.length);
+        }
     },
 
     computed: {
@@ -58,6 +89,7 @@ export default {
                 .post("/api/posts/" + this.post.id + "/comments", {
                     body: this.body,
                     email: this.email,
+                    parent_id: this.parentId,
                 })
                 .then(({ data }) => {
                     this.body = "";

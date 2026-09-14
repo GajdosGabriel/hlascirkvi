@@ -425,6 +425,17 @@
     /* Na úzkom displeji je menu vodorovný pás — inak by správca musel pred
        vlastným výpisom preskrolovať celú navigáciu. Do stĺpca sa skladá až
        tam, kde má stránka bočný panel (lg). */
+    /* Podklad bočného panela — bez neho menu viselo priamo na sivej ploche. */
+    .ar-dash__aside {
+        align-self: start;
+        padding: 1rem;
+        border: 1px solid var(--ar-line);
+        border-radius: .75rem;
+        background: #fff;
+    }
+    @media (min-width: 1024px) {
+        .ar-dash__aside { position: sticky; top: 1rem; }
+    }
     .ar-dash__menu {
         display: flex;
         gap: .35rem;
@@ -452,7 +463,7 @@
         color: var(--ar-ink-soft);
         transition: background-color .15s ease, color .15s ease, border-color .15s ease;
     }
-    .ar-dash__menu > a:hover { background: #fff; border-color: var(--ar-line); color: var(--ar-ink); }
+    .ar-dash__menu > a:hover { background: var(--ar-paper); border-color: var(--ar-line); color: var(--ar-ink); }
     .ar-dash__menu > a.bg-indigo-500,
     .ar-dash__menu > a[aria-current="page"] {
         background: var(--ar-accent-soft);

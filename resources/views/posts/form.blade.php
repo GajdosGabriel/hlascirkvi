@@ -1,6 +1,8 @@
-<div class="md:flex mb-6">
+{{-- Štýly formulára sú v partials/admin-system: <style> vnútri #app Vue
+     pri kompilácii šablóny zahodí. --}}
+<div class="post-form__meta">
 
-    <div class="form-category md:pr-2 {{ $errors->has('section') ? ' has-error' : '' }}">
+    <div class="form-category {{ $errors->has('section') ? ' has-error' : '' }}">
         <label>Výpis</label>
         {{-- Do 9/2026 to bol zoznam updaterov typu `post` načítaný priamo
              v šablóne, pričom ten istý záznam znamenal aj „príspevok je
@@ -17,33 +19,32 @@
 
 
     {{-- Video Link --}}
-    <div class="form-category md:pr-2">
+    <div class="form-category">
         <label>Video YouTube</label>
         <input type="text" name="video_id" value="{{ old('video_id') ?? $post->video_id }}" class="form-control"
             placeholder="Odkaz na video Youtube">
     </div>
 
-    <div class="form-category md:pr-2">
-        <label for="publishet1" class="whitespace-nowrap ">{{ trans('web.publish_now') }}</label>
+    <fieldset class="form-category">
+        <legend class="post-form__section-label">{{ trans('web.publish_now') }}</legend>
 
         {{-- Prepínač posielal do poľa `published` buď dátum, alebo reťazec
              „null". Pole nebolo vo validácii, takže ho PostSaveRequest zahodil
              a voľba nerobila nič. Stav dnes nesie `published_at`. --}}
-        <div class="flex space-x-5 form-control">
-
-            <div class="flex space-x-2">
-                <label for="publishet1" class="whitespace-nowrap  ">Teraz</label>
+        <div class="post-form__choice">
+            <label for="publishet1">
                 <input type="radio" value="1" @checked((bool) old('publish_now', $post->published_at))
                     required id="publishet1" name="publish_now">
-            </div>
+                Teraz
+            </label>
 
-            <div class="flex space-x-2">
-                <label for="publishet2" class="whitespace-nowrap ">Nechať vo fronte</label>
+            <label for="publishet2">
                 <input type="radio" value="0" @checked(! (bool) old('publish_now', $post->published_at))
                     required id="publishet2" name="publish_now">
-            </div>
+                Nechať vo fronte
+            </label>
         </div>
-    </div>
+    </fieldset>
 
     @can('admin')
         <div class="form-author">
@@ -104,25 +105,15 @@
 </div>
 
 
-{{-- Add post Field --}}
-<div class="block">
-
-    @foreach ($post->images as $image)
-        <div style="max-width: 17rem; float: left; padding: 1rem "
-            class="border-2 border-gray-300 rounded-md mx-2 shadow-lg hover:bg-gray-100">
-
-            <picture-viewer :image="{{ $image }}" />
-
-        </div>
-    @endforeach
+{{-- Obrázky: uložené aj novo vybrané v jednom komponente (resources/js/posts/PostImages.vue) --}}
+<div class="form-group post-form__images">
+    <span class="post-form__section-label">Obrázky</span>
+    <post-images name="pictures[]"
+        :images='@json($post->images->map(fn ($image) => ['id' => $image->id, 'thumb' => $image->thumb_image_url, 'url' => $image->original_image_url])->values())'>
+    </post-images>
 </div>
 
 <div>
-
-    <div class="form-group">
-        <label>Obrázok</label>
-        <input type="file" name="pictures[]" multiple class="form-control" accept="image/*">
-    </div>
 
     <div class="flex justify-between">
         <a href="{{ url(URL::previous()) }}" class="btn">späť</a>

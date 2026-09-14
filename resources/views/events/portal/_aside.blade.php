@@ -6,7 +6,6 @@
     @if ($municipalities->isNotEmpty())
         @php
             $topMunicipalities = $municipalities->sortByDesc('events_count')->take(12);
-            $maxCount = max(1, (int) $topMunicipalities->max('events_count'));
         @endphp
 
         <section class="ev-panel">
@@ -19,14 +18,10 @@
                     @php $isActive = ($filters['municipality'] ?? null) === ($municipality['municipality_slug'] ?? null); @endphp
                     <li>
                         <a href="{{ $evUrl(['municipality' => $isActive ? null : ($municipality['municipality_slug'] ?? null)]) }}"
-                           class="group relative flex items-center justify-between overflow-hidden rounded-md px-2 py-1.5 text-sm transition
+                           class="flex items-center justify-between rounded-md px-2 py-1.5 text-sm transition
                                   {{ $isActive ? 'bg-amber-100 font-semibold text-amber-900' : 'hover:bg-stone-50' }}">
-                            {{-- Prúžok na pozadí namiesto grafu: pomer podujatí
-                                 je vidieť bez toho, aby pribudol ďalší prvok. --}}
-                            <span class="absolute inset-y-0 left-0 -z-0 bg-[color:var(--ev-accent-soft)] transition-all group-hover:bg-amber-100"
-                                  style="width: {{ round(((int) $municipality['events_count'] / $maxCount) * 100) }}%"></span>
-                            <span class="relative z-10">{{ $municipality['municipality_name'] ?? '' }}</span>
-                            <span class="relative z-10 text-xs text-stone-500">{{ $municipality['events_count'] ?? 0 }}</span>
+                            <span>{{ $municipality['municipality_name'] ?? '' }}</span>
+                            <span class="text-xs text-stone-500">{{ $municipality['events_count'] ?? 0 }}</span>
                         </a>
                     </li>
                 @endforeach

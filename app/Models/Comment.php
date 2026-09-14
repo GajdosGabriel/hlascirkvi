@@ -35,6 +35,17 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
+
+    // Vlákno má jednu úroveň, preto sa odpovede ďalej nevnárajú.
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id')->with('user')->oldest();
+    }
+
     // public function setBodyAttribute($value)
     // {
     //     $this->attributes['body'] = cleanHardSpace($value);

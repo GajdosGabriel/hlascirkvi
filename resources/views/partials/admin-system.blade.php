@@ -47,6 +47,49 @@
     }
     .ar-dash .card { border: 1px solid var(--ar-line); border-radius: .625rem; background: #fff; box-shadow: none; }
     .ar-dash .card_header { padding: .75rem 1rem; border-bottom: 1px solid var(--ar-line); background: transparent; color: var(--ar-ink-soft); }
+    /* Formulár článku (posts/form). Nesmie byť v samotnej šablóne — <style>
+       vnútri #app Vue zahodí. */
+    .post-form__meta {
+        display: grid;
+        gap: 1rem 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+    @media (min-width: 768px) {
+        .post-form__meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    .post-form__meta .form-control { width: 100%; }
+    .post-form__choice {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+    }
+    .post-form__choice label {
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        margin: 0;
+        padding: .5rem .875rem;
+        border: 1px solid var(--ar-line);
+        border-radius: .5rem;
+        background: #fff;
+        font-size: .875rem;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    .post-form__choice label:has(input:checked) {
+        border-color: var(--ar-accent);
+        background: rgba(var(--ar-accent-rgb), .06);
+        color: var(--ar-accent);
+    }
+    /* mb-6 by .form-group z app.css (je za utilitami) prebil. */
+    .post-form__images { margin-top: 1.25rem; margin-bottom: 1.5rem; }
+    .post-form__section-label {
+        display: block;
+        margin-bottom: .35rem;
+        color: var(--ar-ink);
+        font-size: .8125rem;
+        font-weight: 600;
+    }
     .ar-admin__content { color: var(--ar-ink); }
     .ar-admin__table { overflow-x: auto; border: 1px solid var(--ar-line); border-radius: .625rem; background: #fff; }
     .ar-admin__table table { width: 100%; border: 0; border-collapse: collapse; font-size: .8125rem; }

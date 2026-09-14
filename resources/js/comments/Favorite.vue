@@ -1,17 +1,20 @@
 <template>
     <button
         type="button"
-        @click="store"
-        :title="reply.is_favorited ? 'Hlas ste už dali' : 'Hlasovať za komentár'"
-        class="flex shrink-0 items-center gap-1 text-xs text-gray-400 transition-colors hover:text-[color:var(--ar-accent)]"
+        @click="toggle"
+        :disabled="pending"
+        :aria-pressed="reply.is_favorited ? 'true' : 'false'"
+        :title="reply.is_favorited ? 'Zrušiť Páči sa mi to' : 'Páči sa mi to'"
+        :class="reply.is_favorited
+            ? 'text-[color:var(--ar-accent)]'
+            : 'text-gray-500 hover:text-[color:var(--ar-accent)]'"
+        class="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors disabled:cursor-wait"
     >
-        <span
-            class="flex h-7 w-7 items-center justify-center rounded-full"
-            :class="replyClass"
-        >
-            <i class="fas fa-heart"></i>
+        <i :class="reply.is_favorited ? 'fas' : 'far'" class="fa-thumbs-up"></i>
+        <span>Páči sa mi to</span>
+        <span v-if="reply.favorites_count" class="tabular-nums font-normal text-gray-400">
+            · {{ reply.favorites_count }}
         </span>
-        <span class="tabular-nums">{{ reply.favorites_count }}</span>
     </button>
 </template>
 
@@ -22,36 +25,50 @@ import { bus } from "../eventBus";
 
 export default {
     props: ["reply"],
+    data: function () {
+        return { pending: false };
+    },
+
     computed: {
         signedIn: function () {
             return window.App.signedIn;
         },
-
-        replyClass: function () {
-            return this.reply.is_favorited
-                ? "bg-[color:var(--ar-accent)] text-white"
-                : "bg-[color:var(--ar-paper-deep)]";
-        },
     },
 
     methods: {
-        store: function () {
+        toggle: function () {
             if (!this.signedIn) {
                 return bus.$emit("flash", {
-                    body: "Najprv sa prihláste.",
+                    body: "Ak chcete označiť Páči sa mi to, prihláste sa.",
                     type: "danger",
                 });
             }
 
-            axios.put("/favorites/" + this.reply.id, {
-                model: "Comment",
-                model_id: this.reply.id,
-            });
+            // Stav sa prepne hneď; server potom vráti skutočný stav a počet,
+            // pri chybe sa vráti pôvodný.
+            var before = {
+                is_favorited: this.reply.is_favorited,
+                favorites_count: this.reply.favorites_count,
+            };
 
-            this.reply.is_favorited = !this.reply.is_favorited;
-            this.reply.favorites_count += this.reply.is_favorited ? 1 : -1;
+            this.reply.is_favorited = !before.is_favorited;
+            this.reply.favorites_count = before.favorites_count + (this.reply.is_favorited ? 1 : -1);
+            this.pending = true;
 
-            bus.$emit("flash", { body: "Hlas komentáru je uložený." });
+            axios
+                .post("/api/comments/" + this.reply.id + "/like")
+                .then(({ data }) => {
+                    this.reply.is_favorited = data.is_favorited;
+                    this.reply.favorites_count = data.favorites_count;
+                })
+                .catch(() => {
+                    this.reply.is_favorited = before.is_favorited;
+                    this.reply.favorites_count = before.favorites_count;
+                    bus.$emit("flash", { body: "Nepodarilo sa uložiť, skúste to znova.", type: "danger" });
+                })
+                .finally(() => {
+                    this.pending = false;
+                });
         },
     },
 };

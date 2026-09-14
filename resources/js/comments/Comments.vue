@@ -8,8 +8,8 @@
         <div class="ar-rule mb-5">
             <h2 class="ar-display flex items-center gap-2 text-lg font-bold">
                 Komentáre
-                <span v-if="comments.length" class="ar-badge ar-badge--count">
-                    {{ comments.length }}
+                <span v-if="total" class="ar-badge ar-badge--count">
+                    {{ total }}
                 </span>
             </h2>
 
@@ -36,6 +36,7 @@
                 v-for="comment in comments"
                 :key="comment.id"
                 :comment="comment"
+                :post="post"
                 @deleted="remove"
             ></comment-item>
         </div>
@@ -64,6 +65,13 @@ export default {
     computed: {
         signedIn: function () {
             return window.App.signedIn;
+        },
+
+        // Počet v nadpise ráta aj odpovede, nielen hlavné komentáre.
+        total: function () {
+            return this.comments.reduce(function (sum, comment) {
+                return sum + 1 + (comment.replies ? comment.replies.length : 0);
+            }, 0);
         },
     },
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
-
+use App\Models\Comment;
+use App\Models\Post;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SaveCommentsRequest extends FormRequest
@@ -24,21 +26,36 @@ class SaveCommentsRequest extends FormRequest
      */
     public function rules()
     {
+        $rules = [
+            'body' => 'bail|required|min:3',
+            // Odpovedať sa dá len na zverejnený komentár toho istého príspevku.
+            'parent_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('comments', 'id')
+                    ->where('commentable_type', Post::class)
+                    ->where('commentable_id', $this->route('post')?->getKey())
+                    ->whereNull('deleted_at'),
+            ],
+        ];
 
         if (auth()->guest()) {
-            return [
-                'body' => 'bail|required|min:3',
-                'email' => 'required|email|max:255',
-            ];
+            $rules['email'] = 'required|email|max:255';
         }
 
-        return [
-            'body' => 'bail|required|min:3'
-        ];
+        return $rules;
     }
 
     public function save($post)
     {
-        return $post->addComment($this->only('body'));
+        $data = $this->only('body');
+
+        if ($this->filled('parent_id')) {
+            // Vlákno má jednu úroveň: odpoveď na odpoveď patrí pod hlavný komentár.
+            $parent = Comment::find($this->input('parent_id'));
+            $data['parent_id'] = $parent->parent_id ?? $parent->id;
+        }
+
+        return $post->addComment($data);
     }
 }

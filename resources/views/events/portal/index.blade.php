@@ -154,17 +154,17 @@
 
                             <section class="md:flex md:gap-6">
 
-                                <div class="mb-3 shrink-0 md:mb-0 md:w-[6.5rem]">
-                                    <div class="ev-stamp inline-flex w-24 flex-col items-center rounded-lg px-3 py-2
+                                <div class="mb-3 shrink-0 md:mb-0 md:w-[7.5rem]">
+                                    <div class="ev-stamp inline-flex w-28 flex-col items-center rounded-lg px-2 py-2
                                                 {{ $first->isToday() ? 'ev-stamp-today' : '' }}">
-                                        <span class="text-[.65rem] uppercase tracking-widest text-stone-500">
-                                            {{ $first->dayName() ? mb_substr($first->dayName(), 0, 3) : '—' }}
+                                        <span class="text-[.65rem] uppercase tracking-wide text-stone-500">
+                                            {{ $first->dayName() ?: '—' }}
                                         </span>
                                         <span class="ev-display text-3xl font-bold leading-none">
                                             {{ $first->dayNumber() ?? '?' }}
                                         </span>
-                                        <span class="text-[.65rem] uppercase tracking-widest text-stone-500">
-                                            {{ $first->monthShort() }}
+                                        <span class="text-[.65rem] uppercase tracking-wide text-stone-500">
+                                            {{ $first->monthName() }}
                                         </span>
                                     </div>
 

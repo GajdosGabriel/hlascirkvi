@@ -37,6 +37,7 @@ import PrayersIndexPage2 from './prayer/prayers-index-page2.vue';
 import NewPrayerButton from './prayer/components/NewPrayerButton.vue';
 import PostPublishButtons from './posts/card/buttons.vue';
 import PictureViewer from './posts/Picture-viewer.vue';
+import PostImages from './posts/PostImages.vue';
 import NavigationMain from './navigation/Navigation-main.vue';
 import MobileMenu from './navigation/MobileMenu.vue';
 import ArticleDropdown from './posts/Article-dropdown.vue';
@@ -73,6 +74,7 @@ const components = {
     'new-prayer-button': NewPrayerButton,
     'post-publish-buttons': PostPublishButtons,
     'picture-viewer': PictureViewer,
+    'post-images': PostImages,
     'navigation-main': NavigationMain,
     'mobile-menu': MobileMenu,
     'article-dropdown': ArticleDropdown,

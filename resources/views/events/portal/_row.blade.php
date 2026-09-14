@@ -69,18 +69,6 @@
                     <span class="font-medium text-stone-700">{{ $event->price() }}</span>
                 @endif
             </div>
-
-            @if ($event->tags())
-                <div class="flex flex-wrap gap-1.5 pt-1">
-                    @foreach (array_slice($event->tags(), 0, 4) as $tag)
-                        <a href="{{ $evTagUrl($tag['slug'] ?? '') }}"
-                           class="inline-flex items-center gap-1 rounded-full border border-[color:var(--ev-line)] bg-[color:var(--ev-paper-deep)] px-2 py-0.5 text-[.7rem] text-stone-600 transition hover:border-amber-400 hover:text-amber-800">
-                            @if (! empty($tag['emoji']))<span>{{ $tag['emoji'] }}</span>@endif
-                            {{ $tag['name'] ?? $tag['slug'] ?? '' }}
-                        </a>
-                    @endforeach
-                </div>
-            @endif
         </div>
     </div>
 </article>

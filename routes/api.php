@@ -67,6 +67,9 @@ Route::middleware(['auth:sanctum', 'checkBanned'])->group(function () {
 
     Route::apiResource('prayers', Api\PrayerController::class)->only(['update', 'destroy']);
     Route::apiResource('comments', Api\CommentController::class)->only(['destroy']);
+    Route::post('comments/{comment}/like', 'Api\CommentLikeController@store')
+        ->middleware('throttle:60,1')
+        ->name('comments.like');
     Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['update', 'destroy']);
 
     // Zverejnenie / zablokovanie príspevku a presun do Bufferu sú akcie

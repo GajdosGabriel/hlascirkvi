@@ -31,14 +31,33 @@ trait HasFavorites
 
     public function favorite()
     {
-        if ($this->favorites()->whereUserId(auth()->id() )->exists() ) {
-            $this->favorites()->delete();
-
-            session()->flash('flash', 'Zrušenie bolo úspešné!');
-        } else {
-            $this->favorites()->create( ['user_id' => auth()->id()] );
+        if ($this->toggleFavorite()) {
             session()->flash('flash', 'Príhlásenie bolo úspešné!');
+        } else {
+            session()->flash('flash', 'Zrušenie bolo úspešné!');
         }
+    }
+
+    /**
+     * Prepne označenie prihláseného užívateľa a vráti, či je teraz označené.
+     *
+     * Zrušenie volalo `$this->favorites()->delete()` bez podmienky na
+     * užívateľa — jeden klik tak zmazal označenia všetkých ľudí naraz.
+     */
+    public function toggleFavorite(): bool
+    {
+        // user_id je NOT NULL; hosť by skončil na výnimke z databázy.
+        abort_unless(auth()->check(), 401);
+
+        $deleted = $this->favorites()->whereUserId(auth()->id())->delete();
+
+        if (! $deleted) {
+            $this->favorites()->create(['user_id' => auth()->id()]);
+        }
+
+        $this->unsetRelation('favorites');
+
+        return ! $deleted;
     }
 
     public function isFavorited() {
