@@ -1,119 +1,60 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gabriel
- * Date: 21.02.2019
- * Time: 17:01
- */
 
 namespace App\Services;
 
 use App\Enums\PostSection;
-use App\Models\User;
 use App\Models\Canal;
-use Alaouy\Youtube\Youtube;
-use App\Services\Images\StoreImage;
-use App\Services\Images\YoutubeThumbnail;
-use App\Notifications\Admin\Error;
 use App\Models\Post;
-use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Repositories\Eloquent\EloquentCanalRepository;
 use App\Models\Seminar;
+use App\Services\Youtube\PlaylistId;
+use App\Services\Youtube\VideoId;
+use App\Services\Youtube\VideoImporter;
+use App\Services\Youtube\YoutubeApi;
 
+/**
+ * Videá seminára z jeho playlistu. Seminár je uzavretý celok, preto sa
+ * playlist prejde celý (predtým len prvých 50 položiek).
+ */
 class VideoUploadSeminars
 {
-    public $organization;
-    public $seminar;
+    /** Poistka proti nekonečnému playlistu. */
+    private const MAX_VIDEOS = 500;
 
-    public function __construct(Seminar $seminar, Canal $organization)
-    {
-        $this->organization = $organization;
-        $this->seminar = $seminar;
+    public function __construct(
+        public Seminar $seminar,
+        public Canal $organization,
+        private ?YoutubeApi $api = null,
+    ) {
+        $this->api ??= app(YoutubeApi::class);
     }
 
-
-    public function handle()
+    public function handle(): void
     {
-        $this->validateUrlPlaylistOrChannel();
-    }
+        $playlistId = PlaylistId::fromInput($this->seminar->youtube_playlist);
 
-
-    protected function validateUrlPlaylistOrChannel()
-    {
-        // Seminár bez playlistu končil na "Undefined variable $videoList".
-        if (strlen((string) $this->seminar->youtube_playlist) < 8) {
+        if ($playlistId === null) {
             return;
         }
 
-        $videoList = \Youtube::getPlaylistItemsByPlaylistId($this->seminar->youtube_playlist);
+        $ids = [];
+        $token = null;
 
-        $this->foreachVideolist($videoList['results'] ?? []);
-    }
+        do {
+            $page = $this->api->playlistItems($playlistId, $token);
+            $ids = array_merge($ids, array_filter(array_map([VideoId::class, 'from'], $page->items)));
+            $token = $page->nextPageToken;
+        } while ($token !== null && count($ids) < self::MAX_VIDEOS);
 
-
-    protected function foreachVideolist($videoList)
-    {
-        foreach ($videoList as $video) {
-            if (isset($video->contentDetails->upload->videoId)) {
-                $videoId = $video->contentDetails->upload->videoId;
-            } elseif (isset($video->contentDetails->playlistItem->resourceId->videoId)) {
-                $videoId = $video->contentDetails->playlistItem->resourceId->videoId;
-            } elseif (isset($video->snippet->resourceId->videoId)) {
-                $videoId = $video->snippet->resourceId->videoId;
-            } else {
-                $this->sendErrorForAdmin();
-                continue;
-            }
-
-            if ($this->checkIfVideoExist($videoId)) {
-                continue;
-            } else {
-                $this->savePostVideo($video, $videoId);
-            }
-        }
-    }
-
-    protected function savePostVideo($video, $videoId)
-    {
-        $post =  $this->organization->posts()->create(
-            [
-                'title' => $video->snippet->title,
-                'video_id' => $videoId,
-                'body' => $video->snippet->description
-            ]
-        );
-
-        StoreImage::for($post)->tryFromUrl(
-            YoutubeThumbnail::bestUrl($video->snippet->thumbnails ?? null)
-        );
-
-        /*
-         * Video seminára ide rovno do výpisu konferencií — inak by skončilo
-         * v bufferi a čakalo na zverejnenie, hoci seminár si svoje videá
-         * sťahuje sám a na mieru.
-         */
-        $post->update([
-            'section'      => PostSection::Seminar,
-            'published_at' => now(),
-        ]);
-
-        $post->seminars()->attach($this->seminar->id);
-    }
-
-
-    protected function sendErrorForAdmin()
-    {
-//        User::first()->notify(new Error($organization));
-    }
-
-    protected function checkIfVideoExist($videoId)
-    {
-        if ($post = Post::withTrashed()->whereVideoId($videoId)->first())
-        {
-            // Ak by bol vymazaný
+        // Video, ktoré už na webe je (aj zmazané), sa obnoví a priradí k semináru.
+        Post::withTrashed()->whereIn('video_id', $ids)->get()->each(function (Post $post) {
             $post->restore();
             $post->seminars()->sync($this->seminar->id);
-            return true;
+        });
+
+        $saved = (new VideoImporter($this->api))->import($this->organization, $ids, PostSection::Seminar);
+
+        foreach ($saved as $post) {
+            $post->seminars()->attach($this->seminar->id);
         }
     }
 }

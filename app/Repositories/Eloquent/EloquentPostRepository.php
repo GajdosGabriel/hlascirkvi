@@ -240,7 +240,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      */
     public function organizationRail($organizationId, $exceptId, $perPage = 6)
     {
-        return $this->entity->whereOrganizationId($organizationId)
+        return $this->inOrganization($organizationId)
             ->whereKeyNot($exceptId)
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'desc')
@@ -249,7 +249,16 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
 
     public function countInOrganization($organizationId)
     {
-        return $this->entity->whereOrganizationId($organizationId)->count();
+        return $this->inOrganization($organizationId)->count();
+    }
+
+    /**
+     * Zverejnené príspevky kanála. Panely kanála a detailu ukazovali aj videá
+     * čakajúce v bufferi, ktoré titulka ešte nepustila von.
+     */
+    protected function inOrganization($organizationId)
+    {
+        return $this->entity->whereOrganizationId($organizationId)->published();
     }
 
     /**
@@ -259,7 +268,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      */
     public function mostViewedInOrganization($organizationId, $exceptId = null, $limit = 5)
     {
-        return $this->entity->whereOrganizationId($organizationId)
+        return $this->inOrganization($organizationId)
             // Profil kanála panel vykresľuje bez toho, aby stál na konkrétnom
             // príspevku. whereKeyNot(null) by sa preložilo na `id <> null`,
             // teda podmienku, ktorú nesplní ani jeden riadok.
@@ -272,7 +281,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
 
     public function firstInOrganization($organizationId, $exceptId)
     {
-        return $this->entity->whereOrganizationId($organizationId)
+        return $this->inOrganization($organizationId)
             ->whereKeyNot($exceptId)
             ->oldest()
             ->first();
@@ -283,7 +292,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      */
     public function inOrganizationBefore($organizationId, $exceptId, $moment)
     {
-        return $this->entity->whereOrganizationId($organizationId)
+        return $this->inOrganization($organizationId)
             ->whereKeyNot($exceptId)
             ->where('created_at', '<=', $moment)
             ->latest()
@@ -306,6 +315,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->where('organization_id', $organizationId)
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
             ->selectRaw('count(*) as posts_count')
             ->selectRaw('coalesce(sum(count_view), 0) as views_sum')
             ->selectRaw('min(created_at) as first_at')
@@ -324,6 +334,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->where('organization_id', $organizationId)
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
             ->selectRaw('year(created_at) as rok, month(created_at) as mesiac, count(*) as pocet')
             ->groupBy('rok', 'mesiac')
             ->orderBy('rok')
@@ -370,6 +381,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->where('comments.commentable_type', Post::class)
             ->where('posts.organization_id', $organizationId)
             ->where('posts.youtube_blocked', 0)
+            ->whereNotNull('posts.published_at')
             ->whereNull('comments.deleted_at')
             ->whereNull('posts.deleted_at');
     }

@@ -1,44 +1,23 @@
 <?php
 
 namespace App\Console\Commands;
-use App\Services\Extractor\ExtractYoutubeComment;
 
+use App\Services\Youtube\CommentSync;
 use Illuminate\Console\Command;
-
 
 class YoutubeCommentsExtract extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'youtube:comments';
+    protected $signature = 'youtube:comments
+        {--limit=50 : Počet videí v jednom behu (najviac 50)}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Extract youtube comments from youtube. Check if video is avaible. Check if video can shere another sites';
+    protected $description = 'Stiahne komentáre z YouTube, doplní trvanie videí a označí nedostupné videá';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function handle(): int
     {
-        parent::__construct();
-    }
+        $stats = (new CommentSync)->handle((int) $this->option('limit'));
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
-    {
-        (new ExtractYoutubeComment())->handle();
+        $this->info("Videí: {$stats['posts']}, nových komentárov: {$stats['comments']}");
+
+        return self::SUCCESS;
     }
 }

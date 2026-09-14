@@ -1,91 +1,59 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Gabriel
- * Date: 21.02.2019
- * Time: 17:01
- */
-
 namespace App\Services;
 
-use Alaouy\Youtube\Youtube;
 use App\Repositories\Eloquent\EloquentCanalRepository;
-use App\Repositories\Eloquent\EloquentPostRepository;
-use App\Services\Images\StoreImage;
-use App\Services\Images\YoutubeThumbnail;
 use App\Services\Youtube\VideoId;
+use App\Services\Youtube\VideoImporter;
+use App\Services\Youtube\YoutubeApi;
+use App\Services\Youtube\YoutubeApiException;
 use Illuminate\Support\Facades\Log;
 
-
-     // Hľadá názvy jednotlivých userov podla updater dni v týždni
-
+/**
+ * Hľadá videá osobností bez vlastného kanála podľa mena, v deň z
+ * `organizations.import_day`. Search stojí sto jednotiek kvóty, preto
+ * organizácie s kanálom alebo playlistom idú cez VideoUpload.
+ */
 class VideoUploadByUserName
 {
+    public function __construct(private ?YoutubeApi $api = null)
+    {
+        $this->api ??= app(YoutubeApi::class);
+    }
 
     public function handle()
     {
         $organizations = (new EloquentCanalRepository())->getUsersByDayOfWeek();
+        $importer = new VideoImporter($this->api);
 
-        // Jeden neúspešný dopyt na YouTube (kvóta, výpadok) zhodil celý denný
-        // beh, takže sa nespracovali ani ostatné kanály.
+        // Jeden neúspešný dopyt na YouTube (výpadok) nesmie zhodiť celý denný
+        // beh, vyčerpaná kvóta ho však ukončí.
         foreach ($organizations as $organization) {
             try {
-                // Set default parameters
-                $params = [
-                    'q'             => $organization->title,
-                    'type'          => 'video',
-                    'part'          => 'id,snippet',
-                    'maxResults'    => 30
-                ];
-
-                // Bez výsledkov vracia balík false, nie prázdne pole, a foreach
-                // nad ním v PHP 8 hlási "must be of type array|object".
-                $videoList = \Youtube::searchAdvanced($params);
-                $videoList = is_iterable($videoList) ? $videoList : [];
-
-                $found = 0;
-                $skipped = 0;
-
-                foreach ($videoList as $video) {
-                    $found++;
-
-                    // Medzi výsledkami býva aj položka bez ID videa.
-                    $videoId = VideoId::from($video);
-
-                    if ($videoId === null) {
-                        $skipped++;
-                        continue;
-                    }
-
-                    if (!\DB::table('posts')->whereVideoId($videoId)->exists()) {
-                        $post = $organization->posts()->create([
-                            'title' => $video->snippet->title,
-                            'video_id' => $videoId,
-                            'body' => $video->snippet->description
-                        ]);
-
-                        StoreImage::for($post)->tryFromUrl(
-                            YoutubeThumbnail::bestUrl($video->snippet->thumbnails ?? null)
-                        );
-                    }
-                }
+                $items = $this->api->searchVideos($organization->title, 30);
+                $ids = array_values(array_filter(array_map([VideoId::class, 'from'], $items)));
 
                 // Preskočené položky sa inak stratia bez stopy. Zaujíma nás,
                 // či ide o ojedinelý výsledok, alebo dopyt vracia samé nevideá.
-                if ($skipped > 0) {
+                if (count($ids) < count($items)) {
                     Log::info('Vo výsledkoch hľadania boli položky bez ID videa.', [
                         'organization_id' => $organization->id,
                         'title' => $organization->title,
-                        'skipped' => $skipped,
-                        'found' => $found,
+                        'skipped' => count($items) - count($ids),
+                        'found' => count($items),
                     ]);
                 }
+
+                $importer->import($organization, $ids);
             } catch (\Throwable $e) {
                 Log::warning('Hľadanie videí podľa názvu kanála zlyhalo: ' . $e->getMessage(), [
                     'organization_id' => $organization->id,
                     'title' => $organization->title,
                 ]);
+
+                if ($e instanceof YoutubeApiException && $e->is('quotaExceeded')) {
+                    break;
+                }
             }
         }
     }

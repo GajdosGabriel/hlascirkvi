@@ -2,38 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\DownloaderYoutube;
 use App\Services\VideoUpload;
 use Illuminate\Console\Command;
 
-
 class UserSearchByChannel extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'UserSearchByChannelAndPlaylist';
+    protected $signature = 'UserSearchByChannelAndPlaylist
+        {--canal= : Spracovať len kanál s týmto ID (ručné overenie)}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Search new videos by User channel';
+    protected $description = 'Stiahne nové videá z kanálov a playlistov YouTube';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle() {
+    public function handle(): int
+    {
+        $canal = $this->option('canal');
 
-         (new VideoUpload)->handle();
+        $saved = (new VideoUpload)->handle($canal !== null ? (int) $canal : null);
 
+        $this->info('Nových videí: ' . $saved);
+
+        return self::SUCCESS;
     }
-
-
-
 }

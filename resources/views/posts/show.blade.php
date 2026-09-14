@@ -118,10 +118,6 @@
     ];
 @endphp
 
-@push('head')
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.5.3/plyr.css">
-@endpush
-
 @section('content')
 
     <div class="ar-progress js-reading-progress"></div>
@@ -155,7 +151,14 @@
                             {{ $post->created_at->locale('sk')->isoFormat('D. MMMM YYYY') }}
                         </time>
 
-                        @if ($post->video_id && $post->video_duration)
+                        @if ($post->video_id && $post->youtube_published_at
+                            && ! $post->youtube_published_at->isSameDay($post->created_at))
+                            <span title="Zverejnené na YouTube">
+                                <i class="fab fa-youtube mr-1.5"></i>{{ $post->youtube_published_at->locale('sk')->isoFormat('D. MMMM YYYY') }}
+                            </span>
+                        @endif
+
+                        @if ($post->video_id && $post->video_duration && $post->video_duration !== '0:00')
                             <span><i class="far fa-play-circle mr-1.5"></i>{{ $post->video_duration }}</span>
                         @elseif ($words > 0)
                             <span><i class="far fa-clock mr-1.5"></i>{{ $minutes }} min čítania</span>
@@ -195,12 +198,33 @@
         {{-- Médium: prehrávač alebo úvodná fotka --}}
         @if ($post->video_id)
             <div class="mb-8 overflow-hidden rounded-lg border border-[color:var(--ar-line)] bg-black">
+                {{-- Náhľad s tlačidlom namiesto iframe: prehrávač YouTube pri
+                     načítaní stiahne okolo megabajtu skriptov aj návštevníkovi,
+                     ktorý video nespustí. Iframe vloží až klik (skript dole). --}}
+                @php $poster = $images->first(); @endphp
                 <div class="ar-player">
-                    <div id="player">
-                        <iframe
-                            src="https://www.youtube.com/embed/{{ $post->video_id }}?origin={{ rawurlencode(request()->getSchemeAndHttpHost()) }}&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
-                            allowfullscreen allowtransparency allow="autoplay"></iframe>
-                    </div>
+                    <button type="button" class="ar-lite" data-yt-lite="{{ $post->video_id }}"
+                            aria-label="Prehrať video: {{ $post->title }}">
+                        @if ($poster && $poster->variants)
+                            <picture>
+                                @if ($posterWebp = $poster->srcset('webp'))
+                                    <source type="image/webp" srcset="{{ $posterWebp }}"
+                                            sizes="(min-width: 1152px) 1120px, 100vw">
+                                @endif
+                                <img src="{{ url($poster->originalImageUrl) }}" srcset="{{ $poster->srcset('jpg') }}"
+                                     sizes="(min-width: 1152px) 1120px, 100vw" alt="" fetchpriority="high"
+                                     @if ($poster->width) width="{{ $poster->width }}" height="{{ $poster->height }}" @endif>
+                            </picture>
+                        @else
+                            {{-- Staršie náhľady majú jediný malý súbor; hqdefault
+                                 existuje ku každému videu. --}}
+                            <img src="https://i.ytimg.com/vi/{{ $post->video_id }}/hqdefault.jpg" alt=""
+                                 width="480" height="360" fetchpriority="high">
+                        @endif
+                        <span class="ar-lite__play" aria-hidden="true">
+                            <svg viewBox="0 0 68 48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.3.3 34 .3 34 .3s-21.3 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.7 47.7 34 47.7 34 47.7s21.3 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#f00"/><path d="M45 24 27 14v20z" fill="#fff"/></svg>
+                        </span>
+                    </button>
                 </div>
             </div>
         @elseif ($lead)
@@ -432,13 +456,25 @@
 
 @push('scripts')
     @if ($post->video_id)
-        <script src="https://cdn.plyr.io/3.5.3/plyr.js"></script>
         <script>
-            window.arReady(function () {
-                // Vue must finish replacing #app before Plyr attaches its controls.
-                if (typeof window.Plyr === 'function') {
-                    new window.Plyr('#player');
+            // Delegované na document: Vue pri mountnutí prekreslí celý #app
+            // a poslucháč priamo na tlačidle by zahodil.
+            document.addEventListener('click', function (event) {
+                var button = event.target.closest('[data-yt-lite]');
+
+                if (!button) {
+                    return;
                 }
+
+                var iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(button.dataset.ytLite)
+                    + '?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3';
+                iframe.title = button.getAttribute('aria-label');
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                iframe.allowFullscreen = true;
+
+                button.replaceWith(iframe);
+                iframe.focus();
             });
         </script>
     @endif

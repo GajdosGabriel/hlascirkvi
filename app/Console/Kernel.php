@@ -38,10 +38,10 @@ class Kernel extends ConsoleKernel
 
 
         /*
-         * Príkazy siahajúce na cudzie API majú withoutOverlapping(). Balík
-         * alaouy/youtube volá curl bez CURLOPT_TIMEOUT, takže zaseknutá
-         * odpoveď dokáže bežať veľmi dlho — bez zámku by sa na ňu ďalšie
-         * spustenia len navrstvili.
+         * Príkazy siahajúce na cudzie API majú withoutOverlapping(). YouTube
+         * klient (App\Services\Youtube\YoutubeApi) má timeout aj retry, beh
+         * cez stovky kanálov však trvá dlhšie ako interval niektorých
+         * spustení — bez zámku by sa na seba navrstvili.
          */
 
         // $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
@@ -82,6 +82,10 @@ class Kernel extends ConsoleKernel
         // Tabuľka `views` je len pamäť na „tento návštevník tu dnes už bol",
         // trvalý počet drží posts.count_view. Bez preriedenia by rástla donekonečna.
         $schedule->command('app:views-prune')->dailyAt('03:20');
+
+        // Liturgické čítania z KBS na 45 dní dopredu. Chýbajúce dni si síce
+        // stránka stiahne aj sama, ale výpadok KBS tak web neucíti.
+        $schedule->command('liturgia:stiahnut')->dailyAt('03:35')->withoutOverlapping();
     }
 
     /**

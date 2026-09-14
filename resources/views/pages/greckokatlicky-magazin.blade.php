@@ -16,7 +16,7 @@
             </div>
 
             <div class="video-container">
-                <iframe width="640" height="360" src="//www.youtube.com/embed/{{ $video->contentDetails->upload->videoId }}?rel=0;modestbranding=1" frameborder="0" allowfullscreen></iframe>
+                <iframe width="640" height="360" src="https://www.youtube-nocookie.com/embed/{{ $video->contentDetails->upload->videoId }}?rel=0&amp;modestbranding=1" frameborder="0" loading="lazy" allowfullscreen></iframe>
             </div>
 
             <div class="video-item__side">

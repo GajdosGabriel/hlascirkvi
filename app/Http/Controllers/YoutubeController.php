@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Models\Post;
-use App\Models\User;
 use App\Models\Canal;
-use Illuminate\Http\Request;
-use App\Services\Images\StoreImage;
-use App\Services\Images\YoutubeThumbnail;
+use App\Models\User;
 use App\Services\Youtube\VideoId;
-use App\Events\Posts\BufferPublisherVideo;
+use App\Services\Youtube\VideoImporter;
+use App\Services\Youtube\YoutubeApi;
 
 class YoutubeController extends Controller
 {
-    public function __construct()
+    public function __construct(private YoutubeApi $api)
     {
         $this->middleware('auth');
     }
@@ -35,27 +31,28 @@ class YoutubeController extends Controller
     // Search by name in title and save/
     public function searchAndSaveUser(User $user, $slug)
     {
-        $videoList = $this->searchVideosByUserName($user);
-        $this->saveFindedVideo($user, $videoList);
+        $this->saveFoundVideos($user, $this->searchVideosByUserName($user));
+
         return redirect('/');
     }
-
 
     // Search by name in title and save/
     public function searchAndSaveOrganization(Canal $organization, $slug)
     {
-        $videoList = $this->searchVideosByUserName($organization);
-        $this->saveFindedVideo($organization, $videoList);
+        $this->saveFoundVideos($organization, $this->searchVideosByUserName($organization));
+
         return redirect('/');
     }
 
-
-    // vyhľadávanie cez konkretny kanál max.50 results
+    /**
+     * Najnovšie videá konkrétneho kanála. Uploads playlist stojí jednu jednotku
+     * kvóty, search.list, ktorý tu bol predtým, sto.
+     */
     public function getNewVideoByChannel(User $user, $channelId)
     {
-        $videoList = \Youtube::listChannelVideos($channelId);
+        $items = $this->api->playlistItems(YoutubeApi::uploadsPlaylistId($channelId))->items;
 
-        $this->saveFindedVideo($user, $videoList);
+        $this->saveFoundVideos($user, array_map([VideoId::class, 'from'], $items));
 
         return redirect('/');
     }
@@ -63,59 +60,34 @@ class YoutubeController extends Controller
     // Z linku na Youtube vyhľadávanie zoberie základné informácie
     public function getVideoById($videoId)
     {
-        return response()->json(\Youtube::getVideoInfo($videoId));
+        return response()->json($this->api->videos([$videoId])[$videoId] ?? false);
     }
 
-
-    public function searchVideosByUserName($organization)
-    {
-        // Set default parameters
-        $params = [
-            'q'             => $organization->title,
-            'type'          => 'video',
-            'part'          => 'id,snippet',
-            'maxResults'    => 30
-        ];
-
-        return $videoList  = \Youtube::searchAdvanced($params);
-    }
-
-
-    // Search and save by prieskum daily new user videos.
     /**
-     * @param $user
-     * @param $videoList
+     * @return string[] ID nájdených videí
      */
-    private function saveFindedVideo($organization, $videoList)
+    public function searchVideosByUserName($organization): array
     {
-        // check if any videos exists
-        if (empty($videoList)) {
+        return array_map([VideoId::class, 'from'], $this->api->searchVideos($organization->title, 30));
+    }
 
-            session()->flash('flash', 'Nenašli sa žiadne videa!');
+    /**
+     * Príspevky patria kanálu — pri používateľovi sa uložia jeho kanálu, ak
+     * nejaký spravuje.
+     */
+    private function saveFoundVideos(Canal|User $owner, array $ids): void
+    {
+        $canal = $owner instanceof Canal ? $owner : $owner->organizations()->first();
+        $ids = array_filter($ids);
+
+        if ($ids === [] || $canal === null) {
+            session()->flash('flash', 'Nenašli sa žiadne videá!');
+
             return;
         }
 
-        foreach ($videoList as $video) {
-            // Medzi výsledkami býva aj položka bez ID videa.
-            $videoId = VideoId::from($video);
+        $saved = (new VideoImporter($this->api))->import($canal, $ids);
 
-            if ($videoId === null) {
-                continue;
-            }
-
-            if (!\DB::table('posts')->whereVideoId($videoId)->exists()) {
-                $post = $organization->posts()->create([
-                    // Bez `published_at` — video ide do frontu, rovnako ako
-                    // pri dennom importe (App\Services\VideoUpload).
-                    'title' => $video->snippet->title,
-                    'video_id' => $videoId,
-                    'body' => $video->snippet->description,
-                ]);
-
-                StoreImage::for($post)->tryFromUrl(
-                    YoutubeThumbnail::bestUrl($video->snippet->thumbnails ?? null)
-                );
-            }
-        }
+        session()->flash('flash', 'Nových videí: ' . count($saved));
     }
 }

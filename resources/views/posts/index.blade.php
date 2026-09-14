@@ -146,6 +146,7 @@
                 <comments-card></comments-card>
                 <prayers-card></prayers-card>
 
+                <x-liturgical-readings />
                 @include('verses.daily-modul')
                 <x-front-list-card kind="person" />
                 <x-front-list-card kind="community" />

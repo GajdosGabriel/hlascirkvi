@@ -61,6 +61,11 @@ Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallba
 
 Route::get('zamyslenia/{slug?}', 'VerseController@index')->name('verses.index');
 
+// Liturgické čítania na deň (App\Services\Liturgy). Bez dátumu dnes.
+Route::get('citania/{datum?}', 'Public\ReadingsController@show')
+    ->where('datum', '\d{4}-\d{2}-\d{2}')
+    ->name('readings.show');
+
 // Podujatia na /akcie sa ťahajú z portálu event.hlascirkvi.sk (App\Services\
 // EventPortal). Lokálna tabuľka `events` a celá agenda okolo nej (zakladanie,
 // prihlasovanie, admin) bola zrušená, takže toto sú jediné routy podujatí.

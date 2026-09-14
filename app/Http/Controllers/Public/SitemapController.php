@@ -72,6 +72,7 @@ class SitemapController extends Controller
                 ['loc' => route('akcie.index'), 'changefreq' => 'daily', 'priority' => '0.8'],
                 ['loc' => route('modlitby.index'), 'changefreq' => 'daily', 'priority' => '0.7'],
                 ['loc' => route('verses.index'), 'changefreq' => 'daily', 'priority' => '0.7'],
+                ['loc' => route('readings.show'), 'changefreq' => 'daily', 'priority' => '0.7'],
                 ['loc' => route('gdpr'), 'changefreq' => 'yearly', 'priority' => '0.2'],
             ];
 

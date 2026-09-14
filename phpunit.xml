@@ -38,5 +38,7 @@
         <env name="MAIL_DRIVER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
+        <!-- Modul liturgických čítaní by si na úvodnej stránke sťahoval deň z KBS. -->
+        <env name="LITURGY_LAZY_FETCH" value="false"/>
     </php>
 </phpunit>

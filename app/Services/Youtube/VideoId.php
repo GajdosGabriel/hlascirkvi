@@ -44,8 +44,9 @@ class VideoId
             // activities.list
             $item->contentDetails->upload->videoId ?? null,
             $item->contentDetails->playlistItem->resourceId->videoId ?? null,
-            // playlistItems.list
+            // playlistItems.list (part=snippet / part=contentDetails)
             $item->snippet->resourceId->videoId ?? null,
+            $item->contentDetails->videoId ?? null,
         ];
 
         foreach ($candidates as $candidate) {

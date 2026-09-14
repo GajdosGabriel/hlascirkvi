@@ -54,9 +54,14 @@ class VideoUploadFilter
 
     public function countWords()
     {
+        $title = mb_strtolower((string) $this->title);
+
         foreach ($this->getAcceptedWords() as $word) {
-            if (strpos($word, $this->title) !== false) {
-               $this->coutWords = true;
+            // Argumenty strpos boli prehodené — hľadalo sa, či kľúčové slovo
+            // obsahuje celý titulok. Kanál 256 tak od 01/2022 neprepustil ani
+            // jedno video.
+            if (str_contains($title, mb_strtolower($word))) {
+                $this->coutWords = true;
             }
         }
     }

@@ -46,6 +46,17 @@ class Comment extends Model
         return $this->hasMany(Comment::class, 'parent_id')->with('user')->oldest();
     }
 
+    /**
+     * Komentár stiahnutý z YouTube (App\Services\Youtube\CommentSync). Staršie
+     * záznamy ID nemajú, spoznajú sa podľa avatara z YouTube.
+     */
+    public function fromYoutube(): bool
+    {
+        return $this->youtube_comment_id !== null
+            || ((int) $this->user_id === \App\Services\Youtube\CommentSync::USER_ID
+                && str_starts_with((string) $this->user_avatar, 'https://yt3.'));
+    }
+
     // public function setBodyAttribute($value)
     // {
     //     $this->attributes['body'] = cleanHardSpace($value);

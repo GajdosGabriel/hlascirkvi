@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Alaouy\Youtube\Facades\Youtube;
 use App\Models\Canal;
 use App\Models\User;
 use App\Notifications\Admin\YoutubeImportIssue;
@@ -11,19 +10,24 @@ use App\Repositories\Eloquent\EloquentCanalRepository;
 use App\Services\VideoUpload;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
+use Tests\Support\FakesYoutube;
 use Tests\TestCase;
 
 /**
  * Kanál, ktorý na YouTube už neexistuje, sa má z denného importu vyradiť
- * a superadmin o tom má vedieť. YouTube je namockovaný — do API sa nevolá.
+ * a superadmin o tom má vedieť. YouTube je falošné — do API sa nevolá.
  */
 class YoutubeImportDisableTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, FakesYoutube;
 
-    /** Neexistujúci kanál: YouTube odpovie na activities.list chybou 403. */
-    private const FORBIDDEN = 'Error 403 The request is not properly authorized. : forbidden';
+    private const CHANNEL = 'UCtWheHmWwuokUASxXus4NBw';
+
+    private const UPLOADS = 'UUtWheHmWwuokUASxXus4NBw';
+
+    private const PLAYLIST = 'PLe026qiswQ_HMnmxNZ9IBBpO2ytIcP9HU';
 
     protected function setUp(): void
     {
@@ -46,17 +50,26 @@ class YoutubeImportDisableTest extends TestCase
         return Canal::factory()->create($attributes);
     }
 
+    /** Uploads playlist kanála je prázdny, playlist je zmazaný. */
+    private function fakeWorkingChannelWithDeletedPlaylist(): void
+    {
+        $this->fakeYoutube([
+            'playlistItems' => fn ($query) => $query['playlistId'] === self::PLAYLIST
+                ? $this->youtubeError(404, 'playlistNotFound')
+                : $this->playlistPage([]),
+        ]);
+    }
+
     public function testZmazanyKanalSaVypneAPrideOznamSuperadminovi()
     {
         $superadmin = $this->superadmin();
-        $canal = $this->canal(['youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw']);
+        $canal = $this->canal(['youtube_channel' => self::CHANNEL]);
 
-        Youtube::shouldReceive('getActivitiesByChannelId')
-            ->once()
-            ->andThrow(new \Exception(self::FORBIDDEN));
-
-        // channels.list potvrdí, že kanál naozaj neexistuje.
-        Youtube::shouldReceive('getChannelById')->once()->andReturn(false);
+        $this->fakeYoutube([
+            'playlistItems' => $this->youtubeError(404, 'playlistNotFound'),
+            // channels.list potvrdí, že kanál naozaj neexistuje.
+            'channels' => ['items' => []],
+        ]);
 
         Notification::fake();
 
@@ -70,58 +83,71 @@ class YoutubeImportDisableTest extends TestCase
         Notification::assertSentTo($superadmin, YoutubeSourceMissing::class);
     }
 
+    public function testKanalBezVideiNieJeZmazany()
+    {
+        $canal = $this->canal(['youtube_channel' => self::CHANNEL]);
+
+        // Kanál bez jediného videa nemá uploads playlist, ale existuje.
+        $this->fakeYoutube([
+            'playlistItems' => $this->youtubeError(404, 'playlistNotFound'),
+            'channels' => ['items' => [['id' => self::CHANNEL]]],
+        ]);
+
+        (new VideoUpload)->handle();
+
+        $this->assertNull($canal->refresh()->youtube_disabled_at);
+    }
+
     public function testVypnutyKanalSaDoImportuNedostane()
     {
         $this->canal([
-            'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw',
+            'youtube_channel' => self::CHANNEL,
             'youtube_disabled_at' => now(),
             'youtube_disabled_reason' => 'kanál na YouTube už neexistuje',
         ]);
 
         // Ani jeden dopyt na YouTube — kanál je z importu vyradený.
-        Youtube::shouldReceive('getActivitiesByChannelId')->never();
+        $this->fakeYoutube([]);
 
         (new VideoUpload)->handle();
 
+        Http::assertNothingSent();
         $this->assertCount(0, (new EloquentCanalRepository)->getYoutubeVideos());
     }
 
     public function testVycerpanaKvotaKanalNevypne()
     {
         $superadmin = $this->superadmin();
-        $canal = $this->canal(['youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw']);
+        $canal = $this->canal(['youtube_channel' => self::CHANNEL]);
+        $druhy = $this->canal(['youtube_channel' => 'UCznO9E4iMXuDyTbJr5e26tg']);
 
-        Youtube::shouldReceive('getActivitiesByChannelId')
-            ->once()
-            ->andThrow(new \Exception('Error 403 The request cannot be completed because you have exceeded your quota. : quotaExceeded'));
-
-        // Overenie kanála zlyhá z toho istého dôvodu, takže o zmazaní kanála
-        // nič nevieme a vypínať ho nesmieme.
-        Youtube::shouldReceive('getChannelById')
-            ->once()
-            ->andThrow(new \Exception('Error 403 quotaExceeded'));
+        $this->fakeYoutube([
+            'playlistItems' => $this->youtubeError(403, 'quotaExceeded'),
+        ]);
 
         Notification::fake();
 
         (new VideoUpload)->handle();
 
         $this->assertNull($canal->refresh()->youtube_disabled_at);
+        $this->assertNull($druhy->refresh()->youtube_disabled_at);
 
         Notification::assertNotSentTo($superadmin, YoutubeSourceMissing::class);
+
+        // O zmazaní kanála pri vyčerpanej kvóte nič nevieme a zvyšné kanály
+        // by zlyhali rovnako — beh končí po prvom dopyte.
+        $this->assertCount(0, $this->youtubeRequests('channels'));
+        $this->assertCount(1, $this->youtubeRequests('playlistItems'));
     }
 
     public function testZmazanyPlaylistPriFunkcnomKanaliNevypneImport()
     {
         $canal = $this->canal([
-            'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw',
-            'youtube_playlist' => 'PLe026qiswQ_HMnmxNZ9IBBpO2ytIcP9HU',
+            'youtube_channel' => self::CHANNEL,
+            'youtube_playlist' => self::PLAYLIST,
         ]);
 
-        Youtube::shouldReceive('getActivitiesByChannelId')->once()->andReturn([]);
-
-        Youtube::shouldReceive('getPlaylistItemsByPlaylistId')
-            ->once()
-            ->andThrow(new \Exception('Error 404 The playlist cannot be found. : playlistNotFound'));
+        $this->fakeWorkingChannelWithDeletedPlaylist();
 
         (new VideoUpload)->handle();
 
@@ -132,30 +158,30 @@ class YoutubeImportDisableTest extends TestCase
     {
         $canal = $this->canal(['youtube_channel' => 'https://www.youtube.com/@EVSchcemviac']);
 
-        Youtube::shouldReceive('getChannelByHandle')
-            ->once()
-            ->with('@EVSchcemviac', [], ['id'])
-            ->andReturn((object) ['id' => 'UCtWheHmWwuokUASxXus4NBw']);
-
-        Youtube::shouldReceive('getActivitiesByChannelId')
-            ->once()
-            ->with('UCtWheHmWwuokUASxXus4NBw')
-            ->andReturn([]);
+        $this->fakeYoutube([
+            'channels' => fn ($query) => ($query['forHandle'] ?? null) === '@EVSchcemviac'
+                ? ['items' => [['id' => self::CHANNEL]]]
+                : ['items' => []],
+            'playlistItems' => $this->playlistPage([]),
+        ]);
 
         (new VideoUpload)->handle();
 
-        $this->assertSame('UCtWheHmWwuokUASxXus4NBw', $canal->refresh()->youtube_channel);
+        $this->assertSame(self::CHANNEL, $canal->refresh()->youtube_channel);
         $this->assertNull($canal->youtube_disabled_at);
+
+        $this->assertStringContainsString('playlistId=' . self::UPLOADS, $this->youtubeRequests('playlistItems')->first()->url());
     }
 
     public function testKanalBezZdrojaSaNevypina()
     {
         $canal = $this->canal(['youtube_channel' => null, 'youtube_playlist' => null]);
 
-        Youtube::shouldReceive('getActivitiesByChannelId')->never();
+        $this->fakeYoutube([]);
 
         (new VideoUpload)->handle();
 
+        Http::assertNothingSent();
         $this->assertNull($canal->refresh()->youtube_disabled_at);
     }
 
@@ -168,11 +194,10 @@ class YoutubeImportDisableTest extends TestCase
         $superadmin = $this->superadmin();
         $this->canal(['youtube_channel' => 'https://www.youtube.com/@EVSchcemviac']);
 
-        Youtube::shouldReceive('getChannelByHandle')
-            ->once()
-            ->andReturn((object) ['id' => 'UCtWheHmWwuokUASxXus4NBw']);
-
-        Youtube::shouldReceive('getActivitiesByChannelId')->once()->andReturn([]);
+        $this->fakeYoutube([
+            'channels' => ['items' => [['id' => self::CHANNEL]]],
+            'playlistItems' => $this->playlistPage([]),
+        ]);
 
         Notification::fake();
 
@@ -193,15 +218,11 @@ class YoutubeImportDisableTest extends TestCase
     {
         $superadmin = $this->superadmin();
         $this->canal([
-            'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw',
-            'youtube_playlist' => 'PLe026qiswQ_HMnmxNZ9IBBpO2ytIcP9HU',
+            'youtube_channel' => self::CHANNEL,
+            'youtube_playlist' => self::PLAYLIST,
         ]);
 
-        Youtube::shouldReceive('getActivitiesByChannelId')->once()->andReturn([]);
-
-        Youtube::shouldReceive('getPlaylistItemsByPlaylistId')
-            ->once()
-            ->andThrow(new \Exception('Error 404 The playlist cannot be found. : playlistNotFound'));
+        $this->fakeWorkingChannelWithDeletedPlaylist();
 
         Notification::fake();
 
@@ -219,15 +240,11 @@ class YoutubeImportDisableTest extends TestCase
     {
         $superadmin = $this->superadmin();
         $this->canal([
-            'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw',
-            'youtube_playlist' => 'PLe026qiswQ_HMnmxNZ9IBBpO2ytIcP9HU',
+            'youtube_channel' => self::CHANNEL,
+            'youtube_playlist' => self::PLAYLIST,
         ]);
 
-        Youtube::shouldReceive('getActivitiesByChannelId')->twice()->andReturn([]);
-
-        Youtube::shouldReceive('getPlaylistItemsByPlaylistId')
-            ->twice()
-            ->andThrow(new \Exception('Error 404 The playlist cannot be found. : playlistNotFound'));
+        $this->fakeWorkingChannelWithDeletedPlaylist();
 
         (new VideoUpload)->handle();
         (new VideoUpload)->handle();

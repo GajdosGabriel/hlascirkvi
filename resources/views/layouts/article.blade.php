@@ -111,18 +111,43 @@
 
         /* ---- Prehrávač ---------------------------------------------------- */
 
-        /* Pomer 16:9 nesie samotný iframe, nie obal. Plyr sa načítava až po
-           CSS a jeho `.plyr{position:relative}` by prebilo absolútne
-           umiestnenie v obale — výsledkom by bol prehrávač dvojnásobnej
-           výšky. Po inicializácii má prednosť pravidlo Plyru
-           `.plyr__video-embed iframe`, takže sa nič nebije. */
+        /* Pomer 16:9 nesie náhľad aj iframe, ktorý ho po kliknutí nahradí,
+           takže sa stránka pri spustení videa neposunie. */
         .ar-player { background: #000; }
-        .ar-player iframe {
+        .ar-player iframe,
+        .ar-lite {
             display: block;
             width: 100%;
             aspect-ratio: 16 / 9;
             border: 0;
         }
+        .ar-lite {
+            position: relative;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            cursor: pointer;
+        }
+        .ar-lite picture { display: block; height: 100%; }
+        .ar-lite img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity .2s ease;
+        }
+        .ar-lite:hover img { opacity: .82; }
+        .ar-lite:focus-visible { outline: 3px solid var(--ar-accent); outline-offset: -3px; }
+        .ar-lite__play {
+            position: absolute;
+            inset: 0;
+            width: 68px;
+            height: 48px;
+            margin: auto;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
+            transition: transform .2s ease;
+        }
+        .ar-lite__play svg { display: block; width: 100%; height: 100%; }
+        .ar-lite:hover .ar-lite__play { transform: scale(1.08); }
 
         /* Archív kanála je mriežka z .ar-card a tlačidlo .ar-btn, teda samé
            spoločné prvky z partials/design-system — vlastné pravidlá si už

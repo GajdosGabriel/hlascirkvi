@@ -44,12 +44,16 @@ class Post extends Model
         'section',
         'video_available',
         'video_duration',
+        'youtube_published_at',
+        'comments_synced_at',
     ];
 
     protected $casts = [
         'video_duration' => VideoDuration::class,
         'title' => \App\Casts\StringLength255::class,
         'published_at' => 'datetime',
+        'youtube_published_at' => 'datetime',
+        'comments_synced_at' => 'datetime',
         'section' => \App\Enums\PostSection::class,
     ];
 

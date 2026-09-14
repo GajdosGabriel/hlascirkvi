@@ -23,7 +23,10 @@ class CanalController extends Controller
         $year  = (int) request('rok') ?: null;
         $month = $year ? ((int) request('mesiac') ?: null) : null;
 
+        // Len zverejnené — video čakajúce v bufferi sa inak objavilo na
+        // kanáli skôr ako na titulke.
         $posts = $organization->posts()
+            ->published()
             ->when($year, fn ($query) => $query->whereYear('created_at', $year))
             ->when($month, fn ($query) => $query->whereMonth('created_at', $month))
             // Rovnaké prepínače ako na úvodnej stránke (odporúčané,

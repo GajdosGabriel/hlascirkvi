@@ -5,20 +5,34 @@
             : 'group rounded-xl border border-[color:var(--ar-line)] bg-white p-4 shadow-sm transition hover:border-gray-300 hover:shadow-md sm:p-5'"
     >
         <div class="flex items-start gap-3 sm:gap-4">
+            <!-- Avatar z YouTube sa bez no-referrer občas nenačíta a starý
+                 alebo zmazaný avatar nahradí predvolený obrázok. -->
             <img
-                :src="comment.user_avatar"
+                :src="comment.user_avatar || '/images/avatar.png'"
                 :alt="comment.user_name"
                 :class="isReply ? 'h-8 w-8 sm:h-9 sm:w-9' : 'h-10 w-10 sm:h-11 sm:w-11'"
                 class="shrink-0 rounded-full bg-[color:var(--ar-paper-deep)] object-cover ring-2 ring-white"
+                referrerpolicy="no-referrer"
+                loading="lazy"
+                @error="avatarFailed"
             />
 
             <div class="min-w-0 flex-1">
                 <div class="flex items-start justify-between gap-3">
                     <div class="min-w-0 pr-2">
-                        <strong
-                            class="block truncate text-sm text-[color:var(--ar-ink)]"
-                            v-text="comment.user_name"
-                        ></strong>
+                        <div class="flex min-w-0 items-center gap-2">
+                            <strong
+                                class="block truncate text-sm text-[color:var(--ar-ink)]"
+                                v-text="comment.user_name"
+                            ></strong>
+                            <span
+                                v-if="comment.source === 'youtube'"
+                                class="inline-flex shrink-0 items-center gap-1 rounded bg-red-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-700"
+                                title="Komentár zo stránky videa na YouTube"
+                            >
+                                <i class="fab fa-youtube"></i> YouTube
+                            </span>
+                        </div>
                         <span class="mt-0.5 block text-xs text-gray-400">{{ comment.datetime }}</span>
                     </div>
 
@@ -164,6 +178,14 @@ export default {
     },
 
     methods: {
+        avatarFailed: function (event) {
+            if (event.target.dataset.fallback) {
+                return;
+            }
+            event.target.dataset.fallback = "1";
+            event.target.src = "/images/avatar.png";
+        },
+
         startEdit: function () {
             this.draft = this.comment.body;
             this.editComment = true;
