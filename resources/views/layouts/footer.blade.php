@@ -27,6 +27,12 @@
              odkazuje sem aj nástenka užívateľa bez kanála. --}}
         <div class="w-full" id="napiste-nam">
             <h4 class="border-b-2 py-3 border-gray-300 font-semibold">Napíšte nám</h4>
+            {{-- Neprihláseným sa formulár neukazuje, chodil cez neho spam. --}}
+            @guest
+                <p class="my-4">
+                    Správu nám môžete poslať po <a href="{{ route('login') }}" class="underline">prihlásení</a>.
+                </p>
+            @else
             <form method="post" action="{{ route('messengers.store') }}" class="my-4">
                 {{ csrf_field() }}
                 {{-- Bývalé „Som človek 7 plus 3" nahradila neviditeľná kontrola,
@@ -45,6 +51,7 @@
                 </div>
 
             </form>
+            @endguest
 
 
             {{--<p>--}}

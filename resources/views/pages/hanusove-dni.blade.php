@@ -27,9 +27,11 @@
                     {{--@endforeach--}}
                 {{--</div>--}}
 
+                @auth
                 <div style="margin-top: auto; font-size: 80%; cursor: pointer">
                     <messenger stamp="{{ \App\Support\HumanCheck::stamp() }}"></messenger>
                 </div>
+                @endauth
 
             </div>
         </div>
