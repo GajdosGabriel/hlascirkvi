@@ -43,12 +43,6 @@ parameters:
 			path: app/Http/Controllers/Admin/CommentController.php
 
 		-
-			message: '#^Relation ''organization'' is not found in App\\Models\\Prayer model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Admin/PrayerController.php
-
-		-
 			message: '#^Relation ''commentable'' is not found in App\\Models\\Comment model\.$#'
 			identifier: larastan.relationExistence
 			count: 1
@@ -59,12 +53,6 @@ parameters:
 			identifier: larastan.relationExistence
 			count: 1
 			path: app/Http/Controllers/Api/CommentController.php
-
-		-
-			message: '#^Result of method Illuminate\\Notifications\\DatabaseNotificationCollection\<int,Illuminate\\Notifications\\DatabaseNotification\>\:\:markAsRead\(\) \(void\) is used\.$#'
-			identifier: method.void
-			count: 1
-			path: app/Http/Controllers/Api/NotificationController.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Post\:\:\$comments\.$#'
@@ -841,12 +829,6 @@ parameters:
 			path: app/Repositories/AbstractRepository.php
 
 		-
-			message: '#^Result of static method Illuminate\\Support\\Facades\\Auth\:\:login\(\) \(void\) is used\.$#'
-			identifier: staticMethod.void
-			count: 1
-			path: app/Repositories/Eloquent/EloquentUserRepository.php
-
-		-
 			message: '#^Method Carbon\\Traits\\Date\:\:dayOfYear\(\) invoked with 0 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 2
@@ -1081,12 +1063,6 @@ parameters:
 			path: routes/web.php
 
 		-
-			message: '#^Class Admin\\TagController not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: routes/web.php
-
-		-
 			message: '#^Class Admin\\UserController not found\.$#'
 			identifier: class.notFound
 			count: 1
@@ -1159,55 +1135,7 @@ parameters:
 			path: routes/web.php
 
 		-
-			message: '#^Class UserSupportController not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: routes/web.php
-
-		-
 			message: '#^Class User\\UserAddressController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 32
-			path: tests/Feature/ApiAuthorizationTest.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$denomination\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/Feature/CanalPropertiesTest.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 7
-			path: tests/Feature/CanalPropertiesTest.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$import_day\.$#'
-			identifier: property.notFound
-			count: 2
-			path: tests/Feature/CanalPropertiesTest.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$post_section\.$#'
-			identifier: property.notFound
-			count: 2
-			path: tests/Feature/CanalPropertiesTest.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$front_listed_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/Feature/FrontListTest.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: tests/Feature/FrontListTest.php

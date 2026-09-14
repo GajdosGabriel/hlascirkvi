@@ -2,7 +2,7 @@
     <div class="VideoGroup__wrapper">
 
         <video-item
-                v-images-loaded:on.progress="imageProgress"
+                v-images-loaded="imageProgress"
                 v-for="video in videos"
                 :video="video"
                 :key="video.id.videoId"
@@ -14,7 +14,7 @@
 
 <script>
     import Isotope from 'isotope-layout';
-    import imagesLoaded from 'vue-images-loaded';
+    import imagesLoaded from 'imagesloaded';
     import VideoItem from './VideoItem.vue'
     export default {
         props: ['videos'],
@@ -22,7 +22,11 @@
             VideoItem
         },
         directives: {
-            imagesLoaded
+            imagesLoaded: {
+                mounted(element, binding) {
+                    imagesLoaded(element).on('progress', binding.value);
+                }
+            }
         },
         created: function() {
     },

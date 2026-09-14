@@ -63,18 +63,7 @@ class YoutubeController extends Controller
     // Z linku na Youtube vyhľadávanie zoberie základné informácie
     public function getVideoById($videoId)
     {
-        $video = \Youtube::getVideoInfo($videoId);
-
-        dd($video);
-    }
-
-    // Youtube zoberie komentáre
-    public function getCommentsByVideoId($videoId)
-    {
-        // $video = \Youtube::getVideoInfo($videoId);
-        $comments = \Youtube::getCommentThreadsByVideoId('zwiUB_Lh3iA');
-
-        dd($comments);
+        return response()->json(\Youtube::getVideoInfo($videoId));
     }
 
 

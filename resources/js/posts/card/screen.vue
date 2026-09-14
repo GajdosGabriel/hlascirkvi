@@ -22,7 +22,7 @@
             })
         },
 
-        beforeDestroy() {
+        beforeUnmount() {
             window.removeEventListener('resize', this.onResize);
         },
 

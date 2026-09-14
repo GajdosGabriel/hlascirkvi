@@ -73,6 +73,6 @@ class CanalSeminarController extends Controller
 
         $seminar->posts()->detach();
         $seminar->delete();
-        return redirect()->route('seminars.index');
+        return redirect()->route('konferencie.pute');
     }
 }

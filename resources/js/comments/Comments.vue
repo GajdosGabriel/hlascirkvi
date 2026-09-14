@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { bus } from "../app";
+import { bus } from "../eventBus";
 import CommentItem from "./Comment-Item.vue";
 import NewReply from "./NewReply.vue";
 

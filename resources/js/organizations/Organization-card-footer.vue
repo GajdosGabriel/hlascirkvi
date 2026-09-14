@@ -43,7 +43,7 @@
 </template>
 
 <script>
-    import {bus} from '../app';
+    import {bus} from '../eventBus';
 
     export default {
         props: ['user'],
@@ -117,7 +117,7 @@
         transition: opacity .5s;
     }
 
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    .fade-enter-from, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;
     }
 

@@ -4,7 +4,7 @@ export const createdMixin = {
         document.addEventListener('click', this.closeOnOutsideClick, true);
         document.addEventListener('keyup', this.closeOnEscape);
     },
-    beforeDestroy() {
+    beforeUnmount() {
         document.removeEventListener('click', this.closeOnOutsideClick, true);
         document.removeEventListener('keyup', this.closeOnEscape);
     },

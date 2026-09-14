@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {bus} from '../app';
+    import {bus} from '../eventBus';
     export default {
         props: ['user'],
         data: function() {
@@ -76,7 +76,7 @@
         transition: opacity 0.25s;
     }
 
-    .fade-enter, .fade-leave-to {
+    .fade-enter-from, .fade-leave-to {
         opacity: 0;
     }
 

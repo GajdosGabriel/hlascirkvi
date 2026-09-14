@@ -77,7 +77,7 @@ class AdminRoutesTest extends TestCase
         foreach ($routes as $route) {
             $this->actingAs($admin)
                 ->get(route($route))
-                ->assertOk("Administračná stránka {$route} sa nedá otvoriť.");
+                ->assertOk();
         }
     }
 }

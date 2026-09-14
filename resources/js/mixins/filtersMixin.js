@@ -19,7 +19,7 @@ const UNITS = [
 ];
 
 export const filterMixin = {
-    filters: {
+    methods: {
         dateTime: function (value) {
             const date = new Date(value);
 

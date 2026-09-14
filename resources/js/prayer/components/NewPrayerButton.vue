@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { bus } from "../../app";
+import { bus } from "../../eventBus";
 
 export default {
     methods: {

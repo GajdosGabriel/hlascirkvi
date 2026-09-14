@@ -107,6 +107,23 @@ class ApiAuthorizationTest extends TestCase
         $this->assertDatabaseHas('users', ['email' => 'navstevnik@example.com']);
     }
 
+    public function test_anonymny_formular_neprihlasi_existujuci_ucet_podla_emailu(): void
+    {
+        [$victim, $organization] = $this->userWithOrganization();
+        $post = Post::factory()->create(['organization_id' => $organization->id]);
+
+        $this->postJson('/api/posts/'.$post->getKey().'/comments', [
+            'body' => 'Pokus o komentár pod cudzím účtom.',
+            'email' => $victim->getAttribute('email'),
+        ])->assertUnprocessable()->assertJsonValidationErrors('email');
+
+        $this->assertGuest();
+        $this->assertDatabaseMissing('comments', [
+            'commentable_id' => $post->getKey(),
+            'body' => 'Pokus o komentár pod cudzím účtom.',
+        ]);
+    }
+
     public function test_anonymna_modlitba_je_stale_mozna(): void
     {
         $this->postJson('/api/prayers', [
@@ -243,6 +260,25 @@ class ApiAuthorizationTest extends TestCase
         $this->getJson('/api/test/test')->assertNotFound();
         $this->getJson('/api/test/grecky')->assertNotFound();
         $this->get('/openAi')->assertNotFound();
+    }
+
+    public function test_nepodporovane_resource_akcie_uz_router_neregistruje(): void
+    {
+        $this->get('/favorites')->assertNotFound();
+        $this->postJson('/api/users')->assertNotFound();
+        $this->deleteJson('/api/villages/1')->assertMethodNotAllowed();
+    }
+
+    public function test_youtube_import_je_post_a_len_pre_superadmina(): void
+    {
+        [$user] = $this->userWithOrganization();
+        $url = '/youtube/user/'.$user->getKey().'/test/search';
+
+        $this->get($url)->assertMethodNotAllowed();
+
+        // Middleware zastaví bežného používateľa skôr, než sa spustí externé
+        // vyhľadávanie a zápis videí.
+        $this->actingAs($user)->post($url)->assertRedirect('/');
     }
 
     public function test_prihlasovacie_routy_existuju(): void

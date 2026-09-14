@@ -11,22 +11,9 @@ import { initArticle } from './article';
 // Prehliadač obrázkov na čiernej ploche; visí na `document`, žiadne volanie netreba.
 import './lightbox';
 
-import Vue from 'vue';
+import { createApp } from 'vue';
 
 import Auth from './Auth';
-
-//Autorizovanie pre canUpdate
-Vue.prototype.authorize = function(handler) {
-    let user = window.App.user;
-    return user ? handler(user) : false;
-};
-
-
-////////////  ACL   /////////////////
-// console.log(window.App.user);
-
-Vue.prototype.$auth = new Auth(window.App.user);
-///////////////////////////////
 
 /**
  * Global components. Vite resolves these at build time, so they are listed as
@@ -60,48 +47,45 @@ import SeminarDescription from './seminars/seminar-description.vue';
 import CommentsCard from './comments/comments-card.vue';
 import DropdownSlot from './components/DropdownSlot.vue';
 
-Vue.component('favorite-post', FavoritePost);
-Vue.component('notification', Notification);
-Vue.component('radio-button', RadioButton);
-Vue.component('video-item', VideoItem);
-Vue.component('user-card', UserCard);
-Vue.component('organization-card', OrganizationCard);
-Vue.component('organization-page-header', OrganizationPageHeader);
-Vue.component('youtube-dash', YoutubeDash);
-Vue.component('comments-post', Comments);
-Vue.component('comment-item', CommentItem);
-Vue.component('new-organization', NewOrganization);
-Vue.component('prayers-card', PrayersCard);
-Vue.component('prayers-index-page', PrayersIndexPage);
-Vue.component('prayers-index-page2', PrayersIndexPage2);
-Vue.component('new-prayer-button', NewPrayerButton);
-Vue.component('post-publish-buttons', PostPublishButtons);
-Vue.component('picture-viewer', PictureViewer);
-Vue.component('navigation-main', NavigationMain);
-Vue.component('mobile-menu', MobileMenu);
-Vue.component('article-dropdown', ArticleDropdown);
-Vue.component('c-article-dropdown', CArticleDropdown);
-Vue.component('seminar-title', SeminarTitle);
-Vue.component('seminar-info', SeminarInfo);
-Vue.component('seminar-description', SeminarDescription);
-Vue.component('comments-card', CommentsCard);
-Vue.component('dropdown-slot', DropdownSlot);
+const app = createApp({});
 
+app.config.globalProperties.authorize = function (handler) {
+    const user = window.App.user;
+    return user ? handler(user) : false;
+};
+app.config.globalProperties.$auth = new Auth(window.App.user);
 
-// Vue.component('post-counter', require('./posts/Video-counter.vue').default);
+const components = {
+    'favorite-post': FavoritePost,
+    notification: Notification,
+    'radio-button': RadioButton,
+    'video-item': VideoItem,
+    'user-card': UserCard,
+    'organization-card': OrganizationCard,
+    'organization-page-header': OrganizationPageHeader,
+    'youtube-dash': YoutubeDash,
+    'comments-post': Comments,
+    'comment-item': CommentItem,
+    'new-organization': NewOrganization,
+    'prayers-card': PrayersCard,
+    'prayers-index-page': PrayersIndexPage,
+    'prayers-index-page2': PrayersIndexPage2,
+    'new-prayer-button': NewPrayerButton,
+    'post-publish-buttons': PostPublishButtons,
+    'picture-viewer': PictureViewer,
+    'navigation-main': NavigationMain,
+    'mobile-menu': MobileMenu,
+    'article-dropdown': ArticleDropdown,
+    'c-article-dropdown': CArticleDropdown,
+    'seminar-title': SeminarTitle,
+    'seminar-info': SeminarInfo,
+    'seminar-description': SeminarDescription,
+    'comments-card': CommentsCard,
+    'dropdown-slot': DropdownSlot,
+};
 
-
-export const bus = new Vue();
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-const app = new Vue({
-    el: '#app',
-});
+Object.entries(components).forEach(([name, component]) => app.component(name, component));
+app.mount('#app');
 
 /*
  * Vue pri pripojení prekreslí celý #app, čiže zahodí pôvodné uzly aj

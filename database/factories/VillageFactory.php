@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  * Tabuľka `villages` je číselník naplnený raz importom — jej `id` nemá
  * AUTO_INCREMENT, takže ho factory musí dodať sama.
  */
+/** @extends Factory<\App\Models\Village> */
 class VillageFactory extends Factory
 {
     public function definition()

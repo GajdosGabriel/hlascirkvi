@@ -56,7 +56,7 @@
                                     clip-rule="evenodd"
                                 />
                             </svg>
-                            {{ prayer.created_at | dateTime }} hod.
+                            {{ dateTime(prayer.created_at) }} hod.
                         </span> -->
                     </div>
                 </div>
@@ -68,7 +68,7 @@
 <script>
 import modalShowPrayer from "../prayer/ModalShowPrayer";
 import favoritesCount from "./components/favoritesCount";
-import { bus } from "../app";
+import { bus } from "../eventBus";
 import { filterMixin } from "../mixins/filtersMixin";
 
 export default {

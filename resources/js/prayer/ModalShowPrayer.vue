@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { bus } from "../app";
+import { bus } from "../eventBus";
 import { filterMixin } from "../mixins/filtersMixin";
 
 export default {

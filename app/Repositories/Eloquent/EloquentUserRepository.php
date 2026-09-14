@@ -12,6 +12,7 @@ namespace App\Repositories\Eloquent;
 use Hash;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use App\Notifications\Admin\Buffer;
 use Illuminate\Support\Facades\Request;
 use App\Repositories\AbstractRepository;
@@ -93,8 +94,14 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
 
         if(auth()->check()) return;
 
-        if($user = User::whereEmail($request->email)->first() )
-            return \Auth::login($user, true);
+        if (User::whereEmail($request->email)->exists()) {
+            // Znalosť e-mailovej adresy nie je dôkazom vlastníctva účtu.
+            // Predchádzajúci kód prihlásil anonymného návštevníka priamo do
+            // existujúceho účtu bez hesla pri komentári, modlitbe či obľúbení.
+            throw ValidationException::withMessages([
+                'email' => 'Účet s touto adresou už existuje. Prihláste sa alebo použite obnovu hesla.',
+            ]);
+        }
 
         $this->createNewUser($request);
 

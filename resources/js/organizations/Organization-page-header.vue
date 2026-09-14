@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { bus } from "../app";
+import { bus } from "../eventBus";
 import organizationAvatar from "./Organization-avatar";
 import { createdMixin } from "../mixins/createdMixin";
 
@@ -163,7 +163,7 @@ export default {
     transition: opacity 0.2s ease;
 }
 
-.fade-enter,
+.fade-enter-from,
 .fade-leave-to {
     opacity: 0;
 }

@@ -14,7 +14,8 @@ class NotificationController extends Controller
 {
   public function update($notification)
   {
-     $notify =  Auth::user()->notifications()->findOrFail($notification)->markAsRead();
+     $notify = Auth::user()->notifications()->findOrFail($notification);
+     $notify->markAsRead();
 
      return new NotificationResource($notify);
   }

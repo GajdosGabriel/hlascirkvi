@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import {bus} from '../app';
+    import {bus} from '../eventBus';
     export default {
         // Pečiatka z App\Support\HumanCheck. Vykresliť ju vie len server,
         // takže sem príde z blade šablóny (<messenger :stamp="..."/>) — bez

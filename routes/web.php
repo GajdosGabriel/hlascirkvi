@@ -74,14 +74,11 @@ Route::middleware('checkBanned')->group(function () {
 
 // Front routes
 Route::middleware('checkBanned')->group(function () {
-    Route::resources([
-        'favorites'             => FavoriteController::class,
-        'organizations'         => Public\CanalController::class,
-        'seminars'              => Seminars\SeminarController::class,
-        'seminars.posts'        => Seminars\SeminarPostController::class,
-        'userSupport'           => UserSupportController::class,
-        'modlitby'              => Public\PrayerController::class,
-    ]);
+    Route::resource('favorites', FavoriteController::class)->only('update');
+    Route::resource('organizations', Public\CanalController::class)->only('show');
+    Route::resource('seminars', Seminars\SeminarController::class)->only('show');
+    Route::resource('seminars.posts', Seminars\SeminarPostController::class)->only('show');
+    Route::resource('modlitby', Public\PrayerController::class)->only('index');
 });
 
 // Meno skupiny musí ostať `profile.` — helper typePage() (app/Http/helpers.php)
@@ -208,13 +205,13 @@ Route::middleware('bannedCanal')->group(function () {
 // Routy pre kanál musia mať vlastný prefix. Kým mali rovnaký tvar ako tie
 // užívateľské (/search/new/video/{param}), router vždy vybral prvú z dvojice
 // a organizačné akcie boli nedosiahnuteľné.
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'checkSuperAdmin'])->group(function () {
     Route::get('/search/new/video/user/{user}', 'YoutubeController@searchUserVideo')->name('videos.searchUserVideo');
     Route::get('/search/new/video/organization/{organization}', 'YoutubeController@searchOrganizationVideo')->name('videos.searchOrganizationVideo');
     Route::get('/get/video/byId/{id}', 'YoutubeController@getVideoById')->name('videos.getVideoById');
-    Route::get('/youtube/user/{user}/{slug}/search', 'YoutubeController@searchAndSaveUser')->name('youtube.searchAndSaveUser');
-    Route::get('/youtube/organization/{organization}/{slug}/search', 'YoutubeController@searchAndSaveOrganization')->name('youtube.searchAndSaveOrganization');
-    Route::get('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVideoByChannel')->name('youtube.getNewVideoByChannel');
+    Route::post('/youtube/user/{user}/{slug}/search', 'YoutubeController@searchAndSaveUser')->name('youtube.searchAndSaveUser');
+    Route::post('/youtube/organization/{organization}/{slug}/search', 'YoutubeController@searchAndSaveOrganization')->name('youtube.searchAndSaveOrganization');
+    Route::post('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVideoByChannel')->name('youtube.getNewVideoByChannel');
 });
 
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Http\Request;
+use LogicException;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -76,7 +78,11 @@ class LoginController extends Controller
     protected function attemptLogin(Request $request)
     {
         $credentials = $this->credentials($request);
-        $provider = $this->guard()->getProvider();
+        $provider = app(AuthManager::class)->createUserProvider(config('auth.guards.web.provider'));
+
+        if ($provider === null) {
+            throw new LogicException('Používateľský provider pre web guard nie je nakonfigurovaný.');
+        }
         $user = $provider->retrieveByCredentials($credentials);
 
         if ($user && $provider->validateCredentials($user, $credentials) && $user->banned()) {

@@ -58,14 +58,12 @@ Route::middleware('throttle:10,1')->group(function () {
 Route::middleware(['auth:sanctum', 'checkBanned'])->group(function () {
     Route::get('/user', fn (Request $request) => new UserResource($request->user()))->name('api.user');
 
-    Route::apiResources([
-        'notifications'         => Api\NotificationController::class,
-        'users'                 => Api\UserController::class,
-        'users.comments'        => Api\User\UserCommentController::class,
-        'users.organizations'   => Api\UserCanalController::class,
-        'villages'              => Api\VillageController::class,
-        'denominations'         => Api\DenominationController::class,
-    ]);
+    Route::apiResource('notifications', Api\NotificationController::class)->only('update');
+    Route::apiResource('users', Api\UserController::class)->only('update');
+    Route::apiResource('users.comments', Api\User\UserCommentController::class)->only('index');
+    Route::apiResource('users.organizations', Api\UserCanalController::class)->only('store');
+    Route::apiResource('villages', Api\VillageController::class)->only(['index', 'store', 'show']);
+    Route::apiResource('denominations', Api\DenominationController::class)->only('index');
 
     Route::apiResource('prayers', Api\PrayerController::class)->only(['update', 'destroy']);
     Route::apiResource('comments', Api\CommentController::class)->only(['destroy']);

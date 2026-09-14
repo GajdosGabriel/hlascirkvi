@@ -56,7 +56,7 @@
                         {{ prayer.user_name }}
                     </span>
                     <span aria-hidden="true">·</span>
-                    <time :datetime="prayer.created_at" :title="prayer.created_at | dateTime">
+                    <time :datetime="prayer.created_at" :title="dateTime(prayer.created_at)">
                         {{ prayer.created_at_humans }}
                     </time>
                     <template v-if="prayer.organization_title">
@@ -100,7 +100,7 @@
 
 <script>
 import favoritesCount from "./components/favoritesCount";
-import { bus } from "../app";
+import { bus } from "../eventBus";
 import Axios from "axios";
 import { filterMixin } from "../mixins/filtersMixin";
 import { createdMixin } from "../mixins/createdMixin";

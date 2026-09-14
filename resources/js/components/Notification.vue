@@ -10,7 +10,7 @@
 </template>
 
 <script>
-    import {bus} from '../app';
+    import {bus} from '../eventBus';
     export default {
         props: ['message'],
         data: function() {
@@ -22,7 +22,7 @@
             }
         },
         created: function() {
-            bus.$on('flex justify-between', (data) => {
+            bus.$on('flash', (data) => {
                 this.showNotify(data);
             });
 
@@ -64,7 +64,7 @@
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    .fade-enter-from, .fade-leave-to {
         opacity: 0;
     }
 </style>

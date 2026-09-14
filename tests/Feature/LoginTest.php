@@ -6,6 +6,7 @@ use App\Enums\ModelStatus;
 use App\Models\User;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Auth\SessionGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -135,7 +136,11 @@ class LoginTest extends TestCase
             'password' => Hash::make('kostolna-vez-2026'),
         ]);
 
-        $recaller = Auth::guard('web')->getRecallerName();
+        $guard = Auth::guard('web');
+        if (! $guard instanceof SessionGuard) {
+            $this->fail('Web guard musí používať session driver.');
+        }
+        $recaller = $guard->getRecallerName();
 
         $with = $this->post('/login', [
             'email' => 'jan.novak@gmail.com',

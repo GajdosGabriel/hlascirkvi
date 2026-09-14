@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/** @extends Factory<\App\Models\Image> */
 class ImageFactory extends Factory
 {
     public function definition()

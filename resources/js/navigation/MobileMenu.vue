@@ -72,7 +72,7 @@ export default {
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.mobile-menu-enter,
+.mobile-menu-enter-from,
 .mobile-menu-leave-to {
     opacity: 0;
     transform: translateY(-0.5rem);

@@ -10,13 +10,13 @@
             <div v-if="show">
                 <p>nahľad</p>
                 <img @click="toggle(video.snippet.resourceId.videoId)" :src="video.snippet.thumbnails.high.url" :key="video.snippet.resourceId.videoId">
-                <a><p v-text="video.snippet.title">bb</p></a>
+                <a><p>{{ video.snippet.title }}</p></a>
             </div>
 
             <div v-if="!show">
                 <p>video</p>
                 <img @click="toggle(video.snippet.resourceId.videoId)" :src="video.snippet.thumbnails.high.url" :key="video.snippet.resourceId.videoId">
-                <a><p v-text="video.snippet.title">bb</p></a>
+                <a><p>{{ video.snippet.title }}</p></a>
             </div>
 
         </div>

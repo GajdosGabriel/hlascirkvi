@@ -18,7 +18,7 @@
 <script>
 // bus sa tu volal bez importu — kliknutie na srdiečko končilo výnimkou
 // ReferenceError a hlas sa síce uložil, ale hláška sa nikdy nezobrazila.
-import { bus } from "../app";
+import { bus } from "../eventBus";
 
 export default {
     props: ["reply"],

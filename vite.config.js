@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue2';
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     plugins: [
@@ -23,10 +23,9 @@ export default defineConfig({
         // import statement.
         extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json', '.vue'],
         alias: {
-            // Vue 2.7 ships a runtime-only build by default; the app mounts with
-            // `new Vue({ el: '#app' })` and relies on in-DOM templates written in
-            // Blade, so it needs the build that includes the template compiler.
-            vue: 'vue/dist/vue.esm.js',
+            // Blade renders the root template inside #app, so the browser build
+            // must include Vue's template compiler.
+            vue: 'vue/dist/vue.esm-bundler.js',
         },
     },
 });

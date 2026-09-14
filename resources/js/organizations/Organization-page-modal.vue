@@ -79,7 +79,7 @@
 </template>
 
 <script>
-    import {bus} from '../app';
+    import {bus} from '../eventBus';
     import Axios from 'axios';
 
 
