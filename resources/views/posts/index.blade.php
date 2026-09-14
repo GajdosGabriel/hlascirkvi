@@ -147,7 +147,8 @@
                 <prayers-card></prayers-card>
 
                 @include('verses.daily-modul')
-                <x-front-list-card />
+                <x-front-list-card kind="person" />
+                <x-front-list-card kind="community" />
             </aside>
         </div>
     </div>

@@ -19,6 +19,21 @@
 
         <x-slot name="page">
 
+            <x-dashboard.panel title="Ako sa karta radí" class="mb-5">
+                <p>
+                    Kartu „Kresťanské osobnosti" aj „Cirkvi a spoločenstvá" radí záujem návštevníkov, nie ručné
+                    poradie. Skóre sú zhliadnutia príspevkov kanála a noví sledovatelia
+                    (1 sledovateľ = {{ config('frontlist.follow_weight') }} zhliadnutí) za posledných
+                    {{ config('frontlist.window_days') }} dní; každých {{ config('frontlist.half_life_days') }} dní
+                    starý záujem stratí polovicu váhy.
+                </p>
+                <p class="mt-2">
+                    Z {{ config('frontlist.card_limit') }} miest na karte {{ config('frontlist.discovery_slots') }}
+                    dostanú kanály, ktoré za posledných {{ config('frontlist.discovery_days') }} dní niečo zverejnili —
+                    každý deň iné. Tu v zozname rozhodujete, kto na kartu môže a na ktorú patrí.
+                </p>
+            </x-dashboard.panel>
+
             <x-dashboard.panel title="Pridať kanál" class="mb-5">
                 {{-- Hľadanie, nie rozbaľovací zoznam: kanálov je vyše päťsto. --}}
                 <form method="GET" action="{{ route('admin.frontlist.index') }}" class="flex flex-wrap gap-2">
@@ -30,7 +45,7 @@
                 @if ($hladane !== '')
                     @forelse ($najdene as $canal)
                         <form method="POST" action="{{ route('admin.frontlist.store') }}"
-                              class="mt-2 flex items-center justify-between gap-3 border-t border-gray-100 pt-2">
+                              class="mt-2 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-2">
                             @csrf
                             <input type="hidden" name="canal" value="{{ $canal->id }}">
 
@@ -43,7 +58,14 @@
                                 @endunless
                             </span>
 
-                            <button class="btn btn-primary">Pridať</button>
+                            <span class="flex items-center gap-2">
+                                <select name="kind" class="form-control" aria-label="Typ kanála" required>
+                                    @foreach ($kinds as $kind)
+                                        <option value="{{ $kind->value }}" @selected(($canal->kind ?? \App\Enums\CanalKind::Person) === $kind)>{{ $kind->label() }}</option>
+                                    @endforeach
+                                </select>
+                                <button class="btn btn-primary">Pridať</button>
+                            </span>
                         </form>
                     @empty
                         <p class="mt-3 text-gray-500">Nič sa nenašlo — alebo je taký kanál v zozname už zaradený.</p>
@@ -54,8 +76,9 @@
             <x-dashboard.table label="Kanály v prednom zozname">
                 <thead>
                     <tr>
-                        <th>Poradie</th>
                         <th>Kanál</th>
+                        <th>Typ</th>
+                        <th title="Záujem za posledných {{ config('frontlist.window_days') }} dní">Skóre</th>
                         <th>Zverejnených</th>
                         <th>Naposledy</th>
                         <th>Akcia</th>
@@ -63,38 +86,41 @@
                 </thead>
 
                 <tbody>
-                    @forelse ($canals as $index => $canal)
+                    @forelse ($canals as $canal)
                         <tr>
-                            <td class="whitespace-nowrap">
-                                {{ $index + 1 }}.
-
-                                {{-- Posun o jedno miesto. Ťahanie myšou by sem prinieslo
-                                     skript, ktorý by bol v administrácii jediný svojho druhu. --}}
-                                <form method="POST" action="{{ route('admin.frontlist.move', $canal->id) }}" class="inline">
-                                    @csrf @method('PUT')
-                                    <button name="smer" value="hore" class="px-1 disabled:opacity-25"
-                                            title="O miesto vyššie" @disabled($index === 0)>
-                                        <i class="fas fa-arrow-up" aria-hidden="true"></i>
-                                    </button>
-                                    <button name="smer" value="dole" class="px-1 disabled:opacity-25"
-                                            title="O miesto nižšie" @disabled($index === $canals->count() - 1)>
-                                        <i class="fas fa-arrow-down" aria-hidden="true"></i>
-                                    </button>
-                                </form>
-                            </td>
-
                             <td>
                                 <a href="{{ route('organizations.show', [$canal->id]) }}" target="_blank" rel="noopener"
                                    class="font-semibold">{{ $canal->title }}</a>
 
-                                @if ($index < config('frontlist.card_limit'))
+                                @if (in_array($canal->id, $cardIds, true))
                                     <span class="ml-1 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800"
-                                          title="Vojde sa na kartu v bočnom paneli úvodnej stránky">na titulke</span>
-                                @else
-                                    <span class="ml-1 text-xs text-gray-500"
-                                          title="Na titulke je vidieť len prvých {{ config('frontlist.card_limit') }}">len v celom zozname</span>
+                                          title="Dnes je na karte v bočnom paneli">na karte</span>
+                                @elseif ($canal->kind)
+                                    <span class="ml-1 text-xs text-gray-500">len v celom zozname</span>
                                 @endif
                             </td>
+
+                            <td class="whitespace-nowrap">
+                                @if ($canal->kind)
+                                    {{ $canal->kind->label() }}
+                                @else
+                                    <span class="text-red-700" title="Kanál bez typu na webe nevidno">bez typu</span>
+                                @endif
+
+                                {{-- Prepnutie typu jedným tlačidlom: typy sú len dva a pri
+                                     migrácii ich určil odhad podľa názvu. --}}
+                                <form method="POST" action="{{ route('admin.frontlist.kind', $canal->id) }}" class="mt-1 flex gap-1">
+                                    @csrf @method('PUT')
+                                    @foreach ($kinds as $kind)
+                                        @continue($canal->kind === $kind)
+                                        <button name="kind" value="{{ $kind->value }}" class="text-xs underline">
+                                            → {{ $kind->label() }}
+                                        </button>
+                                    @endforeach
+                                </form>
+                            </td>
+
+                            <td>{{ number_format($canal->score, 1, ',', ' ') }}</td>
 
                             <td>{{ $canal->postsCount }}</td>
 
@@ -122,7 +148,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">Zoznam je prázdny.</td>
+                            <td colspan="6">Zoznam je prázdny.</td>
                         </tr>
                     @endforelse
                 </tbody>

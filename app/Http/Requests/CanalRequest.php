@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CanalKind;
 use App\Enums\CanalSection;
 use App\Enums\Denomination;
 use App\Services\Youtube\ChannelId;
@@ -65,6 +66,9 @@ class CanalRequest extends FormRequest
             // vidí každý správca, deň importu a smerovanie videí len admin —
             // kontrolu role robí controller, tu ide len o tvar dát.
             'denomination'     => ['nullable', Rule::enum(Denomination::class)],
+            // Osobnosť alebo cirkev/spoločenstvo — rozhoduje, na ktorej karte
+            // predného zoznamu kanál stojí.
+            'kind'             => ['nullable', Rule::enum(CanalKind::class)],
             'import_day'       => 'nullable|integer|between:0,6',
             'post_section'     => ['nullable', Rule::enum(CanalSection::class)],
             // `users` a `published` sa vykresľujú len v @can('superadmin') bloku

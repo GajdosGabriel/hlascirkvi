@@ -45,8 +45,8 @@ Route::get('/online-prenosy', 'Public\HomeController@zivePrenosy')->name('online
 Route::get('/konferencie-a-pute', 'Public\HomeController@seminare')->name('konferencie.pute');
 Route::get('/zdravie-z-bozej-ruky', 'Public\HomeController@zdravie')->name('zdravie');
 
-// Celý predný zoznam kanálov. Karta v bočnom paneli ukazuje len prvých pár
-// (config frontlist.card_limit) a odkazuje sem.
+// Celý predný zoznam kanálov. Karty v bočnom paneli ukazujú len pár kanálov
+// (config frontlist.card_limit) a odkazujú sem.
 Route::get('/osobnosti', 'Public\FrontListController@index')->name('frontlist.index');
 
 
@@ -152,10 +152,10 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::resource('announcement', Admin\AnnouncementController::class)->except('show');
 
     // Predný zoznam kanálov na úvodnej stránke. Nie je to CRUD nad vlastným
-    // modelom — zaradenie a poradie sú stĺpce kanála, preto vlastné routy.
+    // modelom — zaradenie a typ sú stĺpce kanála, preto vlastné routy.
     Route::get('front-list', 'Admin\FrontListController@index')->name('frontlist.index');
     Route::post('front-list', 'Admin\FrontListController@store')->name('frontlist.store');
-    Route::put('front-list/{canal}/move', 'Admin\FrontListController@move')->name('frontlist.move');
+    Route::put('front-list/{canal}/kind', 'Admin\FrontListController@updateKind')->name('frontlist.kind');
     Route::delete('front-list/{canal}', 'Admin\FrontListController@destroy')->name('frontlist.destroy');
 
     /*

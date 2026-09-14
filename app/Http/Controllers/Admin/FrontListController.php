@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CanalKind;
 use App\Http\Controllers\Controller;
 use App\Models\Canal;
 use App\Services\FrontList\FrontList;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 /**
- * Správa predného zoznamu („Kresťanské osobnosti" na úvodnej stránke).
+ * Správa predného zoznamu (karty „Kresťanské osobnosti" a „Cirkvi
+ * a spoločenstvá" v bočnom paneli).
  *
- * Do 9/2026 sa zoznam spravoval cez /admin/updater/14/canal, kde bol formulár
- * na pridanie kanála zakomentovaný — pridať sa dalo len zaškrtávadlom
- * v editácii konkrétneho kanála a poradie sa nedalo nastaviť vôbec.
+ * Správca určuje, kto v zozname je a akého je typu. Poradie na karte je
+ * automatické podľa záujmu návštevníkov — ručné posúvanie zaniklo 9/2026.
  *
  * Celá skupina `admin.` beží za middleware `checkSuperAdmin` (routes/web.php).
  */
@@ -25,21 +27,40 @@ class FrontListController extends Controller
     public function index(Request $request)
     {
         $hladane = trim((string) $request->input('hladat'));
+        $canals  = $this->frontList->forAdmin();
 
         return view('admins.frontlist.index', [
-            'canals'    => $this->frontList->forAdmin(),
-            'hladane'   => $hladane,
-            'najdene'   => $hladane === '' ? collect() : $this->search($hladane),
+            'canals'  => $canals,
+            'cardIds' => $this->frontList->cardIds($canals),
+            'kinds'   => CanalKind::options(),
+            'hladane' => $hladane,
+            'najdene' => $hladane === '' ? collect() : $this->search($hladane),
         ]);
     }
 
     public function store(Request $request)
     {
-        $canal = Canal::findOrFail($request->input('canal'));
+        $data = $request->validate([
+            'canal' => ['required', 'integer'],
+            'kind'  => ['required', Rule::enum(CanalKind::class)],
+        ]);
 
-        $this->frontList->add($canal);
+        $canal = Canal::findOrFail($data['canal']);
+
+        $this->frontList->add($canal, CanalKind::from($data['kind']));
 
         return back()->with('flash', 'Kanál „' . $canal->title . '“ je v prednom zozname.');
+    }
+
+    public function updateKind(Request $request, Canal $canal)
+    {
+        $data = $request->validate([
+            'kind' => ['required', Rule::enum(CanalKind::class)],
+        ]);
+
+        $this->frontList->setKind($canal, CanalKind::from($data['kind']));
+
+        return back()->with('flash', 'Kanál „' . $canal->title . '“ je teraz: ' . $canal->kind->label() . '.');
     }
 
     public function destroy(Canal $canal)
@@ -47,18 +68,6 @@ class FrontListController extends Controller
         $this->frontList->remove($canal);
 
         return back()->with('flash', 'Kanál „' . $canal->title . '“ už v prednom zozname nie je.');
-    }
-
-    /**
-     * Posun o jedno miesto hore alebo dole. Poradie sa inak nastaviť nedá —
-     * zoznam má rádovo desiatky riadkov a ťahanie myšou by sem prinieslo
-     * skript, ktorý by tu bol jediný svojho druhu.
-     */
-    public function move(Request $request, Canal $canal)
-    {
-        $this->frontList->move($canal, $request->input('smer') === 'hore' ? -1 : 1);
-
-        return back();
     }
 
     /**
@@ -72,6 +81,6 @@ class FrontListController extends Controller
             ->without('favorites')
             ->orderBy('title')
             ->limit(20)
-            ->get(['id', 'title', 'published']);
+            ->get(['id', 'title', 'published', 'kind']);
     }
 }

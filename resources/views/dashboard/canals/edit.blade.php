@@ -13,6 +13,7 @@
         // Po neúspešnej validácii sa formulár vracia s tým, čo užívateľ
         // poslal, nie s tým, čo je v databáze.
         $denomination = old('denomination', $canal->denomination?->value);
+        $kind         = old('kind', $canal->kind?->value);
         $section      = old('post_section', $canal->post_section?->value);
         $importDay    = old('import_day', $canal->import_day);
 
@@ -71,6 +72,18 @@
                         </select>
                         <p class="ar-hint">Určuje publikum, ktorému sa kanál ponúka.</p>
                         @error('denomination') <p class="ar-error">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label class="ar-label" for="kind">Typ kanála</label>
+                        <select class="{{ $field('kind') }}" id="kind" name="kind">
+                            <option value="">Neurčený</option>
+                            @foreach ($kinds as $option)
+                                <option value="{{ $option->value }}" @selected($kind === $option->value)>{{ $option->label() }}</option>
+                            @endforeach
+                        </select>
+                        <p class="ar-hint">Za kanálom stojí človek, alebo cirkev či spoločenstvo. Určuje, na ktorej karte úvodnej stránky sa kanál ukáže.</p>
+                        @error('kind') <p class="ar-error">{{ $message }}</p> @enderror
                     </div>
                 </div>
             </section>

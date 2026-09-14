@@ -36,6 +36,16 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="kind">Typ kanála</label>
+                    <select class="form-control" id="kind" name="kind">
+                        <option value="">Neurčený</option>
+                        @foreach ($kinds as $kind)
+                            <option value="{{ $kind->value }}" @selected(old('kind') === $kind->value)>{{ $kind->label() }}</option>
+                        @endforeach
+                    </select>
+                    <small class="form-text text-muted">Za kanálom stojí človek, alebo cirkev či spoločenstvo.</small>
+                </div>
             </fieldset>
 
             <fieldset class="rounded-lg border bg-white p-6">

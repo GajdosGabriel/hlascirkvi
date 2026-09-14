@@ -42,6 +42,7 @@ class Canal extends Model
         'youtube_disabled_at' => 'datetime',
         'front_listed_at' => 'datetime',
         'denomination' => \App\Enums\Denomination::class,
+        'kind' => \App\Enums\CanalKind::class,
         'post_section' => \App\Enums\CanalSection::class,
         'import_day' => 'integer',
     ];
@@ -69,9 +70,8 @@ class Canal extends Model
 
 
     /**
-     * Kanály predného zoznamu na úvodnej stránke, v poradí, ktoré im určil
-     * správca. Kanál bez poradia ide na koniec — pridať jeden kanál teda
-     * neznamená prečíslovať celý zoznam.
+     * Kanály predného zoznamu, abecedne. Poradie na karte v bočnom paneli
+     * určuje záujem návštevníkov (App\Services\FrontList\FrontList).
      *
      * Zmazaný kanál odfiltruje SoftDeletes, skrytý (`published` = 0) táto
      * podmienka. Pôvodný surový dopyt nekontroloval ani jedno a zoznam takýto
@@ -81,7 +81,6 @@ class Canal extends Model
     {
         return $query->whereNotNull('front_listed_at')
             ->where('published', 1)
-            ->orderByRaw('front_position is null, front_position')
             ->orderBy('title');
     }
 

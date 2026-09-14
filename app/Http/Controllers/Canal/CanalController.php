@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Canal;
 
+use App\Enums\CanalKind;
 use App\Enums\CanalSection;
 use App\Enums\Denomination;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Models\Village;
 use App\Filters\CanalFilters;
 use App\Http\Requests\CanalRequest;
 use App\Http\Controllers\Controller;
+use App\Services\FrontList\FrontList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +29,7 @@ class CanalController extends Controller
         return view('dashboard.canals.create', [
             'villages' => Village::orderBy('fullname')->get(['id', 'fullname', 'zip']),
             'denominations' => Denomination::options(),
+            'kinds' => CanalKind::options(),
         ]);
     }
 
@@ -87,6 +90,7 @@ class CanalController extends Controller
             // Zaradenie, smerovanie videí a deň importu sú dnes stĺpce kanála
             // s pevným číselníkom — netreba pre ne dopyt do databázy.
             'denominations' => Denomination::options(),
+            'kinds' => CanalKind::options(),
             'sections' => CanalSection::options(),
             'importDays' => Canal::IMPORT_DAYS,
             // Zoznam všetkých užívateľov potrebuje len superadmin (výber správcov).
@@ -137,6 +141,12 @@ class CanalController extends Controller
             if ($request->has('published')) {
                 $canal->update(['published' => $request->boolean('published')]);
             }
+        }
+
+        // Názov, typ aj zverejnenie sa na kartách predného zoznamu prejavia
+        // hneď, nie až po vypršaní cache.
+        if ($canal->front_listed_at) {
+            app(FrontList::class)->forget();
         }
 
         session()->flash('flash', 'Údaje boli uložené!');
