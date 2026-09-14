@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-# Nasadenie na produkciu. Spúšťa ho GitHub Actions (.github/workflows/deploy.yml)
-# po každom pushi na master. Dá sa spustiť aj ručne na serveri.
+# Nasadenie na produkciu. Spúšťa sa ručne na serveri (Websupport mení SSH port,
+# automatické nasadenie z GitHub Actions preto nefunguje).
 #
-# Frontend sa na serveri nebuilduje — na to tu nie je dosť pamäte. Build robí
-# GitHub Actions a pred spustením skriptu ho nahrá do public/build.new.
+# public/build je commitnutý, takže sa tu nebuilduje — build treba spraviť pred pushom.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -11,18 +10,6 @@ cd "$(dirname "$0")/.."
 echo "==> git pull"
 git pull --ff-only origin master
 git log --oneline -1
-
-# Až po pulle: public/build bol kedysi verzovaný a pull, ktorý ho z gitu
-# vyradil, by zmazal aj práve nahraté súbory s rovnakým názvom.
-if [ -d public/build.new ]; then
-    echo "==> nový build frontendu"
-    rm -rf public/build.old
-    if [ -d public/build ]; then
-        mv public/build public/build.old
-    fi
-    mv public/build.new public/build
-    rm -rf public/build.old
-fi
 
 echo "==> composer install"
 composer install --no-dev --optimize-autoloader --no-interaction --no-progress
