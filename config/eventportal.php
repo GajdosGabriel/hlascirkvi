@@ -33,6 +33,11 @@ return [
     // podujatia namiesto prázdnej stránky.
     'stale_ttl' => (int) env('EVENT_PORTAL_STALE_TTL', 604800), // 7 dní
 
+    // Na koľko sekúnd prestaneme volať API po 429, chybe 5xx alebo výpadku
+    // spojenia (ak portál nepošle vlastné Retry-After). Medzitým sa ukazuje
+    // záložná kópia.
+    'cooldown' => (int) env('EVENT_PORTAL_COOLDOWN', 60),
+
     // Koľko podujatí na stranu vo verejnom výpise.
     'per_page' => (int) env('EVENT_PORTAL_PER_PAGE', 20),
 

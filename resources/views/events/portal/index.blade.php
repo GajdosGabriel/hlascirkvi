@@ -11,6 +11,12 @@
         'description' => 'Prehľad kresťanských podujatí na Slovensku — sväté omše, koncerty, prednášky, '
             . 'duchovné obnovy a púte. Podľa dátumu, mesta aj druhu podujatia.',
         'canonical' => request()->fullUrl(),
+        // Kombinácie štítkov, hľadanie a víkendový výber sú len výrezy toho
+        // istého zoznamu. Roboty by ich prechádzali donekonečna a každý nový
+        // výber je volanie API portálu — do indexu preto nepatria.
+        'noindex' => ($filters['tags'] ?? null) !== null
+            || ($filters['search'] ?? null) !== null
+            || ($filters['range'] ?? null) !== null,
         'jsonld' => [
             \App\Support\Seo::breadcrumbs([
                 ['Hlas Cirkvi', url('/')],

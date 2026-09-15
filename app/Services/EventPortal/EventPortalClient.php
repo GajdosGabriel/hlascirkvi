@@ -132,6 +132,12 @@ class EventPortalClient
             return $cached;
         }
 
+        // Portál nás pred chvíľou odmietol (429) alebo nežil — ďalšie volania
+        // by ho len dobíjali. Kým pauza trvá, ide sa rovno po záložnej kópii.
+        if (Cache::has(self::PREFIX . ':cooldown')) {
+            return $this->fallback($staleKey);
+        }
+
         try {
             $response = Http::acceptJson()
                 ->timeout((int) config('eventportal.timeout', 8))
@@ -146,6 +152,16 @@ class EventPortalClient
                 return [];
             }
 
+            // Pri 429 a 5xx sa na chvíľu odmlčíme. Retry-After má prednosť,
+            // no najviac 10 minút, nech jedna čudná hlavička neodstaví výpis.
+            if ($response->status() === 429 || $response->serverError()) {
+                $retryAfter = (int) $response->header('Retry-After');
+
+                $this->cooldown($retryAfter > 0
+                    ? min($retryAfter, 600)
+                    : (int) config('eventportal.cooldown', 60));
+            }
+
             $data = $response->throw()->json();
 
             if (! is_array($data)) {
@@ -157,21 +173,38 @@ class EventPortalClient
 
             return $data;
         } catch (ConnectionException | \Throwable $e) {
-            Log::warning('Event portál nedostupný: ' . $e->getMessage(), [
+            if ($e instanceof ConnectionException) {
+                $this->cooldown((int) config('eventportal.cooldown', 60));
+            }
+
+            // Telo chybovej odpovede (celá HTML stránka) do logu nepatrí.
+            Log::warning('Event portál nedostupný: ' . strtok($e->getMessage(), "\n"), [
                 'path' => $path,
                 'query' => $query,
             ]);
 
-            $fallback = Cache::get($staleKey);
-
-            if (is_array($fallback)) {
-                $this->stale = true;
-
-                return $fallback;
-            }
-
-            return [];
+            return $this->fallback($staleKey);
         }
+    }
+
+    /** Posledná úspešná odpoveď, alebo prázdne pole, keď žiadna nie je. */
+    protected function fallback(string $staleKey): array
+    {
+        $fallback = Cache::get($staleKey);
+
+        if (is_array($fallback)) {
+            $this->stale = true;
+
+            return $fallback;
+        }
+
+        return [];
+    }
+
+    /** Zastaví volania API na daný počet sekúnd pre všetky požiadavky naraz. */
+    protected function cooldown(int $seconds): void
+    {
+        Cache::add(self::PREFIX . ':cooldown', true, max(1, $seconds));
     }
 
     /**

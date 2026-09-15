@@ -17,6 +17,10 @@ Disallow: /email/
 Disallow: /*?search=
 Disallow: /*&search=
 
+# Filtre podujatí podľa štítkov — každá kombinácia je nové volanie API
+# portálu event.hlascirkvi.sk a roboty ich vedia prechádzať donekonečna.
+Disallow: /akcie?*tags=
+
 Allow: /
 
 Sitemap: https://hlascirkvi.sk/sitemap.xml
