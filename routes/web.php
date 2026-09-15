@@ -118,10 +118,6 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         Route::resource('canals.prayers', Canal\CanalPrayerController::class)->except('show');
         Route::resource('canals.seminars', Canal\CanalSeminarController::class);
     });
-
-    // UserAddressController only imports contacts, it has no create/show/edit/
-    // update/destroy actions - registering them would just 500.
-    Route::resource('user.address', User\UserAddressController::class)->only(['index', 'store']);
 });
 
 // Pôvodná adresa nástenky. Rozposlaná v e-mailoch aj v záložkách správcov
@@ -167,8 +163,8 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
      * Administrácia je zväčša len výpis. Celý resource tu registroval sedem
      * rout na kontroler, ktorý má jedinú metódu — /admin/post/create,
      * /admin/user/{id} či /admin/comment/{id}/edit tak každému, kto na ne
-     * trafil, vrátili 500 ("Method ... does not exist"). Rovnaké pravidlo
-     * ako pri user.address nižšie: registruje sa len to, čo kontroler vie.
+     * trafil, vrátili 500 ("Method ... does not exist"). Registruje sa
+     * len to, čo kontroler vie.
      */
     Route::resource('home', Admin\AdminController::class)->only('index');
     Route::resource('buffer', Admin\BufferController::class)->only('index');
@@ -190,6 +186,14 @@ Route::get('prayer/fulfilled_at/{prayer}', 'Public\PrayerController@fulfilledAt'
 Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserSupportController@confirmEmail')
     ->middleware('signed')
     ->name('confirmEmail');
+
+// Odhlásenie z newslettera — odkaz z pätičky newslettera a z hlavičky
+// List-Unsubscribe. GET len ukáže potvrdenie (poštové skenery odkazy otvárajú
+// samy), odhlási až POST. Prihlásenie nahrádza podpis v URL.
+Route::middleware('signed')->group(function () {
+    Route::get('newsletter/odhlasit/{user}', 'Public\NewsletterController@show')->name('newsletter.unsubscribe');
+    Route::post('newsletter/odhlasit/{user}', 'Public\NewsletterController@unsubscribe');
+});
 
 // Import videí z YouTube playlistu je dlhá externá operácia, ktorá zapisuje —
 // preto POST za prihlásením, nie GET. Vlastníctvo seminára overuje controller.
@@ -223,3 +227,8 @@ Route::middleware(['auth', 'checkSuperAdmin'])->group(function () {
 // Len pre prihlásených — cez anonymný formulár chodil spam aj napriek
 // neviditeľnej kontrole (App\Support\HumanCheck).
 Route::post('store/message', 'MessengerController@toAdmin')->middleware('auth')->name('messengers.store');
+
+// Správa kanálu z jeho stránky — e-mail ani telefón kanála sa verejne neukazujú.
+Route::post('organizations/{organization}/message', 'MessengerController@toCanal')
+    ->middleware(['auth', 'checkBanned', 'throttle:5,10'])
+    ->name('organizations.message');

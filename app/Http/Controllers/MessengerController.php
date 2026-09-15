@@ -8,9 +8,23 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreMessengerRequest;
 use App\Notifications\Messengers;
+use App\Notifications\Canals\CanalMessage;
 
 class MessengerController extends Controller
 {
+
+    /**
+     * Správa pre kanál z jeho verejnej stránky. Kontakty kanála sa na stránke
+     * nezobrazujú; ak kanál e-mail nemá, niet kam správu poslať.
+     */
+    public function toCanal(StoreMessengerRequest $request, Canal $organization) {
+
+        abort_unless($organization->email, 404);
+
+        $organization->notify(new CanalMessage($organization, $request->user(), $request->input('body')));
+
+        return back()->with('flash', 'Správa bola odoslaná!');
+    }
 
 
     public function toAdmin(StoreMessengerRequest $request) {

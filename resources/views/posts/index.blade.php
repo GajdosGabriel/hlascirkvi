@@ -141,13 +141,13 @@
 
             {{-- Bočný panel --}}
             <aside class="ar-aside lg:col-span-4">
+                <x-liturgical-readings />
+
                 <x-announcements placement="sidebar" />
 
                 <comments-card></comments-card>
                 <prayers-card></prayers-card>
 
-                <x-liturgical-readings />
-                @include('verses.daily-modul')
                 <x-front-list-card kind="person" />
                 <x-front-list-card kind="community" />
             </aside>

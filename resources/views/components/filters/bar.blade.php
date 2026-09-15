@@ -1,8 +1,26 @@
 {{-- Lišta filtrov — prepínače vľavo, hľadanie vpravo. Popis v App\View\Components\Filters\Bar. --}}
-@if ($options || $search !== null)
+@if ($options || $selects || $search !== null)
     <div {{ $attributes->merge(['class' => 'ar-filters']) }}>
 
         <div class="ar-filters__set">
+            @foreach ($selects as $key => $select)
+                <form method="GET" action="{{ $resetUrl() }}" class="ar-filters__select">
+                    @foreach ($hiddenFields($key) as $name => $value)
+                        <input type="hidden" name="{{ $name }}" value="{{ $value }}">
+                    @endforeach
+
+                    <select name="{{ $key }}" aria-label="{{ $select['label'] }}" onchange="this.form.submit()"
+                            class="ar-select @if ($selected($key) !== null) ar-select--on @endif">
+                        <option value="">{{ $select['placeholder'] ?? $select['label'] }}</option>
+                        @foreach ($select['options'] as $value => $label)
+                            <option value="{{ $value }}" @selected($selected($key) === (string) $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+
+                    <noscript><button type="submit" class="ar-tab">OK</button></noscript>
+                </form>
+            @endforeach
+
             @foreach ($options as $key => $label)
                 <a href="{{ $toggleUrl($key) }}"
                    class="ar-tab @if ($isOn($key)) ar-tab--on @endif"

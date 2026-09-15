@@ -13,28 +13,48 @@ use App\Enums\ModelStatus;
 
 class UserFilters extends Filters
 {
-    protected $filters = ['search', 'banned', 'deletedAt'];
+    /** Hodnota výberu stavu pre zrušené (soft-deleted) účty — nie je to ModelStatus. */
+    public const DELETED = 'deleted';
+
+    protected $filters = ['search', 'status', 'sort'];
+
+    /** Radenie podľa id: ?sort=id vzostupne, ?sort=-id zostupne. Iné hodnoty sa ignorujú. */
+    public function sort($value)
+    {
+        return match ($value) {
+            'id' => $this->builder->orderBy('id'),
+            '-id' => $this->builder->orderByDesc('id'),
+            default => $this->builder,
+        };
+    }
 
     public function search()
     {
         session()->flash('search', $this->request->search);
 
-        return $this->builder
-            ->where('email', 'LIKE', $this->likePattern($this->request->search))
-            ->orWhere('first_name', 'LIKE', $this->likePattern($this->request->search))
-            ->orWhere('last_name', 'LIKE', $this->likePattern($this->request->search))
-            ->orWhere('email', 'LIKE', $this->likePattern($this->request->search));
-    }
-
-    public function banned()
-    {
+        // Zoskupené, inak by orWhere prebilo výber stavu.
         return $this->builder->where(function ($query) {
-            $query->where('status', ModelStatus::Blocked->value)->orWhere('disabled', true);
+            $query->where('email', 'LIKE', $this->likePattern($this->request->search))
+                ->orWhere('first_name', 'LIKE', $this->likePattern($this->request->search))
+                ->orWhere('last_name', 'LIKE', $this->likePattern($this->request->search));
         });
     }
 
-    public function deletedAt()
+    public function status($value)
     {
-        return $this->builder->onlyTrashed();
+        if ($value === self::DELETED) {
+            return $this->builder->onlyTrashed();
+        }
+
+        $status = ModelStatus::tryFrom((string) $value);
+
+        if ($status === ModelStatus::Blocked) {
+            // Starší stĺpec `disabled` stále označuje blokáciu (viď User::banned()).
+            return $this->builder->where(function ($query) {
+                $query->where('status', ModelStatus::Blocked->value)->orWhere('disabled', true);
+            });
+        }
+
+        return $status ? $this->builder->where('status', $status->value) : $this->builder;
     }
 }

@@ -127,8 +127,6 @@
         </div>
     </fieldset>
 
-    <div class="flex flex-wrap justify-end gap-3">
-        <a class="btn btn-default" href="{{ route('admin.announcement.index') }}">Zrušiť</a>
-        <button class="btn btn-primary" type="submit">{{ $submit }}</button>
-    </div>
+    <x-dashboard.form-bar :cancel="route('admin.announcement.index')" :submit="$submit"
+        :note="$announcement->exists ? 'Zmeny sa prejavia hneď po uložení.' : 'Oznam sa vytvorí po kliknutí na tlačidlo.'" />
 </form>

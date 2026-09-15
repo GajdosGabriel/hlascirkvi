@@ -3,9 +3,9 @@
 namespace App\Notifications\User;
 
 use App\Models\User;
+use App\Notifications\Messages\PortalMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
 
@@ -20,32 +20,19 @@ class ConfirmEmail extends Notification implements ShouldQueue
         $this->user = $user;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('Potvrďte svoju e-mailovú adresu na HlasCirkvi.sk')
-            ->greeting('Dobrý deň,')
-            ->line('na portáli HlasCirkvi.sk vznikol účet s touto e-mailovou adresou.')
+        return PortalMail::for($notifiable)
+            ->subject('Potvrďte svoju e-mailovú adresu')
+            ->line('na portáli HlasCirkvi.sk vznikol účet s touto e-mailovou adresou. Stačí ju jedným kliknutím potvrdiť.')
             ->line('Potvrdením získate plný prístup — komentáre, obľúbené príspevky aj odber noviniek.')
             ->action('Potvrdiť e-mailovú adresu', $this->verificationUrl())
-            ->line('Odkaz platí 7 dní. Ak ste sa neregistrovali vy, tento e-mail pokojne ignorujte — bez potvrdenia sa s adresou nič nedeje.');
+            ->note('Odkaz platí 7 dní. Ak ste sa neregistrovali vy, e-mail pokojne ignorujte — bez potvrdenia sa s adresou nič nedeje.');
     }
 
     /**
@@ -59,18 +46,5 @@ class ConfirmEmail extends Notification implements ShouldQueue
             'user' => $this->user->getKey(),
             'hash' => sha1($this->user->getEmailForVerification()),
         ]);
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
     }
 }

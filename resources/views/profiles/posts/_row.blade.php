@@ -55,11 +55,10 @@
 
     @can('update', $post)
         <div class="ar-item__actions">
-            <dropdown-slot>
+            <dropdown-slot label="Spravovať článok">
                 @if (! $post->deleted_at)
-                    <a href="{{ route('profile.posts.edit', $post->id) }}"
-                       class="ar-act">
-                        <i class="fas fa-pen text-[.7rem]"></i> Upraviť
+                    <a href="{{ route('profile.posts.edit', $post->id) }}">
+                        <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
                     </a>
 
                     {{-- Zmaže čas vydania, čím sa článok vráti do frontu
@@ -67,11 +66,13 @@
                     @if ($post->isPublished)
                         <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
                             @csrf @method('PUT')
-                            <button type="submit" class="ar-act">
-                                <i class="fas fa-inbox text-[.7rem]"></i> Do buffera
+                            <button type="submit">
+                                <i class="fas fa-inbox" aria-hidden="true"></i> Do buffera
                             </button>
                         </form>
                     @endif
+
+                    <hr class="ui-dropdown__divider">
                 @endif
 
                 <form action="{{ route('profile.posts.destroy', $post->id) }}"
@@ -79,16 +80,15 @@
                     @csrf @method('DELETE')
 
                     @if ($post->deleted_at)
-                        <button type="submit" class="ar-act ar-act--ok">
-                            <i class="fas fa-undo text-[.7rem]"></i> Obnoviť
+                        <button type="submit" class="ui-dropdown__item--ok">
+                            <i class="fas fa-undo" aria-hidden="true"></i> Obnoviť
                         </button>
                     @else
-                        <button type="submit" class="ar-act ar-act--danger">
-                            <i class="far fa-trash-alt text-[.7rem]"></i> Zmazať
+                        <button type="submit" class="ui-dropdown__item--danger">
+                            <i class="far fa-trash-alt" aria-hidden="true"></i> Zmazať
                         </button>
                     @endif
                 </form>
-
             </dropdown-slot>
         </div>
     @endcan

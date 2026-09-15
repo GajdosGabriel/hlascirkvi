@@ -56,7 +56,9 @@ class CaseSensitivePathsTest extends TestCase
         $problems = [];
 
         foreach ($this->phpFiles(resource_path('views')) as $file) {
-            if (! preg_match_all('/<x-([a-z0-9][a-zA-Z0-9._\-]*)/', file_get_contents($file), $m)) {
+            // (?!::) — komponenty s menným priestorom (x-mail::button z Laravelu)
+            // nežijú v components/, rieši ich registrácia balíka.
+            if (! preg_match_all('/<x-([a-z0-9][a-zA-Z0-9._\-]*)(?![a-zA-Z0-9._\-]|::)/', file_get_contents($file), $m)) {
                 continue;
             }
 

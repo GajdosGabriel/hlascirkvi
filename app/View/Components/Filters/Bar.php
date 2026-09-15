@@ -32,14 +32,22 @@ class Bar extends Component
     /** Prepínače v tvare [kľúč v query stringu => popis na tlačidle]. */
     public array $options = [];
 
+    /**
+     * Výbery v tvare [kľúč v query stringu => ['label', 'placeholder', 'options' => [hodnota => popis]]].
+     */
+    public array $selects = [];
+
     /** Placeholder hľadania; null znamená, že výpis hľadanie nemá. */
     public ?string $search;
 
     /**
      * @param  array<int|string, string>  $filters  ['unpublished', 'deletedAt' => 'Vymazané']
+     * @param  array<string, array{label: string, placeholder?: string, options: array<string, string>}>  $selects
      */
-    public function __construct(array $filters = [], ?string $search = null)
+    public function __construct(array $filters = [], array $selects = [], ?string $search = null)
     {
+        $this->selects = $selects;
+
         foreach ($filters as $key => $label) {
             if (is_int($key)) {
                 $key = $label;
@@ -67,6 +75,14 @@ class Bar extends Component
         return (bool) request()->query($key);
     }
 
+    /** Zvolená hodnota výberu; neznáma hodnota z adresy sa berie ako nezvolená. */
+    public function selected(string $key): ?string
+    {
+        $value = (string) request()->query($key, '');
+
+        return array_key_exists($value, $this->selects[$key]['options'] ?? []) ? $value : null;
+    }
+
     /** Zapne alebo vypne jeden prepínač, ostatné parametre ostávajú. */
     public function toggleUrl(string $key): string
     {
@@ -83,10 +99,10 @@ class Bar extends Component
         return $this->urlWith(['search' => null]);
     }
 
-    /** Hľadanie je bežný GET formulár, ostatné filtre teda musí niesť so sebou. */
-    public function hiddenFields(): array
+    /** Hľadanie aj výbery sú bežné GET formuláre, ostatné filtre teda musia niesť so sebou. */
+    public function hiddenFields(string $except = 'search'): array
     {
-        return array_diff_key($this->activeQuery(), ['search' => null]);
+        return array_diff_key($this->activeQuery(), [$except => null]);
     }
 
     public function anyActive(): bool
@@ -126,8 +142,19 @@ class Bar extends Component
             }
         }
 
+        foreach (array_keys($this->selects) as $key) {
+            if ($this->selected($key) !== null) {
+                $active[$key] = $this->selected($key);
+            }
+        }
+
         if ($this->searchTerm() !== '') {
             $active['search'] = $this->searchTerm();
+        }
+
+        // Radenie nie je filter, ale zmena filtra ho nemá zahodiť.
+        if (is_string(request()->query('sort')) && request()->query('sort') !== '') {
+            $active['sort'] = request()->query('sort');
         }
 
         return $active;

@@ -2,66 +2,41 @@
 
 namespace App\Notifications\User;
 
+use App\Notifications\Messages\PortalMail;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
+/**
+ * Administrátorom pri každom novom účte (UserObserver::created).
+ */
 class NewRegistration extends Notification implements ShouldQueue
 {
     use Queueable;
 
     protected $user;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct($user)
     {
         $this->user = $user;
     }
 
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('Nová registrácia ' . $this->user->fullName)
-            ->greeting('Dobrý deň,')
-            ->line('Na kresťanskom portály HlasCirkvi.sk ')
-            ->line('sa registroval nový užívateľ ' .  $this->user->fullName)
-            ->line($this->user->email)
-            ->line('Ďakujeme že píšete skvelé príspevky!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+        return PortalMail::for($notifiable)
+            ->subject('Nová registrácia: '.$this->user->fullname)
+            ->line('na portáli pribudol nový používateľský účet.')
+            ->details([
+                'Meno' => $this->user->fullname,
+                'E-mail' => $this->user->email,
+                'Založený' => $this->user->created_at?->format('d.m.Y H:i'),
+                'E-mail overený' => $this->user->hasVerifiedEmail() ? 'áno' : 'zatiaľ nie',
+            ])
+            ->action('Otvoriť v administrácii', route('admin.user.edit', $this->user));
     }
 }

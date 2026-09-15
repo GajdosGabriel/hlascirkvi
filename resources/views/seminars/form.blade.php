@@ -30,7 +30,6 @@
     </div>
 </fieldset>
 
-<div class="flex flex-wrap justify-end gap-3">
-    <a class="btn btn-default" href="{{ route('profile.canals.seminars.index', $canal->id) }}">Zrušiť</a>
-    <button class="btn btn-primary" type="submit">{{ $submitLabel ?? 'Uložiť' }}</button>
-</div>
+<x-dashboard.form-bar :cancel="route('profile.canals.seminars.index', $canal->id)"
+    :submit="$submitLabel ?? 'Uložiť zmeny'"
+    :note="$seminar->exists ? 'Zmeny sa prejavia hneď po uložení.' : 'Seminár sa vytvorí po kliknutí na tlačidlo.'" />

@@ -32,7 +32,7 @@ class Newsletter
             try {
                 // queue() namiesto send(): rozposielanie nedrží beh príkazu
                 // a zlyhaný e-mail sa dá zopakovať z tabuľky failed_jobs.
-                Mail::to($user)->queue(new PostNewsletter($content['posts'], $content['prayers']));
+                Mail::to($user)->queue(new PostNewsletter($content['posts'], $content['prayers'], $user));
             } catch (\Throwable $e) {
                 // Jeden neplatný e-mail zhodil celý beh a zvyšok odberateľov
                 // newsletter nedostal.

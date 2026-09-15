@@ -2,60 +2,29 @@
 
 namespace App\Notifications\Admin;
 
+use App\Notifications\Messages\PortalMail;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
+/**
+ * Administrátorom, keď automatické publikovanie (App\Services\Buffer) nemá
+ * čo zverejniť.
+ */
 class BufeerIsEmpty extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-        ->line('Buffer je prázdny, nie je čo publikovať.')
-        ->action('Notification Action', url('/'))
-        ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+        return PortalMail::for($notifiable)
+            ->subject('Zásobník videí je prázdny')
+            ->line('automatické publikovanie nemá čo zverejniť — v zásobníku nie sú žiadne videá.')
+            ->line('Kým sa zásobník nedoplní, na portáli nepribudnú nové príspevky.')
+            ->action('Otvoriť zásobník', route('admin.buffer.index'));
     }
 }

@@ -18,15 +18,7 @@ enum ModelStatus: string
 
     public function label(): string
     {
-        return match ($this) {
-            self::Draft => 'Koncept',
-            self::PendingReview => 'Čaká na schválenie',
-            self::Rejected => 'Zamietnutý',
-            self::Scheduled => 'Naplánovaný',
-            self::Active => 'Aktívny',
-            self::Archived => 'Archivovaný',
-            self::Blocked => 'Blokovaný',
-        };
+        return __('model_status.'.$this->value);
     }
 
     public function isPubliclyVisible(): bool

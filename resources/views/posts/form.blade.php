@@ -113,11 +113,6 @@
     </post-images>
 </div>
 
-<div>
-
-    <div class="flex justify-between">
-        <a href="{{ url(URL::previous()) }}" class="btn">späť</a>
-        <button type="submit" class="btn btn-primary">Uložiť</button>
-    </div>
-
-</div>
+<x-dashboard.form-bar :cancel="url(URL::previous())"
+    :submit="$post->exists ? 'Uložiť zmeny' : 'Vytvoriť článok'"
+    :note="$post->exists ? 'Zmeny sa prejavia hneď po uložení.' : 'Článok sa vytvorí po kliknutí na tlačidlo.'" />

@@ -2,74 +2,43 @@
 
 namespace App\Notifications\Prayer;
 
+use App\Notifications\Messages\PortalMail;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\HtmlString;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
 
+/**
+ * Autorovi staršej modlitby s otázkou, či bola vypočutá
+ * (App\Services\Prayers\UnansweredPrayers).
+ */
 class PrayerFulfilledOrNotYet extends Notification implements ShouldQueue
 {
     use Queueable;
 
     protected $prayer;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct($prayer)
     {
         $this->prayer = $prayer;
     }
 
-
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('Vaša modlitba, ' . $this->prayer->title)
-            ->greeting($this->prayer->title)
-            ->line($this->prayer->body)
-            // ->line('Zverejnená: ' . $this->prayer->created_at)
-            ->line('Ak modlitba bola vypočutá, kliknutím na tlačidlo, ju zaradíte zoznamu vypočutých modlitieb.')
+        return PortalMail::for($notifiable)
+            ->level('success')
+            ->subject('Bola vaša modlitba vypočutá?')
+            ->line('pred časom ste na HlasCirkvi.sk zverejnili tento modlitebný úmysel:')
+            ->quote($this->prayer->body, $this->prayer->title)
+            ->line('Ak bola modlitba vypočutá, dajte nám vedieť. Zaradíme ju medzi vypočuté — môže povzbudiť aj ostatných.')
             // Podpísaná URL — inak by stačilo uhádnuť ID a označiť cudziu
             // modlitbu za vypočutú.
-            ->action('Modlitba bola vypočutá', URL::signedRoute('prayer.fulfilledAt', ['prayer' => $this->prayer->id]))
-            ->line('V opačnom prípade nereagujte a modlitebný úmysle bude stále aktuálny.')
-            // ->line(new HtmlString('<a href="/" style="display:block; margin: 0 auto; width: 180px;">Modlitba bola vypočutá</a>'))
-            ->salutation('S pozdravom');
-
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+            ->action('Áno, modlitba bola vypočutá', URL::signedRoute('prayer.fulfilledAt', ['prayer' => $this->prayer->id]))
+            ->note('Ak ešte vypočutá nebola, netreba nič robiť — úmysel ostáva medzi aktuálnymi.');
     }
 }

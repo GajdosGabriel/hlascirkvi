@@ -10,6 +10,6 @@
 <input name="user_name" placeholder="Anonimné meno" value="{{ old('user_name') ?? auth()->user()->first_name }}"
     class="w-full mb-2 border-2 rounded p-2 border-gray-300" required />
 
-<div class="text-right ">
-    <button class="btn btn-primary">Uložiť</button>
-</div>
+<x-dashboard.form-bar :cancel="route('profile.canals.prayers.index', $canal->id ?? auth()->user()->org_id)"
+    :submit="$prayer->exists ? 'Uložiť zmeny' : 'Pridať modlitbu'"
+    :note="$prayer->exists ? 'Zmeny sa prejavia hneď po uložení.' : 'Modlitba sa pridá po kliknutí na tlačidlo.'" />

@@ -2,64 +2,45 @@
 
 namespace App\Notifications\Prayer;
 
+use App\Notifications\Messages\PortalMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class NewPrayer extends Notification implements ShouldQueue
 {
     use Queueable;
+
     protected $prayer;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct($prayer)
     {
         $this->prayer = $prayer;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         return ['mail', 'database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('Modlitba ' . $this->prayer->title)
-            ->line('Pridaná nová modlitba: ')
-            ->line($this->prayer->body)
-            ->line('Dátum: ' . $this->prayer->created_at)
-            ->line('User: ' . $this->prayer->user->fullname);
+        return PortalMail::for($notifiable)
+            ->subject('Nová modlitba: '.$this->prayer->title)
+            ->line('na portáli pribudol nový modlitebný úmysel:')
+            ->quote($this->prayer->body, $this->prayer->title)
+            ->details([
+                'Autor' => $this->prayer->user?->fullname,
+                'Pridaná' => $this->prayer->created_at?->format('d.m.Y H:i'),
+            ])
+            ->action('Zobraziť v administrácii', route('admin.prayer.index'));
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [
             'logo' =>  $this->prayer->user->owner->initialName,
-            'message' => $this->prayer->user->fullname . ' Pridal modlitbu ' . $this->prayer->title,
+            'message' => $this->prayer->user->fullname . ' pridal modlitbu ' . $this->prayer->title,
             'link' => route('modlitby.index')
         ];
     }

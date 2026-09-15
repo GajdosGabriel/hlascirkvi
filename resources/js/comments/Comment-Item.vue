@@ -37,13 +37,14 @@
                     </div>
 
                     <div class="flex shrink-0 items-center gap-1.5">
-                        <dropdown-slot v-if="canUpdate">
+                        <dropdown-slot v-if="canUpdate" label="Spravovať komentár">
                             <button type="button" @click="startEdit">
-                                <i class="far fa-edit w-4 text-center text-gray-400"></i>
+                                <i class="fas fa-pen" aria-hidden="true"></i>
                                 Upraviť
                             </button>
-                            <button type="button" class="ar-act--danger" @click.prevent="destroy()">
-                                <i class="far fa-trash-alt w-4 text-center text-gray-400"></i>
+                            <hr class="ui-dropdown__divider">
+                            <button type="button" class="ui-dropdown__item--danger" @click.prevent="destroy()">
+                                <i class="far fa-trash-alt" aria-hidden="true"></i>
                                 Zmazať
                             </button>
                         </dropdown-slot>

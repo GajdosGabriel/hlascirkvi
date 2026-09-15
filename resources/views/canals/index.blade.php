@@ -178,13 +178,14 @@
                 @endif
 
                 {{-- Kontakty kanála, ak ich profil má. Prázdny riadok sa
-                     nevykreslí, nech pod číslami nezostane hluchá medzera. --}}
+                     nevykreslí, nech pod číslami nezostane hluchá medzera.
+                     E-mail ani telefón sa verejne neukazujú — s e-mailom
+                     kanála sa ponúkne len odoslanie správy. --}}
                 @php
                     $contacts = array_filter([
                         'obec'  => optional($organization->village)->fullname,
                         'web'   => $organization->url_www,
                         'mail'  => $organization->email,
-                        'phone' => $organization->phone,
                     ]);
                 @endphp
 
@@ -202,15 +203,36 @@
                         @endisset
 
                         @isset($contacts['mail'])
-                            <a href="mailto:{{ $contacts['mail'] }}" class="ar-link hover:text-gray-900">
-                                <i class="far fa-envelope mr-1.5"></i>{{ $contacts['mail'] }}
-                            </a>
-                        @endisset
-
-                        @isset($contacts['phone'])
-                            <span><i class="fas fa-phone mr-1.5"></i>{{ $contacts['phone'] }}</span>
+                            @auth
+                                <a href="#poslat-spravu" class="ar-link hover:text-gray-900"
+                                   onclick="event.preventDefault(); var f = document.getElementById('poslat-spravu'); f.hidden = !f.hidden; if (!f.hidden) f.querySelector('textarea').focus();">
+                                    <i class="far fa-envelope mr-1.5"></i>Poslať správu
+                                </a>
+                            @else
+                                <a href="{{ route('login') }}" class="ar-link hover:text-gray-900"
+                                   title="Správu môžete poslať po prihlásení">
+                                    <i class="far fa-envelope mr-1.5"></i>Poslať správu
+                                </a>
+                            @endauth
                         @endisset
                     </div>
+
+                    @if (isset($contacts['mail']) && auth()->check())
+                        <form id="poslat-spravu" method="POST" action="{{ route('organizations.message', $organization) }}"
+                              class="mt-4 max-w-xl" @unless ($errors->has('body')) hidden @endunless>
+                            @csrf
+                            <label for="canal-message" class="sr-only">Správa pre {{ $organization->title }}</label>
+                            <textarea id="canal-message" name="body" rows="4" required minlength="3"
+                                      class="w-full rounded-md border border-gray-300 p-2 text-sm"
+                                      placeholder="Napíšte správu pre {{ $organization->title }}…">{{ old('body') }}</textarea>
+                            @error('body')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                            <button type="submit" class="ar-tab ar-tab--on mt-2">
+                                <i class="far fa-paper-plane"></i> Odoslať
+                            </button>
+                        </form>
+                    @endif
                 @endif
 
                 {{-- Prepínač výpisu a hľadanie v kanáli --}}

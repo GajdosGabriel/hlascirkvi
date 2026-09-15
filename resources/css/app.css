@@ -7,25 +7,175 @@
     display: none !important;
 }
 
-.dropdown-menu {
-    @apply flex flex-col absolute right-0 border-2 border-gray-500 bg-white text-gray-500 rounded-md;
-}
-
-.dropdown-item {
-    @apply p-2 px-6 hover:bg-gray-300 hover:text-gray-700;
-}
-
 /*
- * Ponuka sa štandardne rozvinie doľava od ikony. Tam, kde ikona stojí pri
- * ľavom okraji obsahu (akcie pod článkom), sa text zoznamu vysunul mimo
- * stránku — táto varianta ju otvorí na druhú stranu. Pravidlo nesmie byť
- * Tailwind utilitou: .dropdown-menu je v súbore až za @tailwind utilities,
- * takže by jeho right-0 utilitu prebilo.
+ * Rozbaľovacia ponuka položky (komponent <dropdown-slot>). Štýly sú globálne,
+ * lebo ponuka sa teleportuje do <body> a jej obsah prichádza z Blade šablón.
+ * Farby majú záložné hodnoty — layout events paletu --ar-* nevkladá.
  */
-.dropdown-menu--left {
-    right: auto;
-    left: 0;
+.ui-dropdown {
+    position: relative;
+    display: inline-flex;
+}
+
+.ui-dropdown__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--ar-line, #e3e4e8);
+    border-radius: 9999px;
+    background: #fff;
+    color: #9ca3af;
+    cursor: pointer;
+    transition: color .15s ease, border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+.ui-dropdown__trigger svg { width: 1rem; height: 1rem; }
+.ui-dropdown__trigger:hover,
+.ui-dropdown__trigger.is-open {
+    border-color: #cfd2da;
+    background: var(--ar-paper, #f6f6f7);
+    color: var(--ar-ink, #101828);
+}
+.ui-dropdown__trigger:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--ar-accent-rgb, 185, 28, 28), .18);
+    border-color: var(--ar-accent, #b91c1c);
+}
+
+.ui-dropdown__menu {
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 12rem;
+    max-width: calc(100vw - 1rem);
+    padding: .375rem;
+    border: 1px solid var(--ar-line, #e3e4e8);
+    border-radius: .75rem;
+    background: #fff;
+    color: var(--ar-ink, #101828);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-shadow:
+        0 1px 2px rgba(16, 24, 40, .05),
+        0 12px 32px -8px rgba(16, 24, 40, .18);
+    transform-origin: top right;
+}
+.ui-dropdown__menu--top { transform-origin: bottom right; }
+
+.ui-dropdown__menu form { display: block; margin: 0; }
+
+/* Každý odkaz a tlačidlo v ponuke vyzerá ako položka — aj keď mu šablóna
+   ponechala staršiu triedu (.ar-btn, .ar-act). */
+.ui-dropdown__menu :where(a, button, .ui-dropdown__item),
+.ui-dropdown__menu .ar-btn,
+.ui-dropdown__menu .ar-act {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: .625rem;
+    width: 100%;
+    padding: .5rem .625rem;
+    border: 0;
+    border-radius: .5rem;
+    background: transparent;
+    color: var(--ar-ink, #101828);
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    text-align: left;
+    text-decoration: none;
     white-space: nowrap;
+    cursor: pointer;
+    transition: background-color .12s ease, color .12s ease;
+}
+.ui-dropdown__menu :where(a, button, .ui-dropdown__item) i,
+.ui-dropdown__menu :where(a, button, .ui-dropdown__item) svg {
+    flex: 0 0 1rem;
+    width: 1rem;
+    font-size: .8125rem;
+    text-align: center;
+    color: #9ca3af;
+    transition: color .12s ease;
+}
+.ui-dropdown__menu :where(a, button):hover,
+.ui-dropdown__menu :where(a, button):focus-visible {
+    outline: none;
+    background: var(--ar-paper, #f6f6f7);
+    color: var(--ar-ink, #101828);
+}
+.ui-dropdown__menu :where(a, button):hover i,
+.ui-dropdown__menu :where(a, button):focus-visible i { color: var(--ar-ink-soft, #545a67); }
+
+/* Hlavná akcia ponuky. */
+.ui-dropdown__menu .ui-dropdown__item--accent,
+.ui-dropdown__menu .ui-dropdown__item--accent i { color: var(--ar-accent, #b91c1c); }
+.ui-dropdown__menu .ui-dropdown__item--accent:hover,
+.ui-dropdown__menu .ui-dropdown__item--accent:focus-visible {
+    background: var(--ar-accent-soft, #fdf1f1);
+    color: var(--ar-accent, #b91c1c);
+}
+.ui-dropdown__menu .ui-dropdown__item--accent:hover i,
+.ui-dropdown__menu .ui-dropdown__item--accent:focus-visible i { color: var(--ar-accent, #b91c1c); }
+
+.ui-dropdown__menu .ui-dropdown__item--danger:hover,
+.ui-dropdown__menu .ui-dropdown__item--danger:focus-visible,
+.ui-dropdown__menu .ar-act--danger:hover {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+.ui-dropdown__menu .ui-dropdown__item--danger:hover i,
+.ui-dropdown__menu .ar-act--danger:hover i { color: #b91c1c; }
+
+.ui-dropdown__menu .ui-dropdown__item--ok:hover,
+.ui-dropdown__menu .ar-act--ok:hover {
+    background: #ecfdf5;
+    color: #047857;
+}
+.ui-dropdown__menu .ui-dropdown__item--ok:hover i,
+.ui-dropdown__menu .ar-act--ok:hover i { color: #047857; }
+
+/* Stav, nie akcia (napr. „Prihlásený kanál"). */
+.ui-dropdown__menu .ui-dropdown__item--current {
+    color: var(--ar-ink-soft, #545a67);
+    cursor: default;
+}
+.ui-dropdown__menu .ui-dropdown__item--current i { color: #059669; }
+
+.ui-dropdown__divider {
+    height: 1px;
+    margin: .25rem .375rem;
+    border: 0;
+    background: var(--ar-line, #e3e4e8);
+}
+
+.ui-dropdown__label {
+    padding: .375rem .625rem .25rem;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+.ui-dropdown-enter-active,
+.ui-dropdown-leave-active {
+    transition: opacity .14s ease, transform .14s ease;
+}
+.ui-dropdown-enter-from,
+.ui-dropdown-leave-to {
+    opacity: 0;
+    transform: scale(.96) translateY(-4px);
+}
+.ui-dropdown__menu--top.ui-dropdown-enter-from,
+.ui-dropdown__menu--top.ui-dropdown-leave-to {
+    transform: scale(.96) translateY(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ui-dropdown-enter-active,
+    .ui-dropdown-leave-active { transition: none; }
 }
 
 .card {

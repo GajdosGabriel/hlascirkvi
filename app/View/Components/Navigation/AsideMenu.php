@@ -79,11 +79,6 @@ class AsideMenu extends Component
                 'icon' => 'pray',
                 'name' => 'Modlitby',
             ],
-            [
-                'url' => route('profile.user.address.index', auth()->id()),
-                'icon' => 'contact',
-                'name' => 'Moje kontakty',
-            ],
         ];
     }
 

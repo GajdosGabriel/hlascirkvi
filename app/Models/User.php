@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ModelStatus;
 use App\Notifications\User\ConfirmEmail;
+use App\Notifications\User\ResetPassword;
 use App\Traits\HasDatetime;
 use App\Traits\HasFilter;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -92,11 +93,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['last_name'] = ucfirst($value);
     }
 
-    public function addresBooks()
-    {
-        return $this->hasMany(AddresBook::class);
-    }
-
     public function commentss()
     {
         return $this->hasMany(Comment::class);
@@ -171,6 +167,42 @@ class User extends Authenticatable implements MustVerifyEmail
         ])->saveQuietly();
     }
 
+    /**
+     * Stav účtu pre administráciu. ModelStatus hovorí, čo s účtom urobil
+     * administrátor, overenie e-mailu zasa, či ho dokončil používateľ. Zelené
+     * „Aktívny" preto svieti až pri oboch naraz — stav `active` s neoverenou
+     * adresou je len rozbehnutá registrácia.
+     *
+     * Poradie: blokácia (vrátane starého `disabled`) > ostatné neaktívne stavy
+     * > neoverený e-mail > aktívny.
+     *
+     * @return array{label: string, tone: 'green'|'amber'|'gray'|'red', title: ?string}
+     */
+    public function accountBadge(): array
+    {
+        if ($this->disabled || $this->status === ModelStatus::Blocked) {
+            return ['label' => ModelStatus::Blocked->label(), 'tone' => 'red', 'title' => $this->status_reason];
+        }
+
+        if (! $this->status->isActive()) {
+            return [
+                'label' => $this->status->label(),
+                'tone' => $this->status === ModelStatus::Archived ? 'gray' : 'amber',
+                'title' => $this->status_reason,
+            ];
+        }
+
+        if (! $this->hasVerifiedEmail()) {
+            return ['label' => __('model_status.unverified'), 'tone' => 'amber', 'title' => __('model_status.unverified_hint')];
+        }
+
+        return [
+            'label' => ModelStatus::Active->label(),
+            'tone' => 'green',
+            'title' => __('model_status.verified_at', ['date' => $this->email_verified_at->format('d.m.Y H:i')]),
+        ];
+    }
+
     public function getStatusLabelAttribute(): string
     {
         return $this->status->label();
@@ -209,5 +241,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new ConfirmEmail($this));
+    }
+
+    /** Slovenská obnova hesla namiesto Laravelovej anglickej šablóny. */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPassword($token));
     }
 }

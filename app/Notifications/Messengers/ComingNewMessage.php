@@ -3,62 +3,44 @@
 namespace App\Notifications\Messengers;
 
 use App\Models\Messenger;
+use App\Notifications\Messages\PortalMail;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class ComingNewMessage extends Notification
+/**
+ * Správa od iného používateľa (MessengerObserver::created).
+ *
+ * Tlačidlo „Odpovedať na správu" viedlo na titulku, kde sa odpovedať nedalo.
+ * Odpoveď teraz ide cez Reply-To priamo odosielateľovi. Mailom-only
+ * notifikácia mala aj toArray() s neexistujúcim $this->post — odstránené.
+ */
+class ComingNewMessage extends Notification implements ShouldQueue
 {
     use Queueable;
 
-
     protected $message;
+
     public function __construct(Messenger $message)
     {
         $this->message = $message;
     }
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
+
     public function via($notifiable)
     {
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject( $this->message->requestedUser->fullname . ' Nová správa - spolupráca/')
-            ->greeting('Dobrý deň,')
-            ->line($this->message->senderUser->fullname . ' Vám posiela túto správu: ')
-            ->line($this->message->body)
-            ->line('Správa bola zaslaná prostretníctvom HlasCirkvi.sk - Kresťanský portál.')
-            ->action('Odpovedať na správu', url('/'))
-            ->line('Ďakujeme za skorú odpoveď!');
-    }
+        $sender = $this->message->senderUser;
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            'message' => $this->message->senderUser->fullname . ' Vám poslal správu ',
-//            'link' => 'url link'
-                        'link' => $this->post->path()
-        ];
+        return PortalMail::for($notifiable)
+            ->subject('Nová správa od '.$sender->fullname)
+            ->replyTo($sender->email, $sender->fullname)
+            ->line($sender->fullname.' vám cez portál HlasCirkvi.sk posiela správu:')
+            ->quote($this->message->body)
+            ->line('Odpovedať môžete priamo na tento e-mail, odpoveď dostane odosielateľ.')
+            ->note('Kým neodpoviete, vaša e-mailová adresa ostáva odosielateľovi skrytá.');
     }
 }

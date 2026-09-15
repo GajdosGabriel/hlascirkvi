@@ -1133,9 +1133,3 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: routes/web.php
-
-		-
-			message: '#^Class User\\UserAddressController not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: routes/web.php

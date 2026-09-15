@@ -1,13 +1,13 @@
-@component('mail::message')
+{{-- Šablóna všetkých notifikácií. Obsah skladá App\Notifications\Messages\PortalMail,
+     vzhľad drží téma hlascirkvi (config/mail.php). --}}
+<x-mail::message :unsubscribe-url="$unsubscribeUrl ?? null">
 {{-- Greeting --}}
 @if (! empty($greeting))
 # {{ $greeting }}
+@elseif ($level === 'error')
+# Ups, niečo sa pokazilo
 @else
-@if ($level === 'error')
-# @lang('Whoops!')
-@else
-# @lang('Dobrý deň!')
-@endif
+# Dobrý deň,
 @endif
 
 {{-- Intro Lines --}}
@@ -18,19 +18,9 @@
 
 {{-- Action Button --}}
 @isset($actionText)
-<?php
-    switch ($level) {
-        case 'success':
-        case 'error':
-            $color = $level;
-            break;
-        default:
-            $color = 'primary';
-    }
-?>
-@component('mail::button', ['url' => $actionUrl, 'color' => $color])
+<x-mail::button :url="$actionUrl" :color="in_array($level, ['success', 'error']) ? $level : 'primary'">
 {{ $actionText }}
-@endcomponent
+</x-mail::button>
 @endisset
 
 {{-- Outro Lines --}}
@@ -40,24 +30,14 @@
 @endforeach
 
 {{-- Salutation --}}
-@if (! empty($salutation))
-{{ $salutation }}<br>
-{{ config('app.name') }}
-@else
-@lang('S pozdravom'),<br>
-{{ config('app.name') }}
-@endif
+{{ rtrim($salutation ?: 'S pozdravom', ',') }},<br>
+tím HlasCirkvi.sk
 
 {{-- Subcopy --}}
 @isset($actionText)
-@slot('subcopy')
-@lang(
-    "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
-    'into your web browser:',
-    [
-        'actionText' => $actionText,
-    ]
-) <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
-@endslot
+<x-slot:subcopy>
+Ak tlačidlo „{{ $actionText }}" nefunguje, skopírujte do prehliadača tento odkaz:
+<span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
+</x-slot:subcopy>
 @endisset
-@endcomponent
+</x-mail::message>

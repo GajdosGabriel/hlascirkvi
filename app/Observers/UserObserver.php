@@ -49,6 +49,7 @@ class UserObserver
      */
     public function creating(User $user)
     {
+        $user->uuid ??= (string) Str::uuid7();
         $user->api_token = bin2hex(openssl_random_pseudo_bytes(30));
     }
 

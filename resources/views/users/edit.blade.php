@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="status">Stav účtu</label>
+                            <label for="status">{{ __('model_status.account_status') }}</label>
                             <select name="status" id="status" class="form-control" required>
                                 @foreach ($statuses as $status)
                                     <option value="{{ $status->value }}" @selected(old('status', $user->status->value) === $status->value)>
@@ -49,10 +49,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="status_reason">Dôvod zmeny stavu</label>
+                            <label for="status_reason">{{ __('model_status.status_reason') }}</label>
                             <textarea name="status_reason" id="status_reason" maxlength="500" rows="3"
                                 class="form-control">{{ old('status_reason', $user->status_reason) }}</textarea>
-                            <p class="text-xs text-gray-500 mt-1">Pri neaktívnom stave je dôvod povinný a vidí ho iba administrácia.</p>
+                            <p class="text-xs text-gray-500 mt-1">{{ __('model_status.status_reason_hint') }}</p>
                             @error('status_reason')<p class="text-red-700 text-sm mt-1">{{ $message }}</p>@enderror
                         </div>
 
@@ -63,8 +63,9 @@
                         </div>
                     @endcan
 
-                    <button type="submit" class="btn btn-primary">Uložiť</button>
                 </div>
+
+                <x-dashboard.form-bar class="max-w-xl" :cancel="route('admin.user.index')" />
             </form>
         </x-slot>
         </x-pages.admin>

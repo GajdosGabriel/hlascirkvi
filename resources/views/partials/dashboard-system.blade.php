@@ -15,7 +15,6 @@
         border-radius: .625rem;
         background: #fff;
     }
-    .ar-panel:has(.dropdown-slot-menu) { overflow: visible; }
     .ar-panel__head {
         display: flex;
         align-items: baseline;
@@ -342,6 +341,98 @@
     }
     .ar-check:has(input:focus-visible) { box-shadow: 0 0 0 3px rgba(var(--ar-accent-rgb), .15); }
 
+    /* Výber správcov kanála — štítky vybraných a hľadanie s rozbaľovacím
+       zoznamom (dashboard/canals/edit.blade.php). */
+    .ar-picker__count { margin-left: .35rem; font-weight: 500; color: #9ca3af; }
+    .ar-picker__chosen { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 .6rem; padding: 0; list-style: none; }
+    .ar-picker__chosen:empty { display: none; }
+    .ar-picker__chip {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        max-width: 100%;
+        border: 1px solid rgba(var(--ar-accent-rgb), .35);
+        border-radius: 9999px;
+        background: var(--ar-accent-soft);
+        padding: .2rem .25rem .2rem .25rem;
+        font-size: .8125rem;
+        color: var(--ar-ink);
+        animation: ar-picker-in .15s ease;
+    }
+    @keyframes ar-picker-in { from { opacity: 0; transform: scale(.92); } }
+    .ar-picker__avatar {
+        display: grid;
+        flex: 0 0 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        place-items: center;
+        border-radius: 9999px;
+        background: #fff;
+        font-size: .625rem;
+        font-weight: 700;
+        color: var(--ar-accent);
+        text-transform: uppercase;
+    }
+    .ar-picker__name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+    .ar-picker__remove {
+        display: grid;
+        flex: 0 0 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        place-items: center;
+        border-radius: 9999px;
+        font-size: 1.1rem;
+        line-height: 1;
+        color: #9ca3af;
+        transition: background-color .12s ease, color .12s ease;
+    }
+    .ar-picker__remove:hover,
+    .ar-picker__remove:focus-visible { background: #fff; color: #b91c1c; outline: none; }
+    .ar-picker__empty { margin: 0 0 .6rem; font-size: .8125rem; color: #9ca3af; }
+    .ar-picker__search { position: relative; }
+    .ar-picker__icon {
+        position: absolute;
+        top: 50%;
+        left: .8rem;
+        transform: translateY(-50%);
+        font-size: .8rem;
+        color: #9ca3af;
+        pointer-events: none;
+    }
+    .ar-picker__input { padding-left: 2.2rem; }
+    .ar-picker__results {
+        position: absolute;
+        z-index: 20;
+        top: calc(100% + .3rem);
+        left: 0;
+        right: 0;
+        max-height: 17rem;
+        overflow-y: auto;
+        margin: 0;
+        padding: .3rem;
+        list-style: none;
+        border: 1px solid var(--ar-line);
+        border-radius: .6rem;
+        background: #fff;
+        box-shadow: 0 10px 25px -8px rgba(0, 0, 0, .18);
+    }
+    .ar-picker__option {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        padding: .5rem .55rem;
+        border-radius: .4rem;
+        font-size: .875rem;
+        color: var(--ar-ink);
+        cursor: pointer;
+    }
+    .ar-picker__option[aria-selected="true"] { background: var(--ar-accent-soft); }
+    .ar-picker__option mark { background: none; color: var(--ar-accent); font-weight: 700; }
+    .ar-picker__option .ar-picker__avatar { background: var(--ar-paper, #f3f4f6); }
+    .ar-picker__plus { margin-left: auto; font-size: .75rem; color: #9ca3af; }
+    .ar-picker__option[aria-selected="true"] .ar-picker__plus { color: var(--ar-accent); }
+    .ar-picker__none { padding: .6rem .55rem; font-size: .8125rem; color: #9ca3af; }
+
     /* Prepínač zverejnenia kanála. */
     .ar-toggle {
         display: flex;
@@ -396,6 +487,18 @@
         box-shadow: 0 -12px 24px -20px rgba(16, 24, 40, .45);
     }
     .ar-form__bar-note { margin-right: auto; font-size: .75rem; color: #9ca3af; }
+    .ar-form__bar--dirty { border-color: rgba(var(--ar-accent-rgb), .35); }
+    .ar-form__bar--dirty .ar-form__bar-note { font-weight: 600; color: var(--ar-accent); }
+    .ar-form__bar--dirty .ar-form__bar-note::before {
+        content: '';
+        display: inline-block;
+        width: .45rem;
+        height: .45rem;
+        margin-right: .4rem;
+        border-radius: 9999px;
+        background: var(--ar-accent);
+        vertical-align: .05rem;
+    }
 
     /* ---- Avatar kanála v hlavičke -------------------------------------- */
 

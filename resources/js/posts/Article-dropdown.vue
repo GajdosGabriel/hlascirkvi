@@ -1,89 +1,44 @@
 <template>
-    <div class="relative z-10">
-        <button
-            type="button"
-            @click="toggle"
-            title="Spravovať článok"
-            aria-label="Spravovať článok"
-            class="flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--ar-line)] bg-white text-gray-400 transition-colors hover:border-[color:var(--ar-accent)] hover:text-[color:var(--ar-accent)]"
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                />
-            </svg>
+    <dropdown-slot :align="align" label="Spravovať článok">
+        <a :href="'/dashboard/posts/' + post.id + '/edit'">
+            <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
+        </a>
+
+        <button v-if="$auth.isAdmin()" type="button" @click="updatePost">
+            <i class="fas fa-inbox" aria-hidden="true"></i> Do buffera
         </button>
 
-        <ul class="dropdown-menu z-50 mt-1" :class="menuClass" v-if="open">
-            <a :href="'/dashboard/posts/' + post.id + '/edit'">
-                <li class="dropdown-item">upraviť</li>
-            </a>
+        <hr class="ui-dropdown__divider">
 
-            <li @click="deletePost" class="dropdown-item cursor-pointer">zmazať</li>
-
-            <li
-                @click="updatePost"
-                v-if="$auth.isAdmin()"
-                class="dropdown-item cursor-pointer whitespace-nowrap"
-            >
-                Do buffer
-            </li>
-        </ul>
-    </div>
+        <button type="button" class="ui-dropdown__item--danger" @click="deletePost">
+            <i class="far fa-trash-alt" aria-hidden="true"></i> Zmazať
+        </button>
+    </dropdown-slot>
 </template>
 <script>
-import { createdMixin } from "../mixins/createdMixin";
+import DropdownSlot from "../components/DropdownSlot.vue";
 
 export default {
-    mixins: [createdMixin],
+    components: { DropdownSlot },
     props: {
         post: { type: Object, required: true },
-        /*
-         * Na ktorú stranu sa ponuka rozvinie. Pri ikone na ľavom okraji
-         * obsahu musí ísť doprava, pri ikone na pravom okraji doľava — inak
-         * zoznam vylezie mimo stránku.
-         */
-        align: { type: String, default: "left" },
-    },
-    data: function () {
-        return {
-            open: false,
-        };
-    },
-
-    computed: {
-        menuClass: function () {
-            return this.align === "left" ? "dropdown-menu--left" : "";
-        },
+        align: { type: String, default: "right" },
     },
 
     methods: {
-        toggle: function () {
-            this.open = !this.open;
-        },
-
-        deletePost: function () {
-            if (!window.confirm("Skutočne vymazať!")) {
+        deletePost() {
+            if (!window.confirm("Skutočne vymazať?")) {
                 return;
             }
             axios
                 .delete("/dashboard/posts/" + this.post.id)
-                .then((window.location.href = "/dashboard/posts"));
+                .then(() => (window.location.href = "/dashboard/posts"));
         },
 
-        updatePost: function () {
+        updatePost() {
             axios
                 .put("/api/postSupport/" + this.post.id, {})
-                .then((window.location.href = "/"));
+                .then(() => (window.location.href = "/"));
         },
     },
 };

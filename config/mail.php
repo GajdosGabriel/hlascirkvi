@@ -75,7 +75,8 @@ return [
     */
 
     'markdown' => [
-        'theme' => 'default',
+        // resources/views/vendor/mail/html/themes/hlascirkvi.css
+        'theme' => 'hlascirkvi',
 
         'paths' => [
             resource_path('views/vendor/mail'),

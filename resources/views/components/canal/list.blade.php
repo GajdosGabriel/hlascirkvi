@@ -100,23 +100,29 @@
                     </div>
 
                     <div class="flex shrink-0 items-center justify-end">
-                        <dropdown-slot>
+                        <dropdown-slot label="Možnosti kanála">
                             @if ($isActive)
-                                <span class="ar-btn ar-btn--quiet ar-btn--still">Prihlásený kanál</span>
+                                <span class="ui-dropdown__item ui-dropdown__item--current">
+                                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                    Prihlásený kanál
+                                </span>
                             @else
                                 <form method="POST"
                                       action="{{ route('profile.canals.switch', $canal->id) }}">
                                     @method('PUT') @csrf
-                                    <button class="ar-btn ar-btn--accent">Prepnúť na kanál</button>
+                                    <button type="submit" class="ui-dropdown__item--accent">
+                                        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+                                        Prepnúť na kanál
+                                    </button>
                                 </form>
                             @endif
 
-                            <a class="ar-btn ar-btn--quiet"
-                               href="{{ route('profile.canals.edit', $canal->id) }}">
-                                <i class="fas fa-pen text-[.7rem]" aria-hidden="true"></i>
+                            <hr class="ui-dropdown__divider">
+
+                            <a href="{{ route('profile.canals.edit', $canal->id) }}">
+                                <i class="fas fa-pen" aria-hidden="true"></i>
                                 Upraviť
                             </a>
-
                         </dropdown-slot>
                     </div>
 

@@ -57,12 +57,10 @@
                     </div>
 
                     <div class="ar-item__actions">
-                        <dropdown-slot>
-                            <a href="{{ route('profile.canals.prayers.edit', [$canal->id, $prayer->id]) }}"
-                               class="ar-act">
-                                <i class="fas fa-pen text-[.7rem]"></i> Upraviť
+                        <dropdown-slot label="Spravovať modlitbu">
+                            <a href="{{ route('profile.canals.prayers.edit', [$canal->id, $prayer->id]) }}">
+                                <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
                             </a>
-
                         </dropdown-slot>
                     </div>
                 </article>

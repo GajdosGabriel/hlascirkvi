@@ -76,33 +76,32 @@
 
     <section class="p-2">
         @can('update', $post)
-            <dropdown-slot align="left">
+            <dropdown-slot align="left" label="Spravovať článok">
+                <a href="{{ route('profile.posts.edit', $post->id) }}">
+                    <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
+                </a>
 
-                <ul>
-                    <a href={{ route('profile.posts.edit', $post->id) }}>
-                        <li class="dropdown-item">upraviť</li>
-                    </a>
+                <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
+                    @csrf @method('PUT')
+                    <button type="submit">
+                        <i class="fas fa-inbox" aria-hidden="true"></i> Do buffera
+                    </button>
+                </form>
 
-                    <li class="dropdown-item">
-                        <form action="{{ route('profile.posts.destroy', $post->id) }}"
-                            method="post">
-                            @csrf @method('DELETE')
-                            @if ($post->deleted_at)
-                                <button>Obnoviť</button>
-                            @else()
-                                <button>zmazať</button>
-                            @endif()
-                        </form>
-                    </li>
+                <hr class="ui-dropdown__divider">
 
-                    <li class="dropdown-item whitespace-nowrap">
-
-                        <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
-                            @csrf @method('PUT')
-                            <button>Do buffera</button>
-                        </form>
-                    </li>
-                </ul>
+                <form action="{{ route('profile.posts.destroy', $post->id) }}" method="post">
+                    @csrf @method('DELETE')
+                    @if ($post->deleted_at)
+                        <button type="submit" class="ui-dropdown__item--ok">
+                            <i class="fas fa-undo" aria-hidden="true"></i> Obnoviť
+                        </button>
+                    @else
+                        <button type="submit" class="ui-dropdown__item--danger">
+                            <i class="far fa-trash-alt" aria-hidden="true"></i> Zmazať
+                        </button>
+                    @endif
+                </form>
             </dropdown-slot>
         @endcan
     </section>

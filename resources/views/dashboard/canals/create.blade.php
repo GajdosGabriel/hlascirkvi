@@ -98,10 +98,8 @@
                 </fieldset>
             @endif
 
-            <div class="flex flex-wrap justify-end gap-3">
-                <a class="btn btn-default" href="{{ route('profile.canals.index') }}">Zrušiť</a>
-                <button class="btn btn-primary" type="submit">Vytvoriť kanál</button>
-            </div>
+            <x-dashboard.form-bar :cancel="route('profile.canals.index')" submit="Vytvoriť kanál"
+                                  note="Kanál sa vytvorí po kliknutí na tlačidlo." />
         </form>
     </x-dashboard.frame>
 @endsection
