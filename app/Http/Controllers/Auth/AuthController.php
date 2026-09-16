@@ -8,6 +8,8 @@ use App\Repositories\Contracts\UserRepository;
 use App\Services\Canal\SocialAvatar;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Socialite;
 
 class AuthController extends Controller
@@ -23,6 +25,71 @@ class AuthController extends Controller
     }
 
     /**
+     * Prihlásenie cez Google Identity Services — rovnaký postup ako v projekte
+     * event. Tlačidlo na /login a /register vráti v prehliadači ID token (JWT)
+     * a formulár ho pošle sem. Overí ho Google cez tokeninfo, takže stačí
+     * GOOGLE_CLIENT_ID; client secret ani redirect URI sa nepoužívajú.
+     */
+    public function googleAuth(Request $request)
+    {
+        $googleClientId = (string) config('services.google.client_id');
+        if ($googleClientId === '') {
+            return $this->loginFailed('Prihlásenie cez Google nie je nastavené.');
+        }
+
+        $idToken = $request->input('credential');
+        if (! is_string($idToken) || $idToken === '') {
+            return $this->loginFailed('Prihlásenie sa nepodarilo dokončiť, skúste to znova.');
+        }
+
+        // Výpadok Googlu nesmie skončiť päťstovkou.
+        try {
+            $response = Http::timeout(8)
+                ->acceptJson()
+                ->get('https://oauth2.googleapis.com/tokeninfo', [
+                    'id_token' => $idToken,
+                ]);
+        } catch (\Throwable $e) {
+            report($e);
+
+            return $this->loginFailed('Prihlásenie sa nepodarilo dokončiť, skúste to znova.');
+        }
+
+        $payload = $response->ok() ? $response->json() : null;
+        if (! is_array($payload)) {
+            return $this->loginFailed('Prihlásenie sa nepodarilo dokončiť, skúste to znova.');
+        }
+
+        $audience = (string) ($payload['aud'] ?? '');
+        $email = (string) ($payload['email'] ?? '');
+        $providerId = (string) ($payload['sub'] ?? '');
+
+        // Token vydaný pre inú aplikáciu sa nesmie dať použiť tu.
+        if ($audience !== $googleClientId || $email === '' || $providerId === '') {
+            return $this->loginFailed('Prihlásenie sa nepodarilo dokončiť, skúste to znova.');
+        }
+
+        // Účet sa páruje podľa e-mailu, takže neoverená adresa by znamenala
+        // prevzatie cudzieho účtu.
+        if (! filter_var($payload['email_verified'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
+            return $this->loginFailed('E-mailová adresa vo vašom Google účte nie je overená.');
+        }
+
+        $firstName = trim((string) ($payload['given_name'] ?? ''));
+        $lastName = trim((string) ($payload['family_name'] ?? ''));
+        if ($firstName === '') {
+            [$firstName, $lastName] = $this->splitName((string) ($payload['name'] ?? ''), $email);
+        }
+
+        return $this->completeSocialLogin('google', [
+            'email' => $email,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'avatar' => (string) ($payload['picture'] ?? ''),
+        ]);
+    }
+
+    /**
      * Redirect the user to the Social Provider authentication page.
      *
      * @return Response
@@ -33,15 +100,14 @@ class AuthController extends Controller
     }
 
     /**
-     * Obtain the user information from GitHub, Facebook and other.
+     * Obtain the user information from Facebook and other.
      *
      * @return Response
      */
     public function handleProviderCallback(Request $request, $service)
     {
-        // Zrušené prihlásenie (Google vráti ?error=access_denied), vypršaná
-        // session so state alebo výpadok poskytovateľa — bez toho by
-        // používateľ skončil na päťstovke.
+        // Zrušené prihlásenie, vypršaná session so state alebo výpadok
+        // poskytovateľa — bez toho by používateľ skončil na päťstovke.
         try {
             $oauth_user = Socialite::driver($service)->user();
         } catch (\Throwable $e) {
@@ -54,38 +120,64 @@ class AuthController extends Controller
             return $this->loginFailed('Poskytovateľ nám neposlal e-mailovú adresu, bez nej sa prihlásiť nedá.');
         }
 
-        // Účet sa páruje podľa e-mailu, takže neoverená adresa by znamenala
-        // prevzatie cudzieho účtu. Google overenie posiela výslovne.
-        if ($service === 'google' && ! ($oauth_user->user['email_verified'] ?? false)) {
-            return $this->loginFailed('E-mailová adresa vo vašom Google účte nie je overená.');
-        }
+        [$firstName, $lastName] = $this->splitName((string) $oauth_user->getName(), $oauth_user->getEmail());
 
+        return $this->completeSocialLogin($service, [
+            'email' => $oauth_user->getEmail(),
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'avatar' => (string) $oauth_user->getAvatar(),
+        ]);
+    }
+
+    /**
+     * @param  array{email: string, first_name: string, last_name: string, avatar: string}  $profile
+     */
+    protected function completeSocialLogin(string $service, array $profile)
+    {
         // Existujúca adresa znamená prihlásenie do už založeného účtu, nová
         // adresa registráciu. Pre návštevníka je to jedno tlačidlo, ale mal by
         // vedieť, čo sa práve stalo — najmä keď prišiel z registrácie a účet
         // pod tou adresou už mal.
-        if (! $user = User::whereEmail($oauth_user->getEmail())->first()) {
-            $user = $this->user->createUserBySocial($oauth_user);
-            $this->attachAvatar($user, $service, $oauth_user);
+        if (! $user = User::whereEmail($profile['email'])->first()) {
+            $user = $this->user->createUserBySocial($profile);
+            $this->attachAvatar($user, $service, $profile['avatar']);
 
             return $this->loginUser($user, $service, 'Vitajte! Účet je založený a e-mailová adresa overená.');
         }
 
         // Aj pri prihlásení — účty založené skôr (alebo formulárom) fotku
         // kanála nemajú. Kanál, ktorý avatar už má, SocialAvatar nechá tak.
-        $this->attachAvatar($user, $service, $oauth_user);
+        $this->attachAvatar($user, $service, $profile['avatar']);
 
         return $this->loginUser($user, $service, 'Vitajte späť, ste prihlásený.');
     }
 
-    protected function attachAvatar(User $user, string $service, $oauth_user): void
+    /**
+     * Facebook posiela len celé meno. Jednoslovné meno predtým skončilo
+     * chybou na $name[1]; bez mena sa použije časť e-mailu pred zavináčom.
+     */
+    protected function splitName(string $name, string $email): array
+    {
+        $name = trim($name);
+
+        if ($name === '') {
+            return [Str::before($email, '@'), ''];
+        }
+
+        $parts = preg_split('/\s+/u', $name, 2);
+
+        return [$parts[0], $parts[1] ?? ''];
+    }
+
+    protected function attachAvatar(User $user, string $service, string $url): void
     {
         // Zablokovaný účet sa neprihlási, nemá dôvod mu nič sťahovať.
         if ($service !== 'google' || $user->banned()) {
             return;
         }
 
-        app(SocialAvatar::class)->attach($user, $oauth_user->getAvatar());
+        app(SocialAvatar::class)->attach($user, $url);
     }
 
     protected function loginUser($user, string $service, ?string $message = null)

@@ -58,7 +58,8 @@ class RegistrationTest extends TestCase
     {
         $this->get('/register')
             ->assertOk()
-            ->assertSee('Pokračovať cez Google')
+            // Tlačidlo Google závisí od GOOGLE_CLIENT_ID, overuje ho SocialLoginTest.
+            ->assertSee('Pokračovať cez Facebook')
             // Pole pasce musí byť v stránke, inak sa nemá čo kontrolovať.
             ->assertSee('name="'.HumanCheck::TRAP.'"', false)
             ->assertDontSee('7 plus 3');

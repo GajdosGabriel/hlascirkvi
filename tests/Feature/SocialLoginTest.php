@@ -6,16 +6,12 @@ use App\Models\User;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Socialite\Contracts\Provider;
-use Laravel\Socialite\Facades\Socialite;
-use Laravel\Socialite\Two\InvalidStateException;
-use Laravel\Socialite\Two\User as SocialiteUser;
-use Mockery;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 /**
- * Prihlásenie cez Google (App\Http\Controllers\Auth\AuthController).
- * Socialite je namockovaný — do Googlu sa naozaj nevolá.
+ * Prihlásenie cez Google (App\Http\Controllers\Auth\AuthController::googleAuth).
+ * Overenie ID tokenu cez tokeninfo je podvrhnuté — do Googlu sa naozaj nevolá.
  */
 class SocialLoginTest extends TestCase
 {
@@ -27,52 +23,39 @@ class SocialLoginTest extends TestCase
 
         // UserObserver::created volá assignRole('user').
         $this->seed(RolesSeeder::class);
+
+        config(['services.google.client_id' => 'test-client']);
     }
 
-    protected function googleUser(array $raw): SocialiteUser
+    protected function fakeTokenInfo(array $payload, int $status = 200): void
     {
-        $raw += [
+        $payload += [
+            'aud' => 'test-client',
             'sub' => '1234567890',
             'email' => 'jan.novak@gmail.com',
-            'email_verified' => true,
+            'email_verified' => 'true',
             'name' => 'Ján Novák',
             'given_name' => 'Ján',
             'family_name' => 'Novák',
         ];
 
-        return (new SocialiteUser)->setRaw($raw)->map([
-            'id' => $raw['sub'],
-            'name' => $raw['name'],
-            'email' => $raw['email'],
+        Http::fake([
+            'oauth2.googleapis.com/tokeninfo*' => Http::response($status === 200 ? $payload : ['error' => 'invalid_token'], $status),
+            // SocialAvatar — fotka sa v testoch nesťahuje.
+            '*' => Http::response('', 404),
         ]);
     }
 
-    protected function mockGoogle($user): void
+    protected function postCredential(string $credential = 'id-token')
     {
-        $provider = Mockery::mock(Provider::class);
-        $user instanceof \Throwable
-            ? $provider->shouldReceive('user')->andThrow($user)
-            : $provider->shouldReceive('user')->andReturn($user);
-
-        Socialite::shouldReceive('driver')->with('google')->andReturn($provider);
-    }
-
-    public function test_presmeruje_na_google(): void
-    {
-        config(['services.google.client_id' => 'test-client']);
-
-        $response = $this->get('/auth/google');
-
-        $response->assertRedirect();
-        $this->assertStringStartsWith('https://accounts.google.com/', $response->headers->get('Location'));
-        $this->assertStringContainsString(urlencode('/auth/google/callback'), $response->headers->get('Location'));
+        return $this->post('/auth/google', ['credential' => $credential]);
     }
 
     public function test_novy_pouzivatel_sa_zalozi_a_prihlasi(): void
     {
-        $this->mockGoogle($this->googleUser([]));
+        $this->fakeTokenInfo([]);
 
-        $this->get('/auth/google/callback')->assertRedirect('/');
+        $this->postCredential()->assertRedirect('/');
 
         $user = User::whereEmail('jan.novak@gmail.com')->firstOrFail();
         $this->assertAuthenticatedAs($user);
@@ -86,39 +69,77 @@ class SocialLoginTest extends TestCase
         foreach (['8', '9', '10'] as $weak) {
             $this->assertFalse(Hash::check($weak, $user->password));
         }
+
+        Http::assertSent(fn ($request) => str_starts_with($request->url(), 'https://oauth2.googleapis.com/tokeninfo')
+            && $request['id_token'] === 'id-token');
     }
 
     public function test_existujuci_ucet_sa_sparuje_podla_emailu(): void
     {
         $existing = User::factory()->create(['email' => 'jan.novak@gmail.com']);
-        $this->mockGoogle($this->googleUser([]));
+        $this->fakeTokenInfo([]);
 
-        $this->get('/auth/google/callback')->assertRedirect('/');
+        $this->postCredential()->assertRedirect('/');
 
         $this->assertAuthenticatedAs($existing);
         $this->assertSame(1, User::whereEmail('jan.novak@gmail.com')->count());
     }
 
+    public function test_meno_bez_given_name_sa_rozdeli(): void
+    {
+        $this->fakeTokenInfo(['given_name' => '', 'family_name' => '', 'name' => 'Mária Nová Kováčová']);
+
+        $this->postCredential()->assertRedirect('/');
+
+        $user = User::whereEmail('jan.novak@gmail.com')->firstOrFail();
+        $this->assertSame('Mária', $user->first_name);
+        $this->assertSame('Nová Kováčová', $user->last_name);
+    }
+
     public function test_neovereny_email_neprihlasi(): void
     {
         User::factory()->create(['email' => 'jan.novak@gmail.com']);
-        $this->mockGoogle($this->googleUser(['email_verified' => false]));
+        $this->fakeTokenInfo(['email_verified' => 'false']);
 
-        $this->get('/auth/google/callback')
+        $this->postCredential()
             ->assertRedirect(route('login'))
             ->assertSessionHas('error');
 
         $this->assertGuest();
     }
 
-    public function test_zrusene_prihlasenie_skonci_hlaskou_nie_chybou(): void
+    public function test_token_pre_inu_aplikaciu_neprihlasi(): void
     {
-        $this->mockGoogle(new InvalidStateException);
+        User::factory()->create(['email' => 'jan.novak@gmail.com']);
+        $this->fakeTokenInfo(['aud' => 'cudzia-aplikacia']);
 
-        $this->get('/auth/google/callback?error=access_denied')
+        $this->postCredential()
             ->assertRedirect(route('login'))
             ->assertSessionHas('error');
 
+        $this->assertGuest();
+    }
+
+    public function test_neplatny_token_skonci_hlaskou_nie_chybou(): void
+    {
+        $this->fakeTokenInfo([], 400);
+
+        $this->postCredential()
+            ->assertRedirect(route('login'))
+            ->assertSessionHas('error');
+
+        $this->assertGuest();
+    }
+
+    public function test_bez_tokenu_sa_google_nevola(): void
+    {
+        Http::fake();
+
+        $this->post('/auth/google')
+            ->assertRedirect(route('login'))
+            ->assertSessionHas('error');
+
+        Http::assertNothingSent();
         $this->assertGuest();
     }
 
@@ -127,12 +148,30 @@ class SocialLoginTest extends TestCase
         $user = User::factory()->create(['email' => 'jan.novak@gmail.com']);
         $user->disabled = true;
         $user->save();
-        $this->mockGoogle($this->googleUser([]));
+        $this->fakeTokenInfo([]);
 
-        $this->get('/auth/google/callback')
+        $this->postCredential()
             ->assertRedirect(route('login'))
             ->assertSessionHas('error');
 
         $this->assertGuest();
+    }
+
+    public function test_prihlasovacia_stranka_ukaze_tlacidlo_google(): void
+    {
+        $this->get('/login')
+            ->assertOk()
+            ->assertSee('name="credential"', false)
+            ->assertSee('data-client-id="test-client"', false)
+            ->assertDontSee('/auth/google/callback', false);
+    }
+
+    public function test_bez_client_id_sa_tlacidlo_nezobrazi(): void
+    {
+        config(['services.google.client_id' => null]);
+
+        $this->get('/register')
+            ->assertOk()
+            ->assertDontSee('name="credential"', false);
     }
 }

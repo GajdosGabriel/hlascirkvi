@@ -37,14 +37,17 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
 
     }
 
-    public function createUserBySocial($value)
+    /**
+     * @param  array{email: string, first_name: string, last_name: string}  $profile
+     *         meno už rozdelené v AuthController (Google ho posiela zvlášť,
+     *         Facebook len celé)
+     */
+    public function createUserBySocial($profile)
     {
-        [$firstName, $lastName] = $this->splitSocialName($value);
-
         $user = $this->create([
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'email' => $value->getEmail(),
+            'first_name' => $profile['first_name'],
+            'last_name' => $profile['last_name'],
+            'email' => $profile['email'],
             // Heslo bolo Hash::make(rand(8,10)), teda "8", "9" alebo "10" —
             // do účtu z Facebooku sa dalo prihlásiť formulárom len so
             // znalosťou e-mailu. Kto chce heslo, nastaví si ho cez obnovu.
@@ -59,30 +62,6 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
         $user->markEmailAsVerified();
 
         return $user;
-    }
-
-    /**
-     * Google posiela meno a priezvisko zvlášť (given_name/family_name),
-     * Facebook len celé meno. To sa predtým bralo ako "Priezvisko Meno"
-     * a jednoslovné meno skončilo chybou na $name[1].
-     */
-    protected function splitSocialName($value): array
-    {
-        $raw = $value->user ?? [];
-
-        if (!empty($raw['given_name'])) {
-            return [$raw['given_name'], $raw['family_name'] ?? ''];
-        }
-
-        $name = trim((string) $value->getName());
-
-        if ($name === '') {
-            return [Str::before((string) $value->getEmail(), '@'), ''];
-        }
-
-        $parts = preg_split('/\s+/u', $name, 2);
-
-        return [$parts[0], $parts[1] ?? ''];
     }
 
 

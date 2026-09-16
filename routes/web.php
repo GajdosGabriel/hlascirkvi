@@ -50,13 +50,19 @@ Route::get('/zdravie-z-bozej-ruky', 'Public\HomeController@zdravie')->name('zdra
 Route::get('/osobnosti', 'Public\FrontListController@index')->name('frontlist.index');
 
 
-// oAuth Routes...
+// Google: ID token z Google Identity Services (ako v projekte event), bez
+// Socialite a bez client secretu.
+Route::post('/auth/google', 'Auth\AuthController@googleAuth')
+    ->middleware('throttle:10,1')
+    ->name('auth.google');
+
+// oAuth Routes (Socialite)...
 Route::get('/auth/{service}', 'Auth\AuthController@redirectToProvider')
-    ->where('service', '(github|facebook|google|twitter|linkedin|bitbucket)')
+    ->where('service', '(github|facebook|twitter|linkedin|bitbucket)')
     ->name('auth.redirect');
 
 Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallback')
-    ->where('service', '(github|facebook|google|twitter|linkedin|bitbucket)')
+    ->where('service', '(github|facebook|twitter|linkedin|bitbucket)')
     ->name('auth.callback');
 
 Route::get('zamyslenia/{slug?}', 'VerseController@index')->name('verses.index');

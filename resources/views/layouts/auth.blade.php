@@ -144,6 +144,10 @@
     }
     .ar-oauth__mark { width: 1.15rem; height: 1.15rem; flex: 0 0 auto; }
 
+    /* Tlačidlo Google kreslí GIS do vlastného iframu; výška drží miesto,
+       kým sa skript načíta, aby formulár pod ním neposkočil. */
+    .ar-google { display: flex; justify-content: center; min-height: 44px; }
+
     .ar-or {
         display: flex;
         align-items: center;
@@ -187,6 +191,61 @@
         field.type = shown ? 'password' : 'text';
         button.textContent = shown ? 'Zobraziť' : 'Skryť';
         button.setAttribute('aria-pressed', shown ? 'false' : 'true');
+    });
+
+    // Tlačidlo Google Identity Services (auth/partials/google-button). Kreslí
+    // sa až po `app:ready` — skôr by ho Vue pri pripojení #app zahodilo.
+    // Skript od Googlu sa načíta len na stránke, kde tlačidlo naozaj je.
+    document.addEventListener('app:ready', function () {
+        var form = document.querySelector('[data-google-signin]');
+
+        if (! form) {
+            return;
+        }
+
+        var host = form.querySelector('[data-google-host]');
+
+        function failed() {
+            host.hidden = true;
+            form.querySelector('[data-google-failed]').hidden = false;
+        }
+
+        var script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        script.onerror = failed;
+        script.onload = function () {
+            var id = window.google && window.google.accounts && window.google.accounts.id;
+
+            if (! id) {
+                return failed();
+            }
+
+            id.initialize({
+                client_id: form.dataset.clientId,
+                callback: function (res) {
+                    if (! res.credential) {
+                        return;
+                    }
+                    form.elements.credential.value = res.credential;
+                    form.submit();
+                },
+                ux_mode: 'popup',
+                context: form.dataset.context,
+                cancel_on_tap_outside: true,
+            });
+
+            id.renderButton(host, {
+                theme: 'outline',
+                size: 'large',
+                text: form.dataset.context === 'signup' ? 'signup_with' : 'signin_with',
+                shape: 'rectangular',
+                logo_alignment: 'center',
+                width: Math.min(400, Math.max(240, host.clientWidth || 360)),
+                locale: 'sk',
+            });
+        };
+        document.head.appendChild(script);
     });
 </script>
 @endsection

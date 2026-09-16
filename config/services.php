@@ -39,12 +39,11 @@ return [
     ],
 
     // https://console.cloud.google.com/apis/credentials — OAuth client typu
-    // „Web application“; presne túto adresu treba zapísať medzi
-    // „Authorized redirect URIs“, inak Google vráti redirect_uri_mismatch.
+    // „Web application“; adresu webu (APP_URL, bez cesty) treba zapísať medzi
+    // „Authorized JavaScript origins“. Prihlásenie ide cez Google Identity
+    // Services (ID token), takže secret ani redirect URI netreba.
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('APP_URL') . '/auth/google/callback',
     ],
 
 ];
