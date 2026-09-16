@@ -51,14 +51,14 @@ class FrontListTest extends TestCase
 
     private function publishPosts(Canal $canal, int $count, array $attributes = []): void
     {
-        Post::factory()->count($count)->create(['organization_id' => $canal->id] + $attributes);
+        Post::factory()->count($count)->create(['canal_id' => $canal->id] + $attributes);
     }
 
     /** Toľkoto zhliadnutí príspevku kanála pred daným počtom dní. */
     private function views(Canal $canal, int $count, int $daysAgo = 0): void
     {
         $post = Post::factory()->create([
-            'organization_id' => $canal->id,
+            'canal_id' => $canal->id,
             'created_at'      => now()->subYears(2),
         ]);
 
@@ -141,7 +141,7 @@ class FrontListTest extends TestCase
 
         $this->publishPosts($canal, 2);
         // Príspevok bez `published_at` čaká v bufferi — návštevník ho neuvidí.
-        Post::factory()->unpublished()->count(3)->create(['organization_id' => $canal->id]);
+        Post::factory()->unpublished()->count(3)->create(['canal_id' => $canal->id]);
 
         $this->assertSame(2, app(FrontList::class)->all(CanalKind::Person)->sole()->postsCount);
     }

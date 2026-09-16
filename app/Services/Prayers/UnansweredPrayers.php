@@ -35,7 +35,7 @@ class UnansweredPrayers
     public function prayerFulfilledHandle($prayers)
     {
         foreach ($prayers as $prayer) {
-            Notification::send($prayer->organization->user, new PrayerFulfilledOrNotYet($prayer));
+            Notification::send($prayer->canal->user, new PrayerFulfilledOrNotYet($prayer));
         }
     }
 }

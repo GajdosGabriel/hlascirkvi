@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Semináre boli jediná agenda kanála bez FormRequestu — `store` aj `update`
  * brali `$request->all()` na modeli s $guarded = ['id'], takže sa dalo poslať
- * aj `organization_id` a `published`.
+ * aj `canal_id` a `published`.
  *
  * `published` posiela prepínač v resources/js/seminars/seminar-info.vue ako
  * timestamp, resp. prázdny reťazec pri vypnutí.

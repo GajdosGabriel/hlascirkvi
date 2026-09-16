@@ -22,7 +22,7 @@ class BufferPublication extends Model
         return $this->belongsTo(Post::class);
     }
 
-    public function organization()
+    public function canal()
     {
         return $this->belongsTo(Canal::class);
     }

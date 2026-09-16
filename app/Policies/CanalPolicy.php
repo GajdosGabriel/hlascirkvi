@@ -11,7 +11,7 @@ class CanalPolicy
     use HandlesAuthorization;
 
    /**
-     * Determine whether the user can view any organizations.
+     * Determine whether the user can view any canals.
      *
      * @param  \App\Models\User  $user
      * @return mixed
@@ -22,19 +22,19 @@ class CanalPolicy
     }
 
     /**
-     * Determine whether the user can view the organization.
+     * Determine whether the user can view the canal.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Canal  $organization
+     * @param  \App\Models\Canal  $canal
      * @return mixed
      */
-    public function view(User $user, Canal $organization)
+    public function view(User $user, Canal $canal)
     {
-        return $user->org_id == $organization->id;
+        return $user->canal_id == $canal->id;
     }
 
     /**
-     * Determine whether the user can create organizations.
+     * Determine whether the user can create canals.
      *
      * @param  \App\Models\User  $user
      * @return mixed
@@ -45,65 +45,65 @@ class CanalPolicy
     }
 
     /**
-     * Determine whether the user can update the organization.
+     * Determine whether the user can update the canal.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Canal   $organization
+     * @param  \App\Models\Canal   $canal
      * @return mixed
      */
-    public function update(User $user, Canal $organization)
+    public function update(User $user, Canal $canal)
     {
-        return $user->org_id == $organization->id;
+        return $user->canal_id == $canal->id;
     }
 
     /**
      * Správa kanála z profilu užívateľa (/user/{user}/organization/{organization}).
      *
-     * Zoznam, z ktorého sa tam vchádza, stojí na väzbe $user->organizations()
-     * (pivot organization_user), nie na org_id — užívateľ môže spravovať viac
+     * Zoznam, z ktorého sa tam vchádza, stojí na väzbe $user->canals()
+     * (pivot canal_user), nie na canal_id — užívateľ môže spravovať viac
      * kanálov, ale primárny má len jeden. `update` tu preto nestačí; tá gate-uje
      * príspevky a modlitby a jej význam nechávame nezmenený.
      *
      * @return bool
      */
-    public function manage(User $user, Canal $organization)
+    public function manage(User $user, Canal $canal)
     {
-        return $user->org_id == $organization->id
-            || $user->organizations()->whereKey($organization->getKey())->exists();
+        return $user->canal_id == $canal->id
+            || $user->canals()->whereKey($canal->getKey())->exists();
     }
 
     /**
-     * Determine whether the user can delete the organization.
+     * Determine whether the user can delete the canal.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Canal   $organization
+     * @param  \App\Models\Canal   $canal
      * @return mixed
      */
-    public function delete(User $user, Canal $organization)
+    public function delete(User $user, Canal $canal)
     {
-        return $user->org_id == $organization->id;
+        return $user->canal_id == $canal->id;
     }
 
     /**
-     * Determine whether the user can restore the organization.
+     * Determine whether the user can restore the canal.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Canal   $organization
+     * @param  \App\Models\Canal   $canal
      * @return mixed
      */
-    public function restore(User $user, Canal $organization)
+    public function restore(User $user, Canal $canal)
     {
         //
     }
 
     /**
-     * Determine whether the user can permanently delete the organization.
+     * Determine whether the user can permanently delete the canal.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Canal   $organization
+     * @param  \App\Models\Canal   $canal
      * @return mixed
      */
-    public function forceDelete(User $user, Canal $organization)
+    public function forceDelete(User $user, Canal $canal)
     {
         //
     }

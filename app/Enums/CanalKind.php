@@ -4,7 +4,7 @@ namespace App\Enums;
 
 /**
  * Kto za kanálom stojí — človek, alebo cirkev či spoločenstvo. Ukladá sa do
- * `organizations.kind`.
+ * `canals.kind`.
  *
  * Predný zoznam sa volal „Kresťanské osobnosti", ale popri kazateľoch v ňom
  * stáli aj ECAV, TKKBS či TV LUX. Typ ich rozdeľuje na dve karty; kanál bez

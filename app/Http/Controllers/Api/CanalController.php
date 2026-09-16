@@ -9,8 +9,8 @@ use App\Http\Resources\CanalResource;
 
 class CanalController extends Controller
 {
-    public function show(Canal $organization)
+    public function show(Canal $canal)
     {
-        return new CanalResource($organization);
+        return new CanalResource($canal);
     }
 }

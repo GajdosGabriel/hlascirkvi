@@ -8,7 +8,7 @@
             :aria-expanded="open ? 'true' : 'false'"
             @click="toggle"
         >
-            <span class="max-w-[9rem] truncate">{{ organization.title }}</span>
+            <span class="max-w-[9rem] truncate">{{ canal.title }}</span>
             <svg
                 class="h-4 w-4 shrink-0 transition-transform"
                 :class="{ 'rotate-180': open }"
@@ -69,7 +69,7 @@ export default {
         return {
             open: false,
             user: "",
-            organization: ""
+            canal: ""
         };
     },
 
@@ -85,7 +85,7 @@ export default {
         getUser() {
             axios.get("/api/user").then(response => {
                 this.user = response.data;
-                this.organization = response.data.organization;
+                this.canal = response.data.canal;
             });
         }
     },

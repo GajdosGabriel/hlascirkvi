@@ -22,14 +22,14 @@
     $description = $plain;
     if ($post->video_id && $description === '') {
         $description = 'Video „' . \App\Support\Seo::text($post->title)
-            . '“ z kanála ' . \App\Support\Seo::text($post->organization->title) . '.';
+            . '“ z kanála ' . \App\Support\Seo::text($post->canal->title) . '.';
     }
     $words    = $plain === '' ? 0 : count(preg_split('/\s+/u', $plain));
     // 180 slov za minútu je bežný odhad pre pomalšie, čítané texty.
     $minutes  = max(1, (int) ceil($words / 180));
 
     $postUrl  = route('post.show', [$post->id, $post->slug]);
-    $orgUrl   = route('organizations.show', [$post->organization_id]);
+    $canalUrl   = route('organizations.show', [$post->canal_id]);
 
     /*
      * Značky pre vyhľadávače a náhľady odkazov skladá partials/meta z tohto
@@ -60,8 +60,8 @@
         'dateModified'  => optional($post->updated_at)->toAtomString(),
         'author'        => [
             '@type' => 'Organization',
-            'name'  => $post->organization->title,
-            'url'   => $orgUrl,
+            'name'  => $post->canal->title,
+            'url'   => $canalUrl,
         ],
         'publisher'     => \App\Support\Seo::publisher(),
     ];
@@ -100,7 +100,7 @@
         'image_alt'   => $post->title,
         'published'   => $post->created_at,
         'modified'    => $post->updated_at,
-        'author'      => $post->organization->title,
+        'author'      => $post->canal->title,
         'section'     => 'Kázne a videá',
         // Facebook prehrá video priamo v príspevku, keď mu dáme adresu vloženého
         // prehrávača; bez nej vykreslí len obrázok s odkazom.
@@ -111,7 +111,7 @@
             $schema,
             \App\Support\Seo::breadcrumbs([
                 ['Hlas Cirkvi', url('/')],
-                [$post->organization->title, $orgUrl],
+                [$post->canal->title, $canalUrl],
                 [$post->title, $postUrl],
             ]),
         ],
@@ -127,7 +127,7 @@
         <div class="mx-auto max-w-6xl px-4 py-3 text-sm text-gray-500">
             <a href="{{ url('/') }}" class="hover:text-gray-900">Hlas Cirkvi</a>
             <span class="mx-2 text-gray-300">/</span>
-            <a href="{{ $orgUrl }}" class="hover:text-gray-900">{{ $post->organization->title }}</a>
+            <a href="{{ $canalUrl }}" class="hover:text-gray-900">{{ $post->canal->title }}</a>
         </div>
     </div>
 
@@ -268,8 +268,8 @@
                 <div class="mb-8 rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
                     {{-- h1 na tejto stránke patrí titulku článku, kanál preto
                          dostane obyčajný riadok. --}}
-                    <organization-page-header heading="div"
-                                              :organization="{{ $post->organization }}"></organization-page-header>
+                    <canal-page-header heading="div"
+                                       :canal="{{ $post->canal }}"></canal-page-header>
                 </div>
 
                 @if ($plain !== '')
@@ -414,7 +414,7 @@
 
             <div class="ar-rule mb-5">
                 <h2 class="ar-display text-lg font-bold">
-                    Všetko od {{ $post->organization->title }}
+                    Všetko od {{ $post->canal->title }}
                 </h2>
                 @if ($railTotal > 1)
                     <span class="shrink-0 text-xs text-gray-400">
@@ -438,7 +438,7 @@
                 {{-- Bez skriptu je to obyčajný odkaz na kanál, so skriptom
                      doťahuje ďalšiu dávku rovno pod mriežku. --}}
                 <div class="mt-6 flex justify-center">
-                    <a href="{{ $orgUrl }}" class="ar-btn ar-btn--quiet" data-archive-more>
+                    <a href="{{ $canalUrl }}" class="ar-btn ar-btn--quiet" data-archive-more>
                         <i class="fas fa-arrow-down"></i>
                         <span data-archive-label>Viac príspevkov</span>
                     </a>
@@ -447,8 +447,8 @@
         </section>
 
         <div class="mt-12 border-t border-[color:var(--ar-line)] pt-6">
-            <a href="{{ $orgUrl }}" class="text-sm text-gray-500 hover:text-gray-900">
-                <i class="fas fa-arrow-left mr-2"></i> Späť na kanál {{ $post->organization->title }}
+            <a href="{{ $canalUrl }}" class="text-sm text-gray-500 hover:text-gray-900">
+                <i class="fas fa-arrow-left mr-2"></i> Späť na kanál {{ $post->canal->title }}
             </a>
         </div>
     </div>

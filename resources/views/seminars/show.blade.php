@@ -8,7 +8,7 @@
             ?: 'Záznamy prednášok zo seminára ' . $seminar->title . ' na Hlase Cirkvi.',
         'canonical' => route('seminars.show', [$seminar->id]),
         'type' => 'article',
-        'author' => optional($seminar->organization)->title,
+        'author' => optional($seminar->canal)->title,
         'jsonld' => [
             \App\Support\Seo::breadcrumbs([
                 ['Hlas Cirkvi', url('/')],

@@ -17,12 +17,12 @@ class PrayerResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'organization_id' => $this->organization_id,
-            // Hodnota musí byť uzáver, inak sa $this->organization načíta pri
+            'canal_id' => $this->canal_id,
+            // Hodnota musí byť uzáver, inak sa $this->canal načíta pri
             // každej modlitbe aj vtedy, keď ju when() nakoniec zahodí.
-            'organization_title' => $this->when(
+            'canal_title' => $this->when(
                 auth()->check() && auth()->user()->hasRole('superadmin'),
-                fn () => $this->organization->title
+                fn () => $this->canal->title
             ),
             'user_name' => $this->user_name,
             'body' => $this->body,

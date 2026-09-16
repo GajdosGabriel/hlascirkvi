@@ -30,7 +30,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        return $user->org_id == $post->organization_id;
+        return $user->canal_id == $post->canal_id;
     }
 
     /**
@@ -53,7 +53,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        return $user->organizations()->whereId($post->organization_id)->exists();
+        return $user->canals()->whereId($post->canal_id)->exists();
     }
 
     /**
@@ -65,7 +65,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->org_id == $post->organization_id;
+        return $user->canal_id == $post->canal_id;
     }
 
     /**

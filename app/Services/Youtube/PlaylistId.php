@@ -3,7 +3,7 @@
 namespace App\Services\Youtube;
 
 /**
- * To isté ako pri [ChannelId] pre `organizations.youtube_playlist` — z adresy
+ * To isté ako pri [ChannelId] pre `canals.youtube_playlist` — z adresy
  * playlistu vytiahne parameter `list`. ID playlistu sa nedá resolvovať z mena,
  * takže tu žiadny dopyt na API nie je.
  */

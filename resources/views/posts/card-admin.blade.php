@@ -34,9 +34,9 @@
                 </a>
             </h6>
 
-            <div class="text-gray-500" title="{{ $post->organization->title }}">
-                <a href="{{ route('organizations.show', $post->organization_id) }}">
-                    {{ $post->organization->title }}
+            <div class="text-gray-500" title="{{ $post->canal->title }}">
+                <a href="{{ route('organizations.show', $post->canal_id) }}">
+                    {{ $post->canal->title }}
                 </a>
             </div>
         </div>

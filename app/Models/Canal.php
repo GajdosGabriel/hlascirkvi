@@ -21,20 +21,13 @@ class Canal extends Model
 {
     use Notifiable, SoftDeletes, HasFactory, HasFavorites, HasImages, HasFilter, HasComments, HasDatetime;
 
-    // Model sa do 9/2026 volal Organization a databáza pomenovanie drží dodnes:
-    // tabuľka organizations, cudzie kľúče organization_id, pivot
-    // organization_user. Bez týchto nastavení by si Eloquent odvodil
-    // canals / canal_id / canal_user.
-    // Polymorfné stĺpce (favorites.favorited_type...) pokrýva morph mapa
-    // v AppServiceProvider.
-    protected $table = 'organizations';
+    // Model sa do 9/2026 volal Organization a tabuľka `organizations` mu
+    // ostala ešte dlho po premenovaní — model preto musel mať $table aj
+    // vlastný getForeignKey(). Od migrácie
+    // 2026_09_16_120000_rename_organizations_to_canals sedí všetko na
+    // konvencii (canals, canal_id, canal_user), takže tu netreba nič.
 
     protected $guarded = ['id'];
-
-    public function getForeignKey()
-    {
-        return 'organization_id';
-    }
 
     protected $casts = [
         'title' => \App\Casts\StringLength255::class,
@@ -94,19 +87,14 @@ class Canal extends Model
         return $this->hasMany(Prayer::class);
     }
 
-    public function messengers()
-    {
-        return $this->hasMany(Messenger::class);
-    }
-
     public function users()
     {
-        return $this->belongsToMany(User::class, 'organization_user');
+        return $this->belongsToMany(User::class);
     }
 
     public function user()
     {
-        return $this->hasOne(User::class, 'org_id');
+        return $this->hasOne(User::class, 'canal_id');
     }
 
     public function village()

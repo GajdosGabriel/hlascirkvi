@@ -1,13 +1,13 @@
 <div class="form-group">
     <label>{{ trans('web.organization_select') }}</label>
-    <select class="form-control" name="organization_id" required>
+    <select class="form-control" name="canal_id" required>
         <option disabled value="" selected hidden>---Vybrať---</option>
-        @foreach(auth()->user()->organizations as $organization)
+        @foreach(auth()->user()->canals as $canal)
             <option
-                    {{-- @if( $event->organization_id == $organization->id OR $organization->id == Auth::user()->org_id )
+                    {{-- @if( $event->canal_id == $canal->id OR $canal->id == Auth::user()->canal_id )
                     selected
                     @endif --}}
-                    value="{{ $organization->id }}">{{ $organization->title }}
+                    value="{{ $canal->id }}">{{ $canal->title }}
             </option>
         @endforeach
     </select>

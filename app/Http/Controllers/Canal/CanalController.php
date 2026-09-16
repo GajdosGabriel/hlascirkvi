@@ -44,7 +44,7 @@ class CanalController extends Controller
     public function index(Request $request, CanalFilters $filters)
     {
         // Lišta filtrov nad výpisom posiela ?search / ?unpublished / ?deletedAt.
-        $canals = $request->user()->organizations()
+        $canals = $request->user()->canals()
             ->with(['village:id,fullname', 'users:id,first_name,last_name'])
             ->filter($filters)
             ->paginate(30)
@@ -61,9 +61,9 @@ class CanalController extends Controller
     }
 
     /**
-     * Prepnutie aktívneho kanála (org_id), do ktorého sa zapisujú príspevky.
+     * Prepnutie aktívneho kanála (canal_id), do ktorého sa zapisujú príspevky.
      *
-     * Tlačidlo vo výpise pôvodne posielalo org_id na admin.user.update, čo je
+     * Tlačidlo vo výpise pôvodne posielalo canal_id na admin.user.update, čo je
      * za middleware checkSuperAdmin — bežného správcu kanála teda len ticho
      * presmerovalo na úvodnú stránku. Autorizáciu tu nesie policy `manage`,
      * rovnako ako pri ostatných akciách nad kanálom z nástenky.
@@ -72,7 +72,7 @@ class CanalController extends Controller
     {
         $this->authorize('manage', $canal);
 
-        $request->user()->update(['org_id' => $canal->id]);
+        $request->user()->update(['canal_id' => $canal->id]);
 
         session()->flash('flash', 'Prepnuté na kanál ' . $canal->title . '.');
         return back();

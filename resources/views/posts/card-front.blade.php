@@ -1,6 +1,6 @@
 @php
     $postUrl         = route('post.show', [$post->id, $post->slug]);
-    $organizationUrl = route('organizations.show', [$post->organization->id]);
+    $canalUrl = route('organizations.show', [$post->canal->id]);
 
     // `favorites` je na modeli v $with, takže sa tu nedopytujeme databázy
     // pre každú kartu zvlášť — na to doplácal pôvodný favorites()->exists().
@@ -16,7 +16,7 @@
     <a href="{{ $postUrl }}" class="relative block overflow-hidden" title="{{ $post->title }}">
         @include('partials.thumb', [
             'model' => $post,
-            'alt' => $post->organization->title . ' / ' . $post->title,
+            'alt' => $post->canal->title . ' / ' . $post->title,
             'class' => 'ar-thumb',
         ])
 
@@ -41,8 +41,8 @@
         </a>
 
         <div class="mt-auto pt-3 text-xs">
-            <a href="{{ $organizationUrl }}" class="ar-link inline-block max-w-full truncate align-bottom font-medium text-gray-600 hover:text-[color:var(--ar-accent)]">
-                {{ $post->organization->title }}
+            <a href="{{ $canalUrl }}" class="ar-link inline-block max-w-full truncate align-bottom font-medium text-gray-600 hover:text-[color:var(--ar-accent)]">
+                {{ $post->canal->title }}
             </a>
             <time datetime="{{ $post->created_at->toIso8601String() }}" class="mt-0.5 block text-gray-400">
                 {{ $post->dateForHumans }}

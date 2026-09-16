@@ -5,11 +5,11 @@
 
         {{-- Počet čakajúcich príspevkov ráta withCount v BufferController,
              takže tu už nič nedopytujeme. --}}
-        @forelse ($organizations as $organization)
+        @forelse ($canals as $canal)
             <ul>
                 <li class="flex justify-between">
-                    <a href="?posts={{ $organization->id }}">{{ $organization->title }}</a>
-                    <span style="margin-left: 5rem">({{ $organization->unpublished_posts_count }})</span>
+                    <a href="?posts={{ $canal->id }}">{{ $canal->title }}</a>
+                    <span style="margin-left: 5rem">({{ $canal->unpublished_posts_count }})</span>
                 </li>
             </ul>
         @empty

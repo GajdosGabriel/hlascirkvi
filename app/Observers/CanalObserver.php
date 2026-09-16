@@ -7,12 +7,12 @@ use App\Models\Canal;
 class CanalObserver
 {
     /**
-     * Handle the organization "created" event.
+     * Handle the canal "created" event.
      *
-     * @param  \App\Models\Canal  $organization
+     * @param  \App\Models\Canal  $canal
      * @return void
      */
-    public function created(Canal $organization)
+    public function created(Canal $canal)
     {
         /*
          * Novému kanálu sa tu nastavovalo `updaters()->sync([1])`, teda
@@ -26,45 +26,45 @@ class CanalObserver
     }
 
     /**
-     * Handle the organization "updated" event.
+     * Handle the canal "updated" event.
      *
-     * @param  \App\Models\Canal   $organization
+     * @param  \App\Models\Canal   $canal
      * @return void
      */
-    public function updated(Canal $organization)
+    public function updated(Canal $canal)
     {
         //
     }
 
     /**
-     * Handle the organization "deleted" event.
+     * Handle the canal "deleted" event.
      *
-     * @param  \App\Models\Canal   $organization
+     * @param  \App\Models\Canal   $canal
      * @return void
      */
-    public function deleted(Canal $organization)
+    public function deleted(Canal $canal)
     {
         //
     }
 
     /**
-     * Handle the organization "restored" event.
+     * Handle the canal "restored" event.
      *
-     * @param  \App\Models\Canal   $organization
+     * @param  \App\Models\Canal   $canal
      * @return void
      */
-    public function restored(Canal $organization)
+    public function restored(Canal $canal)
     {
         //
     }
 
     /**
-     * Handle the organization "force deleted" event.
+     * Handle the canal "force deleted" event.
      *
-     * @param  \App\Models\Canal   $organization
+     * @param  \App\Models\Canal   $canal
      * @return void
      */
-    public function forceDeleted(Canal $organization)
+    public function forceDeleted(Canal $canal)
     {
         //
     }

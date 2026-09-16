@@ -80,7 +80,7 @@ class ViewRecorder
         // Counter::userIdentity().
         $user = auth()->user();
 
-        if ($user !== null && $user->org_id !== null && $user->org_id == $model->organization_id) {
+        if ($user !== null && $user->canal_id !== null && $user->canal_id == $model->canal_id) {
             return false;
         }
 

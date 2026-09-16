@@ -17,11 +17,11 @@ class MessengerController extends Controller
      * Správa pre kanál z jeho verejnej stránky. Kontakty kanála sa na stránke
      * nezobrazujú; ak kanál e-mail nemá, niet kam správu poslať.
      */
-    public function toCanal(StoreMessengerRequest $request, Canal $organization) {
+    public function toCanal(StoreMessengerRequest $request, Canal $canal) {
 
-        abort_unless($organization->email, 404);
+        abort_unless($canal->email, 404);
 
-        $organization->notify(new CanalMessage($organization, $request->user(), $request->input('body')));
+        $canal->notify(new CanalMessage($canal, $request->user(), $request->input('body')));
 
         return back()->with('flash', 'Správa bola odoslaná!');
     }
@@ -34,7 +34,7 @@ class MessengerController extends Controller
        // Pri neprihlásenom odosielateľovi zostáva zástupné ID 1 ako doteraz.
        Messenger::create([
             'user_id' => auth()->id() ?? 1,
-            'requested_user' => $request->input('requested_organization', 1),
+            'requested_user' => $request->input('requested_user', 1),
             'body' => $request->input('body')
         ]);
 
@@ -42,11 +42,11 @@ class MessengerController extends Controller
     }
 
 
-    public function store(StoreMessengerRequest $request, Canal $organization) {
+    public function store(StoreMessengerRequest $request, Canal $canal) {
 
        $message = Messenger::create([
             'user_id' => auth()->user()->id,
-            'requested_user' => $organization->id,
+            'requested_user' => $canal->id,
             'body' => $request->input('body')
         ]);
 

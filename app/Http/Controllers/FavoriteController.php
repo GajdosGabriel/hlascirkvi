@@ -20,7 +20,7 @@ class FavoriteController extends Controller
         'Post'         => Post::class,
         'Prayer'       => Prayer::class,
         'Comment'      => Comment::class,
-        'Organization' => Canal::class,
+        'Canal'        => Canal::class,
     ];
 
     public function __construct()

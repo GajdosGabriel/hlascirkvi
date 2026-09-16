@@ -32,7 +32,11 @@ Route::apiResource('posts', Api\PostController::class)
 
 Route::apiResource('comments', Api\CommentController::class)->only(['index']);
 Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['index']);
-Route::apiResource('organization', Api\CanalController::class)->only(['show']);
+// Adresa /api/organization/{id} ostáva — volá ju Vue na verejnej stránke
+// kanála. Parameter je {canal} kvôli implicitnej väzbe na Canal $canal.
+Route::apiResource('organization', Api\CanalController::class)
+    ->only(['show'])
+    ->parameters(['organization' => 'canal']);
 
 Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal')
     ->whereIn('canal', ['domov', 'zahranicie', 'press'])
@@ -44,7 +48,9 @@ Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal')
  */
 Route::middleware('throttle:10,1')->group(function () {
     Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['store']);
-    Route::apiResource('organizations.favorites', Api\CanalFavoriteController::class)->only(['store']);
+    Route::apiResource('organizations.favorites', Api\CanalFavoriteController::class)
+        ->only(['store'])
+        ->parameters(['organizations' => 'canal']);
 
     // Modlitbu vie pridať aj neprihlásený — formulár od neho žiada e-mail
     // (resources/js/prayer/ModalNewPrayer.vue:103) a EloquentUserRepository
@@ -58,10 +64,18 @@ Route::middleware('throttle:10,1')->group(function () {
 Route::middleware(['auth:sanctum', 'checkBanned'])->group(function () {
     Route::get('/user', fn (Request $request) => new UserResource($request->user()))->name('api.user');
 
-    Route::apiResource('notifications', Api\NotificationController::class)->only('update');
+    // Zvonček v navigácii: zoznam, prečítané/neprečítané, mazanie jednej
+    // položky aj hromadné akcie. Hromadné cesty stoja pred zdrojom, aby ich
+    // nepohltilo /notifications/{notification}.
+    Route::post('notifications/read', 'Api\NotificationController@markRead')->name('notifications.read');
+    Route::post('notifications/unread', 'Api\NotificationController@markUnread')->name('notifications.unread');
+    Route::delete('notifications', 'Api\NotificationController@destroyAll')->name('notifications.destroyAll');
+    Route::apiResource('notifications', Api\NotificationController::class)->only(['index', 'update', 'destroy']);
     Route::apiResource('users', Api\UserController::class)->only('update');
     Route::apiResource('users.comments', Api\User\UserCommentController::class)->only('index');
-    Route::apiResource('users.organizations', Api\UserCanalController::class)->only('store');
+    Route::apiResource('users.organizations', Api\UserCanalController::class)
+        ->only('store')
+        ->parameters(['organizations' => 'canal']);
     Route::apiResource('villages', Api\VillageController::class)->only(['index', 'store', 'show']);
     Route::apiResource('denominations', Api\DenominationController::class)->only('index');
 

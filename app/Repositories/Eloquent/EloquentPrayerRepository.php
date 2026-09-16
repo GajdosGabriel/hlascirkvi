@@ -29,7 +29,7 @@ class EloquentPrayerRepository extends AbstractRepository implements PrayerRepos
      */
     public function prayersWroteByUsers()
     {
-        return  $this->entity->whereNotIn('organization_id', [100, 648, 649, 650]);
+        return  $this->entity->whereNotIn('canal_id', [100, 648, 649, 650]);
     }
 
 // 518 prayer bola zlá

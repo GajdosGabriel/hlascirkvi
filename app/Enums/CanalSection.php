@@ -3,7 +3,7 @@
 namespace App\Enums;
 
 /**
- * Kam smerujú nové videá kanála. Ukladá sa do `organizations.post_section`.
+ * Kam smerujú nové videá kanála. Ukladá sa do `canals.post_section`.
  *
  * Nahrádza updatery typu `listOfOrganization`: „živé vysielanie" (1)
  * znamenalo, že sa videá zverejnia hneď pri importe do nedeľných prenosov,

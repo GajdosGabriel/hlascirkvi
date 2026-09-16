@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * Číselník cirkevného zaradenia pre formulár kanála vo Vue
- * (resources/js/organizations/NewOrganization.vue).
+ * (resources/js/canals/NewCanal.vue).
  *
  * Predtým si formulár sťahoval celú tabuľku updaterov cez /api/updaters
  * a sám si z nej filtroval riadky s typom `denomination`. Hodnoty aj popisky

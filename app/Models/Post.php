@@ -28,11 +28,11 @@ class Post extends Model
     // $fillable a $guarded ignoruje, takže tu len mätlo. Platí zoznam nižšie.
     protected $hidden = ['blocked', 'youtube_blocked', 'deleted_at'];
 
-    protected $with = ['favorites', 'images', 'organization'];
+    protected $with = ['favorites', 'images', 'canal'];
     protected $appends = ['favoritesCount', 'isFavorited', 'thumbImage', 'isPublished'];
 
     protected $fillable = [
-        'organization_id',
+        'canal_id',
         'title',
         'body',
         'slug',

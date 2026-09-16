@@ -15,6 +15,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @property-read Canal|null $canal
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasDatetime, HasFactory, HasFilter, HasRoles, Notifiable, SoftDeletes;
@@ -33,7 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * The attributes that are mass assignable.
      *
      * Doteraz tu bolo $guarded = [], čiže hromadne zapisovateľné bolo všetko
-     * vrátane `password`, `disabled`, `email_verified_at` a `org_id`. V spojení
+     * vrátane `password`, `disabled`, `email_verified_at` a `canal_id`. V spojení
      * s `$user->update($request->all())` v API to znamenalo prevzatie účtu.
      *
      * Stavové stĺpce (disabled, email_verified_at, verified, api_token) sa
@@ -52,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'send_email',
         'front_author',
         'set_denomination',
-        'org_id',
+        'canal_id',
         'notify_bell',
         'vocative',
         'gender',
@@ -98,15 +101,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Comment::class);
     }
 
-    public function organizations()
+    public function canals()
     {
-        // Pivot si drží pôvodné meno z čias modelu Organization.
-        return $this->belongsToMany(Canal::class, 'organization_user');
+        return $this->belongsToMany(Canal::class);
     }
 
-    public function organization()
+    public function canal()
     {
-        return $this->belongsTo(Canal::class, 'org_id');
+        return $this->belongsTo(Canal::class, 'canal_id');
     }
 
     public function userPictureUrl()
@@ -120,10 +122,10 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * `users` nemá stĺpec `person` (ten je na organizations), takže podmienka
+     * `users` nemá stĺpec `person` (ten je na canals), takže podmienka
      * `$this->id == $this->person` nikdy neplatila a atribút vracal celý model
      * kanála. Laravel pritom číta $user->name pri Mail::to() ako meno príjemcu
-     * — do hlavičky e-mailu tak išiel JSON celého riadku organizácie.
+     * — do hlavičky e-mailu tak išiel JSON celého riadku kanála.
      */
     public function getNameAttribute()
     {
@@ -132,12 +134,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getPostsCountAttribute()
     {
-        return $this->organizations()->count();
+        return $this->canals()->count();
     }
 
     public function getOwnerAttribute()
     {
-        return $this->organizations()->first();
+        return $this->canals()->first();
     }
 
     public function banned()

@@ -40,7 +40,7 @@ class VideoSearchByNameScopeTest extends TestCase
 
     private function canalForSaturday(array $attributes): Canal
     {
-        // Deň hľadania nesie stĺpec organizations.import_day (6 = sobota,
+        // Deň hľadania nesie stĺpec canals.import_day (6 = sobota,
         // rovnaké číslovanie ako Carbon::dayOfWeek). Predtým to bol updater
         // so slugom `sobota`.
         return Canal::factory()->create($attributes + ['import_day' => 6]);

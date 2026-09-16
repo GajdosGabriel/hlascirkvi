@@ -14,7 +14,7 @@ class Seminar extends Model
     protected $guarded = ['id'];
     // public $timestamps = false;
 
-    protected $with = ['organization'];
+    protected $with = ['canal'];
 
 
     public function posts()

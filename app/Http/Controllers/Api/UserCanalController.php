@@ -13,7 +13,7 @@ class UserCanalController extends Controller
 {
     public function store(User $user, CanalRequest $request)
     {
-        $organization = $request->save();
-        return new CanalResource($organization);
+        $canal = $request->save();
+        return new CanalResource($canal);
     }
 }

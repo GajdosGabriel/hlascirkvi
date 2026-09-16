@@ -12,7 +12,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
  * Gate::before — a práve preto `store` v CanalSeminarController
  * autorizáciu vôbec nemal, inak by zakladanie seminárov nefungovalo.
  *
- * Seminár patrí kanálu; vlastníctvo kanála je väzba $user->organizations()
+ * Seminár patrí kanálu; vlastníctvo kanála je väzba $user->canals()
  * rovnako ako v PostPolicy.
  */
 class SeminarPolicy
@@ -56,7 +56,7 @@ class SeminarPolicy
 
     protected function owns(User $user, Seminar $seminar): bool
     {
-        return $seminar->organization_id !== null
-            && $user->organizations()->whereKey($seminar->organization_id)->exists();
+        return $seminar->canal_id !== null
+            && $user->canals()->whereKey($seminar->canal_id)->exists();
     }
 }

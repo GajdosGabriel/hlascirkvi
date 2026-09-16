@@ -19,10 +19,10 @@
         <a href="{{ $url }}" class="ar-item__title ar-clamp-2">{{ $post->title }}</a>
 
         <div class="ar-item__meta">
-            @if ($showOrganization ?? false)
+            @if ($showCanal ?? false)
                 {{-- /dashboard/posts ukazuje vždy aktívny kanál prihláseného,
                      preto odkaz na verejný profil kanála. --}}
-                <a class="ar-link" href="{{ route('organizations.show', $post->organization_id) }}">{{ $post->organization->title }}</a>
+                <a class="ar-link" href="{{ route('organizations.show', $post->canal_id) }}">{{ $post->canal->title }}</a>
             @endif
             <time datetime="{{ $post->created_at->toIso8601String() }}">
                 {{ $post->created_at->locale('sk')->isoFormat('D. M. YYYY') }}

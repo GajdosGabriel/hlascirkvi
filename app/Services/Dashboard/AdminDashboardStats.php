@@ -30,8 +30,8 @@ class AdminDashboardStats
                 'new' => DB::table('users')->whereNull('deleted_at')->where('created_at', '>=', $monthAgo)->count(),
             ],
             'canals' => (object) [
-                'total' => DB::table('organizations')->whereNull('deleted_at')->count(),
-                'published' => DB::table('organizations')->whereNull('deleted_at')->where('published', 1)->count(),
+                'total' => DB::table('canals')->whereNull('deleted_at')->count(),
+                'published' => DB::table('canals')->whereNull('deleted_at')->where('published', 1)->count(),
             ],
             'posts' => $posts,
             'comments' => (object) [

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/** @mixin \App\Models\User */
 class UserResource extends JsonResource
 {
     /**
@@ -23,11 +24,14 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'gender' => $this->gender,
             'description' => $this->description,
-            'organization' => new CanalResource($this->organization),
-            'org_id' => $this->org_id,
+            'canal' => new CanalResource($this->canal),
+            'canal_id' => $this->canal_id,
             'notify_bell' => $this->notify_bell,
-            'notifications' => NotificationResource::collection($this->notifications->take(10) ),
-            'countNotifycation' => $this->notifications()->where('created_at', '>',  $this->notify_bell )->count(),
+            // Zoznam notifikácií si zvonček dotiahne až pri otvorení
+            // (GET /api/notifications) — tu stačí počet neprečítaných na
+            // odznak. Predtým sa ku každému načítaniu užívateľa serializovalo
+            // desať notifikácií, ktoré väčšinou nikto neotvoril.
+            'countNotifycation' => $this->unreadNotifications()->count(),
             'isAdmin' => auth()->user()->hasRole(['admin']) ? true : false,
             'isSuperadmin' => $this->when( auth()->user()->hasRole(['superadmin']), true)
         ];
@@ -37,7 +41,7 @@ class UserResource extends JsonResource
         //         'name' => 'Zobraziť',
         //         'title' => 'Zobraziť položku',
         //         'action' => 'show',
-        //         'url' => route('organization.contact.show', [$this->organization_id, $this->id]),
+        //         'url' => route('organization.contact.show', [$this->canal_id, $this->id]),
         //         'icon' => 'iconShow',
         //     ]),
 
@@ -45,7 +49,7 @@ class UserResource extends JsonResource
         //         'name' => 'Upraviť',
         //         'title' => 'Upraviť položku',
         //         'action' => 'edit',
-        //         'url' => route('organization.contact.edit', [$this->organization_id, $this->id]),
+        //         'url' => route('organization.contact.edit', [$this->canal_id, $this->id]),
         //         'typeOfButton' => 'button',
         //         'icon' => 'iconEdit',
         //     ]),
@@ -55,7 +59,7 @@ class UserResource extends JsonResource
         //         'title' => 'Zmazať položku',
         //         'action' => 'delete',
         //         'typeOfButton' => 'button',
-        //         'url' => route('organizations.contacts.destroy', [$this->organization_id, $this->id]),
+        //         'url' => route('organizations.contacts.destroy', [$this->canal_id, $this->id]),
         //         'icon' => 'iconDelete',
         //     ])
         // ],

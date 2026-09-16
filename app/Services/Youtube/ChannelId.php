@@ -3,7 +3,7 @@
 namespace App\Services\Youtube;
 
 /**
- * Do `organizations.youtube_channel` patrí ID kanála (UC + 22 znakov).
+ * Do `canals.youtube_channel` patrí ID kanála (UC + 22 znakov).
  * Do formulára sa však dá vložiť aj adresa kanála a YouTube API na
  * `activities.list?channelId=https://www.youtube.com/@handle` neodpovie
  * prázdnym zoznamom, ale chybou 403 „The request is not properly

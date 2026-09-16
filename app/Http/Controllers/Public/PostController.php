@@ -57,7 +57,7 @@ class PostController extends Controller
      */
     public function rail(Post $post)
     {
-        $rail = $this->post->organizationRail($post->organization_id, $post->id);
+        $rail = $this->post->canalRail($post->canal_id, $post->id);
 
         return response()->json([
             'html' => view('posts._rail-items', ['items' => $rail])->render(),
@@ -74,8 +74,8 @@ class PostController extends Controller
      */
     protected function channelPanels(Post $post)
     {
-        $rail  = $this->post->organizationRail($post->organization_id, $post->id);
-        $first = $this->post->firstInOrganization($post->organization_id, $post->id);
+        $rail  = $this->post->canalRail($post->canal_id, $post->id);
+        $first = $this->post->firstInCanal($post->canal_id, $post->id);
 
         // "Pred rokom" má zmysel len v kanáli, ktorý rok prežil; inak by
         // ukazoval ten istý príspevok ako "Ako to začalo".
@@ -83,13 +83,13 @@ class PostController extends Controller
         $moment  = now()->subYear();
 
         if ($first && $first->created_at->lt($moment)) {
-            $yearAgo = $this->post->inOrganizationBefore($post->organization_id, $post->id, $moment);
+            $yearAgo = $this->post->inCanalBefore($post->canal_id, $post->id, $moment);
         }
 
         return [
             'rail'      => $rail,
-            'railTotal' => $this->post->countInOrganization($post->organization_id),
-            'topPosts'  => $this->post->mostViewedInOrganization($post->organization_id, $post->id),
+            'railTotal' => $this->post->countInCanal($post->canal_id),
+            'topPosts'  => $this->post->mostViewedInCanal($post->canal_id, $post->id),
             'firstPost' => $first,
             'yearAgo'   => $yearAgo && $first && $yearAgo->isNot($first) ? $yearAgo : null,
         ];

@@ -35,7 +35,7 @@ Route::get('/', 'Public\PostController@index')->name('posts.index');
 // SitemapController). Odkaz na ňu nesie aj public/robots.txt.
 Route::get('sitemap.xml', 'Public\SitemapController@index')->name('sitemap');
 Route::get('sitemap-stranky.xml', 'Public\SitemapController@pages')->name('sitemap.pages');
-Route::get('sitemap-kanaly.xml', 'Public\SitemapController@organizations')->name('sitemap.organizations');
+Route::get('sitemap-kanaly.xml', 'Public\SitemapController@canals')->name('sitemap.canals');
 Route::get('sitemap-prispevky-{page}.xml', 'Public\SitemapController@posts')
     ->whereNumber('page')
     ->name('sitemap.posts');
@@ -80,7 +80,12 @@ Route::middleware('checkBanned')->group(function () {
 // Front routes
 Route::middleware('checkBanned')->group(function () {
     Route::resource('favorites', FavoriteController::class)->only('update');
-    Route::resource('organizations', Public\CanalController::class)->only('show');
+    // URL ostáva /organizations/{id} — je zaindexovaná a rozposlaná v e-mailoch.
+    // Parameter sa volá {canal}, aby implicitná väzba trafila Canal $canal
+    // v Public\CanalController.
+    Route::resource('organizations', Public\CanalController::class)
+        ->only('show')
+        ->parameters(['organizations' => 'canal']);
     Route::resource('seminars', Seminars\SeminarController::class)->only('show');
     Route::resource('seminars.posts', Seminars\SeminarPostController::class)->only('show');
     Route::resource('modlitby', Public\PrayerController::class)->only('index');
@@ -108,7 +113,7 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         // Kanál sa z nástenky nemaže, destroy by len spadol.
         Route::resource('canals', Canal\CanalController::class)->except('destroy');
 
-        // Články aktívneho kanála (users.org_id) — rovnako ako nástenka nemajú
+        // Články aktívneho kanála (users.canal_id) — rovnako ako nástenka nemajú
         // kanál v adrese. Prepína sa výpisom "Vaše kanály". Detail článku je
         // verejný (post.show), show tu nikdy nebol.
         Route::resource('posts', Canal\CanalPostController::class)->except('show');
@@ -216,10 +221,10 @@ Route::middleware('bannedCanal')->group(function () {
 // a organizačné akcie boli nedosiahnuteľné.
 Route::middleware(['auth', 'checkSuperAdmin'])->group(function () {
     Route::get('/search/new/video/user/{user}', 'YoutubeController@searchUserVideo')->name('videos.searchUserVideo');
-    Route::get('/search/new/video/organization/{organization}', 'YoutubeController@searchOrganizationVideo')->name('videos.searchOrganizationVideo');
+    Route::get('/search/new/video/organization/{canal}', 'YoutubeController@searchCanalVideo')->name('videos.searchCanalVideo');
     Route::get('/get/video/byId/{id}', 'YoutubeController@getVideoById')->name('videos.getVideoById');
     Route::post('/youtube/user/{user}/{slug}/search', 'YoutubeController@searchAndSaveUser')->name('youtube.searchAndSaveUser');
-    Route::post('/youtube/organization/{organization}/{slug}/search', 'YoutubeController@searchAndSaveOrganization')->name('youtube.searchAndSaveOrganization');
+    Route::post('/youtube/organization/{canal}/{slug}/search', 'YoutubeController@searchAndSaveCanal')->name('youtube.searchAndSaveCanal');
     Route::post('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVideoByChannel')->name('youtube.getNewVideoByChannel');
 });
 
@@ -229,6 +234,6 @@ Route::middleware(['auth', 'checkSuperAdmin'])->group(function () {
 Route::post('store/message', 'MessengerController@toAdmin')->middleware('auth')->name('messengers.store');
 
 // Správa kanálu z jeho stránky — e-mail ani telefón kanála sa verejne neukazujú.
-Route::post('organizations/{organization}/message', 'MessengerController@toCanal')
+Route::post('organizations/{canal}/message', 'MessengerController@toCanal')
     ->middleware(['auth', 'checkBanned', 'throttle:5,10'])
     ->name('organizations.message');

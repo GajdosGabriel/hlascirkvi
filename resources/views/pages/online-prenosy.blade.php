@@ -237,19 +237,19 @@
         <p class="streams-intro">Priame prenosy a záznamy bohoslužieb a svätých omší z kostolov a zborov na Slovensku. Buďte súčasťou spoločenstva aj vtedy, keď sa nemôžete zúčastniť osobne.</p>
         @if ($posts->count() > 1)
             <nav class="streams-nav" aria-label="Vybrať spoločenstvo">
-                @foreach ($posts as $organizationId => $broadcasts)
-                    <a class="ar-tab" href="#spolocenstvo-{{ $organizationId }}">{{ $broadcasts->first()->organization->title }}</a>
+                @foreach ($posts as $canalId => $broadcasts)
+                    <a class="ar-tab" href="#spolocenstvo-{{ $canalId }}">{{ $broadcasts->first()->canal->title }}</a>
                 @endforeach
             </nav>
         @endif
     </header>
-    @forelse ($posts as $organizationId => $broadcasts)
+    @forelse ($posts as $canalId => $broadcasts)
         @php($post = $broadcasts->first())
-        <section class="stream" id="spolocenstvo-{{ $organizationId }}" aria-labelledby="kanal-{{ $organizationId }}">
+        <section class="stream" id="spolocenstvo-{{ $canalId }}" aria-labelledby="kanal-{{ $canalId }}">
             <header class="stream-heading">
                 <div class="stream-channel">
                     <span class="stream-icon" aria-hidden="true"><i class="fas fa-church"></i></span>
-                    <h2 id="kanal-{{ $organizationId }}"><a href="{{ route('organizations.show', [$post->organization->id]) }}">{{ $post->organization->title }}</a></h2>
+                    <h2 id="kanal-{{ $canalId }}"><a href="{{ route('organizations.show', [$post->canal->id]) }}">{{ $post->canal->title }}</a></h2>
                 </div>
                 @can('update', $post)
                     <article-dropdown :post="{{ $post }}"></article-dropdown>
@@ -270,7 +270,7 @@
                     </div>
                     <h3 class="stream-title ar-display"><a href="{{ $post->routeShow() }}">{{ $post->title }}</a></h3>
                 </div>
-                <aside class="stream-archive" aria-label="Archív prenosov – {{ $post->organization->title }}">
+                <aside class="stream-archive" aria-label="Archív prenosov – {{ $post->canal->title }}">
                     <h3>Predchádzajúce prenosy</h3>
                     <ul>
                         @forelse ($broadcasts->skip(1)->take(4) as $previousPost)
@@ -287,7 +287,7 @@
                             <li class="stream-date">Ďalšie záznamy pribudnú po odvysielaní.</li>
                         @endforelse
                     </ul>
-                    <a class="stream-all" href="{{ route('organizations.show', [$post->organization->id]) }}">Všetky príspevky spoločenstva <span aria-hidden="true">→</span></a>
+                    <a class="stream-all" href="{{ route('organizations.show', [$post->canal->id]) }}">Všetky príspevky spoločenstva <span aria-hidden="true">→</span></a>
                 </aside>
             </div>
         </section>

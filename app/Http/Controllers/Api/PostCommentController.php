@@ -50,11 +50,11 @@ class PostCommentController extends Controller
 
         $comment = $saveComments->save($post);
 
-        // Pôvodne `if (!$comment->user_id == auth()->user()->org_id)`. `!` sa
-        // vyhodnotí skôr než `==`, takže sa porovnávalo `false` s org_id, a pre
+        // Pôvodne `if (!$comment->user_id == auth()->user()->canal_id)`. `!` sa
+        // vyhodnotí skôr než `==`, takže sa porovnávalo `false` s canal_id, a pre
         // neprihláseného návštevníka to navyše siahalo na null. Zmysel je
         // upovedomiť správcu kanála, ak nekomentoval sám sebe.
-        $owner = $post->organization?->user;
+        $owner = $post->canal?->user;
 
         // Autor komentára, na ktorý sa odpovedá. Anonymné komentáre (user_id
         // 100) patria spoločnému účtu, tomu nemá zmysel nič posielať.

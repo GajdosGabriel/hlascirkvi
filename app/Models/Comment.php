@@ -18,8 +18,8 @@ class Comment extends Model
     protected $guarded= [];
     protected $hidden = ['commentable_type', 'updated_at', 'deleted_at'];
 
-    // Tabuľka `comments` nemá stĺpec organization_id, takže eager load väzby
-    // organization len posielal dopyt bez kľúčov. Komentár patrí užívateľovi —
+    // Tabuľka `comments` nemá stĺpec canal_id, takže eager load väzby na
+    // kanál len posielal dopyt bez kľúčov. Komentár patrí užívateľovi —
     // toho načítavajú výpisy cez ->with('user').
     protected $with = ['favorites'];
     protected $appends = ['favoritesCount', 'isFavorited', 'datetime'];

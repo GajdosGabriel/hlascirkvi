@@ -14,7 +14,7 @@ use App\Services\PostService\PostService;
  *
  * Do 10. 9. 2026 bol kanál v adrese (/dashboard/canals/{canal}/posts). Výpis
  * pritom gate-oval len viewAny, takže ktokoľvek prihlásený si podstrčením ID
- * pozrel cudzí archív aj kôš. Kanál sa teraz berie z users.org_id, rovnako ako
+ * pozrel cudzí archív aj kôš. Kanál sa teraz berie z users.canal_id, rovnako ako
  * na nástenke; úpravy a mazanie jednotlivých článkov naďalej rozhoduje PostPolicy.
  */
 class CanalPostController extends Controller
@@ -110,7 +110,7 @@ class CanalPostController extends Controller
 
     protected function activeCanal(): ?Canal
     {
-        return auth()->user()->organization;
+        return auth()->user()->canal;
     }
 
     // Užívateľ bez aktívneho kanála nemá čo vypísať ani kam zapisovať.

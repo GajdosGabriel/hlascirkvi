@@ -42,7 +42,7 @@ class PrayerController extends Controller
     {
         return Prayer::query()->when(
             auth()->check() && auth()->user()->hasRole('superadmin'),
-            fn ($query) => $query->with('organization')
+            fn ($query) => $query->with('canal')
         );
     }
 
@@ -70,7 +70,7 @@ class PrayerController extends Controller
 
         // `email` je pri neprihlásenom autorovi len vstup pre založenie účtu
         // vyššie — v tabuľke `prayers` taký stĺpec nie je.
-        $prayer = auth()->user()->organization->prayers()->create(
+        $prayer = auth()->user()->canal->prayers()->create(
             collect($request->validated())->except('email')->all()
         );
 

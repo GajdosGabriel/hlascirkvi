@@ -104,8 +104,8 @@
         line-height: 1.3;
         overflow-wrap: anywhere;
     }
-    .seminar-info h2 a:hover, .seminar-organization a:hover { color: var(--ar-accent); }
-    .seminar-organization {
+    .seminar-info h2 a:hover, .seminar-canal a:hover { color: var(--ar-accent); }
+    .seminar-canal {
         color: var(--ar-ink-soft);
         font-size: .8125rem;
         margin-top: 8px;
@@ -169,7 +169,7 @@
                 <p class="seminars-intro">Vzdelávanie, kurzy a stretnutia, ktoré prehlbujú vieru. Objavte záznamy prednášok a vráťte sa k myšlienkam, ktoré vás oslovili.</p>
             </div>
             @auth
-                <a class="seminars-create" href="{{ route('profile.canals.seminars.create', auth()->user()->org_id) }}">
+                <a class="seminars-create" href="{{ route('profile.canals.seminars.create', auth()->user()->canal_id) }}">
                     <i class="fas fa-plus" aria-hidden="true"></i> Nový seminár
                 </a>
             @endauth
@@ -190,9 +190,9 @@
                     <h2 class="ar-display" id="seminar-{{ $seminar->id }}">
                         <a href="{{ route('seminars.show', $seminar->id) }}">{{ $seminar->title }}</a>
                     </h2>
-                    <p class="seminar-organization">
+                    <p class="seminar-canal">
                         Pridal:
-                        <a href="{{ route('organizations.show', $seminar->organization->id) }}">{{ $seminar->organization->title }}</a>
+                        <a href="{{ route('organizations.show', $seminar->canal->id) }}">{{ $seminar->canal->title }}</a>
                     </p>
                     @if ($seminar->description)
                         <p class="seminar-description">{{ $seminar->description }}</p>

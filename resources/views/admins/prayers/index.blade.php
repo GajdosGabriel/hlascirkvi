@@ -13,8 +13,8 @@
         <x-slot name="title_right">
             {{-- Modlitba sa zakladá do kanála, takže bez prideleného kanála
                  nie je kam odkázať — route() by na prázdnom {canal} spadla. --}}
-            @if (auth()->user()->org_id)
-                <a class="ar-btn ar-btn--accent" href="{{ route('profile.canals.prayers.create', auth()->user()->org_id) }}">
+            @if (auth()->user()->canal_id)
+                <a class="ar-btn ar-btn--accent" href="{{ route('profile.canals.prayers.create', auth()->user()->canal_id) }}">
                     Nová modlitba
                 </a>
             @endif
@@ -28,14 +28,14 @@
                             <div>{{ $prayer->title }}</div>
                             <div class="flex space-x-1 items-center">
                                 <dropdown-slot label="Spravovať modlitbu">
-                                    <a href="{{ route('profile.canals.prayers.edit', [$prayer->organization_id, $prayer->id]) }}">
+                                    <a href="{{ route('profile.canals.prayers.edit', [$prayer->canal_id, $prayer->id]) }}">
                                         <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
                                     </a>
 
                                     <hr class="ui-dropdown__divider">
 
                                     <form
-                                        action="{{ route('profile.canals.prayers.destroy', [$prayer->organization_id, $prayer->id]) }}"
+                                        action="{{ route('profile.canals.prayers.destroy', [$prayer->canal_id, $prayer->id]) }}"
                                         method="post">
                                         @method('DELETE') @csrf
                                         <button type="submit" class="ui-dropdown__item--danger">

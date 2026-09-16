@@ -12,7 +12,7 @@
     <ol class="discussion">
 
         @foreach($messages as $message)
-            @if(auth()->user()->id == $message->requested_organization)
+            @if(auth()->user()->id == $message->requested_user)
             <li class="other">
                 <div class="avatar">
                     <img src="{{  url('storage/'. $user->userPictureUrl() ) }}" />

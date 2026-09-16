@@ -47,7 +47,7 @@ class CanalRequest extends FormRequest
         return [
             'title' => [
                 'required', 'string', 'max:191', 'min:3',
-                Rule::unique('organizations', 'title')->ignore($canal),
+                Rule::unique('canals', 'title')->ignore($canal),
             ],
             'description'      => 'nullable|string',
             'street'           => 'nullable|string|max:191',
@@ -150,6 +150,6 @@ class CanalRequest extends FormRequest
             ->except(['users', 'published', 'import_day', 'post_section'])
             ->all();
 
-        return auth()->user()->organizations()->create($data);
+        return auth()->user()->canals()->create($data);
     }
 }

@@ -1,15 +1,15 @@
 <template>
     <div class="shrink-0">
         <img
-            v-if="organization.avatar"
-            :alt="organization.title"
+            v-if="canal.avatar"
+            :alt="canal.title"
             class="h-12 w-12 rounded-full object-cover ring-1 ring-[color:var(--ar-line)]"
             :src="
                 domain +
                 'storage/organizations/' +
-                organization.id +
+                canal.id +
                 '/' +
-                organization.avatar
+                canal.avatar
             "
         />
 
@@ -19,14 +19,14 @@
             v-else
             class="flex h-12 w-12 items-center justify-center rounded-full bg-[color:var(--ar-paper-deep)] text-xl font-semibold text-[color:var(--ar-ink-soft)]"
         >
-            {{ organization.initialName }}
+            {{ canal.initialName }}
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: ["organization"],
+    props: ["canal"],
     data: function () {
         return {
             domain: window.App.baseUrl,

@@ -27,13 +27,13 @@ class SeminarController extends Controller
         // jeho správca. Doteraz stačilo byť prihlásený a poznať ID seminára.
         $this->authorize('update', $seminar);
 
-        $organization = Canal::whereId($seminar->organization_id)->first();
+        $canal = Canal::whereId($seminar->canal_id)->first();
 
-        abort_if($organization === null, 404);
+        abort_if($canal === null, 404);
 
-        $videoUploader = new VideoUploadSeminars($seminar, $organization);
+        $videoUploader = new VideoUploadSeminars($seminar, $canal);
         $videoUploader->handle();
 
-        return redirect()->route('profile.canals.seminars.show', [$organization->id, $seminar->id]);
+        return redirect()->route('profile.canals.seminars.show', [$canal->id, $seminar->id]);
     }
 }

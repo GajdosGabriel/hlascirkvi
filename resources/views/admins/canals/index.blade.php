@@ -12,7 +12,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <new-organization />
+            <new-canal />
         </x-slot>
 
 
@@ -22,11 +22,11 @@
             </div>
 
 
-            <x-canal.list :canals="$organizations" :admin="true" />
+            <x-canal.list :canals="$canals" :admin="true" />
 
 
             <div class="md:block flex justify-center my-8">
-                {{ $organizations->links() }}
+                {{ $canals->links() }}
             </div>
 
         </x-slot>

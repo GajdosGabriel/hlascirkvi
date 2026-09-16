@@ -18,7 +18,7 @@ trait HasComments
             $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->user()->id]));
             return $comment;
         }
-        // organization_id 100 in unknowle user for anonyms comments
+        // canal_id 100 in unknowle user for anonyms comments
         $comment = $this->comments()->create(array_merge($comment, ['user_id' => 100]));
         $comment->delete();
 

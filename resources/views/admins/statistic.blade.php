@@ -78,7 +78,7 @@
                                     <span class="block h-full rounded-full bg-[color:var(--ar-accent)]" style="width: {{ round(($post->unique_view / $maxViews) * 100, 1) }}%"></span>
                                 </div>
                             </td>
-                            <td class="text-[color:var(--ar-ink-soft)]">{{ $post->organization }}</td>
+                            <td class="text-[color:var(--ar-ink-soft)]">{{ $post->canal }}</td>
                             <td class="text-right font-bold tabular-nums text-[color:var(--ar-accent)]">{{ number_format($post->unique_view, 0, ',', ' ') }}</td>
                             <td class="text-right tabular-nums text-[color:var(--ar-ink-soft)]">{{ number_format($post->count_view, 0, ',', ' ') }}</td>
                         </tr>

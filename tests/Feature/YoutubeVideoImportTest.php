@@ -52,7 +52,7 @@ class YoutubeVideoImportTest extends TestCase
     {
         $canal = $this->canal();
         // Staré video mimo playlistu — kanál už na webe niečo má.
-        Post::factory()->for($canal, 'organization')->create(['video_id' => 'oldvideo001']);
+        Post::factory()->for($canal, 'canal')->create(['video_id' => 'oldvideo001']);
 
         $this->fakeYoutube([
             'playlistItems' => fn ($query) => ($query['pageToken'] ?? null) === 'p2'
@@ -69,7 +69,7 @@ class YoutubeVideoImportTest extends TestCase
 
         $post = Post::where('video_id', 'video000001')->firstOrFail();
 
-        $this->assertSame($canal->id, $post->organization_id);
+        $this->assertSame($canal->id, $post->canal_id);
         $this->assertSame('PT12M3S', $post->getRawOriginal('video_duration'));
         $this->assertTrue($post->youtube_published_at->utc()->eq('2026-09-10 08:00:00'));
         // Bežný kanál ide cez buffer.
@@ -79,7 +79,7 @@ class YoutubeVideoImportTest extends TestCase
     public function test_stranka_so_znamym_videom_je_posledna(): void
     {
         $canal = $this->canal();
-        Post::factory()->for($canal, 'organization')->create(['video_id' => 'video000002']);
+        Post::factory()->for($canal, 'canal')->create(['video_id' => 'video000002']);
 
         $this->fakeYoutube([
             'playlistItems' => $this->playlistPage(['video000001', 'video000002'], 'p2'),

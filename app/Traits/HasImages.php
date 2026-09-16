@@ -31,10 +31,10 @@ trait HasImages
 
         // Kanál sa dotiahne aj keď načítaný nie je — bez neho by sa namiesto
         // jeho avatara ticho zobrazil zástupný obrázok.
-        $organization = $this->organization;
+        $canal = $this->canal;
 
-        if ($organization && $organization->avatar) {
-            return Storage::url('organizations/' . $organization->id . '/' . $organization->avatar);
+        if ($canal && $canal->avatar) {
+            return Storage::url('organizations/' . $canal->id . '/' . $canal->avatar);
         }
 
         return url('images/foto.jpg');

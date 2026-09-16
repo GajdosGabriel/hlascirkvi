@@ -39,10 +39,10 @@ class CommentPolicy
     {
         $commentable = $comment->commentable;
 
-        if ($commentable === null || ! isset($commentable->organization_id)) {
+        if ($commentable === null || ! isset($commentable->canal_id)) {
             return false;
         }
 
-        return $user->organizations()->whereKey($commentable->organization_id)->exists();
+        return $user->canals()->whereKey($commentable->canal_id)->exists();
     }
 }

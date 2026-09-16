@@ -70,12 +70,12 @@ class AsideMenu extends Component
                 'name' => 'Články',
             ],
             [
-                'url' => route('profile.canals.seminars.index', auth()->user()->org_id),
+                'url' => route('profile.canals.seminars.index', auth()->user()->canal_id),
                 'icon' => 'seminar',
                 'name' => 'Semináre',
             ],
             [
-                'url' => route('profile.canals.prayers.index', auth()->user()->org_id),
+                'url' => route('profile.canals.prayers.index', auth()->user()->canal_id),
                 'icon' => 'pray',
                 'name' => 'Modlitby',
             ],

@@ -19,7 +19,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
-            'organization_id' => $this->organization_id,
+            'canal_id' => $this->canal_id,
             'slug' => $this->slug,
             'video_id' => $this->video_id,
             'count_view' => $this->count_view,
@@ -30,7 +30,7 @@ class PostResource extends JsonResource
             'createdAtHuman' => $this->dateForHumans,
             'thumbImage' => $this->thumbImage,
 //            'images' => Image::collection($this->images),
-            'organization' => new CanalResource($this->organization),
+            'canal' => new CanalResource($this->canal),
             'section' => $this->section?->value,
             'isPublished' => $this->isPublished,
         ];

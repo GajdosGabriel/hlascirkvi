@@ -56,7 +56,7 @@ class ExtractSluzobniceDuchaSvateho extends Extractors
                 'body' => trim(preg_replace('/\t/', '', $linkText)),
                 'user' => $this->getRandomName(),
                 'title' => 'Prosba o modlitbu',
-                'organization' => 650
+                'canal' => 650
             );
         }
 

@@ -14,7 +14,7 @@ class UserController extends Controller
      * (resources/js/navigation/Bell.vue:103). Predtým tu bolo
      * `$user->update($request->all())` nad modelom s $guarded = [], takže
      * ktorýkoľvek prihlásený užívateľ vedel prepísať komukoľvek heslo,
-     * org_id či email_verified_at.
+     * canal_id či email_verified_at.
      */
     public function update(User $user, Request $request)
     {

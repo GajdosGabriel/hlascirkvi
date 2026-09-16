@@ -27,9 +27,9 @@ class PostObserver
         (new CleanBodyText($post))->handle();
 
         // Add name to title, Only some of the canals
-        if( $post->organization->mod_title != '' ) {
+        if( $post->canal->mod_title != '' ) {
             $post->update([
-                'title' => $post->organization->mod_title . ' | ' . $post->title
+                'title' => $post->canal->mod_title . ' | ' . $post->title
             ]);
         }
     }

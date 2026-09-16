@@ -23,7 +23,7 @@ class CommentLikeTest extends TestCase
 
     protected function comment(): Comment
     {
-        $post = Post::factory()->create(['organization_id' => Canal::factory()->create()->id]);
+        $post = Post::factory()->create(['canal_id' => Canal::factory()->create()->id]);
 
         return Comment::factory()->create([
             'commentable_id' => $post->id,

@@ -24,7 +24,7 @@
             <div class="ar-panel">
 
                 @forelse($posts as $post)
-                    @include('profiles.posts._row', ['showOrganization' => true])
+                    @include('profiles.posts._row', ['showCanal' => true])
                 @empty
                     bez záznamu
                 @endforelse

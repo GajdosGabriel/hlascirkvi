@@ -12,7 +12,7 @@
             </div>
             <a :href="post.url">
                 <img
-                    :alt="post.organization.title + '/' + post.title"
+                    :alt="post.canal.title + '/' + post.title"
                     :data-src="post.thumbImage"
                     class="lazyload w-full"
                     data-sizes="auto"
@@ -28,8 +28,8 @@
             class="text-gray-500 px-2 italic absolute bottom-0 flex flex-col text-xs md:text-sm w-full"
         >
             <a
-                :href="'/organizations/' + post.organization.id"
-                v-text="post.organization.title"
+                :href="'/organizations/' + post.canal.id"
+                v-text="post.canal.title"
             >
             </a>
             <time v-if="createdat" :datetime="post.created_at">{{

@@ -11,10 +11,10 @@ class PostFactory extends Factory
 {
     public function definition()
     {
-        // organization_id tu bolo natvrdo 1 — na čistej databáze taký kanál
+        // canal_id tu bolo natvrdo 1 — na čistej databáze taký kanál
         // neexistuje. slug dopĺňa Post::setTitleAttribute.
         return [
-            'organization_id' => Canal::factory(),
+            'canal_id' => Canal::factory(),
             'title' => $this->faker->sentence(4),
             'body' => $this->faker->paragraphs(5, true),
             'published_at' => now(),

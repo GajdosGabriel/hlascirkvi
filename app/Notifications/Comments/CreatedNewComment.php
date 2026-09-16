@@ -38,13 +38,13 @@ class CreatedNewComment extends Notification implements ShouldQueue
 
     public function toArray($notifiable)
     {
-        // Comment nemá stĺpec organization_id, takže $comment->organization
+        // Comment nemá stĺpec canal_id, takže $comment->canal
         // bolo vždy null a notifikácia padala na ->title. Kanál je až na
         // komentovanom príspevku.
         $commentable = $this->comment->commentable;
 
         return [
-            'message' => ($commentable?->organization?->title ?? 'Niekto')
+            'message' => ($commentable?->canal?->title ?? 'Niekto')
                 . ' komentoval ' . ($commentable?->title ?? 'príspevok'),
             'link' => $commentable?->path()
         ];

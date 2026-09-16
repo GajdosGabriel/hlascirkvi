@@ -16,7 +16,7 @@ class CanalController extends Controller
         $this->posts = $posts;
     }
 
-    public function show(Canal $organization, PostFilters $filters)
+    public function show(Canal $canal, PostFilters $filters)
     {
         // Výber z archívu: mesiac sám o sebe nič neznamená, berie sa až
         // s rokom — tak, ako ich navigátor v bočnom paneli aj skladá.
@@ -25,7 +25,7 @@ class CanalController extends Controller
 
         // Len zverejnené — video čakajúce v bufferi sa inak objavilo na
         // kanáli skôr ako na titulke.
-        $posts = $organization->posts()
+        $posts = $canal->posts()
             ->published()
             ->when($year, fn ($query) => $query->whereYear('created_at', $year))
             ->when($month, fn ($query) => $query->whereMonth('created_at', $month))
@@ -36,25 +36,25 @@ class CanalController extends Controller
             ->withQueryString();
 
         return view('canals.index', [
-            'organization'  => $organization,
+            'canal'         => $canal,
             'posts'         => $posts,
             'year'          => $year,
             'month'         => $month,
-        ] + $this->channelPanels($organization));
+        ] + $this->channelPanels($canal));
     }
 
     /**
      * Panely okolo výpisu kanála. Sú to krátke dopyty nad indexmi kanála,
      * preto stoja pri sebe — pohľad ich len vykreslí.
      */
-    protected function channelPanels(Canal $organization)
+    protected function channelPanels(Canal $canal)
     {
         return [
-            'summary'       => $this->posts->organizationSummary($organization->id),
-            'archive'       => $this->posts->organizationArchive($organization->id),
-            'topPosts'      => $this->posts->mostViewedInOrganization($organization->id, null, 5),
-            'comments'      => $this->posts->latestCommentsInOrganization($organization->id, 6),
-            'commentsCount' => $this->posts->countCommentsInOrganization($organization->id),
+            'summary'       => $this->posts->canalSummary($canal->id),
+            'archive'       => $this->posts->canalArchive($canal->id),
+            'topPosts'      => $this->posts->mostViewedInCanal($canal->id, null, 5),
+            'comments'      => $this->posts->latestCommentsInCanal($canal->id, 6),
+            'commentsCount' => $this->posts->countCommentsInCanal($canal->id),
         ];
     }
 }

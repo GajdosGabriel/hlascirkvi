@@ -29,24 +29,24 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      * históriu (pri nedeľných prenosoch vyše 9 000 príspevkov aj s obrázkami)
      * a zvyšok zahodilo.
      */
-    public function groupedBySection(PostSection $section, $perOrganization = 5)
+    public function groupedBySection(PostSection $section, $perCanal = 5)
     {
-        $ids = $this->latestIdsPerOrganization($section, $perOrganization);
+        $ids = $this->latestIdsPerCanal($section, $perCanal);
 
         if (empty($ids)) {
             return collect();
         }
 
         return $this->entity->whereIn('posts.id', $ids)
-            ->orderBy('id', 'desc')->get()->groupBy('organization_id');
+            ->orderBy('id', 'desc')->get()->groupBy('canal_id');
     }
 
     /**
-     * Id najnovších príspevkov výpisu, najviac $perOrganization na kanál.
+     * Id najnovších príspevkov výpisu, najviac $perCanal na kanál.
      * Okenná funkcia to zvládne jedným prechodom cez index, bez triedenia
      * v PHP.
      */
-    protected function latestIdsPerOrganization(PostSection $section, $perOrganization)
+    protected function latestIdsPerCanal(PostSection $section, $perCanal)
     {
         $ranked = \DB::table('posts')
             ->where('posts.section', $section->value)
@@ -55,10 +55,10 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->whereNull('posts.video_available')
             ->where('posts.youtube_blocked', 0)
             ->select('posts.id')
-            ->selectRaw('row_number() over (partition by posts.organization_id order by posts.id desc) as poradie');
+            ->selectRaw('row_number() over (partition by posts.canal_id order by posts.id desc) as poradie');
 
         return \DB::query()->fromSub($ranked, 'zoradene')
-            ->where('poradie', '<=', $perOrganization)
+            ->where('poradie', '<=', $perCanal)
             ->pluck('id')
             ->all();
     }
@@ -125,11 +125,11 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      * a čas, kedy z kanála naposledy niečo vyšlo. Z toho si publisher vyberá,
      * kto je na rade.
      */
-    public function waitingOrganizations($freshSince = null)
+    public function waitingCanals($freshSince = null)
     {
-        $organizations = $this->waitingPostsQuery()
-            ->groupBy('posts.organization_id')
-            ->select('posts.organization_id')
+        $canals = $this->waitingPostsQuery()
+            ->groupBy('posts.canal_id')
+            ->select('posts.canal_id')
             ->selectRaw('count(*) as waiting_count')
             ->selectRaw('min(posts.created_at) as oldest_waiting')
             // Koľko z nich je čerstvých; zvyšok je archív. Podmienený súčet to
@@ -137,23 +137,23 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->selectRaw('sum(case when posts.created_at >= ? then 1 else 0 end) as fresh_count', [$freshSince ?: '1970-01-01'])
             ->get();
 
-        if ($organizations->isEmpty()) {
-            return $organizations;
+        if ($canals->isEmpty()) {
+            return $canals;
         }
 
         $lastPublished = \DB::table('posts')
             ->where('posts.section', PostSection::Front->value)
             ->whereNotNull('posts.published_at')
             ->whereNull('posts.deleted_at')
-            ->whereIn('posts.organization_id', $organizations->pluck('organization_id'))
-            ->groupBy('posts.organization_id')
-            ->selectRaw('posts.organization_id, max(posts.created_at) as last_published')
-            ->pluck('last_published', 'posts.organization_id');
+            ->whereIn('posts.canal_id', $canals->pluck('canal_id'))
+            ->groupBy('posts.canal_id')
+            ->selectRaw('posts.canal_id, max(posts.created_at) as last_published')
+            ->pluck('last_published', 'posts.canal_id');
 
-        return $organizations->map(function ($organization) use ($lastPublished) {
-            $organization->last_published = $lastPublished[$organization->organization_id] ?? null;
+        return $canals->map(function ($canal) use ($lastPublished) {
+            $canal->last_published = $lastPublished[$canal->canal_id] ?? null;
 
-            return $organization;
+            return $canal;
         });
     }
 
@@ -165,9 +165,9 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      * $freshSince ohraničí výber na čerstvé príspevky, aby nové videá nečakali
      * za archívom; archív si publisher berie samostatnými slotmi.
      */
-    public function nextWaitingPost($organizationId, $freshSince = null)
+    public function nextWaitingPost($canalId, $freshSince = null)
     {
-        return $this->entity->whereOrganizationId($organizationId)
+        return $this->entity->whereCanalId($canalId)
             ->unpublished()
             ->whereNull('video_available')
             ->when($freshSince, fn ($query) => $query->where('created_at', '>=', $freshSince))
@@ -232,33 +232,33 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
 
     /**
      * Archív kanála pre vodorovný pás na detaile príspevku. Keysetové
-     * stránkovanie drží dopyt na indexe posts_organization_created_index aj
+     * stránkovanie drží dopyt na indexe posts_canal_created_index aj
      * pri desiatej dávke — offset by sa s každým "ďalej" znovu prehrýzal cez
      * všetky predošlé riadky. Id je v zoradení ako rozhodca: importované
      * príspevky zdieľajú created_at do sekundy a bez neho by kurzor riadky
      * preskakoval.
      */
-    public function organizationRail($organizationId, $exceptId, $perPage = 6)
+    public function canalRail($canalId, $exceptId, $perPage = 6)
     {
-        return $this->inOrganization($organizationId)
+        return $this->inCanal($canalId)
             ->whereKeyNot($exceptId)
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'desc')
             ->cursorPaginate($perPage);
     }
 
-    public function countInOrganization($organizationId)
+    public function countInCanal($canalId)
     {
-        return $this->inOrganization($organizationId)->count();
+        return $this->inCanal($canalId)->count();
     }
 
     /**
      * Zverejnené príspevky kanála. Panely kanála a detailu ukazovali aj videá
      * čakajúce v bufferi, ktoré titulka ešte nepustila von.
      */
-    protected function inOrganization($organizationId)
+    protected function inCanal($canalId)
     {
-        return $this->entity->whereOrganizationId($organizationId)->published();
+        return $this->entity->whereCanalId($canalId)->published();
     }
 
     /**
@@ -266,9 +266,9 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      * tabuľku `views` — tá drží len posledných 90 dní a pre bočný panel by to
      * bol dopyt nad státisícami riadkov navyše.
      */
-    public function mostViewedInOrganization($organizationId, $exceptId = null, $limit = 5)
+    public function mostViewedInCanal($canalId, $exceptId = null, $limit = 5)
     {
-        return $this->inOrganization($organizationId)
+        return $this->inCanal($canalId)
             // Profil kanála panel vykresľuje bez toho, aby stál na konkrétnom
             // príspevku. whereKeyNot(null) by sa preložilo na `id <> null`,
             // teda podmienku, ktorú nesplní ani jeden riadok.
@@ -279,9 +279,9 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->get();
     }
 
-    public function firstInOrganization($organizationId, $exceptId)
+    public function firstInCanal($canalId, $exceptId)
     {
-        return $this->inOrganization($organizationId)
+        return $this->inCanal($canalId)
             ->whereKeyNot($exceptId)
             ->oldest()
             ->first();
@@ -290,9 +290,9 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     /**
      * Najbližší starší príspevok k danému okamihu — "pred rokom" v archíve.
      */
-    public function inOrganizationBefore($organizationId, $exceptId, $moment)
+    public function inCanalBefore($canalId, $exceptId, $moment)
     {
-        return $this->inOrganization($organizationId)
+        return $this->inCanal($canalId)
             ->whereKeyNot($exceptId)
             ->where('created_at', '<=', $moment)
             ->latest()
@@ -304,15 +304,15 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     /**
      * Súhrn kanála do hlavičky profilu: koľko toho vydal, koľkokrát to niekto
      * otvoril a odkedy pokedy siaha archív. Jeden prechod cez
-     * posts_organization_created_index namiesto štyroch samostatných dopytov.
+     * posts_canal_created_index namiesto štyroch samostatných dopytov.
      *
      * Zámerne cez query builder — Post má $with aj $appends, takže načítanie
      * modelov len kvôli súčtu by spustilo niekoľko dopytov na každý riadok.
      */
-    public function organizationSummary($organizationId)
+    public function canalSummary($canalId)
     {
         return \DB::table('posts')
-            ->where('organization_id', $organizationId)
+            ->where('canal_id', $canalId)
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
             ->whereNotNull('published_at')
@@ -328,10 +328,10 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      * riadky rok/mesiac/počet; mesiace bez príspevku v ňom nie sú, prázdne
      * políčka mriežky si doplní pohľad.
      */
-    public function organizationArchive($organizationId)
+    public function canalArchive($canalId)
     {
         return \DB::table('posts')
-            ->where('organization_id', $organizationId)
+            ->where('canal_id', $canalId)
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
             ->whereNotNull('published_at')
@@ -352,9 +352,9 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      * potrebuje len titulok a slug. Meno autora nesie stĺpec `user_name` —
      * komentáre z importu vlastného užívateľa nemajú.
      */
-    public function latestCommentsInOrganization($organizationId, $limit = 6)
+    public function latestCommentsInCanal($canalId, $limit = 6)
     {
-        return $this->organizationCommentsQuery($organizationId)
+        return $this->canalCommentsQuery($canalId)
             ->orderBy('comments.created_at', 'desc')
             ->limit($limit)
             ->select([
@@ -369,17 +369,17 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->get();
     }
 
-    public function countCommentsInOrganization($organizationId)
+    public function countCommentsInCanal($canalId)
     {
-        return $this->organizationCommentsQuery($organizationId)->count();
+        return $this->canalCommentsQuery($canalId)->count();
     }
 
-    protected function organizationCommentsQuery($organizationId)
+    protected function canalCommentsQuery($canalId)
     {
         return \DB::table('comments')
             ->join('posts', 'posts.id', '=', 'comments.commentable_id')
             ->where('comments.commentable_type', Post::class)
-            ->where('posts.organization_id', $organizationId)
+            ->where('posts.canal_id', $canalId)
             ->where('posts.youtube_blocked', 0)
             ->whereNotNull('posts.published_at')
             ->whereNull('comments.deleted_at')

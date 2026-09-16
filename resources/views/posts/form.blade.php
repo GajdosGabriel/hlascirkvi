@@ -49,19 +49,19 @@
     @can('admin')
         <div class="form-author">
             <label>Kanál</label>
-            <select class="form-control" name="organization_id" required>
+            <select class="form-control" name="canal_id" required>
                 <option value="" selected disabled>Autor</option>
                 @can('superadmin')
-                    @foreach (\App\Models\Canal::orderBy('title', 'asc')->get() as $organization)
-                        <option @if (isset($post->organization_id) and $post->organization_id == $organization->id or
-                                $organization->id == auth()->user()->org_id) selected @endif value="{{ $organization->id }}">
-                            {{ $organization->title }}
+                    @foreach (\App\Models\Canal::orderBy('title', 'asc')->get() as $canal)
+                        <option @if (isset($post->canal_id) and $post->canal_id == $canal->id or
+                                $canal->id == auth()->user()->canal_id) selected @endif value="{{ $canal->id }}">
+                            {{ $canal->title }}
                         </option>
                     @endforeach
                 @else
-                    @foreach (auth()->user()->organizations as $organization)
-                        <option @if (isset($post->organization_id) and $post->organization_id == $organization->id) selected @endif value="{{ $organization->id }}">
-                            {{ $organization->title }}
+                    @foreach (auth()->user()->canals as $canal)
+                        <option @if (isset($post->canal_id) and $post->canal_id == $canal->id) selected @endif value="{{ $canal->id }}">
+                            {{ $canal->title }}
                         </option>
                     @endforeach
                 @endcan
@@ -72,14 +72,14 @@
     {{-- @can('admin') --}}
     {{-- <div class="form-author"> --}}
     {{-- <label>User - admin</label> --}}
-    {{-- <select class="form-control" name="organization_id" required> --}}
+    {{-- <select class="form-control" name="canal_id" required> --}}
     {{-- <option value="" selected disabled>Autor</option> --}}
     {{-- @foreach ($users as $user) --}}
     {{-- <option --}}
-    {{-- @if (isset($post->organization_id) and $post->organization_id == $organization->id) --}}
+    {{-- @if (isset($post->canal_id) and $post->canal_id == $canal->id) --}}
     {{-- selected --}}
     {{-- @endif --}}
-    {{-- value="{{ $organization->id }}">{{ $user->last_name . ' ' . $user->first_name }}</option> --}}
+    {{-- value="{{ $canal->id }}">{{ $user->last_name . ' ' . $user->first_name }}</option> --}}
     {{-- @endforeach --}}
     {{-- </select> --}}
     {{-- </div> --}}

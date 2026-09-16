@@ -39,7 +39,7 @@ return [
      * videí denne), inak by mu front rástol donekonečna. Ak čaká jediný
      * kanál, strop sa neuplatní — nie je čo striedať.
      */
-    'max_per_organization' => 6,
+    'max_per_canal' => 6,
 
     /*
      * Čo je vo fronte dlhšie ako toľkoto dní, berie publisher ako archív.

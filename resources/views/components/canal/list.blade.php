@@ -9,7 +9,7 @@
     <div class="space-y-3">
         @forelse ($canals as $canal)
             @php
-                $isActive = $canal->id === auth()->user()->org_id;
+                $isActive = $canal->id === auth()->user()->canal_id;
 
                 /*
                  * Štítky kanála. Do 9/2026 to boli updatery — jedna spojovacia

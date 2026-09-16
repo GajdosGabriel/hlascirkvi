@@ -15,7 +15,7 @@ use App\Models\Canal;
 
 class VideoUploadFilter
 {
-    public $organization;
+    public $canal;
     public $title;
 
     // Preklep v názve (má byť countWords), ale property sa pod ním číta na
@@ -23,9 +23,9 @@ class VideoUploadFilter
     // Deklarácia tu je preto, že dynamické vlastnosti sú v PHP 9 fatal.
     public bool $coutWords = false;
 
-    public function __construct(Canal $organization, $title)
+    public function __construct(Canal $canal, $title)
     {
-        $this->organization = $organization;
+        $this->canal = $canal;
         $this->title = $title;
         $this->coutWords = false;
     }
@@ -34,7 +34,7 @@ class VideoUploadFilter
     {
         $this->countWords();
 
-        if ($this->organization->id === 256 ) {
+        if ($this->canal->id === 256 ) {
             return ! $this->coutWords;
         }
         return $this->coutWords;
@@ -43,7 +43,7 @@ class VideoUploadFilter
     public function getAcceptedWords()
     {
         // Kresťanské spoločenstvo
-        if ($this->organization->id === 256) {
+        if ($this->canal->id === 256) {
             return [
                 'Bohoslužba Banská Bystrica',
             ];

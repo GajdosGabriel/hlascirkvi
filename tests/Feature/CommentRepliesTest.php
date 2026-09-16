@@ -25,7 +25,7 @@ class CommentRepliesTest extends TestCase
 
     protected function postWithComment(): array
     {
-        $post = Post::factory()->create(['organization_id' => Canal::factory()->create()->id]);
+        $post = Post::factory()->create(['canal_id' => Canal::factory()->create()->id]);
         $author = User::factory()->create();
         $comment = Comment::factory()->create([
             'commentable_id' => $post->id,
@@ -75,7 +75,7 @@ class CommentRepliesTest extends TestCase
     public function test_nemozno_odpovedat_na_komentar_ineho_prispevku(): void
     {
         [, $comment] = $this->postWithComment();
-        $other = Post::factory()->create(['organization_id' => Canal::factory()->create()->id]);
+        $other = Post::factory()->create(['canal_id' => Canal::factory()->create()->id]);
 
         $this->actingAs(User::factory()->create())
             ->postJson("/api/posts/{$other->id}/comments", [

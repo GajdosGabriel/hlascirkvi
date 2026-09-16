@@ -21,9 +21,9 @@ class AdminDashboardTest extends TestCase
         $admin = User::factory()->create();
         $admin->assignRole(['admin', 'superadmin']);
         $canal = Canal::factory()->create();
-        $post = Post::factory()->create(['organization_id' => $canal->id, 'count_view' => 123]);
+        $post = Post::factory()->create(['canal_id' => $canal->id, 'count_view' => 123]);
         Comment::factory()->create(['commentable_id' => $post->id]);
-        Prayer::factory()->create(['organization_id' => $canal->id]);
+        Prayer::factory()->create(['canal_id' => $canal->id]);
 
         $this->actingAs($admin)->get('/admin/home')
             ->assertOk()

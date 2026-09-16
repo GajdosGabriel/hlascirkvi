@@ -162,17 +162,17 @@ class LiturgicalReadingsTest extends TestCase
 
         // 25. nedeľa v Cezročnom období roku A bola naposledy 24. 9. 2023.
         Post::factory()->section(PostSection::Live)->create([
-            'organization_id' => $canal->id,
+            'canal_id' => $canal->id,
             'title' => 'Svätá omša z Farnosti Brezno',
             'published_at' => '2023-09-24 11:00:00',
         ]);
         Post::factory()->create([
-            'organization_id' => $canal->id,
+            'canal_id' => $canal->id,
             'title' => 'Koncert chvál v Trnave',
             'published_at' => '2023-09-24 18:00:00',
         ]);
         Post::factory()->create([
-            'organization_id' => $canal->id,
+            'canal_id' => $canal->id,
             'title' => 'Homília na 25. nedeľu, iný rok',
             'published_at' => '2024-09-22 11:00:00',
         ]);

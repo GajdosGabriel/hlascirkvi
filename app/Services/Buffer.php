@@ -151,14 +151,14 @@ class Buffer
     protected function pickPost(CarbonImmutable $now, array $status): ?array
     {
         $freshSince = $now->subDays((int) config('buffer.archive_after_days'));
-        $organizations = $this->post->waitingOrganizations($freshSince);
+        $canals = $this->post->waitingCanals($freshSince);
 
         $order = $this->archiveTurn($status) ? ['archive', 'fresh'] : ['fresh', 'archive'];
 
         foreach ($order as $kind) {
             $post = $kind === 'archive'
-                ? $this->fromArchive($organizations, $now)
-                : $this->fromFresh($organizations, $now, $freshSince);
+                ? $this->fromArchive($canals, $now)
+                : $this->fromFresh($canals, $now, $freshSince);
 
             if ($post !== null) {
                 return ['post' => $post, 'archive' => $kind === 'archive'];
@@ -190,10 +190,10 @@ class Buffer
      * Čerstvý príspevok. Na rade je kanál, z ktorého sa najdlhšie nič
      * neukázalo, pri zhode ten s najstarším čakajúcim príspevkom.
      */
-    protected function fromFresh($organizations, CarbonImmutable $now, CarbonImmutable $freshSince): ?Post
+    protected function fromFresh($canals, CarbonImmutable $now, CarbonImmutable $freshSince): ?Post
     {
         $candidates = $this->underDailyLimit(
-            $organizations->filter(fn ($organization) => $organization->fresh_count > 0),
+            $canals->filter(fn ($canal) => $canal->fresh_count > 0),
             $now
         )->sortBy([
             // null = z kanála ešte nikdy nič nevyšlo, ide prvý
@@ -201,25 +201,25 @@ class Buffer
             fn ($a, $b) => $a->oldest_waiting <=> $b->oldest_waiting,
         ]);
 
-        $organization = $this->withoutLastOrganization($candidates, $now)->first();
+        $canal = $this->withoutLastCanal($candidates, $now)->first();
 
-        return $organization
-            ? $this->post->nextWaitingPost($organization->organization_id, $freshSince)
+        return $canal
+            ? $this->post->nextWaitingPost($canal->canal_id, $freshSince)
             : null;
     }
 
     /**
      * Kúsok starého frontu — vždy ten úplne najstarší, ktorý ešte čaká.
      */
-    protected function fromArchive($organizations, CarbonImmutable $now): ?Post
+    protected function fromArchive($canals, CarbonImmutable $now): ?Post
     {
-        $organization = $this->underDailyLimit(
-            $organizations->filter(fn ($organization) => $organization->waiting_count > $organization->fresh_count),
+        $canal = $this->underDailyLimit(
+            $canals->filter(fn ($canal) => $canal->waiting_count > $canal->fresh_count),
             $now
-        )->sortBy(fn ($organization) => $organization->oldest_waiting)->first();
+        )->sortBy(fn ($canal) => $canal->oldest_waiting)->first();
 
-        return $organization
-            ? $this->post->nextWaitingPost($organization->organization_id)
+        return $canal
+            ? $this->post->nextWaitingPost($canal->canal_id)
             : null;
     }
 
@@ -227,37 +227,37 @@ class Buffer
      * Kanály, ktoré dnes ešte nevyčerpali svoj strop. Ak čaká jediný kanál,
      * strop sa neuplatní — nie je čo striedať a deň by inak stíchol.
      */
-    protected function underDailyLimit($organizations, CarbonImmutable $now)
+    protected function underDailyLimit($canals, CarbonImmutable $now)
     {
-        if ($organizations->count() < 2) {
-            return $organizations->values();
+        if ($canals->count() < 2) {
+            return $canals->values();
         }
 
-        $limit = (int) config('buffer.max_per_organization');
+        $limit = (int) config('buffer.max_per_canal');
 
         $publishedToday = BufferPublication::onDate($now)
-            ->selectRaw('organization_id, count(*) as pocet')
-            ->groupBy('organization_id')
-            ->pluck('pocet', 'organization_id');
+            ->selectRaw('canal_id, count(*) as pocet')
+            ->groupBy('canal_id')
+            ->pluck('pocet', 'canal_id');
 
-        return $organizations
-            ->filter(fn ($organization) => ($publishedToday[$organization->organization_id] ?? 0) < $limit)
+        return $canals
+            ->filter(fn ($canal) => ($publishedToday[$canal->canal_id] ?? 0) < $limit)
             ->values();
     }
 
     /**
      * Dva príspevky z toho istého kanála za sebou prezradia automat.
      */
-    protected function withoutLastOrganization($organizations, CarbonImmutable $now)
+    protected function withoutLastCanal($canals, CarbonImmutable $now)
     {
-        if ($organizations->count() < 2) {
-            return $organizations->values();
+        if ($canals->count() < 2) {
+            return $canals->values();
         }
 
-        $last = BufferPublication::onDate($now)->orderByDesc('id')->value('organization_id');
+        $last = BufferPublication::onDate($now)->orderByDesc('id')->value('canal_id');
 
-        return $organizations
-            ->reject(fn ($organization) => $organization->organization_id == $last)
+        return $canals
+            ->reject(fn ($canal) => $canal->canal_id == $last)
             ->values();
     }
 
@@ -287,7 +287,7 @@ class Buffer
 
             BufferPublication::create([
                 'post_id' => $post->id,
-                'organization_id' => $post->organization_id,
+                'canal_id' => $post->canal_id,
                 'slot_at' => $at,
                 'archive' => $archive,
                 'arrived_at' => $arrivedAt,

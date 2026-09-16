@@ -23,9 +23,9 @@ class YoutubeController extends Controller
         return view('users.search-new-video', ['user' => $user]);
     }
 
-    public function searchOrganizationVideo(Canal $organization)
+    public function searchCanalVideo(Canal $canal)
     {
-        return view('users.search-new-video', ['user' => $organization]);
+        return view('users.search-new-video', ['user' => $canal]);
     }
 
     // Search by name in title and save/
@@ -37,9 +37,9 @@ class YoutubeController extends Controller
     }
 
     // Search by name in title and save/
-    public function searchAndSaveOrganization(Canal $organization, $slug)
+    public function searchAndSaveCanal(Canal $canal, $slug)
     {
-        $this->saveFoundVideos($organization, $this->searchVideosByUserName($organization));
+        $this->saveFoundVideos($canal, $this->searchVideosByUserName($canal));
 
         return redirect('/');
     }
@@ -66,9 +66,9 @@ class YoutubeController extends Controller
     /**
      * @return string[] ID nájdených videí
      */
-    public function searchVideosByUserName($organization): array
+    public function searchVideosByUserName($canal): array
     {
-        return array_map([VideoId::class, 'from'], $this->api->searchVideos($organization->title, 30));
+        return array_map([VideoId::class, 'from'], $this->api->searchVideos($canal->title, 30));
     }
 
     /**
@@ -77,7 +77,7 @@ class YoutubeController extends Controller
      */
     private function saveFoundVideos(Canal|User $owner, array $ids): void
     {
-        $canal = $owner instanceof Canal ? $owner : $owner->organizations()->first();
+        $canal = $owner instanceof Canal ? $owner : $owner->canals()->first();
         $ids = array_filter($ids);
 
         if ($ids === [] || $canal === null) {

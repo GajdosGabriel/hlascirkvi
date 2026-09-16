@@ -3,7 +3,7 @@
 <div class="card">
 
     @if($post->orgamization->avatar)
-        <img style="width: 100%" src="{{ url('storage/organizations/' . $post->organization_id . '/' . $post->organization->avatar) }}">
+        <img style="width: 100%" src="{{ url('storage/organizations/' . $post->canal_id . '/' . $post->canal->avatar) }}">
     @else
         <img style="width: 40%" src="{{ asset('images/avatar.png') }}">
     @endif

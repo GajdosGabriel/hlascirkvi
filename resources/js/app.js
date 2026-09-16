@@ -25,12 +25,12 @@ import Notification from './components/Notification.vue';
 import RadioButton from './navigation/RadioButton.vue';
 import VideoItem from './components/Video-Item.vue';
 import UserCard from './users/User-card.vue';
-import OrganizationCard from './organizations/Organization-card.vue';
-import OrganizationPageHeader from './organizations/Organization-page-header.vue';
+import CanalCard from './canals/Canal-card.vue';
+import CanalPageHeader from './canals/Canal-page-header.vue';
 import YoutubeDash from './youtube/YoutubeDash.vue';
 import Comments from './comments/Comments.vue';
 import CommentItem from './comments/Comment-Item.vue';
-import NewOrganization from './organizations/NewOrganization.vue';
+import NewCanal from './canals/NewCanal.vue';
 import PrayersCard from './prayer/prayers-card.vue';
 import PrayersIndexPage from './prayer/prayers-index-page.vue';
 import PrayersIndexPage2 from './prayer/prayers-index-page2.vue';
@@ -62,12 +62,12 @@ const components = {
     'radio-button': RadioButton,
     'video-item': VideoItem,
     'user-card': UserCard,
-    'organization-card': OrganizationCard,
-    'organization-page-header': OrganizationPageHeader,
+    'canal-card': CanalCard,
+    'canal-page-header': CanalPageHeader,
     'youtube-dash': YoutubeDash,
     'comments-post': Comments,
     'comment-item': CommentItem,
-    'new-organization': NewOrganization,
+    'new-canal': NewCanal,
     'prayers-card': PrayersCard,
     'prayers-index-page': PrayersIndexPage,
     'prayers-index-page2': PrayersIndexPage2,

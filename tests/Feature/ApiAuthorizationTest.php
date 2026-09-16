@@ -36,33 +36,33 @@ class ApiAuthorizationTest extends TestCase
 
     /**
      * Užívateľ so svojím kanálom. UserObserver mu jeden založí sám, ale ten má
-     * napevno village_id 4209 a nie je v pivote organization_user, takže si
+     * napevno village_id 4209 a nie je v pivote canal_user, takže si
      * vlastníctvo doplníme explicitne.
      */
-    protected function userWithOrganization(): array
+    protected function userWithCanal(): array
     {
         $user = User::factory()->create();
-        $organization = Canal::factory()->create();
+        $canal = Canal::factory()->create();
 
-        $user->organizations()->attach($organization);
-        $user->update(['org_id' => $organization->id]);
+        $user->canals()->attach($canal);
+        $user->update(['canal_id' => $canal->id]);
 
-        return [$user->fresh(), $organization];
+        return [$user->fresh(), $canal];
     }
 
     // ---------------------------------------------------------------- hosť
 
     public function test_host_nesmie_menit_ani_mazat_cez_api(): void
     {
-        [$owner, $organization] = $this->userWithOrganization();
+        [$owner, $canal] = $this->userWithCanal();
 
-        $post = Post::factory()->create(['organization_id' => $organization->id]);
+        $post = Post::factory()->create(['canal_id' => $canal->id]);
         $comment = Comment::factory()->create([
             'commentable_id' => $post->id,
             'commentable_type' => Post::class,
             'user_id' => $owner->id,
         ]);
-        $prayer = Prayer::factory()->create(['organization_id' => $organization->id]);
+        $prayer = Prayer::factory()->create(['canal_id' => $canal->id]);
 
         $this->deleteJson("/api/comments/{$comment->id}")->assertUnauthorized();
         $this->putJson("/api/posts/{$post->id}", ['youtube_blocked' => 1])->assertUnauthorized();
@@ -79,23 +79,23 @@ class ApiAuthorizationTest extends TestCase
 
     public function test_verejne_citanie_ostava_dostupne_bez_prihlasenia(): void
     {
-        [, $organization] = $this->userWithOrganization();
+        [, $canal] = $this->userWithCanal();
 
-        $post = Post::factory()->create(['organization_id' => $organization->id]);
-        Prayer::factory()->create(['organization_id' => $organization->id]);
+        $post = Post::factory()->create(['canal_id' => $canal->id]);
+        Prayer::factory()->create(['canal_id' => $canal->id]);
 
         $this->getJson('/api/comments')->assertOk();
         $this->getJson('/api/posts')->assertOk();
         $this->getJson('/api/prayers')->assertOk();
         $this->getJson('/api/prayers/fulfilled')->assertOk();
         $this->getJson("/api/posts/{$post->id}/comments")->assertOk();
-        $this->getJson("/api/organization/{$organization->id}")->assertOk();
+        $this->getJson("/api/organization/{$canal->id}")->assertOk();
     }
 
     public function test_anonymny_komentar_je_stale_mozny(): void
     {
-        [, $organization] = $this->userWithOrganization();
-        $post = Post::factory()->create(['organization_id' => $organization->id]);
+        [, $canal] = $this->userWithCanal();
+        $post = Post::factory()->create(['canal_id' => $canal->id]);
 
         $this->postJson("/api/posts/{$post->id}/comments", [
             'body' => 'Komentár od neprihláseného návštevníka.',
@@ -109,8 +109,8 @@ class ApiAuthorizationTest extends TestCase
 
     public function test_anonymny_formular_neprihlasi_existujuci_ucet_podla_emailu(): void
     {
-        [$victim, $organization] = $this->userWithOrganization();
-        $post = Post::factory()->create(['organization_id' => $organization->id]);
+        [$victim, $canal] = $this->userWithCanal();
+        $post = Post::factory()->create(['canal_id' => $canal->id]);
 
         $this->postJson('/api/posts/'.$post->getKey().'/comments', [
             'body' => 'Pokus o komentár pod cudzím účtom.',
@@ -140,10 +140,10 @@ class ApiAuthorizationTest extends TestCase
 
     public function test_prihlaseny_nesmie_zasahovat_do_cudzich_zaznamov(): void
     {
-        [$owner, $organization] = $this->userWithOrganization();
-        [$intruder] = $this->userWithOrganization();
+        [$owner, $canal] = $this->userWithCanal();
+        [$intruder] = $this->userWithCanal();
 
-        $post = Post::factory()->create(['organization_id' => $organization->id]);
+        $post = Post::factory()->create(['canal_id' => $canal->id]);
         $comment = Comment::factory()->create([
             'commentable_id' => $post->id,
             'commentable_type' => Post::class,
@@ -159,20 +159,20 @@ class ApiAuthorizationTest extends TestCase
         $this->putJson("/api/users/{$owner->id}", ['notify_bell' => now()->toDateTimeString()])->assertForbidden();
         $this->deleteJson("/api/comments/{$comment->id}")->assertForbidden();
         $this->deleteJson("/images/{$image->id}")->assertForbidden();
-        $this->putJson("/dashboard/canals/{$organization->id}", [
+        $this->putJson("/dashboard/canals/{$canal->id}", [
             'title' => 'Prepísaný kanál',
-            'village_id' => $organization->village_id,
+            'village_id' => $canal->village_id,
         ])->assertForbidden();
 
-        $this->assertDatabaseHas('organizations', ['id' => $organization->id, 'title' => $organization->title]);
+        $this->assertDatabaseHas('canals', ['id' => $canal->id, 'title' => $canal->title]);
         $this->assertDatabaseHas('comments', ['id' => $comment->id, 'deleted_at' => null]);
         $this->assertDatabaseHas('images', ['id' => $image->id, 'deleted_at' => null]);
     }
 
     public function test_zverejnenie_prispevku_je_len_pre_superadmina(): void
     {
-        [$owner, $organization] = $this->userWithOrganization();
-        $post = Post::factory()->create(['organization_id' => $organization->id]);
+        [$owner, $canal] = $this->userWithCanal();
+        $post = Post::factory()->create(['canal_id' => $canal->id]);
 
         // CheckSuperAdmin nevracia 403, ale presmeruje na úvodnú stránku.
         $this->actingAs($owner)
@@ -186,15 +186,15 @@ class ApiAuthorizationTest extends TestCase
 
     public function test_vlastnik_smie_so_svojim_komentarom_aj_modlitbou(): void
     {
-        [$owner, $organization] = $this->userWithOrganization();
+        [$owner, $canal] = $this->userWithCanal();
 
-        $post = Post::factory()->create(['organization_id' => $organization->id]);
+        $post = Post::factory()->create(['canal_id' => $canal->id]);
         $comment = Comment::factory()->create([
             'commentable_id' => $post->id,
             'commentable_type' => Post::class,
             'user_id' => $owner->id,
         ]);
-        $prayer = Prayer::factory()->create(['organization_id' => $organization->id]);
+        $prayer = Prayer::factory()->create(['canal_id' => $canal->id]);
 
         $this->actingAs($owner);
 
@@ -214,40 +214,40 @@ class ApiAuthorizationTest extends TestCase
 
     public function test_vlastnik_smie_upravit_svoj_kanal(): void
     {
-        [$owner, $organization] = $this->userWithOrganization();
+        [$owner, $canal] = $this->userWithCanal();
 
         $this->actingAs($owner)
-            ->put("/dashboard/canals/{$organization->id}", [
+            ->put("/dashboard/canals/{$canal->id}", [
                 'title' => 'Nový názov kanála',
-                'village_id' => $organization->village_id,
+                'village_id' => $canal->village_id,
             ])
             ->assertRedirect();
 
-        $this->assertDatabaseHas('organizations', [
-            'id' => $organization->id,
+        $this->assertDatabaseHas('canals', [
+            'id' => $canal->id,
             'title' => 'Nový názov kanála',
         ]);
     }
 
     public function test_published_a_spravcov_kanala_smie_menit_len_superadmin(): void
     {
-        [$owner, $organization] = $this->userWithOrganization();
-        [$cudzi] = $this->userWithOrganization();
+        [$owner, $canal] = $this->userWithCanal();
+        [$cudzi] = $this->userWithCanal();
 
-        $organization->update(['published' => 1]);
+        $canal->update(['published' => 1]);
 
         $this->actingAs($owner)
-            ->put("/dashboard/canals/{$organization->id}", [
-                'title' => $organization->title,
-                'village_id' => $organization->village_id,
+            ->put("/dashboard/canals/{$canal->id}", [
+                'title' => $canal->title,
+                'village_id' => $canal->village_id,
                 'published' => 0,
                 'users' => [$cudzi->id],
             ])
             ->assertRedirect();
 
-        $this->assertDatabaseHas('organizations', ['id' => $organization->id, 'published' => 1]);
-        $this->assertDatabaseMissing('organization_user', [
-            'organization_id' => $organization->id,
+        $this->assertDatabaseHas('canals', ['id' => $canal->id, 'published' => 1]);
+        $this->assertDatabaseMissing('canal_user', [
+            'canal_id' => $canal->id,
             'user_id' => $cudzi->id,
         ]);
     }
@@ -271,7 +271,7 @@ class ApiAuthorizationTest extends TestCase
 
     public function test_youtube_import_je_post_a_len_pre_superadmina(): void
     {
-        [$user] = $this->userWithOrganization();
+        [$user] = $this->userWithCanal();
         $url = '/youtube/user/'.$user->getKey().'/test/search';
 
         $this->get($url)->assertMethodNotAllowed();

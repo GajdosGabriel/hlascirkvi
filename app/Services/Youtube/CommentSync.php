@@ -87,7 +87,7 @@ class CommentSync
     public function candidates(int $limit): Collection
     {
         $query = fn () => (new EloquentPostRepository)->postsInSection(PostSection::Front)
-            ->without(['favorites', 'images', 'organization'])
+            ->without(['favorites', 'images', 'canal'])
             ->whereNotNull('video_id');
 
         $posts = $query()->whereNull('comments_synced_at')->latest('id')->limit($limit)->get();

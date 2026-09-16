@@ -73,7 +73,7 @@ class ExtractZdruzenieMedaily extends Extractors
             //Add the link to our $extractedLinks array.
             $extractedBody[] = array(
                 'body' => trim(preg_replace('/\t/', '', $linkText)),
-                'organization' => 649
+                'canal' => 649
             );
         }
 

@@ -59,9 +59,9 @@
                     <time :datetime="prayer.created_at" :title="dateTime(prayer.created_at)">
                         {{ prayer.created_at_humans }}
                     </time>
-                    <template v-if="prayer.organization_title">
+                    <template v-if="prayer.canal_title">
                         <span aria-hidden="true">·</span>
-                        <span>{{ prayer.organization_title }}</span>
+                        <span>{{ prayer.canal_title }}</span>
                     </template>
                     <span v-if="prayer.fulfilled_at" class="ar-badge ar-badge--ok">
                         <i class="fas fa-check"></i> Vypočutá
@@ -120,7 +120,10 @@ export default {
 
     computed: {
         canManage() {
-            return this.authUser && this.authUser.id == this.prayer.organization_id;
+            // Modlitbu spravuje správca kanála, do ktorého patrí — nie užívateľ,
+            // ktorého id sa zhoduje s id kanála. Pôvodné porovnanie
+            // `authUser.id == prayer.canal_id` bolo náhodné.
+            return this.authUser && this.authUser.canal_id == this.prayer.canal_id;
         },
 
         isLong() {

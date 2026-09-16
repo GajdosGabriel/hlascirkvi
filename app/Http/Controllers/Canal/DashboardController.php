@@ -17,7 +17,7 @@ class DashboardController extends Controller
 {
     public function __invoke(DashboardStats $stats): View
     {
-        $canal = auth()->user()->organization;
+        $canal = auth()->user()->canal;
 
         // Užívateľ bez prideleného kanála sa sem dostane tiež — má vidieť, čo
         // s tým, nie prázdne dlaždice s nulami.

@@ -32,11 +32,11 @@ class DashboardTest extends TestCase
     public function test_spravca_kanala_vidi_nastenku(): void
     {
         $canal = Canal::factory()->create();
-        $user  = User::factory()->create(['org_id' => $canal->id]);
+        $user  = User::factory()->create(['canal_id' => $canal->id]);
         $canal->users()->attach($user->id);
 
-        Post::factory()->create(['organization_id' => $canal->id]);
-        Post::factory()->unpublished()->create(['organization_id' => $canal->id]);
+        Post::factory()->create(['canal_id' => $canal->id]);
+        Post::factory()->unpublished()->create(['canal_id' => $canal->id]);
 
         $this->actingAs($user)
             ->get('/dashboard')
@@ -46,7 +46,7 @@ class DashboardTest extends TestCase
     /** Užívateľ bez kanála má dostať rozcestník, nie chybu. */
     public function test_uzivatel_bez_kanala_dostane_rozcestnik(): void
     {
-        $this->actingAs(User::factory()->create(['org_id' => null]))
+        $this->actingAs(User::factory()->create(['canal_id' => null]))
             ->get('/dashboard')
             ->assertOk();
     }

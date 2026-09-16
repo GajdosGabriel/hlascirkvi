@@ -12,6 +12,6 @@ namespace App\Repositories\Contracts;
 interface CanalRepository
 {
     public function getYoutubeVideos();
-    public function createPost($organizationId, array $properties );
+    public function createPost($canalId, array $properties );
 
 }

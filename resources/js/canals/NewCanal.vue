@@ -12,7 +12,7 @@
         </div>
 
 
-        <form @submit.prevent="saveOrganization" v-if="showForm">
+        <form @submit.prevent="saveCanal" v-if="showForm">
             <div class="form-group">
                 <label>Meno novej organizácie</label>
                 <input type="text" v-model="form.title" class="form-control" placeholder="Názov organizácie" required />
@@ -118,7 +118,7 @@ export default {
             });
         },
 
-        saveOrganization: function () {
+        saveCanal: function () {
             axios
                 .post(
                     "/api/users/" + this.user.id + "/organizations",

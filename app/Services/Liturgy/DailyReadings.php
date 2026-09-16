@@ -139,7 +139,7 @@ class DailyReadings
             }
 
             $posts = Post::published()
-                ->without(['favorites', 'images', 'organization'])
+                ->without(['favorites', 'images', 'canal'])
                 ->whereBetween('published_at', [
                     $date->subDays($window)->startOfDay(),
                     $date->addDays($window)->endOfDay(),
@@ -152,19 +152,19 @@ class DailyReadings
                     }
                 })
                 // Príspevok vypnutého kanála detail odmietne — nemá zmysel naň odkazovať.
-                ->whereIn('organization_id', Canal::query()->where('published', 1)->select('id'))
+                ->whereIn('canal_id', Canal::query()->where('published', 1)->select('id'))
                 ->orderByDesc('count_view')
                 ->limit($limit - count($found))
-                ->get(['id', 'slug', 'title', 'organization_id', 'published_at']);
+                ->get(['id', 'slug', 'title', 'canal_id', 'published_at']);
 
-            $canals = Canal::query()->whereIn('id', $posts->pluck('organization_id'))->pluck('title', 'id');
+            $canals = Canal::query()->whereIn('id', $posts->pluck('canal_id'))->pluck('title', 'id');
 
             foreach ($posts as $post) {
                 $found[] = [
                     'id' => $post->id,
                     'slug' => $post->slug,
                     'title' => (string) $post->title,
-                    'canal' => $canals[$post->organization_id] ?? null,
+                    'canal' => $canals[$post->canal_id] ?? null,
                     'published_at' => $post->published_at->toDateString(),
                     'years_ago' => (int) $yearsBack,
                 ];

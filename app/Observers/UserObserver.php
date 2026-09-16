@@ -63,7 +63,7 @@ class UserObserver
     {
         $user->assignRole('user');
 
-        $organization = $user->organizations()->create([
+        $canal = $user->canals()->create([
             'title' => $user->fullname,
             'slug' => $user->slug,
             'person' => 1,
@@ -71,7 +71,7 @@ class UserObserver
         ]);
 
         $user->update([
-            'org_id' => $organization->id
+            'canal_id' => $canal->id
         ]);
 
 

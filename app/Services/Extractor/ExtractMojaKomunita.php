@@ -113,7 +113,7 @@ class ExtractMojaKomunita extends Extractors
                 'user' => $item['user'],
                 'title' => str_replace( $item['user'], '', $item['title']),
                 'body' => $item['body'],
-                'organization' => 648
+                'canal' => 648
             );
         }
 

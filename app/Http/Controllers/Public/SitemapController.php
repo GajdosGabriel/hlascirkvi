@@ -34,7 +34,7 @@ class SitemapController extends Controller
         $xml = Cache::remember('sitemap:index', static::TTL, function () {
             $sitemaps = [
                 route('sitemap.pages'),
-                route('sitemap.organizations'),
+                route('sitemap.canals'),
             ];
 
             $pages = (int) ceil($this->postsQuery()->count() / static::PER_FILE);
@@ -102,15 +102,15 @@ class SitemapController extends Controller
     }
 
     /** Profily kanálov. */
-    public function organizations(): Response
+    public function canals(): Response
     {
-        $xml = Cache::remember('sitemap:organizations', static::TTL, function () {
+        $xml = Cache::remember('sitemap:canals', static::TTL, function () {
             $urls = Canal::where('published', 1)
                 ->orderBy('id')
                 ->get(['id', 'updated_at'])
-                ->map(fn ($organization) => [
-                    'loc' => route('organizations.show', [$organization->id]),
-                    'lastmod' => $this->iso($organization->updated_at),
+                ->map(fn ($canal) => [
+                    'loc' => route('organizations.show', [$canal->id]),
+                    'lastmod' => $this->iso($canal->updated_at),
                     'changefreq' => 'daily',
                     'priority' => '0.7',
                 ])
@@ -131,7 +131,7 @@ class SitemapController extends Controller
             $posts = $this->postsQuery()
                 // Post má v $with obľúbené, obrázky aj kanál. Do mapy webu ide
                 // len adresa a dátum, tak nech sa načítava len to.
-                ->without(['favorites', 'images', 'organization'])
+                ->without(['favorites', 'images', 'canal'])
                 ->orderBy('id')
                 ->forPage($page, static::PER_FILE)
                 ->get(['id', 'slug', 'updated_at']);
@@ -163,7 +163,7 @@ class SitemapController extends Controller
             ->whereNotNull('slug')
             ->where('slug', '<>', '')
             ->whereNull('video_available')
-            ->whereHas('organization', fn ($query) => $query->where('published', 1));
+            ->whereHas('canal', fn ($query) => $query->where('published', 1));
     }
 
     protected function urlset(array $urls): string

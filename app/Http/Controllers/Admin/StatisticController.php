@@ -33,9 +33,9 @@ class StatisticController extends Controller
             ->where('views.viewable_type', Post::class)
             ->where('views.viewed_on', '>=', Carbon::today()->subDays($days)->toDateString())
             ->join('posts', 'posts.id', '=', 'views.viewable_id')
-            ->join('organizations', 'organizations.id', '=', 'posts.organization_id')
-            ->select('views.viewable_id', DB::raw('count(*) as unique_view'), 'posts.title as title', 'posts.id as id', 'posts.slug as slug', 'organizations.title as organization', 'posts.count_view as count_view')
-            ->groupBy('views.viewable_id', 'posts.title', 'posts.id', 'posts.slug', 'organizations.title', 'posts.count_view')
+            ->join('canals', 'canals.id', '=', 'posts.canal_id')
+            ->select('views.viewable_id', DB::raw('count(*) as unique_view'), 'posts.title as title', 'posts.id as id', 'posts.slug as slug', 'canals.title as canal', 'posts.count_view as count_view')
+            ->groupBy('views.viewable_id', 'posts.title', 'posts.id', 'posts.slug', 'canals.title', 'posts.count_view')
             ->orderBy('unique_view', 'desc')
             ->get();
 

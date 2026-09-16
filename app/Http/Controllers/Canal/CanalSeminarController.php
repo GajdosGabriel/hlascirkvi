@@ -42,7 +42,7 @@ class CanalSeminarController extends Controller
 
     public function store(Canal $canal, SaveSeminarRequest $request)
     {
-        // Autorizácia tu chýbala úplne — a `organization_id` sa bralo z
+        // Autorizácia tu chýbala úplne — a `canal_id` sa bralo z
         // prihláseného užívateľa, nie z routy, takže sa seminár vždy založil
         // pod jeho primárnym kanálom bez ohľadu na to, kde bol formulár.
         $this->authorize('update', $canal);

@@ -21,13 +21,36 @@ CREATE TABLE `addres_books` (
   KEY `addres_books_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `announcements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `announcements` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `placement` varchar(32) NOT NULL,
+  `variant` varchar(32) NOT NULL DEFAULT 'info',
+  `title` varchar(191) NOT NULL,
+  `body` text DEFAULT NULL,
+  `link_url` varchar(191) DEFAULT NULL,
+  `link_text` varchar(60) DEFAULT NULL,
+  `dismissible` tinyint(1) NOT NULL DEFAULT 0,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `sort_order` int(10) unsigned NOT NULL DEFAULT 0,
+  `published_from` datetime DEFAULT NULL,
+  `published_until` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `announcements_placement_active_index` (`placement`,`active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `buffer_publications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `buffer_publications` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `post_id` int(10) unsigned NOT NULL,
-  `organization_id` int(10) unsigned NOT NULL,
+  `canal_id` int(10) unsigned NOT NULL,
   `slot_at` datetime NOT NULL,
   `archive` tinyint(1) NOT NULL DEFAULT 0,
   `arrived_at` datetime DEFAULT NULL,
@@ -35,9 +58,57 @@ CREATE TABLE `buffer_publications` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `buffer_publications_post_id_unique` (`post_id`),
-  KEY `buffer_publications_organization_id_index` (`organization_id`),
   KEY `buffer_publications_slot_at_index` (`slot_at`),
-  KEY `buffer_publications_arrived_at_index` (`arrived_at`)
+  KEY `buffer_publications_arrived_at_index` (`arrived_at`),
+  KEY `buffer_publications_canal_id_index` (`canal_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `canal_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `canal_user` (
+  `canal_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  KEY `canal_user_canal_id_index` (`canal_id`),
+  KEY `canal_user_user_id_index` (`user_id`),
+  CONSTRAINT `canal_user_canal_id_foreign` FOREIGN KEY (`canal_id`) REFERENCES `canals` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `canal_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `canals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `canals` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `village_id` int(10) unsigned NOT NULL,
+  `person` tinyint(1) NOT NULL DEFAULT 0,
+  `avatar` varchar(200) DEFAULT NULL,
+  `title` varchar(191) NOT NULL,
+  `slug` varchar(191) NOT NULL,
+  `street` varchar(191) DEFAULT NULL,
+  `psc` int(11) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `description` mediumtext DEFAULT NULL,
+  `mod_title` varchar(20) DEFAULT NULL,
+  `denomination` varchar(20) DEFAULT NULL,
+  `kind` varchar(20) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `phone_numeric` varchar(20) DEFAULT NULL,
+  `youtube_channel` varchar(40) DEFAULT NULL,
+  `youtube_playlist` varchar(40) DEFAULT NULL,
+  `import_day` tinyint(3) unsigned DEFAULT NULL,
+  `youtube_disabled_at` timestamp NULL DEFAULT NULL,
+  `youtube_disabled_reason` varchar(191) DEFAULT NULL,
+  `url_www` varchar(191) DEFAULT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT 1,
+  `post_section` varchar(20) NOT NULL DEFAULT 'front',
+  `front_listed_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `canals_import_day_index` (`import_day`),
+  KEY `canals_front_list_index` (`front_listed_at`,`kind`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `categories`;
@@ -58,6 +129,8 @@ CREATE TABLE `comments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `commentable_id` int(10) unsigned NOT NULL,
   `commentable_type` varchar(191) NOT NULL,
+  `parent_id` int(10) unsigned DEFAULT NULL,
+  `youtube_comment_id` varchar(100) DEFAULT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `body` text NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 1,
@@ -65,12 +138,14 @@ CREATE TABLE `comments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `user_avatar` varchar(100) DEFAULT NULL,
-  `user_name` varchar(30) DEFAULT NULL,
+  `user_avatar` varchar(255) DEFAULT NULL,
+  `user_name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `comments_youtube_comment_id_unique` (`youtube_comment_id`),
   KEY `comments_user_id_foreign` (`user_id`),
   KEY `comments_created_index` (`deleted_at`,`created_at`),
   KEY `comments_commentable_index` (`commentable_type`,`commentable_id`,`deleted_at`),
+  KEY `comments_parent_index` (`parent_id`,`deleted_at`),
   CONSTRAINT `comments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -156,6 +231,31 @@ CREATE TABLE `jobs` (
   KEY `jobs_queue_index` (`queue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `liturgical_days`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `liturgical_days` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `title` varchar(191) NOT NULL,
+  `rank` varchar(32) NOT NULL,
+  `color` varchar(16) NOT NULL,
+  `season` varchar(16) NOT NULL,
+  `week` tinyint(3) unsigned NOT NULL,
+  `sunday_cycle` char(1) NOT NULL,
+  `weekday_cycle` tinyint(3) unsigned NOT NULL,
+  `psalter_week` tinyint(3) unsigned DEFAULT NULL,
+  `obligation` tinyint(1) NOT NULL DEFAULT 0,
+  `note` varchar(191) DEFAULT NULL,
+  `readings` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`readings`)),
+  `source_url` varchar(191) NOT NULL,
+  `fetched_at` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `liturgical_days_date_unique` (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `messengers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -221,31 +321,6 @@ CREATE TABLE `notifications` (
   KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `organization_updater`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `organization_updater` (
-  `organization_id` int(10) unsigned NOT NULL,
-  `updater_id` int(10) unsigned NOT NULL,
-  UNIQUE KEY `organization_updater_organization_id_updater_id_unique` (`organization_id`,`updater_id`),
-  KEY `organization_updater_organization_id_index` (`organization_id`),
-  KEY `organization_updater_updater_id_index` (`updater_id`),
-  CONSTRAINT `organization_updater_organization_id_foreign` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`),
-  CONSTRAINT `organization_updater_updater_id_foreign` FOREIGN KEY (`updater_id`) REFERENCES `updaters` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `organization_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `organization_user` (
-  `organization_id` int(10) unsigned NOT NULL,
-  `user_id` int(10) unsigned NOT NULL,
-  KEY `organization_user_organization_id_index` (`organization_id`),
-  KEY `organization_user_user_id_index` (`user_id`),
-  CONSTRAINT `organization_user_organization_id_foreign` FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `organization_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `organizations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -261,16 +336,25 @@ CREATE TABLE `organizations` (
   `email` varchar(100) DEFAULT NULL,
   `description` mediumtext DEFAULT NULL,
   `mod_title` varchar(20) DEFAULT NULL,
+  `denomination` varchar(20) DEFAULT NULL,
+  `kind` varchar(20) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `phone_numeric` varchar(20) DEFAULT NULL,
   `youtube_channel` varchar(40) DEFAULT NULL,
   `youtube_playlist` varchar(40) DEFAULT NULL,
+  `import_day` tinyint(3) unsigned DEFAULT NULL,
+  `youtube_disabled_at` timestamp NULL DEFAULT NULL,
+  `youtube_disabled_reason` varchar(191) DEFAULT NULL,
   `url_www` varchar(191) DEFAULT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 1,
+  `post_section` varchar(20) NOT NULL DEFAULT 'front',
+  `front_listed_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `organizations_import_day_index` (`import_day`),
+  KEY `organizations_front_list_index` (`front_listed_at`,`kind`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `password_resets`;
@@ -331,28 +415,6 @@ CREATE TABLE `persons` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `post`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `post` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `organization_id` int(10) unsigned NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `body` text DEFAULT NULL,
-  `blocked` tinyint(1) NOT NULL DEFAULT 0,
-  `youtube_blocked` tinyint(1) NOT NULL DEFAULT 0,
-  `video_available` tinyint(1) DEFAULT NULL,
-  `video_id` varchar(255) DEFAULT NULL,
-  `video_duration` varchar(255) DEFAULT NULL,
-  `count_view` int(11) NOT NULL,
-  `deleted_at` datetime NOT NULL,
-  `published` datetime DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `post_seminar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -368,25 +430,12 @@ CREATE TABLE `post_seminar` (
   CONSTRAINT `post_seminar_seminar_id_foreign` FOREIGN KEY (`seminar_id`) REFERENCES `seminars` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `post_updater`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `post_updater` (
-  `post_id` int(10) unsigned NOT NULL,
-  `updater_id` int(10) unsigned NOT NULL,
-  UNIQUE KEY `post_updater_post_id_updater_id_unique` (`post_id`,`updater_id`),
-  KEY `post_updater_post_id_index` (`post_id`),
-  KEY `post_updater_updater_id_index` (`updater_id`),
-  CONSTRAINT `post_updater_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`),
-  CONSTRAINT `post_updater_updater_id_foreign` FOREIGN KEY (`updater_id`) REFERENCES `updaters` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `posts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `organization_id` int(10) unsigned NOT NULL,
+  `canal_id` int(10) unsigned NOT NULL,
   `title` varchar(200) NOT NULL,
   `body` text NOT NULL,
   `slug` varchar(191) NOT NULL,
@@ -397,16 +446,20 @@ CREATE TABLE `posts` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `video_id` varchar(191) DEFAULT NULL,
   `count_view` int(11) NOT NULL DEFAULT 0,
-  `published` datetime DEFAULT NULL,
+  `published_at` timestamp NULL DEFAULT NULL,
+  `section` varchar(20) NOT NULL DEFAULT 'front',
   `video_available` tinyint(1) DEFAULT NULL,
   `video_duration` varchar(15) DEFAULT NULL,
+  `youtube_published_at` timestamp NULL DEFAULT NULL,
+  `comments_synced_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `posts_feed_created_index` (`youtube_blocked`,`video_available`,`deleted_at`,`created_at`),
   KEY `posts_feed_views_index` (`youtube_blocked`,`video_available`,`deleted_at`,`count_view`),
-  KEY `posts_organization_created_index` (`organization_id`,`youtube_blocked`,`deleted_at`,`created_at`),
-  KEY `posts_organization_count_index` (`youtube_blocked`,`organization_id`),
-  KEY `posts_published_index` (`published`),
-  KEY `posts_organization_views_index` (`organization_id`,`youtube_blocked`,`deleted_at`,`count_view`)
+  KEY `posts_section_published_index` (`section`,`published_at`),
+  KEY `posts_video_id_index` (`video_id`),
+  KEY `posts_canal_created_index` (`canal_id`,`youtube_blocked`,`deleted_at`,`created_at`),
+  KEY `posts_canal_count_index` (`youtube_blocked`,`canal_id`),
+  KEY `posts_canal_views_index` (`canal_id`,`youtube_blocked`,`deleted_at`,`count_view`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `prayers`;
@@ -415,7 +468,7 @@ DROP TABLE IF EXISTS `prayers`;
 CREATE TABLE `prayers` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
-  `organization_id` int(11) NOT NULL,
+  `canal_id` int(11) NOT NULL,
   `user_name` varchar(255) DEFAULT NULL,
   `body` text NOT NULL,
   `fulfilled_at` datetime DEFAULT NULL,
@@ -425,7 +478,7 @@ CREATE TABLE `prayers` (
   PRIMARY KEY (`id`),
   KEY `prayers_created_index` (`deleted_at`,`created_at`),
   KEY `prayers_fulfilled_index` (`deleted_at`,`fulfilled_at`),
-  KEY `prayers_organization_id_index` (`organization_id`)
+  KEY `prayers_canal_id_index` (`canal_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `role_has_permissions`;
@@ -460,7 +513,7 @@ CREATE TABLE `seminars` (
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `youtube_playlist` varchar(255) DEFAULT NULL,
-  `organization_id` int(10) unsigned NOT NULL,
+  `canal_id` int(10) unsigned NOT NULL,
   `published` datetime DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -481,38 +534,12 @@ CREATE TABLE `sessions` (
   UNIQUE KEY `sessions_id_unique` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `tags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tags` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `updaters`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `updaters` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(60) NOT NULL,
-  `slug` varchar(60) NOT NULL,
-  `identificator` int(10) unsigned DEFAULT NULL,
-  `type` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `updaters_title_unique` (`title`),
-  UNIQUE KEY `updaters_slug_unique` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` char(36) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
@@ -527,16 +554,25 @@ CREATE TABLE `users` (
   `send_email` tinyint(1) NOT NULL DEFAULT 1,
   `front_author` tinyint(1) NOT NULL DEFAULT 0,
   `disabled` tinyint(1) NOT NULL DEFAULT 0,
+  `status` varchar(20) NOT NULL DEFAULT 'active',
+  `status_changed_at` timestamp NULL DEFAULT NULL,
+  `status_changed_by` int(10) unsigned DEFAULT NULL,
+  `status_reason` varchar(500) DEFAULT NULL,
+  `last_login_at` timestamp NULL DEFAULT NULL,
+  `last_login_via` varchar(32) DEFAULT NULL,
+  `last_login_ip` varchar(45) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `set_denomination` int(3) DEFAULT NULL,
-  `org_id` int(11) DEFAULT NULL,
+  `canal_id` int(11) DEFAULT NULL,
   `api_token` varchar(60) NOT NULL,
   `notify_bell` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
+  UNIQUE KEY `users_email_unique` (`email`),
+  UNIQUE KEY `users_uuid_unique` (`uuid`),
+  KEY `users_status_index` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `venues`;
@@ -664,3 +700,20 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (43,'2026_09_07_190
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (44,'2026_09_07_200000_add_dimensions_to_images_table',9);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (45,'2026_09_08_100000_drop_big_thinks_table',10);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (46,'2026_09_08_120000_add_commentable_index_to_comments_table',10);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (47,'2026_09_12_100000_add_youtube_import_state_to_organizations_table',11);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (48,'2026_09_12_130000_create_announcements_table',12);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (49,'2026_09_12_150000_add_front_list_to_organizations_table',13);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (50,'2026_09_12_160000_add_canal_properties_to_organizations_table',14);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (51,'2026_09_12_170000_add_publication_state_to_posts_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (52,'2026_09_12_180000_drop_updaters_tables',16);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (53,'2026_09_13_140000_drop_tags_tables',17);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (54,'2026_09_13_150000_add_user_account_state',18);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (55,'2026_09_13_150100_normalize_user_status_audit_columns',19);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (56,'2026_09_13_120000_enrich_organization_contacts',20);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (57,'2026_09_13_130000_drop_post_table',20);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (58,'2026_09_14_120000_add_parent_id_to_comments_table',20);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (59,'2026_09_14_130000_add_kind_to_organizations_table',21);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (60,'2026_09_14_150000_create_liturgical_days_table',22);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (61,'2026_09_14_160000_youtube_import_metadata',23);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (62,'2026_09_15_120000_add_uuid_to_users',24);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (63,'2026_09_16_120000_rename_organizations_to_canals',25);

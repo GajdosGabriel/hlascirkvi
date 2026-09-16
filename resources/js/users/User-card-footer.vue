@@ -101,7 +101,7 @@
 
                 axios.post('/store/message', {
                     body: this.body,
-                    requested_organization: this.user.id
+                    requested_user: this.user.id
                 });
                 this. showForm = false;
                 this.annotation = true;

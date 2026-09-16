@@ -24,7 +24,7 @@ class BufferController extends Controller
         $posts = Post::unpublished()->latest();
 
         if ($request->posts) {
-            $posts = $posts->where('organization_id', $request->posts);
+            $posts = $posts->where('canal_id', $request->posts);
         }
 
         return view(
@@ -34,7 +34,7 @@ class BufferController extends Controller
                 // Bočný zoznam potrebuje len názov kanála a počet čakajúcich
                 // príspevkov. Pôvodné $posts->get()->groupBy() na to načítalo
                 // všetky nezverejnené príspevky aj s obrázkami a kanálmi.
-                'organizations' => $this->organizationsWithUnpublishedPosts(),
+                'canals' => $this->canalsWithUnpublishedPosts(),
                 // Kedy dnes publisher vypustí ďalší príspevok.
                 'status' => $buffer->status(),
             ]
@@ -49,7 +49,7 @@ class BufferController extends Controller
      * vyberie index podľa neho a zvyšných ~20-tisíc riadkov musí zoradiť.
      * Korelovaný poddopyt sa vyhodnotí len pre kanály, ktoré prejdú whereHas.
      */
-    protected function organizationsWithUnpublishedPosts()
+    protected function canalsWithUnpublishedPosts()
     {
         $unpublished = fn ($query) => $query->unpublished();
 

@@ -26,7 +26,7 @@ class ImageRefetch extends Command
 {
     protected $signature = 'images:refetch
         {--year=* : Obmedziť na roky vzniku obrázka, napr. --year=2025 --year=2026}
-        {--org= : Obmedziť na jednu organizáciu}
+        {--canal= : Obmedziť na jeden kanál}
         {--limit=0 : Spracovať najviac toľko obrázkov (0 = všetky)}
         {--sleep=0 : Pauza medzi obrázkami v milisekundách}
         {--dry-run : Len zistiť dostupnosť, nič nesťahovať ani nemazať}';
@@ -187,8 +187,8 @@ class ImageRefetch extends Command
             $query->whereIn(\DB::raw('YEAR(images.created_at)'), $years);
         }
 
-        if ($org = $this->option('org')) {
-            $query->where('posts.organization_id', $org);
+        if ($canal = $this->option('canal')) {
+            $query->where('posts.canal_id', $canal);
         }
 
         return $query;

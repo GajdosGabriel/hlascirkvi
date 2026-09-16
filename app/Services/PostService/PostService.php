@@ -7,12 +7,12 @@ use App\Services\Files\Form;
 
 class PostService
 {
-    public function store($organization, $request)
+    public function store($canal, $request)
     {
-        DB::transaction(function () use ($organization, $request) {
+        DB::transaction(function () use ($canal, $request) {
             // validated() namiesto all() — do modelu sa tak nedostane nič, čo
-            // PostSaveRequest nepovolil (count_view, cudzie organization_id).
-            $post = $organization->posts()->create(
+            // PostSaveRequest nepovolil (count_view, cudzie canal_id).
+            $post = $canal->posts()->create(
                 $this->attributes($request, null)
             );
 

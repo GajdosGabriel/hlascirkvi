@@ -20,14 +20,14 @@ class SitemapTest extends TestCase
         ]);
         DB::purge('sqlite');
 
-        Schema::create('organizations', function (Blueprint $table) {
+        Schema::create('canals', function (Blueprint $table) {
             $table->id();
             $table->boolean('published');
             $table->softDeletes();
         });
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('organization_id');
+            $table->unsignedBigInteger('canal_id');
             $table->string('slug')->nullable();
             $table->boolean('youtube_blocked')->default(false);
             $table->boolean('video_available')->nullable();
@@ -35,11 +35,11 @@ class SitemapTest extends TestCase
             $table->softDeletes();
         });
 
-        DB::table('organizations')->insert(['id' => 1, 'published' => 1]);
+        DB::table('canals')->insert(['id' => 1, 'published' => 1]);
         foreach ([null, '', 'valid-slug', '0'] as $id => $slug) {
             DB::table('posts')->insert([
                 'id' => $id + 1,
-                'organization_id' => 1,
+                'canal_id' => 1,
                 'slug' => $slug,
             ]);
         }

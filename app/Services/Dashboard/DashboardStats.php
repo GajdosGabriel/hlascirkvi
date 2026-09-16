@@ -23,10 +23,10 @@ class DashboardStats
     /** Dĺžka porovnávaného okna v dňoch. */
     public const WINDOW = 30;
 
-    public function for(Canal $organization, ?CarbonImmutable $now = null): array
+    public function for(Canal $canal, ?CarbonImmutable $now = null): array
     {
         $now = $now ?: CarbonImmutable::now();
-        $id  = $organization->id;
+        $id  = $canal->id;
 
         $posts    = $this->posts($id, $now);
         $timeline = $this->timeline($id, $now);
@@ -61,13 +61,13 @@ class DashboardStats
      * ostatné sekcie potrebujú len tieto tri — a musia sedieť s tým, čo
      * ukazuje nástenka, preto stoja tu vedľa dopytov, z ktorých vychádzajú.
      */
-    public function tabCounts(Canal $organization): array
+    public function tabCounts(Canal $canal): array
     {
-        $id = $organization->id;
+        $id = $canal->id;
 
         return [
             'posts' => (int) DB::table('posts')
-                ->where('organization_id', $id)
+                ->where('canal_id', $id)
                 ->where('youtube_blocked', 0)
                 ->whereNull('deleted_at')
                 ->count(),
@@ -77,7 +77,7 @@ class DashboardStats
     }
 
     /** Dnešné importy a publikácie aktuálneho kanála. */
-    protected function today(int $organizationId, CarbonImmutable $now): object
+    protected function today(int $canalId, CarbonImmutable $now): object
     {
         $start = $now->startOfDay();
 
@@ -85,7 +85,7 @@ class DashboardStats
         // Other imports are published immediately and retain their creation time.
         return DB::table('posts')
             ->leftJoin('buffer_publications as publication', 'publication.post_id', '=', 'posts.id')
-            ->where('posts.organization_id', $organizationId)
+            ->where('posts.canal_id', $canalId)
             ->where('posts.youtube_blocked', 0)
             ->whereNull('posts.deleted_at')
             ->selectRaw("coalesce(sum(posts.video_id is not null and posts.video_id <> '' and coalesce(publication.arrived_at, posts.created_at) >= ? and coalesce(publication.arrived_at, posts.created_at) <= ?), 0) as imported", [$start, $now])
@@ -96,15 +96,15 @@ class DashboardStats
     /**
      * Súhrn príspevkov jedným prechodom. Podmienené súčty sú tu preto, že
      * inak by to bolo šesť samostatných count() dopytov nad tou istou sadou
-     * riadkov; takto stačí jeden prechod cez posts_organization_count_index.
+     * riadkov; takto stačí jeden prechod cez posts_canal_count_index.
      */
-    protected function posts(int $organizationId, CarbonImmutable $now): object
+    protected function posts(int $canalId, CarbonImmutable $now): object
     {
         $from = $now->subDays(self::WINDOW);
         $prev = $now->subDays(self::WINDOW * 2);
 
         return DB::table('posts')
-            ->where('organization_id', $organizationId)
+            ->where('canal_id', $canalId)
             ->where('youtube_blocked', 0)
             ->selectRaw('coalesce(sum(deleted_at is null), 0) as total')
             ->selectRaw('coalesce(sum(deleted_at is null and published_at is not null), 0) as published')
@@ -130,14 +130,14 @@ class DashboardStats
      *
      * @return Collection<int, object>
      */
-    protected function timeline(int $organizationId, CarbonImmutable $now): Collection
+    protected function timeline(int $canalId, CarbonImmutable $now): Collection
     {
         $start = $now->subDays(self::WINDOW * 2 - 1)->startOfDay();
 
         $rows = DB::table('views')
             ->join('posts', 'posts.id', '=', 'views.viewable_id')
             ->where('views.viewable_type', Post::class)
-            ->where('posts.organization_id', $organizationId)
+            ->where('posts.canal_id', $canalId)
             ->where('views.viewed_on', '>=', $start->toDateString())
             ->groupBy('views.viewed_on')
             ->pluck(DB::raw('count(*)'), 'views.viewed_on');
@@ -177,12 +177,12 @@ class DashboardStats
      *
      * @return Collection<int, object>
      */
-    protected function activity(int $organizationId, CarbonImmutable $now): Collection
+    protected function activity(int $canalId, CarbonImmutable $now): Collection
     {
         $start = $now->startOfMonth()->subMonths(11);
 
         $rows = DB::table('posts')
-            ->where('organization_id', $organizationId)
+            ->where('canal_id', $canalId)
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
             ->where('created_at', '>=', $start)
@@ -202,12 +202,12 @@ class DashboardStats
     /**
      * Komentáre pod príspevkami kanála — celkom aj v oboch oknách.
      */
-    protected function commentsSummary(int $organizationId, CarbonImmutable $now): object
+    protected function commentsSummary(int $canalId, CarbonImmutable $now): object
     {
         $from = $now->subDays(self::WINDOW);
         $prev = $now->subDays(self::WINDOW * 2);
 
-        $row = $this->commentsQuery($organizationId)
+        $row = $this->commentsQuery($canalId)
             ->selectRaw('count(*) as total')
             ->selectRaw('coalesce(sum(comments.created_at >= ?), 0) as current', [$from])
             ->selectRaw('coalesce(sum(comments.created_at >= ? and comments.created_at < ?), 0) as previous', [$prev, $from])
@@ -222,10 +222,10 @@ class DashboardStats
         return $row;
     }
 
-    protected function prayers(int $organizationId, CarbonImmutable $now): object
+    protected function prayers(int $canalId, CarbonImmutable $now): object
     {
         return DB::table('prayers')
-            ->where('organization_id', $organizationId)
+            ->where('canal_id', $canalId)
             ->whereNull('deleted_at')
             ->selectRaw('count(*) as total')
             ->selectRaw('coalesce(sum(fulfilled_at is null), 0) as open')
@@ -238,12 +238,11 @@ class DashboardStats
      * Odberatelia kanála. Obľúbené visia polymorfne, dopyt sedí na
      * favorites_favorited_index.
      */
-    protected function audience(int $organizationId, CarbonImmutable $now): object
+    protected function audience(int $canalId, CarbonImmutable $now): object
     {
         return DB::table('favorites')
-            // Morph alias, nie názov triedy — v DB je App\Models\Organization.
             ->where('favorited_type', (new Canal)->getMorphClass())
-            ->where('favorited_id', $organizationId)
+            ->where('favorited_id', $canalId)
             ->selectRaw('count(*) as total')
             ->selectRaw('coalesce(sum(created_at >= ?), 0) as current', [$now->subDays(self::WINDOW)])
             ->first();
@@ -254,10 +253,10 @@ class DashboardStats
      * pribudlo len príspevkom (migrácia 2026_09_12_170000), premenovanie sa
      * omylom prenieslo aj sem a nástenka na tom padala.
      */
-    protected function seminars(int $organizationId): object
+    protected function seminars(int $canalId): object
     {
         return DB::table('seminars')
-            ->where('organization_id', $organizationId)
+            ->where('canal_id', $canalId)
             ->whereNull('deleted_at')
             ->selectRaw('count(*) as total')
             ->selectRaw('coalesce(sum(published is not null), 0) as published')
@@ -271,12 +270,12 @@ class DashboardStats
      *
      * @return Collection<int, object>
      */
-    protected function topPosts(int $organizationId, CarbonImmutable $now, int $limit = 5): Collection
+    protected function topPosts(int $canalId, CarbonImmutable $now, int $limit = 5): Collection
     {
         return DB::table('views')
             ->join('posts', 'posts.id', '=', 'views.viewable_id')
             ->where('views.viewable_type', Post::class)
-            ->where('posts.organization_id', $organizationId)
+            ->where('posts.canal_id', $canalId)
             ->whereNull('posts.deleted_at')
             ->where('views.viewed_on', '>=', $now->subDays(self::WINDOW)->toDateString())
             ->groupBy('posts.id', 'posts.title', 'posts.slug', 'posts.count_view')
@@ -297,10 +296,10 @@ class DashboardStats
      *
      * @return Collection<int, object>
      */
-    protected function latestPosts(int $organizationId, int $limit = 6): Collection
+    protected function latestPosts(int $canalId, int $limit = 6): Collection
     {
         return DB::table('posts')
-            ->where('organization_id', $organizationId)
+            ->where('canal_id', $canalId)
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
             ->orderByDesc('created_at')
@@ -318,10 +317,10 @@ class DashboardStats
      *
      * @return Collection<int, object>
      */
-    protected function waitingPosts(int $organizationId, int $limit = 5): Collection
+    protected function waitingPosts(int $canalId, int $limit = 5): Collection
     {
         return DB::table('posts')
-            ->where('organization_id', $organizationId)
+            ->where('canal_id', $canalId)
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
             ->whereNull('published_at')
@@ -336,10 +335,10 @@ class DashboardStats
      *
      * @return Collection<int, object>
      */
-    protected function brokenPosts(int $organizationId, int $limit = 5): Collection
+    protected function brokenPosts(int $canalId, int $limit = 5): Collection
     {
         return DB::table('posts')
-            ->where('organization_id', $organizationId)
+            ->where('canal_id', $canalId)
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
             ->where('video_available', 0)
@@ -354,9 +353,9 @@ class DashboardStats
      *
      * @return Collection<int, object>
      */
-    protected function latestComments(int $organizationId, int $limit = 6): Collection
+    protected function latestComments(int $canalId, int $limit = 6): Collection
     {
-        return $this->commentsQuery($organizationId)
+        return $this->commentsQuery($canalId)
             ->orderByDesc('comments.created_at')
             ->limit($limit)
             ->get([
@@ -370,12 +369,12 @@ class DashboardStats
             ]);
     }
 
-    protected function commentsQuery(int $organizationId)
+    protected function commentsQuery(int $canalId)
     {
         return DB::table('comments')
             ->join('posts', 'posts.id', '=', 'comments.commentable_id')
             ->where('comments.commentable_type', Post::class)
-            ->where('posts.organization_id', $organizationId)
+            ->where('posts.canal_id', $canalId)
             ->where('posts.youtube_blocked', 0)
             ->whereNull('comments.deleted_at')
             ->whereNull('posts.deleted_at');

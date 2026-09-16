@@ -25,7 +25,7 @@ class SocialAvatar
             return;
         }
 
-        $canal = $user->organizations()
+        $canal = $user->canals()
             ->where('person', 1)
             ->where(fn ($query) => $query->whereNull('avatar')->orWhere('avatar', ''))
             ->first();

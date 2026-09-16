@@ -22,7 +22,7 @@ class VideoUploadSeminars
 
     public function __construct(
         public Seminar $seminar,
-        public Canal $organization,
+        public Canal $canal,
         private ?YoutubeApi $api = null,
     ) {
         $this->api ??= app(YoutubeApi::class);
@@ -51,7 +51,7 @@ class VideoUploadSeminars
             $post->seminars()->sync($this->seminar->id);
         });
 
-        $saved = (new VideoImporter($this->api))->import($this->organization, $ids, PostSection::Seminar);
+        $saved = (new VideoImporter($this->api))->import($this->canal, $ids, PostSection::Seminar);
 
         foreach ($saved as $post) {
             $post->seminars()->attach($this->seminar->id);

@@ -33,14 +33,14 @@
      * nechávajú tak — inak by prepnutie na "Najsledovanejšie" zahodilo zvolený
      * mesiac a hľadanie. Hodnota null parameter z adresy vyhodí.
      */
-    $channelUrl = function (array $changes = []) use ($organization) {
+    $channelUrl = function (array $changes = []) use ($canal) {
         $keep  = request()->only(['rok', 'mesiac', 'search', 'recomended', 'mostVisited', 'first']);
         $query = array_filter(
             array_merge($keep, $changes),
             fn ($value) => $value !== null && $value !== ''
         );
 
-        return route('organizations.show', ['organization' => $organization->id] + $query);
+        return route('organizations.show', ['canal' => $canal->id] + $query);
     };
 
     // Prepínače výpisu zodpovedajú filtrom v App\Filters\PostFilters. Prepnutie
@@ -73,45 +73,45 @@
      * v pomere 16:9 a dosť veľký na to, aby ho Facebook prijal. Avatar
      * kanála je na to malý.
      */
-    $orgUrl = route('organizations.show', [$organization->id]);
+    $canalUrl = route('organizations.show', [$canal->id]);
 
-    $orgListUrl = fn ($page) => $page > 1
+    $canalListUrl = fn ($page) => $page > 1
         ? request()->fullUrlWithQuery(['page' => $page])
         : request()->fullUrlWithoutQuery('page');
 
-    $orgPage = $posts->currentPage();
+    $canalPage = $posts->currentPage();
 
-    $orgImage = $posts->first()?->images?->first()?->originalImageUrl;
+    $canalImage = $posts->first()?->images?->first()?->originalImageUrl;
 
-    $orgDescription = strip_tags((string) $organization->description)
-        ?: 'Kázne, prenosy bohoslužieb a videá kanála ' . $organization->title . ' na Hlase Cirkvi.';
+    $canalDescription = strip_tags((string) $canal->description)
+        ?: 'Kázne, prenosy bohoslužieb a videá kanála ' . $canal->title . ' na Hlase Cirkvi.';
 
     $seo = [
-        'title' => $orgPage > 1
-            ? $organization->title . ' – strana ' . $orgPage
-            : $organization->title,
-        'description' => $orgDescription,
-        'canonical' => $orgListUrl($orgPage),
-        'prev' => $orgPage > 1 ? $orgListUrl($orgPage - 1) : null,
-        'next' => $posts->hasMorePages() ? $orgListUrl($orgPage + 1) : null,
+        'title' => $canalPage > 1
+            ? $canal->title . ' – strana ' . $canalPage
+            : $canal->title,
+        'description' => $canalDescription,
+        'canonical' => $canalListUrl($canalPage),
+        'prev' => $canalPage > 1 ? $canalListUrl($canalPage - 1) : null,
+        'next' => $posts->hasMorePages() ? $canalListUrl($canalPage + 1) : null,
         'type' => 'profile',
-        'image' => $orgImage ? url($orgImage) : null,
-        'image_alt' => $organization->title,
+        'image' => $canalImage ? url($canalImage) : null,
+        'image_alt' => $canal->title,
         'jsonld' => [
             array_filter([
                 '@context' => 'https://schema.org',
                 '@type' => 'Organization',
-                'name' => $organization->title,
-                'description' => \App\Support\Seo::text($orgDescription, 300),
-                'url' => $orgUrl,
-                'logo' => $organization->avatar
-                    ? url(Storage::url('organizations/' . $organization->id . '/' . $organization->avatar))
+                'name' => $canal->title,
+                'description' => \App\Support\Seo::text($canalDescription, 300),
+                'url' => $canalUrl,
+                'logo' => $canal->avatar
+                    ? url(Storage::url('organizations/' . $canal->id . '/' . $canal->avatar))
                     : null,
-                'sameAs' => array_values(array_filter([$organization->url_www])),
+                'sameAs' => array_values(array_filter([$canal->url_www])),
             ]),
             \App\Support\Seo::breadcrumbs([
                 ['Hlas Cirkvi', url('/')],
-                [$organization->title, $orgUrl],
+                [$canal->title, $canalUrl],
             ]),
         ],
     ];
@@ -135,16 +135,16 @@
             <div class="py-3 text-sm text-gray-500">
                 <a href="{{ url('/') }}" class="hover:text-gray-900">Hlas Cirkvi</a>
                 <span class="mx-2 text-gray-300">/</span>
-                <span class="text-gray-700">{{ $organization->title }}</span>
+                <span class="text-gray-700">{{ $canal->title }}</span>
             </div>
 
             <div class="border-t border-[color:var(--ar-line)] pt-6">
 
                 {{-- Identita a odber. Vlastný Vue komponent, preto stojí
                      samostatne a čísla kanála idú až pod neho. --}}
-                <organization-page-header :organization="{{ $organization }}"></organization-page-header>
+                <canal-page-header :canal="{{ $canal }}"></canal-page-header>
 
-                @if (! $organization->published)
+                @if (! $canal->published)
                     <p class="mb-5 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
                         <i class="fas fa-exclamation-triangle mr-1.5"></i>
                         Kanál je zrušený — nové príspevky už nepribúdajú.
@@ -183,9 +183,9 @@
                      kanála sa ponúkne len odoslanie správy. --}}
                 @php
                     $contacts = array_filter([
-                        'obec'  => optional($organization->village)->fullname,
-                        'web'   => $organization->url_www,
-                        'mail'  => $organization->email,
+                        'obec'  => optional($canal->village)->fullname,
+                        'web'   => $canal->url_www,
+                        'mail'  => $canal->email,
                     ]);
                 @endphp
 
@@ -218,13 +218,13 @@
                     </div>
 
                     @if (isset($contacts['mail']) && auth()->check())
-                        <form id="poslat-spravu" method="POST" action="{{ route('organizations.message', $organization) }}"
+                        <form id="poslat-spravu" method="POST" action="{{ route('organizations.message', $canal) }}"
                               class="mt-4 max-w-xl" @unless ($errors->has('body')) hidden @endunless>
                             @csrf
-                            <label for="canal-message" class="sr-only">Správa pre {{ $organization->title }}</label>
+                            <label for="canal-message" class="sr-only">Správa pre {{ $canal->title }}</label>
                             <textarea id="canal-message" name="body" rows="4" required minlength="3"
                                       class="w-full rounded-md border border-gray-300 p-2 text-sm"
-                                      placeholder="Napíšte správu pre {{ $organization->title }}…">{{ old('body') }}</textarea>
+                                      placeholder="Napíšte správu pre {{ $canal->title }}…">{{ old('body') }}</textarea>
                             @error('body')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -251,7 +251,7 @@
 
                     {{-- Hľadanie ostáva v kanáli, preto si so sebou nesie
                          zvolený mesiac aj poradie ako skryté polia. --}}
-                    <form action="{{ route('organizations.show', [$organization->id]) }}" method="GET"
+                    <form action="{{ route('organizations.show', [$canal->id]) }}" method="GET"
                           class="ar-search {{ $search !== '' ? 'ar-search--open' : '' }} ml-auto">
                         @foreach (array_filter(request()->only(['rok', 'mesiac', 'recomended', 'mostVisited', 'first'])) as $name => $value)
                             <input type="hidden" name="{{ $name }}" value="{{ $value }}">
@@ -286,7 +286,7 @@
                             {{ $plural($posts->total(), 'príspevok', 'príspevky', 'príspevkov') }}
                             — {{ implode(', ', $selection) }}
                         </p>
-                        <a href="{{ route('organizations.show', [$organization->id]) }}"
+                        <a href="{{ route('organizations.show', [$canal->id]) }}"
                            class="shrink-0 text-xs text-gray-400 hover:text-[color:var(--ar-accent)]">
                             <i class="fas fa-times mr-1"></i> zrušiť výber
                         </a>

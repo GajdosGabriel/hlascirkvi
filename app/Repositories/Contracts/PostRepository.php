@@ -14,14 +14,14 @@ use App\Enums\PostSection;
 interface PostRepository extends InterfaceRepository
 {
     public function postsInSection(PostSection $section);
-    public function groupedBySection(PostSection $section, $perOrganization = 5);
+    public function groupedBySection(PostSection $section, $perCanal = 5);
     public function countUnwatchedSundayServicesVideos();
     public function findAndPublishPost($postId);
 
     // Buffer publisher (App\Services\Buffer)
     public function countWaitingPosts();
     public function countWaitingPostsSince($since);
-    public function waitingOrganizations($freshSince = null);
-    public function nextWaitingPost($organizationId, $freshSince = null);
+    public function waitingCanals($freshSince = null);
+    public function nextWaitingPost($canalId, $freshSince = null);
     public function publishPost($post, $publishedAt = null);
 }

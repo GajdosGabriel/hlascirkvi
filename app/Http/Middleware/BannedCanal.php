@@ -21,7 +21,7 @@ class BannedCanal
 
         // Kanál bez príznaku `published` je pre verejnosť neexistujúci — 404,
         // nie 405. „Method Not Allowed" hovorí crawlerom niečo úplne iné.
-        if ($post instanceof Post && ! $post->organization?->published) {
+        if ($post instanceof Post && ! $post->canal?->published) {
             abort(404);
         }
 

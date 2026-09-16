@@ -8,7 +8,7 @@ use App\Services\Youtube\PlaylistId;
 use Illuminate\Console\Command;
 
 /**
- * V `organizations.youtube_channel` sa našli adresy kanálov namiesto ID
+ * V `canals.youtube_channel` sa našli adresy kanálov namiesto ID
  * (napr. https://www.youtube.com/@EVSchcemviac). YouTube na taký `channelId`
  * odpovie 403 „The request is not properly authorized", takže denný import
  * videí na tých kanáloch padal každý deň rovnako.

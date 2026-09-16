@@ -36,7 +36,7 @@ class VideoUpload
      */
     private const FIRST_IMPORT = 20;
 
-    protected EloquentCanalRepository $organizations;
+    protected EloquentCanalRepository $canals;
 
     protected YoutubeApi $api;
 
@@ -44,7 +44,7 @@ class VideoUpload
 
     public function __construct(?YoutubeApi $api = null)
     {
-        $this->organizations = new EloquentCanalRepository;
+        $this->canals = new EloquentCanalRepository;
         $this->api = $api ?? app(YoutubeApi::class);
         $this->importer = new VideoImporter($this->api);
     }
@@ -57,7 +57,7 @@ class VideoUpload
         // Zoznam už rozposlaných hlásení patrí jednému behu importu.
         NotifyAdmin::forget();
 
-        return $this->foreachOrganization($canalId);
+        return $this->foreachCanal($canalId);
     }
 
     /**
@@ -65,21 +65,21 @@ class VideoUpload
      * preto je každý kanál v samostatnom try/catch. Vyčerpaná kvóta je
      * výnimka: zvyšné kanály by zlyhali rovnako, beh sa preto ukončí.
      */
-    protected function foreachOrganization(?int $canalId): int
+    protected function foreachCanal(?int $canalId): int
     {
         $saved = 0;
 
-        $organizations = $this->organizations->getYoutubeVideos()
+        $canals = $this->canals->getYoutubeVideos()
             ->when($canalId, fn ($canals) => $canals->where('id', $canalId));
 
-        foreach ($organizations as $organization) {
+        foreach ($canals as $canal) {
             try {
-                $saved += $this->validateUrlPlaylistOrChannel($organization);
+                $saved += $this->validateUrlPlaylistOrChannel($canal);
             } catch (\Throwable $e) {
                 Log::warning('Import videí z YouTube zlyhal: ' . $e->getMessage(), [
-                    'organization_id' => $organization->id,
-                    'channel' => $organization->youtube_channel,
-                    'playlist' => $organization->youtube_playlist,
+                    'canal_id' => $canal->id,
+                    'channel' => $canal->youtube_channel,
+                    'playlist' => $canal->youtube_playlist,
                 ]);
 
                 if ($e instanceof YoutubeApiException && $e->is('quotaExceeded')) {
@@ -97,16 +97,16 @@ class VideoUpload
      * YouTube nenájde, sťahovanie sa kanálu vypne a superadminovi príde
      * notifikácia.
      */
-    protected function validateUrlPlaylistOrChannel($organization): int
+    protected function validateUrlPlaylistOrChannel($canal): int
     {
         $sources = [];
 
-        if (trim((string) $organization->youtube_channel) !== '') {
-            $sources[] = $this->fromChannel($organization);
+        if (trim((string) $canal->youtube_channel) !== '') {
+            $sources[] = $this->fromChannel($canal);
         }
 
-        if (trim((string) $organization->youtube_playlist) !== '') {
-            $sources[] = $this->fromPlaylist($organization);
+        if (trim((string) $canal->youtube_playlist) !== '') {
+            $sources[] = $this->fromPlaylist($canal);
         }
 
         if ($sources === []) {
@@ -118,7 +118,7 @@ class VideoUpload
         // Vypíname len kanál, ktorému nezostal žiadny funkčný zdroj. Keď mu
         // druhý zdroj beží, import má odkiaľ brať a stačí notifikácia.
         if (count($missing) === count($sources)) {
-            DisableImport::because($organization, implode('; ', $missing));
+            DisableImport::because($canal, implode('; ', $missing));
 
             return 0;
         }
@@ -127,16 +127,16 @@ class VideoUpload
         // vo formulári kanála a opraviť ho vie len správca.
         foreach ($missing as $reason) {
             NotifyAdmin::about(
-                $organization,
+                $canal,
                 'source-missing',
-                $organization->title . ': ' . $reason
+                $canal->title . ': ' . $reason
                     . '. Videá zatiaľ chodia z druhého zdroja — údaj opravte alebo vymažte vo formulári kanála.'
             );
         }
 
         $ids = array_merge(...array_map(fn ($source) => $source['videos'] ?? [], $sources));
 
-        return count($this->importer->import($organization, $ids));
+        return count($this->importer->import($canal, $ids));
     }
 
     /**
@@ -146,9 +146,9 @@ class VideoUpload
      *
      * @return array{videos: ?array, missing: ?string}
      */
-    protected function fromChannel($organization): array
+    protected function fromChannel($canal): array
     {
-        $raw = trim((string) $organization->youtube_channel);
+        $raw = trim((string) $canal->youtube_channel);
         $channelId = ChannelId::fromInput($raw);
 
         if ($channelId === null) {
@@ -158,18 +158,18 @@ class VideoUpload
                 return ['videos' => null, 'missing' => 'kanál „' . $raw . '" sa na YouTube nenašiel'];
             }
 
-            $organization->forceFill(['youtube_channel' => $channelId])->save();
+            $canal->forceFill(['youtube_channel' => $channelId])->save();
 
             NotifyAdmin::about(
-                $organization,
+                $canal,
                 'channel-rewritten',
-                $organization->title . ': adresa kanála YouTube „' . $raw . '" bola prepísaná na ID '
+                $canal->title . ': adresa kanála YouTube „' . $raw . '" bola prepísaná na ID '
                     . $channelId . '. Skontrolujte vo formulári kanála, či ide o správny kanál.'
             );
         }
 
         try {
-            return ['videos' => $this->playlistVideoIds(YoutubeApi::uploadsPlaylistId($channelId), $organization), 'missing' => null];
+            return ['videos' => $this->playlistVideoIds(YoutubeApi::uploadsPlaylistId($channelId), $canal), 'missing' => null];
         } catch (YoutubeApiException $e) {
             if ($e->is('quotaExceeded')) {
                 throw $e;
@@ -192,9 +192,9 @@ class VideoUpload
     /**
      * @return array{videos: ?array, missing: ?string}
      */
-    protected function fromPlaylist($organization): array
+    protected function fromPlaylist($canal): array
     {
-        $raw = trim((string) $organization->youtube_playlist);
+        $raw = trim((string) $canal->youtube_playlist);
         $playlistId = PlaylistId::fromInput($raw);
 
         if ($playlistId === null) {
@@ -202,7 +202,7 @@ class VideoUpload
         }
 
         try {
-            return ['videos' => $this->playlistVideoIds($playlistId, $organization), 'missing' => null];
+            return ['videos' => $this->playlistVideoIds($playlistId, $canal), 'missing' => null];
         } catch (YoutubeApiException $e) {
             // Zmazaný playlist YouTube pomenuje priamo.
             if ($e->is('playlistNotFound')) {
@@ -219,9 +219,9 @@ class VideoUpload
      *
      * @return string[]
      */
-    protected function playlistVideoIds(string $playlistId, $organization): array
+    protected function playlistVideoIds(string $playlistId, $canal): array
     {
-        if (! $organization->posts()->withTrashed()->withoutGlobalScopes()->exists()) {
+        if (! $canal->posts()->withTrashed()->withoutGlobalScopes()->exists()) {
             $items = $this->api->playlistItems($playlistId, null, self::FIRST_IMPORT)->items;
 
             return array_values(array_filter(array_map([VideoId::class, 'from'], $items)));

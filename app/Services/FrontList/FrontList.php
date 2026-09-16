@@ -224,11 +224,11 @@ class FrontList
             ->join('posts', 'posts.id', '=', 'views.viewable_id')
             ->where('views.viewable_type', (new Post)->getMorphClass())
             ->where('views.viewed_on', '>=', $from->toDateString())
-            ->whereIn('posts.organization_id', $ids)
+            ->whereIn('posts.canal_id', $ids)
             ->whereNotNull('posts.published_at')
             ->whereNull('posts.deleted_at')
-            ->groupBy('posts.organization_id')
-            ->selectRaw('posts.organization_id as canal_id, sum(pow(0.5, datediff(?, views.viewed_on) / ?)) as score', [$today, $halfLife])
+            ->groupBy('posts.canal_id')
+            ->selectRaw('posts.canal_id as canal_id, sum(pow(0.5, datediff(?, views.viewed_on) / ?)) as score', [$today, $halfLife])
             ->pluck('score', 'canal_id');
 
         $follows = DB::table('favorites')

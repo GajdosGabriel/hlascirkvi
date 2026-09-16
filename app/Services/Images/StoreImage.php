@@ -164,7 +164,7 @@ final class StoreImage
             'name' => Str::limit((string) ($this->model->title ?? $this->model->slug ?? ''), 250, ''),
             'url' => reset($jpg),
             'thumb' => end($jpg),
-            'org_name' => Str::limit((string) ($this->model->organization?->title ?? $source->originalName), 190, ''),
+            'org_name' => Str::limit((string) ($this->model->canal?->title ?? $source->originalName), 190, ''),
             'size' => strlen($source->binary),
             'mime' => 'jpg',
             'type' => 'img',
@@ -215,7 +215,7 @@ final class StoreImage
         $date = $this->model->created_at ?? now();
 
         return Str::lower(class_basename($this->model)) . 's/'
-            . $this->model->organization_id . '/'
+            . $this->model->canal_id . '/'
             . $date->format('Y') . '/'
             . $date->format('m') . '/';
     }

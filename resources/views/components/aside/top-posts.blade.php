@@ -3,7 +3,7 @@
 {{-- Rebríček najsledovanejších príspevkov kanála.
 
      Blok bol znak po znaku rovnaký v posts/show.blade.php aj
-     v organizations/index.blade.php, líšil sa len nadpisom. --}}
+     v canals/index.blade.php, líšil sa len nadpisom. --}}
 @if ($items->isNotEmpty())
     <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
         <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">

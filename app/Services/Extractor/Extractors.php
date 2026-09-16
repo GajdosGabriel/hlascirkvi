@@ -18,13 +18,13 @@ use Illuminate\Support\Facades\Log;
 
 class Extractors
 {
-    public $organization;
+    public $canal;
     public $detectDateTime;
 
 
-    public function setOrganization($id)
+    public function setCanal($id)
     {
-        $this->organization = Canal::whereId($id)->first();
+        $this->canal = Canal::whereId($id)->first();
         $this->detectDateTime = new DetectDateTime();
     }
 
@@ -77,7 +77,7 @@ class Extractors
                 'title' => isset($item['title'])  ? $item['title'] : '',
                 'body' => $item['body'],
                 'user_name' => $item['user'],
-                'organization_id' => $item['organization'],
+                'canal_id' => $item['canal'],
                 'created_at' => Carbon::now()->subHours(2)->addMinute(rand(3, 55))->toDateTimeString(),
             ]);
         }

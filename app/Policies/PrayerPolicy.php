@@ -30,7 +30,7 @@ class PrayerPolicy
      */
     public function view(User $user, Prayer $prayer)
     {
-        return $user->org_id == $prayer->organization_id;
+        return $user->canal_id == $prayer->canal_id;
     }
 
     /**
@@ -53,7 +53,7 @@ class PrayerPolicy
      */
     public function update(User $user, Prayer $prayer)
     {
-        return $user->org_id == $prayer->organization_id;
+        return $user->canal_id == $prayer->canal_id;
     }
 
     /**
@@ -65,7 +65,7 @@ class PrayerPolicy
      */
     public function delete(User $user, Prayer $prayer)
     {
-        return $user->org_id == $prayer->organization_id;
+        return $user->canal_id == $prayer->canal_id;
     }
 
     /**

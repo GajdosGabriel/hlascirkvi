@@ -32,7 +32,7 @@ class UserController extends Controller
     /**
      * Formulár (resources/views/users/edit.blade.php) posiela meno, priezvisko,
      * e-mail a prepínač `disabled`. `$request->all()` nad modelom s $guarded = []
-     * tu prepúšťalo aj heslo, org_id či email_verified_at.
+     * tu prepúšťalo aj heslo, canal_id či email_verified_at.
      */
     public function update(User $user, Request $request)
     {

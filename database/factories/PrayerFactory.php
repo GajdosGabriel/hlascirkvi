@@ -13,7 +13,7 @@ class PrayerFactory extends Factory
         return [
             'title' => $this->faker->sentence(4),
             'body' => $this->faker->paragraph,
-            'organization_id' => Canal::factory(),
+            'canal_id' => Canal::factory(),
         ];
     }
 }

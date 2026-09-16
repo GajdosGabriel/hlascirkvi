@@ -30,7 +30,7 @@ class DisableImport
         ])->save();
 
         Log::warning('Sťahovanie videí z YouTube vypnuté: ' . $reason, [
-            'organization_id' => $canal->id,
+            'canal_id' => $canal->id,
             'channel' => $canal->youtube_channel,
             'playlist' => $canal->youtube_playlist,
         ]);

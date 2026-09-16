@@ -2,7 +2,7 @@
     <div>
         <div class="flex text-sm space-x-3 text-gray-400 mt-1">
             <div class="cursor-pointer hover:text-gray-600 text-gray-500">
-                Pridal: {{ seminar.organization.title }}
+                Pridal: {{ seminar.canal.title }}
             </div>
             <div class="flex  space-x-3" v-if="can">
                 <div
@@ -20,7 +20,7 @@
 
                 <a
                     v-else
-                    :href="'/dashboard/canals/'+ seminar.organization_id +'/seminars/' + seminar.id + '/edit'"
+                    :href="'/dashboard/canals/'+ seminar.canal_id +'/seminars/' + seminar.id + '/edit'"
                     class="cursor-pointer hover:bg-gray-300 hover:text-gray-600 border-gray-500 rounded-md px-2"
                 >
                     Nevyplnený playlist
@@ -72,7 +72,7 @@ export default {
 
         can: function() {
             if(this.signedIn) {
-            return [this.user.org_id == this.seminar.organization_id ? false : true];
+            return [this.user.canal_id == this.seminar.canal_id ? false : true];
             }
             return false;
         }
@@ -80,7 +80,7 @@ export default {
 
     methods: {
         publishedfunction: function() {
-            axios.put('/dashboard/canals/'+ this.seminar.organization_id +'/seminars/' + this.seminar.id, {
+            axios.put('/dashboard/canals/'+ this.seminar.canal_id +'/seminars/' + this.seminar.id, {
                 published: this.seminar.published ? "" : Date.now()
             });
         }

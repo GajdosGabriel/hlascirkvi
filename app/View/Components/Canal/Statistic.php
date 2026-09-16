@@ -8,7 +8,7 @@ use Illuminate\View\Component;
 /**
  * Súhrn článkov kanála na jeho detaile v nástenke.
  *
- * Kanál sa predtým bral z auth()->user()->organization, takže detail
+ * Kanál sa predtým bral z auth()->user()->canal, takže detail
  * ľubovoľného kanála ukazoval čísla aktívneho kanála užívateľa.
  */
 class Statistic extends Component

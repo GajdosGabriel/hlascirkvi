@@ -35,14 +35,14 @@ class PostSaveRequest extends FormRequest
              * nevalidovala a do modelu šla cez $request->all(), dal sa
              * príspevok doposlaním tohto poľa presunúť do cudzieho kanála.
              */
-            'organization_id' => [
-                'sometimes', 'integer', 'exists:organizations,id',
+            'canal_id' => [
+                'sometimes', 'integer', 'exists:canals,id',
                 function ($attribute, $value, $fail) {
                     if (auth()->user()->can('superadmin')) {
                         return;
                     }
 
-                    if (! auth()->user()->organizations()->whereKey($value)->exists()) {
+                    if (! auth()->user()->canals()->whereKey($value)->exists()) {
                         $fail('Do tohto kanála nemôžete publikovať.');
                     }
                 },

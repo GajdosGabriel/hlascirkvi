@@ -59,7 +59,7 @@ class BufferPublisher extends Command
             $archive ? ' z archívu' : '',
             $post->id,
             \Illuminate\Support\Str::limit($post->title, 60),
-            $post->organization->title ?? $post->organization_id,
+            $post->canal->title ?? $post->canal_id,
             $post->created_at->format('H:i:s')
         ));
 

@@ -6,7 +6,6 @@ use App\Observers\PostObserver;
 use App\Models\Post;
 use App\Models\Verse;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,13 +35,12 @@ class AppServiceProvider extends ServiceProvider
     {
         JsonResource::withoutWrapping();
 
-        // Kanál sa do 9/2026 volal App\Models\Organization a pod týmto menom je
-        // uložený v polymorfných stĺpcoch (favorites.favorited_type, images,
-        // comments, views, notifications). Alias drží staré dáta čitateľné aj
-        // nové zápisy konzistentné bez migrácie dát.
-        Relation::morphMap([
-            'App\Models\Organization' => \App\Models\Canal::class,
-        ]);
+        // Morph mapa 'App\Models\Organization' => Canal tu stála preto, že
+        // favorites.favorited_type niesol staré meno modelu. Migrácia
+        // 2026_09_16_120000_rename_organizations_to_canals tie riadky prepísala
+        // na App\Models\Canal (aj ešte staršie App\Organization a App\Prayer,
+        // ktoré mapa nepokrývala a favorited() im vracal null), takže alias
+        // už nemá čo prekladať.
         Carbon::setLocale(config('app.locale'));
     }
 }

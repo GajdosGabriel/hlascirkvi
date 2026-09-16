@@ -9,7 +9,7 @@
         class="flex flex-wrap items-center justify-between gap-x-4 gap-y-3"
     >
         <div class="flex min-w-0 items-center gap-3">
-            <organization-avatar :organization="organization" />
+            <canal-avatar :canal="canal" />
 
             <div class="min-w-0">
                 <!--
@@ -20,11 +20,11 @@
                 <component
                     :is="heading"
                     class="ar-display truncate text-xl font-bold leading-tight text-[color:var(--ar-ink)] md:text-2xl"
-                    v-text="organization.title"
+                    v-text="canal.title"
                 ></component>
 
                 <button
-                    v-if="organization.description"
+                    v-if="canal.description"
                     type="button"
                     @click.stop="toggle"
                     class="mt-0.5 inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 transition-colors hover:text-[color:var(--ar-accent)]"
@@ -70,7 +70,7 @@
                 v-if="showDescription"
                 class="w-full border-t border-[color:var(--ar-line)] pt-3 text-sm leading-relaxed text-gray-600"
             >
-                {{ organization.description }}
+                {{ canal.description }}
             </div>
         </transition>
     </div>
@@ -78,21 +78,21 @@
 
 <script>
 import { bus } from "../eventBus";
-import organizationAvatar from "./Organization-avatar";
+import canalAvatar from "./Canal-avatar";
 import { createdMixin } from "../mixins/createdMixin";
 
 export default {
     props: {
-        organization: { type: Object, required: true },
+        canal: { type: Object, required: true },
         // Značka titulku. h1 patrí kanálu len na jeho vlastnej stránke.
         heading: { type: String, default: "h1" },
     },
-    components: { organizationAvatar },
+    components: { canalAvatar },
     mixins: [createdMixin],
     data: function () {
         return {
             showDescription: false,
-            favorited: this.organization.isFavorited,
+            favorited: this.canal.isFavorited,
             open: false,
         };
     },
@@ -110,7 +110,7 @@ export default {
         buttonTitle: function () {
             return this.favorited
                 ? "Zrušiť upozornenia na nové príspevky"
-                : "Upozornenia na nové príspevky kanála " + this.organization.title;
+                : "Upozornenia na nové príspevky kanála " + this.canal.title;
         },
 
         classButton: function () {
@@ -139,7 +139,7 @@ export default {
             }
 
             axios
-                .post("/api/organizations/" + this.organization.id + "/favorites")
+                .post("/api/organizations/" + this.canal.id + "/favorites")
                 .then(() => {
                     this.favorited = !this.favorited;
                     this.messageNotification();
@@ -149,7 +149,7 @@ export default {
         messageNotification: function () {
             bus.$emit("flash", {
                 body: this.favorited
-                    ? "Odoberáte kanál " + this.organization.title
+                    ? "Odoberáte kanál " + this.canal.title
                     : "Odber kanála je zrušený.",
             });
         },

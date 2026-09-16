@@ -17,13 +17,13 @@ class CanalFavoriteController extends Controller
         $this->middleware('auth')->except('store');
     }
 
-    public function store(Canal $organization, Request $request)
+    public function store(Canal $canal, Request $request)
     {
         if ($request->email) {
             (new EloquentUserRepository)->checkIfUserAccountExist($request);
         }
 
-        return new FavoriteResource($organization->favorite());
+        return new FavoriteResource($canal->favorite());
     }
 
 }

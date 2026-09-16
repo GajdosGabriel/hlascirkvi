@@ -42,7 +42,7 @@
 
             <div class="grid col-span-2">
                 @include('admins.buffer.plan')
-                @include('admins.buffer.list-organizations')
+                @include('admins.buffer.list-canals')
             </div>
 
         </x-slot>

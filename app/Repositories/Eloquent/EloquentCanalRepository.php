@@ -24,7 +24,7 @@ class EloquentCanalRepository extends AbstractRepository implements CanalReposit
 
     /**
      * Kanály, ktoré sa dnes majú hľadať na YouTube podľa mena. Deň nesie
-     * stĺpec `organizations.import_day` s rovnakým číslovaním ako
+     * stĺpec `canals.import_day` s rovnakým číslovaním ako
      * Carbon::dayOfWeek — predtým to bol jeden zo siedmich updaterov typu
      * `dayOfWeek` a výber cez sedem vetiev s natvrdo zapísanými slugmi.
      */
@@ -74,15 +74,15 @@ class EloquentCanalRepository extends AbstractRepository implements CanalReposit
 
 
 
-    public function usersOrganizations($idUser)
+    public function usersCanals($idUser)
     {
         return $this->entity->whereHas('users', function ($query) use ($idUser) {
             $query->whereId($idUser);
         });
     }
 
-    public function createPost($organizationId, array $properties)
+    public function createPost($canalId, array $properties)
     {
-        return  $this->find($organizationId)->posts()->create($properties);
+        return  $this->find($canalId)->posts()->create($properties);
     }
 }

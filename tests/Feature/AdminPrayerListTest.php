@@ -13,7 +13,7 @@ use Tests\TestCase;
  * Výpis modlitieb v administrácii (/admin/prayer).
  *
  * Odkazy na úpravu a mazanie potrebujú kanál modlitby. Kým sa bral cez vzťah
- * (`$prayer->organization->id`), stačila jedna modlitba zo zmazaného kanála —
+ * (`$prayer->canal->id`), stačila jedna modlitba zo zmazaného kanála —
  * mäkko mazaný kanál sa cez vzťah nenačíta — a spadol celý výpis, nielen
  * jeden riadok.
  */
@@ -38,7 +38,7 @@ class AdminPrayerListTest extends TestCase
         $user->assignRole('superadmin');
 
         if (! $withCanal) {
-            User::withoutEvents(fn () => $user->update(['org_id' => null]));
+            User::withoutEvents(fn () => $user->update(['canal_id' => null]));
         }
 
         return $user->fresh();
@@ -47,7 +47,7 @@ class AdminPrayerListTest extends TestCase
     public function test_vypis_unesie_modlitbu_zo_zmazaneho_kanala(): void
     {
         $canal = Canal::factory()->create();
-        Prayer::factory()->create(['organization_id' => $canal->id]);
+        Prayer::factory()->create(['canal_id' => $canal->id]);
         $canal->delete();
 
         $this->actingAs($this->superadmin())

@@ -18,13 +18,13 @@ class CanalController extends Controller
         // Výpis siaha na obec aj správcov kanála (components/canal/list).
         // Bez eager loadu si ich pýtal riadok po riadku — pri 50 kanáloch
         // na stránku to bolo cez 200 dopytov namiesto piatich.
-        $organizations = Canal::query()
+        $canals = Canal::query()
             ->with(['village:id,fullname', 'users:id,first_name,last_name'])
             ->latest()
             ->filter($filters)
             ->paginate(50)
             ->withQueryString();
 
-        return view('admins.canals.index', compact('organizations'));
+        return view('admins.canals.index', compact('canals'));
     }
 }

@@ -8,7 +8,7 @@ use App\Models\Canal;
 trait HasCanal
 {
 
-    public function organization()
+    public function canal()
     {
         return $this->belongsTo(Canal::class);
     }
