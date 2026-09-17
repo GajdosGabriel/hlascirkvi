@@ -65,9 +65,10 @@
 
 @php
     /*
-     * Značky pre vyhľadávače (partials/meta). Kanonická adresa vychádza
-     * z aktuálnej — archív aj hľadanie držia svoj výber v query — a strany
-     * za prvou sú spojené odkazmi prev/next.
+     * Značky pre vyhľadávače (partials/meta). Kanonická adresa nesie len
+     * výber z archívu (rok, mesiac) a stranu; sledovacie parametre (fbclid,
+     * utm_*) do nej nepatria. Strany za prvou spája prev/next. Hľadanie a
+     * prepínače poradia sú len výrezy toho istého archívu, preto noindex.
      *
      * Náhľad zdieľania berie obrázok z najnovšieho príspevku kanála: je
      * v pomere 16:9 a dosť veľký na to, aby ho Facebook prijal. Avatar
@@ -75,9 +76,7 @@
      */
     $canalUrl = route('organizations.show', [$canal->id]);
 
-    $canalListUrl = fn ($page) => $page > 1
-        ? request()->fullUrlWithQuery(['page' => $page])
-        : request()->fullUrlWithoutQuery('page');
+    $canalListUrl = fn ($page) => \App\Support\Seo::listUrl(['rok', 'mesiac'], $page);
 
     $canalPage = $posts->currentPage();
 
@@ -92,6 +91,7 @@
             : $canal->title,
         'description' => $canalDescription,
         'canonical' => $canalListUrl($canalPage),
+        'noindex' => \App\Support\Seo::hasQuery(['mostVisited', 'recomended', 'first', 'latestComments', 'trends', 'search']) ?: null,
         'prev' => $canalPage > 1 ? $canalListUrl($canalPage - 1) : null,
         'next' => $posts->hasMorePages() ? $canalListUrl($canalPage + 1) : null,
         'type' => 'profile',

@@ -42,6 +42,15 @@ class PostController extends Controller
     {
         // Vypnutý kanál odfiltruje middleware `bannedCanal` (routes/web.php).
 
+        // Kanonická adresa je /post/{id}/{slug}. Chýbajúci alebo starý slug
+        // (po premenovaní videa) presmeruje natrvalo — inak by každý variant
+        // vrátil 200 a Search Console ho viedla ako alternatívnu stránku.
+        if ($post->slug !== null && $post->slug !== '' && $slug !== $post->slug) {
+            $query = request()->getQueryString();
+
+            return redirect(route('post.show', [$post->id, $post->slug]) . ($query ? '?' . $query : ''), 301);
+        }
+
         $creditUser->setPostHistory($post);
 
         event(new VisitModel($post));

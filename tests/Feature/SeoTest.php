@@ -61,6 +61,21 @@ class SeoTest extends TestCase
         $this->assertSame('https://hlascirkvi.sk/post/1/slug?page=2', $meta['canonical']);
     }
 
+    public function test_kanonicka_adresa_vypisu_zahodi_sledovacie_parametre(): void
+    {
+        $this->app->instance('request', \Illuminate\Http\Request::create(
+            'http://hlascirkvi.local/akcie?fbclid=abc&utm_source=fb&municipality=nitra&view=mapa&page=3'
+        ));
+
+        $this->assertSame(
+            'http://hlascirkvi.local/akcie?municipality=nitra&page=3',
+            Seo::listUrl(['list', 'municipality'], 3)
+        );
+        $this->assertSame('http://hlascirkvi.local/akcie', Seo::listUrl([], 1));
+        $this->assertTrue(Seo::hasQuery(['view']));
+        $this->assertFalse(Seo::hasQuery(['trends']));
+    }
+
     public function test_obrazok_z_cudzieho_uloziska_ostava_nedotknuty(): void
     {
         $meta = Seo::resolve(['image' => 'https://i.ytimg.com/vi/abc/hqdefault.jpg']);

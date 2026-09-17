@@ -4,14 +4,13 @@
 
 @php
     /*
-     * Značky pre vyhľadávače (partials/meta). Výpis nesie prepínače aj
-     * stránkovanie v adrese, preto sa kanonická adresa skladá z tej
-     * aktuálnej — každý pohľad tak ukazuje sám na seba a strany za prvou
-     * sú spojené odkazmi prev/next namiesto toho, aby si konkurovali.
+     * Značky pre vyhľadávače (partials/meta). Kanonická adresa nesie len
+     * stranu — sledovacie parametre (fbclid, utm_*) do nej nepatria. Strany
+     * za prvou ukazujú samy na seba a spája ich prev/next. Prepínače poradia
+     * (najsledovanejšie, trendy…) sú len iné zoradenie toho istého obsahu,
+     * preto noindex.
      */
-    $listUrl = fn ($page) => $page > 1
-        ? request()->fullUrlWithQuery(['page' => $page])
-        : request()->fullUrlWithoutQuery('page');
+    $listUrl = fn ($page) => \App\Support\Seo::listUrl([], $page);
 
     $listPage = $posts->currentPage();
 
@@ -22,6 +21,7 @@
         'description' => 'Kázne, prenosy bohoslužieb a videá kresťanských spoločenstiev na Slovensku '
             . 'na jednom mieste. Nové príspevky každý deň, modlitebný múr aj denné zamyslenia.',
         'canonical' => $listUrl($listPage),
+        'noindex' => \App\Support\Seo::hasQuery(['mostVisited', 'recomended', 'first', 'latestComments', 'trends', 'search']) ?: null,
         'prev' => $listPage > 1 ? $listUrl($listPage - 1) : null,
         'next' => $posts->hasMorePages() ? $listUrl($listPage + 1) : null,
         'jsonld' => [

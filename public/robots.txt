@@ -21,6 +21,19 @@ Disallow: /*&search=
 # portálu event.hlascirkvi.sk a roboty ich vedia prechádzať donekonečna.
 Disallow: /akcie?*tags=
 
+# Adresy len pre POST (formuláre, fetch) a podpísané odkazy z e-mailov.
+# Robot ich nachádza v HTML, na GET dostane 405/403 a Search Console ich
+# hlási ako „Blokovaná pre iný problém 4xx".
+Disallow: /logout
+Disallow: /auth/
+Disallow: /store/
+Disallow: /organizations/*/message
+Disallow: /post/*/kanal/
+Disallow: /newsletter/
+Disallow: /prayer/
+Disallow: /seminars/*/upload
+Disallow: /dashboard
+
 Allow: /
 
 Sitemap: https://hlascirkvi.sk/sitemap.xml

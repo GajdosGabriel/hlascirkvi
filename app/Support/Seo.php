@@ -192,6 +192,48 @@ class Seo
             . (isset($parts['query']) ? '?' . $parts['query'] : '');
     }
 
+    /**
+     * Kanonická adresa výpisu: aktuálna cesta, z parametrov len tie, ktoré
+     * menia obsah ($keep), a strana od druhej ďalej.
+     *
+     * Predtým výpisy brali celú aktuálnu adresu, takže aj ?fbclid=…, utm_*
+     * alebo ?mostVisited=1 hlásili samy seba ako kanonické. Google ich potom
+     * v Search Console viedol ako „Duplicitná, Google vybral inú kanonickú
+     * stránku než používateľ".
+     *
+     * @param  string[]  $keep
+     */
+    public static function listUrl(array $keep = [], int $page = 1): string
+    {
+        $query = [];
+
+        foreach ($keep as $key) {
+            $value = request()->query($key);
+
+            if ($value !== null && $value !== '' && $value !== []) {
+                $query[$key] = $value;
+            }
+        }
+
+        if ($page > 1) {
+            $query['page'] = $page;
+        }
+
+        return request()->url() . ($query ? '?' . http_build_query($query) : '');
+    }
+
+    /** Či adresa nesie niektorý z parametrov — prepínače, ktoré len preusporiadajú výpis. */
+    public static function hasQuery(array $keys): bool
+    {
+        foreach ($keys as $key) {
+            if (request()->query($key) !== null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /** Schema.org WebSite — meno webu a vyhľadávanie v ňom. */
     public static function website(): array
     {

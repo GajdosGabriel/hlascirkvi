@@ -2,15 +2,16 @@
 
 @php
     /*
-     * Značky pre vyhľadávače (partials/meta). Výpis nesie filtre aj stránku
-     * v adrese; kanonická adresa preto vychádza z tej aktuálnej, aby každý
-     * výber ukazoval sám na seba.
+     * Značky pre vyhľadávače (partials/meta). Kanonická adresa nesie len
+     * parametre, ktoré menia obsah (minulé/budúce, obec), a stranu. Pohľad
+     * (os, mapa, plagáty) je len iné zobrazenie tých istých podujatí a
+     * sledovacie parametre (fbclid, utm_*) do adresy nepatria vôbec.
      */
     $seo = [
         'title' => 'Kresťanské podujatia na Slovensku',
         'description' => 'Prehľad kresťanských podujatí na Slovensku — sväté omše, koncerty, prednášky, '
             . 'duchovné obnovy a púte. Podľa dátumu, mesta aj druhu podujatia.',
-        'canonical' => request()->fullUrl(),
+        'canonical' => \App\Support\Seo::listUrl(['list', 'municipality'], (int) request()->query('page', 1)),
         // Kombinácie štítkov, hľadanie a víkendový výber sú len výrezy toho
         // istého zoznamu. Roboty by ich prechádzali donekonečna a každý nový
         // výber je volanie API portálu — do indexu preto nepatria.
