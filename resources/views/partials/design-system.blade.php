@@ -149,6 +149,64 @@
     }
     .ar-search button:hover { color: var(--ar-accent); }
 
+    /* Lišta prepínačov s hľadaním na úvodnej stránke. Na desktope sa správa
+       ako obyčajný zalamovaný riadok; pod 640 px drží jediný riadok —
+       prepínače sa posúvajú do strany a hľadanie je ikona, ktorá po ťuknutí
+       (trieda is-searching) nahradí prepínače poľom cez celú šírku. */
+    .ar-viewbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+    }
+    .ar-viewbar__tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+    }
+    .ar-viewbar > .ar-search { margin-left: auto; }
+    .ar-viewbar__icon {
+        display: none;
+        flex: 0 0 auto;
+        width: 2.1rem;
+        height: 2.1rem;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--ar-line);
+        border-radius: 9999px;
+        background: #fff;
+        font-size: .8125rem;
+        color: var(--ar-ink-soft);
+    }
+    .ar-viewbar__icon:hover { color: var(--ar-accent); }
+
+    @media (max-width: 639px) {
+        .ar-viewbar { flex-wrap: nowrap; }
+        .ar-viewbar__tabs {
+            flex: 1 1 auto;
+            min-width: 0;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
+            /* Blednúci pravý okraj napovie, že riadok pokračuje. */
+            -webkit-mask-image: linear-gradient(to right, #000 85%, transparent);
+                    mask-image: linear-gradient(to right, #000 85%, transparent);
+        }
+        .ar-viewbar__tabs::-webkit-scrollbar { display: none; }
+        .ar-viewbar > .ar-search { display: none; }
+        .ar-viewbar__open { display: inline-flex; }
+
+        .ar-viewbar.is-searching .ar-viewbar__tabs,
+        .ar-viewbar.is-searching .ar-viewbar__open { display: none; }
+        .ar-viewbar.is-searching > .ar-search {
+            display: block;
+            flex: 1 1 auto;
+            margin-left: 0;
+        }
+        .ar-viewbar.is-searching .ar-search input { width: 100%; }
+        .ar-viewbar.is-searching .ar-viewbar__close { display: inline-flex; }
+    }
+
     /* ---- Rebríček v paneli "Naj z kanála" ------------------------------ */
 
     .ar-rank {

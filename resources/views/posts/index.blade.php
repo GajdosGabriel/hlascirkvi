@@ -81,22 +81,30 @@
                 <p class="mt-2 text-sm text-gray-500 md:text-base">{{ $perex }}</p>
             </div>
 
-            {{-- Prepínač výpisu a hľadanie v jednom riadku. Prepínač oproti
-                 pôvodným ikonám drží popisky, takže je čitateľný aj na mobile,
-                 kde bol predtým skrytý. --}}
-            <div class="mt-6 flex flex-wrap items-center gap-2">
-                <a href="{{ route('posts.index') }}"
-                   class="ar-tab {{ $active || $search !== '' ? '' : 'ar-tab--on' }}">
-                    <i class="far fa-clock"></i> Najnovšie
-                </a>
-
-                @foreach ($views as $key => $view)
-                    <a href="{{ route('posts.index', [$key => 'true']) }}"
-                       title="{{ $view['perex'] }}"
-                       class="ar-tab {{ $active === $key ? 'ar-tab--on' : '' }}">
-                        <i class="{{ $view['icon'] }}"></i> {{ $view['label'] }}
+            {{-- Prepínač výpisu a hľadanie v jednom riadku. Na mobile sa
+                 prepínače nezalamujú, ale posúvajú do strany, a hľadanie je len
+                 ikona — po ťuknutí prekryje prepínače celou šírkou (.ar-viewbar
+                 v partials/design-system). --}}
+            <div class="ar-viewbar mt-6 {{ $search !== '' ? 'is-searching' : '' }}" data-viewbar>
+                <nav class="ar-viewbar__tabs" aria-label="Zoradenie príspevkov">
+                    <a href="{{ route('posts.index') }}"
+                       class="ar-tab {{ $active || $search !== '' ? '' : 'ar-tab--on' }}">
+                        <i class="far fa-clock"></i> Najnovšie
                     </a>
-                @endforeach
+
+                    @foreach ($views as $key => $view)
+                        <a href="{{ route('posts.index', [$key => 'true']) }}"
+                           title="{{ $view['perex'] }}"
+                           class="ar-tab {{ $active === $key ? 'ar-tab--on' : '' }}">
+                            <i class="{{ $view['icon'] }}"></i> {{ $view['label'] }}
+                        </a>
+                    @endforeach
+                </nav>
+
+                <button type="button" class="ar-viewbar__icon ar-viewbar__open"
+                        title="Hľadať" aria-label="Hľadať" data-viewbar-open>
+                    <i class="fas fa-search"></i>
+                </button>
 
                 {{-- Hľadanie. Pole stojí vpravo zúžené a roztiahne sa až po
                      kliknutí; s vyplneným výrazom ostáva široké, nech je vidieť,
@@ -109,6 +117,11 @@
                            placeholder="Hľadať…">
                     <button type="submit" title="Hľadať"><i class="fas fa-search"></i></button>
                 </form>
+
+                <button type="button" class="ar-viewbar__icon ar-viewbar__close"
+                        title="Zavrieť hľadanie" aria-label="Zavrieť hľadanie" data-viewbar-close>
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
     </header>
@@ -153,4 +166,31 @@
             </aside>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        // Mobilná lišta: ikona hľadania prepne riadok na pole, krížik späť na
+        // prepínače. Aktívny prepínač sa navyše posunie do zorného poľa, keď
+        // stojí mimo viditeľnej časti riadka. Vue pri štarte prekreslí #app,
+        // preto delegované udalosti a posun až po načítaní stránky.
+        document.addEventListener('click', function (e) {
+            var open = e.target.closest('[data-viewbar-open]');
+            var close = e.target.closest('[data-viewbar-close]');
+            if (!open && !close) return;
+
+            var bar = e.target.closest('[data-viewbar]');
+            bar.classList.toggle('is-searching', !!open);
+            if (open) bar.querySelector('input[type="search"]').focus();
+        });
+
+        window.addEventListener('load', function () {
+            document.querySelectorAll('.ar-viewbar__tabs').forEach(function (tabs) {
+                var on = tabs.querySelector('.ar-tab--on');
+                if (!on) return;
+                var overflow = on.getBoundingClientRect().right - tabs.getBoundingClientRect().right;
+                if (overflow > 0) tabs.scrollLeft = overflow + 32;
+            });
+        });
+    </script>
 @endsection
