@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Canal;
 use App\Models\User;
+use App\Notifications\Admin\YoutubeApiKeyFailed;
 use App\Notifications\Admin\YoutubeImportIssue;
 use App\Notifications\Admin\YoutubeSourceMissing;
 use App\Repositories\Eloquent\EloquentCanalRepository;
@@ -138,6 +139,58 @@ class YoutubeImportDisableTest extends TestCase
         // by zlyhali rovnako — beh končí po prvom dopyte.
         $this->assertCount(0, $this->youtubeRequests('channels'));
         $this->assertCount(1, $this->youtubeRequests('playlistItems'));
+    }
+
+    public function testNeplatnyKlucUkonciBehPoPrvomKanali()
+    {
+        $superadmin = $this->superadmin();
+        $canal = $this->canal(['youtube_channel' => self::CHANNEL]);
+        $druhy = $this->canal(['youtube_channel' => 'UCznO9E4iMXuDyTbJr5e26tg']);
+
+        // Tvar odpovede YouTube pri neplatnom kľúči.
+        $this->fakeYoutube([
+            'playlistItems' => Http::response(['error' => [
+                'code' => 400,
+                'message' => 'API key not valid. Please pass a valid API key.',
+                'errors' => [['message' => 'API key not valid. Please pass a valid API key.', 'domain' => 'global', 'reason' => 'badRequest']],
+                'status' => 'INVALID_ARGUMENT',
+                'details' => [['@type' => 'type.googleapis.com/google.rpc.ErrorInfo', 'reason' => 'API_KEY_INVALID', 'domain' => 'googleapis.com']],
+            ]], 400),
+        ]);
+
+        Notification::fake();
+
+        (new VideoUpload)->handle();
+
+        $this->assertNull($canal->refresh()->youtube_disabled_at);
+        $this->assertNull($druhy->refresh()->youtube_disabled_at);
+        Notification::assertNotSentTo($superadmin, YoutubeSourceMissing::class);
+
+        $this->assertCount(0, $this->youtubeRequests('channels'));
+        $this->assertCount(1, $this->youtubeRequests('playlistItems'));
+
+        Notification::assertSentToTimes($superadmin, YoutubeApiKeyFailed::class, 1);
+
+        // Ďalší beh v ten istý deň (komentáre idú každú hodinu) už neupozorní.
+        (new VideoUpload)->handle();
+
+        Notification::assertSentToTimes($superadmin, YoutubeApiKeyFailed::class, 1);
+    }
+
+    public function testVycerpanaKvotaNeposielaUpozornenieNaKluc()
+    {
+        $superadmin = $this->superadmin();
+        $this->canal(['youtube_channel' => self::CHANNEL]);
+
+        $this->fakeYoutube([
+            'playlistItems' => $this->youtubeError(403, 'quotaExceeded'),
+        ]);
+
+        Notification::fake();
+
+        (new VideoUpload)->handle();
+
+        Notification::assertNotSentTo($superadmin, YoutubeApiKeyFailed::class);
     }
 
     public function testZmazanyPlaylistPriFunkcnomKanaliNevypneImport()

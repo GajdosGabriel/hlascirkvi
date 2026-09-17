@@ -51,7 +51,7 @@ class VideoUploadByUserName
                     'title' => $canal->title,
                 ]);
 
-                if ($e instanceof YoutubeApiException && $e->is('quotaExceeded')) {
+                if ($e instanceof YoutubeApiException && $e->stopsRun()) {
                     break;
                 }
             }

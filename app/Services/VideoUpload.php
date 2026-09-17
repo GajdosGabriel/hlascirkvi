@@ -62,8 +62,9 @@ class VideoUpload
 
     /**
      * Jeden nedostupný kanál ani zmazaný playlist nesmú zhodiť celý beh —
-     * preto je každý kanál v samostatnom try/catch. Vyčerpaná kvóta je
-     * výnimka: zvyšné kanály by zlyhali rovnako, beh sa preto ukončí.
+     * preto je každý kanál v samostatnom try/catch. Vyčerpaná kvóta či
+     * neplatný kľúč sú výnimka: zvyšné kanály by zlyhali rovnako, beh sa
+     * preto ukončí.
      */
     protected function foreachCanal(?int $canalId): int
     {
@@ -82,7 +83,7 @@ class VideoUpload
                     'playlist' => $canal->youtube_playlist,
                 ]);
 
-                if ($e instanceof YoutubeApiException && $e->is('quotaExceeded')) {
+                if ($e instanceof YoutubeApiException && $e->stopsRun()) {
                     break;
                 }
             }
@@ -171,7 +172,7 @@ class VideoUpload
         try {
             return ['videos' => $this->playlistVideoIds(YoutubeApi::uploadsPlaylistId($channelId), $canal), 'missing' => null];
         } catch (YoutubeApiException $e) {
-            if ($e->is('quotaExceeded')) {
+            if ($e->stopsRun()) {
                 throw $e;
             }
 

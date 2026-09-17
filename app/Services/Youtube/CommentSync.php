@@ -71,7 +71,7 @@ class CommentSync
                     'video_id' => $post->video_id,
                 ]);
 
-                if ($e instanceof YoutubeApiException && $e->is('quotaExceeded')) {
+                if ($e instanceof YoutubeApiException && $e->stopsRun()) {
                     break;
                 }
             }

@@ -198,12 +198,21 @@ class YoutubeApi
         if ($response->failed()) {
             $error = $response->json('error') ?? [];
             $reason = $error['errors'][0]['reason'] ?? null;
+            $detail = collect($error['details'] ?? [])
+                ->firstWhere('@type', 'type.googleapis.com/google.rpc.ErrorInfo')['reason'] ?? null;
 
-            throw new YoutubeApiException(
+            $e = new YoutubeApiException(
                 sprintf('Error %d %s : %s', $response->status(), $error['message'] ?? $response->reason(), $reason ?? 'unknown'),
                 $reason,
                 $response->status(),
+                $detail,
             );
+
+            // Odmietnutý kľúč zastaví všetko, čo na YouTube siaha — správca
+            // sa o ňom musí dozvedieť hneď, nie z logu.
+            KeyFailureAlert::report($e);
+
+            throw $e;
         }
 
         return $response->object() ?? (object) [];
