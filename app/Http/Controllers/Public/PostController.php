@@ -55,7 +55,48 @@ class PostController extends Controller
 
         event(new VisitModel($post));
 
-        return view('posts.show', ['post' => $post] + $this->channelPanels($post));
+        return view('posts.show', [
+            'post'    => $post,
+            'series'  => $this->series($post),
+            'isSaved' => (bool) auth()->user()?->savedPosts()->whereKey($post->id)->exists(),
+        ] + $this->channelPanels($post));
+    }
+
+
+    /**
+     * Seminár (séria prednášok), do ktorého príspevok patrí, s dielmi v poradí.
+     * Pivot poradie nemá; import z playlistu zakladá príspevky v poradí
+     * playlistu, takže ho drží ID. Diely potrebujú len titulok a odkaz,
+     * preto bez väzieb z $with.
+     */
+    protected function series(Post $post): ?array
+    {
+        $seminar = $post->seminars()->latest('seminars.id')->first();
+
+        if (! $seminar) {
+            return null;
+        }
+
+        $parts = $seminar->posts()
+            ->without(['favorites', 'images', 'canal'])
+            ->published()
+            ->orderBy('posts.id')
+            ->get(['posts.id', 'posts.title', 'posts.slug', 'posts.video_duration']);
+
+        $index = $parts->search(fn ($part) => $part->id === $post->id);
+
+        // Jediný diel (alebo nezverejnený príspevok) sériu netvorí.
+        if ($index === false || $parts->count() < 2) {
+            return null;
+        }
+
+        return [
+            'seminar'  => $seminar,
+            'parts'    => $parts,
+            'index'    => $index,
+            'previous' => $parts->get($index - 1),
+            'next'     => $parts->get($index + 1),
+        ];
     }
 
 

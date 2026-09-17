@@ -160,6 +160,11 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::put('announcement/{announcement}/toggle', 'Admin\AnnouncementController@toggle')
         ->name('announcement.toggle');
 
+    // AI zhrnutia: vypínač, limit, spotreba a vynútenie pre jeden príspevok.
+    Route::get('ai', 'Admin\AiController@index')->name('ai.index');
+    Route::put('ai', 'Admin\AiController@update')->name('ai.update');
+    Route::post('ai/summarize', 'Admin\AiController@summarize')->name('ai.summarize');
+
     // Oznam nemá verejný detail — upravuje sa vo formulári, zobrazuje sa na webe.
     Route::resource('announcement', Admin\AnnouncementController::class)->except('show');
 
@@ -212,6 +217,15 @@ Route::post('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideo
     ->middleware('auth')
     ->name('seminars.uploadVideos');
 
+
+// Uložené na neskôr — súkromné záložky čitateľa (App\Http\Controllers\Public\
+// SavedPostController). Prepnutie je PUT, s GET detailom sa teda nebije.
+Route::middleware(['auth', 'checkBanned'])->group(function () {
+    Route::get('ulozene', 'Public\SavedPostController@index')->name('saved.index');
+    Route::put('post/{post}/ulozit', 'Public\SavedPostController@toggle')
+        ->middleware('throttle:30,1')
+        ->name('saved.toggle');
+});
 
 Route::middleware('bannedCanal')->group(function () {
     // Musí stáť pred post/{post}/{slug}, inak by ju pohltil zápis detailu.

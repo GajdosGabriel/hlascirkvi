@@ -6,6 +6,7 @@
 
 import './bootstrap';
 import { initCopyLink } from './copyLink';
+import { initNativeShare } from './nativeShare';
 import { initArticle } from './article';
 
 // Prehliadač obrázkov na čiernej ploche; visí na `document`, žiadne volanie netreba.
@@ -21,6 +22,7 @@ import Auth from './Auth';
  */
 
 import FavoritePost from './posts/Favorite-post.vue';
+import SavePost from './posts/Save-post.vue';
 import Notification from './components/Notification.vue';
 import RadioButton from './navigation/RadioButton.vue';
 import VideoItem from './components/Video-Item.vue';
@@ -58,6 +60,7 @@ app.config.globalProperties.$auth = new Auth(window.App.user);
 
 const components = {
     'favorite-post': FavoritePost,
+    'save-post': SavePost,
     notification: Notification,
     'radio-button': RadioButton,
     'video-item': VideoItem,
@@ -99,6 +102,7 @@ document.dispatchEvent(new CustomEvent('app:ready'));
 
 // Až za mountom Vue — poslucháče sa vešajú na uzly, ktoré zostanú v strome.
 initCopyLink();
+initNativeShare();
 
 // Obe časti sa samy ukončia, keď ich uzly na stránke nie sú.
 initArticle();

@@ -172,23 +172,35 @@
                      po dočítaní, a odporúčanie pod poslednou fotkou vyzeralo,
                      akoby patrilo ku galérii. Pri titulku sú tam, kde sa
                      o príspevku rozhoduje. --}}
-                @if ($post->video_id || Gate::allows('update', $post))
-                    <div class="flex items-center gap-2">
-                        @if ($post->video_id)
-                            @if (Session::get($post->slug) == $post->id)
-                                <span class="ar-btn ar-btn--still">
-                                    <i class="far fa-thumbs-up"></i> Už ste odporučili
-                                </span>
-                            @else
-                                <favorite-post :post="{{ $post }}"></favorite-post>
-                            @endif
+                {{-- Vue komponenty dostanú len polia, ktoré čítajú. Celý
+                     $post by do HTML zapísal aj text, obrázky a kanál — pri
+                     troch komponentoch trikrát. --}}
+                <div class="flex flex-wrap items-center gap-2">
+                    @if ($post->video_id)
+                        @if (Session::get($post->slug) == $post->id)
+                            <span class="ar-btn ar-btn--still">
+                                <i class="far fa-thumbs-up"></i> Už ste odporučili
+                            </span>
+                        @else
+                            <favorite-post :post="{{ json_encode($post->only(['id', 'favoritesCount', 'isFavorited'])) }}"></favorite-post>
                         @endif
+                    @endif
 
-                        @can('update', $post)
-                            <article-dropdown :post="{{ $post }}" align="right" />
-                        @endcan
-                    </div>
-                @endif
+                    <save-post :post-id="{{ $post->id }}" :initial-saved="{{ json_encode($isSaved) }}"></save-post>
+
+                    {{-- Systémové zdieľanie. Panel so zdieľaním je na mobile
+                         až pod článkom, preto tlačidlo aj tu; skript ho odkryje
+                         len tam, kde Web Share API existuje. --}}
+                    <button type="button" data-url="{{ $postUrl }}" data-title="{{ $post->title }}"
+                            class="js-native-share ar-btn ar-btn--quiet !hidden lg:!hidden"
+                            title="Zdieľať" aria-label="Zdieľať">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+
+                    @can('update', $post)
+                        <article-dropdown :post="{{ json_encode($post->only(['id'])) }}" align="right" />
+                    @endcan
+                </div>
             </div>
         </div>
     </header>
@@ -258,6 +270,36 @@
             </figure>
         @endif
 
+        {{-- Séria: poloha v seminári a posun na susedné diely hneď pod
+             médiom, kde sa po dopozeraní hľadá „čo ďalej". --}}
+        @if ($series)
+            <nav aria-label="Diely série"
+                 class="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[color:var(--ar-line)] bg-white px-4 py-3">
+                <div class="min-w-0 text-sm">
+                    <span class="ar-kicker block text-[.6rem]">Séria · časť {{ $series['index'] + 1 }} z {{ $series['parts']->count() }}</span>
+                    <a href="{{ route('seminars.show', $series['seminar']) }}"
+                       class="ar-display font-semibold hover:text-[color:var(--ar-accent)]">
+                        {{ $series['seminar']->title }}
+                    </a>
+                </div>
+
+                <div class="flex shrink-0 gap-2">
+                    @if ($series['previous'])
+                        <a href="{{ route('post.show', [$series['previous']->id, $series['previous']->slug]) }}"
+                           rel="prev" title="{{ $series['previous']->title }}" class="ar-btn ar-btn--quiet">
+                            <i class="fas fa-arrow-left"></i> Predchádzajúca
+                        </a>
+                    @endif
+                    @if ($series['next'])
+                        <a href="{{ route('post.show', [$series['next']->id, $series['next']->slug]) }}"
+                           rel="next" title="{{ $series['next']->title }}" class="ar-btn ar-btn--accent">
+                            Ďalšia <i class="fas fa-arrow-right"></i>
+                        </a>
+                    @endif
+                </div>
+            </nav>
+        @endif
+
         <div class="grid gap-10 lg:grid-cols-12">
 
             {{-- Článok --}}
@@ -269,8 +311,22 @@
                     {{-- h1 na tejto stránke patrí titulku článku, kanál preto
                          dostane obyčajný riadok. --}}
                     <canal-page-header heading="div"
-                                       :canal="{{ $post->canal }}"></canal-page-header>
+                                       :canal="{{ json_encode($post->canal->only(['id', 'title', 'description', 'avatar', 'initialName', 'isFavorited'])) }}"></canal-page-header>
                 </div>
+
+                {{-- Automatické zhrnutie dlhého popisu (príkaz posts:summarize).
+                     Stojí nad textom, nie namiesto neho. --}}
+                @if ($post->summary && $plain !== '')
+                    <aside class="mb-8 rounded-lg border border-[color:var(--ar-line)] bg-[color:var(--ar-accent-soft)] p-4 md:p-5">
+                        <h2 class="ar-kicker mb-2 text-[.65rem]">V skratke</h2>
+                        <div class="text-[.95rem] leading-relaxed text-[color:var(--ar-ink)]">
+                            {!! nl2br(e($post->summary)) !!}
+                        </div>
+                        <p class="mt-3 text-xs text-gray-500">
+                            <i class="fas fa-magic mr-1"></i> Zhrnutie vytvorené automaticky z popisu, môže obsahovať nepresnosti.
+                        </p>
+                    </aside>
+                @endif
 
                 @if ($plain !== '')
                     <div class="ar-prose max-w-none {{ $plainBody ? 'ar-prose--plain' : 'ar-prose--drop' }}">
@@ -315,7 +371,7 @@
                 {{-- Odporúčanie a správa článku sú v hlavičke pri titulku;
                      pod textom tak nasledujú rovno komentáre. --}}
                 <div class="mt-10 border-t border-[color:var(--ar-line)] pt-8">
-                    <comments-post :post="{{ $post }}"></comments-post>
+                    <comments-post :post="{{ json_encode($post->only(['id'])) }}"></comments-post>
                 </div>
             </article>
 
@@ -347,7 +403,48 @@
                                 <i class="far fa-copy"></i> Kopírovať odkaz
                             </button>
                         </div>
+
+                        {{-- Systémová ponuka zdieľania (Messenger, Signal…).
+                             Skript ho odkryje len tam, kde ju prehliadač má. --}}
+                        <button type="button" data-url="{{ $postUrl }}" data-title="{{ $post->title }}"
+                                class="js-native-share mt-2 hidden h-9 w-full flex items-center justify-center gap-2 rounded-md border border-[color:var(--ar-line)] text-sm text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
+                            <i class="fas fa-share-alt"></i> Zdieľať cez…
+                        </button>
                     </section>
+
+                    {{-- Diely série. Pri dlhom seminári len okolie aktuálneho
+                         dielu, celý zoznam je na stránke seminára. --}}
+                    @if ($series)
+                        @php
+                            $partsTotal = $series['parts']->count();
+                            $from = max(0, min($series['index'] - 3, $partsTotal - 7));
+                            $visibleParts = $series['parts']->slice($from, 7);
+                        @endphp
+                        <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+                            <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">
+                                Diely série
+                            </h2>
+                            <ol class="space-y-1">
+                                @foreach ($visibleParts as $number => $part)
+                                    @php $current = $part->id === $post->id; @endphp
+                                    <li>
+                                        <a href="{{ route('post.show', [$part->id, $part->slug]) }}"
+                                           @if ($current) aria-current="page" @endif
+                                           class="flex gap-2 rounded-md px-2 py-1.5 text-sm leading-snug transition-colors {{ $current ? 'bg-[color:var(--ar-accent-soft)] font-semibold text-[color:var(--ar-accent)]' : 'hover:bg-gray-50 hover:text-[color:var(--ar-accent)]' }}">
+                                            <span class="w-5 shrink-0 text-right tabular-nums text-gray-400">{{ $number + 1 }}.</span>
+                                            <span class="ar-clamp-2 min-w-0 flex-1">{{ $part->title }}</span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ol>
+                            @if ($partsTotal > $visibleParts->count())
+                                <a href="{{ route('seminars.show', $series['seminar']) }}"
+                                   class="mt-3 block text-sm text-[color:var(--ar-accent)] hover:underline">
+                                    Celá séria ({{ $partsTotal }} dielov)
+                                </a>
+                            @endif
+                        </section>
+                    @endif
 
                     {{-- Podujatia už nedržíme v tejto databáze, žijú na portáli
                          event.hlascirkvi.sk. Panel preto neukazuje akcie práve
@@ -479,10 +576,6 @@
         </script>
     @endif
 
-    {{-- App ID ide z konfigurácie, aby sedelo s fb:app_id v meta značkách
-         a s FB.init v partials/analyticstracking. --}}
-    <script async defer crossorigin="anonymous"
-            src="https://connect.facebook.net/sk_SK/sdk.js#xfbml=1&version=v5.0&appId={{ config('seo.facebook_app_id') }}"></script>
-
-
+    {{-- Druhý Facebook SDK tu už nie je: stránka nemá žiadny fb-* prvok
+         a zdieľanie ide cez obyčajný odkaz sharer.php. --}}
 @endpush

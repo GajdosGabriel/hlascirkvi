@@ -76,6 +76,10 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('youtube:comments')->hourlyAt(17)->withoutOverlapping();
 
+        // Zhrnutia popisov ("V skratke" na detaile). Vypínač, veľkosť dávky
+        // a mesačný limit sú v administrácii (/admin/ai); vypnuté = príkaz len skončí.
+        $schedule->command('posts:summarize')->hourlyAt(40)->withoutOverlapping();
+
         // $schedule->command('prayer:fulfilledOrNotYet')->everyMinute();
         $schedule->command('prayer:fulfilledOrNotYet')->dailyAt('17:20');
 

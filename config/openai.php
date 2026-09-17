@@ -46,4 +46,21 @@ return [
     */
 
     'request_timeout' => env('OPENAI_REQUEST_TIMEOUT', 30),
+
+    /*
+    | Model pre zhrnutia popisov príspevkov (App\Services\PostSummarizer).
+    */
+    'summary_model' => env('OPENAI_SUMMARY_MODEL', 'gpt-4o-mini'),
+
+    /*
+    | Cenník v USD za milión tokenov (vstup / výstup). Slúži len na odhad
+    | spotreby v administrácii — skutočné čísla sú na platform.openai.com/usage
+    | a cenník sa môže zmeniť (openai.com/api/pricing).
+    */
+    'prices' => [
+        'gpt-4o-mini'  => ['input' => 0.15, 'output' => 0.60],
+        'gpt-4.1-mini' => ['input' => 0.40, 'output' => 1.60],
+        'gpt-4.1-nano' => ['input' => 0.10, 'output' => 0.40],
+        'gpt-4o'       => ['input' => 2.50, 'output' => 10.00],
+    ],
 ];

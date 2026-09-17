@@ -106,6 +106,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Canal::class);
     }
 
+    /** Príspevky uložené na neskôr (stránka /ulozene). */
+    public function savedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'saved_posts')->withTimestamps();
+    }
+
     public function canal()
     {
         return $this->belongsTo(Canal::class, 'canal_id');

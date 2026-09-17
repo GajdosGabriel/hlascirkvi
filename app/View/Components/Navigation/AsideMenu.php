@@ -126,6 +126,11 @@ class AsideMenu extends Component
                 'name' => 'Predný zoznam',
             ],
             [
+                'url' => route('admin.ai.index'),
+                'icon' => 'ai',
+                'name' => 'AI zhrnutia',
+            ],
+            [
                 'url' => route('admin.statistic.index'),
                 'icon' => 'statistic',
                 'name' => 'Štatistika',

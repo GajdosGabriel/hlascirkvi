@@ -46,6 +46,8 @@ class Post extends Model
         'video_duration',
         'youtube_published_at',
         'comments_synced_at',
+        'summary',
+        'summary_generated_at',
     ];
 
     protected $casts = [
@@ -54,6 +56,7 @@ class Post extends Model
         'published_at' => 'datetime',
         'youtube_published_at' => 'datetime',
         'comments_synced_at' => 'datetime',
+        'summary_generated_at' => 'datetime',
         'section' => \App\Enums\PostSection::class,
     ];
 
@@ -65,6 +68,15 @@ class Post extends Model
         static::addGlobalScope('youtube_blocked', function (Builder $builder) {
             $builder->whereYoutubeBlocked(0);
         });
+
+        // Zmenený popis znamená neplatné zhrnutie. Vynulovaný čas vráti
+        // príspevok do fronty príkazu posts:summarize.
+        static::updating(function (Post $post) {
+            if ($post->isDirty('body') && ! $post->isDirty('summary_generated_at')) {
+                $post->summary = null;
+                $post->summary_generated_at = null;
+            }
+        });
     }
 
     public function path()
@@ -75,6 +87,12 @@ class Post extends Model
     public function seminars()
     {
         return $this->belongsToMany(Seminar::class);
+    }
+
+    /** Čitatelia, ktorí si príspevok uložili na neskôr. */
+    public function savedBy()
+    {
+        return $this->belongsToMany(User::class, 'saved_posts')->withTimestamps();
     }
 
     public function setBodyAttribute($value)
