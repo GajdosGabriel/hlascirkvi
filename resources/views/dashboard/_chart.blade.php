@@ -56,7 +56,7 @@
 
     <div class="ar-panel__body ar-chart__wrap">
         <svg class="ar-chart" viewBox="0 0 {{ $w }} {{ $h }}" role="img"
-             aria-label="Zhliadnutia príspevkov kanála za posledných 30 dní">
+             aria-label="{{ $chartLabel ?? 'Zhliadnutia príspevkov kanála za posledných 30 dní' }}">
 
             <defs>
                 <linearGradient id="ar-chart-fill" x1="0" y1="0" x2="0" y2="1">
@@ -93,7 +93,7 @@
 
     <div class="border-t border-[color:var(--ar-line)] px-4 py-3">
         <div class="mb-2 flex items-baseline justify-between">
-            <span class="ar-panel__title">Vydané príspevky po mesiacoch</span>
+            <span class="ar-panel__title">{{ $activityLabel ?? 'Vydané príspevky po mesiacoch' }}</span>
             <span class="ar-panel__note">{{ number_format($activity->sum('posts'), 0, ',', ' ') }} za rok</span>
         </div>
 

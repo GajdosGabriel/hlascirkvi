@@ -232,11 +232,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getLastLoginViaLabelAttribute(): ?string
     {
-        return match ($this->last_login_via) {
+        return self::loginViaLabel($this->last_login_via);
+    }
+
+    public static function loginViaLabel(?string $via): ?string
+    {
+        return match ($via) {
             'password' => 'E-mail a heslo',
             'google' => 'Google',
             'facebook' => 'Facebook',
-            default => $this->last_login_via,
+            default => $via,
         };
     }
 

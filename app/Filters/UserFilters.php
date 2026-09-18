@@ -16,16 +16,75 @@ class UserFilters extends Filters
     /** Hodnota výberu stavu pre zrušené (soft-deleted) účty — nie je to ModelStatus. */
     public const DELETED = 'deleted';
 
-    protected $filters = ['search', 'status', 'sort'];
+    /** Koľko dní je účet „nový“ a za koľko dní sa ráta „aktívny“ (dlaždice a filtre). */
+    public const RECENT_DAYS = 30;
 
-    /** Radenie podľa id: ?sort=id vzostupne, ?sort=-id zostupne. Iné hodnoty sa ignorujú. */
+    /**
+     * Stĺpce, podľa ktorých sa dá radiť klikom na hlavičku tabuľky:
+     * hodnota parametra => stĺpce v ORDER BY. ?sort=email vzostupne,
+     * ?sort=-email zostupne.
+     */
+    public const SORTS = [
+        'id' => ['id'],
+        'name' => ['last_name', 'first_name'],
+        'email' => ['email'],
+        'status' => ['status'],
+        'created' => ['created_at'],
+        'login' => ['last_login_at'],
+        'via' => ['last_login_via'],
+    ];
+
+    protected $filters = ['search', 'status', 'fresh', 'active', 'never', 'unverified', 'via', 'sort'];
+
+    /** Neznáma hodnota nerobí nič; o radení potom rozhodne latest() vo Filters::apply(). */
     public function sort($value)
     {
-        return match ($value) {
-            'id' => $this->builder->orderBy('id'),
-            '-id' => $this->builder->orderByDesc('id'),
-            default => $this->builder,
-        };
+        $desc = str_starts_with((string) $value, '-');
+        $columns = self::SORTS[ltrim((string) $value, '-')] ?? null;
+
+        if (! $columns) {
+            return $this->builder;
+        }
+
+        $direction = $desc ? 'desc' : 'asc';
+
+        // Prázdne hodnoty (nikdy neprihlásený, neznámy spôsob) vždy na koniec.
+        if (in_array($columns[0], ['last_login_at', 'last_login_via'], true)) {
+            $this->builder->orderByRaw($columns[0].' IS NULL');
+        }
+
+        foreach ($columns as $column) {
+            $this->builder->orderBy($column, $direction);
+        }
+
+        // Pri zhode (rovnaký stav, spôsob…) drží poradie stabilné medzi stránkami.
+        return $columns === ['id'] ? $this->builder : $this->builder->orderBy('id', $direction);
+    }
+
+    public function fresh()
+    {
+        return $this->builder->where('created_at', '>=', now()->subDays(self::RECENT_DAYS));
+    }
+
+    public function active()
+    {
+        return $this->builder->where('last_login_at', '>=', now()->subDays(self::RECENT_DAYS));
+    }
+
+    public function never()
+    {
+        return $this->builder->whereNull('last_login_at');
+    }
+
+    public function unverified()
+    {
+        return $this->builder->whereNull('email_verified_at');
+    }
+
+    /** Spôsob posledného prihlásenia (password, google, facebook). */
+    public function via($value)
+    {
+        return $this->builder->where('last_login_via', (string) $value);
     }
 
     public function search()

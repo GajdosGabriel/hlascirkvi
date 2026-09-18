@@ -10,13 +10,29 @@
 namespace App\Filters;
 
 
+use App\Models\Post;
 use App\Models\Village;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CanalFilters extends Filters
 {
-    protected $filters = ['search', 'unpublished', 'deletedAt'];
+    /** Koľko dní je kanál „nový“ (dlaždica a filter fresh). */
+    public const FRESH_DAYS = 30;
+
+    /** Po koľkých dňoch bez príspevku kanál „utíchol“. */
+    public const SILENT_DAYS = 90;
+
+    /** Radenia výpisu v administrácii: hodnota parametra => popis. */
+    public const SORTS = [
+        'newest' => 'Najnovšie registrované',
+        'oldest' => 'Najstaršie registrované',
+        'active' => 'Posledný príspevok',
+        'posts' => 'Najviac príspevkov',
+        'title' => 'Podľa názvu',
+    ];
+
+    protected $filters = ['search', 'unpublished', 'deletedAt', 'fresh', 'orphans', 'silent', 'youtubeOff', 'month', 'sort'];
 
     public function search()
     {
@@ -35,6 +51,60 @@ class CanalFilters extends Filters
     public function deletedAt()
     {
          return $this->builder->onlyTrashed();
+    }
+
+    public function fresh()
+    {
+        return $this->builder->where('created_at', '>=', now()->subDays(self::FRESH_DAYS));
+    }
+
+    /** Kanály, ktoré nemá kto spravovať. */
+    public function orphans()
+    {
+        return $this->builder->doesntHave('users');
+    }
+
+    public function silent()
+    {
+        $since = now()->subDays(self::SILENT_DAYS);
+
+        return $this->builder->whereDoesntHave('posts', fn ($q) => $q->where('created_at', '>=', $since));
+    }
+
+    public function youtubeOff()
+    {
+        return $this->builder->whereNotNull('youtube_disabled_at');
+    }
+
+    /** Kanály registrované v mesiaci RRRR-MM (stĺpec grafu registrácií). */
+    public function month($value)
+    {
+        if (! preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', (string) $value)) {
+            return $this->builder;
+        }
+
+        $month = Carbon::createFromFormat('!Y-m', $value);
+
+        return $this->builder->whereBetween('created_at', [$month->copy()->startOfMonth(), $month->copy()->endOfMonth()]);
+    }
+
+    /**
+     * Radenie podľa príspevkov ide cez vlastný podselekt, nie cez stĺpce
+     * z withCount/withMax — filter používa aj výpis kanálov správcu, ktorý
+     * tie agregáty nenačítava. Neznáma hodnota nerobí nič; o radení potom
+     * rozhodne predvolené latest() vo Filters::apply().
+     */
+    public function sort($value)
+    {
+        $posts = fn () => Post::query()->whereColumn('posts.canal_id', 'canals.id');
+
+        return match ($value) {
+            'oldest' => $this->builder->oldest(),
+            'active' => $this->builder->orderByDesc($posts()->select('created_at')->latest()->limit(1)),
+            'posts' => $this->builder->orderByDesc($posts()->selectRaw('COUNT(*)')),
+            'title' => $this->builder->orderBy('title'),
+            default => $this->builder,
+        };
     }
 
 

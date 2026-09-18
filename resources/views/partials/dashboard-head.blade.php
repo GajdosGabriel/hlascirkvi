@@ -7,3 +7,4 @@
 
 @include('partials.dashboard-system')
 @include('partials.admin-system')
+@include('partials.admin-insights')

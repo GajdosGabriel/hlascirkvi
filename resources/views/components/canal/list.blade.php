@@ -91,7 +91,9 @@
                             @endif
                         </div>
 
-                        @if ($canal->users->isNotEmpty())
+                        @if ($admin)
+                            @include('components.canal.admin-details', ['canal' => $canal, 'plural' => $plural])
+                        @elseif ($canal->users->isNotEmpty())
                             <p class="mt-2 text-xs text-[color:var(--ar-ink-soft)]">
                                 {{ $plural($canal->users->count(), 'Správca', 'Správcovia', 'Správcovia') }}:
                                 {{ $canal->users->map->fullname->implode(', ') }}
@@ -130,7 +132,7 @@
             </article>
         @empty
             <div class="ar-empty">
-                @if (request()->hasAny(['search', 'unpublished', 'deletedAt']))
+                @if (request()->hasAny(['search', 'unpublished', 'deletedAt', 'fresh', 'orphans', 'silent', 'youtubeOff', 'month']))
                     Výberu nezodpovedá žiadny kanál.
                 @else
                     {{ $admin ? 'Zatiaľ nie sú žiadne kanály.' : 'Zatiaľ nespravujete žiadny kanál. Založte si ho tlačidlom vyššie.' }}

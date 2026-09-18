@@ -25,9 +25,15 @@
             'admin.prayer.index' => ['fulfilled', 'deletedAt'],
             default => null,
         };
+        // Filtre dlaždíc súhrnu — lišta ich musí pri hľadaní a výbere niesť ďalej.
+        $filterKeep = match (Route::currentRouteName()) {
+            'admin.user.index' => ['fresh', 'active', 'never', 'unverified', 'via'],
+            'admin.canal.index' => ['fresh', 'orphans', 'silent', 'youtubeOff', 'month'],
+            default => [],
+        };
     @endphp
     @if ($filterOptions !== null)
-        <x-filters.bar class="mb-5" :filters="$filterOptions" :selects="$filterSelects" search="Hľadať" />
+        <x-filters.bar class="mb-5" :filters="$filterOptions" :selects="$filterSelects" :keep="$filterKeep" search="Hľadať" />
     @endif
 
     <div class="ar-admin__content min-w-0">

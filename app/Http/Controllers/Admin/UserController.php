@@ -18,7 +18,49 @@ class UserController extends Controller
 
     public function index(UserFilters $filters)
     {
-        return view('admins.users.index', ['users' => User::filter($filters)->paginate(50)->withQueryString()]);
+        return view('admins.users.index', [
+            'users' => User::filter($filters)->paginate(50)->withQueryString(),
+            'summary' => $this->summary(),
+        ]);
+    }
+
+    /**
+     * Súhrn nad celou tabuľkou (bez zrušených) pre dlaždice nad výpisom —
+     * jeden agregačný dopyt plus rozpad podľa spôsobu prihlásenia.
+     */
+    private function summary(): object
+    {
+        $since = now()->subDays(UserFilters::RECENT_DAYS);
+
+        $row = User::query()
+            ->toBase()
+            ->selectRaw('COUNT(*) as total')
+            ->selectRaw('SUM(created_at >= ?) as fresh', [$since])
+            ->selectRaw('SUM(last_login_at >= ?) as active', [$since])
+            ->selectRaw('SUM(last_login_at IS NULL) as never')
+            ->selectRaw('SUM(email_verified_at IS NULL) as unverified')
+            ->selectRaw('SUM(status = ?) as pending', [ModelStatus::PendingReview->value])
+            ->selectRaw('SUM(status = ? OR disabled = 1) as blocked', [ModelStatus::Blocked->value])
+            ->first();
+
+        return (object) [
+            'total' => (int) $row->total,
+            'fresh' => (int) $row->fresh,
+            'active' => (int) $row->active,
+            'never' => (int) $row->never,
+            'unverified' => (int) $row->unverified,
+            'pending' => (int) $row->pending,
+            'blocked' => (int) $row->blocked,
+            'via' => User::query()
+                ->whereNotNull('last_login_via')
+                ->toBase()
+                ->selectRaw('last_login_via, COUNT(*) as total')
+                ->groupBy('last_login_via')
+                ->orderByDesc('total')
+                ->pluck('total', 'last_login_via')
+                ->map(fn ($count) => (int) $count)
+                ->all(),
+        ];
     }
 
     public function edit(User $user)

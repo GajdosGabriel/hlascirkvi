@@ -41,12 +41,19 @@ class Bar extends Component
     public ?string $search;
 
     /**
+     * Ďalšie parametre, ktoré stránka filtruje mimo lišty (napr. dlaždice
+     * súhrnu). Lišta ich nekreslí, ale pri hľadaní a výbere ich prenáša.
+     */
+    public array $keep = [];
+
+    /**
      * @param  array<int|string, string>  $filters  ['unpublished', 'deletedAt' => 'Vymazané']
      * @param  array<string, array{label: string, placeholder?: string, options: array<string, string>}>  $selects
      */
-    public function __construct(array $filters = [], array $selects = [], ?string $search = null)
+    public function __construct(array $filters = [], array $selects = [], ?string $search = null, array $keep = [])
     {
         $this->selects = $selects;
+        $this->keep = $keep;
 
         foreach ($filters as $key => $label) {
             if (is_int($key)) {
@@ -145,6 +152,12 @@ class Bar extends Component
         foreach (array_keys($this->selects) as $key) {
             if ($this->selected($key) !== null) {
                 $active[$key] = $this->selected($key);
+            }
+        }
+
+        foreach ($this->keep as $key) {
+            if ($this->isOn($key) && is_scalar(request()->query($key))) {
+                $active[$key] = request()->query($key);
             }
         }
 

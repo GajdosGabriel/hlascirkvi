@@ -5,22 +5,34 @@
     <thead class="bg-gray-500 text-white">
         <tr>
             @php
-                // Klik na Id prepína vzostupne/zostupne; predvolene je výpis od najnovších.
-                $idAsc = request('sort') === 'id';
+                // Klik na hlavičku radí podľa stĺpca (UserFilters::SORTS), ďalší klik
+                // obráti smer. Dátumy začínajú od najnovších, texty od A.
+                // Predvolene je výpis od najnovších registrácií.
+                $columns = [
+                    'id' => ['Id', false],
+                    'name' => ['Názov', false],
+                    'email' => ['Email', false],
+                    'status' => ['Stav', false],
+                    'created' => ['Registrácia', true],
+                    'login' => ['Posledné prihlásenie', true],
+                    'via' => ['Spôsob', false],
+                ];
+                $currentSort = (string) request('sort');
             @endphp
-            <th aria-sort="{{ request('sort') === 'id' ? 'ascending' : (request('sort') === '-id' ? 'descending' : 'none') }}">
-                <a href="{{ request()->fullUrlWithQuery(['sort' => $idAsc ? '-id' : 'id', 'page' => null]) }}"
-                   class="inline-flex items-center gap-1 hover:underline" style="color: inherit">
-                    Id
-                    <i class="fas {{ $idAsc ? 'fa-sort-up' : (request('sort') === '-id' ? 'fa-sort-down' : 'fa-sort') }}" aria-hidden="true"></i>
-                </a>
-            </th>
-            <th>Názov</th>
-            <th>Email</th>
-            <th>Stav</th>
-            <th>Registrácia</th>
-            <th>Posledné prihlásenie</th>
-            <th>Spôsob</th>
+            @foreach ($columns as $key => [$label, $descFirst])
+                @php
+                    $asc = $currentSort === $key;
+                    $desc = $currentSort === '-' . $key;
+                    $next = $asc ? '-' . $key : ($desc ? $key : ($descFirst ? '-' . $key : $key));
+                @endphp
+                <th aria-sort="{{ $asc ? 'ascending' : ($desc ? 'descending' : 'none') }}">
+                    <a href="{{ request()->fullUrlWithQuery(['sort' => $next, 'page' => null]) }}"
+                       class="inline-flex items-center gap-1 whitespace-nowrap hover:underline" style="color: inherit">
+                        {{ $label }}
+                        <i class="fas {{ $asc ? 'fa-sort-up' : ($desc ? 'fa-sort-down' : 'fa-sort opacity-50') }}" aria-hidden="true"></i>
+                    </a>
+                </th>
+            @endforeach
             <th>Akcia</th>
         </tr>
     </thead>

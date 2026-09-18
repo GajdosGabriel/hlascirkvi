@@ -370,7 +370,7 @@
 
                 {{-- Odporúčanie a správa článku sú v hlavičke pri titulku;
                      pod textom tak nasledujú rovno komentáre. --}}
-                <div class="mt-10 border-t border-[color:var(--ar-line)] pt-8">
+                <div id="komentare" class="mt-10 scroll-mt-20 border-t border-[color:var(--ar-line)] pt-8">
                     <comments-post :post="{{ json_encode($post->only(['id'])) }}"></comments-post>
                 </div>
             </article>
@@ -554,6 +554,8 @@
 @push('scripts')
     @if ($post->video_id)
         <script>
+            // Delegované na document: Vue pri mountnutí prekreslí celý #app
+            // a poslucháč priamo na tlačidle by zahodil.
             // Delegované na document: Vue pri mountnutí prekreslí celý #app
             // a poslucháč priamo na tlačidle by zahodil.
             document.addEventListener('click', function (event) {
