@@ -28,6 +28,16 @@ class SaveCommentsRequest extends FormRequest
     {
         $rules = [
             'body' => 'bail|required|min:3',
+        ];
+
+        // Úprava mení len text (PostCommentController::update), no Vue posiela
+        // celý komentár aj s parent_id. Po zmazaní hlavného komentára by tak
+        // odpoveď pod ním už nešlo upraviť.
+        if (! $this->isMethod('POST')) {
+            return $rules;
+        }
+
+        $rules += [
             // Odpovedať sa dá len na zverejnený komentár toho istého príspevku.
             'parent_id' => [
                 'nullable',

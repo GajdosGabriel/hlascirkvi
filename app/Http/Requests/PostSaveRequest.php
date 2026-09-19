@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\PostSection;
+use App\Services\Youtube\VideoId;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,8 +22,15 @@ class PostSaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:255|min:3',
-            'body' => 'required|string|min:3',
+            // Stĺpec posts.title je varchar(200); dlhší nadpis prešiel
+            // validáciou a spadol až v databáze.
+            'title' => 'required|string|max:200|min:3',
+            // Príspevky z YouTube importu text nemajú (vyše 5000 kusov) — kým
+            // bol text povinný vždy, nedali sa upraviť vôbec.
+            'body' => 'nullable|required_without:video_id|string|min:3',
+            // Pole vo formulári sa doteraz vo validácii nespomínalo, takže ho
+            // validated() zahodilo a zmena odkazu na video sa neuložila.
+            'video_id' => ['nullable', 'string', 'regex:' . VideoId::PATTERN],
             // Do ktorého výpisu príspevok patrí a či ide von hneď. Predtým
             // to bolo jedno pole `updaters` s id z číselníka, ktoré znamenalo
             // oboje naraz.
@@ -58,13 +66,31 @@ class PostSaveRequest extends FormRequest
         ];
     }
 
+    /**
+     * Formulár žiada „odkaz na video", do stĺpca však patrí ID — náhľad sa
+     * sťahuje z img.youtube.com/vi/{ID}. Odkaz preto prepíšeme na ID; čo sa
+     * určiť nedá, ostane nezmenené a skončí hláškou pri poli.
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('video_id')) {
+            $video = trim((string) $this->input('video_id'));
+
+            $this->merge([
+                'video_id' => $video === '' ? null : (VideoId::fromInput($video) ?? $video),
+            ]);
+        }
+    }
+
     public function messages()
     {
         return [
             'body.required' => 'Článok neobsahuje žiadny text.',
             'title.required' => 'Článok musí mať nadpist.',
             'title.min' => 'Minimálna dľžka nadpisu sú 3 znaky.',
-            'title.max' => 'Maximálna dľžka nadpisu je 255 znakov.',
+            'title.max' => 'Maximálna dľžka nadpisu je 200 znakov.',
+            'body.required_without' => 'Článok bez videa musí obsahovať text.',
+            'video_id.regex' => 'Video sa nedalo určiť. Zadajte odkaz na video YouTube alebo jeho ID.',
             'pictures.max' => 'Naraz je možné pridať najviac 20 obrázkov.',
             'pictures.*.image' => 'Súbor :position nie je obrázok.',
             'pictures.*.mimes' => 'Povolené formáty sú JPG, PNG, WEBP a GIF.',

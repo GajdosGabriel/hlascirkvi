@@ -49,18 +49,22 @@
     @can('admin')
         <div class="form-author">
             <label>Kanál</label>
+            {{-- Upravovaný príspevok ostáva vo svojom kanáli, nový ide do aktívneho.
+                 Podmienka „kanál príspevku ALEBO aktívny kanál" označila dve
+                 možnosti naraz, prehliadač nechal poslednú v abecede — a uloženie
+                 tak príspevok ticho presunulo do aktívneho kanála správcu. --}}
+            @php($selectedCanal = old('canal_id', $post->canal_id ?? auth()->user()->canal_id))
             <select class="form-control" name="canal_id" required>
-                <option value="" selected disabled>Autor</option>
+                <option value="" disabled @selected(! $selectedCanal)>Autor</option>
                 @can('superadmin')
                     @foreach (\App\Models\Canal::orderBy('title', 'asc')->get() as $canal)
-                        <option @if (isset($post->canal_id) and $post->canal_id == $canal->id or
-                                $canal->id == auth()->user()->canal_id) selected @endif value="{{ $canal->id }}">
+                        <option @selected((int) $selectedCanal === $canal->id) value="{{ $canal->id }}">
                             {{ $canal->title }}
                         </option>
                     @endforeach
                 @else
                     @foreach (auth()->user()->canals as $canal)
-                        <option @if (isset($post->canal_id) and $post->canal_id == $canal->id) selected @endif value="{{ $canal->id }}">
+                        <option @selected((int) $selectedCanal === $canal->id) value="{{ $canal->id }}">
                             {{ $canal->title }}
                         </option>
                     @endforeach
@@ -91,7 +95,7 @@
 {{-- Title Field --}}
 <div class="form-group {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
     <input type="text" name="title" class="form-control" placeholder="Nadpis ..."
-        value="{{ old('title') ?? $post->title }}" required>
+        value="{{ old('title') ?? $post->title }}" minlength="3" maxlength="200" required>
 </div>
 
 

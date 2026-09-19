@@ -243,10 +243,22 @@ export default {
         updateComment: function () {
             var body = this.draft;
 
-            axios.put(this.comment.url.update, { ...this.comment, body: body });
-
-            this.comment.body = body;
-            this.editComment = false;
+            // Text sa prepisoval hneď, bez ohľadu na odpoveď servera — pri
+            // odmietnutí (napr. menej ako 3 znaky) tak komentár vyzeral uložený,
+            // no po obnovení stránky mal starý text.
+            axios
+                .put(this.comment.url.update, { body: body })
+                .then(() => {
+                    this.comment.body = body;
+                    this.editComment = false;
+                })
+                .catch((error) => {
+                    const errors = error.response?.data?.errors;
+                    bus.$emit("flash", {
+                        body: errors ? Object.values(errors).flat()[0] : "Komentár sa nepodarilo uložiť.",
+                        type: "danger",
+                    });
+                });
         },
     },
 };

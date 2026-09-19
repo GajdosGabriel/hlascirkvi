@@ -7,7 +7,9 @@
     required>{{ old('body') ?? $prayer->body }}</textarea>
 
     <label>Uviesť zmenené, alebo anonymné meno</label>
-<input name="user_name" placeholder="Anonimné meno" value="{{ old('user_name') ?? auth()->user()->first_name }}"
+{{-- Pri úprave sa predtým ponúkalo meno prihláseného správcu, takže uloženie
+     prepísalo meno, pod ktorým bola prosba zverejnená. --}}
+<input name="user_name" placeholder="Anonimné meno" value="{{ old('user_name', $prayer->exists ? $prayer->user_name : auth()->user()->first_name) }}"
     class="w-full mb-2 border-2 rounded p-2 border-gray-300" required />
 
 <x-dashboard.form-bar :cancel="route('profile.canals.prayers.index', $canal->id ?? auth()->user()->canal_id)"

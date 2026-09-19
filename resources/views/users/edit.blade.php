@@ -19,20 +19,23 @@
 
                     <div class="form-group">
                         <label for="first_name">Meno</label>
-                        <input type="text" name="first_name" id="first_name" value="{{ $user->first_name }}"
+                        <input type="text" name="first_name" id="first_name" value="{{ old('first_name', $user->first_name) }}" maxlength="255"
                             class="form-control" required>
                     </div>
 
                     <div class="form-group">
                         <label for="last_name">Priezvisko</label>
-                        <input type="text" name="last_name" id="last_name" value="{{ $user->last_name }}"
-                            class="form-control" required>
+                        {{-- Priezvisko nie je povinné (validácia v Admin\UserController
+                             ho pripúšťa prázdne) a vyše 70 účtov ho nemá — required
+                             tu bránil uložiť čokoľvek iné, napr. stav účtu. --}}
+                        <input type="text" name="last_name" id="last_name" value="{{ old('last_name', $user->last_name) }}"
+                            class="form-control" maxlength="255">
                     </div>
 
                     @can('superadmin')
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" name="email" id="email" value="{{ $user->email }}" class="form-control"
+                            <input type="text" name="email" id="email" value="{{ old('email', $user->email) }}" class="form-control"
                                 required>
                         </div>
 

@@ -20,6 +20,12 @@
                 </header>
 
                 <form class="px-5 py-5" @submit.prevent="savePrayer">
+                    <!-- Odmietnutie serverom (menej ako 3 znaky, odkaz v texte) predtým
+                         len znovu povolilo tlačidlo a okno mlčalo. -->
+                    <ul v-if="errors.length" class="mb-4" role="alert">
+                        <li v-for="error in errors" :key="error" class="ar-error">{{ error }}</li>
+                    </ul>
+
                     <div>
                         <label class="ar-label" for="prayer-title">Modlitba za</label>
                         <input
@@ -109,6 +115,7 @@ export default {
         return {
             show: false,
             saving: false,
+            errors: [],
             authUser: window.App.user,
             form: {
                 user_name: "",
@@ -125,11 +132,13 @@ export default {
     created: function () {
         bus.$on("openModalPrayer", () => {
             this.form = { user_name: "" };
+            this.errors = [];
             this.show = true;
         });
 
         bus.$on("passToModalEdit", (prayer) => {
             this.form = Object.assign({}, prayer);
+            this.errors = [];
             this.show = true;
         });
 
@@ -147,6 +156,7 @@ export default {
 
         savePrayer: function () {
             this.saving = true;
+            this.errors = [];
 
             // Úprava existujúcej prosby posiela len polia z formulára; zvyšok
             // (počty, dátum vypočutia) patrí modelu, nie tomuto oknu.
@@ -164,7 +174,11 @@ export default {
                     this.show = false;
                     window.location.reload();
                 })
-                .catch(() => {
+                .catch((error) => {
+                    const errors = error.response?.data?.errors;
+                    this.errors = errors
+                        ? Object.values(errors).flat()
+                        : ["Prosbu sa nepodarilo uložiť. Skúste to znova."];
                     this.saving = false;
                 });
         },

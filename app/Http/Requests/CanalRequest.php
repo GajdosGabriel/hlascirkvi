@@ -44,11 +44,18 @@ class CanalRequest extends FormRequest
         // inak by sa nedalo uložiť nič bez zmeny názvu.
         $canal = $this->route('canal');
 
+        // Nezmenený názov sa znova na jedinečnosť nekontroluje. V databáze sú
+        // staré duplicity (aj voči zmazaným kanálom a pri collation bez
+        // diakritiky „Voľné" = „voľné"), a tie by inak zablokovali uloženie
+        // akejkoľvek inej zmeny kanála.
+        $titleUnchanged = $canal !== null
+            && trim((string) $this->input('title')) === trim((string) $canal->title);
+
         return [
-            'title' => [
+            'title' => array_filter([
                 'required', 'string', 'max:191', 'min:3',
-                Rule::unique('canals', 'title')->ignore($canal),
-            ],
+                $titleUnchanged ? null : Rule::unique('canals', 'title')->ignore($canal),
+            ]),
             'description'      => 'nullable|string',
             'street'           => 'nullable|string|max:191',
             'phone'            => ['nullable', 'string', 'max:20', 'regex:/^\+?[0-9 ()-]{6,20}$/'],

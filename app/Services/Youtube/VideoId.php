@@ -24,6 +24,25 @@ class VideoId
     }
 
     /**
+     * ID videa z poľa formulára — samotné ID alebo odkaz (watch?v=, youtu.be/,
+     * shorts/, embed/, live/). Null, keď sa ID určiť nedá.
+     */
+    public static function fromInput(?string $value): ?string
+    {
+        $value = trim((string) $value);
+
+        if (self::isId($value)) {
+            return $value;
+        }
+
+        if (preg_match('~(?:[?&]v=|youtu\.be/|/(?:shorts|embed|live|v)/)([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])~', $value, $m)) {
+            return $m[1];
+        }
+
+        return null;
+    }
+
+    /**
      * ID videa z položky odpovede, alebo null keď položka video neopisuje.
      *
      * @param object|array|null $item

@@ -48,6 +48,11 @@ class PostService
     {
         $data = collect($request->validated())->except('publish_now')->all();
 
+        // posts.body je NOT NULL; príspevok s videom smie byť bez textu.
+        if (array_key_exists('body', $data)) {
+            $data['body'] ??= '';
+        }
+
         if ($request->has('publish_now')) {
             $data['published_at'] = $request->boolean('publish_now')
                 // Raz zverejnený príspevok si čas vydania ponechá — inak by
