@@ -136,9 +136,9 @@
                         <label class="ar-label" for="url_www">Webová stránka</label>
                         <input class="{{ $field('url_www') }}" type="text" id="url_www" name="url_www" inputmode="url"
                                value="{{ old('url_www', $canal->url_www) }}" maxlength="191" autocomplete="url"
-                               placeholder="www.farnost.sk">
+                               placeholder="www.vasweb.sk">
                         {{-- Cast Urlwww z adresy nechá len schému a doménu. --}}
-                        <p class="ar-hint">Uloží sa len adresa domény, napr. https://www.farnost.sk.</p>
+                        <p class="ar-hint">Uloží sa len adresa domény, napr. https://www.vasweb.sk.</p>
                         @error('url_www') <p class="ar-error">{{ $message }}</p> @enderror
                     </div>
                 </div>

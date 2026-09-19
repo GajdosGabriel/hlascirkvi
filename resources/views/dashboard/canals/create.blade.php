@@ -75,7 +75,7 @@
                 </div>
                 <div class="form-group">
                     <label for="url_www">Webová stránka</label>
-                    <input class="form-control" type="url" id="url_www" name="url_www" value="{{ old('url_www') }}" maxlength="191" autocomplete="url" placeholder="https://www.example.sk">
+                    <input class="form-control" type="url" id="url_www" name="url_www" value="{{ old('url_www') }}" maxlength="191" autocomplete="url" placeholder="https://www.vasweb.sk">
                 </div>
             </fieldset>
 
