@@ -34,10 +34,17 @@ class SavePrayerRequest extends FormRequest
             ];
         }
 
+        // Zákaz odkazov chráni verejný formulár pred spamom. Správca kanála,
+        // ktorý modlitbu zadáva v nástenke (/dashboard/canals/{canal}/prayers),
+        // odkaz uviesť smie. Verejné API (/api/prayers) sa sem nepočíta — každý
+        // užívateľ má vlastný automaticky založený kanál a obišiel by tak zákaz.
+        $canal = $this->route('canal');
+        $links = $canal && $this->user()->can('manage', $canal) ? [] : [new NoUrlLinkRule];
+
         // 'body' tu bolo dvakrát — druhý zápis prvý ticho prepísal.
         return [
-            'title' => [ 'required','min:3', new NoUrlLinkRule],
-            'body' => [ 'bail', 'required','min:3', new NoUrlLinkRule],
+            'title' => [ 'required','min:3', ...$links],
+            'body' => [ 'bail', 'required','min:3', ...$links],
             'user_name' => 'nullable|string|min:2|max:255',
         ];
     }

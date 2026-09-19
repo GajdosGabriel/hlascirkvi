@@ -339,6 +339,19 @@ class ApiAuthorizationTest extends TestCase
         $this->assertSame(1, $canal->prayers()->count());
     }
 
+    public function test_odkaz_v_modlitbe_smie_len_spravca_v_nastenke(): void
+    {
+        [$owner, $canal] = $this->userWithCanal();
+        $prayer = ['title' => 'Za zdravie', 'body' => 'Viac na https://www.example.sk'];
+
+        $this->actingAs($owner)->post("/dashboard/canals/{$canal->id}/prayers", $prayer)
+            ->assertSessionHasNoErrors();
+
+        // Verejné API ostáva bez odkazov aj pre prihláseného.
+        $this->actingAs($owner)->postJson('/api/prayers', $prayer)
+            ->assertJsonValidationErrors('body');
+    }
+
     public function test_nastenka_sa_zobrazi_aj_bez_aktivneho_kanala(): void
     {
         $user = User::factory()->create();
