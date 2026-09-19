@@ -42,7 +42,7 @@
                     <div class="min-w-0 flex-1">
 
                         <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <a href="{{ route('profile.canals.show', $canal->id) }}"
+                            <a href="{{ $admin ? route('admin.canal.show', $canal->id) : route('profile.canals.show', $canal->id) }}"
                                class="ar-display ar-link text-base font-bold leading-snug">
                                 {{ $canal->title }}
                             </a>

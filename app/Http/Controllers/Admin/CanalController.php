@@ -40,6 +40,20 @@ class CanalController extends Controller
     }
 
     /**
+     * Detail kanála v administrácii. Obsah zdieľa s dashboard/canals/{id}
+     * (components/canal/overview), navyše ukazuje admin-details — preto
+     * rovnaké počty a vzťahy ako výpis.
+     */
+    public function show(Canal $canal)
+    {
+        $canal->load(['village:id,fullname', 'users:id,first_name,last_name,email', 'favorites'])
+            ->loadCount(['posts', 'prayers', 'seminars'])
+            ->loadMax('posts', 'created_at');
+
+        return view('admins.canals.show', compact('canal'));
+    }
+
+    /**
      * Súhrn nad celou tabuľkou (bez zrušených) pre dlaždice nad výpisom.
      * Každé číslo je zároveň odkaz na filter, ktorý tie kanály ukáže.
      */

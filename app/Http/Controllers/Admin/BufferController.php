@@ -14,8 +14,10 @@ class BufferController extends Controller
     protected $posts;
     public function __construct(PostRepository $posts)
     {
+        // Prístup rieši skupina rout admin/ (auth + checkSuperAdmin) — buffer
+        // je len pre superadmina. Predošlé checkAdmin navyše odrážalo
+        // superadmina bez roly `admin`.
         $this->posts = $posts;
-        $this->middleware(['auth', 'checkAdmin']);
     }
 
     public function index(Request $request, Buffer $buffer)

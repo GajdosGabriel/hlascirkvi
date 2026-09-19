@@ -153,6 +153,8 @@ Route::permanentRedirect('organization/{canal}/seminar/{rest?}', '/dashboard/can
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 'checkBanned'])->group(function () {
     Route::get('canal', 'Admin\CanalController@index')->name('canal.index');
+    // Detail aj pre zrušený kanál — výpis ich vie ukázať (?deletedAt).
+    Route::get('canal/{canal}', 'Admin\CanalController@show')->name('canal.show')->withTrashed();
     Route::permanentRedirect('organization', '/admin/canal');
 
     // Zapnutie a vypnutie oznamu priamo z výpisu. Nie je to úprava oznamu,

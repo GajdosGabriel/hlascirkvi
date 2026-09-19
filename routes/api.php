@@ -88,7 +88,7 @@ Route::middleware(['auth:sanctum', 'checkBanned'])->group(function () {
 
     // Zverejnenie / zablokovanie príspevku a presun do Bufferu sú akcie
     // administrácie — tlačidlá k nim sa vykresľujú len na admin.buffer.index
-    // (resources/views/posts/card-front.blade.php:52).
+    // (resources/views/posts/card-front.blade.php:55).
     Route::middleware('checkSuperAdmin')->group(function () {
         Route::apiResource('posts', Api\PostController::class)->only(['update']);
         Route::apiResource('postSupport', Api\PostSupportController::class)->only(['update']);

@@ -1,8 +1,8 @@
 @php
     $postUrl         = route('post.show', [$post->id, $post->slug]);
-    // V admin buffri vedie kanál do jeho správy na nástenke, nie na verejný profil.
+    // V admin buffri vedie kanál na jeho detail v administrácii, nie na verejný profil.
     $canalUrl = Route::is('admin.buffer.index')
-        ? route('profile.canals.show', $post->canal->id)
+        ? route('admin.canal.show', $post->canal->id)
         : route('organizations.show', [$post->canal->id]);
 
     // `favorites` je na modeli v $with, takže sa tu nedopytujeme databázy

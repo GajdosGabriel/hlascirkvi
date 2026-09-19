@@ -44,12 +44,7 @@
 
         <x-slot name="page">
 
-            <div class="grid gap-5 md:grid-cols-2">
-
-                <div class="ar-panel p-5">
-                    <x-canal.statistic :canal="$canal" />
-                </div>
-
+            <x-canal.overview :canal="$canal">
                 <div class="ar-panel p-5">
                     <h3 class="font-semibold">Prihlásiť sa do kanálu</h3>
                     {{-- Predtým admin.user.update, ktoré je len pre superadmina —
@@ -62,9 +57,7 @@
                         </button>
                     </form>
                 </div>
-
-
-            </div>
+            </x-canal.overview>
         </x-slot>
         </x-pages.dashboard>
     @endsection
