@@ -77,6 +77,16 @@ class Canal extends Model
             ->orderBy('title');
     }
 
+    /**
+     * Kanály, ktoré admin nepozastavil (CanalSection::Paused). Na rozdiel od
+     * `youtube_disabled_at`, ktoré zapína aj ruší import sám, pozastavenie
+     * prepína len admin vo formulári kanála.
+     */
+    public function scopeNotPaused($query)
+    {
+        return $query->where('post_section', '<>', \App\Enums\CanalSection::Paused->value);
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);

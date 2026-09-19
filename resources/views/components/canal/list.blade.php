@@ -84,6 +84,11 @@
                                     <i class="fas fa-church" aria-hidden="true"></i>
                                     Nedeľné prenosy
                                 </span>
+                            @elseif ($canal->post_section === \App\Enums\CanalSection::Paused)
+                                <span class="ar-chip ar-chip--muted">
+                                    <i class="fas fa-pause" aria-hidden="true"></i>
+                                    Pozastavené
+                                </span>
                             @endif
 
                             @if ($importDay)

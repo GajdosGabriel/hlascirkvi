@@ -8,6 +8,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Enums\CanalSection;
 use App\Enums\PostSection;
 use App\Models\Post;
 use Carbon\Carbon;
@@ -102,7 +103,12 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->whereNull('posts.deleted_at')
             ->where('posts.youtube_blocked', 0)
             ->whereNull('posts.video_available')
-            ->whereNull('posts.published_at');
+            ->whereNull('posts.published_at')
+            // Príspevky pozastaveného kanála v bufferi ostávajú, publisher ich
+            // však nevidí — nezverejní ich ani nezapočíta do denného plánu.
+            ->whereNotIn('posts.canal_id', \DB::table('canals')
+                ->where('post_section', CanalSection::Paused->value)
+                ->select('id'));
     }
 
     public function countWaitingPosts()

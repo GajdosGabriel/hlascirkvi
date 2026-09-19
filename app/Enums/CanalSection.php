@@ -25,19 +25,28 @@ enum CanalSection: string
      */
     case Live = 'live';
 
+    /**
+     * Ručne pozastavený kanál. Videá sa mu nesťahujú a publisher z buffera
+     * nevypustí ani tie, ktoré v ňom už čakajú. Po prepnutí späť sa čakajúce
+     * príspevky zaradia do bežného poradia.
+     */
+    case Paused = 'paused';
+
     public function label(): string
     {
         return match ($this) {
-            self::Front => 'Úvodná stránka (cez buffer)',
-            self::Live  => 'Nedeľné prenosy (hneď pri importe)',
+            self::Front  => 'Úvodná stránka (cez buffer)',
+            self::Live   => 'Nedeľné prenosy (hneď pri importe)',
+            self::Paused => 'Pozastavené (nesťahovať ani nezverejňovať)',
         };
     }
 
     public function hint(): string
     {
         return match ($this) {
-            self::Front => 'Nové videá čakajú vo fronte a publisher ich vypúšťa po jednom počas dňa.',
-            self::Live  => 'Nové videá sa zverejnia okamžite v zozname prenosov.',
+            self::Front  => 'Nové videá čakajú vo fronte a publisher ich vypúšťa po jednom počas dňa.',
+            self::Live   => 'Nové videá sa zverejnia okamžite v zozname prenosov.',
+            self::Paused => 'Import videí stojí a príspevky kanála, ktoré čakajú v bufferi, sa nezverejňujú.',
         };
     }
 
