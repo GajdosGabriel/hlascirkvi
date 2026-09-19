@@ -20,8 +20,12 @@ class CanalController extends Controller
     {
         // Výber z archívu: mesiac sám o sebe nič neznamená, berie sa až
         // s rokom — tak, ako ich navigátor v bočnom paneli aj skladá.
-        $year  = (int) request('rok') ?: null;
-        $month = $year ? ((int) request('mesiac') ?: null) : null;
+        // Hodnoty mimo rozsahu (roboty skúšajú ?mesiac=1024458429) sa
+        // ignorujú, ako keby v adrese neboli.
+        $year  = (int) request('rok');
+        $year  = $year >= 1900 && $year <= 2100 ? $year : null;
+        $month = (int) request('mesiac');
+        $month = $year && $month >= 1 && $month <= 12 ? $month : null;
 
         // Len zverejnené — video čakajúce v bufferi sa inak objavilo na
         // kanáli skôr ako na titulke.
