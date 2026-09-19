@@ -26,8 +26,6 @@ import SavePost from './posts/Save-post.vue';
 import Notification from './components/Notification.vue';
 import RadioButton from './navigation/RadioButton.vue';
 import VideoItem from './components/Video-Item.vue';
-import UserCard from './users/User-card.vue';
-import CanalCard from './canals/Canal-card.vue';
 import CanalPageHeader from './canals/Canal-page-header.vue';
 import YoutubeDash from './youtube/YoutubeDash.vue';
 import Comments from './comments/Comments.vue';
@@ -64,8 +62,6 @@ const components = {
     notification: Notification,
     'radio-button': RadioButton,
     'video-item': VideoItem,
-    'user-card': UserCard,
-    'canal-card': CanalCard,
     'canal-page-header': CanalPageHeader,
     'youtube-dash': YoutubeDash,
     'comments-post': Comments,

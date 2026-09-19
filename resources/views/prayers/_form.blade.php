@@ -10,7 +10,7 @@
 {{-- Pri úprave sa predtým ponúkalo meno prihláseného správcu, takže uloženie
      prepísalo meno, pod ktorým bola prosba zverejnená. --}}
 <input name="user_name" placeholder="Anonimné meno" value="{{ old('user_name', $prayer->exists ? $prayer->user_name : auth()->user()->first_name) }}"
-    class="w-full mb-2 border-2 rounded p-2 border-gray-300" required />
+    class="w-full mb-2 border-2 rounded p-2 border-gray-300" maxlength="255" />
 
 <x-dashboard.form-bar :cancel="route('profile.canals.prayers.index', $canal->id ?? auth()->user()->canal_id)"
     :submit="$prayer->exists ? 'Uložiť zmeny' : 'Pridať modlitbu'"

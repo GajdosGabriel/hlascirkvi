@@ -324,6 +324,21 @@ class ApiAuthorizationTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_modlitbu_do_kanala_pridava_len_jeho_spravca(): void
+    {
+        [$owner, $canal] = $this->userWithCanal();
+        [$cudzi] = $this->userWithCanal();
+
+        $prayer = ['title' => 'Za zdravie', 'body' => 'Prosím o modlitbu.'];
+
+        $this->actingAs($cudzi)->get("/dashboard/canals/{$canal->id}/prayers/create")->assertForbidden();
+        $this->actingAs($cudzi)->post("/dashboard/canals/{$canal->id}/prayers", $prayer)->assertForbidden();
+
+        // Prezývka je nepovinná.
+        $this->actingAs($owner)->post("/dashboard/canals/{$canal->id}/prayers", $prayer)->assertRedirect();
+        $this->assertSame(1, $canal->prayers()->count());
+    }
+
     public function test_nastenka_sa_zobrazi_aj_bez_aktivneho_kanala(): void
     {
         $user = User::factory()->create();

@@ -28,7 +28,8 @@ class SavePrayerRequest extends FormRequest
             return [
                 'title' => [ 'required','min:3', new NoUrlLinkRule],
                 'body' => [ 'required','min:3', new NoUrlLinkRule],
-                'user_name' => 'bail|required|min:2',
+                // Prezývka je nepovinná; bez nej sa prosba vypíše ako „Anonym".
+                'user_name' => 'nullable|string|min:2|max:255',
                 'email' => 'required|email|max:255',
             ];
         }

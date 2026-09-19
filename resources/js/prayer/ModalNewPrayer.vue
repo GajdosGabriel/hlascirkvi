@@ -59,14 +59,13 @@
                     </div>
 
                     <div class="mt-4">
-                        <label class="ar-label" for="prayer-user-name">Prezývka</label>
+                        <label class="ar-label" for="prayer-user-name">Prezývka (nepovinné)</label>
                         <input
                             id="prayer-user-name"
                             v-model="form.user_name"
                             type="text"
                             class="ar-field"
                             placeholder="Prezývka"
-                            required
                         />
                         <p class="ar-hint">
                             Pre ostatných, aby vedeli, ako vás osloviť v modlitbe.

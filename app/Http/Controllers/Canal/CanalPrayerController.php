@@ -24,6 +24,10 @@ class CanalPrayerController extends Controller
 
     public function create(Canal $canal)
     {
+        // authorizeResource pre Canal tu kontroluje len CanalPolicy::create,
+        // teda „je prihlásený" — modlitbu tak šlo pridať do ľubovoľného kanála.
+        $this->authorize('manage', $canal);
+
         return view('prayers.create', ['prayer' => new Prayer, 'canal' => $canal]);
     }
 
@@ -40,6 +44,8 @@ class CanalPrayerController extends Controller
 
     public function store(Canal $canal, SavePrayerRequest $request)
     {
+        $this->authorize('manage', $canal);
+
         $canal->prayers()->create($request->validated());
 
         return redirect()->route('profile.canals.prayers.index', $canal);

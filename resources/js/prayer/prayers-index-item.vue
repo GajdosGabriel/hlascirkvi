@@ -53,7 +53,7 @@
 
                 <p class="ar-prayer__meta mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
                     <span class="font-semibold text-[color:var(--ar-ink-soft)]">
-                        {{ prayer.user_name }}
+                        {{ prayer.user_name || "Anonym" }}
                     </span>
                     <span aria-hidden="true">·</span>
                     <time :datetime="prayer.created_at" :title="dateTime(prayer.created_at)">
