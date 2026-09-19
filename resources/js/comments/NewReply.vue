@@ -15,6 +15,7 @@
             :placeholder="parentId ? 'Napíšte odpoveď…' : 'Napíšte, čo si o príspevku myslíte…'"
             required
         ></textarea>
+        <p v-for="error in errors" :key="error" class="mt-1 text-sm font-semibold text-red-700" role="alert">{{ error }}</p>
 
         <div class="mt-3 flex flex-wrap items-end justify-between gap-3">
             <!-- Bez účtu treba e-mail; pole má zmysel len vtedy, inak by v
@@ -66,6 +67,7 @@ export default {
             uid: "comment-form-" + ++counter,
             body: this.initialBody,
             email: "",
+            errors: [],
         };
     },
 
@@ -94,7 +96,16 @@ export default {
                 .then(({ data }) => {
                     this.body = "";
                     this.email = "";
+                    this.errors = [];
                     this.$emit("newComment", data);
+                })
+                // Odmietnutý komentár (kratší ako 3 znaky, zlý e-mail) predtým
+                // formulár len ticho nechal tak, ako bol.
+                .catch((error) => {
+                    const errors = error.response?.data?.errors;
+                    this.errors = errors
+                        ? Object.values(errors).flat()
+                        : ["Komentár sa nepodarilo odoslať. Skúste to znova."];
                 });
         },
     },

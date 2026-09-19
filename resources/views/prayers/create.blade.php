@@ -11,14 +11,16 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <a class="btn btn-default" href="{{ route('profile.canals.prayers.index', auth()->user()->canal_id) }}">
+            <a class="btn btn-default" href="{{ route('profile.canals.prayers.index', $canal->id) }}">
                 Späť
             </a>
         </x-slot>
 
 
         <x-slot name="page">
-            <form action="{{ route('profile.canals.prayers.store', auth()->user()->canal_id) }}" method="post" class="md:w-1/2">
+            {{-- Kanál z adresy, nie aktívny kanál užívateľa — inak sa modlitba
+                 založená z iného spravovaného kanála uložila do aktívneho. --}}
+            <form action="{{ route('profile.canals.prayers.store', $canal->id) }}" method="post" class="md:w-1/2">
                 @csrf @method('POST')
                 @include('prayers._form')
             </form>

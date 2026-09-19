@@ -86,9 +86,9 @@ class PostSaveRequest extends FormRequest
     {
         return [
             'body.required' => 'Článok neobsahuje žiadny text.',
-            'title.required' => 'Článok musí mať nadpist.',
-            'title.min' => 'Minimálna dľžka nadpisu sú 3 znaky.',
-            'title.max' => 'Maximálna dľžka nadpisu je 200 znakov.',
+            'title.required' => 'Článok musí mať nadpis.',
+            'title.min' => 'Minimálna dĺžka nadpisu sú 3 znaky.',
+            'title.max' => 'Maximálna dĺžka nadpisu je 200 znakov.',
             'body.required_without' => 'Článok bez videa musí obsahovať text.',
             'video_id.regex' => 'Video sa nedalo určiť. Zadajte odkaz na video YouTube alebo jeho ID.',
             'pictures.max' => 'Naraz je možné pridať najviac 20 obrázkov.',

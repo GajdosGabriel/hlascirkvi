@@ -92,8 +92,11 @@ class CanalRequest extends FormRequest
         return [
             'title.required' => 'Názov musí obsahovať aspoň tri znaky',
             'title.unique' => 'Názov kanála už existuje. Ak si nárokujete názov kanála, kontaktujte administrátora.',
-            'street' => 'maximálna dlžka je 255 znakov.',
-            'phone' => 'Obsahuje veľa znakov. Limit je do 16 znakov',
+            // Hlášky kľúčované len názvom poľa ('street', 'phone') platili pre
+            // všetky pravidlá a uvádzali iné limity, než aké naozaj platia.
+            'street.max' => 'Ulica môže mať najviac 191 znakov.',
+            'phone.max' => 'Telefón môže mať najviac 20 znakov.',
+            'phone.regex' => 'Telefón môže obsahovať len číslice, medzery, zátvorky, pomlčky a úvodné +.',
             'youtube_channel.regex' => 'Kanál sa nedal určiť. Zadajte ID kanála (UC…) alebo adresu kanála na YouTube.',
             'youtube_playlist.regex' => 'Playlist sa nedal určiť. Zadajte ID playlistu (PL…) alebo jeho adresu na YouTube.',
         ];

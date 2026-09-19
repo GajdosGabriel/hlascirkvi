@@ -30,7 +30,9 @@ class CanalSeminarController extends Controller
 
     public function create(Canal $canal)
     {
-        $this->authorize('viewAny', $canal);
+        // Rovnaká kontrola ako pri uložení — predtým formulár otvoril
+        // ktokoľvek a odmietnutie prišlo až po jeho vyplnení.
+        $this->authorize('manage', $canal);
         return view('seminars.create', ['seminar' => new Seminar(), 'canal' => $canal]);
     }
 
@@ -45,7 +47,12 @@ class CanalSeminarController extends Controller
         // Autorizácia tu chýbala úplne — a `canal_id` sa bralo z
         // prihláseného užívateľa, nie z routy, takže sa seminár vždy založil
         // pod jeho primárnym kanálom bez ohľadu na to, kde bol formulár.
-        $this->authorize('update', $canal);
+        //
+        // `manage` (zoznam správcov), nie `update` (aktívny kanál): semináre
+        // ďalej upravuje a maže každý správca kanála (SeminarPolicy::owns),
+        // no založiť ich šlo len v práve aktívnom kanáli — správca iného kanála
+        // vyplnil formulár a dostal 403.
+        $this->authorize('manage', $canal);
 
         $canal->seminars()->create($request->validated());
 

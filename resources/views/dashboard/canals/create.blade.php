@@ -13,8 +13,6 @@
             </x-slot>
         </x-dashboard.header>
 
-        @include('layouts.errors')
-
         <form method="POST" action="{{ route('profile.canals.store') }}" class="space-y-6">
             @csrf
             <fieldset class="rounded-lg border bg-white p-6">
@@ -75,7 +73,9 @@
                 </div>
                 <div class="form-group">
                     <label for="url_www">Webová stránka</label>
-                    <input class="form-control" type="url" id="url_www" name="url_www" value="{{ old('url_www') }}" maxlength="191" autocomplete="url" placeholder="https://www.vasweb.sk">
+                    {{-- type="url" pustil len adresu so schémou, takže „www.vasweb.sk" zastavil
+                         prehliadač, hoci server (a formulár úpravy) ju prijme. --}}
+                    <input class="form-control" type="text" inputmode="url" id="url_www" name="url_www" value="{{ old('url_www') }}" maxlength="191" autocomplete="url" placeholder="www.vasweb.sk">
                 </div>
             </fieldset>
 

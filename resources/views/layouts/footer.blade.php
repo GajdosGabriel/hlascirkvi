@@ -38,9 +38,9 @@
                 {{-- Bývalé „Som človek 7 plus 3" nahradila neviditeľná kontrola,
                      vysvetlenie v App\Support\HumanCheck. --}}
                 <x-human-check/>
+                {{-- <textarea> atribút value ignoruje — text po chybe validácie mizol. --}}
                 <textarea class="border-2 border-gray-500 rounded-md w-full p-2" name="body" rows="3"
-                          class="w-full rounded-md" required placeholder="Napíšte nám svoje podnety ... Ďakujeme"
-                          value="{{ old('body') }}"></textarea>
+                          minlength="3" required placeholder="Napíšte nám svoje podnety ... Ďakujeme">{{ old('body') }}</textarea>
 
                 <div class="form-group md:flex items-center mt-4">
 

@@ -5,7 +5,7 @@
                 <div  class="form-group" style="padding: 0rem">
                     <textarea v-model="body" class="form" rows="3" placeholder="Poslať právu"></textarea>
                 </div>
-                <div v-if="errors.length" style="color: red">Vyplnte text</div>
+                <div v-for="error in errors" :key="error" style="color: red">{{ error }}</div>
 
                 <button class="btn btn-small"  @click="sendmessage">Odoslať</button>
             </div>
@@ -43,14 +43,29 @@
         },
 
         methods: {
+            // Správa sa hlásila ako odoslaná hneď, bez ohľadu na odpoveď servera —
+            // aj keď ju odmietol (kratšia ako 3 znaky, chýbajúca pečiatka).
             sendmessage: function() {
+                this.errors = [];
 
-                this.checkForm();
+                if (this.body.trim().length < 3) {
+                    this.errors.push('Správa musí mať aspoň 3 znaky.');
+                    return;
+                }
 
-                axios.post('/store/message', { body: this.body, form_ts: this.stamp });
-                this.show = false;
-                this.annotation = true;
-                this.hide();
+                axios.post('/store/message', { body: this.body, form_ts: this.stamp })
+                    .then(() => {
+                        this.body = '';
+                        this.show = false;
+                        this.annotation = true;
+                        this.hide();
+                    })
+                    .catch((error) => {
+                        const errors = error.response?.data?.errors;
+                        this.errors = errors
+                            ? Object.values(errors).flat()
+                            : ['Správu sa nepodarilo odoslať. Skúste to znova.'];
+                    });
             },
 
             hide: function() {
@@ -61,19 +76,6 @@
 
             toggle: function() {
                 this.show = ! this.show;
-            },
-
-            checkForm: function (e) {
-                if (this.body) {
-                    return true;
-                }
-
-                this.errors = [];
-
-                if (!this.body) {
-                    this.errors.push('Text sa vyžaduje.');
-                }
-                e.preventDefault();
             }
         }
 

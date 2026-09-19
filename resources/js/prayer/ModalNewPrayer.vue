@@ -23,7 +23,7 @@
                     <!-- Odmietnutie serverom (menej ako 3 znaky, odkaz v texte) predtým
                          len znovu povolilo tlačidlo a okno mlčalo. -->
                     <ul v-if="errors.length" class="mb-4" role="alert">
-                        <li v-for="error in errors" :key="error" class="ar-error">{{ error }}</li>
+                        <li v-for="error in errors" :key="error" class="text-sm font-semibold text-red-700">{{ error }}</li>
                     </ul>
 
                     <div>

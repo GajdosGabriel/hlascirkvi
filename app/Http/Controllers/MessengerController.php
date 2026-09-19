@@ -38,7 +38,13 @@ class MessengerController extends Controller
             'body' => $request->input('body')
         ]);
 
-        return back();
+        // Formulár v päte sa po odoslaní len znovu načítal, bez akéhokoľvek
+        // potvrdenia. JSON volania (Messenger.vue) si potvrdenie ukážu samy.
+        if ($request->expectsJson()) {
+            return response()->json(['ok' => true]);
+        }
+
+        return back()->with('flash', 'Správa bola odoslaná. Ďakujeme!');
     }
 
 
