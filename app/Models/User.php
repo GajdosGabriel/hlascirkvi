@@ -106,6 +106,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Canal::class);
     }
 
+    /**
+     * Aktívny kanál (canal_id) smie byť len kanál, ktorý užívateľ spravuje —
+     * policy príspevkov a modlitieb mu veria. Po odobratí zo správcov sa preto
+     * prepne na iný jeho kanál, a ak žiadny nemá, ostane prázdny.
+     */
+    public function resetActiveCanalIfNotManaged(): void
+    {
+        if ($this->canal_id === null
+            || $this->canals()->whereKey($this->canal_id)->exists()) {
+            return;
+        }
+
+        $this->update(['canal_id' => $this->canals()->min('canals.id')]);
+    }
+
     /** Príspevky uložené na neskôr (stránka /ulozene). */
     public function savedPosts()
     {

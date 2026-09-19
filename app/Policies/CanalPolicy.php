@@ -68,8 +68,10 @@ class CanalPolicy
      */
     public function manage(User $user, Canal $canal)
     {
-        return $user->canal_id == $canal->id
-            || $user->canals()->whereKey($canal->getKey())->exists();
+        // Rozhoduje len zoznam správcov. Aktívny kanál (canal_id) je iba výber
+        // spomedzi nich — kým sa počítal aj on, odobratý správca mal ku kanálu
+        // prístup ďalej, kým si aktívny kanál sám neprepol.
+        return $user->canals()->whereKey($canal->getKey())->exists();
     }
 
     /**

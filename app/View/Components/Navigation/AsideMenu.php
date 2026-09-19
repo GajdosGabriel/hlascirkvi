@@ -53,6 +53,24 @@ class AsideMenu extends Component
 
     public function userMenu()
     {
+        $canalId = auth()->user()->canal_id;
+
+        // Semináre a modlitby visia na aktívnom kanáli. Užívateľ, ktorý žiadny
+        // kanál nespravuje, ho nemá — route() bez parametra by zhodilo celú
+        // nástenku.
+        $canalItems = $canalId === null ? [] : [
+            [
+                'url' => route('profile.canals.seminars.index', $canalId),
+                'icon' => 'seminar',
+                'name' => 'Semináre',
+            ],
+            [
+                'url' => route('profile.canals.prayers.index', $canalId),
+                'icon' => 'pray',
+                'name' => 'Modlitby',
+            ],
+        ];
+
         return [
             [
                 'url' => route('profile.dashboard'),
@@ -69,16 +87,7 @@ class AsideMenu extends Component
                 'icon' => 'post',
                 'name' => 'Články',
             ],
-            [
-                'url' => route('profile.canals.seminars.index', auth()->user()->canal_id),
-                'icon' => 'seminar',
-                'name' => 'Semináre',
-            ],
-            [
-                'url' => route('profile.canals.prayers.index', auth()->user()->canal_id),
-                'icon' => 'pray',
-                'name' => 'Modlitby',
-            ],
+            ...$canalItems,
         ];
     }
 

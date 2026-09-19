@@ -137,7 +137,10 @@ class CanalController extends Controller
         // o zámerne prázdny výber, hovorí značka `users_submitted`.
         if ($request->user()->can('superadmin')) {
             if ($request->has('users') || $request->boolean('users_submitted')) {
-                $canal->users()->sync($request->input('users', []));
+                $changes = $canal->users()->sync($request->input('users', []));
+
+                User::whereKey($changes['detached'])->get()
+                    ->each->resetActiveCanalIfNotManaged();
             }
 
             if ($request->has('published')) {

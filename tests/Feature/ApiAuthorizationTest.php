@@ -288,6 +288,52 @@ class ApiAuthorizationTest extends TestCase
         $this->assertDatabaseMissing('canal_user', ['canal_id' => $vlastny->id]);
     }
 
+    public function test_odobraty_spravca_strati_pristup_aj_cez_aktivny_kanal(): void
+    {
+        $superadmin = User::factory()->create();
+        $superadmin->assignRole(['admin', 'superadmin']);
+
+        [$owner, $canal] = $this->userWithCanal();
+        // Osobný kanál z UserObservera — ten mu po odobratí ostane.
+        $druhy = $owner->canals()->whereKeyNot($canal->id)->firstOrFail();
+
+        $this->actingAs($superadmin)
+            ->put("/dashboard/canals/{$canal->id}", [
+                'title' => $canal->title,
+                'village_id' => $canal->village_id,
+                'users_submitted' => 1,
+            ])
+            ->assertRedirect();
+
+        // Aktívny kanál sa prepne na iný kanál, ktorý ešte spravuje.
+        $this->assertSame($druhy->id, $owner->fresh()->canal_id);
+
+        $this->actingAs($owner->fresh())
+            ->get("/dashboard/canals/{$canal->id}/edit")
+            ->assertForbidden();
+    }
+
+    public function test_cudzi_aktivny_kanal_nedava_pristup(): void
+    {
+        [$owner, $canal] = $this->userWithCanal();
+        $cudzi = User::factory()->create();
+        $cudzi->update(['canal_id' => $canal->id]);
+
+        $this->actingAs($cudzi->fresh())
+            ->get("/dashboard/canals/{$canal->id}/edit")
+            ->assertForbidden();
+    }
+
+    public function test_nastenka_sa_zobrazi_aj_bez_aktivneho_kanala(): void
+    {
+        $user = User::factory()->create();
+        $user->update(['canal_id' => null]);
+
+        $this->actingAs($user->fresh())
+            ->get('/dashboard/canals')
+            ->assertOk();
+    }
+
     // ------------------------------------------------- zmazané debug routy
 
     public function test_debug_endpointy_uz_neexistuju(): void
