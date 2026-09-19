@@ -22,11 +22,9 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
         <!--
-            Schéma sa stavia z database/schema/mysql-schema.sql (php artisan
-            schema:dump), pretože migrácie zakladajúce väčšinu tabuliek
-            v repozitári nikdy neboli. Dump je MySQL-ový a aplikácia sa
-            o MySQL opiera aj inde (fulltext, window funkcie v
-            EloquentPostRepository), takže testy bežia na samostatnej
+            Migrácie nesú MySQL-ové detaily (MyISAM číselníky, kolácie)
+            a aplikácia sa o MySQL opiera aj inde (fulltext, window funkcie
+            v EloquentPostRepository), takže testy bežia na samostatnej
             MySQL databáze, nie na SQLite v pamäti.
 
             Databázu treba raz vytvoriť:

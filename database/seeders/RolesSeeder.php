@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
  * a notifikáciu adminom cez scope role('admin'), a oboje na chýbajúcej role
  * hodí RoleDoesNotExist.
  *
- * Migrácie balíka v repozitári nie sú, tabuľky nesie database/schema/mysql-schema.sql.
+ * Tabuľky balíka zakladá migrácia 0001_01_01_000008_create_permission_tables.
  */
 class RolesSeeder extends Seeder
 {
