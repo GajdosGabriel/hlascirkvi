@@ -54,6 +54,36 @@ class Canal extends Model
         6 => 'Sobota',
     ];
 
+    /**
+     * Smajlíky a emoji v názve kanála (CanalRequest ich odmieta). Rozsahy
+     * pokrývajú emoji, symboly, dingbaty, vlajky a variačný selektor.
+     */
+    public const EMOJI_PATTERN = '/[\x{1F000}-\x{1FAFF}\x{2600}-\x{27BF}\x{1F1E6}-\x{1F1FF}\x{FE0F}\x{200D}]/u';
+
+    /**
+     * Voľný názov kanála: bez emoji a pri zhode s existujúcim kanálom
+     * (vrátane zmazaných) s poradovým číslom — „Mária Mária (2)".
+     * Porovnanie robí databáza, takže platí jej collation bez diakritiky
+     * a veľkosti písmen, rovnako ako pravidlo unique v CanalRequest.
+     */
+    public static function uniqueTitle(string $title, ?int $ignoreId = null): string
+    {
+        $base = trim(preg_replace('/\s+/u', ' ', preg_replace(self::EMOJI_PATTERN, '', $title)));
+        $base = mb_strlen($base) >= 2 ? $base : 'Kanál';
+
+        $taken = fn (string $candidate) => static::withTrashed()
+            ->where('title', $candidate)
+            ->when($ignoreId, fn ($q) => $q->whereKeyNot($ignoreId))
+            ->exists();
+
+        $candidate = $base;
+        for ($n = 2; $taken($candidate); $n++) {
+            $candidate = $base . ' (' . $n . ')';
+        }
+
+        return $candidate;
+    }
+
     protected $appends = ['favoritesCount', 'isFavorited', 'initialName'];
 
     // favoritesCount aj isFavorited sú v $appends, takže sa počítajú pri každej

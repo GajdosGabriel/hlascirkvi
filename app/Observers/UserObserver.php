@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\Canal;
 use App\Models\User;
 use Notification;
 use App\Models\FirstName;
@@ -63,8 +64,11 @@ class UserObserver
     {
         $user->assignRole('user');
 
+        // Menovci dostávali kanál s rovnakým názvom (unique platí len vo
+        // formulári), a ten potom nešiel uložiť. Emoji v mene sa do názvu
+        // kanála neprenesú.
         $canal = $user->canals()->create([
-            'title' => $user->fullname,
+            'title' => Canal::uniqueTitle((string) $user->fullname),
             'slug' => $user->slug,
             'person' => 1,
             'village_id' => 4209

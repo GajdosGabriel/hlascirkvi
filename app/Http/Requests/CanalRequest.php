@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\CanalKind;
 use App\Enums\CanalSection;
 use App\Enums\Denomination;
+use App\Models\Canal;
 use App\Services\Youtube\ChannelId;
 use App\Services\Youtube\PlaylistId;
 use Illuminate\Foundation\Http\FormRequest;
@@ -53,7 +54,8 @@ class CanalRequest extends FormRequest
 
         return [
             'title' => array_filter([
-                'required', 'string', 'max:191', 'min:3',
+                'required', 'string', 'max:191', 'min:2',
+                'not_regex:' . Canal::EMOJI_PATTERN,
                 $titleUnchanged ? null : Rule::unique('canals', 'title')->ignore($canal),
             ]),
             'description'      => 'nullable|string',
@@ -90,7 +92,9 @@ class CanalRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'Názov musí obsahovať aspoň tri znaky',
+            'title.required' => 'Kanál musí mať názov.',
+            'title.min' => 'Názov kanála musí mať aspoň 2 znaky.',
+            'title.not_regex' => 'Názov kanála nesmie obsahovať smajlíky ani emoji.',
             'title.unique' => 'Názov kanála už existuje. Ak si nárokujete názov kanála, kontaktujte administrátora.',
             // Hlášky kľúčované len názvom poľa ('street', 'phone') platili pre
             // všetky pravidlá a uvádzali iné limity, než aké naozaj platia.

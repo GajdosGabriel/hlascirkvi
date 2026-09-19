@@ -50,7 +50,7 @@
                     <div>
                         <label class="ar-label" for="title">Názov kanála <span class="ar-req">*</span></label>
                         <input class="{{ $field('title') }}" type="text" id="title" name="title"
-                               value="{{ old('title', $canal->title) }}" minlength="3" maxlength="191" required>
+                               value="{{ old('title', $canal->title) }}" minlength="2" maxlength="191" required>
                         @error('title') <p class="ar-error">{{ $message }}</p> @enderror
                     </div>
 
@@ -63,8 +63,8 @@
                     </div>
 
                     <div>
-                        <label class="ar-label" for="denomination">Cirkev / zaradenie kanála <span class="ar-req">*</span></label>
-                        <select class="{{ $field('denomination') }}" id="denomination" name="denomination" required>
+                        <label class="ar-label" for="denomination">Cirkev / zaradenie kanála</label>
+                        <select class="{{ $field('denomination') }}" id="denomination" name="denomination">
                             <option value="">Vyberte zaradenie</option>
                             @foreach ($denominations as $option)
                                 <option value="{{ $option->value }}" @selected($denomination === $option->value)>{{ $option->label() }}</option>

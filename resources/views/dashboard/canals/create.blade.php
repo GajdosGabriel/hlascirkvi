@@ -19,15 +19,15 @@
                 <legend class="px-2 text-lg font-semibold">Základné údaje</legend>
                 <div class="form-group">
                     <label for="title">Názov kanála *</label>
-                    <input class="form-control" type="text" id="title" name="title" value="{{ old('title') }}" minlength="3" maxlength="191" required autofocus placeholder="Napr. Farnosť sv. Martina">
+                    <input class="form-control" type="text" id="title" name="title" value="{{ old('title') }}" minlength="2" maxlength="191" required autofocus placeholder="Napr. Farnosť sv. Martina">
                 </div>
                 <div class="form-group">
                     <label for="description">Popis kanála</label>
                     <textarea class="form-control" id="description" name="description" rows="5" placeholder="Predstavte svoj kanál a jeho obsah.">{{ old('description') }}</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="denomination">Cirkev / zaradenie kanála *</label>
-                    <select class="form-control" id="denomination" name="denomination" required>
+                    <label for="denomination">Cirkev / zaradenie kanála</label>
+                    <select class="form-control" id="denomination" name="denomination">
                         <option value="">Vyberte zaradenie</option>
                         @foreach ($denominations as $denomination)
                             <option value="{{ $denomination->value }}" @selected(old('denomination') === $denomination->value)>{{ $denomination->label() }}</option>
