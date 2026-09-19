@@ -19,9 +19,7 @@
         <x-slot name="page">
             @php
                 $periods = [1 => 'Dnes', 2 => '2 dni', 7 => 'Týždeň', 14 => '2 týždne', 30 => '30 dní', 90 => '90 dní'];
-                $totalUniqueViews = $posts->sum('unique_view');
-                $averageViews = $posts->count() > 0 ? round($totalUniqueViews / $posts->count(), 1) : 0;
-                $topPost = $posts->first();
+                $averageViews = $totalPosts > 0 ? round($totalUniqueViews / $totalPosts, 1) : 0;
                 $maxViews = max((int) ($topPost->unique_view ?? 0), 1);
             @endphp
 
@@ -45,7 +43,7 @@
 
             <div class="mb-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <x-dashboard.metric label="Unikátne návštevy" :value="number_format($totalUniqueViews, 0, ',', ' ')">spolu za obdobie</x-dashboard.metric>
-                <x-dashboard.metric label="Čítané články" :value="number_format($posts->count(), 0, ',', ' ')">článkov s návštevou</x-dashboard.metric>
+                <x-dashboard.metric label="Čítané články" :value="number_format($totalPosts, 0, ',', ' ')">článkov s návštevou</x-dashboard.metric>
                 <x-dashboard.metric label="Priemer na článok" :value="number_format($averageViews, 1, ',', ' ')">unikátnej návštevy</x-dashboard.metric>
                 <x-dashboard.metric label="Najúspešnejší článok" :value="number_format($topPost->unique_view ?? 0, 0, ',', ' ')">{{ $topPost ? Str::limit($topPost->title, 32) : 'bez dát' }}</x-dashboard.metric>
             </div>
@@ -54,7 +52,7 @@
 
 
             <x-dashboard.panel title="Najčítanejšie články" flush>
-                <x-slot name="note">{{ $posts->count() }} záznamov</x-slot>
+                <x-slot name="note">{{ number_format($totalPosts, 0, ',', ' ') }} záznamov</x-slot>
             <x-dashboard.table class="rounded-none border-0" label="Štatistiky článkov">
                 <thead>
                     <tr>
@@ -69,7 +67,7 @@
                 <tbody>
                     @forelse($posts as $post)
                         <tr>
-                            <td class="text-center font-semibold text-gray-400">{{ $loop->iteration }}</td>
+                            <td class="text-center font-semibold text-gray-400">{{ $posts->firstItem() + $loop->index }}</td>
                             <td>
                                 <a href="{{ route('post.show', [$post->id, $post->slug]) }}" class="font-semibold text-[color:var(--ar-ink)] transition-colors hover:text-[color:var(--ar-accent)]">
                                     {{ Str::limit($post->title, 60) }}
@@ -95,6 +93,10 @@
                 </tbody>
             </x-dashboard.table>
             </x-dashboard.panel>
+
+            <div class="md:block flex justify-center my-8">
+                {{ $posts->links() }}
+            </div>
 
         </x-slot>
 
