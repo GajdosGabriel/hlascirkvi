@@ -43,5 +43,10 @@
                 <span>{{ $event->municipality() }}</span>
             @endif
         </div>
+
+        {{-- Kúpiť / rezervovať lístok — vpravo dole. --}}
+        @if ($event->ticketCta())
+            <div class="mt-2 flex justify-end">@include('events.portal._ticket_cta')</div>
+        @endif
     </div>
 </article>

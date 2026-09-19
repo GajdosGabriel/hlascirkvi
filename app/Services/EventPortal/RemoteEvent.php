@@ -480,6 +480,35 @@ class RemoteEvent implements Arrayable
         return (bool) ($this->data['tickets_enabled'] ?? false);
     }
 
+    /**
+     * Tlačidlo „Kúpiť lístok" / „Rezervovať" na karte. Druh aj text posiela
+     * portál hotový (`ticket_cta`, Event::ticketCta() na portáli) — null, keď
+     * sa lístok získať nedá (bez lístkov, po skončení, po uzávierke).
+     *
+     * @return array{kind: 'buy'|'reserve', label: string}|null
+     */
+    public function ticketCta(): ?array
+    {
+        $cta = $this->data['ticket_cta'] ?? null;
+
+        if (! is_array($cta) || ! in_array($cta['kind'] ?? null, ['buy', 'reserve'], true)) {
+            return null;
+        }
+
+        $label = trim((string) ($cta['label'] ?? ''));
+
+        return [
+            'kind' => $cta['kind'],
+            'label' => $label !== '' ? $label : ($cta['kind'] === 'buy' ? 'Kúpiť lístok' : 'Rezervovať'),
+        ];
+    }
+
+    /** Registrácia na portáli — kotva #registracia doscrolluje priamo k formuláru. */
+    public function ticketUrl(): string
+    {
+        return $this->portalUrl() . '#registracia';
+    }
+
     /** Odkaz na registráciu alebo stránku podujatia, ktorý zadal organizátor. */
     public function website(): ?string
     {

@@ -68,6 +68,11 @@
                 @elseif ($event->price())
                     <span class="font-medium text-stone-700">{{ $event->price() }}</span>
                 @endif
+
+                {{-- Kúpiť / rezervovať lístok — vpravo dole. --}}
+                @if ($event->ticketCta())
+                    <span class="ml-auto">@include('events.portal._ticket_cta')</span>
+                @endif
             </div>
         </div>
     </div>

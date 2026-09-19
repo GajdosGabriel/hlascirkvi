@@ -141,7 +141,9 @@ class EventPortalClient
         try {
             $response = Http::acceptJson()
                 ->timeout((int) config('eventportal.timeout', 8))
-                ->withHeaders(['User-Agent' => 'hlascirkvi.sk (event portal reader)'])
+                // X-Locale: texty, ktoré portál posiela hotové (napr. ticket_cta),
+                // majú prísť po slovensky, nie v predvolenom jazyku API.
+                ->withHeaders(['User-Agent' => 'hlascirkvi.sk (event portal reader)', 'X-Locale' => 'sk'])
                 ->get(config('eventportal.url') . $path, $query);
 
             // 404 je platná odpoveď (zmazané podujatie), nie výpadok — nemá
