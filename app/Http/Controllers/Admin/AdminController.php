@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\PostRepository;
 use App\Services\Dashboard\AdminDashboardStats;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -17,8 +18,8 @@ class AdminController extends Controller
     }
 
 
-    public function index(AdminDashboardStats $stats)
+    public function index(Request $request, AdminDashboardStats $stats)
     {
-        return view('admins.home', $stats->get());
+        return view('admins.home', $stats->cached($request->boolean('refresh')));
     }
 }

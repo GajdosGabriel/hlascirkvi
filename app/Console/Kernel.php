@@ -90,6 +90,13 @@ class Kernel extends ConsoleKernel
         // Liturgické čítania z KBS na 45 dní dopredu. Chýbajúce dni si síce
         // stránka stiahne aj sama, ale výpadok KBS tak web neucíti.
         $schedule->command('liturgia:stiahnut')->dailyAt('03:35')->withoutOverlapping();
+
+        // Úvod administrácie počíta súhrny cez celé tabuľky; drží sa zahriaty
+        // v cache, aby sa /admin/home neotváral sekundu a viac.
+        $schedule->call(fn () => app(\App\Services\Dashboard\AdminDashboardStats::class)->warm())
+            ->name('admin:dashboard-warm')
+            ->everyFiveMinutes()
+            ->withoutOverlapping();
     }
 
     /**

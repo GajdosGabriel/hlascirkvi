@@ -60,7 +60,10 @@
             @endif
 
             <div class="mb-6">
-                <p class="ar-kicker mb-3">Celý web · {{ $now->format('j. n. Y') }}</p>
+                <p class="ar-kicker mb-3">
+                    Celý web · {{ $now->format('j. n. Y') }} · údaje z {{ $now->format('H:i') }}
+                    <a href="{{ route('admin.home.index', ['refresh' => 1]) }}" class="ml-1 underline" title="Prepočítať čísla hneď">Obnoviť</a>
+                </p>
                 <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
                     <x-dashboard.metric label="Zhliadnutia dnes" :value="$num($views->today)">
                         včera {{ $num($views->yesterday) }} · priemer {{ $num($views->average) }}/deň

@@ -7,6 +7,7 @@ use App\Models\LiturgicalDay;
 use App\Models\Post;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -24,6 +25,61 @@ class AdminDashboardStats
     /** Koľko dní dozadu sa skladá mapa „kedy sa číta“ — štyri celé týždne. */
     public const RHYTHM_DAYS = 28;
 
+    public const CACHE_KEY = 'admin:dashboard';
+
+    /**
+     * Ako dlho platí zacachovaná nástenka. Súhrny cez posts, comments
+     * a prayers idú cez celé tabuľky a trvajú dohromady vyše sekundy;
+     * scheduler ich obnovuje každých päť minút (warm()), takže administrátor
+     * na výpočet čaká len výnimočne.
+     */
+    public const CACHE_TTL = 600;
+
+    /** Čísla z cache; $fresh ich prepočíta hneď (odkaz „Obnoviť“). */
+    public function cached(bool $fresh = false): array
+    {
+        $json = $fresh ? null : Cache::get(self::CACHE_KEY);
+        $stats = is_string($json) ? $this->hydrate($json) : $this->warm();
+
+        // Liturgický deň je jeden rýchly dopyt a musí sedieť s dneškom aj
+        // tesne po polnoci, preto ide mimo cache.
+        $stats['liturgy'] = LiturgicalDay::query()->forDate(CarbonImmutable::now())->first();
+
+        return $stats;
+    }
+
+    /**
+     * Prepočíta nástenku a uloží ju do cache. Ukladá sa ako JSON —
+     * config/cache.php zámerne nedovolí z cache rozbaliť PHP objekty.
+     */
+    public function warm(): array
+    {
+        $stats = $this->get();
+        unset($stats['liturgy']);
+
+        Cache::put(self::CACHE_KEY, json_encode($stats), self::CACHE_TTL);
+
+        return $stats;
+    }
+
+    /** Späť z JSON do tvaru, aký vracia get() a čaká šablóna. */
+    protected function hydrate(string $json): array
+    {
+        $stats = (array) json_decode($json);
+        $date = fn (string $value) => CarbonImmutable::parse($value)->setTimezone(config('app.timezone'));
+
+        $stats['now'] = $date($stats['now']);
+        $stats['timeline'] = collect($stats['timeline'])->each(fn ($row) => $row->day = $date($row->day));
+        $stats['activity'] = collect($stats['activity'])->each(fn ($row) => $row->month = $date($row->month));
+        $stats['denominations'] = (array) $stats['denominations'];
+
+        foreach (['topPosts', 'risingCanals', 'latestComments', 'newestUsers', 'newestCanals'] as $key) {
+            $stats[$key] = collect($stats[$key]);
+        }
+
+        return $stats;
+    }
+
     public function get(?CarbonImmutable $now = null): array
     {
         $now = $now ?: CarbonImmutable::now();
@@ -31,7 +87,6 @@ class AdminDashboardStats
 
         return [
             'now' => $now,
-            'liturgy' => LiturgicalDay::query()->forDate($now)->first(),
             'users' => $this->users($now),
             'canals' => $this->canals($now),
             'posts' => $this->posts($now),
