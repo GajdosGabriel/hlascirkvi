@@ -389,6 +389,17 @@
     .ar-picker__remove:hover,
     .ar-picker__remove:focus-visible { background: #fff; color: #b91c1c; outline: none; }
     .ar-picker__empty { margin: 0 0 .6rem; font-size: .8125rem; color: #9ca3af; }
+    .ar-picker__self {
+        margin: 0 0 .6rem;
+        padding: 0;
+        border: 0;
+        background: none;
+        font-size: .8125rem;
+        font-weight: 600;
+        color: var(--ar-accent);
+        cursor: pointer;
+    }
+    .ar-picker__self:hover { text-decoration: underline; }
     .ar-picker__search { position: relative; }
     .ar-picker__icon {
         position: absolute;

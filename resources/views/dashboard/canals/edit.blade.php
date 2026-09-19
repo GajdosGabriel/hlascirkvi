@@ -159,10 +159,15 @@
                              tisíckami mien sa nedal rozumne použiť. --}}
                         {{-- Zoznam mien je v atribúte, nie v <script type="application/json">:
                              Vue pri pripojení #app značky <script> zo šablóny vyhodí. --}}
-                        <div class="ar-picker" data-user-picker
+                        {{-- Kanál môže ostať bez správcu: tie, ktoré pridal príkaz
+                             youtube:channels, nezaložil nikto z užívateľov. Značka
+                             users_submitted povie controlleru, že prázdny výber je
+                             zámer — bez nej by sa pole `users` vôbec neposlalo. --}}
+                        <input type="hidden" name="users_submitted" value="1">
+                        <div class="ar-picker" data-user-picker data-self="{{ auth()->id() }}"
                              data-users="{{ $users->map(fn ($u) => ['id' => $u->id, 'name' => $u->fullname])->values()->toJson(JSON_UNESCAPED_UNICODE) }}">
                             <label class="ar-label" for="manager-search">
-                                Správcovia <span class="ar-req">*</span>
+                                Správcovia
                                 <span class="ar-picker__count" data-picker-count></span>
                             </label>
 
@@ -178,6 +183,9 @@
                                 @endforeach
                             </ul>
                             <p class="ar-picker__empty" data-picker-empty hidden>Kanál zatiaľ nemá správcu.</p>
+                            <button type="button" class="ar-picker__self" data-picker-self hidden>
+                                <i class="fas fa-user-plus"></i> Pridať mňa ako správcu
+                            </button>
 
                             <div class="ar-picker__search">
                                 <i class="fas fa-search ar-picker__icon" aria-hidden="true"></i>
@@ -187,7 +195,6 @@
                                 <ul class="ar-picker__results" id="manager-results" role="listbox" data-picker-results hidden></ul>
                             </div>
                             <p class="ar-hint">Ťuknutím na meno v zozname ho pridáte, krížikom pri štítku odoberiete. Šípky a Enter fungujú tiež.</p>
-                            <p class="ar-error" data-picker-error hidden>Kanál musí mať aspoň jedného správcu.</p>
                             @error('users') <p class="ar-error">{{ $message }}</p> @enderror
                         </div>
 
@@ -316,7 +323,7 @@
                     const results = picker.querySelector('[data-picker-results]');
                     const empty   = picker.querySelector('[data-picker-empty]');
                     const count   = picker.querySelector('[data-picker-count]');
-                    const error   = picker.querySelector('[data-picker-error]');
+                    const self    = picker.querySelector('[data-picker-self]');
                     const LIMIT = 8;
                     let matches = [];
                     let active = -1;
@@ -341,7 +348,7 @@
                         const n = chosen.children.length;
                         empty.hidden = n > 0;
                         count.textContent = n ? '(' + n + ')' : '';
-                        if (n) error.hidden = true;
+                        self.hidden = selectedIds().has(Number(picker.dataset.self));
                     };
 
                     const close = () => {
@@ -448,13 +455,9 @@
 
                     document.addEventListener('click', (e) => { if (!picker.contains(e.target)) close(); });
 
-                    // Bez posledného správcu by sa pole `users` vôbec neposlalo a controller
-                    // by priradenie nechal bez zmeny — radšej to povedať rovno.
-                    picker.closest('form').addEventListener('submit', (e) => {
-                        if (chosen.children.length) return;
-                        e.preventDefault();
-                        error.hidden = false;
-                        input.focus();
+                    self.addEventListener('click', () => {
+                        const me = users.find((u) => u.id === Number(picker.dataset.self));
+                        if (me) add(me);
                     });
 
                     refresh();

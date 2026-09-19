@@ -133,8 +133,10 @@ class CanalController extends Controller
         // Priradenie správcov kanála a jeho publikovanie sú vo formulári
         // v @can('superadmin') bloku (dashboard/canals/edit.blade.php).
         // Kým to controller nekontroloval, stačilo tie polia doposlať ručne.
+        // Bez vybraného správcu sa pole `users` neposiela vôbec; že ide
+        // o zámerne prázdny výber, hovorí značka `users_submitted`.
         if ($request->user()->can('superadmin')) {
-            if ($request->has('users')) {
+            if ($request->has('users') || $request->boolean('users_submitted')) {
                 $canal->users()->sync($request->input('users', []));
             }
 

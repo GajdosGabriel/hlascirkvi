@@ -252,6 +252,42 @@ class ApiAuthorizationTest extends TestCase
         ]);
     }
 
+    /**
+     * Kanály pridané príkazom youtube:channels nemajú správcu. Superadmin
+     * ich musí vedieť uložiť bez toho, aby niekoho do správcov dosadil,
+     * a prázdny výber musí správcov aj reálne odobrať.
+     */
+    public function test_superadmin_ulozi_kanal_bez_spravcu(): void
+    {
+        $superadmin = User::factory()->create();
+        $superadmin->assignRole(['admin', 'superadmin']);
+
+        $canal = Canal::factory()->create();
+
+        $this->actingAs($superadmin)
+            ->put("/dashboard/canals/{$canal->id}", [
+                'title' => 'Kanál bez správcu',
+                'village_id' => $canal->village_id,
+                'users_submitted' => 1,
+            ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('canals', ['id' => $canal->id, 'title' => 'Kanál bez správcu']);
+
+        [$owner, $vlastny] = $this->userWithCanal();
+
+        $this->actingAs($superadmin)
+            ->put("/dashboard/canals/{$vlastny->id}", [
+                'title' => $vlastny->title,
+                'village_id' => $vlastny->village_id,
+                'users_submitted' => 1,
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseMissing('canal_user', ['canal_id' => $vlastny->id]);
+    }
+
     // ------------------------------------------------- zmazané debug routy
 
     public function test_debug_endpointy_uz_neexistuju(): void
