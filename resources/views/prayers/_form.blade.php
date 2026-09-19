@@ -1,6 +1,8 @@
+{{-- Staršie modlitby bez nadpisu sa dajú uložiť aj bez neho (SavePrayerRequest). --}}
+@php($titleOptional = $prayer->exists && blank($prayer->title))
 <label>Nadpis</label>
 <input name="title" placeholder="Nadpis modlitby" value="{{ old('title') ?? $prayer->title }}"
-    class="w-full mb-2 border-2 rounded p-2 border-gray-300" required />
+    class="w-full mb-2 border-2 rounded p-2 border-gray-300" minlength="3" maxlength="255" @required(! $titleOptional) />
 
 <label>Modlitebná prosba</label>
 <textarea name="body" rows="5" placeholder="Text modlitby" class="w-full mb-2 border-2 rounded p-2 border-gray-300"

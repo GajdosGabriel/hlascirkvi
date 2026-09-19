@@ -41,9 +41,15 @@ class SavePrayerRequest extends FormRequest
         $canal = $this->route('canal');
         $links = $canal && $this->user()->can('manage', $canal) ? [] : [new NoUrlLinkRule];
 
+        // Vyše 3000 starších modlitieb nadpis nemá (text áno) a vypisujú sa ako
+        // „Prosba o modlitbu". Pri ich úprave sa nadpis nevyžaduje, inak by
+        // nešli uložiť bez vymýšľania nadpisu.
+        $prayer = $this->route('prayer');
+        $title = $prayer && blank($prayer->title) ? ['nullable', 'string', 'min:3', 'max:255'] : ['required', 'min:3'];
+
         // 'body' tu bolo dvakrát — druhý zápis prvý ticho prepísal.
         return [
-            'title' => [ 'required','min:3', ...$links],
+            'title' => [ ...$title, ...$links],
             'body' => [ 'bail', 'required','min:3', ...$links],
             'user_name' => 'nullable|string|min:2|max:255',
         ];

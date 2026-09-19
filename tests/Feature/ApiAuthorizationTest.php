@@ -339,6 +339,18 @@ class ApiAuthorizationTest extends TestCase
         $this->assertSame(1, $canal->prayers()->count());
     }
 
+    public function test_modlitba_bez_nadpisu_sa_da_upravit_bez_neho(): void
+    {
+        [$owner, $canal] = $this->userWithCanal();
+        $prayer = $canal->prayers()->create(['title' => null, 'body' => 'Prosím o modlitbu.']);
+
+        $this->actingAs($owner)
+            ->put("/dashboard/canals/{$canal->id}/prayers/{$prayer->id}", ['title' => '', 'body' => 'Prosím o modlitbu za rodinu.'])
+            ->assertSessionHasNoErrors();
+
+        $this->assertSame('Prosím o modlitbu za rodinu.', $prayer->fresh()->body);
+    }
+
     public function test_odkaz_v_modlitbe_smie_len_spravca_v_nastenke(): void
     {
         [$owner, $canal] = $this->userWithCanal();

@@ -34,7 +34,7 @@
                             type="text"
                             class="ar-field"
                             placeholder="napr. za uzdravenie manžela"
-                            required
+                            :required="!titleOptional"
                             autofocus
                         />
                         <p class="ar-hint">
@@ -115,6 +115,8 @@ export default {
             show: false,
             saving: false,
             errors: [],
+            // Staršie prosby bez nadpisu sa dajú uložiť aj bez neho.
+            titleOptional: false,
             authUser: window.App.user,
             form: {
                 user_name: "",
@@ -131,12 +133,14 @@ export default {
     created: function () {
         bus.$on("openModalPrayer", () => {
             this.form = { user_name: "" };
+            this.titleOptional = false;
             this.errors = [];
             this.show = true;
         });
 
         bus.$on("passToModalEdit", (prayer) => {
             this.form = Object.assign({}, prayer);
+            this.titleOptional = !prayer.title;
             this.errors = [];
             this.show = true;
         });
