@@ -8,7 +8,37 @@
         </x-slot>
 
         <x-slot name="title_right">
+            <dropdown-slot label="Možnosti kanála">
+                @if ($canal->id === auth()->user()->canal_id)
+                    <span class="ui-dropdown__item ui-dropdown__item--current">
+                        <i class="fas fa-check-circle" aria-hidden="true"></i>
+                        Prihlásený kanál
+                    </span>
+                @else
+                    <form method="POST" action="{{ route('profile.canals.switch', $canal) }}">
+                        @method('PUT') @csrf
+                        <button type="submit" class="ui-dropdown__item--accent">
+                            <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+                            Prepnúť na kanál
+                        </button>
+                    </form>
+                @endif
 
+                <hr class="ui-dropdown__divider">
+
+                <a href="{{ route('profile.canals.edit', $canal) }}">
+                    <i class="fas fa-pen" aria-hidden="true"></i>
+                    Upraviť
+                </a>
+                <a href="{{ route('profile.canals.prayers.index', $canal) }}">
+                    <i class="fas fa-praying-hands" aria-hidden="true"></i>
+                    Modlitby
+                </a>
+                <a href="{{ route('profile.canals.seminars.index', $canal) }}">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                    Podujatia
+                </a>
+            </dropdown-slot>
         </x-slot>
 
 
