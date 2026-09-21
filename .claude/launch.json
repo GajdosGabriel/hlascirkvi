@@ -12,6 +12,12 @@
             "runtimeExecutable": "php",
             "runtimeArgs": ["artisan", "serve", "--port=8124"],
             "port": 8124
+        },
+        {
+            "name": "event-ui",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run", "dev", "--prefix", "C:/www/event/ui"],
+            "port": 5173
         }
     ]
 }
