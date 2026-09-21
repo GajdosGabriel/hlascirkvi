@@ -44,8 +44,8 @@
             @endif
         </div>
 
-        {{-- Kúpiť / rezervovať lístok — vpravo dole. --}}
-        @if ($event->ticketCta())
+        {{-- Kúpiť lístok — vpravo dole. Rezervácia sa v zozname neukazuje, len v detaile. --}}
+        @if (($event->ticketCta()['kind'] ?? null) === 'buy')
             <div class="mt-2 flex justify-end">@include('events.portal._ticket_cta')</div>
         @endif
     </div>

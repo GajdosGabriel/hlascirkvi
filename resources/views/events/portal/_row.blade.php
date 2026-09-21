@@ -69,8 +69,8 @@
                     <span class="font-medium text-stone-700">{{ $event->price() }}</span>
                 @endif
 
-                {{-- Kúpiť / rezervovať lístok — vpravo dole. --}}
-                @if ($event->ticketCta())
+                {{-- Kúpiť lístok — vpravo dole. Rezervácia sa v zozname neukazuje, len v detaile. --}}
+                @if (($event->ticketCta()['kind'] ?? null) === 'buy')
                     <span class="ml-auto">@include('events.portal._ticket_cta')</span>
                 @endif
             </div>

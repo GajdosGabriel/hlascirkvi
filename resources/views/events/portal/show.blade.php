@@ -263,7 +263,7 @@
                                      v sekcii Organizátor. --}}
                                 <a href="{{ config('eventportal.url') }}/register?event={{ $event->id() }}" target="_blank" rel="noopener nofollow"
                                    class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
-                                    Prihlásiť sa <i class="fas fa-external-link-alt text-xs"></i>
+                                    Rezervovať miesto <i class="fas fa-external-link-alt text-xs"></i>
                                 </a>
                             @endif
                         </section>
