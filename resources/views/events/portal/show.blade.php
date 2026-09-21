@@ -253,15 +253,14 @@
                                    class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                                     <i class="fas fa-ticket-alt"></i> Získať vstupenku
                                 </a>
-                            @elseif ($event->website())
-                                <a href="{{ $event->website() }}" target="_blank" rel="noopener nofollow"
+                            @else
+                                {{-- Prihlásenie na akciu cez portál Event: registrácia
+                                     s ?event=, po overení e-mailu sa rezervuje miesto
+                                     a organizátor dostane správu. Web organizátora je
+                                     v sekcii Organizátor. --}}
+                                <a href="{{ config('eventportal.url') }}/register?event={{ $event->id() }}" target="_blank" rel="noopener"
                                    class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                                     Prihlásiť sa <i class="fas fa-external-link-alt text-xs"></i>
-                                </a>
-                            @else
-                                <a href="{{ $event->portalUrl() }}" target="_blank" rel="noopener"
-                                   class="flex w-full items-center justify-center gap-2 rounded-md border border-[color:var(--ev-line)] px-4 py-2.5 text-sm font-medium transition hover:bg-stone-50">
-                                    Detail na portáli Event <i class="fas fa-external-link-alt text-xs"></i>
                                 </a>
                             @endif
                         </section>
@@ -303,6 +302,20 @@
                                     {{ parse_url($event->organizerWebsite(), PHP_URL_HOST) }}
                                 </a>
                             @endif
+                            @if ($event->website())
+                                <a href="{{ $event->website() }}" target="_blank" rel="noopener nofollow"
+                                   class="mt-2 flex items-center gap-2 text-sm text-stone-600 hover:text-[color:var(--ev-accent)] hover:underline">
+                                    <i class="fas fa-external-link-alt text-xs"></i> Stránka podujatia u organizátora
+                                </a>
+                            @endif
+                        </section>
+                    @elseif ($event->website())
+                        <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+                            <h2 class="mb-2 text-xs font-semibold uppercase tracking-wider text-stone-400">Organizátor</h2>
+                            <a href="{{ $event->website() }}" target="_blank" rel="noopener nofollow"
+                               class="flex items-center gap-2 text-sm text-stone-600 hover:text-[color:var(--ev-accent)] hover:underline">
+                                <i class="fas fa-external-link-alt text-xs"></i> Stránka podujatia u organizátora
+                            </a>
                         </section>
                     @endif
 

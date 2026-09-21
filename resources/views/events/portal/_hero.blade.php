@@ -92,8 +92,8 @@
                         Zobraziť podujatie <i class="fas fa-arrow-right text-sm"></i>
                     </a>
 
-                    @if ($featured->website())
-                        <a href="{{ $featured->website() }}" target="_blank" rel="noopener nofollow"
+                    @if (! $featured->ticketsEnabled())
+                        <a href="{{ config('eventportal.url') }}/register?event={{ $featured->id() }}" target="_blank" rel="noopener"
                            class="inline-flex items-center gap-2 rounded-md border border-white/30 px-5 py-2.5 font-medium text-white transition hover:bg-white/10">
                             Prihlásiť sa <i class="fas fa-external-link-alt text-xs"></i>
                         </a>
