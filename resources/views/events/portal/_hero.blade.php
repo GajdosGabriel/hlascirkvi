@@ -97,7 +97,7 @@
                     @if (! $featured->isPast())
                         @php $cta = $featured->ticketCta(); @endphp
                         <a href="{{ $cta ? $featured->ticketUrl() : config('eventportal.url') . '/register?event=' . $featured->id() }}" target="_blank" rel="noopener nofollow"
-                           class="inline-flex items-center gap-2 rounded-md border border-white/30 px-5 py-2.5 font-medium text-white transition hover:bg-white/10">
+                           class="inline-flex items-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-5 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                             <i class="fas fa-ticket-alt text-sm"></i>
                             {{ ($cta['kind'] ?? null) === 'buy' ?$cta['label'] : 'Rezervovať miesto' }}
                             <i class="fas fa-external-link-alt text-xs"></i>
