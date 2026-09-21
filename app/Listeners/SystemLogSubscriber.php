@@ -100,6 +100,10 @@ class SystemLogSubscriber
         self::$pending = null;
 
         if (self::$inQueueJob) {
+            // Výnimka jobu sa hlási až po JobFailed. Pri sync fronte už potom
+            // nepríde JobProcessed, takže príznak treba zhodiť tu.
+            self::$inQueueJob = false;
+
             return;
         }
 
