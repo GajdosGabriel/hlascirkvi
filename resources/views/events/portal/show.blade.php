@@ -248,10 +248,13 @@
                                 </p>
                             @endif
 
-                            @if ($event->ticketsEnabled())
+                            {{-- „Rezervovať" / „Kúpiť lístok" podľa portálu (ticket_cta) —
+                                 rovnaké tlačidlo ako na karte. Rezervácia zdarma je aj
+                                 pri akciách bez lístkov; formulár beží na portáli. --}}
+                            @if ($cta = $event->ticketCta())
                                 <a href="{{ $event->ticketUrl() }}" target="_blank" rel="noopener nofollow"
                                    class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
-                                    <i class="fas fa-ticket-alt"></i> Získať vstupenku
+                                    <i class="fas fa-ticket-alt"></i> {{ $cta['label'] }}
                                 </a>
                             @else
                                 {{-- Prihlásenie na akciu cez portál Event: registrácia
