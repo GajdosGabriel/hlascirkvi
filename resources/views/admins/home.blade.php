@@ -378,6 +378,8 @@
                             <a href="{{ route('admin.buffer.index') }}" class="ar-link text-gray-500 hover:text-gray-900">Buffer</a>
                             <span class="mx-2 text-gray-300">·</span>
                             <a href="{{ route('admin.ai.index') }}" class="ar-link text-gray-500 hover:text-gray-900">AI zhrnutia</a>
+                            <span class="mx-2 text-gray-300">·</span>
+                            <a href="{{ route('admin.logs.index') }}" class="ar-link text-gray-500 hover:text-gray-900">Denník</a>
                         </x-slot>
                     </x-dashboard.panel>
 
