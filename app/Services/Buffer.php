@@ -15,6 +15,7 @@ use App\Notifications\Admin\BufeerIsEmpty;
 use App\Repositories\Contracts\PostRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Services\Buffer\PublishPlan;
+use App\Services\SystemLog\Recorder;
 use Carbon\CarbonImmutable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
@@ -282,7 +283,7 @@ class Buffer
         // odložíme skôr, než sa stratí.
         $arrivedAt = $post->created_at;
 
-        return DB::transaction(function () use ($post, $at, $archive, $arrivedAt) {
+        $post = DB::transaction(function () use ($post, $at, $archive, $arrivedAt) {
             $this->post->publishPost($post, $at);
 
             BufferPublication::create([
@@ -295,6 +296,14 @@ class Buffer
 
             return $post;
         });
+
+        Recorder::info('buffer', 'published', (string) $post->title,
+            status: 'ok',
+            subject: $post,
+            context: ['canal_id' => $post->canal_id, 'archive' => $archive ?: null, 'at' => $at->toDateTimeString()],
+        );
+
+        return $post;
     }
 
     public function ifBufferIsEmpty(UserRepository $userRepository)

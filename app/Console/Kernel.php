@@ -87,6 +87,12 @@ class Kernel extends ConsoleKernel
         // trvalý počet drží posts.count_view. Bez preriedenia by rástla donekonečna.
         $schedule->command('app:views-prune')->dailyAt('03:20');
 
+        // Denník udalostí (admin → Denník) je krátka pamäť: info po mesiaci,
+        // chyby po troch (config/logging.php → system_log). Maže po dávkach.
+        $schedule->command('model:prune', ['--model' => [\App\Models\SystemLog::class]])
+            ->dailyAt('03:25')
+            ->withoutOverlapping();
+
         // Liturgické čítania z KBS na 45 dní dopredu. Chýbajúce dni si síce
         // stránka stiahne aj sama, ale výpadok KBS tak web neucíti.
         $schedule->command('liturgia:stiahnut')->dailyAt('03:35')->withoutOverlapping();

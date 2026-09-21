@@ -15,11 +15,28 @@
                         ->all(),
                 ],
             ],
+            'admin.logs.index' => [
+                'channel' => [
+                    'label' => 'Oblasť',
+                    'placeholder' => 'Všetky oblasti',
+                    'options' => \App\Http\Controllers\Admin\SystemLogController::channels(),
+                ],
+                'level' => [
+                    'label' => 'Závažnosť',
+                    'placeholder' => 'Každá závažnosť',
+                    'options' => ['info' => 'Info', 'warning' => 'Varovanie', 'error' => 'Chyba'],
+                ],
+                'status' => [
+                    'label' => 'Stav',
+                    'placeholder' => 'Každý stav',
+                    'options' => ['sent' => 'Odoslané', 'failed' => 'Zlyhané', 'skipped' => 'Preskočené', 'ok' => 'OK'],
+                ],
+            ],
             default => [],
         };
 
         $filterOptions = match (Route::currentRouteName()) {
-            'admin.user.index' => [],
+            'admin.user.index', 'admin.logs.index' => [],
             'admin.canal.index', 'admin.comment.index' => ['unpublished', 'deletedAt'],
             'admin.post.index' => ['unpublished', 'deletedAt', 'videoAvailable'],
             'admin.prayer.index' => ['fulfilled', 'deletedAt'],
@@ -29,6 +46,7 @@
         $filterKeep = match (Route::currentRouteName()) {
             'admin.user.index' => ['fresh', 'active', 'never', 'unverified', 'via'],
             'admin.canal.index' => ['fresh', 'orphans', 'silent', 'youtubeOff', 'month'],
+            'admin.logs.index' => ['recipient', 'user', 'from', 'to'],
             default => [],
         };
     @endphp

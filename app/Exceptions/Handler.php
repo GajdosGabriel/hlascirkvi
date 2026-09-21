@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Listeners\SystemLogSubscriber;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,8 +36,10 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        // Mail, ktorý neodišiel, patrí aj do denníka udalostí (admin → Denník),
+        // nielen do súborového logu. Hlásenie sa tým nezastaví.
+        $this->reportable(function (TransportExceptionInterface $e) {
+            SystemLogSubscriber::mailFailed($e);
         });
     }
 }

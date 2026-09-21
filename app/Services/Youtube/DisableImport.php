@@ -3,6 +3,7 @@
 namespace App\Services\Youtube;
 
 use App\Notifications\Admin\YoutubeSourceMissing;
+use App\Services\SystemLog\Recorder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
@@ -34,6 +35,11 @@ class DisableImport
             'channel' => $canal->youtube_channel,
             'playlist' => $canal->youtube_playlist,
         ]);
+
+        Recorder::warning('youtube', 'source_disabled', 'Import vypnutý: ' . $reason,
+            subject: $canal,
+            context: ['channel' => $canal->youtube_channel, 'playlist' => $canal->youtube_playlist],
+        );
 
         Notification::send(NotifyAdmin::superadmins(), new YoutubeSourceMissing($canal, $reason));
     }

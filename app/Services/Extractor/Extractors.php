@@ -13,6 +13,7 @@ use DB;
 use Carbon\Carbon;
 use App\Models\Canal;
 use App\Services\DetectService\DetectDateTime;
+use App\Services\SystemLog\Recorder;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -52,6 +53,8 @@ class Extractors
                     'status' => $response->status(),
                 ]);
 
+                $this->recordUnavailable($url, 'HTTP ' . $response->status());
+
                 return null;
             }
 
@@ -59,7 +62,20 @@ class Extractors
         } catch (\Throwable $e) {
             Log::warning('Zdroj modlitieb je nedostupný: ' . $e->getMessage(), ['url' => $url]);
 
+            $this->recordUnavailable($url, $e->getMessage());
+
             return null;
+        }
+    }
+
+    /** Príkazy bežia každú hodinu; jeden záznam za výpadok a deň stačí. */
+    protected function recordUnavailable(string $url, string $reason): void
+    {
+        if (Recorder::onceIn(24 * 60, 'prayer-source:' . md5($url))) {
+            Recorder::warning('prayer', 'source_unavailable', 'Zdroj modlitieb nedostupný: ' . parse_url($url, PHP_URL_HOST),
+                status: 'failed',
+                context: ['url' => $url, 'error' => $reason],
+            );
         }
     }
 

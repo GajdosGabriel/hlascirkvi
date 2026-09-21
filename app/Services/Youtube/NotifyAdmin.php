@@ -4,6 +4,7 @@ namespace App\Services\Youtube;
 
 use App\Models\User;
 use App\Notifications\Admin\YoutubeImportIssue;
+use App\Services\SystemLog\Recorder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
@@ -39,6 +40,11 @@ class NotifyAdmin
         }
 
         self::$pending[$token] = true;
+
+        Recorder::warning('youtube', 'import_issue', Str::limit($message, 240),
+            subject: $canal,
+            context: ['key' => $key],
+        );
 
         Notification::send(
             self::superadmins(),

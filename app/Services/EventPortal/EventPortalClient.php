@@ -2,6 +2,7 @@
 
 namespace App\Services\EventPortal;
 
+use App\Services\SystemLog\Recorder;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -184,6 +185,14 @@ class EventPortalClient
                 'path' => $path,
                 'query' => $query,
             ]);
+
+            // Do denníka najviac raz za hodinu — padá to pri každom zobrazení.
+            if (Recorder::onceIn(60, 'event-portal-down')) {
+                Recorder::warning('portal', 'unavailable', 'Event portál nedostupný: ' . strtok($e->getMessage(), "\n"),
+                    status: 'failed',
+                    context: ['path' => $path, 'query' => $query],
+                );
+            }
 
             return $this->fallback($staleKey);
         }

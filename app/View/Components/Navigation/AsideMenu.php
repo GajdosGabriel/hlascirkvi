@@ -148,7 +148,12 @@ class AsideMenu extends Component
                 'url' => route('admin.buffer.index'),
                 'icon' => 'buffer',
                 'name' => ' Buffer',
-            ]
+            ],
+            [
+                'url' => route('admin.logs.index'),
+                'icon' => 'logs',
+                'name' => 'Denník',
+            ],
         ];
     }
 }

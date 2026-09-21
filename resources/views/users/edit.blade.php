@@ -8,7 +8,9 @@
         </x-slot>
 
         <x-slot name="title_right">
-
+            <a href="{{ route('admin.logs.index', ['user' => $user->id]) }}" class="ar-tab" title="Maily, prihlásenia a ďalšie udalosti tohto používateľa">
+                <i class="far fa-list-alt mr-1"></i>Denník
+            </a>
         </x-slot>
 
 

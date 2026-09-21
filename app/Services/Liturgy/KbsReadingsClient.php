@@ -2,6 +2,7 @@
 
 namespace App\Services\Liturgy;
 
+use App\Services\SystemLog\Recorder;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -43,6 +44,7 @@ class KbsReadingsClient
 
             if (! $response->successful() || trim($response->body()) === '') {
                 Log::warning('Liturgický kalendár KBS vrátil '.$response->status(), $query);
+                $this->recordUnavailable('HTTP '.$response->status(), $query);
 
                 return null;
             }
@@ -50,8 +52,20 @@ class KbsReadingsClient
             return $response->body();
         } catch (\Throwable $e) {
             Log::warning('Liturgický kalendár KBS nedostupný: '.$e->getMessage(), $query);
+            $this->recordUnavailable($e->getMessage(), $query);
 
             return null;
+        }
+    }
+
+    /** Nočné sťahovanie ide po dňoch — do denníka stačí jeden záznam za hodinu. */
+    protected function recordUnavailable(string $reason, array $query): void
+    {
+        if (Recorder::onceIn(60, 'liturgy-kbs-down')) {
+            Recorder::warning('liturgy', 'unavailable', 'Liturgický kalendár KBS nedostupný',
+                status: 'failed',
+                context: ['error' => $reason, 'query' => $query],
+            );
         }
     }
 

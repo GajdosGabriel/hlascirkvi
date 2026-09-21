@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\VisitModel;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
+use App\Listeners\SystemLogSubscriber;
 use App\Listeners\ViewCounterListener;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,13 +18,18 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\User\NotifyBell' => [
-            'App\Listeners\User\NotifyBellListener',
-        ],
-
         VisitModel::class => [
             ViewCounterListener::class,
         ],
+    ];
+
+    /**
+     * Denník udalostí (admin → Denník): maily, zlyhané joby, prihlásenia, cron.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        SystemLogSubscriber::class,
     ];
 
     /**
