@@ -2,7 +2,7 @@
      ako na portáli Event. Druh aj text posiela portál (ticket_cta), tu sa nič
      nerozhoduje. Vedie na registráciu na portáli, preto nové okno. --}}
 @if ($cta = $event->ticketCta())
-    <a href="{{ $event->ticketUrl() }}" target="_blank" rel="noopener"
+    <a href="{{ $event->ticketUrl() }}" target="_blank" rel="noopener nofollow"
        aria-label="{{ $cta['label'] }} – {{ $event->title() }}"
        class="group/cta inline-flex shrink-0 items-center gap-1 rounded-full py-0.5 pl-2 pr-1.5 text-[.7rem] font-semibold text-white no-underline shadow-sm transition hover:shadow-md hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[.97]
               {{ $cta['kind'] === 'buy'

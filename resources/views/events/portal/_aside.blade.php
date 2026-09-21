@@ -77,7 +77,7 @@
             Pridajte ho na portál Event — objaví sa aj tu, v tomto výpise.
             Stačí nahrať plagát, ostatné sa doplní samo.
         </p>
-        <a href="{{ $portalUrl }}/nahrat-plagat" target="_blank" rel="noopener"
+        <a href="{{ $portalUrl }}/nahrat-plagat" target="_blank" rel="noopener nofollow"
            class="inline-flex items-center gap-2 rounded-md bg-[color:var(--ev-night)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-stone-800">
             <i class="fas fa-plus text-xs"></i> Pridať podujatie
         </a>

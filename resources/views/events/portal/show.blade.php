@@ -99,7 +99,7 @@
             <article class="lg:col-span-8">
 
                 @if ($event->hasPoster())
-                    <a href="{{ $event->poster('original') ?: $event->poster() }}" target="_blank" rel="noopener"
+                    <a href="{{ $event->poster('original') ?: $event->poster() }}" target="_blank" rel="noopener nofollow"
                        class="mb-8 block overflow-hidden rounded-lg border border-[color:var(--ev-line)] bg-white">
                         <img src="{{ $event->poster() }}" alt="{{ $event->title() }}" class="w-full">
                     </a>
@@ -121,7 +121,7 @@
                         </h2>
                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
                             @foreach ($event->gallery() as $image)
-                                <a href="{{ $image['original_file_url'] ?? '#' }}" target="_blank" rel="noopener"
+                                <a href="{{ $image['original_file_url'] ?? '#' }}" target="_blank" rel="noopener nofollow"
                                    class="block overflow-hidden rounded-md border border-[color:var(--ev-line)]">
                                     <img data-src="{{ $image['thumb_image_url'] ?? $image['original_file_url'] ?? '' }}"
                                          data-sizes="auto" alt="{{ $image['name'] ?? '' }}"
@@ -141,7 +141,7 @@
                         <ul class="space-y-2">
                             @foreach ($event->attachments() as $file)
                                 <li>
-                                    <a href="{{ $file['original_file_url'] ?? '#' }}" target="_blank" rel="noopener"
+                                    <a href="{{ $file['original_file_url'] ?? '#' }}" target="_blank" rel="noopener nofollow"
                                        class="flex items-center gap-3 rounded-md border border-[color:var(--ev-line)] bg-white p-3 text-sm transition hover:border-amber-400">
                                         <i class="far fa-file-alt text-lg text-stone-400"></i>
                                         <span class="flex-1 truncate">{{ $file['name'] ?? $file['original_name'] ?? 'Príloha' }}</span>
@@ -218,7 +218,7 @@
                                     <span class="text-stone-400">Do kalendára:</span>
                                     @foreach (['google' => 'Google', 'outlook' => 'Outlook', 'download' => '.ics'] as $key => $label)
                                         @if (! empty($event->calendarLinks()[$key]))
-                                            <a href="{{ $event->calendarLinks()[$key] }}" target="_blank" rel="noopener"
+                                            <a href="{{ $event->calendarLinks()[$key] }}" target="_blank" rel="noopener nofollow"
                                                class="rounded border border-[color:var(--ev-line)] px-2 py-1 transition hover:border-amber-400 hover:text-amber-800">
                                                 {{ $label }}
                                             </a>
@@ -249,7 +249,7 @@
                             @endif
 
                             @if ($event->ticketsEnabled())
-                                <a href="{{ $event->portalUrl() }}" target="_blank" rel="noopener"
+                                <a href="{{ $event->ticketUrl() }}" target="_blank" rel="noopener nofollow"
                                    class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                                     <i class="fas fa-ticket-alt"></i> Získať vstupenku
                                 </a>
@@ -258,7 +258,7 @@
                                      s ?event=, po overení e-mailu sa rezervuje miesto
                                      a organizátor dostane správu. Web organizátora je
                                      v sekcii Organizátor. --}}
-                                <a href="{{ config('eventportal.url') }}/register?event={{ $event->id() }}" target="_blank" rel="noopener"
+                                <a href="{{ config('eventportal.url') }}/register?event={{ $event->id() }}" target="_blank" rel="noopener nofollow"
                                    class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                                     Prihlásiť sa <i class="fas fa-external-link-alt text-xs"></i>
                                 </a>

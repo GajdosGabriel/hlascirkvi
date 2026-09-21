@@ -8,7 +8,7 @@
             <ul class="mt-2 space-y-1">
                 <li><a href="{{ route('register') }}">Založiť svoj blog</a></li>
                 {{-- Podujatia sa zakladajú na portáli event.hlascirkvi.sk, tu už nie. --}}
-                <li><a href="{{ config('eventportal.url') }}/nahrat-plagat" target="_blank" rel="noopener">Pridať podujatie</a></li>
+                <li><a href="{{ config('eventportal.url') }}/nahrat-plagat" target="_blank" rel="noopener nofollow">Pridať podujatie</a></li>
                 <li><a href="{{ route('gdpr') }}">Ochrana osobných údajov</a></li>
             </ul>
         </div>

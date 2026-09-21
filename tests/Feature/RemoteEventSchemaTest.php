@@ -24,7 +24,9 @@ class RemoteEventSchemaTest extends TestCase
             $offer = $event->schemaOrg()['offers'];
             $this->assertSame((float) $price, $offer['price']);
             $this->assertSame('EUR', $offer['priceCurrency']);
-            $this->assertSame('https://event.hlascirkvi.sk/akcie/123/koncert', $offer['url']);
+            // Náš detail, nie portál — event.hlascirkvi.sk sa zatiaľ nemá indexovať.
+            $this->assertSame($event->url(), $offer['url']);
+            $this->assertStringNotContainsString('event.hlascirkvi.sk', $offer['url']);
             $this->assertArrayNotHasKey('availability', $offer);
         }
     }
