@@ -49,7 +49,7 @@
             'recomended'  => ['label' => 'Odporúčané',       'icon' => 'far fa-thumbs-up',
                               'perex' => 'Príspevky, ktoré odporučili naši čitatelia.'],
             'trends'      => ['label' => 'Trend',            'icon' => 'fas fa-sort-amount-up',
-                              'perex' => 'Najsledovanejšie videá za posledné dva týždne.'],
+                              'perex' => 'Najsledovanejšie videá zverejnené za posledné dva týždne.'],
             'mostVisited' => ['label' => 'Najsledovanejšie', 'icon' => 'far fa-eye',
                               'perex' => 'Príspevky podľa celkového počtu zobrazení.'],
         ];

@@ -9,10 +9,8 @@
 
 namespace App\Filters;
 
-
 class PostFilters extends Filters
 {
-
     protected $filters = [
         'mostVisited',
         'recomended',
@@ -22,9 +20,8 @@ class PostFilters extends Filters
         'search',
         'unpublished',
         'deletedAt',
-        'videoAvailable'
+        'videoAvailable',
     ];
-
 
     public function recomended()
     {
@@ -70,13 +67,24 @@ class PostFilters extends Filters
     public function search()
     {
         session()->flash('search', $this->request->search);
+
         return $this->builder->where('title', 'LIKE', $this->likePattern($this->request->search));
     }
 
-
-    // Najsledovanejšie za dva týždne zo všetkých
+    /**
+     * Najsledovanejšie z príspevkov zverejnených za posledné dva týždne.
+     *
+     * Pôvodná verzia pri každom otvorení zoskupila všetky denné zobrazenia
+     * z tabuľky `views` a výsledok pripojila k celému výpisu príspevkov. Na
+     * produkčných dátach preto kliknutie na Trend pôsobilo ako zamrznutá
+     * stránka. Časové okno nad `published_at` je malé a indexované; samotné
+     * poradie potom číta už uložený celkový počet zobrazení.
+     */
     public function trends()
     {
-        return $this->builder->orderByViewsInPeriod(14);
+        return $this->builder
+            ->where('published_at', '>=', now()->subDays(14))
+            ->orderBy('count_view', 'desc')
+            ->orderBy('id', 'desc');
     }
 }
