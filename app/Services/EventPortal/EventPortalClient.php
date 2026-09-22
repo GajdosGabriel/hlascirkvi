@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 
 /**
  * Čítanie podujatí z verejného API portálu event.hlascirkvi.sk.
@@ -35,6 +36,8 @@ class EventPortalClient
     public function events(array $filters = [], int $page = 1, ?int $perPage = null): LengthAwarePaginator
     {
         $perPage = $perPage ?: (int) config('eventportal.per_page', 20);
+
+        $filters = $this->normalizeEventFilters($filters);
 
         $query = array_merge($this->clean($filters), [
             'per_page' => $perPage,
@@ -66,7 +69,7 @@ class EventPortalClient
     /** Detail podujatia. Vráti null, keď neexistuje alebo je portál nedostupný. */
     public function event(int $id): ?RemoteEvent
     {
-        $data = $this->get('/api/events/' . $id, [], (int) config('eventportal.ttl.show'));
+        $data = $this->get('/api/events/'.$id, [], (int) config('eventportal.ttl.show'));
 
         if (! is_array($data) || empty($data['id'])) {
             return null;
@@ -125,7 +128,7 @@ class EventPortalClient
     protected function get(string $path, array $query, int $ttl): array
     {
         $key = $this->key($path, $query);
-        $staleKey = $key . ':stale';
+        $staleKey = $key.':stale';
 
         $cached = Cache::get($key);
 
@@ -135,8 +138,25 @@ class EventPortalClient
 
         // Portál nás pred chvíľou odmietol (429) alebo nežil — ďalšie volania
         // by ho len dobíjali. Kým pauza trvá, ide sa rovno po záložnej kópii.
-        if (Cache::has(self::PREFIX . ':cooldown')) {
+        if (Cache::has(self::PREFIX.':cooldown')) {
             return $this->fallback($staleKey);
+        }
+
+        // Verejný filter dokáže vytvoriť prakticky neobmedzený počet URL a
+        // každá dovtedy nevidená kombinácia obíde cache. Držíme preto aj
+        // spoločný strop odchádzajúcich volaní, nižší než limit portálu.
+        // Po jeho dosiahnutí návštevník dostane záložnú odpoveď a portál sa
+        // nedostane do stavu 429 ani pri distribuovanom prechádzaní filtrov.
+        $outboundLimit = (int) config('eventportal.outbound_limit', 120);
+
+        if ($outboundLimit > 0) {
+            $limiterKey = self::PREFIX.':outbound';
+
+            if (RateLimiter::tooManyAttempts($limiterKey, $outboundLimit)) {
+                return $this->fallback($staleKey);
+            }
+
+            RateLimiter::hit($limiterKey, 60);
         }
 
         try {
@@ -145,7 +165,7 @@ class EventPortalClient
                 // X-Locale: texty, ktoré portál posiela hotové (napr. ticket_cta),
                 // majú prísť po slovensky, nie v predvolenom jazyku API.
                 ->withHeaders(['User-Agent' => 'hlascirkvi.sk (event portal reader)', 'X-Locale' => 'sk'])
-                ->get(config('eventportal.url') . $path, $query);
+                ->get(config('eventportal.url').$path, $query);
 
             // 404 je platná odpoveď (zmazané podujatie), nie výpadok — nemá
             // zmysel na ňu ponúkať starú kópiu, detail má skončiť na 404.
@@ -175,20 +195,20 @@ class EventPortalClient
             Cache::put($staleKey, $data, (int) config('eventportal.stale_ttl'));
 
             return $data;
-        } catch (ConnectionException | \Throwable $e) {
+        } catch (ConnectionException|\Throwable $e) {
             if ($e instanceof ConnectionException) {
                 $this->cooldown((int) config('eventportal.cooldown', 60));
             }
 
             // Telo chybovej odpovede (celá HTML stránka) do logu nepatrí.
-            Log::warning('Event portál nedostupný: ' . strtok($e->getMessage(), "\n"), [
+            Log::warning('Event portál nedostupný: '.strtok($e->getMessage(), "\n"), [
                 'path' => $path,
                 'query' => $query,
             ]);
 
             // Do denníka najviac raz za hodinu — padá to pri každom zobrazení.
             if (Recorder::onceIn(60, 'event-portal-down')) {
-                Recorder::warning('portal', 'unavailable', 'Event portál nedostupný: ' . strtok($e->getMessage(), "\n"),
+                Recorder::warning('portal', 'unavailable', 'Event portál nedostupný: '.strtok($e->getMessage(), "\n"),
                     status: 'failed',
                     context: ['path' => $path, 'query' => $query],
                 );
@@ -215,7 +235,7 @@ class EventPortalClient
     /** Zastaví volania API na daný počet sekúnd pre všetky požiadavky naraz. */
     protected function cooldown(int $seconds): void
     {
-        Cache::add(self::PREFIX . ':cooldown', true, max(1, $seconds));
+        Cache::add(self::PREFIX.':cooldown', true, max(1, $seconds));
     }
 
     /**
@@ -233,11 +253,60 @@ class EventPortalClient
         );
     }
 
+    /**
+     * Zjednotí filtre ešte pred zostavením cache kľúča a HTTP požiadavky.
+     * Poradie rovnakých tagov tak nevyrába nové cache položky a podvrhnuté
+     * parametre ani neprimerane dlhé zoznamy sa na portál neposielajú.
+     *
+     * @param  array<string, mixed>  $filters
+     * @return array<string, mixed>
+     */
+    protected function normalizeEventFilters(array $filters): array
+    {
+        $filters = array_intersect_key($filters, array_flip([
+            'list',
+            'search',
+            'municipality',
+            'tags',
+            'range',
+        ]));
+
+        if (isset($filters['search'])) {
+            $filters['search'] = mb_substr(trim((string) $filters['search']), 0, 100);
+        }
+
+        if (isset($filters['municipality'])) {
+            $municipality = trim((string) $filters['municipality']);
+            $filters['municipality'] = preg_match('/\A[a-z0-9]+(?:-[a-z0-9]+)*\z/D', $municipality)
+                && strlen($municipality) <= 100
+                    ? $municipality
+                    : null;
+        }
+
+        if (isset($filters['tags'])) {
+            $tags = is_array($filters['tags'])
+                ? $filters['tags']
+                : explode(',', (string) $filters['tags']);
+
+            $tags = array_values(array_unique(array_filter(
+                array_map(static fn ($tag) => trim((string) $tag), $tags),
+                static fn (string $tag) => strlen($tag) <= 64
+                    && preg_match('/\A[a-z0-9]+(?:-[a-z0-9]+)*\z/D', $tag) === 1
+            )));
+
+            sort($tags, SORT_STRING);
+            $tags = array_slice($tags, 0, max(1, (int) config('eventportal.max_tags', 10)));
+            $filters['tags'] = $tags === [] ? null : implode(',', $tags);
+        }
+
+        return $this->clean($filters);
+    }
+
     /** @param array<string, mixed> $query */
     protected function key(string $path, array $query): string
     {
         ksort($query);
 
-        return self::PREFIX . ':' . sha1($path . '?' . http_build_query($query));
+        return self::PREFIX.':'.sha1($path.'?'.http_build_query($query));
     }
 }

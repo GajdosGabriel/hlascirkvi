@@ -76,7 +76,9 @@ Route::get('citania/{datum?}', 'Public\ReadingsController@show')
 // EventPortal). Lokálna tabuľka `events` a celá agenda okolo nej (zakladanie,
 // prihlasovanie, admin) bola zrušená, takže toto sú jediné routy podujatí.
 Route::middleware('checkBanned')->group(function () {
-    Route::get('akcie', 'Public\EventPortalController@index')->name('akcie.index');
+    Route::get('akcie', 'Public\EventPortalController@index')
+        ->middleware('throttle:30,1')
+        ->name('akcie.index');
 
     Route::get('akcie/{event}/{slug?}', 'Public\EventPortalController@show')
         ->where('event', '[0-9]+')

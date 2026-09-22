@@ -38,6 +38,14 @@ return [
     // záložná kópia.
     'cooldown' => (int) env('EVENT_PORTAL_COOLDOWN', 60),
 
+    // Maximálny počet reálnych HTTP volaní na portál za minútu zo všetkých
+    // PHP workerov spolu. Portál povoľuje 300/min. Rezerva ostáva jeho SPA,
+    // administrácii a ostatným klientom používajúcim tú istú verejnú IP.
+    'outbound_limit' => (int) env('EVENT_PORTAL_OUTBOUND_LIMIT', 120),
+
+    // Ochrana pred kombinatorickou explóziou cache kľúčov vo verejnom filtri.
+    'max_tags' => (int) env('EVENT_PORTAL_MAX_TAGS', 10),
+
     // Koľko podujatí na stranu vo verejnom výpise.
     'per_page' => (int) env('EVENT_PORTAL_PER_PAGE', 20),
 
