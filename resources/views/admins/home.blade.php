@@ -392,7 +392,7 @@
                                     <span class="ar-row__meta block">
                                         {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}
                                         @if ($row->last_login_via === 'google') · <i class="fab fa-google"></i> Google @endif
-                                        @unless ($row->email_verified_at) · neoverený e-mail @endunless
+                                        · {{ $row->email_verified_at ? 'overený' : 'neoverený' }}
                                     </span>
                                 </span>
                             </a>

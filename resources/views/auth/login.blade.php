@@ -17,12 +17,12 @@
          kliknutie a nevyžaduje pamätať si ďalšie heslo. --}}
     @include('auth.partials.google-button', ['context' => 'signin'])
 
-    <a href="{{ route('auth.redirect', 'facebook') }}" class="ar-oauth mt-3" rel="nofollow">
+    {{-- <a href="{{ route('auth.redirect', 'facebook') }}" class="ar-oauth mt-3" rel="nofollow">
         <svg class="ar-oauth__mark" viewBox="0 0 18 18" aria-hidden="true" focusable="false">
             <path fill="#1877F2" d="M18 9a9 9 0 1 0-10.4 8.9v-6.3H5.3V9h2.3V7c0-2.3 1.36-3.56 3.45-3.56.999 0 2.04.18 2.04.18v2.25h-1.15c-1.13 0-1.49.7-1.49 1.42V9h2.53l-.4 2.6h-2.13v6.3A9 9 0 0 0 18 9z"/>
         </svg>
         <span>Pokračovať cez Facebook</span>
-    </a>
+    </a> --}}
 
     <div class="ar-or">alebo e-mailom</div>
 
@@ -53,7 +53,7 @@
 
         <div class="flex items-center justify-between gap-3">
             <label class="ar-check" for="remember">
-                <input id="remember" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                <input id="remember" type="checkbox" name="remember" {{ old('remember', true) ? 'checked' : '' }}>
                 <span>Zostať prihlásený</span>
             </label>
 
