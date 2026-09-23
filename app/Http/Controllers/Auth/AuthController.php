@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepository;
 use App\Services\Canal\SocialAvatar;
+use App\Support\EmailMask;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 use Socialite;
 
 class AuthController extends Controller
@@ -155,14 +155,15 @@ class AuthController extends Controller
 
     /**
      * Facebook posiela len celé meno. Jednoslovné meno predtým skončilo
-     * chybou na $name[1]; bez mena sa použije časť e-mailu pred zavináčom.
+     * chybou na $name[1]; bez mena sa použije maskovaná časť e-mailu
+     * (meno je verejné, adresa nie).
      */
     protected function splitName(string $name, string $email): array
     {
         $name = trim($name);
 
         if ($name === '') {
-            return [Str::before($email, '@'), ''];
+            return [EmailMask::name($email), ''];
         }
 
         $parts = preg_split('/\s+/u', $name, 2);

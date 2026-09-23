@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\ModelStatus;
 use App\Notifications\User\ConfirmEmail;
 use App\Notifications\User\ResetPassword;
+use App\Support\EmailMask;
 use App\Traits\HasDatetime;
 use App\Traits\HasFilter;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -88,12 +89,36 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function setFirstNameAttribute($value)
     {
-        $this->attributes['first_name'] = ucfirst($value);
+        $this->attributes['first_name'] = self::titleCaseName($value);
     }
 
     public function setLastNameAttribute($value)
     {
-        $this->attributes['last_name'] = ucfirst($value);
+        $this->attributes['last_name'] = self::titleCaseName($value);
+    }
+
+    /**
+     * Meno z formulára niekedy príde celé veľkými písmenami (CapsLock) alebo
+     * naopak celé malými — pritom ide ďalej verejne (názov osobného kanála,
+     * oslovenie v e-mailoch) a UserObserver::saving() podľa first_name hľadá
+     * vokatív/rod presnou zhodou v `first_names`, ktorá by pri zlej veľkosti
+     * písmen minula. Preto sa meno ukladá v tvare „Ján", nie „JÁN" či „ján".
+     * Zložené mená/priezviská s medzerou či pomlčkou („Anna Mária",
+     * „Kráľová-Nová") dostanú veľké písmeno za každým oddeľovačom zvlášť.
+     * ucfirst() predtým riešilo len prvé písmeno celého reťazca.
+     */
+    private static function titleCaseName($value): string
+    {
+        $value = trim(preg_replace('/\s+/u', ' ', (string) $value));
+
+        if ($value === '') {
+            return $value;
+        }
+
+        return preg_replace_callback('/[^\s\-\']+/u', function (array $match) {
+            return mb_strtoupper(mb_substr($match[0], 0, 1, 'UTF-8'), 'UTF-8')
+                .mb_strtolower(mb_substr($match[0], 1, null, 'UTF-8'), 'UTF-8');
+        }, $value);
     }
 
     public function commentss()
@@ -135,6 +160,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userPictureUrl()
     {
         return 'users/'.$this->id.'/'.$this->avatar;
+    }
+
+    /**
+     * E-mail v tvare, ktorý smie ísť k inému používateľovi („g•••o@gmail.com“).
+     * Celú adresu vidí len admin a používateľ sám; `email` je preto v $hidden
+     * a toto sa nikde nepripája samo — pošle sa len tam, kde treba.
+     */
+    public function maskedEmail(): ?string
+    {
+        return EmailMask::mask($this->email);
     }
 
     public function getFullnameAttribute()

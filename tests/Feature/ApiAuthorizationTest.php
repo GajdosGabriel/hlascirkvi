@@ -100,11 +100,16 @@ class ApiAuthorizationTest extends TestCase
         $this->postJson("/api/posts/{$post->id}/comments", [
             'body' => 'Komentár od neprihláseného návštevníka.',
             'email' => 'navstevnik@example.com',
-        ])->assertSuccessful();
+        ])->assertSuccessful()
+            // Meno autora je verejné — nesmie z neho byť čitateľná adresa.
+            ->assertDontSee('navstevnik');
 
         $this->assertDatabaseHas('comments', ['commentable_id' => $post->id]);
         // Formulár si podľa e-mailu založí účet a prihlási ho.
-        $this->assertDatabaseHas('users', ['email' => 'navstevnik@example.com']);
+        $this->assertDatabaseHas('users', [
+            'email' => 'navstevnik@example.com',
+            'first_name' => 'N•••k',
+        ]);
     }
 
     public function test_anonymny_formular_neprihlasi_existujuci_ucet_podla_emailu(): void

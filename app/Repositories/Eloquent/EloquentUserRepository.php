@@ -11,6 +11,7 @@ namespace App\Repositories\Eloquent;
 
 use Hash;
 use App\Models\User;
+use App\Support\EmailMask;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Notifications\Admin\Buffer;
@@ -89,7 +90,8 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
     protected function createNewUser($request)
     {
         $user = new User([
-            'first_name' => strstr($request->email, '@', true),
+            // Meno sa zobrazuje verejne pri komentári — nie celá časť e-mailu.
+            'first_name' => EmailMask::name($request->email),
             'last_name' => '',
             'email' => $request->email,
             // Bolo bcrypt('registracnyformularheslo') — rovnaké heslo pre
