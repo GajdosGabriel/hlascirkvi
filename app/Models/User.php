@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -171,6 +172,29 @@ class User extends Authenticatable implements MustVerifyEmail
     public function maskedEmail(): ?string
     {
         return EmailMask::mask($this->email);
+    }
+
+    /**
+     * Meno si užívateľ nezadal a má len náhradné z maskovaného e-mailu
+     * („K•••m“) — komentár či modlitba bez registrácie, Facebook bez mena.
+     */
+    public function hasPlaceholderName(): bool
+    {
+        return trim((string) $this->last_name) === ''
+            && mb_strtolower(trim((string) $this->first_name)) === mb_strtolower(EmailMask::name($this->email));
+    }
+
+    /**
+     * Meno pre administrátora. Náhradné „K•••m“ mu nič nepovie, preto dostane
+     * nemaskovanú časť e-mailu — celú adresu aj tak vidí.
+     */
+    public function adminName(): string
+    {
+        if (! $this->hasPlaceholderName()) {
+            return trim($this->fullname);
+        }
+
+        return Str::before((string) $this->email, '@') . ' (meno nezadané)';
     }
 
     public function getFullnameAttribute()

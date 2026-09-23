@@ -78,6 +78,19 @@ class UserActivationTest extends TestCase
         $this->assertSame(1, $user->canals()->count());
     }
 
+    public function test_admin_vidi_namiesto_maskovaneho_mena_cast_emailu(): void
+    {
+        $user = new User(['first_name' => 'K•••m', 'last_name' => '', 'email' => 'krajcikova.martina.km@gmail.com']);
+
+        $this->assertTrue($user->hasPlaceholderName());
+        $this->assertSame('krajcikova.martina.km (meno nezadané)', $user->adminName());
+
+        $named = new User(['first_name' => 'Martina', 'last_name' => 'Krajčíková', 'email' => 'krajcikova.martina.km@gmail.com']);
+
+        $this->assertFalse($named->hasPlaceholderName());
+        $this->assertSame('Krajčíková Martina', $named->adminName());
+    }
+
     public function test_overeny_ucet_ma_kanal_hned(): void
     {
         $user = User::factory()->create();

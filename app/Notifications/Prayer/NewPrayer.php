@@ -30,7 +30,7 @@ class NewPrayer extends Notification implements ShouldQueue
             ->line('na portáli pribudol nový modlitebný úmysel:')
             ->quote($this->prayer->body, $this->prayer->title)
             ->details([
-                'Autor' => $this->prayer->user?->fullname,
+                'Autor' => $this->prayer->user?->adminName(),
                 'Pridaná' => $this->prayer->created_at?->format('d.m.Y H:i'),
             ])
             ->action('Zobraziť v administrácii', route('admin.prayer.index'));
