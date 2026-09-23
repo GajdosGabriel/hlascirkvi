@@ -55,7 +55,7 @@ class SocialLoginTest extends TestCase
     {
         $this->fakeTokenInfo([]);
 
-        $this->postCredential()->assertRedirect('/');
+        $this->postCredential()->assertRedirect(route('profile.dashboard'));
 
         $user = User::whereEmail('jan.novak@gmail.com')->firstOrFail();
         $this->assertAuthenticatedAs($user);
@@ -79,7 +79,7 @@ class SocialLoginTest extends TestCase
         $existing = User::factory()->create(['email' => 'jan.novak@gmail.com']);
         $this->fakeTokenInfo([]);
 
-        $this->postCredential()->assertRedirect('/');
+        $this->postCredential()->assertRedirect(route('profile.dashboard'));
 
         $this->assertAuthenticatedAs($existing);
         $this->assertSame(1, User::whereEmail('jan.novak@gmail.com')->count());
@@ -89,7 +89,7 @@ class SocialLoginTest extends TestCase
     {
         $this->fakeTokenInfo(['given_name' => '', 'family_name' => '', 'name' => 'Mária Nová Kováčová']);
 
-        $this->postCredential()->assertRedirect('/');
+        $this->postCredential()->assertRedirect(route('profile.dashboard'));
 
         $user = User::whereEmail('jan.novak@gmail.com')->firstOrFail();
         $this->assertSame('Mária', $user->first_name);

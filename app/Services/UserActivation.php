@@ -4,9 +4,16 @@ namespace App\Services;
 
 use App\Enums\CanalType;
 use App\Models\Canal;
+use App\Models\Prayer;
 use App\Models\User;
+use App\Notifications\Prayer\NewPrayer;
 use App\Notifications\User\NewRegistration;
+use App\Support\EmailMask;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
 /**
  * Z účtu sa stáva „skutočný" užívateľ: dostane vlastný kanál a administrátori
@@ -35,8 +42,53 @@ class UserActivation
     }
 
     /**
+     * Účet pre adresu, ktorú autor práve preukázal kliknutím na odkaz
+     * z čakárne (PendingPrayer, PendingComment). Do `users` sa zapisuje len
+     * overený účet: nový vznikne rovno overený, starší neoverený sa overí.
+     */
+    public function verifiedUserFor(string $email): User
+    {
+        $user = User::whereEmail($email)->first();
+
+        if (! $user) {
+            $user = new User([
+                // Meno sa zobrazuje verejne — nie celá časť e-mailu.
+                'first_name' => EmailMask::name($email),
+                'last_name' => '',
+                'email' => $email,
+            ]);
+            // Overená adresa → UserObserver::created založí kanál a dá
+            // vedieť administrátorom. Heslo si nastaví cez obnovu.
+            $user->forceFill([
+                'password' => Hash::make(Str::random(40)),
+                'email_verified_at' => now(),
+            ])->save();
+
+            event(new Registered($user));
+        } elseif (! $user->hasVerifiedEmail() && $user->markEmailAsVerified()) {
+            // Starší neoverený účet (spred čakárne) — Verified ho aktivuje.
+            event(new Verified($user));
+        }
+
+        return $user;
+    }
+
+    /**
+     * Zverejní modlitbu v kanáli užívateľa a dá vedieť administrátorom.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function publishPrayer(User $user, array $data): Prayer
+    {
+        $prayer = $this->ensureCanal($user)->prayers()->create($data);
+
+        Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
+
+        return $prayer;
+    }
+
+    /**
      * Aktívny kanál užívateľa; ak nespravuje žiadny, založí mu osobný.
-     * Modlitba bez registrácie ho potrebuje hneď, nie až po overení.
      */
     public function ensureCanal(User $user): Canal
     {

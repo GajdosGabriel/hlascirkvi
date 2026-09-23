@@ -56,7 +56,8 @@ class SaveCommentsRequest extends FormRequest
         return $rules;
     }
 
-    public function save($post)
+    /** @return array{body: string, parent_id?: int} */
+    public function commentData(): array
     {
         $data = $this->only('body');
 
@@ -66,6 +67,6 @@ class SaveCommentsRequest extends FormRequest
             $data['parent_id'] = $parent->parent_id ?? $parent->id;
         }
 
-        return $post->addComment($data);
+        return $data;
     }
 }

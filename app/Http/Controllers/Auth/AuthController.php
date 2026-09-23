@@ -189,11 +189,8 @@ class AuthController extends Controller
         Auth::login($user, true);
         $user->recordLogin($service, request()->ip());
 
-        //        if(\Session::has('backUrl'))
-        //        {
-        //            return redirect(\Session::get('backUrl'));
-        //        }
-        return redirect('/')->with('flash', $message);
+        // Po prihlásení vždy nástenka (rovnako ako LoginController::redirectTo).
+        return redirect()->route('profile.dashboard')->with('flash', $message);
 
     }
 

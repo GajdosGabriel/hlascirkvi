@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
 use App\Http\Requests\SaveCommentsRequest;
-use App\Notifications\Comments\CreatedNewComment;
-use App\Notifications\Comments\RepliedToComment;
-use App\Repositories\Eloquent\EloquentUserRepository;
+use App\Models\PendingComment;
+use App\Services\PendingConfirmation;
+use Illuminate\Validation\ValidationException;
 
 class PostCommentController extends Controller
 {
@@ -41,34 +41,38 @@ class PostCommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function store(Post $post, SaveCommentsRequest $saveComments)
+    public function store(Post $post, SaveCommentsRequest $request, PendingConfirmation $confirmation)
     {
+        $data = $request->commentData();
+        $user = $request->user();
 
-        if ($saveComments->email) {
-            (new EloquentUserRepository)->checkIfUserAccountExist($saveComments);
+        // Prihlásený s overenou adresou komentuje hneď.
+        if ($user?->hasVerifiedEmail()) {
+            abort_if($user->banned(), 403, $user->accountAccessMessage());
+
+            return new CommentResource($confirmation->publishComment($post, $user, $data));
         }
 
-        $comment = $saveComments->save($post);
+        // Ostatní čakajú, kým adresu nepotvrdia (Public\CommentConfirmationController).
+        // Do `users` sa nezapisuje nič. Platí to aj pre adresu existujúceho
+        // účtu — komentár je verejný pod menom účtu, takže bez potvrdenia by
+        // ktokoľvek so znalosťou cudzieho e-mailu písal za iného.
+        $email = $user?->email ?? $request->input('email');
 
-        // Pôvodne `if (!$comment->user_id == auth()->user()->canal_id)`. `!` sa
-        // vyhodnotí skôr než `==`, takže sa porovnávalo `false` s canal_id, a pre
-        // neprihláseného návštevníka to navyše siahalo na null. Zmysel je
-        // upovedomiť správcu kanála, ak nekomentoval sám sebe.
-        $owner = $post->canal?->user;
-
-        // Autor komentára, na ktorý sa odpovedá. Anonymné komentáre (user_id
-        // 100) patria spoločnému účtu, tomu nemá zmysel nič posielať.
-        $parentAuthor = $comment->parent_id ? Comment::find($comment->parent_id)?->user : null;
-
-        if ($parentAuthor && $parentAuthor->id !== 100 && $parentAuthor->id !== (int) $comment->user_id) {
-            $parentAuthor->notify(new RepliedToComment($comment));
+        if (PendingComment::forEmail($email)->count() >= PendingComment::MAX_PER_EMAIL) {
+            throw ValidationException::withMessages([
+                'email' => 'Na túto adresu už čakajú komentáre na potvrdenie. Skontrolujte, prosím, e-mail.',
+            ]);
         }
 
-        if ($owner && $owner->id !== (int) $comment->user_id && $owner->id !== $parentAuthor?->id) {
-            $owner->notify(new CreatedNewComment($comment));
-        }
+        PendingComment::create($data + [
+            'email' => $email,
+            'post_id' => $post->getKey(),
+            'ip' => $request->ip(),
+            'user_agent' => substr((string) $request->userAgent(), 0, 255),
+        ])->sendConfirmation();
 
-        return new CommentResource($comment);
+        return response()->json(['pending' => true], 202);
     }
 
     public function destroy(Post $post, Comment $comment)

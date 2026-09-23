@@ -20,6 +20,17 @@ Route::get('register/confirm/{token}', 'Auth\RegisterController@confirm')
     ->where('token', '[A-Za-z0-9]{64}')
     ->name('register.confirm');
 
+// Modlitba neprihláseného čaká na potvrdenie e-mailu (App\Models\PendingPrayer);
+// účet (overený) a zverejnená modlitba vznikajú až tu.
+Route::get('modlitby/potvrdit/{token}', 'Public\PrayerController@confirm')
+    ->where('token', '[A-Za-z0-9]{64}')
+    ->name('modlitby.confirm');
+
+// Rovnako komentár bez overenej adresy (App\Models\PendingComment).
+Route::get('komentare/potvrdit/{token}', Public\CommentConfirmationController::class)
+    ->where('token', '[A-Za-z0-9]{64}')
+    ->name('comments.confirm');
+
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');

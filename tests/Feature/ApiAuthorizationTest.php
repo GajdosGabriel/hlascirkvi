@@ -100,16 +100,12 @@ class ApiAuthorizationTest extends TestCase
         $this->postJson("/api/posts/{$post->id}/comments", [
             'body' => 'Komentár od neprihláseného návštevníka.',
             'email' => 'navstevnik@example.com',
-        ])->assertSuccessful()
-            // Meno autora je verejné — nesmie z neho byť čitateľná adresa.
-            ->assertDontSee('navstevnik');
+        ])->assertAccepted()->assertJson(['pending' => true]);
 
-        $this->assertDatabaseHas('comments', ['commentable_id' => $post->id]);
-        // Formulár si podľa e-mailu založí účet a prihlási ho.
-        $this->assertDatabaseHas('users', [
-            'email' => 'navstevnik@example.com',
-            'first_name' => 'N•••k',
-        ]);
+        // Komentár čaká na potvrdenie e-mailu, účet zatiaľ nevzniká.
+        $this->assertDatabaseHas('pending_comments', ['post_id' => $post->id, 'email' => 'navstevnik@example.com']);
+        $this->assertDatabaseMissing('comments', ['commentable_id' => $post->id]);
+        $this->assertDatabaseMissing('users', ['email' => 'navstevnik@example.com']);
     }
 
     public function test_anonymny_formular_neprihlasi_existujuci_ucet_podla_emailu(): void
@@ -120,8 +116,10 @@ class ApiAuthorizationTest extends TestCase
         $this->postJson('/api/posts/'.$post->getKey().'/comments', [
             'body' => 'Pokus o komentár pod cudzím účtom.',
             'email' => $victim->getAttribute('email'),
-        ])->assertUnprocessable()->assertJsonValidationErrors('email');
+        ])->assertAccepted();
 
+        // Komentár pod cudzím menom by bol verejný — čaká, kým ho majiteľ
+        // adresy potvrdí z vlastnej schránky.
         $this->assertGuest();
         $this->assertDatabaseMissing('comments', [
             'commentable_id' => $post->getKey(),
@@ -138,7 +136,9 @@ class ApiAuthorizationTest extends TestCase
             'email' => 'modlitba@example.com',
         ])->assertSuccessful();
 
-        $this->assertDatabaseHas('users', ['email' => 'modlitba@example.com']);
+        // Účet nevznikne — modlitba čaká na potvrdenie e-mailu.
+        $this->assertDatabaseHas('pending_prayers', ['email' => 'modlitba@example.com']);
+        $this->assertDatabaseMissing('users', ['email' => 'modlitba@example.com']);
     }
 
     // ------------------------------------------------------- cudzí užívateľ

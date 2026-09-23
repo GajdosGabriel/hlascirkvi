@@ -49,7 +49,7 @@ class LoginTest extends TestCase
         $this->post('/login', [
             'email' => 'jan.novak@gmail.com',
             'password' => 'kostolna-vez-2026',
-        ])->assertRedirect('/');
+        ])->assertRedirect(route('profile.dashboard'));
 
         $this->assertAuthenticatedAs($user);
         $user->refresh();

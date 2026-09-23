@@ -12,17 +12,8 @@ trait HasComments
         return $this->morphMany(Comment::class, 'commentable')->with('user');
     }
 
-    public function addComment($comment)
-    {
-        if (auth()->check()) {
-            $comment = $this->comments()->create(array_merge($comment, ['user_id' => auth()->user()->id]));
-            return $comment;
-        }
-        // canal_id 100 in unknowle user for anonyms comments
-        $comment = $this->comments()->create(array_merge($comment, ['user_id' => 100]));
-        $comment->delete();
+    // addComment() so spoločným anonymným účtom (user_id 100) nahradilo
+    // App\Services\PendingConfirmation::publishComment — komentár bez overenej
+    // adresy čaká v App\Models\PendingComment.
 
-        return $comment;
-    }
-    
 }

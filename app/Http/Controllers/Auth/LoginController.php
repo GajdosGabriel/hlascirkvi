@@ -29,46 +29,25 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/dashboard';
 
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
     }
 
-    /**
-     * Kam po prihlásení.
-     *
-     * Predtým sa v konštruktore ukladalo URL::previous() do session — teda pri
-     * každej akcii vrátane samotného POST /login — a redirectTo() naň potom
-     * presmeroval. URL::previous() číta hlavičku Referer, ktorú si nastavuje
-     * klient, takže z toho bol otvorený redirect na cudziu doménu.
-     *
-     * Berieme preto len adresu v rámci vlastnej domény, uloženú pri zobrazení
-     * prihlasovacieho formulára.
-     */
     public function showLoginForm()
     {
-        $previous = \URL::previous();
-
-        if ($previous && str_starts_with($previous, config('app.url'))) {
-            \Session::put('backUrl', $previous);
-        } else {
-            \Session::forget('backUrl');
-        }
-
         return view('auth.login');
     }
 
+    /**
+     * Po prihlásení vždy nástenka. Výnimkou je len chránená stránka, z ktorej
+     * middleware `auth` poslal na prihlásenie — tam vráti redirect()->intended().
+     */
     public function redirectTo()
     {
-        $backUrl = \Session::pull('backUrl');
-
-        if ($backUrl && str_starts_with($backUrl, config('app.url'))) {
-            return $backUrl;
-        }
-
-        return $this->redirectTo;
+        return route('profile.dashboard');
     }
 
     /**

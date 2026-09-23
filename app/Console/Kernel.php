@@ -95,13 +95,19 @@ class Kernel extends ConsoleKernel
 
         // Nepotvrdené registrácie z formulára (App\Models\PendingRegistration)
         // po vypršaní odkazu. Skutočný účet z nich nikdy nevznikol.
-        $schedule->command('model:prune', ['--model' => [\App\Models\PendingRegistration::class]])
+        // Rovnako nepotvrdené modlitby a komentáre (PendingPrayer, PendingComment).
+        $schedule->command('model:prune', ['--model' => [
+            \App\Models\PendingRegistration::class,
+            \App\Models\PendingPrayer::class,
+            \App\Models\PendingComment::class,
+        ]])
             ->dailyAt('03:27')
             ->withoutOverlapping();
 
         // Po troch dňoch bez potvrdenia jedna pripomienka. Hodinovo, aby
         // prišla zhruba v tú dennú dobu, keď sa človek registroval.
         $schedule->command('registrations:remind')->hourlyAt(12)->withoutOverlapping();
+        $schedule->command('pending:remind')->hourlyAt(14)->withoutOverlapping();
 
         // Liturgické čítania z KBS na 45 dní dopredu. Chýbajúce dni si síce
         // stránka stiahne aj sama, ale výpadok KBS tak web neucíti.

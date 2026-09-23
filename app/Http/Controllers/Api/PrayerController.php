@@ -7,12 +7,11 @@ use App\Models\Prayer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PrayerResource;
-use App\Notifications\Prayer\NewPrayer;
 use App\Services\UserActivation;
 use App\Http\Requests\SavePrayerRequest;
 use App\Http\Resources\PrayerCollection;
-use Illuminate\Support\Facades\Notification;
-use App\Repositories\Eloquent\EloquentUserRepository;
+use App\Models\PendingPrayer;
+use Illuminate\Validation\ValidationException;
 
 class PrayerController extends Controller
 {
@@ -65,19 +64,37 @@ class PrayerController extends Controller
      */
     public function store(SavePrayerRequest $request)
     {
-        if ($request->email) {
-            (new EloquentUserRepository)->checkIfUserAccountExist($request);
+        $data = collect($request->validated())->except('email')->all();
+        $user = auth()->user() ?? User::whereEmail($request->email)->first();
+
+        // Adresa patrí overenému účtu — modlitba mu pribudne, akoby ju pridal
+        // prihlásený. Návštevníka to však do účtu neprihlási.
+        if ($user?->hasVerifiedEmail()) {
+            abort_if($user->banned(), 403, $user->accountAccessMessage());
+
+            app(UserActivation::class)->publishPrayer($user, $data);
+
+            return response()->json(['pending' => false], 201);
         }
 
-        // `email` je pri neprihlásenom autorovi len vstup pre založenie účtu
-        // vyššie — v tabuľke `prayers` taký stĺpec nie je.
-        // Neoverený účet (modlitba bez registrácie) ešte kanál nemá — ten
-        // dostane až po overení adresy (App\Services\UserActivation).
-        $prayer = app(UserActivation::class)->ensureCanal(auth()->user())->prayers()->create(
-            collect($request->validated())->except('email')->all()
-        );
+        // Bez overeného účtu sa nič nezakladá — modlitba čaká v čakárni, kým
+        // autor nepotvrdí adresu (Public\PrayerController::confirm). Platí aj
+        // pre prihláseného so starším neovereným účtom.
+        $email = $user?->email ?? $request->email;
 
-        Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
+        if (PendingPrayer::forEmail($email)->count() >= PendingPrayer::MAX_PER_EMAIL) {
+            throw ValidationException::withMessages([
+                'email' => 'Na túto adresu už čakajú modlitby na potvrdenie. Skontrolujte, prosím, e-mail.',
+            ]);
+        }
+
+        PendingPrayer::create($data + [
+            'email' => $email,
+            'ip' => $request->ip(),
+            'user_agent' => substr((string) $request->userAgent(), 0, 255),
+        ])->sendConfirmation();
+
+        return response()->json(['pending' => true], 201);
     }
 
     /**

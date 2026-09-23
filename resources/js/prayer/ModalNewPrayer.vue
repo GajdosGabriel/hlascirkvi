@@ -19,7 +19,20 @@
                     </button>
                 </header>
 
-                <form class="px-5 py-5" @submit.prevent="savePrayer">
+                <!-- Prosba neovereného autora sa zverejní až po potvrdení e-mailu
+                     (App\Services\UserActivation::publishPendingPrayers). -->
+                <div v-if="pending" class="px-5 py-5" role="status">
+                    <p class="font-semibold">Ďakujeme, prosbu sme prijali.</p>
+                    <p class="mt-2 text-sm text-[color:var(--ar-ink-soft)]">
+                        Zverejní sa, keď potvrdíte svoju e-mailovú adresu. Poslali sme vám
+                        na ňu odkaz — skontrolujte, prosím, aj priečinok so spamom.
+                    </p>
+                    <div class="mt-6 flex justify-end border-t border-[color:var(--ar-line)] pt-4">
+                        <button type="button" class="ar-btn ar-btn--accent" @click="close">Rozumiem</button>
+                    </div>
+                </div>
+
+                <form v-else class="px-5 py-5" @submit.prevent="savePrayer">
                     <!-- Odmietnutie serverom (menej ako 3 znaky, odkaz v texte) predtým
                          len znovu povolilo tlačidlo a okno mlčalo. -->
                     <ul v-if="errors.length" class="mb-4" role="alert">
@@ -83,7 +96,8 @@
                             required
                         />
                         <p class="ar-hint">
-                            E-mail sa nikde nezverejňuje a je potrebný na overenie. Zároveň
+                            E-mail sa nikde nezverejňuje a je potrebný na overenie — prosba
+                            sa zobrazí až po jeho potvrdení. Zároveň
                             vám prídu oznámenia, keď sa za vás niekto pomodlí alebo napíše.
                         </p>
                     </div>
@@ -114,6 +128,8 @@ export default {
         return {
             show: false,
             saving: false,
+            // Server prosbu prijal, ale zverejní ju až po overení e-mailu.
+            pending: false,
             errors: [],
             // Staršie prosby bez nadpisu sa dajú uložiť aj bez neho.
             titleOptional: false,
@@ -135,6 +151,7 @@ export default {
             this.form = { user_name: "" };
             this.titleOptional = false;
             this.errors = [];
+            this.pending = false;
             this.show = true;
         });
 
@@ -142,6 +159,7 @@ export default {
             this.form = Object.assign({}, prayer);
             this.titleOptional = !prayer.title;
             this.errors = [];
+            this.pending = false;
             this.show = true;
         });
 
@@ -172,8 +190,15 @@ export default {
                 : Axios.post("/api/prayers", this.form);
 
             request
-                .then(() => {
+                .then((response) => {
                     this.form = { user_name: "" };
+
+                    if (response.data?.pending) {
+                        this.pending = true;
+                        this.saving = false;
+                        return;
+                    }
+
                     this.show = false;
                     window.location.reload();
                 })

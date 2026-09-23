@@ -1,5 +1,23 @@
 <template>
+    <!-- Komentár bez overenej adresy čaká na potvrdenie z e-mailu
+         (App\Models\PendingComment); do zoznamu sa preto zatiaľ nepridá. -->
+    <div
+        v-if="pending"
+        class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4"
+        role="status"
+    >
+        <p class="font-semibold">Ďakujeme, komentár sme prijali.</p>
+        <p class="mt-1 text-sm text-[color:var(--ar-ink-soft)]">
+            Zverejní sa, keď potvrdíte svoju e-mailovú adresu. Poslali sme vám na ňu
+            odkaz — skontrolujte, prosím, aj priečinok so spamom.
+        </p>
+        <div class="mt-3 flex justify-end">
+            <button type="button" class="ar-btn ar-btn--quiet" @click="closeNotice">Rozumiem</button>
+        </div>
+    </div>
+
     <form
+        v-else
         @submit.prevent="storeComment"
         class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4"
     >
@@ -30,7 +48,9 @@
                     placeholder="meno@example.sk"
                     required
                 />
-                <p class="ar-hint">E-mail nebude nikde zverejnený.</p>
+                <p class="ar-hint">
+                    E-mail nebude nikde zverejnený. Komentár sa zobrazí až po jeho potvrdení.
+                </p>
             </div>
 
             <div class="ml-auto flex gap-2">
@@ -68,6 +88,8 @@ export default {
             body: this.initialBody,
             email: "",
             errors: [],
+            // Server komentár prijal, ale zverejní ho až po overení e-mailu.
+            pending: false,
         };
     },
 
@@ -86,6 +108,12 @@ export default {
     },
 
     methods: {
+        // Odpoveď formulár zavrie (ako Zrušiť), hlavný komentár ho ukáže znova.
+        closeNotice: function () {
+            this.pending = false;
+            if (this.parentId) this.$emit("cancel");
+        },
+
         storeComment: function () {
             axios
                 .post("/api/posts/" + this.post.id + "/comments", {
@@ -97,6 +125,12 @@ export default {
                     this.body = "";
                     this.email = "";
                     this.errors = [];
+
+                    if (data.pending) {
+                        this.pending = true;
+                        return;
+                    }
+
                     this.$emit("newComment", data);
                 })
                 // Odmietnutý komentár (kratší ako 3 znaky, zlý e-mail) predtým
