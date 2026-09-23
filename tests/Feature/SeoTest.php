@@ -91,6 +91,35 @@ class SeoTest extends TestCase
         $this->assertStringStartsWith('index, follow', Seo::resolve(['noindex' => false])['robots']);
     }
 
+    /**
+     * Disallow v robots.txt robotovi zakáže stránku stiahnuť, takže jej
+     * noindex neuvidí a zaindexovanú adresu nechá v indexe („Indexovaná,
+     * ale zablokovaná súborom robots.txt"). Adresy s noindex preto zakázané
+     * byť nesmú.
+     */
+    public function test_robots_txt_nezakazuje_adresy_s_noindex(): void
+    {
+        preg_match_all('/^Disallow:\s*(\S+)/mi', file_get_contents(public_path('robots.txt')), $rules);
+
+        $paths = ['/login', '/register', '/password/reset', '/admin/home', '/dashboard',
+            '/?search=x', '/post?page=2&search=x', '/akcie', '/akcie?tags=put', '/akcie/12/omsa'];
+
+        foreach ($paths as $path) {
+            foreach ($rules[1] as $rule) {
+                $pattern = '#^' . str_replace('\*', '.*', preg_quote($rule, '#')) . '#';
+
+                $this->assertDoesNotMatchRegularExpression($pattern, $path, "robots.txt ($rule) zakazuje $path");
+            }
+        }
+    }
+
+    public function test_podujatia_sa_indexuju_na_hlascirkvi(): void
+    {
+        foreach (['akcie.index', 'event.show'] as $name) {
+            $this->assertFalse(\Illuminate\Support\Str::is(config('seo.noindex_routes'), $name), $name);
+        }
+    }
+
     public function test_drobceky_maju_poradie_a_absolutne_adresy(): void
     {
         $schema = Seo::breadcrumbs([

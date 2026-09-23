@@ -14,7 +14,8 @@
         'canonical' => \App\Support\Seo::listUrl(['list', 'municipality'], (int) request()->query('page', 1)),
         // Kombinácie štítkov, hľadanie a víkendový výber sú len výrezy toho
         // istého zoznamu. Roboty by ich prechádzali donekonečna a každý nový
-        // výber je volanie API portálu — do indexu preto nepatria.
+        // výber je volanie API portálu — do indexu preto nepatria. Noindex
+        // nesie aj nofollow, takže robot z nich ďalšie kombinácie neobjavuje.
         'noindex' => ($filters['tags'] ?? null) !== null
             || ($filters['search'] ?? null) !== null
             || ($filters['range'] ?? null) !== null,

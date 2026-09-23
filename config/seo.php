@@ -67,9 +67,9 @@ return [
 
     /*
      * Routy, ktoré nemajú čo robiť vo vyhľadávaní: administrácia, súkromný
-     * profil a prihlasovanie. Značka robots je poistka k robots.txt — ten
-     * len prosí, aby sa stránka nesťahovala, noindex ju drží mimo indexu aj
-     * keď sa k nej crawler dostane cez odkaz.
+     * profil a prihlasovanie. Noindex je jediná vrstva — tieto adresy nesmú
+     * byť zakázané v robots.txt, inak robot noindex nikdy neuvidí a adresu,
+     * o ktorej vie z odkazu, nechá v indexe.
      */
     'noindex_routes' => [
         'admin.*',

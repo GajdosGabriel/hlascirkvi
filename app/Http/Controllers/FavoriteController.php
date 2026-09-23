@@ -7,7 +7,7 @@ use App\Models\Prayer;
 use App\Models\Comment;
 use App\Http\Requests\FavoriteRequest;
 use App\Models\Canal;
-use App\Repositories\Eloquent\EloquentUserRepository;
+use App\Services\PendingConfirmation;
 
 class FavoriteController extends Controller
 {
@@ -28,17 +28,25 @@ class FavoriteController extends Controller
         $this->middleware('auth')->except('update');
     }
 
-    public function update(FavoriteRequest $request, $favorite)
+    public function update(FavoriteRequest $request, $favorite, PendingConfirmation $confirmation)
     {
-        if ($request->email) {
-            (new EloquentUserRepository)->checkIfUserAccountExist($request);
-        }
-
         $class = self::MODELS[$request->validated()['model']];
 
         $model = $class::find($request->validated()['model_id']);
 
         abort_if($model === null, 404);
+
+        // Neprihlásený: do `users` sa nezapisuje nič, pripojenie čaká na
+        // potvrdenie e-mailu (Public\FavoriteConfirmationController).
+        if (auth()->guest()) {
+            $confirmation->queueFavorite($model, $request->validated()['email'], $request);
+
+            if ($request->expectsJson()) {
+                return response()->json(['pending' => true], 202);
+            }
+
+            return back()->with('flash', 'Poslali sme vám e-mail — pripojenie sa započíta po jeho potvrdení.');
+        }
 
         $model->favorite();
 

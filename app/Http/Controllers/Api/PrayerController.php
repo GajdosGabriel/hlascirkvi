@@ -82,7 +82,7 @@ class PrayerController extends Controller
         // pre prihláseného so starším neovereným účtom.
         $email = $user?->email ?? $request->email;
 
-        if (PendingPrayer::forEmail($email)->count() >= PendingPrayer::MAX_PER_EMAIL) {
+        if (PendingPrayer::limitReached($email)) {
             throw ValidationException::withMessages([
                 'email' => 'Na túto adresu už čakajú modlitby na potvrdenie. Skontrolujte, prosím, e-mail.',
             ]);

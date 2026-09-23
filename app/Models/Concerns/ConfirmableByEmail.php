@@ -59,6 +59,17 @@ trait ConfirmableByEmail
         return static::where('email', $email)->where('expires_at', '>', now());
     }
 
+    /** Koľko nepotvrdených záznamov môže na jednu adresu čakať naraz. */
+    public static function maxPerEmail(): int
+    {
+        return self::MAX_PER_EMAIL;
+    }
+
+    public static function limitReached(string $email): bool
+    {
+        return static::forEmail($email)->count() >= static::maxPerEmail();
+    }
+
     public function sendConfirmation(): void
     {
         $token = $this->issueToken(['expires_at' => now()->addDays(self::TTL_DAYS)]);

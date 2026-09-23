@@ -58,4 +58,35 @@ class SitemapTest extends TestCase
         $this->assertStringContainsString('/sitemap-prispevky-2.xml</loc>', $index);
         $this->assertStringNotContainsString('/sitemap-prispevky-3.xml</loc>', $index);
     }
+
+    /**
+     * Podujatia sa indexujú na hlascirkvi.sk (/akcie), nie na portáli
+     * event.hlascirkvi.sk, odkiaľ sa len ťahajú cez API.
+     */
+    public function test_mapa_webu_ukazuje_podujatia_u_nas_nie_na_portali(): void
+    {
+        config([
+            'database.default' => 'sqlite',
+            'database.connections.sqlite.database' => ':memory:',
+            'cache.default' => 'array',
+            'seo.url' => 'https://hlascirkvi.sk',
+        ]);
+        DB::purge('sqlite');
+
+        Schema::create('seminars', function (Blueprint $table) {
+            $table->id();
+            $table->timestamp('published')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+        Schema::create('verses', function (Blueprint $table) {
+            $table->id();
+            $table->string('slug');
+        });
+
+        $xml = (new SitemapController)->pages()->getContent();
+
+        $this->assertStringContainsString('https://hlascirkvi.sk/akcie</loc>', $xml);
+        $this->assertStringNotContainsString('event.', $xml);
+    }
 }

@@ -12,9 +12,7 @@ namespace App\Repositories\Eloquent;
 use Hash;
 use App\Models\User;
 use App\Models\PendingRegistration;
-use App\Support\EmailMask;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use App\Notifications\Admin\Buffer;
 use Illuminate\Support\Facades\Request;
 use App\Repositories\AbstractRepository;
@@ -79,55 +77,11 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
 
 
     /*
-     * Komentáre bez registrácie
-     */
-
-    public function checkIfUserAccountExist($request) {
-
-        if(auth()->check()) return;
-
-        if (User::whereEmail($request->email)->exists()) {
-            // Znalosť e-mailovej adresy nie je dôkazom vlastníctva účtu.
-            // Predchádzajúci kód prihlásil anonymného návštevníka priamo do
-            // existujúceho účtu bez hesla pri komentári, modlitbe či obľúbení.
-            throw ValidationException::withMessages([
-                'email' => 'Účet s touto adresou už existuje. Prihláste sa alebo použite obnovu hesla.',
-            ]);
-        }
-
-        $this->createNewUser($request);
-
-    }
-
-    protected function createNewUser($request)
-    {
-        $user = new User([
-            // Meno sa zobrazuje verejne pri komentári — nie celá časť e-mailu.
-            'first_name' => EmailMask::name($request->email),
-            'last_name' => '',
-            'email' => $request->email,
-            // Bolo bcrypt('registracnyformularheslo') — rovnaké heslo pre
-            // každého, kto komentoval bez registrácie. Prihlásený je hneď
-            // a heslo si môže nastaviť cez obnovu.
-            'password' => Hash::make(Str::random(40)),
-        ]);
-        $user->save();
-        \Auth::login($user, true);
-
-        $this->sendConfirmEmail($user);
-    }
-
-    protected function sendConfirmEmail($user)
-    {
-        // Podobu e-mailu aj adresu s podpisom drží User::sendEmailVerificationNotification(),
-        // aby existovala jedna cesta pre registráciu aj pre opätovné poslanie.
-        if (! $user->hasVerifiedEmail()) {
-            $user->sendEmailVerificationNotification();
-        }
-    }
-
-    /*
-     * Koniec komentárov
+     * Komentár, modlitba či „Pripojiť sa" bez registrácie už účet nezakladajú
+     * (predtým checkIfUserAccountExist — neoverený riadok v `users` a rovno
+     * prihlásenie). Čakajú v App\Models\PendingComment, PendingPrayer
+     * a PendingFavorite; overený účet vytvorí až
+     * App\Services\UserActivation::verifiedUserFor po kliknutí na odkaz.
      */
 
 

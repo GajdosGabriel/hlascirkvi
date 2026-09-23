@@ -3,11 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Models\PendingComment;
+use App\Models\PendingFavorite;
 use App\Models\PendingPrayer;
 use Illuminate\Console\Command;
 
 /**
- * Jedna pripomienka modlitbám a komentárom z čakárne, ktoré ani po
+ * Jedna pripomienka modlitbám, komentárom a „Pripojiť sa" z čakárne, ktoré ani po
  * REMIND_AFTER_DAYS nikto nepotvrdil („Vaša modlitba / váš komentár čaká na
  * zverejnenie"). Na jednu adresu odíde za každý druh len jeden e-mail, aj keď
  * ich čaká viac — potvrdenie aj tak zverejní všetky.
@@ -22,7 +23,7 @@ class RemindPendingContributions extends Command
     {
         $sent = 0;
 
-        foreach ([PendingPrayer::class, PendingComment::class] as $model) {
+        foreach ([PendingPrayer::class, PendingComment::class, PendingFavorite::class] as $model) {
             $model::dueForReminder()->chunkById(100, function ($rows) use ($model, &$sent) {
                 foreach ($rows as $pending) {
                     // Iný riadok s rovnakou adresou mohol pripomienku už dostať

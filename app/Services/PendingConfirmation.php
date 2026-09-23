@@ -4,16 +4,19 @@ namespace App\Services;
 
 use App\Models\Comment;
 use App\Models\PendingComment;
+use App\Models\PendingFavorite;
 use App\Models\PendingPrayer;
 use App\Models\Post;
 use App\Models\User;
 use App\Notifications\Comments\CreatedNewComment;
 use App\Notifications\Comments\RepliedToComment;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 /**
- * Potvrdenie adresy z čakárne (PendingPrayer, PendingComment).
+ * Potvrdenie adresy z čakárne (PendingPrayer, PendingComment, PendingFavorite).
  *
  * Kliknutím na ktorýkoľvek odkaz autor preukázal adresu, preto sa zverejní
  * všetko, čo s ňou čaká — modlitby aj komentáre.
@@ -38,6 +41,7 @@ class PendingConfirmation
         if ($existing && ($existing->trashed() || $existing->banned())) {
             PendingPrayer::where('email', $email)->delete();
             PendingComment::where('email', $email)->delete();
+            PendingFavorite::where('email', $email)->delete();
 
             return null;
         }
@@ -58,8 +62,49 @@ class PendingConfirmation
                 $row->delete();
             }
 
+            foreach (PendingFavorite::forEmail($email)->get() as $row) {
+                // Označenie sa len pridá — ak ho užívateľ medzitým má, nič
+                // sa neprepína (toggleFavorite by ho zrušil).
+                $model = $row->favorited;
+                if ($model && ! $model->favorites()->whereUserId($user->id)->exists()) {
+                    $model->favorites()->create(['user_id' => $user->id]);
+                }
+                $row->delete();
+            }
+
             return $user;
         });
+    }
+
+    /**
+     * „Pripojiť sa k modlitbe" / odber kanála od neprihláseného: čaká, kým
+     * autor nepotvrdí adresu. Rovnaké označenie, ktoré už čaká, druhý e-mail
+     * neposiela.
+     */
+    public function queueFavorite(Model $model, string $email, Request $request): void
+    {
+        $pending = PendingFavorite::firstOrNew([
+            'email' => $email,
+            'favorited_type' => $model->getMorphClass(),
+            'favorited_id' => $model->getKey(),
+        ]);
+
+        if ($pending->exists && $pending->expires_at?->isFuture()) {
+            return;
+        }
+
+        if (PendingFavorite::limitReached($email)) {
+            throw ValidationException::withMessages([
+                'email' => 'Na túto adresu už čaká viac žiadostí na potvrdenie. Skontrolujte, prosím, e-mail.',
+            ]);
+        }
+
+        $pending->forceFill([
+            'ip' => $request->ip(),
+            'user_agent' => substr((string) $request->userAgent(), 0, 255),
+            'sent_at' => null,
+            'reminded_at' => null,
+        ])->sendConfirmation();
     }
 
     /**

@@ -59,7 +59,7 @@ class PostCommentController extends Controller
         // ktokoľvek so znalosťou cudzieho e-mailu písal za iného.
         $email = $user?->email ?? $request->input('email');
 
-        if (PendingComment::forEmail($email)->count() >= PendingComment::MAX_PER_EMAIL) {
+        if (PendingComment::limitReached($email)) {
             throw ValidationException::withMessages([
                 'email' => 'Na túto adresu už čakajú komentáre na potvrdenie. Skontrolujte, prosím, e-mail.',
             ]);

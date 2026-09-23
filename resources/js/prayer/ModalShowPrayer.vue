@@ -40,10 +40,31 @@
                         {{ prayer.body }}
                     </p>
 
+                    <!-- Neprihlásený sa započíta až po potvrdení e-mailu
+                         (App\Models\PendingFavorite). -->
+                    <div
+                        v-if="pending"
+                        class="mt-5 border-t border-[color:var(--ar-line)] pt-4"
+                        role="status"
+                    >
+                        <p class="font-semibold">Ďakujeme, že sa pripájate.</p>
+                        <p class="mt-1 text-sm text-[color:var(--ar-ink-soft)]">
+                            Započíta sa, keď potvrdíte svoju e-mailovú adresu. Poslali sme vám
+                            na ňu odkaz — skontrolujte, prosím, aj priečinok so spamom.
+                        </p>
+                        <div class="mt-4 flex justify-end">
+                            <button type="button" class="ar-btn ar-btn--accent" @click="toggle">Rozumiem</button>
+                        </div>
+                    </div>
+
                     <form
+                        v-else
                         class="mt-5 border-t border-[color:var(--ar-line)] pt-4"
                         @submit.prevent="saveFavorites"
                     >
+                        <ul v-if="errors.length" class="mb-3" role="alert">
+                            <li v-for="error in errors" :key="error" class="text-sm font-semibold text-red-700">{{ error }}</li>
+                        </ul>
                         <div v-if="!isAuth">
                             <label class="ar-label" for="prayer-favorite-email">Váš e-mail</label>
                             <input
@@ -56,8 +77,8 @@
                                 required
                             />
                             <p class="ar-hint">
-                                Vložením e-mailu sa pripojíte k modlitbe. E-mail sa nikde
-                                nezverejňuje.
+                                Vložením e-mailu sa pripojíte k modlitbe — započíta sa po
+                                potvrdení e-mailu. E-mail sa nikde nezverejňuje.
                             </p>
                         </div>
 
@@ -88,6 +109,9 @@ export default {
         return {
             prayer: "",
             email: "",
+            errors: [],
+            // Server pripojenie prijal, ale započíta ho až po overení e-mailu.
+            pending: false,
         };
     },
 
@@ -110,6 +134,8 @@ export default {
     created: function () {
         bus.$on("passToModalPrayer", (prayer) => {
             this.prayer = prayer;
+            this.errors = [];
+            this.pending = false;
         });
 
         // Okno visí v komponente na celú životnosť stránky, poslucháč sa
@@ -131,9 +157,22 @@ export default {
                     model_id: this.prayer.id,
                     email: this.email,
                 })
-                .then(() => {
-                    this.prayer = "";
+                .then(({ data }) => {
                     this.email = "";
+                    this.errors = [];
+
+                    if (data.pending) {
+                        this.pending = true;
+                        return;
+                    }
+
+                    this.prayer = "";
+                })
+                .catch((error) => {
+                    const errors = error.response?.data?.errors;
+                    this.errors = errors
+                        ? Object.values(errors).flat()
+                        : ["Nepodarilo sa to. Skúste to znova."];
                 });
         },
     },

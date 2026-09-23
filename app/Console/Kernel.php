@@ -100,6 +100,7 @@ class Kernel extends ConsoleKernel
             \App\Models\PendingRegistration::class,
             \App\Models\PendingPrayer::class,
             \App\Models\PendingComment::class,
+            \App\Models\PendingFavorite::class,
         ]])
             ->dailyAt('03:27')
             ->withoutOverlapping();

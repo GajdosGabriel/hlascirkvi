@@ -31,6 +31,8 @@ class FavoriteRequest extends FormRequest
             // inštanciovať ľubovoľná trieda z App\Models.
             'model' => ['required', 'string', Rule::in(array_keys(FavoriteController::MODELS))],
             'model_id' => 'integer|required',
+            // Neprihlásený sa pripája cez e-mail (App\Models\PendingFavorite).
+            'email' => [Rule::requiredIf(auth()->guest()), 'nullable', 'email', 'max:100'],
         ];
     }
 }

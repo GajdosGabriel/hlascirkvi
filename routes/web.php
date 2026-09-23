@@ -31,6 +31,11 @@ Route::get('komentare/potvrdit/{token}', Public\CommentConfirmationController::c
     ->where('token', '[A-Za-z0-9]{64}')
     ->name('comments.confirm');
 
+// „Pripojiť sa k modlitbe" / odber kanála bez účtu (App\Models\PendingFavorite).
+Route::get('oznacenie/potvrdit/{token}', Public\FavoriteConfirmationController::class)
+    ->where('token', '[A-Za-z0-9]{64}')
+    ->name('favorites.confirm');
+
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
@@ -105,7 +110,8 @@ Route::middleware('checkBanned')->group(function () {
 
 // Front routes
 Route::middleware('checkBanned')->group(function () {
-    Route::resource('favorites', FavoriteController::class)->only('update');
+    // Neprihlásený cez ňu posiela potvrdzovací e-mail — preto sadzba.
+    Route::resource('favorites', FavoriteController::class)->only('update')->middleware('throttle:10,1');
     // URL ostáva /organizations/{id} — je zaindexovaná a rozposlaná v e-mailoch.
     // Parameter sa volá {canal}, aby implicitná väzba trafila Canal $canal
     // v Public\CanalController.
