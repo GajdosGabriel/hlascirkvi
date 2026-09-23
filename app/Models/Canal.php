@@ -36,6 +36,7 @@ class Canal extends Model
         'front_listed_at' => 'datetime',
         'denomination' => \App\Enums\Denomination::class,
         'kind' => \App\Enums\CanalKind::class,
+        'type' => \App\Enums\CanalType::class,
         'post_section' => \App\Enums\CanalSection::class,
         'import_day' => 'integer',
     ];

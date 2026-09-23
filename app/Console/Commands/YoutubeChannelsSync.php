@@ -157,6 +157,7 @@ class YoutubeChannelsSync extends Command
             'title' => $entry['title'],
             'village_id' => $entry['village_id'] ?? self::CELE_SLOVENSKO,
             'published' => 1,
+            'type' => \App\Enums\CanalType::Organization,
         ]);
 
         return 'pridané #' . $canal->id;

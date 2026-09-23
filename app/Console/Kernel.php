@@ -93,6 +93,16 @@ class Kernel extends ConsoleKernel
             ->dailyAt('03:25')
             ->withoutOverlapping();
 
+        // Nepotvrdené registrácie z formulára (App\Models\PendingRegistration)
+        // po vypršaní odkazu. Skutočný účet z nich nikdy nevznikol.
+        $schedule->command('model:prune', ['--model' => [\App\Models\PendingRegistration::class]])
+            ->dailyAt('03:27')
+            ->withoutOverlapping();
+
+        // Po troch dňoch bez potvrdenia jedna pripomienka. Hodinovo, aby
+        // prišla zhruba v tú dennú dobu, keď sa človek registroval.
+        $schedule->command('registrations:remind')->hourlyAt(12)->withoutOverlapping();
+
         // Liturgické čítania z KBS na 45 dní dopredu. Chýbajúce dni si síce
         // stránka stiahne aj sama, ale výpadok KBS tak web neucíti.
         $schedule->command('liturgia:stiahnut')->dailyAt('03:35')->withoutOverlapping();

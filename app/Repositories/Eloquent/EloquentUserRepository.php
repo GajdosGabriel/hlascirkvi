@@ -11,6 +11,7 @@ namespace App\Repositories\Eloquent;
 
 use Hash;
 use App\Models\User;
+use App\Models\PendingRegistration;
 use App\Support\EmailMask;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -27,15 +28,25 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
         return User::class;
     }
 
-    public function createUserRegisterForm($data)
+    /**
+     * Účet z potvrdenej registrácie (App\Models\PendingRegistration). Adresa
+     * je už overená kliknutím na odkaz, heslo prichádza zahashované.
+     * email_verified_at sa nastaví ešte pred uložením, aby UserObserver::created
+     * rovno založil kanál (App\Services\UserActivation).
+     */
+    public function createFromPendingRegistration(PendingRegistration $pending): User
     {
-        return $this->create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+        $user = new User([
+            'first_name' => $pending->first_name,
+            'last_name' => $pending->last_name,
+            'email' => $pending->email,
         ]);
+        $user->forceFill([
+            'password' => $pending->password,
+            'email_verified_at' => now(),
+        ])->save();
 
+        return $user;
     }
 
     /**
@@ -45,7 +56,7 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
      */
     public function createUserBySocial($profile)
     {
-        $user = $this->create([
+        $user = new User([
             'first_name' => $profile['first_name'],
             'last_name' => $profile['last_name'],
             'email' => $profile['email'],
@@ -59,8 +70,9 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
         // e-mail overený poskytovateľom, takže sa nastaví explicitne. Registrácia
         // cez Google teda žiadny potvrdzovací e-mail neposiela, adresa je
         // overená už pri vzniku účtu (AuthController navyše prijme len účet
-        // s email_verified od Googlu).
-        $user->markEmailAsVerified();
+        // s email_verified od Googlu). Nastavuje sa ešte pred uložením, aby
+        // UserObserver::created rovno založil kanál.
+        $user->forceFill(['email_verified_at' => now()])->save();
 
         return $user;
     }

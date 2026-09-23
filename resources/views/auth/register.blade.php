@@ -64,7 +64,7 @@
             @error('email')
                 <p class="ar-error">{{ $message }}</p>
             @else
-                <p class="ar-hint">Pošleme na ňu potvrdzovací odkaz.</p>
+                <p class="ar-hint">Pošleme na ňu odkaz — účet vznikne až po jeho potvrdení.</p>
             @enderror
         </div>
 

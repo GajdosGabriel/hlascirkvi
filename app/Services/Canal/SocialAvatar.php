@@ -2,6 +2,7 @@
 
 namespace App\Services\Canal;
 
+use App\Enums\CanalType;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +27,7 @@ class SocialAvatar
         }
 
         $canal = $user->canals()
-            ->where('person', 1)
+            ->where('type', CanalType::Personal)
             ->where(fn ($query) => $query->whereNull('avatar')->orWhere('avatar', ''))
             ->first();
 

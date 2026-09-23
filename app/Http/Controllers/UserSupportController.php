@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 
 
@@ -44,9 +44,9 @@ class UserSupportController extends Controller
                 ->with('flash', 'Email je už autorizovaný! Ďakujeme.');
         }
 
-        // email_verified_at nie je v $fillable (App\Models\User).
-        $user->email_verified_at = Carbon::now();
-        $user->save();
+        // Verified založí účtu kanál (App\Listeners\ActivateVerifiedUser).
+        $user->markEmailAsVerified();
+        event(new Verified($user));
 
         return redirect()->route('posts.index')
             ->with('flash', 'Email je autorizovaný! Ďakujeme.');

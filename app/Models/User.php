@@ -85,6 +85,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'send_email' => 'boolean',
         'front_author' => 'boolean',
         'verified' => 'boolean',
+        'gender' => \App\Enums\Gender::class,
     ];
 
     public function setFirstNameAttribute($value)

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
 /**
- * Administrátorom pri každom novom účte (UserObserver::created).
+ * Administrátorom pri každom novom overenom účte (App\Services\UserActivation).
  */
 class NewRegistration extends Notification implements ShouldQueue
 {

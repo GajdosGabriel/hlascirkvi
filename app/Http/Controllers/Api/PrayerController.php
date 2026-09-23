@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PrayerResource;
 use App\Notifications\Prayer\NewPrayer;
+use App\Services\UserActivation;
 use App\Http\Requests\SavePrayerRequest;
 use App\Http\Resources\PrayerCollection;
 use Illuminate\Support\Facades\Notification;
@@ -70,7 +71,9 @@ class PrayerController extends Controller
 
         // `email` je pri neprihlásenom autorovi len vstup pre založenie účtu
         // vyššie — v tabuľke `prayers` taký stĺpec nie je.
-        $prayer = auth()->user()->canal->prayers()->create(
+        // Neoverený účet (modlitba bez registrácie) ešte kanál nemá — ten
+        // dostane až po overení adresy (App\Services\UserActivation).
+        $prayer = app(UserActivation::class)->ensureCanal(auth()->user())->prayers()->create(
             collect($request->validated())->except('email')->all()
         );
 

@@ -12,7 +12,7 @@ namespace App\Repositories\Contracts;
 interface UserRepository extends InterfaceRepository
 {
 
-    public function createUserRegisterForm($value);
+    public function createFromPendingRegistration(\App\Models\PendingRegistration $pending): \App\Models\User;
     public function createUserBySocial($value);
     public function usersHasRoleAdmin();
 

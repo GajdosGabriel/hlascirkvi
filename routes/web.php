@@ -12,6 +12,13 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');
+// Registrácia čaká na potvrdenie e-mailu (App\Models\PendingRegistration);
+// účet vzniká až pri register.confirm.
+Route::get('register/pending', 'Auth\RegisterController@pending')->name('register.pending');
+Route::post('register/resend', 'Auth\RegisterController@resend')->name('register.resend');
+Route::get('register/confirm/{token}', 'Auth\RegisterController@confirm')
+    ->where('token', '[A-Za-z0-9]{64}')
+    ->name('register.confirm');
 
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');

@@ -164,6 +164,8 @@ class CanalRequest extends FormRequest
             ->except(['users', 'published', 'import_day', 'post_section'])
             ->all();
 
-        return auth()->user()->canals()->create($data);
+        // Z dashboardu vzniká vždy organizácia; osobný kanál dostane
+        // užívateľ sám po overení e-mailu (UserActivation).
+        return auth()->user()->canals()->create($data + ['type' => \App\Enums\CanalType::Organization]);
     }
 }
