@@ -28,9 +28,13 @@ class ConfirmFulfilledPrayer extends Notification implements ShouldQueue
 
     public function toArray($notifiable)
     {
+        // Modlitba nemá `user_id`, patrí kanálu — `$prayer->user` bol vždy null.
+        $canal = $this->prayer->canal;
+        $name = $canal?->user?->adminName() ?? $canal?->title;
+
         return [
-            'logo' =>  $this->prayer->user->owner->initialName,
-            'message' => $this->prayer->user->fullName . ' potvrdil vypočutú modlitbu ' . $this->prayer->title,
+            'logo' => $canal?->initialName,
+            'message' => $name . ' potvrdil vypočutú modlitbu ' . $this->prayer->title,
             'link' => route('modlitby.index')
         ];
     }

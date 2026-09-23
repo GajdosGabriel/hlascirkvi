@@ -30,7 +30,7 @@ class NewPrayer extends Notification implements ShouldQueue
             ->line('na portáli pribudol nový modlitebný úmysel:')
             ->quote($this->prayer->body, $this->prayer->title)
             ->details([
-                'Autor' => $this->prayer->user?->adminName(),
+                'Autor' => $this->authorName(),
                 'Pridaná' => $this->prayer->created_at?->format('d.m.Y H:i'),
             ])
             ->action('Zobraziť v administrácii', route('admin.prayer.index'));
@@ -39,9 +39,20 @@ class NewPrayer extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'logo' =>  $this->prayer->user->owner->initialName,
-            'message' => $this->prayer->user->fullname . ' pridal modlitbu ' . $this->prayer->title,
+            'logo' => $this->prayer->canal?->initialName,
+            'message' => $this->authorName() . ' pridal modlitbu ' . $this->prayer->title,
             'link' => route('modlitby.index')
         ];
+    }
+
+    /**
+     * Modlitba nemá `user_id`, patrí kanálu — `$prayer->user` bol vždy null.
+     * Autor je užívateľ, ktorého aktívny kanál to je; inak aspoň názov kanála.
+     */
+    private function authorName(): ?string
+    {
+        $canal = $this->prayer->canal;
+
+        return $canal?->user?->adminName() ?? $canal?->title;
     }
 }
