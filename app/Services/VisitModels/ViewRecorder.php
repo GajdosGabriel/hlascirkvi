@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\DB;
  *
  * Návštevníka rozpoznáva pseudonymom, nie cookie — viď VisitorPseudonym.
  *
+ * Volá ho beacon z prehliadača (PostController::view, route post.view), nie
+ * render stránky. Do 19. 9. 2026 sa zapisovalo pri GET detailu a crawler
+ * s rotujúcimi IP a user-agentmi tak za 9 dní pridal ~3 mil. „návštevníkov".
+ *
  * Nikdy nevyhadzuje výnimku: zlyhanie štatistiky nesmie zhodiť zobrazenie
  * stránky.
  */
@@ -73,6 +77,20 @@ class ViewRecorder
         $userAgent = (string) $request->userAgent();
 
         if ($userAgent === '' || preg_match(self::BOT_PATTERN, $userAgent) === 1) {
+            return false;
+        }
+
+        // Beacon posiela axios, ktorý nastavuje X-Requested-With
+        // (resources/js/bootstrap.js). Ručne poskladaný POST ho väčšinou nemá.
+        if (! $request->ajax()) {
+            return false;
+        }
+
+        // Moderné prehliadače pripájajú Sec-Fetch-Site; keď ho request má,
+        // musí prísť z vlastnej stránky. Starší prehliadač bez hlavičky prejde.
+        $fetchSite = $request->header('Sec-Fetch-Site');
+
+        if ($fetchSite !== null && $fetchSite !== 'same-origin') {
             return false;
         }
 

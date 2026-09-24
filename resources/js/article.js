@@ -1,6 +1,6 @@
 /**
- * Skripty detailu príspevku: ukazovateľ prečítanej časti a doťahovanie
- * ďalších riadkov do mriežky archívu kanála.
+ * Skripty detailu príspevku: ukazovateľ prečítanej časti, doťahovanie
+ * ďalších riadkov do mriežky archívu kanála a beacon zobrazenia.
  *
  * Bolo to 133 riadkov inline v resources/views/posts/show.blade.php, teda
  * mimo buildu — neminifikované, bez lintu a bez cache. Obe funkcie sa samy
@@ -100,5 +100,53 @@ export function initArticle() {
         });
 
         if (!cursor) finish();
+    });
+
+    // Zobrazenie sa započíta, až keď je stránka 3 s na očiach — nie pri
+    // renderi na serveri. Crawler, ktorý nespúšťa JS alebo nedrží session
+    // (CSRF), sa tak do počítadla nedostane. Čas v skrytej karte sa nepočíta.
+    window.arReady(function () {
+        var article = document.querySelector('[data-view-url]');
+        var token = document.querySelector('meta[name="csrf-token"]');
+        if (!article || !token) return;
+
+        var remaining = 3000;
+        var startedAt = null;
+        var timer = null;
+
+        var send = function () {
+            document.removeEventListener('visibilitychange', onVisibility);
+            fetch(article.dataset.viewUrl, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': token.getAttribute('content')
+                },
+                credentials: 'same-origin',
+                keepalive: true
+            }).catch(function () {
+                // Štatistika nesmie čitateľa ničím rušiť.
+            });
+        };
+
+        var start = function () {
+            if (timer) return;
+            startedAt = Date.now();
+            timer = setTimeout(send, remaining);
+        };
+
+        var pause = function () {
+            if (!timer) return;
+            clearTimeout(timer);
+            timer = null;
+            remaining -= Date.now() - startedAt;
+        };
+
+        var onVisibility = function () {
+            document.visibilityState === 'visible' ? start() : pause();
+        };
+
+        document.addEventListener('visibilitychange', onVisibility);
+        onVisibility();
     });
 }

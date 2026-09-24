@@ -303,7 +303,7 @@
         <div class="grid gap-10 lg:grid-cols-12">
 
             {{-- Článok --}}
-            <article class="lg:col-span-8">
+            <article class="lg:col-span-8" data-view-url="{{ route('post.view', $post) }}">
 
                 {{-- Lišta kanála: avatar, názov a odber. Vlastný Vue komponent,
                      preto stojí na plnú šírku článku a nie v úzkom paneli. --}}

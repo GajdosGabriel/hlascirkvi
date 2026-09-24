@@ -9,7 +9,7 @@ use App\Models\Post;
 use App\Filters\PostFilters;
 use App\Services\CreditUser;
 use Illuminate\Http\Request;
-use App\Events\VisitModel;
+use App\Services\VisitModels\ViewRecorder;
 use App\Repositories\Contracts\PostRepository;
 use App\Http\Controllers\Controller;
 
@@ -53,13 +53,27 @@ class PostController extends Controller
 
         $creditUser->setPostHistory($post);
 
-        event(new VisitModel($post));
+        // Zobrazenie sa tu nezapisuje — pošle ho až prehliadač cez view()
+        // (resources/js/article.js). Crawlery bez JS a session sa tak do
+        // počítadla nedostanú.
 
         return view('posts.show', [
             'post'    => $post,
             'series'  => $this->series($post),
             'isSaved' => (bool) auth()->user()?->savedPosts()->whereKey($post->id)->exists(),
         ] + $this->channelPanels($post));
+    }
+
+
+    /**
+     * Beacon zobrazenia z detailu príspevku. Odpoveď je vždy rovnaká, aby
+     * nebolo zvonku vidno, či sa zobrazenie započítalo.
+     */
+    public function view(Post $post, Request $request, ViewRecorder $recorder)
+    {
+        $recorder->record($post, $request);
+
+        return response()->noContent();
     }
 
 

@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\DB;
  *   - tabuľka `views` je len pamäť na to, či ten istý návštevník dnes už bol.
  *     Po 90 dňoch sa preriedi (app:views-prune), takže sa z nej dá čítať len
  *     „za posledných N dní", nie celková história.
+ *
+ * Oboje zapisuje App\Services\VisitModels\ViewRecorder, keď prehliadač pošle
+ * beacon na route post.view (resources/js/article.js).
  */
 trait HasViews
 {

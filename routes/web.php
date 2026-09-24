@@ -259,6 +259,11 @@ Route::middleware(['auth', 'checkBanned'])->group(function () {
 Route::middleware('bannedCanal')->group(function () {
     // Musí stáť pred post/{post}/{slug}, inak by ju pohltil zápis detailu.
     Route::get('post/{post}/kanal/dalsie', 'Public\PostController@rail')->name('post.rail');
+    // Beacon zobrazenia (resources/js/article.js). POST ide cez session a CSRF,
+    // takže crawler bez cookie skončí na 419 a do počítadla sa nedostane.
+    Route::post('post/{post}/zobrazenie', 'Public\PostController@view')
+        ->middleware('throttle:60,1')
+        ->name('post.view');
     // Slug je nepovinný: názvy bez písmen latinky (emoji, interpunkcia) dajú
     // prázdny Str::slug a príspevku sa potom nedala zostaviť adresa — route()
     // nechal {slug} nenahradený a zhodil celý výpis kariet.
