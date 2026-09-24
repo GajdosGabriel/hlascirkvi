@@ -53,7 +53,7 @@ class CanalTableRenameTest extends TestCase
 
     public function test_verejna_adresa_kanala_ostava_na_organizations(): void
     {
-        $canal = Canal::factory()->create(['published' => 1]);
+        $canal = Canal::factory()->create(['published' => now()]);
 
         $this->assertSame(url('/organizations/'.$canal->id), route('organizations.show', [$canal->id]));
 

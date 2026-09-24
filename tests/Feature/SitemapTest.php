@@ -22,7 +22,7 @@ class SitemapTest extends TestCase
 
         Schema::create('canals', function (Blueprint $table) {
             $table->id();
-            $table->boolean('published');
+            $table->dateTime('published')->nullable();
             $table->softDeletes();
         });
         Schema::create('posts', function (Blueprint $table) {
@@ -35,12 +35,13 @@ class SitemapTest extends TestCase
             $table->softDeletes();
         });
 
-        DB::table('canals')->insert(['id' => 1, 'published' => 1]);
+        DB::table('canals')->insert(['id' => 1, 'published' => now()]);
         foreach ([null, '', 'valid-slug', '0'] as $id => $slug) {
             DB::table('posts')->insert([
                 'id' => $id + 1,
                 'canal_id' => 1,
                 'slug' => $slug,
+                'video_available' => false,
             ]);
         }
 

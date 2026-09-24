@@ -18,7 +18,26 @@ class Prayer extends Model
 {
     use Notifiable, HasFactory, SoftDeletes, HasFavorites , HasComments, HasCanal, HasFilter, HasDatetime;
 
-    protected $casts = ['title' => \App\Casts\StringLength255::class];
+    protected $casts = [
+        'title' => \App\Casts\StringLength255::class,
+        'published' => 'datetime',
+        'fulfilled_at' => 'datetime',
+    ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $model) {
+            if (! array_key_exists('published', $model->getAttributes())) {
+                $model->published = now();
+            }
+        });
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->whereNotNull($this->qualifyColumn('published'));
+    }
+
     protected $guarded = ['id'];
     protected $appends = ['favoritesCount', 'isFavorited'];
     protected $with = ['favorites'];

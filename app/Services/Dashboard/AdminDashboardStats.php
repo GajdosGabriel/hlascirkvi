@@ -135,7 +135,7 @@ class AdminDashboardStats
         $row = DB::table('canals')
             ->whereNull('deleted_at')
             ->selectRaw('count(*) as total')
-            ->selectRaw('coalesce(sum(published = 1), 0) as published')
+            ->selectRaw('coalesce(sum(published is not null), 0) as published')
             ->selectRaw('coalesce(sum(created_at >= ?), 0) as new', [$now->subDays(self::WINDOW)])
             ->selectRaw('coalesce(sum(youtube_disabled_at is not null), 0) as youtube_off')
             ->first();
@@ -179,7 +179,7 @@ class AdminDashboardStats
             ->selectRaw('count(*) as total')
             ->selectRaw('coalesce(sum(created_at >= ?), 0) as new', [$from])
             ->selectRaw('coalesce(sum(created_at >= ? and created_at < ?), 0) as new_previous', [$prev, $from])
-            ->selectRaw('coalesce(sum(published = 0), 0) as unpublished')
+            ->selectRaw('coalesce(sum(published is null), 0) as unpublished')
             ->selectRaw('coalesce(sum(youtube_comment_id is not null), 0) as youtube')
             ->selectRaw('coalesce(sum(parent_id is not null), 0) as replies')
             ->first();

@@ -37,9 +37,9 @@
 
         $filterOptions = match (Route::currentRouteName()) {
             'admin.user.index', 'admin.logs.index' => [],
-            'admin.canal.index', 'admin.comment.index' => ['unpublished', 'deletedAt'],
+            'admin.comment.index' => ['unpublished', 'deletedAt'],
             'admin.post.index' => ['unpublished', 'deletedAt', 'videoAvailable'],
-            'admin.prayer.index' => ['fulfilled', 'deletedAt'],
+            'admin.prayer.index' => ['fulfilled', 'unpublished', 'deletedAt'],
             default => null,
         };
         // Filtre dlaždíc súhrnu — lišta ich musí pri hľadaní a výbere niesť ďalej.

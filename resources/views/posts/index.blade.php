@@ -161,8 +161,8 @@
                 <comments-card></comments-card>
                 <prayers-card></prayers-card>
 
-                <x-front-list-card kind="person" />
-                <x-front-list-card kind="community" />
+                <x-front-list-card type="personal" />
+                <x-front-list-card type="organization" />
             </aside>
         </div>
     </div>

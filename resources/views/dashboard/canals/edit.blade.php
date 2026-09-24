@@ -13,13 +13,13 @@
         // Po neúspešnej validácii sa formulár vracia s tým, čo užívateľ
         // poslal, nie s tým, čo je v databáze.
         $denomination = old('denomination', $canal->denomination?->value);
-        $kind         = old('kind', $canal->kind?->value);
+        $type         = old('type', $canal->type?->value);
         $section      = old('post_section', $canal->post_section?->value);
         $importDay    = old('import_day', $canal->import_day);
 
         $managerIds = collect(old('users', $canal->users->pluck('id')->all()))
             ->map(fn ($id) => (int) $id);
-        $published = (bool) old('published', $canal->published);
+        $published = old('published', $canal->published?->format('Y-m-d\TH:i:s'));
 
         $field = fn (string $name) => 'ar-field' . ($errors->has($name) ? ' ar-field--error' : '');
     @endphp
@@ -75,15 +75,15 @@
                     </div>
 
                     <div>
-                        <label class="ar-label" for="kind">Typ kanála</label>
-                        <select class="{{ $field('kind') }}" id="kind" name="kind">
+                        <label class="ar-label" for="type">Typ kanála</label>
+                        <select class="{{ $field('type') }}" id="type" name="type">
                             <option value="">Neurčený</option>
-                            @foreach ($kinds as $option)
-                                <option value="{{ $option->value }}" @selected($kind === $option->value)>{{ $option->label() }}</option>
+                            @foreach ($types as $option)
+                                <option value="{{ $option->value }}" @selected($type === $option->value)>{{ $option->label() }}</option>
                             @endforeach
                         </select>
                         <p class="ar-hint">Za kanálom stojí človek, alebo cirkev či spoločenstvo. Určuje, na ktorej karte úvodnej stránky sa kanál ukáže.</p>
-                        @error('kind') <p class="ar-error">{{ $message }}</p> @enderror
+                        @error('type') <p class="ar-error">{{ $message }}</p> @enderror
                     </div>
                 </div>
             </section>
@@ -198,14 +198,13 @@
                             @error('users') <p class="ar-error">{{ $message }}</p> @enderror
                         </div>
 
-                        <label class="ar-toggle">
-                            <input type="hidden" name="published" value="0">
-                            <input type="checkbox" name="published" value="1" @checked($published)>
-                            <span>
-                                <span class="block text-sm font-semibold">Kanál je zverejnený</span>
-                                <span class="ar-hint block">Nezverejnený kanál sa vo verejných výpisoch nezobrazuje.</span>
-                            </span>
-                        </label>
+                        <div>
+                            <label for="published" class="block text-sm font-semibold">Dátum zverejnenia</label>
+                            <input class="{{ $field('published') }}" type="datetime-local" step="1"
+                                   id="published" name="published" value="{{ $published }}">
+                            <p class="ar-hint">Prázdny dátum znamená nezverejnený kanál. Vyplnený dátum eviduje zverejnenie, neslúži na jeho plánovanie.</p>
+                            @error('published') <p class="ar-error">{{ $message }}</p> @enderror
+                        </div>
                     @else
                         <div class="flex flex-wrap gap-2">
                             @forelse ($canal->users as $manager)

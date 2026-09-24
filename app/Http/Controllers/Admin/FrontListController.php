@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\CanalKind;
+use App\Enums\CanalType;
 use App\Http\Controllers\Controller;
 use App\Models\Canal;
 use App\Services\FrontList\FrontList;
@@ -32,7 +32,7 @@ class FrontListController extends Controller
         return view('admins.frontlist.index', [
             'canals'  => $canals,
             'cardIds' => $this->frontList->cardIds($canals),
-            'kinds'   => CanalKind::options(),
+            'types'   => CanalType::options(),
             'hladane' => $hladane,
             'najdene' => $hladane === '' ? collect() : $this->search($hladane),
         ]);
@@ -42,25 +42,25 @@ class FrontListController extends Controller
     {
         $data = $request->validate([
             'canal' => ['required', 'integer'],
-            'kind'  => ['required', Rule::enum(CanalKind::class)],
+            'type'  => ['required', Rule::enum(CanalType::class)],
         ]);
 
         $canal = Canal::findOrFail($data['canal']);
 
-        $this->frontList->add($canal, CanalKind::from($data['kind']));
+        $this->frontList->add($canal, CanalType::from($data['type']));
 
         return back()->with('flash', 'Kanál „' . $canal->title . '“ je v prednom zozname.');
     }
 
-    public function updateKind(Request $request, Canal $canal)
+    public function updateType(Request $request, Canal $canal)
     {
         $data = $request->validate([
-            'kind' => ['required', Rule::enum(CanalKind::class)],
+            'type' => ['required', Rule::enum(CanalType::class)],
         ]);
 
-        $this->frontList->setKind($canal, CanalKind::from($data['kind']));
+        $this->frontList->setType($canal, CanalType::from($data['type']));
 
-        return back()->with('flash', 'Kanál „' . $canal->title . '“ je teraz: ' . $canal->kind->label() . '.');
+        return back()->with('flash', 'Kanál „' . $canal->title . '“ je teraz: ' . $canal->type->label() . '.');
     }
 
     public function destroy(Canal $canal)
@@ -81,6 +81,6 @@ class FrontListController extends Controller
             ->without('favorites')
             ->orderBy('title')
             ->limit(20)
-            ->get(['id', 'title', 'published', 'kind']);
+            ->get(['id', 'title', 'published', 'type']);
     }
 }

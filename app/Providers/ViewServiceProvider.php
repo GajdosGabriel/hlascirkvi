@@ -30,7 +30,7 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         // Predný zoznam („Kresťanské osobnosti", „Cirkvi a spoločenstvá") si
-        // dáta berie sám — <x-front-list-card kind="…" /> cez
+        // dáta berie sám — <x-front-list-card type="…" /> cez
         // App\Services\FrontList\FrontList.
 
         // Zrušené boli aj composery pre `canals.list-canals` a `posts.sviatok`.

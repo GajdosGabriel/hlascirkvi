@@ -15,6 +15,23 @@ class Comment extends Model
 {
     use SoftDeletes, HasFactory, HasFavorites, HasFilter, HasDatetime;
 
+    protected $casts = ['published' => 'datetime'];
+
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $model) {
+            if (! array_key_exists('published', $model->getAttributes())) {
+                $model->published = now();
+            }
+        });
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->whereNotNull($this->qualifyColumn('published'));
+    }
+
     protected $guarded= [];
     protected $hidden = ['commentable_type', 'updated_at', 'deleted_at'];
 

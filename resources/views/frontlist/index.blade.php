@@ -22,8 +22,8 @@
         </header>
 
         @forelse ($groups as $group)
-            <section id="{{ $group['kind']->anchor() }}" class="mb-10 scroll-mt-24">
-                <h2 class="mb-3 text-xl font-semibold">{{ $group['kind']->cardTitle() }}</h2>
+            <section id="{{ $group['type']->anchor() }}" class="mb-10 scroll-mt-24">
+                <h2 class="mb-3 text-xl font-semibold">{{ $group['type']->cardTitle() }}</h2>
 
                 <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($group['canals'] as $canal)

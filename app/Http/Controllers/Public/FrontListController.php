@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Public;
 
-use App\Enums\CanalKind;
+use App\Enums\CanalType;
 use App\Http\Controllers\Controller;
 use App\Services\FrontList\FrontList;
 
@@ -16,8 +16,8 @@ class FrontListController extends Controller
     public function index(FrontList $frontList)
     {
         return view('frontlist.index', [
-            'groups' => collect(CanalKind::cases())
-                ->map(fn (CanalKind $kind) => ['kind' => $kind, 'canals' => $frontList->all($kind)])
+            'groups' => collect(CanalType::cases())
+                ->map(fn (CanalType $type) => ['type' => $type, 'canals' => $frontList->all($type)])
                 ->filter(fn (array $group) => $group['canals']->isNotEmpty()),
         ]);
     }

@@ -40,7 +40,7 @@ class PrayerController extends Controller
      */
     protected function query()
     {
-        return Prayer::query()->when(
+        return Prayer::published()->when(
             auth()->check() && auth()->user()->hasRole('superadmin'),
             fn ($query) => $query->with('canal')
         );

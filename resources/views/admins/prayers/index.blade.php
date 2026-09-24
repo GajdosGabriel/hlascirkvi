@@ -47,6 +47,7 @@
 
                         </div>
                         <div>{{ $prayer->body }}</div>
+                        <div class="text-sm text-gray-400">Zverejnené: {{ $prayer->published?->format('j. n. Y H:i') ?? 'Nezverejnená' }}</div>
 
                         <div class="flex">
                             <div class="text-gray-400 text-sm font-semibold mr-4">Meno: {{ $prayer->user_name ?: '—' }}</div>

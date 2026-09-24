@@ -65,7 +65,7 @@ class CanalController extends Controller
             ->toBase()
             ->selectRaw('COUNT(*) as total')
             ->selectRaw('SUM(created_at >= ?) as fresh', [now()->subDays(CanalFilters::FRESH_DAYS)])
-            ->selectRaw('SUM(published = 0) as unpublished')
+            ->selectRaw('SUM(published is null) as unpublished')
             ->selectRaw('SUM(youtube_disabled_at IS NOT NULL) as youtube_off')
             ->whereNull('deleted_at')
             ->first();

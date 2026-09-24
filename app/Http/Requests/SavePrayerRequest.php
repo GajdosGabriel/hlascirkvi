@@ -52,6 +52,9 @@ class SavePrayerRequest extends FormRequest
             'title' => [ ...$title, ...$links],
             'body' => [ 'bail', 'required','min:3', ...$links],
             'user_name' => 'nullable|string|min:2|max:255',
+            'published' => $prayer && $this->user()->can('superadmin')
+                ? ['sometimes', 'nullable', 'date']
+                : ['exclude'],
         ];
     }
 }

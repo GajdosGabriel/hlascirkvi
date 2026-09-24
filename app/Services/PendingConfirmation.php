@@ -117,7 +117,7 @@ class PendingConfirmation
     {
         // Komentár, na ktorý sa odpovedalo, mohol byť medzitým zmazaný —
         // odpoveď potom ostane ako hlavný komentár.
-        if (! empty($data['parent_id']) && ! $post->comments()->whereKey($data['parent_id'])->exists()) {
+        if (! empty($data['parent_id']) && ! $post->comments()->published()->whereKey($data['parent_id'])->exists()) {
             $data['parent_id'] = null;
         }
 

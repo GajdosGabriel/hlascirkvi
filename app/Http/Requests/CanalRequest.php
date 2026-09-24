@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\CanalKind;
+use App\Enums\CanalType;
 use App\Enums\CanalSection;
 use App\Enums\Denomination;
 use App\Models\Canal;
@@ -77,7 +77,7 @@ class CanalRequest extends FormRequest
             'denomination'     => ['nullable', Rule::enum(Denomination::class)],
             // Osobnosť alebo cirkev/spoločenstvo — rozhoduje, na ktorej karte
             // predného zoznamu kanál stojí.
-            'kind'             => ['nullable', Rule::enum(CanalKind::class)],
+            'type'             => ['nullable', Rule::enum(CanalType::class)],
             'import_day'       => 'nullable|integer|between:0,6',
             'post_section'     => ['nullable', Rule::enum(CanalSection::class)],
             // `users` a `published` sa vykresľujú len v @can('superadmin') bloku
@@ -85,7 +85,7 @@ class CanalRequest extends FormRequest
             // Kontrolu role robí controller, tu ide len o tvar dát.
             'users'            => 'nullable|array',
             'users.*'          => 'integer|exists:users,id',
-            'published'        => 'nullable|boolean',
+            'published'        => 'nullable|date',
         ];
     }
 
@@ -164,8 +164,8 @@ class CanalRequest extends FormRequest
             ->except(['users', 'published', 'import_day', 'post_section'])
             ->all();
 
-        // Z dashboardu vzniká vždy organizácia; osobný kanál dostane
-        // užívateľ sám po overení e-mailu (UserActivation).
+        // Bez zadaného typu vznikne organizácia. Osobný kanál sa zakladá
+        // aj automaticky po overení e-mailu (UserActivation).
         return auth()->user()->canals()->create($data + ['type' => \App\Enums\CanalType::Organization]);
     }
 }

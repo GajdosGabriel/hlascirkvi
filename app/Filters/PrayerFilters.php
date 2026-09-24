@@ -16,12 +16,17 @@ use Illuminate\Http\Request;
 
 class PrayerFilters extends Filters
 {
-    protected $filters = ['search', 'fulfilled', 'deletedAt'];
+    protected $filters = ['search', 'fulfilled', 'unpublished', 'deletedAt'];
 
     public function search()
     {
         session()->flash('search', $this->request->search);
         return $this->builder->where('body', 'LIKE', $this->likePattern($this->request->search));
+    }
+
+    public function unpublished()
+    {
+        return $this->builder->whereNull('published');
     }
 
     public function fulfilled()

@@ -14,6 +14,17 @@
 <input name="user_name" placeholder="Anonimné meno" value="{{ old('user_name', $prayer->exists ? $prayer->user_name : auth()->user()->first_name) }}"
     class="w-full mb-2 border-2 rounded p-2 border-gray-300" maxlength="255" />
 
+@if ($prayer->exists)
+    @can('superadmin')
+        <label for="published">Dátum zverejnenia</label>
+        <input type="datetime-local" step="1" id="published" name="published"
+               value="{{ old('published', $prayer->published?->format('Y-m-d\TH:i:s')) }}"
+               class="w-full mb-2 border-2 rounded p-2 border-gray-300">
+        <p class="text-sm text-gray-500">Prázdny dátum modlitbu skryje. Dátum vypočutia zostáva nezmenený.</p>
+        @error('published') <p class="text-red-600">{{ $message }}</p> @enderror
+    @endcan
+@endif
+
 <x-dashboard.form-bar :cancel="route('profile.canals.prayers.index', $canal->id ?? auth()->user()->canal_id)"
     :submit="$prayer->exists ? 'Uložiť zmeny' : 'Pridať modlitbu'"
     :note="$prayer->exists ? 'Zmeny sa prejavia hneď po uložení.' : 'Modlitba sa pridá po kliknutí na tlačidlo.'" />

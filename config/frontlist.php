@@ -3,7 +3,7 @@
 /*
  * Predný zoznam kanálov — karty „Kresťanské osobnosti" a „Cirkvi
  * a spoločenstvá" v bočnom paneli. Kto v zozname je a akého je typu, drží
- * samotný kanál (`canals.front_listed_at`, `kind`), spravuje sa
+ * samotný kanál (`canals.front_listed_at`, `type`), spravuje sa
  * v /admin/front-list. Poradie na karte je automatické.
  */
 return [

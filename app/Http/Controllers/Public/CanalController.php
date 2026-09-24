@@ -30,7 +30,7 @@ class CanalController extends Controller
         // Len zverejnené — video čakajúce v bufferi sa inak objavilo na
         // kanáli skôr ako na titulke.
         $posts = $canal->posts()
-            ->published()
+            ->published()->available()
             ->when($year, fn ($query) => $query->whereYear('created_at', $year))
             ->when($month, fn ($query) => $query->whereMonth('created_at', $month))
             // Rovnaké prepínače ako na úvodnej stránke (odporúčané,

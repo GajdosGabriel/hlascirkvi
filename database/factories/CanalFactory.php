@@ -14,12 +14,11 @@ class CanalFactory extends Factory
         return [
             'title' => $this->faker->unique()->company,
             'village_id' => Village::factory(),
-            'published' => 1,
         ];
     }
 
     public function unpublished()
     {
-        return $this->state(fn () => ['published' => 0]);
+        return $this->state(fn () => ['published' => null]);
     }
 }

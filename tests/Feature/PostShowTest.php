@@ -49,6 +49,27 @@ class PostShowTest extends TestCase
             ->assertSee(route('post.show', [$parts[2]->id, $parts[2]->slug]), false);
     }
 
+    public function test_unavailable_video_keeps_detail_but_is_hidden_from_public_lists(): void
+    {
+        $post = Post::factory()->create(['video_id' => 'abcdefghijk', 'video_available' => false]);
+        $this->get(route('post.show', [$post->id, $post->slug]))
+            ->assertOk()
+            ->assertSee('Video je momentálne nedostupné')
+            ->assertDontSee('data-yt-lite="abcdefghijk"', false)
+            ->assertDontSee('VideoObject', false)
+            ->assertSee($post->title);
+
+        $repository = new \App\Repositories\Eloquent\EloquentPostRepository;
+        $this->assertFalse($repository->postsInSection(\App\Enums\PostSection::Front)->whereKey($post->id)->exists());
+        $this->assertSame(0, $repository->countInCanal($post->canal_id));
+        $this->get(route('organizations.show', [$post->canal_id]))->assertOk()->assertViewHas('posts', fn ($posts) => $posts->isEmpty());
+        foreach ([null, true] as $available) {
+            $post->update(['video_available' => $available]);
+            $this->assertTrue($repository->postsInSection(\App\Enums\PostSection::Front)->whereKey($post->id)->exists());
+            $this->assertSame(1, $repository->countInCanal($post->canal_id));
+        }
+    }
+
     public function test_bez_serie_sa_lista_nezobrazi(): void
     {
         $post = Post::factory()->create();

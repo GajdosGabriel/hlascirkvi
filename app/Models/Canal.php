@@ -30,16 +30,25 @@ class Canal extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
+        'published' => 'datetime',
         'title' => \App\Casts\StringLength255::class,
         'url_www' => \App\Casts\Urlwww::class,
         'youtube_disabled_at' => 'datetime',
         'front_listed_at' => 'datetime',
         'denomination' => \App\Enums\Denomination::class,
-        'kind' => \App\Enums\CanalKind::class,
         'type' => \App\Enums\CanalType::class,
         'post_section' => \App\Enums\CanalSection::class,
         'import_day' => 'integer',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $canal) {
+            if (! array_key_exists('published', $canal->getAttributes())) {
+                $canal->published = now();
+            }
+        });
+    }
 
     /**
      * Dni, v ktoré denný beh hľadá kanál na YouTube podľa mena. Číslovanie
@@ -97,14 +106,14 @@ class Canal extends Model
      * Kanály predného zoznamu, abecedne. Poradie na karte v bočnom paneli
      * určuje záujem návštevníkov (App\Services\FrontList\FrontList).
      *
-     * Zmazaný kanál odfiltruje SoftDeletes, skrytý (`published` = 0) táto
+     * Zmazaný kanál odfiltruje SoftDeletes, skrytý (`published` IS NULL) táto
      * podmienka. Pôvodný surový dopyt nekontroloval ani jedno a zoznam takýto
      * kanál pokojne ponúkal ďalej.
      */
     public function scopeOnFrontList($query)
     {
         return $query->whereNotNull('front_listed_at')
-            ->where('published', 1)
+            ->whereNotNull('published')
             ->orderBy('title');
     }
 

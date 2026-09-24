@@ -152,7 +152,7 @@ class DailyReadings
                     }
                 })
                 // Príspevok vypnutého kanála detail odmietne — nemá zmysel naň odkazovať.
-                ->whereIn('canal_id', Canal::query()->where('published', 1)->select('id'))
+                ->whereIn('canal_id', Canal::query()->whereNotNull('published')->select('id'))
                 ->orderByDesc('count_view')
                 ->limit($limit - count($found))
                 ->get(['id', 'slug', 'title', 'canal_id', 'published_at']);

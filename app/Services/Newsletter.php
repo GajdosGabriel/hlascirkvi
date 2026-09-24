@@ -72,7 +72,7 @@ class Newsletter
     {
         return [
             'posts' => (new EloquentPostRepository)->newlleterMostVisited()->take(5)->get(),
-            'prayers' => Prayer::latest()->take(5)->get(),
+            'prayers' => Prayer::published()->latest()->take(5)->get(),
         ];
     }
 }

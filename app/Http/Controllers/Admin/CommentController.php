@@ -101,7 +101,7 @@ class CommentController extends Controller
             ->selectRaw('coalesce(sum(created_at >= ?), 0) as week', [now()->subDays(7)])
             ->selectRaw('coalesce(sum(youtube_comment_id is not null), 0) as youtube')
             ->selectRaw('coalesce(sum(parent_id is not null), 0) as replies')
-            ->selectRaw('coalesce(sum(published = 0), 0) as unpublished')
+            ->selectRaw('coalesce(sum(published is null), 0) as unpublished')
             ->first();
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\CanalKind;
+use App\Enums\CanalType;
 use App\Enums\Denomination;
 use App\Models\Canal;
 use App\Services\Youtube\ChannelId;
@@ -40,30 +40,30 @@ class YoutubeChannelsSync extends Command
     private function channels(): array
     {
         $catholic = Denomination::Catholic;
-        $community = CanalKind::Community;
-        $person = CanalKind::Person;
+        $community = CanalType::Organization;
+        $person = CanalType::Personal;
 
         return [
             // Aktualizácia existujúcich
-            ['id' => 270, 'title' => 'Bratislavské Hanusove Dni', 'source' => '@HanusoveDni', 'kind' => $community, 'denomination' => $catholic, 'clear_playlist' => true],
-            ['id' => 755, 'title' => 'EVS', 'source' => '@EVSchcemviac', 'kind' => $community, 'denomination' => Denomination::Evangelical],
-            ['id' => 15, 'title' => 'Kuffa Marian', 'source' => '@mariankuffa-prednaskyakazn5504', 'kind' => $person, 'denomination' => $catholic, 'review' => 'fanúšikovský kanál, osobnosť sa dnes hľadá podľa mena'],
+            ['id' => 270, 'title' => 'Bratislavské Hanusove Dni', 'source' => '@HanusoveDni', 'type' => $community, 'denomination' => $catholic, 'clear_playlist' => true],
+            ['id' => 755, 'title' => 'EVS', 'source' => '@EVSchcemviac', 'type' => $community, 'denomination' => Denomination::Evangelical],
+            ['id' => 15, 'title' => 'Kuffa Marian', 'source' => '@mariankuffa-prednaskyakazn5504', 'type' => $person, 'denomination' => $catholic, 'review' => 'fanúšikovský kanál, osobnosť sa dnes hľadá podľa mena'],
 
             // Nové — spoločenstvá a médiá
-            ['title' => 'Rádio Lumen', 'source' => '@radiolumen4642', 'kind' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
-            ['title' => 'Rádio Mária Slovensko', 'source' => 'https://www.youtube.com/radiomariaslovensko', 'kind' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
-            ['title' => 'Katolícke noviny', 'source' => 'UCjSzUTjmcdQGoHSH63nknlA', 'kind' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
-            ['title' => 'Zachej', 'source' => '@ZachejSk', 'kind' => $community, 'denomination' => $catholic],
-            ['title' => 'Komunita Emanuel', 'source' => 'UCJAK7iG2vlBlHJKbRIKuXow', 'kind' => $community, 'denomination' => $catholic],
-            ['title' => 'Dominikáni Zvolen', 'source' => 'UC0l280timGFEAREcsWL5neg', 'kind' => $community, 'denomination' => $catholic],
-            ['title' => 'Kláštor kapucínov Bratislava', 'source' => 'UCla0QDqraH3xzCMnqXWA_Sw', 'kind' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
-            ['title' => 'Dóm sv. Martina', 'source' => 'UCUK74ySS52sCTDLCld_sM3g', 'kind' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
-            ['title' => 'TV Noe', 'source' => '@tv_noe', 'kind' => $community, 'denomination' => $catholic],
-            ['title' => 'Radio Proglas', 'source' => 'UCMGxWQFuxt50mlCE0D1G7sA', 'kind' => $community, 'denomination' => $catholic],
+            ['title' => 'Rádio Lumen', 'source' => '@radiolumen4642', 'type' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
+            ['title' => 'Rádio Mária Slovensko', 'source' => 'https://www.youtube.com/radiomariaslovensko', 'type' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
+            ['title' => 'Katolícke noviny', 'source' => 'UCjSzUTjmcdQGoHSH63nknlA', 'type' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
+            ['title' => 'Zachej', 'source' => '@ZachejSk', 'type' => $community, 'denomination' => $catholic],
+            ['title' => 'Komunita Emanuel', 'source' => 'UCJAK7iG2vlBlHJKbRIKuXow', 'type' => $community, 'denomination' => $catholic],
+            ['title' => 'Dominikáni Zvolen', 'source' => 'UC0l280timGFEAREcsWL5neg', 'type' => $community, 'denomination' => $catholic],
+            ['title' => 'Kláštor kapucínov Bratislava', 'source' => 'UCla0QDqraH3xzCMnqXWA_Sw', 'type' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
+            ['title' => 'Dóm sv. Martina', 'source' => 'UCUK74ySS52sCTDLCld_sM3g', 'type' => $community, 'denomination' => $catholic, 'village_id' => self::BRATISLAVA],
+            ['title' => 'TV Noe', 'source' => '@tv_noe', 'type' => $community, 'denomination' => $catholic],
+            ['title' => 'Radio Proglas', 'source' => 'UCMGxWQFuxt50mlCE0D1G7sA', 'type' => $community, 'denomination' => $catholic],
 
             // Nové — osobnosti
-            ['title' => 'Heryán Ladislav', 'source' => '@ladisdb', 'kind' => $person, 'denomination' => $catholic],
-            ['title' => 'Vácha Marek Orko', 'source' => '@marekvacha3974', 'kind' => $person, 'denomination' => $catholic, 'review' => 'neoverené, či je kanál oficiálny'],
+            ['title' => 'Heryán Ladislav', 'source' => '@ladisdb', 'type' => $person, 'denomination' => $catholic],
+            ['title' => 'Vácha Marek Orko', 'source' => '@marekvacha3974', 'type' => $person, 'denomination' => $catholic, 'review' => 'neoverené, či je kanál oficiálny'],
         ];
     }
 
@@ -137,7 +137,7 @@ class YoutubeChannelsSync extends Command
     {
         $attributes = [
             'youtube_channel' => $channelId,
-            'kind' => $entry['kind'],
+            'type' => $entry['type'],
             'denomination' => $entry['denomination'],
             'youtube_disabled_at' => null,
             'youtube_disabled_reason' => null,
@@ -156,7 +156,6 @@ class YoutubeChannelsSync extends Command
         $canal = Canal::create($attributes + [
             'title' => $entry['title'],
             'village_id' => $entry['village_id'] ?? self::CELE_SLOVENSKO,
-            'published' => 1,
             'type' => \App\Enums\CanalType::Organization,
         ]);
 

@@ -22,9 +22,9 @@
 
                 // Dlaždica prepína svoj filter: klik na zapnutú ho vypne.
                 // Radenie a hľadanie ostávajú, stránkovanie sa zahodí.
-                $toggle = fn (string $key) => route('admin.canal.index', request()->has($key)
-                    ? request()->except([$key, 'page'])
-                    : array_merge(request()->except(['page', 'month']), [$key => 1]));
+                $toggle = fn (string $key) => route('admin.canal.index', (request()->has($key) || ($key === 'unpublished' && request('publication') === 'unpublished'))
+                    ? request()->except($key === 'unpublished' ? [$key, 'page', 'publication'] : [$key, 'page'])
+                    : array_merge(request()->except($key === 'unpublished' ? ['page', 'month', 'publication'] : ['page', 'month']), [$key => 1]));
 
                 $tiles = [
                     ['key' => null, 'label' => 'Kanálov spolu', 'value' => $summary->total, 'note' => 'bez zrušených'],
@@ -40,11 +40,53 @@
                 $activeMonth = request('month');
             @endphp
 
+            {{-- Hľadanie a radenie. Zapnuté filtre dlaždíc sa prenášajú skrytými poľami. --}}
+            <form method="GET" action="{{ route('admin.canal.index') }}"
+                  class="ar-canal-search mb-5" role="search">
+                <select name="publication" class="form-control ar-canal-search__sort"
+                        aria-label="{{ __('canal.filter.label') }}" onchange="this.form.submit()">
+                    @foreach (__('canal.filter.options') as $key => $label)
+                        <option value="{{ $key }}" @selected(request('publication', request('deletedAt') ? 'deletedAt' : (request('unpublished') ? 'unpublished' : '')) === (string) $key)>{{ $label }}</option>
+                    @endforeach
+                </select>
+                <select name="type" class="form-control ar-canal-search__sort"
+                        aria-label="{{ __('canal.type.label') }}" onchange="this.form.submit()">
+                    <option value="">{{ __('canal.type.all') }}</option>
+                    @foreach (\App\Enums\CanalType::cases() as $type)
+                        <option value="{{ $type->value }}" @selected(request('type') === $type->value)>{{ __('canal.type.options.' . $type->value) }}</option>
+                    @endforeach
+                </select>
+                @foreach (request()->except(['search', 'sort', 'page', 'publication', 'unpublished', 'deletedAt', 'type']) as $key => $value)
+                    @if (is_scalar($value))
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endif
+                @endforeach
+
+                <input type="search" name="search" value="{{ request('search') }}"
+                       placeholder="Hľadať kanál podľa názvu"
+                       class="form-control ar-canal-search__input"
+                       aria-label="Hľadať kanál">
+
+                <select name="sort" class="form-control ar-canal-search__sort" aria-label="Radenie"
+                        onchange="this.form.submit()">
+                    @foreach (\App\Filters\CanalFilters::SORTS as $value => $label)
+                        <option value="{{ $value }}" @selected(request('sort', 'newest') === $value)>{{ $label }}</option>
+                    @endforeach
+                </select>
+
+                <button type="submit" class="ar-btn ar-btn--quiet">Hľadať</button>
+
+                <span class="ml-auto text-xs text-[color:var(--ar-ink-soft)]">
+                    {{ $num($canals->total()) }} {{ $canals->total() === 1 ? 'kanál' : ($canals->total() >= 2 && $canals->total() <= 4 ? 'kanály' : 'kanálov') }} vo výbere
+
+                </span>
+            </form>
+
             {{-- Súhrn: každé číslo je zároveň filter výpisu. --}}
             <div class="ar-canal-tiles mb-6">
                 @foreach ($tiles as $tile)
                     @php
-                        $active = $tile['key'] ? request()->has($tile['key']) : ! request()->hasAny(array_filter(array_column($tiles, 'key')));
+                        $active = $tile['key'] ? (request()->has($tile['key']) || ($tile['key'] === 'unpublished' && request('publication') === 'unpublished')) : ! request()->hasAny(array_filter(array_column($tiles, 'key')));
                         $href = $tile['key'] ? $toggle($tile['key']) : route('admin.canal.index', request()->only(['search', 'sort']));
                     @endphp
                     <a href="{{ $href }}" @class(['ar-kpi', 'is-active' => $active])>
@@ -87,39 +129,6 @@
                     </div>
                 </div>
             </div>
-
-            {{-- Hľadanie a radenie. Zapnuté filtre dlaždíc sa prenášajú skrytými poľami. --}}
-            <form method="GET" action="{{ route('admin.canal.index') }}"
-                  class="ar-canal-search mb-4">
-                @foreach (request()->except(['search', 'sort', 'page']) as $key => $value)
-                    @if (is_scalar($value))
-                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                    @endif
-                @endforeach
-
-                <input type="search" name="search" value="{{ request('search') }}"
-                       placeholder="Hľadať kanál podľa názvu"
-                       class="form-control ar-canal-search__input"
-                       aria-label="Hľadať kanál">
-
-                <select name="sort" class="form-control ar-canal-search__sort" aria-label="Radenie"
-                        onchange="this.form.submit()">
-                    @foreach (\App\Filters\CanalFilters::SORTS as $value => $label)
-                        <option value="{{ $value }}" @selected(request('sort', 'newest') === $value)>{{ $label }}</option>
-                    @endforeach
-                </select>
-
-                <button type="submit" class="ar-btn ar-btn--quiet">Hľadať</button>
-
-                <span class="ml-auto text-xs text-[color:var(--ar-ink-soft)]">
-                    {{ $num($canals->total()) }} {{ $canals->total() === 1 ? 'kanál' : ($canals->total() >= 2 && $canals->total() <= 4 ? 'kanály' : 'kanálov') }} vo výbere
-                    @if (! request()->has('deletedAt'))
-                        · <a href="{{ route('admin.canal.index', ['deletedAt' => 1]) }}" class="ar-link">zrušené</a>
-                    @else
-                        · <a href="{{ route('admin.canal.index') }}" class="ar-link">späť na aktívne</a>
-                    @endif
-                </span>
-            </form>
 
             <x-canal.list :canals="$canals" :admin="true" />
 

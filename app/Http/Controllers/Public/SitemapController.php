@@ -105,7 +105,7 @@ class SitemapController extends Controller
     public function canals(): Response
     {
         $xml = Cache::remember('sitemap:canals', static::TTL, function () {
-            $urls = Canal::where('published', 1)
+            $urls = Canal::whereNotNull('published')
                 ->orderBy('id')
                 ->get(['id', 'updated_at'])
                 ->map(fn ($canal) => [
@@ -151,19 +151,14 @@ class SitemapController extends Controller
         return $this->xml($xml);
     }
 
-    /**
-     * Do mapy patrí to isté, čo je verejne dostupné: príspevok vypnutého
-     * kanála detail odmietne (405) a video, ktoré na YouTube zmizlo, nemá
-     * návštevníkovi čo ponúknuť.
-     */
+    /** Aj archívne stránky nedostupných videí ostávajú na pôvodnej URL. */
     protected function postsQuery()
     {
         return Post::query()
             // A post without a slug has no valid detail URL. Filter before pagination.
             ->whereNotNull('slug')
             ->where('slug', '<>', '')
-            ->whereNull('video_available')
-            ->whereHas('canal', fn ($query) => $query->where('published', 1));
+            ->whereHas('canal', fn ($query) => $query->whereNotNull('published'));
     }
 
     protected function urlset(array $urls): string

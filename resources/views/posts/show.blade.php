@@ -6,6 +6,8 @@
      * Pri videu je úvodný obrázok zbytočný — miesto nad titulkom patrí
      * prehrávaču.
      */
+    $videoUnavailable = $post->video_id && $post->video_available === false;
+    $playableVideo = $post->video_id && ! $videoUnavailable;
     $images   = $post->images;
     $lead     = $post->video_id ? null : $images->first();
     // Prvý obrázok je pri videu jeho náhľad a pri článku už visí nad textom;
@@ -49,7 +51,7 @@
 
     $schema = [
         '@context'      => 'https://schema.org',
-        '@type'         => $post->video_id ? 'VideoObject' : 'Article',
+        '@type'         => $playableVideo ? 'VideoObject' : 'Article',
         'name'          => $post->title,
         'headline'      => \Illuminate\Support\Str::limit($post->title, 110, ''),
         'description'   => \Illuminate\Support\Str::limit($description, 300),
@@ -67,10 +69,10 @@
     ];
 
     if ($ogImage) {
-        $schema[$post->video_id ? 'thumbnailUrl' : 'image'] = $ogImage;
+        $schema[$playableVideo ? 'thumbnailUrl' : 'image'] = $ogImage;
     }
 
-    if ($post->video_id) {
+    if ($playableVideo) {
         // uploadDate je pri VideoObject povinný a duration musí byť v ISO 8601
         // (PT12M3S) — presne v tvare, v akom hodnota leží v databáze. Cast
         // VideoDuration ju pre šablóny prepisuje na „12:03".
@@ -104,7 +106,7 @@
         'section'     => 'Kázne a videá',
         // Facebook prehrá video priamo v príspevku, keď mu dáme adresu vloženého
         // prehrávača; bez nej vykreslí len obrázok s odkazom.
-        'video'       => $post->video_id
+        'video'       => $playableVideo
             ? ['url' => 'https://www.youtube.com/embed/' . $post->video_id]
             : null,
         'jsonld'      => [
@@ -208,7 +210,13 @@
     <div class="mx-auto max-w-6xl px-4 py-8">
 
         {{-- Médium: prehrávač alebo úvodná fotka --}}
-        @if ($post->video_id)
+        @if ($videoUnavailable)
+            <section class="mb-8 rounded-lg border border-[color:var(--ar-line)] p-6" aria-labelledby="video-unavailable-title">
+                <h2 id="video-unavailable-title" class="text-xl font-semibold">Video je momentálne nedostupné</h2>
+                <p class="mt-2">Toto video sa momentálne nedá prehrať na našom webe. Názov, popis a diskusia zostávajú dostupné.</p>
+                <a href="{{ $canalUrl }}" class="ar-btn mt-4">Pozrieť ďalšie videá z tohto kanála</a>
+            </section>
+        @elseif ($playableVideo)
             <div class="mb-8 overflow-hidden rounded-lg border border-[color:var(--ar-line)] bg-black">
                 {{-- Náhľad s tlačidlom namiesto iframe: prehrávač YouTube pri
                      načítaní stiahne okolo megabajtu skriptov aj návštevníkovi,

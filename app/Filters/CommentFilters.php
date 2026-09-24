@@ -26,7 +26,7 @@ class CommentFilters extends Filters
 
     public function unpublished($value)
     {
-        $this->builder->where('published', 0);
+        return $this->builder->whereNull('published');
     }
 
     public function deletedAt()

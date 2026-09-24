@@ -32,8 +32,34 @@ class CanalFilters extends Filters
         'title' => 'Podľa názvu',
     ];
 
-    protected $filters = ['search', 'unpublished', 'deletedAt', 'fresh', 'orphans', 'silent', 'youtubeOff', 'month', 'sort'];
+    protected $filters = ['search', 'type', 'unpublished', 'deletedAt', 'fresh', 'orphans', 'silent', 'youtubeOff', 'month', 'sort'];
 
+    public function type($value)
+    {
+        if (! is_string($value) || ! in_array($value, \App\Enums\CanalType::values(), true)) {
+            return $this->builder;
+        }
+
+        return $this->builder->where('canals.type', $value);
+    }
+    public function getFilters()
+    {
+        $filters = parent::getFilters();
+        if ($this->request->has('publication')) {
+            unset($filters['unpublished'], $filters['deletedAt']);
+            $value = $this->request->query('publication');
+            if (in_array($value, ['unpublished', 'deletedAt', 'published'], true)) {
+                $filters[$value] = 1;
+            }
+        }
+
+        return $filters;
+    }
+
+    public function published()
+    {
+        return $this->builder->whereNotNull('published');
+    }
     public function search()
     {
         session()->flash('search', $this->request->search);
@@ -45,7 +71,7 @@ class CanalFilters extends Filters
 
     public function unpublished()
     {
-         return $this->builder->wherePublished(0);
+         return $this->builder->whereNull('published');
     }
 
     public function deletedAt()

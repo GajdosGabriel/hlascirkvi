@@ -29,6 +29,7 @@ class PrayerResource extends JsonResource
             'favoritesCount' => $this->favoritesCount,
             'isFavorited' => $this->isFavorited,
             'fulfilled_at' => $this->fulfilled_at,
+            'published' => $this->published,
             'created_at' => $this->created_at,
             'created_at_humans' => $this->created_at->diffForHumans(),
         ];

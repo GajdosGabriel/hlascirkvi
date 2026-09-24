@@ -17,7 +17,9 @@ class CommentController extends Controller
         // CommentResource siaha na commentable (slug, titulok) aj na autora.
         // Bez eager loadu si každý zo siedmich komentárov vypýtal vlastný
         // príspevok, jeho obrázky, kanál a užívateľa s rolami.
-        $comments = Comment::with(['commentable', 'user'])
+        $comments = Comment::published()->with(['commentable', 'user'])->where(function ($query) {
+                $query->whereNull('parent_id')->orWhereHas('parent', fn ($parent) => $parent->published());
+            })
             ->latest()
             ->take(7)
             ->get();

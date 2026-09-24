@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Canal;
 
-use App\Enums\CanalKind;
+use App\Enums\CanalType;
 use App\Enums\CanalSection;
 use App\Enums\Denomination;
 use App\Models\User;
@@ -29,7 +29,7 @@ class CanalController extends Controller
         return view('dashboard.canals.create', [
             'villages' => Village::orderBy('fullname')->get(['id', 'fullname', 'zip']),
             'denominations' => Denomination::options(),
-            'kinds' => CanalKind::options(),
+            'types' => CanalType::options(),
         ]);
     }
 
@@ -90,7 +90,7 @@ class CanalController extends Controller
             // Zaradenie, smerovanie videí a deň importu sú dnes stĺpce kanála
             // s pevným číselníkom — netreba pre ne dopyt do databázy.
             'denominations' => Denomination::options(),
-            'kinds' => CanalKind::options(),
+            'types' => CanalType::options(),
             'sections' => CanalSection::options(),
             'importDays' => Canal::IMPORT_DAYS,
             // Zoznam všetkých užívateľov potrebuje len superadmin (výber správcov).
@@ -144,7 +144,7 @@ class CanalController extends Controller
             }
 
             if ($request->has('published')) {
-                $canal->update(['published' => $request->boolean('published')]);
+                $canal->update(['published' => $request->validated('published')]);
             }
         }
 

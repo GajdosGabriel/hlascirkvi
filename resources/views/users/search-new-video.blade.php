@@ -11,8 +11,8 @@
 
         <div class="page-aside">
             {{--@include('users.user-card')--}}
-            <x-front-list-card kind="person" />
-            <x-front-list-card kind="community" />
+            <x-front-list-card type="personal" />
+            <x-front-list-card type="organization" />
         </div>
     </div>
 

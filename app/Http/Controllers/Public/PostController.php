@@ -93,7 +93,7 @@ class PostController extends Controller
 
         $parts = $seminar->posts()
             ->without(['favorites', 'images', 'canal'])
-            ->published()
+            ->published()->available()
             ->orderBy('posts.id')
             ->get(['posts.id', 'posts.title', 'posts.slug', 'posts.video_duration']);
 

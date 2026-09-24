@@ -53,7 +53,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->where('posts.section', $section->value)
             ->whereNotNull('posts.published_at')
             ->whereNull('posts.deleted_at')
-            ->whereNull('posts.video_available')
+            ->where(fn ($query) => $query->whereNull('posts.video_available')->orWhere('posts.video_available', true))
             ->where('posts.youtube_blocked', 0)
             ->select('posts.id')
             ->selectRaw('row_number() over (partition by posts.canal_id order by posts.id desc) as poradie');
@@ -73,7 +73,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     {
         return $this->entity->published()
             ->section($section)
-            ->whereNull('video_available');
+            ->available();
     }
 
     protected function unpublished()
@@ -102,7 +102,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
         return \DB::table('posts')
             ->whereNull('posts.deleted_at')
             ->where('posts.youtube_blocked', 0)
-            ->whereNull('posts.video_available')
+            ->where(fn ($query) => $query->whereNull('posts.video_available')->orWhere('posts.video_available', true))
             ->whereNull('posts.published_at')
             // Príspevky pozastaveného kanála v bufferi ostávajú, publisher ich
             // však nevidí — nezverejní ich ani nezapočíta do denného plánu.
@@ -175,7 +175,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
     {
         return $this->entity->whereCanalId($canalId)
             ->unpublished()
-            ->whereNull('video_available')
+            ->available()
             ->when($freshSince, fn ($query) => $query->where('created_at', '>=', $freshSince))
             ->orderBy('created_at')
             ->orderBy('id')
@@ -264,7 +264,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      */
     protected function inCanal($canalId)
     {
-        return $this->entity->whereCanalId($canalId)->published();
+        return $this->entity->whereCanalId($canalId)->published()->available();
     }
 
     /**
@@ -322,6 +322,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
             ->whereNotNull('published_at')
+            ->where(fn ($query) => $query->whereNull('video_available')->orWhere('video_available', true))
             ->selectRaw('count(*) as posts_count')
             ->selectRaw('coalesce(sum(count_view), 0) as views_sum')
             ->selectRaw('min(created_at) as first_at')
@@ -341,6 +342,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->where('youtube_blocked', 0)
             ->whereNull('deleted_at')
             ->whereNotNull('published_at')
+            ->where(fn ($query) => $query->whereNull('video_available')->orWhere('video_available', true))
             ->selectRaw('year(created_at) as rok, month(created_at) as mesiac, count(*) as pocet')
             ->groupBy('rok', 'mesiac')
             ->orderBy('rok')
@@ -388,6 +390,8 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
             ->where('posts.canal_id', $canalId)
             ->where('posts.youtube_blocked', 0)
             ->whereNotNull('posts.published_at')
+            ->where(fn ($query) => $query->whereNull('posts.video_available')->orWhere('posts.video_available', true))
+            ->whereNotNull('comments.published')
             ->whereNull('comments.deleted_at')
             ->whereNull('posts.deleted_at');
     }
@@ -398,7 +402,7 @@ class EloquentPostRepository extends AbstractRepository implements PostRepositor
      */
     public function newlleterMostVisited()
     {
-        return $this->entity->where('created_at', '>', Carbon::now()->subDays(30))
+        return $this->entity->published()->available()->where('created_at', '>', Carbon::now()->subDays(30))
         ->orderByViewsInPeriod(30);
     }
 }

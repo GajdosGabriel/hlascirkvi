@@ -18,6 +18,8 @@ class SeminarController extends Controller
 
     public function show(Seminar $seminar)
     {
+        $seminar->load(['posts' => fn ($query) => $query->published()->available()]);
+
         return view('seminars.show', compact('seminar'));
     }
 

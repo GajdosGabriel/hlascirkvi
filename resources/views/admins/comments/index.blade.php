@@ -72,7 +72,7 @@
                                 @if ($comment->parent_id)
                                     <span class="ar-badge ar-badge--count"><i class="fas fa-reply"></i> odpoveď</span>
                                 @endif
-                                @if ((int) $comment->published === 0)
+                                @if ($comment->published === null)
                                     <span class="ar-badge ar-badge--warn">neschválený</span>
                                 @endif
                                 @if ($comment->trashed())

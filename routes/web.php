@@ -200,7 +200,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     // modelom — zaradenie a typ sú stĺpce kanála, preto vlastné routy.
     Route::get('front-list', 'Admin\FrontListController@index')->name('frontlist.index');
     Route::post('front-list', 'Admin\FrontListController@store')->name('frontlist.store');
-    Route::put('front-list/{canal}/kind', 'Admin\FrontListController@updateKind')->name('frontlist.kind');
+    Route::put('front-list/{canal}/type', 'Admin\FrontListController@updateType')->name('frontlist.type');
     Route::delete('front-list/{canal}', 'Admin\FrontListController@destroy')->name('frontlist.destroy');
 
     /*

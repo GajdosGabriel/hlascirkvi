@@ -33,7 +33,7 @@ class HomeController extends Controller
         // si každý seminár vypýtal svoje príspevky — aj s ich obrázkami,
         // kanálmi a obľúbenými — vlastnou sériou dopytov.
         $seminars = Seminar::whereNotNull('published')
-            ->with('posts')
+            ->with(['posts' => fn ($query) => $query->published()->available()])
             ->orderBy('created_at', 'desc')
             ->get();
 

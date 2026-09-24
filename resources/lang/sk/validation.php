@@ -164,7 +164,7 @@ return [
         'description' => 'Popis',
         'village_id' => 'Mesto / obec',
         'denomination' => 'Cirkev / zaradenie',
-        'kind' => 'Typ kanála',
+        'type' => 'Typ kanála',
         'phone' => 'Telefón',
         'url_www' => 'Webová stránka',
         'youtube_channel' => 'ID kanála YouTube',

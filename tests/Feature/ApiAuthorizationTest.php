@@ -239,18 +239,18 @@ class ApiAuthorizationTest extends TestCase
         [$owner, $canal] = $this->userWithCanal();
         [$cudzi] = $this->userWithCanal();
 
-        $canal->update(['published' => 1]);
+        $canal->update(['published' => '2026-09-20 12:30:00']);
 
         $this->actingAs($owner)
             ->put("/dashboard/canals/{$canal->id}", [
                 'title' => $canal->title,
                 'village_id' => $canal->village_id,
-                'published' => 0,
+                'published' => null,
                 'users' => [$cudzi->id],
             ])
             ->assertRedirect();
 
-        $this->assertDatabaseHas('canals', ['id' => $canal->id, 'published' => 1]);
+        $this->assertDatabaseHas('canals', ['id' => $canal->id, 'published' => '2026-09-20 12:30:00']);
         $this->assertDatabaseMissing('canal_user', [
             'canal_id' => $canal->id,
             'user_id' => $cudzi->id,

@@ -28,6 +28,40 @@ class AdminCanalListTest extends TestCase
         $this->admin->assignRole(['admin', 'superadmin']);
     }
 
+    public function test_publication_select_filters_channels(): void
+    {
+        Canal::factory()->create(['title' => 'Visible channel', 'published' => now()]);
+        Canal::factory()->create(['title' => 'Hidden channel', 'published' => null]);
+        Canal::factory()->create(['title' => 'Deleted channel'])->delete();
+
+        foreach (['published' => 'Visible channel', 'unpublished' => 'Hidden channel', 'deletedAt' => 'Deleted channel'] as $status => $title) {
+            $response = $this->actingAs($this->admin)->get(route('admin.canal.index', ['publication' => $status]));
+            $response->assertOk()->assertSee($title);
+            foreach (array_diff(['Visible channel', 'Hidden channel', 'Deleted channel'], [$title]) as $other) {
+                $response->assertDontSee($other);
+            }
+        }
+    }
+    public function test_type_filter_combines_with_publication_and_search(): void
+    {
+        Canal::factory()->create(['title' => 'Test organization', 'type' => 'organization', 'published' => now()]);
+        Canal::factory()->create(['title' => 'Test personal', 'type' => 'personal', 'published' => now()]);
+        Canal::factory()->create(['title' => 'Test hidden', 'type' => 'personal', 'published' => null]);
+
+        foreach (['organization', 'personal'] as $type) {
+            $this->actingAs($this->admin)
+                ->get(route('admin.canal.index', ['type' => $type, 'publication' => 'published', 'search' => 'Test']))
+                ->assertOk()
+                ->assertSee('Test ' . $type)
+                ->assertDontSee('Test ' . ($type === 'personal' ? 'organization' : 'personal'))
+                ->assertDontSee('Test hidden');
+        }
+
+        foreach (['', 'invalid'] as $type) {
+            $this->actingAs($this->admin)->get(route('admin.canal.index', ['type' => $type]))
+                ->assertOk()->assertSee('Test organization')->assertSee('Test personal');
+        }
+    }
     public function test_karta_ukazuje_registraciu_obsah_a_spravcu(): void
     {
         $canal = Canal::factory()->create(['title' => 'Farnosť Test', 'created_at' => '2025-03-14 10:00:00']);

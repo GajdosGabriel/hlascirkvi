@@ -158,7 +158,7 @@ class LiturgicalReadingsTest extends TestCase
 
     public function test_homilie_z_archivu_k_tomu_istemu_evanjeliu(): void
     {
-        $canal = Canal::factory()->create(['published' => 1]);
+        $canal = Canal::factory()->create(['published' => now()]);
 
         // 25. nedeľa v Cezročnom období roku A bola naposledy 24. 9. 2023.
         Post::factory()->section(PostSection::Live)->create([

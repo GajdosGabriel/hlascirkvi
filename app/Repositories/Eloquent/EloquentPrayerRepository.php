@@ -36,6 +36,6 @@ class EloquentPrayerRepository extends AbstractRepository implements PrayerRepos
 
     public function unansweredPrayers()
     {
-        return $this->prayersWroteByUsers()->whereNull('fulfilled_at');
+        return $this->prayersWroteByUsers()->published()->whereNull('fulfilled_at');
     }
 }

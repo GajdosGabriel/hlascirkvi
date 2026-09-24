@@ -51,6 +51,7 @@ class Post extends Model
     ];
 
     protected $casts = [
+        'video_available' => 'boolean',
         'video_duration' => VideoDuration::class,
         'title' => \App\Casts\StringLength255::class,
         'published_at' => 'datetime',
@@ -122,6 +123,14 @@ class Post extends Model
     public function scopePublished($query)
     {
         return $query->whereNotNull('published_at');
+    }
+
+    /** Verejné zoznamy skrývajú len potvrdené nedostupné videá. */
+    public function scopeAvailable($query)
+    {
+        return $query->where(fn ($query) => $query
+            ->whereNull('posts.video_available')
+            ->orWhere('posts.video_available', true));
     }
 
     /** Príspevky čakajúce vo fronte. */

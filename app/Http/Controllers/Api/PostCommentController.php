@@ -17,9 +17,9 @@ class PostCommentController extends Controller
 
     public function index(Post $post)
     {
-        $comments = $post->comments()
+        $comments = $post->comments()->published()
             ->whereNull('parent_id')
-            ->with('replies')
+            ->with(['replies' => fn ($query) => $query->published()])
             ->get();
 
         // CommentResource číta z commentable slug a titulok; všetky komentáre

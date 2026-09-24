@@ -45,7 +45,8 @@ class SaveCommentsRequest extends FormRequest
                 Rule::exists('comments', 'id')
                     ->where('commentable_type', Post::class)
                     ->where('commentable_id', $this->route('post')?->getKey())
-                    ->whereNull('deleted_at'),
+                    ->whereNull('deleted_at')
+                    ->whereNotNull('published'),
             ],
         ];
 
