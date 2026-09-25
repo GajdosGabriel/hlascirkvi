@@ -54,6 +54,11 @@ return [
     'summary_model' => env('OPENAI_SUMMARY_MODEL', 'gpt-4o-mini'),
 
     /*
+    | Model pre odpovede za hostí z YouTube (App\Services\GuestReplier).
+    */
+    'reply_model' => env('OPENAI_REPLY_MODEL', 'gpt-4o-mini'),
+
+    /*
     | Cenník v USD za milión tokenov (vstup / výstup). Slúži len na odhad
     | spotreby v administrácii — skutočné čísla sú na platform.openai.com/usage
     | a cenník sa môže zmeniť (openai.com/api/pricing).

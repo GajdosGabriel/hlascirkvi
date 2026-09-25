@@ -80,6 +80,10 @@ class Kernel extends ConsoleKernel
         // a mesačný limit sú v administrácii (/admin/ai); vypnuté = príkaz len skončí.
         $schedule->command('posts:summarize')->hourlyAt(40)->withoutOverlapping();
 
+        // Hosť z YouTube na webe odpovedať nemôže — po 3 hodinách za neho
+        // zareaguje portál (App\Services\GuestReplier).
+        $schedule->command('comments:reply-to-guests')->everyFifteenMinutes()->withoutOverlapping();
+
         // $schedule->command('prayer:fulfilledOrNotYet')->everyMinute();
         $schedule->command('prayer:fulfilledOrNotYet')->dailyAt('17:20');
 

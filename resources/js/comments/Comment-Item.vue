@@ -25,13 +25,6 @@
                                 class="block truncate text-sm text-[color:var(--ar-ink)]"
                                 v-text="comment.user_name"
                             ></strong>
-                            <span
-                                v-if="comment.source === 'youtube'"
-                                class="inline-flex shrink-0 items-center gap-1 rounded bg-red-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-700"
-                                title="Komentár zo stránky videa na YouTube"
-                            >
-                                <i class="fab fa-youtube"></i> YouTube
-                            </span>
                         </div>
                         <span class="mt-0.5 block text-xs text-gray-400">{{ comment.datetime }}</span>
                     </div>

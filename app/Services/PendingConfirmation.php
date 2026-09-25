@@ -123,6 +123,12 @@ class PendingConfirmation
 
         $comment = $post->comments()->create($data + ['user_id' => $user->id]);
 
+        // Odpoveď na komentár hosťa (napr. z YouTube) si poznačíme,
+        // aby sme na ňu zareagovali aj na YouTube.
+        if ($comment->parent_id && Comment::find($comment->parent_id)?->fromYoutube()) {
+            $comment->forceFill(['reply_to_guest' => true])->save();
+        }
+
         // Pôvodne `if (!$comment->user_id == auth()->user()->canal_id)`. `!` sa
         // vyhodnotí skôr než `==`, takže sa porovnávalo `false` s canal_id, a pre
         // neprihláseného návštevníka to navyše siahalo na null. Zmysel je
