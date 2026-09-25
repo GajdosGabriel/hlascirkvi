@@ -50,7 +50,7 @@
                     v-if="! editComment && waiting"
                     class="mt-2 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800"
                 >
-                    <i class="far fa-clock mr-1.5"></i> Váš komentár čaká na schválenie.
+                    <i class="far fa-clock mr-1.5"></i> Váš komentár nie je zverejnený. Podrobnosti o automatickej kontrole dostanete e-mailom.
                 </p>
 
                 <p
@@ -94,7 +94,7 @@
                 </div>
 
                 <div
-                    v-if="! isReply && (replies.length || replyTo)"
+                    v-if="! isReply && ! waiting && (replies.length || replyTo)"
                     class="mt-4 space-y-4"
                 >
                     <comment-item
@@ -163,7 +163,7 @@ export default {
         },
 
         waiting: function () {
-            return this.comment.deleted_at != null;
+            return this.comment.published == null;
         },
 
         replies: function () {
@@ -205,7 +205,7 @@ export default {
             this.comment.replies.push(reply);
             this.replyTo = null;
 
-            bus.$emit("flash", { body: "Odpoveď je pridaná!" });
+            bus.$emit("flash", { body: reply.published ? "Odpoveď je pridaná!" : "Odpoveď bola skrytá automatickou kontrolou. Podrobnosti dostanete e-mailom." });
         },
 
         removeReply: function (id) {
@@ -241,7 +241,8 @@ export default {
             // no po obnovení stránky mal starý text.
             axios
                 .put(this.comment.url.update, { body: body })
-                .then(() => {
+                .then((response) => {
+                    this.comment.published = response.data.published;
                     this.comment.body = body;
                     this.editComment = false;
                 })

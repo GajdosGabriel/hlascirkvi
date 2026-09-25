@@ -19,7 +19,10 @@ class CommentController extends Controller
 
     public function index(CommentFilters $filters)
     {
+        $source = request('source', 'users');
+        abort_unless(in_array($source, ['users', 'youtube', 'all'], true), 422);
         $comments = Comment::with(['user:id,first_name,last_name,avatar', 'parent:id,body,user_name'])
+            ->when($source !== 'all', fn ($query) => $this->source($query, $source))
             ->withCount('replies')
             ->filter($filters)
             ->paginate()
@@ -30,7 +33,8 @@ class CommentController extends Controller
             'posts' => $this->posts($comments->getCollection()),
             'authorCounts' => $this->authorCounts($comments->getCollection()),
             'summary' => $this->summary(),
-            'hotPosts' => $this->hotPosts(),
+            'hotPosts' => $this->hotPosts($source),
+            'source' => $source,
         ]);
     }
 
@@ -106,12 +110,14 @@ class CommentController extends Controller
     }
 
     /** Najživšie diskusie za posledný týždeň. */
-    private function hotPosts(int $limit = 5)
+    private function hotPosts(string $source, int $limit = 5)
     {
         return DB::table('comments')
             ->join('posts', 'posts.id', '=', 'comments.commentable_id')
             ->where('comments.commentable_type', Post::class)
             ->whereNull('comments.deleted_at')
+            ->whereNotNull('comments.published')
+            ->when($source !== 'all', fn ($query) => $this->source($query, $source))
             ->whereNull('posts.deleted_at')
             ->where('comments.created_at', '>=', now()->subDays(7))
             ->groupBy('posts.id', 'posts.title', 'posts.slug')
@@ -125,4 +131,20 @@ class CommentController extends Controller
                 DB::raw('max(comments.created_at) as last_at'),
             ]);
     }
+    private function source($query, string $source)
+    {
+        if ($source === 'youtube') {
+            return $query->where(function ($query) {
+                $query->whereNotNull('comments.youtube_comment_id')
+                    ->orWhere(function ($query) {
+                        $query->where('comments.user_id', CommentSync::USER_ID)
+                            ->where('comments.user_avatar', 'like', 'https://yt3.%');
+                    });
+            });
+        }
+        return $query->whereNull('comments.youtube_comment_id')
+            ->whereNotNull('comments.user_id')
+            ->where('comments.user_id', '!=', CommentSync::USER_ID);
+    }
+
 }

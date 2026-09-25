@@ -53,6 +53,22 @@ class AdminCommentListTest extends TestCase
         }
     }
 
+    public function test_default_list_and_hot_posts_show_site_users(): void
+    {
+        $site = Post::factory()->create(['title' => 'Diskusia používateľov']);
+        $youtube = Post::factory()->create(['title' => 'Importovaná diskusia']);
+        Comment::factory()->create(['commentable_id' => $site->id, 'body' => 'Komentár používateľa']);
+        Comment::factory()->create(['commentable_id' => $youtube->id, 'body' => 'Komentár YouTube', 'youtube_comment_id' => 'yt-test']);
+        session()->forget('flash');
+        $this->actingAs($this->admin)->get(route('admin.comment.index'))
+            ->assertOk()->assertSee('Diskusia používateľov')->assertDontSee('Importovaná diskusia')
+            ->assertSee('Komentár používateľa')->assertDontSee('Komentár YouTube');
+        $this->get(route('admin.comment.index', ['source' => 'youtube']))
+            ->assertOk()->assertSee('Importovaná diskusia')->assertDontSee('Diskusia používateľov');
+        $this->get(route('admin.comment.index', ['source' => 'all']))
+            ->assertOk()->assertSee('Importovaná diskusia')->assertSee('Diskusia používateľov');
+    }
+
     public function test_home_sa_vykresli_s_prehladom(): void
     {
         $canal = Canal::factory()->create();

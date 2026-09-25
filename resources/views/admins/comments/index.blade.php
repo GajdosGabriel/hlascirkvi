@@ -25,6 +25,14 @@
                 <x-dashboard.metric label="Neschválené" :value="$num($summary->unpublished)">čakajú na zverejnenie</x-dashboard.metric>
             </div>
 
+            <nav class="mb-6 flex flex-wrap gap-3" aria-label="Zdroj komentárov">
+                @foreach (['users' => 'Registrovaní používatelia', 'youtube' => 'YouTube', 'all' => 'Všetky komentáre'] as $value => $label)
+                    <a href="{{ request()->fullUrlWithQuery(['source' => $value, 'page' => null]) }}"
+                       class="ar-btn {{ $source === $value ? 'ar-btn--accent' : 'ar-btn--quiet' }}"
+                       @if ($source === $value) aria-current="page" @endif>{{ $label }}</a>
+                @endforeach
+            </nav>
+
             @if ($hotPosts->isNotEmpty())
                 <x-dashboard.panel title="Najživšie diskusie za 7 dní" flush class="mb-6">
                     @foreach ($hotPosts as $index => $row)
@@ -91,6 +99,9 @@
                                 </p>
                             @endif
 
+                            @if ($comment->moderation_reason)
+                                <p class="text-sm text-red-700">Automaticky skrytý: {{ $comment->moderation_reason }}</p>
+                            @endif
                             <p class="ar-comment__body">{{ $comment->body }}</p>
 
                             @if ($post)

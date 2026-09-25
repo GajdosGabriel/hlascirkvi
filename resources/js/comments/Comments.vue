@@ -104,7 +104,7 @@ export default {
             this.comments.push(comment);
             this.show = false;
 
-            bus.$emit("flash", { body: "Komentár je pridaný!" });
+            bus.$emit("flash", { body: comment.published ? "Komentár je pridaný!" : "Komentár bol skrytý automatickou kontrolou. Podrobnosti dostanete e-mailom." });
         },
     },
 };

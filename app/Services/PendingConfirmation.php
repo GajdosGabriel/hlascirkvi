@@ -123,6 +123,10 @@ class PendingConfirmation
 
         $comment = $post->comments()->create($data + ['user_id' => $user->id]);
 
+        if ($comment->published === null) {
+            return $comment;
+        }
+
         // Odpoveď na komentár hosťa (napr. z YouTube) si poznačíme,
         // aby sme na ňu zareagovali aj na YouTube.
         if ($comment->parent_id && Comment::find($comment->parent_id)?->fromYoutube()) {

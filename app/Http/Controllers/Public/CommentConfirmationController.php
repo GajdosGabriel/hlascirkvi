@@ -38,6 +38,6 @@ class CommentConfirmationController extends Controller
         }
 
         return redirect($post ? $post->path() : route('posts.index'))
-            ->with('flash', 'Ďakujeme, adresa je potvrdená a komentár je zverejnený.');
+            ->with('flash', 'Ďakujeme, adresa je potvrdená. Komentáre, ktoré prešli kontrolou obsahu, sú zverejnené.');
     }
 }

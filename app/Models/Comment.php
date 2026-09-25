@@ -24,6 +24,9 @@ class Comment extends Model
             if (! array_key_exists('published', $model->getAttributes())) {
                 $model->published = now();
             }
+            if ($model->moderation_reason) {
+                $model->published = null;
+            }
         });
     }
 

@@ -56,6 +56,20 @@ class YoutubeCommentSyncTest extends TestCase
         ]);
     }
 
+    public function test_skips_abusive_threads_and_replies(): void
+    {
+        $this->videoPost();
+        $this->fakeThreads([
+            ['snippet' => ['topLevelComment' => $this->comment('bad', 'Ty si úplný kokot.')]],
+            ['snippet' => ['topLevelComment' => $this->comment('good', 'Ďakujem za pekné zamyslenie.')],
+                'replies' => ['comments' => [$this->comment('bad-reply', 'Postrieľajte ich všetkých.')]]],
+        ]);
+        $this->assertSame(1, (new CommentSync)->handle()['comments']);
+        $this->assertDatabaseMissing('comments', ['youtube_comment_id' => 'bad']);
+        $this->assertDatabaseMissing('comments', ['youtube_comment_id' => 'bad-reply']);
+        $this->assertDatabaseHas('comments', ['youtube_comment_id' => 'good']);
+    }
+
     public function test_ulozi_vlakna_s_odpovedami_datumom_a_avatarom(): void
     {
         $post = $this->videoPost();

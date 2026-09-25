@@ -217,6 +217,10 @@ class CommentSync
         $snippet = $comment->snippet;
         $body = trim(cleanHardSpace((string) ($snippet->textOriginal ?? $snippet->textDisplay ?? '')));
 
+        if (app(\App\Services\CommentModeration::class)->reason($body)) {
+            return null;
+        }
+
         $author = [
             'user_name' => AuthorName::fromHandle($snippet->authorDisplayName ?? null),
             'user_avatar' => $this->avatar($snippet->authorProfileImageUrl ?? null),
