@@ -38,12 +38,13 @@ class AiController extends Controller
 
         $averageCost = $total->calls > 0 ? $total->cost / $total->calls : null;
 
-        // Hrubý odhad fronty: zverejnené príspevky bez pokusu o zhrnutie
-        // a s popisom dlhším než ~700 znakov (zhruba MIN_WORDS slov).
+        // Hrubý odhad fronty: zverejnené príspevky bez pokusu o zhrnutie,
+        // ktoré majú video (titulky) alebo popis dlhší než ~700 znakov
+        // (zhruba MIN_WORDS slov). Či video titulky naozaj má, sa zistí až pri volaní.
         $waiting = Post::query()
             ->published()
             ->whereNull('summary_generated_at')
-            ->whereRaw('CHAR_LENGTH(body) >= 700')
+            ->where(fn ($q) => $q->whereNotNull('video_id')->orWhereRaw('CHAR_LENGTH(body) >= 700'))
             ->count();
 
         return view('admins.ai', [
@@ -103,7 +104,7 @@ class AiController extends Controller
             $post === null                   => 'Príspevok sa nenašiel.',
             ! $summarizer->isConfigured()    => 'Chýba OPENAI_API_KEY v .env.',
             $summarizer->budgetExhausted()   => 'Mesačný limit je vyčerpaný. Zvýšte ho alebo počkajte na ďalší mesiac.',
-            $summarizer->wordCount($post) === 0 => 'Príspevok nemá popis, nie je čo zhrnúť.',
+            $summarizer->wordCount($post) === 0 => 'Príspevok nemá popis ani titulky videa, nie je čo zhrnúť.',
             default                          => null,
         };
 
@@ -128,6 +129,7 @@ class AiController extends Controller
             'url'     => route('post.show', [$post->id, $post->slug]),
             'length'  => $length,
             'words'   => $summarizer->wordCount($post),
+            'source'  => $summarizer->lastSource,
             'summary' => $summary,
             'tokens'  => $summarizer->lastUsage ? $summarizer->lastUsage->prompt_tokens + $summarizer->lastUsage->completion_tokens : null,
             'cost'    => $summarizer->lastUsage?->cost_usd,

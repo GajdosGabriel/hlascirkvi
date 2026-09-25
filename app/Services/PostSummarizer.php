@@ -5,16 +5,17 @@ namespace App\Services;
 use App\Models\AiUsage;
 use App\Models\Post;
 use App\Models\Setting;
+use App\Support\OpenAiChat;
 use App\Support\Seo;
 use Illuminate\Support\Facades\Log;
-use OpenAI\Laravel\Facades\OpenAI;
 use Throwable;
 
 /**
- * Krátke zhrnutie popisu príspevku („V skratke" na detaile).
+ * Zhrnutie príspevku („V skratke" / „Z obsahu" na detaile).
  *
- * Zhrnutie vychádza len z textu, ktorý je na stránke — model dostane popis,
- * nie video. Krátke popisy sa nezhŕňajú: zhrnutie by bolo dlhšie než text.
+ * Podklad je prepis reči z titulkov videa (YoutubeCaptions), a keď titulky
+ * nie sú alebo sú kratšie, popis príspevku. Krátke texty sa v dávke
+ * nezhŕňajú: zhrnutie by bolo dlhšie než text.
  *
  * Automatické dávky sa riadia administráciou (/admin/ai): vypínač, veľkosť
  * dávky, rozsah zhrnutia a mesačný limit v USD. Každé volanie sa zapíše do
@@ -27,8 +28,11 @@ class PostSummarizer
     /** Pod túto dĺžku popisu zhrnutie nemá zmysel. */
     public const MIN_WORDS = 120;
 
-    /** Model dostane najviac toľko znakov; dlhé prepisy by len míňali tokeny. */
-    protected const MAX_CHARS = 12000;
+    /**
+     * Model dostane najviac toľko znakov. Prepis hodinovej kázne má ~50 000
+     * znakov (~15 000 tokenov, s gpt-6-luna ~$0,0015); dlhšie sa oreže.
+     */
+    protected const MAX_CHARS = 80000;
 
     public const SETTING_ENABLED = 'ai_summary.enabled';
     public const SETTING_BATCH = 'ai_summary.batch';
@@ -60,6 +64,13 @@ class PostSummarizer
 
     /** Záznam posledného volania — administrácia ukáže jeho tokeny a cenu. */
     public ?AiUsage $lastUsage = null;
+
+    /** Z čoho bolo posledné zhrnutie: 'captions' alebo 'body'. */
+    public ?string $lastSource = null;
+
+    public function __construct(protected YoutubeCaptions $captions)
+    {
+    }
 
     public function isConfigured(): bool
     {
@@ -110,8 +121,27 @@ class PostSummarizer
 
     public function wordCount(Post $post): int
     {
-        $text = Seo::text($post->body);
+        return $this->words($this->source($post)['text']);
+    }
 
+    /**
+     * Z čoho sa zhŕňa: prepis reči z titulkov videa, ak je dlhší než popis
+     * (pri kázňach býva popis len meno a dátum), inak popis príspevku.
+     *
+     * @return array{text: string, from: 'captions'|'body'}
+     */
+    public function source(Post $post): array
+    {
+        $body = Seo::text($post->body);
+        $captions = $this->captions->text($post->video_id);
+
+        return $captions !== null && $this->words($captions) > $this->words($body)
+            ? ['text' => $captions, 'from' => 'captions']
+            : ['text' => $body, 'from' => 'body'];
+    }
+
+    protected function words(string $text): int
+    {
         return $text === '' ? 0 : count(preg_split('/\s+/u', $text));
     }
 
@@ -144,31 +174,39 @@ class PostSummarizer
     public function summarize(Post $post, ?string $length = null, bool $force = false): ?string
     {
         $this->lastUsage = null;
+        $source = $this->source($post);
+        $this->lastSource = $source['from'];
+        $words = $this->words($source['text']);
 
-        if ($force ? $this->wordCount($post) === 0 : ! $this->worthSummarizing($post)) {
+        if ($force ? $words === 0 : $words < self::MIN_WORDS) {
             return null;
         }
 
-        $text = mb_substr(Seo::text($post->body), 0, self::MAX_CHARS);
+        $text = mb_substr($source['text'], 0, self::MAX_CHARS);
         $model = (string) config('openai.summary_model');
         $size = self::LENGTHS[$length] ?? self::LENGTHS[$this->length()];
 
+        $material = $source['from'] === 'captions'
+            ? 'Dostaneš prepis reči z videa (kázeň, prednáška, rozhovor) z automatických titulkov — môže mať chyby '
+                . 'v slovách a chýba interpunkcia; zmysel pochop z kontextu a zle rozpoznané slová neopakuj. '
+            : 'Dostaneš popis kázne, prednášky alebo článku. ';
+        $input = $source['from'] === 'captions'
+            ? "Názov: {$post->title}\n\nPopis:\n" . mb_substr(Seo::text($post->body), 0, 2000) . "\n\nPrepis reči:\n{$text}"
+            : "Názov: {$post->title}\n\nText:\n{$text}";
+
         try {
-            $response = OpenAI::chat()->create([
-                'model' => $model,
-                'temperature' => 0.3,
-                'max_tokens' => $size['max_tokens'],
+            $response = OpenAiChat::create(OpenAiChat::params($model, $size['max_tokens'], 0.3) + [
                 'messages' => [
                     [
                         'role' => 'system',
-                        'content' => 'Si redaktor kresťanského portálu Hlas Cirkvi. Pracuješ s popisom kázne, prednášky alebo článku. '
+                        'content' => 'Si redaktor kresťanského portálu Hlas Cirkvi. ' . $material
                             . $size['instruction'] . ' '
                             . 'Používaj len to, čo je v texte — nič nedopĺňaj ani nehodnoť. '
                             . 'Vynechaj odkazy, kontakty, výzvy na odber a čísla účtov.',
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Názov: {$post->title}\n\nText:\n{$text}",
+                        'content' => $input,
                     ],
                 ],
             ]);

@@ -16,8 +16,8 @@
             @endphp
 
             <p class="mb-6 text-sm text-[color:var(--ar-ink-soft)]">
-                Krátke zhrnutie „V skratke“ nad dlhým popisom videa alebo článku. Vytvára ho OpenAI
-                (model <code>{{ $model }}</code>) z textu popisu, platí sa za tokeny.
+                Zhrnutie nad textom príspevku. Vytvára ho OpenAI (model <code>{{ $model }}</code>) z prepisu reči
+                v titulkoch videa na YouTube; keď video titulky nemá, z popisu. Platí sa za tokeny.
             </p>
 
             @unless ($configured)
@@ -151,7 +151,8 @@
                                     {{ \Illuminate\Support\Str::limit($result['title'], 80) }}
                                 </a>
                                 <span class="text-gray-500">
-                                    · popis {{ $num($result['words']) }} slov
+                                    · {{ ($result['source'] ?? null) === 'captions' ? 'z titulkov videa' : 'z popisu' }},
+                                    {{ $num($result['words']) }} slov
                                     @if ($result['tokens'] !== null)
                                         · {{ $num($result['tokens']) }} tokenov · {{ $usd($result['cost']) }}
                                     @endif

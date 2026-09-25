@@ -40,7 +40,7 @@ class PostSummarize extends Command
         } else {
             $query->published()
                 ->whereNull('summary_generated_at')
-                ->whereNotNull('body')
+                ->where(fn ($q) => $q->whereNotNull('video_id')->orWhereNotNull('body'))
                 ->latest('id')
                 ->limit($this->option('limit') ? (int) $this->option('limit') : $summarizer->batchSize());
         }

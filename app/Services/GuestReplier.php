@@ -6,9 +6,9 @@ use App\Models\AiUsage;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Notifications\Comments\GuestRepliedToComment;
+use App\Support\OpenAiChat;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use OpenAI\Laravel\Facades\OpenAI;
 use Throwable;
 
 /**
@@ -145,10 +145,7 @@ class GuestReplier
 
         $model = (string) config('openai.reply_model');
 
-        $response = OpenAI::chat()->create([
-            'model' => $model,
-            'temperature' => 0.6,
-            'max_tokens' => 250,
+        $response = OpenAiChat::create(OpenAiChat::params($model, 250, 0.6) + [
             'messages' => [
                 [
                     'role' => 'system',

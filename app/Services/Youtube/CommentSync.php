@@ -218,7 +218,7 @@ class CommentSync
         $body = trim(cleanHardSpace((string) ($snippet->textOriginal ?? $snippet->textDisplay ?? '')));
 
         $author = [
-            'user_name' => Str::limit(ltrim((string) ($snippet->authorDisplayName ?? ''), '@'), 100, '') ?: null,
+            'user_name' => AuthorName::fromHandle($snippet->authorDisplayName ?? null),
             'user_avatar' => $this->avatar($snippet->authorProfileImageUrl ?? null),
         ];
 

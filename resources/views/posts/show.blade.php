@@ -332,7 +332,7 @@
                             {!! nl2br(e($post->summary)) !!}
                         </div>
                         <p class="mt-3 text-xs text-gray-500">
-                            <i class="fas fa-magic mr-1"></i> Zhrnutie vytvorené automaticky z popisu, môže obsahovať nepresnosti.
+                            <i class="fas fa-magic mr-1"></i> Zhrnutie vytvorené automaticky z videa alebo popisu, môže obsahovať nepresnosti.
                         </p>
                     </aside>
                 @endif

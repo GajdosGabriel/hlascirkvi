@@ -90,6 +90,14 @@ class Post extends Model
         return $this->belongsToMany(Seminar::class);
     }
 
+
+    /** Osoby bezpečne priradené pri importe metadát článkov. */
+    public function persons()
+    {
+        return $this->belongsToMany(Person::class)
+            ->withPivot(['source', 'matched_text', 'confidence'])
+            ->withTimestamps();
+    }
     /** Čitatelia, ktorí si príspevok uložili na neskôr. */
     public function savedBy()
     {
