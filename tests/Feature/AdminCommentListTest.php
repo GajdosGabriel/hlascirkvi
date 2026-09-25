@@ -64,9 +64,9 @@ class AdminCommentListTest extends TestCase
             ->assertOk()->assertSee('Diskusia používateľov')->assertDontSee('Importovaná diskusia')
             ->assertSee('Komentár používateľa')->assertDontSee('Komentár YouTube');
         $this->get(route('admin.comment.index', ['source' => 'youtube']))
-            ->assertOk()->assertSee('Importovaná diskusia')->assertDontSee('Diskusia používateľov');
+            ->assertOk()->assertDontSee('Importovaná diskusia')->assertSee('Diskusia používateľov');
         $this->get(route('admin.comment.index', ['source' => 'all']))
-            ->assertOk()->assertSee('Importovaná diskusia')->assertSee('Diskusia používateľov');
+            ->assertOk()->assertDontSee('Importovaná diskusia')->assertSee('Diskusia používateľov')->assertSee('1 vo výbere')->assertViewHas('summary', fn ($summary) => (int) $summary->total === 1);
     }
 
     public function test_home_sa_vykresli_s_prehladom(): void

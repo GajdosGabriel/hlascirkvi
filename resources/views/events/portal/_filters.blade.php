@@ -34,7 +34,7 @@
 
             {{-- Hľadanie. Ostatné filtre idú so sebou v skrytých poliach, nech
                  sa vyhľadávaním nezruší vybraná obec ani štítky. --}}
-            <form action="{{ route('akcie.index') }}" method="GET" class="flex-1 min-w-[14rem]">
+            <form action="{{ route('akcie.index') }}" method="GET" class="hidden flex-1 min-w-[14rem] sm:block">
                 @foreach (['list', 'municipality', 'tags', 'range'] as $keep)
                     @if (! empty($filters[$keep]))
                         <input type="hidden" name="{{ $keep }}" value="{{ $filters[$keep] }}">

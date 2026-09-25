@@ -16,17 +16,16 @@
                 $postUrl = fn ($post) => route('post.show', [$post->id, $post->slug]) . '#komentare';
             @endphp
 
-            <div class="mb-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+            <div class="mb-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
                 <x-dashboard.metric label="Spolu" :value="$num($summary->total)">bez zmazaných</x-dashboard.metric>
                 <x-dashboard.metric label="Za 24 hodín" :value="$num($summary->day)">nové komentáre</x-dashboard.metric>
                 <x-dashboard.metric label="Za 7 dní" :value="$num($summary->week)">≈ {{ $num(round($summary->week / 7)) }} denne</x-dashboard.metric>
-                <x-dashboard.metric label="Z YouTube" :value="$num($summary->youtube)">stiahnuté pod videami</x-dashboard.metric>
                 <x-dashboard.metric label="Odpovede" :value="$num($summary->replies)">v rozhovoroch</x-dashboard.metric>
                 <x-dashboard.metric label="Neschválené" :value="$num($summary->unpublished)">čakajú na zverejnenie</x-dashboard.metric>
             </div>
 
             <nav class="mb-6 flex flex-wrap gap-3" aria-label="Zdroj komentárov">
-                @foreach (['users' => 'Registrovaní používatelia', 'youtube' => 'YouTube', 'all' => 'Všetky komentáre'] as $value => $label)
+                @foreach (['users' => 'Registrovaní používatelia'] as $value => $label)
                     <a href="{{ request()->fullUrlWithQuery(['source' => $value, 'page' => null]) }}"
                        class="ar-btn {{ $source === $value ? 'ar-btn--accent' : 'ar-btn--quiet' }}"
                        @if ($source === $value) aria-current="page" @endif>{{ $label }}</a>

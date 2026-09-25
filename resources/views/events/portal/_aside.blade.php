@@ -18,10 +18,11 @@
                     @php $isActive = ($filters['municipality'] ?? null) === ($municipality['municipality_slug'] ?? null); @endphp
                     <li>
                         <a href="{{ $evUrl(['municipality' => $isActive ? null : ($municipality['municipality_slug'] ?? null)]) }}"
-                           class="flex items-center justify-between rounded-md px-2 py-1.5 text-sm transition
+                           class="flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm transition
                                   {{ $isActive ? 'bg-amber-100 font-semibold text-amber-900' : 'hover:bg-stone-50' }}">
                             <span>{{ $municipality['municipality_name'] ?? '' }}</span>
-                            <span class="text-xs text-stone-500">{{ $municipality['events_count'] ?? 0 }}</span>
+                            <span aria-hidden="true" class="min-w-4 flex-1 border-b border-dotted border-stone-300"></span>
+                            <span class="shrink-0 text-xs text-stone-500">{{ $municipality['events_count'] ?? 0 }}</span>
                         </a>
                     </li>
                 @endforeach

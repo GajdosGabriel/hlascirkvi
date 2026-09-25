@@ -41,9 +41,15 @@
             ></comment-item>
         </div>
 
-        <p v-else-if="! show" class="text-sm text-gray-500">
+        <p v-else-if="!show && !loading && !loadError" class="text-sm text-gray-500">
             Zatiaľ tu nie je žiadny komentár. Napíšte prvý.
         </p>
+        <p v-if="loadError" role="alert" class="mt-4 text-sm text-red-600">Komentáre sa nepodarilo načítať. Skúste to znova.</p>
+        <div v-if="nextCursor || loading || loadError" class="mt-5 text-center">
+            <button type="button" class="ar-btn ar-btn--quiet" :disabled="loading" @click="loadComments">
+                {{ loading ? "Načítavam…" : loadError ? "Skúsiť znova" : "Načítať ďalších 10 komentárov" }}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -59,6 +65,10 @@ export default {
         return {
             show: false,
             comments: [],
+            nextCursor: null,
+            loading: false,
+            loadError: false,
+            unloadedTotal: 0,
         };
     },
 
@@ -71,17 +81,35 @@ export default {
         total: function () {
             return this.comments.reduce(function (sum, comment) {
                 return sum + 1 + (comment.replies ? comment.replies.length : 0);
-            }, 0);
+            }, this.unloadedTotal);
         },
     },
 
     created() {
-        axios.get("/api/posts/" + this.post.id + "/comments").then((response) => {
-            this.comments = response.data;
-        });
+        this.loadComments();
     },
 
     methods: {
+        async loadComments() {
+            if (this.loading) return;
+            this.loading = true;
+            this.loadError = false;
+            try {
+                const { data } = await axios.get("/api/posts/" + this.post.id + "/comments", {
+                    params: { paginate: 1, cursor: this.nextCursor || undefined },
+                });
+                const existing = new Set(this.comments.map(comment => comment.id));
+                this.comments.push(...data.data.filter(comment => !existing.has(comment.id)));
+                this.nextCursor = data.next_cursor;
+                const loadedTotal = this.comments.reduce((sum, comment) => sum + 1 + (comment.replies?.length || 0), 0);
+                this.unloadedTotal = Math.max(0, data.total - loadedTotal);
+            } catch (error) {
+                this.loadError = true;
+            } finally {
+                this.loading = false;
+            }
+        },
+
         showForm: function () {
             this.show = !this.show;
         },

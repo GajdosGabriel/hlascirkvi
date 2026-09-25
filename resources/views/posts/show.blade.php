@@ -318,7 +318,7 @@
                 <div class="mb-8 rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
                     {{-- h1 na tejto stránke patrí titulku článku, kanál preto
                          dostane obyčajný riadok. --}}
-                    <canal-page-header heading="div"
+                    <canal-page-header heading="div" profile-url="{{ route('organizations.show', $post->canal_id) }}"
                                        :canal="{{ json_encode($post->canal->only(['id', 'title', 'description', 'avatar', 'initialName', 'isFavorited'])) }}"></canal-page-header>
                 </div>
 

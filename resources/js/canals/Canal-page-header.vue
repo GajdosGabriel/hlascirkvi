@@ -9,7 +9,14 @@
         class="flex flex-wrap items-center justify-between gap-x-4 gap-y-3"
     >
         <div class="flex min-w-0 items-center gap-3">
-            <canal-avatar :canal="canal" />
+            <component
+                :is="profileUrl ? 'a' : 'div'"
+                :href="profileUrl || undefined"
+                :aria-label="profileUrl ? 'Profil kanála ' + canal.title : undefined"
+                class="shrink-0"
+            >
+                <canal-avatar :canal="canal" />
+            </component>
 
             <div class="min-w-0">
                 <!--
@@ -20,11 +27,14 @@
                 <component
                     :is="heading"
                     class="ar-display truncate text-xl font-bold leading-tight text-[color:var(--ar-ink)] md:text-2xl"
-                    v-text="canal.title"
-                ></component>
+                >
+                    <a v-if="profileUrl" :href="profileUrl" class="hover:underline focus:underline">{{ canal.title }}</a>
+                    <template v-else>{{ canal.title }}</template>
+                </component>
 
+                <a v-if="profileUrl" :href="profileUrl" class="mt-0.5 inline-block text-xs font-semibold text-[color:var(--ar-accent)] hover:underline">Profil kanála</a>
                 <button
-                    v-if="canal.description"
+                    v-if="canal.description && !profileUrl"
                     type="button"
                     @click.stop="toggle"
                     class="mt-0.5 inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 transition-colors hover:text-[color:var(--ar-accent)]"
@@ -84,6 +94,7 @@ import { createdMixin } from "../mixins/createdMixin";
 export default {
     props: {
         canal: { type: Object, required: true },
+        profileUrl: { type: String, default: "" },
         // Značka titulku. h1 patrí kanálu len na jeho vlastnej stránke.
         heading: { type: String, default: "h1" },
     },

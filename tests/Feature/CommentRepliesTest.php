@@ -101,4 +101,34 @@ class CommentRepliesTest extends TestCase
             ->assertJsonPath('0.id', $comment->id)
             ->assertJsonPath('0.replies.0.id', $reply->id);
     }
+    public function test_comments_load_in_batches_with_visible_replies_and_total(): void
+    {
+        [$post, $first] = $this->postWithComment();
+        Comment::factory()->count(11)->create([
+            'commentable_id' => $post->id,
+            'commentable_type' => Post::class,
+        ]);
+        $reply = Comment::factory()->create([
+            'commentable_id' => $post->id,
+            'commentable_type' => Post::class,
+            'parent_id' => $first->id,
+        ]);
+        Comment::factory()->create([
+            'commentable_id' => $post->id,
+            'commentable_type' => Post::class,
+            'published' => null,
+        ]);
+        $page = $this->getJson("/api/posts/{$post->id}/comments?paginate=1")
+            ->assertOk()->assertJsonCount(10, 'data')
+            ->assertJsonPath('total', 13)
+            ->assertJsonPath('data.0.replies.0.id', $reply->id);
+
+        // Removing an already loaded row must not skip the next comment.
+        $first->delete();
+        $next = $this->getJson("/api/posts/{$post->id}/comments?paginate=1&cursor=".urlencode($page->json('next_cursor')))
+            ->assertOk()->assertJsonCount(2, 'data')
+            ->assertJsonPath('next_cursor', null)
+            ->assertJsonPath('total', 11);
+        $this->assertEmpty(array_intersect(array_column($page->json('data'), 'id'), array_column($next->json('data'), 'id')));
+    }
 }

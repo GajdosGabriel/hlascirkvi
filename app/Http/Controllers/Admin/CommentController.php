@@ -19,7 +19,7 @@ class CommentController extends Controller
 
     public function index(CommentFilters $filters)
     {
-        $source = request('source', 'users');
+        $source = 'users';
         abort_unless(in_array($source, ['users', 'youtube', 'all'], true), 422);
         $comments = Comment::with(['user:id,first_name,last_name,avatar', 'parent:id,body,user_name'])
             ->when($source !== 'all', fn ($query) => $this->source($query, $source))
@@ -100,6 +100,7 @@ class CommentController extends Controller
     {
         return DB::table('comments')
             ->whereNull('deleted_at')
+            ->where(fn ($query) => $this->source($query, 'users'))
             ->selectRaw('count(*) as total')
             ->selectRaw('coalesce(sum(created_at >= ?), 0) as day', [now()->subDay()])
             ->selectRaw('coalesce(sum(created_at >= ?), 0) as week', [now()->subDays(7)])

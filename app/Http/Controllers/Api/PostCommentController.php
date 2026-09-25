@@ -15,12 +15,15 @@ use Illuminate\Validation\ValidationException;
 class PostCommentController extends Controller
 {
 
-    public function index(Post $post)
+    public function index(Post $post, Request $request)
     {
-        $comments = $post->comments()->published()
+        $query = $post->comments()->published()
             ->whereNull('parent_id')
-            ->with(['replies' => fn ($query) => $query->published()])
-            ->get();
+            ->with(['replies' => fn ($query) => $query->published()]);
+
+        $paginated = $request->boolean('paginate');
+        $page = $paginated ? $query->orderBy('comments.id')->cursorPaginate(10) : null;
+        $comments = $page ? $page->getCollection() : $query->get();
 
         // CommentResource číta z commentable slug a titulok; všetky komentáre
         // aj odpovede patria tomuto príspevku, netreba ho pýtať pre každý zvlášť.
@@ -28,6 +31,19 @@ class PostCommentController extends Controller
             $comment->setRelation('commentable', $post);
             $comment->replies->each->setRelation('commentable', $post);
         });
+
+        if ($paginated) {
+            $total = $post->comments()->published()
+                ->where(fn ($query) => $query->whereNull('parent_id')
+                    ->orWhereHas('parent', fn ($parent) => $parent->published()))
+                ->count();
+
+            return response()->json([
+                'data' => CommentResource::collection($comments)->resolve(),
+                'next_cursor' => $page->nextCursor()?->encode(),
+                'total' => $total,
+            ]);
+        }
 
         return CommentResource::collection($comments);
     }
