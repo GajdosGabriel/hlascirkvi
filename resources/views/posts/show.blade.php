@@ -326,7 +326,8 @@
                      Stojí nad textom, nie namiesto neho. --}}
                 @if ($post->summary && $plain !== '')
                     <aside class="mb-8 rounded-lg border border-[color:var(--ar-line)] bg-[color:var(--ar-accent-soft)] p-4 md:p-5">
-                        <h2 class="ar-kicker mb-2 text-[.65rem]">V skratke</h2>
+                        {{-- Body („• …“) = zhrnutie; súvislý text = rozsah „Text na A4“. --}}
+                        <h2 class="ar-kicker mb-2 text-[.65rem]">{{ str_starts_with(ltrim($post->summary), '•') ? 'V skratke' : 'Z obsahu' }}</h2>
                         <div class="text-[.95rem] leading-relaxed text-[color:var(--ar-ink)]">
                             {!! nl2br(e($post->summary)) !!}
                         </div>

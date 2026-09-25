@@ -9,6 +9,7 @@ use App\Models\Setting;
 use App\Services\PostSummarizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 /**
  * AI zhrnutia: vypínač, limit a spotreba. Zostatok kreditu OpenAI cez API
@@ -50,6 +51,8 @@ class AiController extends Controller
             'enabled'     => $summarizer->enabled(),
             'batch'       => $summarizer->batchSize(),
             'limit'       => $summarizer->monthlyLimit(),
+            'length'      => $summarizer->length(),
+            'lengths'     => PostSummarizer::LENGTHS,
             'model'       => config('openai.summary_model'),
             'month'       => $month,
             'total'       => $total,
@@ -68,22 +71,29 @@ class AiController extends Controller
             'enabled' => ['nullable', 'boolean'],
             'batch'   => ['required', 'integer', 'min:1', 'max:200'],
             'limit'   => ['required', 'numeric', 'min:0', 'max:1000'],
+            'length'  => ['required', Rule::in(array_keys(PostSummarizer::LENGTHS))],
         ]);
 
         Setting::set(PostSummarizer::SETTING_ENABLED, $request->boolean('enabled') ? 1 : 0);
         Setting::set(PostSummarizer::SETTING_BATCH, (int) $data['batch']);
         Setting::set(PostSummarizer::SETTING_LIMIT, (float) $data['limit']);
+        Setting::set(PostSummarizer::SETTING_LENGTH, $data['length']);
 
         return back()->with('flash', 'Nastavenie AI zhrnutí je uložené.');
     }
 
     /**
-     * Vynútené zhrnutie jedného príspevku — aj pri vypnutých dávkach a aj
-     * keď už zhrnutie má. Mesačný limit platí aj tu.
+     * Vynútené zhrnutie jedného príspevku — hneď, aj pri vypnutých dávkach,
+     * aj keď už zhrnutie má a aj pri popise kratšom než MIN_WORDS. Mesačný
+     * limit platí aj tu. Rozsah sa dá zvoliť len pre toto volanie (na skúšanie),
+     * inak platí uložené nastavenie.
      */
     public function summarize(Request $request, PostSummarizer $summarizer)
     {
-        $data = $request->validate(['post' => ['required', 'string', 'max:500']]);
+        $data = $request->validate([
+            'post'   => ['required', 'string', 'max:500'],
+            'length' => ['nullable', Rule::in(array_keys(PostSummarizer::LENGTHS))],
+        ]);
 
         // Stačí ID alebo celá adresa príspevku (/post/123/slug).
         $id = preg_match('#/post/(\d+)#', $data['post'], $m) ? (int) $m[1] : (int) $data['post'];
@@ -93,11 +103,12 @@ class AiController extends Controller
             $post === null                   => 'Príspevok sa nenašiel.',
             ! $summarizer->isConfigured()    => 'Chýba OPENAI_API_KEY v .env.',
             $summarizer->budgetExhausted()   => 'Mesačný limit je vyčerpaný. Zvýšte ho alebo počkajte na ďalší mesiac.',
-            ! $summarizer->worthSummarizing($post) => 'Popis príspevku je príliš krátky na zhrnutie (menej ako ' . PostSummarizer::MIN_WORDS . ' slov).',
+            $summarizer->wordCount($post) === 0 => 'Príspevok nemá popis, nie je čo zhrnúť.',
             default                          => null,
         };
 
-        $summary = $message === null ? $summarizer->summarizeAndStore($post) : null;
+        $length = $data['length'] ?? $summarizer->length();
+        $summary = $message === null ? $summarizer->summarizeAndStore($post, $length, true) : null;
 
         if ($message === null) {
             $message = $summary !== null
@@ -109,6 +120,19 @@ class AiController extends Controller
             return response()->json(['ok' => $summary !== null, 'message' => $message, 'summary' => $summary]);
         }
 
-        return back()->with('flash', $message);
+        // Výsledok sa ukáže priamo na stránke, aby sa dalo porovnávať rozsahy
+        // bez prekliku na príspevok.
+        $result = $summary === null ? null : [
+            'post_id' => $post->id,
+            'title'   => $post->title,
+            'url'     => route('post.show', [$post->id, $post->slug]),
+            'length'  => $length,
+            'words'   => $summarizer->wordCount($post),
+            'summary' => $summary,
+            'tokens'  => $summarizer->lastUsage ? $summarizer->lastUsage->prompt_tokens + $summarizer->lastUsage->completion_tokens : null,
+            'cost'    => $summarizer->lastUsage?->cost_usd,
+        ];
+
+        return back()->withInput()->with('flash', $message)->with('ai_result', $result);
     }
 }

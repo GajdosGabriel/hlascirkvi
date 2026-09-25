@@ -101,6 +101,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="settings_length">Rozsah zhrnutia</label>
+                            <select class="form-control" id="settings_length" name="length">
+                                @foreach ($lengths as $key => $option)
+                                    <option value="{{ $key }}" @selected($key === $length)>{{ $option['label'] }}</option>
+                                @endforeach
+                            </select>
+                            <small class="text-gray-500">Platí pre automatické dávky aj pre ručné vynútenie, ak tam nezvolíte iný. Dlhšie zhrnutie = viac výstupných tokenov.</small>
+                        </div>
+
                         <button type="submit" class="ar-btn ar-btn--accent"><i class="fas fa-check"></i> Uložiť</button>
                     </form>
                 </x-dashboard.panel>
@@ -114,12 +124,42 @@
                             <input class="form-control" type="text" id="post" name="post" required
                                    value="{{ old('post') }}" placeholder="12345 alebo https://www.hlascirkvi.sk/post/12345/…">
                         </div>
+                        <div class="form-group">
+                            <label for="force_length">Rozsah</label>
+                            <select class="form-control" id="force_length" name="length">
+                                @foreach ($lengths as $key => $option)
+                                    <option value="{{ $key }}" @selected($key === old('length', $length))>
+                                        {{ $option['label'] }}{{ $key === $length ? ' — uložené' : '' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <p class="text-sm text-gray-500">
-                            Vytvorí (alebo prepíše) zhrnutie hneď, aj keď sú automatické zhrnutia vypnuté.
-                            Mesačný limit platí. To isté je v menu „Spravovať článok“ na detaile príspevku.
+                            Vytvorí (alebo prepíše) zhrnutie hneď — aj keď sú automatické zhrnutia vypnuté a aj pri
+                            krátkom popise. Mesačný limit platí. Rozsah tu platí len pre toto volanie, na skúšanie.
                         </p>
                         <button type="submit" class="ar-btn ar-btn--accent"><i class="fas fa-magic"></i> Vytvoriť zhrnutie</button>
                     </form>
+
+                    @if ($result = session('ai_result'))
+                        <div class="mt-6 rounded-lg border border-[color:var(--ar-line)] bg-[color:var(--ar-accent-soft)] p-4">
+                            <p class="ar-kicker mb-1 text-[.65rem]">
+                                Výsledok · {{ $lengths[$result['length']]['label'] ?? $result['length'] }}
+                            </p>
+                            <p class="mb-3 text-sm">
+                                <a href="{{ $result['url'] }}" target="_blank" rel="noopener" class="font-semibold underline">
+                                    {{ \Illuminate\Support\Str::limit($result['title'], 80) }}
+                                </a>
+                                <span class="text-gray-500">
+                                    · popis {{ $num($result['words']) }} slov
+                                    @if ($result['tokens'] !== null)
+                                        · {{ $num($result['tokens']) }} tokenov · {{ $usd($result['cost']) }}
+                                    @endif
+                                </span>
+                            </p>
+                            <div class="text-[.95rem] leading-relaxed">{!! nl2br(e($result['summary'])) !!}</div>
+                        </div>
+                    @endif
                 </x-dashboard.panel>
             </div>
 
