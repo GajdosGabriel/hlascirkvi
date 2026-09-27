@@ -2,7 +2,7 @@
 
 namespace App\Services\FrontList;
 
-use App\Enums\CanalType;
+use App\Enums\CanalIdentityMode;
 use App\Models\Canal;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Carbon;
@@ -25,7 +25,7 @@ final class FrontListItem implements Arrayable
         public readonly string $title,
         public readonly ?string $slug,
         public readonly ?string $avatar,
-        public readonly ?CanalType $type,
+        public readonly ?CanalIdentityMode $identity_mode,
         public readonly int $postsCount,
         public readonly ?Carbon $lastPostAt,
         // Záujem za posledné týždne — viď FrontList::scores().
@@ -40,7 +40,7 @@ final class FrontListItem implements Arrayable
             title:      (string) $canal->title,
             slug:       $canal->slug,
             avatar:     $canal->avatar,
-            type:       $canal->type,
+            identity_mode:       $canal->identity_mode,
             postsCount: (int) ($canal->posts_count ?? 0),
             lastPostAt: $canal->last_post_at ? Carbon::parse($canal->last_post_at) : null,
             score:      $score,
@@ -55,7 +55,7 @@ final class FrontListItem implements Arrayable
             title:      (string) $row['title'],
             slug:       $row['slug'] ?? null,
             avatar:     $row['avatar'] ?? null,
-            type:       CanalType::tryFrom((string) ($row['type'] ?? '')),
+            identity_mode:       CanalIdentityMode::tryFrom((string) ($row['identity_mode'] ?? '')),
             postsCount: (int) ($row['postsCount'] ?? 0),
             lastPostAt: isset($row['lastPostAt']) ? Carbon::parse($row['lastPostAt']) : null,
             score:      (float) ($row['score'] ?? 0),
@@ -70,7 +70,7 @@ final class FrontListItem implements Arrayable
             'title'      => $this->title,
             'slug'       => $this->slug,
             'avatar'     => $this->avatar,
-            'type'       => $this->type?->value,
+            'identity_mode'       => $this->identity_mode?->value,
             'postsCount' => $this->postsCount,
             'lastPostAt' => $this->lastPostAt?->toDateTimeString(),
             'score'      => $this->score,

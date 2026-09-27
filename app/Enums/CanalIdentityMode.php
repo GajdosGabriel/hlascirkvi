@@ -3,16 +3,18 @@
 namespace App\Enums;
 
 /** Jediný typ kanála pre správu aj verejné zoznamy. */
-enum CanalType: string
+enum CanalIdentityMode: string
 {
     case Personal = 'personal';
     case Organization = 'organization';
+    case Pseudonymous = 'pseudonymous';
 
     public function label(): string
     {
         return match ($this) {
             self::Personal    => 'Osobný',
             self::Organization => 'Organizácia',
+            self::Pseudonymous => 'Pseudonymný',
         };
     }
 
@@ -22,6 +24,7 @@ enum CanalType: string
         return match ($this) {
             self::Personal    => 'Kresťanské osobnosti',
             self::Organization => 'Cirkvi a spoločenstvá',
+            self::Pseudonymous => 'Pseudonymné kanály',
         };
     }
 
@@ -31,6 +34,7 @@ enum CanalType: string
         return match ($this) {
             self::Personal    => 'osobnosti',
             self::Organization => 'spolocenstva',
+            self::Pseudonymous => 'pseudonymne',
         };
     }
 
@@ -39,6 +43,7 @@ enum CanalType: string
         return match ($this) {
             self::Personal    => "Zobraziť všetkých {$total}",
             self::Organization => "Zobraziť všetky {$total}",
+            self::Pseudonymous => "Zobraziť všetky {$total}",
         };
     }
 
@@ -47,6 +52,7 @@ enum CanalType: string
         return match ($this) {
             self::Personal    => 'components.icons.users',
             self::Organization => 'components.icons.canal',
+            self::Pseudonymous => 'components.icons.users',
         };
     }
 

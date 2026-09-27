@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enums\CanalType;
+use App\Enums\CanalIdentityMode;
 use App\Models\User;
 use App\Notifications\User\NewRegistration;
 use Database\Seeders\RolesSeeder;
@@ -59,7 +59,7 @@ class UserActivationTest extends TestCase
 
         $this->assertNotNull($user->fresh()->canal_id);
         $this->assertSame(1, $user->canals()->count());
-        $this->assertSame(CanalType::Personal, $user->canals()->first()->type);
+        $this->assertSame(CanalIdentityMode::Personal, $user->canals()->first()->identity_mode);
         Notification::assertSentTo($admin, NewRegistration::class);
 
         // Opakované Verified nič nezdvojí.

@@ -13,7 +13,7 @@
         // Po neúspešnej validácii sa formulár vracia s tým, čo užívateľ
         // poslal, nie s tým, čo je v databáze.
         $denomination = old('denomination', $canal->denomination?->value);
-        $type         = old('type', $canal->type?->value);
+        $type         = old('identity_mode', $canal->identity_mode?->value);
         $section      = old('post_section', $canal->post_section?->value);
         $importDay    = old('import_day', $canal->import_day);
 
@@ -75,15 +75,14 @@
                     </div>
 
                     <div>
-                        <label class="ar-label" for="type">Typ kanála</label>
-                        <select class="{{ $field('type') }}" id="type" name="type">
-                            <option value="">Neurčený</option>
+                        <label class="ar-label" for="identity_mode">Režim identity</label>
+                        <select class="{{ $field('identity_mode') }}" id="identity_mode" name="identity_mode">
                             @foreach ($types as $option)
                                 <option value="{{ $option->value }}" @selected($type === $option->value)>{{ $option->label() }}</option>
                             @endforeach
                         </select>
-                        <p class="ar-hint">Za kanálom stojí človek, alebo cirkev či spoločenstvo. Určuje, na ktorej karte úvodnej stránky sa kanál ukáže.</p>
-                        @error('type') <p class="ar-error">{{ $message }}</p> @enderror
+                        <p class="ar-hint">Osobná identita, organizácia alebo vystupovanie pod pseudonymom.</p>
+                        @error('identity_mode') <p class="ar-error">{{ $message }}</p> @enderror
                     </div>
                 </div>
             </section>

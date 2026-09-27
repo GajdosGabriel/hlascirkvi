@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\CanalType;
+use App\Enums\CanalIdentityMode;
 use App\Enums\CanalSection;
 use App\Enums\Denomination;
 use App\Models\Canal;
@@ -77,7 +77,7 @@ class CanalRequest extends FormRequest
             'denomination'     => ['nullable', Rule::enum(Denomination::class)],
             // Osobnosť alebo cirkev/spoločenstvo — rozhoduje, na ktorej karte
             // predného zoznamu kanál stojí.
-            'type'             => ['nullable', Rule::enum(CanalType::class)],
+            'identity_mode'             => ['sometimes', 'required', Rule::enum(CanalIdentityMode::class)],
             'import_day'       => 'nullable|integer|between:0,6',
             'post_section'     => ['nullable', Rule::enum(CanalSection::class)],
             // `users` a `published` sa vykresľujú len v @can('superadmin') bloku
@@ -166,6 +166,6 @@ class CanalRequest extends FormRequest
 
         // Bez zadaného typu vznikne organizácia. Osobný kanál sa zakladá
         // aj automaticky po overení e-mailu (UserActivation).
-        return auth()->user()->canals()->create($data + ['type' => \App\Enums\CanalType::Organization]);
+        return auth()->user()->canals()->create($data + ['identity_mode' => \App\Enums\CanalIdentityMode::Organization]);
     }
 }

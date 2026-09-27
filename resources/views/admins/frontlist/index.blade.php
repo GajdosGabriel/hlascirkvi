@@ -59,9 +59,9 @@
                             </span>
 
                             <span class="flex items-center gap-2">
-                                <select name="type" class="form-control" aria-label="Typ kanála" required>
+                                <select name="identity_mode" class="form-control" aria-label="Režim identity" required>
                                     @foreach ($types as $type)
-                                        <option value="{{ $type->value }}" @selected(($canal->type ?? \App\Enums\CanalType::Personal) === $type)>{{ $type->label() }}</option>
+                                        <option value="{{ $type->value }}" @selected(($canal->identity_mode ?? \App\Enums\CanalIdentityMode::Personal) === $type)>{{ $type->label() }}</option>
                                     @endforeach
                                 </select>
                                 <button class="btn btn-primary">Pridať</button>
@@ -95,14 +95,14 @@
                                 @if (in_array($canal->id, $cardIds, true))
                                     <span class="ml-1 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800"
                                           title="Dnes je na karte v bočnom paneli">na karte</span>
-                                @elseif ($canal->type)
+                                @elseif ($canal->identity_mode)
                                     <span class="ml-1 text-xs text-gray-500">len v celom zozname</span>
                                 @endif
                             </td>
 
                             <td class="whitespace-nowrap">
-                                @if ($canal->type)
-                                    {{ $canal->type->label() }}
+                                @if ($canal->identity_mode)
+                                    {{ $canal->identity_mode->label() }}
                                 @else
                                     <span class="text-red-700" title="Kanál bez typu na webe nevidno">bez typu</span>
                                 @endif
@@ -112,8 +112,8 @@
                                 <form method="POST" action="{{ route('admin.frontlist.type', $canal->id) }}" class="mt-1 flex gap-1">
                                     @csrf @method('PUT')
                                     @foreach ($types as $type)
-                                        @continue($canal->type === $type)
-                                        <button name="type" value="{{ $type->value }}" class="text-xs underline">
+                                        @continue($canal->identity_mode === $type)
+                                        <button name="identity_mode" value="{{ $type->value }}" class="text-xs underline">
                                             → {{ $type->label() }}
                                         </button>
                                     @endforeach

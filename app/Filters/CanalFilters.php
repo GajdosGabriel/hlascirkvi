@@ -32,15 +32,15 @@ class CanalFilters extends Filters
         'title' => 'Podľa názvu',
     ];
 
-    protected $filters = ['search', 'type', 'unpublished', 'deletedAt', 'fresh', 'orphans', 'silent', 'youtubeOff', 'month', 'sort'];
+    protected $filters = ['search', 'identity_mode', 'unpublished', 'deletedAt', 'fresh', 'orphans', 'silent', 'youtubeOff', 'month', 'sort'];
 
-    public function type($value)
+    public function identity_mode($value)
     {
-        if (! is_string($value) || ! in_array($value, \App\Enums\CanalType::values(), true)) {
+        if (! is_string($value) || ! in_array($value, \App\Enums\CanalIdentityMode::values(), true)) {
             return $this->builder;
         }
 
-        return $this->builder->where('canals.type', $value);
+        return $this->builder->where('canals.identity_mode', $value);
     }
     public function getFilters()
     {

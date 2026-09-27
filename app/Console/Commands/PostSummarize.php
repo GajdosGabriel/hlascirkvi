@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\BufferPublication;
 use App\Models\Post;
 use App\Services\PostSummarizer;
 use Illuminate\Console\Command;
@@ -13,7 +14,7 @@ class PostSummarize extends Command
                             {--post= : Spracovať len tento príspevok (ID), aj keď už zhrnutie má}
                             {--force : Spustiť aj keď sú zhrnutia v administrácii vypnuté}';
 
-    protected $description = 'Vytvorí krátke zhrnutia dlhých popisov príspevkov (OpenAI)';
+    protected $description = 'Vytvorí text na A4 z titulkov videí publikovaných cez buffer (OpenAI)';
 
     public function handle(PostSummarizer $summarizer): int
     {
@@ -40,7 +41,7 @@ class PostSummarize extends Command
         } else {
             $query->published()
                 ->whereNull('summary_generated_at')
-                ->where(fn ($q) => $q->whereNotNull('video_id')->orWhereNotNull('body'))
+                ->whereNotNull('video_id')->whereIn('id', BufferPublication::query()->select('post_id'))
                 ->latest('id')
                 ->limit($this->option('limit') ? (int) $this->option('limit') : $summarizer->batchSize());
         }

@@ -44,13 +44,13 @@ class AdminCanalListTest extends TestCase
     }
     public function test_type_filter_combines_with_publication_and_search(): void
     {
-        Canal::factory()->create(['title' => 'Test organization', 'type' => 'organization', 'published' => now()]);
-        Canal::factory()->create(['title' => 'Test personal', 'type' => 'personal', 'published' => now()]);
-        Canal::factory()->create(['title' => 'Test hidden', 'type' => 'personal', 'published' => null]);
+        Canal::factory()->create(['title' => 'Test organization', 'identity_mode' => 'organization', 'published' => now()]);
+        Canal::factory()->create(['title' => 'Test personal', 'identity_mode' => 'personal', 'published' => now()]);
+        Canal::factory()->create(['title' => 'Test hidden', 'identity_mode' => 'personal', 'published' => null]);
 
         foreach (['organization', 'personal'] as $type) {
             $this->actingAs($this->admin)
-                ->get(route('admin.canal.index', ['type' => $type, 'publication' => 'published', 'search' => 'Test']))
+                ->get(route('admin.canal.index', ['identity_mode' => $type, 'publication' => 'published', 'search' => 'Test']))
                 ->assertOk()
                 ->assertSee('Test ' . $type)
                 ->assertDontSee('Test ' . ($type === 'personal' ? 'organization' : 'personal'))
@@ -58,7 +58,7 @@ class AdminCanalListTest extends TestCase
         }
 
         foreach (['', 'invalid'] as $type) {
-            $this->actingAs($this->admin)->get(route('admin.canal.index', ['type' => $type]))
+            $this->actingAs($this->admin)->get(route('admin.canal.index', ['identity_mode' => $type]))
                 ->assertOk()->assertSee('Test organization')->assertSee('Test personal');
         }
     }

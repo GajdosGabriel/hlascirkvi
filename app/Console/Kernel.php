@@ -2,7 +2,12 @@
 
 namespace App\Console;
 
-
+use App\Models\PendingComment;
+use App\Models\PendingFavorite;
+use App\Models\PendingPrayer;
+use App\Models\PendingRegistration;
+use App\Models\SystemLog;
+use App\Services\Dashboard\AdminDashboardStats;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,7 +31,6 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -35,7 +39,6 @@ class Kernel extends ConsoleKernel
         // $schedule->command('MonthlyNewsletter')->everyMinute();
 
         // $schedule->command('MonthlyNewsletter')->monthlyOn(4, '08:20');
-
 
         /*
          * Príkazy siahajúce na cudzie API majú withoutOverlapping(). YouTube
@@ -50,7 +53,6 @@ class Kernel extends ConsoleKernel
         // Na každý den iná zostava podľa updater
         $schedule->command('UserSearchByName')->dailyAt('06:55')->withoutOverlapping();
 
-
         // Buffer sa vypúšťa po jednom počas celého dňa. Príkaz beží často, ale
         // väčšina behov len skončí — sám si drží denný plán nepravidelných
         // časov (config/buffer.php), aby to nevyzeralo ako dávka o 16:24.
@@ -58,9 +60,6 @@ class Kernel extends ConsoleKernel
             ->everyFiveMinutes()
             ->between('06:50', '21:30')
             ->withoutOverlapping();
-
-
-
 
         $schedule->command('UserSearchByChannelAndPlaylist')->sundays()
             ->hourly()
@@ -77,9 +76,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('youtube:comments')->hourlyAt(17)->withoutOverlapping();
         $schedule->command('comments:moderate')->dailyAt('03:45')->withoutOverlapping();
 
-        // Zhrnutia popisov ("V skratke" na detaile). Vypínač, veľkosť dávky
-        // a mesačný limit sú v administrácii (/admin/ai); vypnuté = príkaz len skončí.
-        $schedule->command('posts:summarize')->hourlyAt(40)->withoutOverlapping();
+        // Zhrnutia sa automaticky kontrolujú iba pred vydaním z buffera.
+        $schedule->command('canals:enrich')->everyFifteenMinutes()->withoutOverlapping();
 
         // Hosť z YouTube na webe odpovedať nemôže — po 3 hodinách za neho
         // zareaguje portál (App\Services\GuestReplier).
@@ -94,7 +92,7 @@ class Kernel extends ConsoleKernel
 
         // Denník udalostí (admin → Denník) je krátka pamäť: info po mesiaci,
         // chyby po troch (config/logging.php → system_log). Maže po dávkach.
-        $schedule->command('model:prune', ['--model' => [\App\Models\SystemLog::class]])
+        $schedule->command('model:prune', ['--model' => [SystemLog::class]])
             ->dailyAt('03:25')
             ->withoutOverlapping();
 
@@ -102,10 +100,10 @@ class Kernel extends ConsoleKernel
         // po vypršaní odkazu. Skutočný účet z nich nikdy nevznikol.
         // Rovnako nepotvrdené modlitby a komentáre (PendingPrayer, PendingComment).
         $schedule->command('model:prune', ['--model' => [
-            \App\Models\PendingRegistration::class,
-            \App\Models\PendingPrayer::class,
-            \App\Models\PendingComment::class,
-            \App\Models\PendingFavorite::class,
+            PendingRegistration::class,
+            PendingPrayer::class,
+            PendingComment::class,
+            PendingFavorite::class,
         ]])
             ->dailyAt('03:27')
             ->withoutOverlapping();
@@ -121,7 +119,7 @@ class Kernel extends ConsoleKernel
 
         // Úvod administrácie počíta súhrny cez celé tabuľky; drží sa zahriaty
         // v cache, aby sa /admin/home neotváral sekundu a viac.
-        $schedule->call(fn () => app(\App\Services\Dashboard\AdminDashboardStats::class)->warm())
+        $schedule->call(fn () => app(AdminDashboardStats::class)->warm())
             ->name('admin:dashboard-warm')
             ->everyFiveMinutes()
             ->withoutOverlapping();

@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\PostSummarizer;
+use App\Services\YoutubeCaptions;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use OpenAI\Laravel\Facades\OpenAI;
@@ -24,6 +25,7 @@ class AdminAiSummaryTest extends TestCase
         $this->seed(RolesSeeder::class);
         $this->withoutVite();
         config(['openai.api_key' => 'test-key']);
+        $this->mock(YoutubeCaptions::class)->shouldReceive('text')->andReturn(str_repeat('titulky ', 200));
     }
 
     protected function admin(): User
@@ -57,13 +59,15 @@ class AdminAiSummaryTest extends TestCase
         $this->actingAs($admin)->get('/admin/ai')->assertOk()->assertSee('Automatické zhrnutia');
 
         $this->actingAs($admin)
-            ->put('/admin/ai', ['enabled' => '1', 'batch' => 10, 'limit' => 2.5])
+            ->put('/admin/ai', ['enabled' => '1', 'batch' => 10, 'limit' => 2.5, 'max_tokens' => 15000])
             ->assertRedirect();
 
         $summarizer = app(PostSummarizer::class);
         $this->assertTrue($summarizer->enabled());
         $this->assertSame(10, $summarizer->batchSize());
         $this->assertSame(2.5, $summarizer->monthlyLimit());
+        $this->assertSame(15000, $summarizer->maxTokens());
+        $this->assertSame('a4', $summarizer->length());
     }
 
     public function test_vypnute_zhrnutia_prikaz_nespusti(): void

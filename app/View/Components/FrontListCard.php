@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Enums\CanalType;
+use App\Enums\CanalIdentityMode;
 use App\Services\FrontList\FrontList;
 use App\Services\FrontList\FrontListItem;
 use Illuminate\Support\Collection;
@@ -18,7 +18,7 @@ use Illuminate\View\Component;
  */
 class FrontListCard extends Component
 {
-    public CanalType $type;
+    public CanalIdentityMode $type;
 
     public string $title;
 
@@ -29,7 +29,7 @@ class FrontListCard extends Component
 
     public function __construct(FrontList $frontList, string $type = 'personal', ?string $title = null)
     {
-        $this->type   = CanalType::from($type);
+        $this->type   = CanalIdentityMode::from($type);
         $this->title  = $title ?? $this->type->cardTitle();
         $this->canals = $frontList->forCard($this->type);
         $this->total  = $frontList->total($this->type);

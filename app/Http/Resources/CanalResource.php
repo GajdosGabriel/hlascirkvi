@@ -17,7 +17,8 @@ class CanalResource extends JsonResource
         return [
             'id' => $this->id,
             'village_id' => $this->village_id,
-            'type' => $this->type,
+            'identity_mode' => $this->identity_mode,
+            'identity_mode_label' => $this->identity_mode?->label(),
             // Preklep 'avatgar' — v API tak bol avatar kanála vždy null.
             'avatar' => $this->avatar,
             'title' => $this->title,

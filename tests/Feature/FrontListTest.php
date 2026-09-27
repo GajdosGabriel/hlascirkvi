@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Enums\CanalType;
+use App\Enums\CanalIdentityMode;
 use App\Models\Canal;
 use App\Models\Post;
 use App\Models\User;
@@ -45,7 +45,7 @@ class FrontListTest extends TestCase
     {
         return Canal::factory()->create($attributes + [
             'front_listed_at' => now(),
-            'type'            => CanalType::Personal,
+            'identity_mode'            => CanalIdentityMode::Personal,
         ]);
     }
 
@@ -72,7 +72,7 @@ class FrontListTest extends TestCase
         }
     }
 
-    private function card(CanalType $type = CanalType::Personal): array
+    private function card(CanalIdentityMode $type = CanalIdentityMode::Personal): array
     {
         return app(FrontList::class)->forCard($type)->pluck('title')->all();
     }
@@ -82,19 +82,18 @@ class FrontListTest extends TestCase
     public function test_osobnosti_a_spolocenstva_su_oddelene(): void
     {
         $this->listed(['title' => 'Kuffa Marian']);
-        $this->listed(['title' => 'ECAV', 'type' => CanalType::Organization]);
+        $this->listed(['title' => 'ECAV', 'identity_mode' => CanalIdentityMode::Organization]);
 
-        $this->assertSame(['Kuffa Marian'], $this->card(CanalType::Personal));
-        $this->assertSame(['ECAV'], $this->card(CanalType::Organization));
+        $this->assertSame(['Kuffa Marian'], $this->card(CanalIdentityMode::Personal));
+        $this->assertSame(['ECAV'], $this->card(CanalIdentityMode::Organization));
     }
 
-    public function test_kanal_bez_typu_na_webe_nie_je(): void
+    public function test_novy_kanal_ma_predvolenu_identitu_organizacie(): void
     {
-        $this->listed(['title' => 'Nezaradeny', 'type' => null]);
+        Canal::factory()->create(['title' => 'Nezaradeny', 'front_listed_at' => now()]);
 
-        $this->assertEmpty(app(FrontList::class)->all(CanalType::Personal));
-        $this->assertEmpty(app(FrontList::class)->all(CanalType::Organization));
-        // Správca ho však vidí, aby ho mohol zaradiť.
+        $this->assertEmpty(app(FrontList::class)->all(CanalIdentityMode::Personal));
+        $this->assertSame(['Nezaradeny'], $this->card(CanalIdentityMode::Organization));
         $this->assertSame(['Nezaradeny'], app(FrontList::class)->forAdmin()->pluck('title')->all());
     }
 
@@ -105,7 +104,7 @@ class FrontListTest extends TestCase
 
         $this->assertSame(
             ['Adamec', 'Zeman'],
-            app(FrontList::class)->all(CanalType::Personal)->pluck('title')->all()
+            app(FrontList::class)->all(CanalIdentityMode::Personal)->pluck('title')->all()
         );
     }
 
@@ -113,14 +112,14 @@ class FrontListTest extends TestCase
     {
         $this->listed(['title' => 'Skryty', 'published' => null]);
 
-        $this->assertEmpty(app(FrontList::class)->all(CanalType::Personal));
+        $this->assertEmpty(app(FrontList::class)->all(CanalIdentityMode::Personal));
     }
 
     public function test_zmazany_kanal_v_zozname_nie_je(): void
     {
         $this->listed(['title' => 'Zmazany'])->delete();
 
-        $this->assertEmpty(app(FrontList::class)->all(CanalType::Personal));
+        $this->assertEmpty(app(FrontList::class)->all(CanalIdentityMode::Personal));
     }
 
     public function test_kanal_bez_prispevkov_zo_zoznamu_nevypadne(): void
@@ -129,7 +128,7 @@ class FrontListTest extends TestCase
         // z ktorého ešte nič nevyšlo, sa na karte neukázal vôbec.
         $this->listed(['title' => 'Novy kanal']);
 
-        $item = app(FrontList::class)->all(CanalType::Personal)->sole();
+        $item = app(FrontList::class)->all(CanalIdentityMode::Personal)->sole();
 
         $this->assertSame('Novy kanal', $item->title);
         $this->assertSame(0, $item->postsCount);
@@ -143,7 +142,7 @@ class FrontListTest extends TestCase
         // Príspevok bez `published_at` čaká v bufferi — návštevník ho neuvidí.
         Post::factory()->unpublished()->count(3)->create(['canal_id' => $canal->id]);
 
-        $this->assertSame(2, app(FrontList::class)->all(CanalType::Personal)->sole()->postsCount);
+        $this->assertSame(2, app(FrontList::class)->all(CanalIdentityMode::Personal)->sole()->postsCount);
     }
 
     public function test_spiaci_kanal_je_ten_z_ktoreho_dlho_nic_neslo(): void
@@ -154,7 +153,7 @@ class FrontListTest extends TestCase
         $this->publishPosts($cerstvy, 1, ['created_at' => now()->subDays(3)]);
         $this->publishPosts($spiaci, 1, ['created_at' => now()->subYears(3)]);
 
-        $zoznam = app(FrontList::class)->all(CanalType::Personal)->keyBy('title');
+        $zoznam = app(FrontList::class)->all(CanalIdentityMode::Personal)->keyBy('title');
 
         $this->assertFalse($zoznam['Cerstvy']->isStale());
         $this->assertTrue($zoznam['Spiaci']->isStale());
@@ -246,8 +245,8 @@ class FrontListTest extends TestCase
 
         $frontList = app(FrontList::class);
 
-        $this->assertCount(2, $frontList->forCard(CanalType::Personal));
-        $this->assertSame(5, $frontList->total(CanalType::Personal));
+        $this->assertCount(2, $frontList->forCard(CanalIdentityMode::Personal));
+        $this->assertSame(5, $frontList->total(CanalIdentityMode::Personal));
     }
 
     // ---------------------------------------------------------------- stránky
@@ -255,7 +254,7 @@ class FrontListTest extends TestCase
     public function test_uvodna_stranka_ukaze_obe_karty(): void
     {
         $this->listed(['title' => 'Kuffa Marian']);
-        $this->listed(['title' => 'TV LUX', 'type' => CanalType::Organization]);
+        $this->listed(['title' => 'TV LUX', 'identity_mode' => CanalIdentityMode::Organization]);
 
         $this->get('/')
             ->assertOk()
@@ -271,7 +270,7 @@ class FrontListTest extends TestCase
 
         $this->listed(['title' => 'Prvy kanal']);
         $this->listed(['title' => 'Druhy kanal']);
-        $this->listed(['title' => 'Spolocenstvo X', 'type' => CanalType::Organization]);
+        $this->listed(['title' => 'Spolocenstvo X', 'identity_mode' => CanalIdentityMode::Organization]);
 
         $this->get(route('frontlist.index'))
             ->assertOk()
@@ -318,12 +317,12 @@ class FrontListTest extends TestCase
         $canal = Canal::factory()->create(['title' => 'Nova komunita']);
 
         $this->actingAs($this->superadmin())
-            ->post('/admin/front-list', ['canal' => $canal->id, 'type' => 'organization'])
+            ->post('/admin/front-list', ['canal' => $canal->id, 'identity_mode' => 'organization'])
             ->assertRedirect();
 
         $canal->refresh();
         $this->assertNotNull($canal->front_listed_at);
-        $this->assertSame(CanalType::Organization, $canal->type);
+        $this->assertSame(CanalIdentityMode::Organization, $canal->identity_mode);
     }
 
     public function test_pridanie_bez_typu_neprejde(): void
@@ -332,7 +331,7 @@ class FrontListTest extends TestCase
 
         $this->actingAs($this->superadmin())
             ->post('/admin/front-list', ['canal' => $canal->id])
-            ->assertSessionHasErrors('type');
+            ->assertSessionHasErrors('identity_mode');
 
         $this->assertNull($canal->fresh()->front_listed_at);
     }
@@ -342,11 +341,11 @@ class FrontListTest extends TestCase
         $canal = $this->listed(['title' => 'ECAV']);
 
         $this->actingAs($this->superadmin())
-            ->put('/admin/front-list/' . $canal->id . '/type', ['type' => 'organization'])
+            ->put('/admin/front-list/' . $canal->id . '/type', ['identity_mode' => 'organization'])
             ->assertRedirect();
 
-        $this->assertSame(['ECAV'], $this->card(CanalType::Organization));
-        $this->assertSame([], $this->card(CanalType::Personal));
+        $this->assertSame(['ECAV'], $this->card(CanalIdentityMode::Organization));
+        $this->assertSame([], $this->card(CanalIdentityMode::Personal));
     }
 
     public function test_superadmin_vyradi_kanal_zo_zoznamu(): void
@@ -367,12 +366,12 @@ class FrontListTest extends TestCase
         $this->listed(['title' => 'Povodny']);
 
         // Naplní cache.
-        $this->assertCount(1, app(FrontList::class)->all(CanalType::Personal));
+        $this->assertCount(1, app(FrontList::class)->all(CanalIdentityMode::Personal));
 
         $novy = Canal::factory()->create(['title' => 'Pridany']);
 
-        $this->actingAs($this->superadmin())->post('/admin/front-list', ['canal' => $novy->id, 'type' => 'personal']);
+        $this->actingAs($this->superadmin())->post('/admin/front-list', ['canal' => $novy->id, 'identity_mode' => 'personal']);
 
-        $this->assertCount(2, app(FrontList::class)->all(CanalType::Personal));
+        $this->assertCount(2, app(FrontList::class)->all(CanalIdentityMode::Personal));
     }
 }

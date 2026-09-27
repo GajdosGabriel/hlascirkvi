@@ -2,7 +2,7 @@
 
 namespace App\Services\FrontList;
 
-use App\Enums\CanalType;
+use App\Enums\CanalIdentityMode;
 use App\Models\Canal;
 use App\Models\Post;
 use Illuminate\Support\Collection;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
  * a spoločenstvá" v bočnom paneli.
  *
  * Kto v zozname je, určuje správca (`front_listed_at`), kam patrí, typ kanála
- * (`type`). Poradie na karte neurčuje nikto ručne:
+ * (`identity_mode`). Poradie na karte neurčuje nikto ručne:
  *
  *  1. Rebríček záujmu — zhliadnutia zverejnených príspevkov kanála a noví
  *     sledovatelia za posledné týždne, pričom starší záujem postupne stráca
@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\DB;
  */
 class FrontList
 {
-    public const CACHE_KEY = 'frontlist:canals:v2';
+    public const CACHE_KEY = 'frontlist:canals:v3';
 
     /**
      * Karta do bočného panela. Stojí na každej stránke s panelom, preto
@@ -36,7 +36,7 @@ class FrontList
      *
      * @return Collection<int, FrontListItem>
      */
-    public function forCard(CanalType $type): Collection
+    public function forCard(CanalIdentityMode $type): Collection
     {
         return $this->pick($this->cached(), $type);
     }
@@ -46,19 +46,18 @@ class FrontList
      *
      * @return Collection<int, FrontListItem>
      */
-    public function all(CanalType $type): Collection
+    public function all(CanalIdentityMode $type): Collection
     {
-        return $this->cached()->filter(fn (FrontListItem $item) => $item->type === $type)->values();
+        return $this->cached()->filter(fn (FrontListItem $item) => $item->identity_mode === $type)->values();
     }
 
-    public function total(CanalType $type): int
+    public function total(CanalIdentityMode $type): int
     {
         return $this->all($type)->count();
     }
 
     /**
      * Zoznam pre správcu — vždy čerstvý, zoradený podľa typu a záujmu.
-     * Obsahuje aj kanály bez typu, ktoré na webe nevidno.
      *
      * @return Collection<int, FrontListItem>
      */
@@ -66,7 +65,7 @@ class FrontList
     {
         return $this->fresh()
             ->sortBy([
-                fn (FrontListItem $a, FrontListItem $b) => ($a->type?->value ?? 'z') <=> ($b->type?->value ?? 'z'),
+                fn (FrontListItem $a, FrontListItem $b) => ($a->identity_mode?->value ?? 'z') <=> ($b->identity_mode?->value ?? 'z'),
                 fn (FrontListItem $a, FrontListItem $b) => $b->score <=> $a->score,
             ])
             ->values();
@@ -80,15 +79,15 @@ class FrontList
      */
     public function cardIds(Collection $items): array
     {
-        return collect(CanalType::cases())
-            ->flatMap(fn (CanalType $type) => $this->pick($items, $type)->pluck('id'))
+        return collect(CanalIdentityMode::cases())
+            ->flatMap(fn (CanalIdentityMode $type) => $this->pick($items, $type)->pluck('id'))
             ->all();
     }
 
-    public function add(Canal $canal, ?CanalType $type = null): void
+    public function add(Canal $canal, ?CanalIdentityMode $type = null): void
     {
         $canal->front_listed_at ??= now();
-        $canal->type = $type ?? $canal->type;
+        $canal->identity_mode = $type ?? $canal->identity_mode;
         $canal->save();
 
         $this->forget();
@@ -101,9 +100,9 @@ class FrontList
         $this->forget();
     }
 
-    public function setType(Canal $canal, CanalType $type): void
+    public function setType(Canal $canal, CanalIdentityMode $type): void
     {
-        $canal->fill(['type' => $type])->save();
+        $canal->fill(['identity_mode' => $type])->save();
 
         $this->forget();
     }
@@ -121,14 +120,14 @@ class FrontList
      * @param  Collection<int, FrontListItem>  $items
      * @return Collection<int, FrontListItem>
      */
-    protected function pick(Collection $items, CanalType $type): Collection
+    protected function pick(Collection $items, CanalIdentityMode $type): Collection
     {
         $limit = max(0, (int) config('frontlist.card_limit'));
         $slots = min($limit, max(0, (int) config('frontlist.discovery_slots')));
 
         // sortBy je stabilné, takže pri rovnakom skóre ostáva abeceda.
         $ranked = $items
-            ->filter(fn (FrontListItem $item) => $item->type === $type)
+            ->filter(fn (FrontListItem $item) => $item->identity_mode === $type)
             ->sortByDesc(fn (FrontListItem $item) => $item->score)
             ->values();
 
@@ -185,7 +184,7 @@ class FrontList
             // Kanál si inak ku každému riadku dotiahne obľúbené, hoci zoznam
             // z neho potrebuje meno, obrázok a dve čísla.
             ->without('favorites')
-            ->select(['id', 'title', 'slug', 'avatar', 'type', 'front_listed_at'])
+            ->select(['id', 'title', 'slug', 'avatar', 'identity_mode', 'front_listed_at'])
             // Zverejnené príspevky, nie všetky: pôvodný dopyt ukazoval pri
             // ECAV 3190 a pri Slovenskom dohovore 6348, čo boli počty
             // vrátane toho, čo ešte čaká v bufferi.

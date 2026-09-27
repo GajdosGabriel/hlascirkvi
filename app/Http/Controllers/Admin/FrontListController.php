@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\CanalType;
+use App\Enums\CanalIdentityMode;
 use App\Http\Controllers\Controller;
 use App\Models\Canal;
 use App\Services\FrontList\FrontList;
@@ -33,7 +33,7 @@ class FrontListController extends Controller
             'canals'  => $canals,
             'canalModels' => Canal::without('favorites')->whereKey($canals->pluck('id'))->get()->keyBy('id'),
             'cardIds' => $this->frontList->cardIds($canals),
-            'types'   => CanalType::options(),
+            'types'   => CanalIdentityMode::options(),
             'hladane' => $hladane,
             'najdene' => $hladane === '' ? collect() : $this->search($hladane),
         ]);
@@ -43,12 +43,12 @@ class FrontListController extends Controller
     {
         $data = $request->validate([
             'canal' => ['required', 'integer'],
-            'type'  => ['required', Rule::enum(CanalType::class)],
+            'identity_mode'  => ['required', Rule::enum(CanalIdentityMode::class)],
         ]);
 
         $canal = Canal::findOrFail($data['canal']);
 
-        $this->frontList->add($canal, CanalType::from($data['type']));
+        $this->frontList->add($canal, CanalIdentityMode::from($data['identity_mode']));
 
         return back()->with('flash', 'Kanál „' . $canal->title . '“ je v prednom zozname.');
     }
@@ -56,12 +56,12 @@ class FrontListController extends Controller
     public function updateType(Request $request, Canal $canal)
     {
         $data = $request->validate([
-            'type' => ['required', Rule::enum(CanalType::class)],
+            'identity_mode' => ['required', Rule::enum(CanalIdentityMode::class)],
         ]);
 
-        $this->frontList->setType($canal, CanalType::from($data['type']));
+        $this->frontList->setType($canal, CanalIdentityMode::from($data['identity_mode']));
 
-        return back()->with('flash', 'Kanál „' . $canal->title . '“ je teraz: ' . $canal->type->label() . '.');
+        return back()->with('flash', 'Kanál „' . $canal->title . '“ je teraz: ' . $canal->identity_mode->label() . '.');
     }
 
     public function destroy(Canal $canal)
@@ -82,6 +82,6 @@ class FrontListController extends Controller
             ->without('favorites')
             ->orderBy('title')
             ->limit(20)
-            ->get(['id', 'title', 'published', 'type']);
+            ->get(['id', 'title', 'published', 'identity_mode']);
     }
 }

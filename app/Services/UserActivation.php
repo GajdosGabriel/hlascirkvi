@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Enums\CanalType;
+use App\Enums\CanalIdentityMode;
 use App\Models\Canal;
 use App\Models\Prayer;
 use App\Models\User;
@@ -109,7 +109,7 @@ class UserActivation
         $canal = $user->canals()->create([
             'title' => Canal::uniqueTitle((string) $user->fullname),
             'slug' => $user->slug,
-            'type' => CanalType::Personal,
+            'identity_mode' => CanalIdentityMode::Personal,
             'village_id' => 4209,
         ]);
 

@@ -58,17 +58,20 @@ return [
     */
     'reply_model' => env('OPENAI_REPLY_MODEL', 'gpt-4o-mini'),
 
+    'enrichment_model' => env('OPENAI_ENRICHMENT_MODEL', 'gpt-4.1-mini'),
+    'enrichment_search_cost_usd' => (float) env('OPENAI_ENRICHMENT_SEARCH_COST_USD', 0.01),
+
     /*
     | Cenník v USD za milión tokenov (vstup / výstup). Slúži len na odhad
     | spotreby v administrácii — skutočné čísla sú na platform.openai.com/usage
     | a cenník sa môže zmeniť (openai.com/api/pricing).
     */
     'prices' => [
-        'gpt-6-luna'   => ['input' => 0.10, 'output' => 0.50],
+        'gpt-6-luna' => ['input' => 0.10, 'output' => 0.50],
         'gpt-5.6-luna' => ['input' => 0.20, 'output' => 1.20],
-        'gpt-4o-mini'  => ['input' => 0.15, 'output' => 0.60],
+        'gpt-4o-mini' => ['input' => 0.15, 'output' => 0.60],
         'gpt-4.1-mini' => ['input' => 0.40, 'output' => 1.60],
         'gpt-4.1-nano' => ['input' => 0.10, 'output' => 0.40],
-        'gpt-4o'       => ['input' => 2.50, 'output' => 10.00],
+        'gpt-4o' => ['input' => 2.50, 'output' => 10.00],
     ],
 ];

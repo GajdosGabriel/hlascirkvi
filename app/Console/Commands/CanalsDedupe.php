@@ -213,7 +213,7 @@ class CanalsDedupe extends Command
     {
         $fields = [
             'description', 'email', 'phone', 'street', 'psc', 'mod_title',
-            'denomination', 'type', 'youtube_channel', 'youtube_playlist', 'url_www',
+            'denomination', 'identity_mode', 'youtube_channel', 'youtube_playlist', 'url_www',
         ];
 
         $fill = [];

@@ -19,6 +19,8 @@ use App\Services\SystemLog\Recorder;
 use Carbon\CarbonImmutable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * Vypúšťa príspevky z buffera po jednom počas dňa.
@@ -283,6 +285,9 @@ class Buffer
         // odložíme skôr, než sa stratí.
         $arrivedAt = $post->created_at;
 
+        // Titulky a AI spracujeme pred vydaním, mimo databázovej transakcie.
+        $this->prepareSummary($post);
+
         $post = DB::transaction(function () use ($post, $at, $archive, $arrivedAt) {
             $this->post->publishPost($post, $at);
 
@@ -308,6 +313,25 @@ class Buffer
 
     public function ifBufferIsEmpty(UserRepository $userRepository)
     {
-        Notification::send($userRepository->usersHasRoleAdmin(), new BufeerIsEmpty());
+        Notification::send($userRepository->usersHasRoleAdmin(), new BufeerIsEmpty);
+    }
+
+    protected function prepareSummary(Post $post): void
+    {
+        if (! $post->video_id || $post->summary_generated_at !== null || filled($post->summary)) {
+            return;
+        }
+
+        try {
+            $summarizer = app(PostSummarizer::class);
+            if ($summarizer->enabled() && $summarizer->isConfigured() && ! $summarizer->budgetExhausted()) {
+                $summarizer->summarizeAndStore($post);
+            }
+        } catch (Throwable $e) {
+            Log::warning('Buffer: kontrola zhrnutia zlyhala', [
+                'post_id' => $post->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }

@@ -10,12 +10,13 @@ return [
         'remove_hint' => 'Vyradiť zo zoznamu — kanál samotný ostáva',
         'remove_confirmation' => 'Vyradiť kanál :title z predného zoznamu?',
     ],
-    'type' => [
-        'label' => 'Typ kanála',
-        'all' => 'Všetky typy',
+    'identity_mode' => [
+        'label' => 'Režim identity',
+        'all' => 'Všetky identity',
         'options' => [
             'organization' => 'Organizácia',
             'personal' => 'Osobný',
+            'pseudonymous' => 'Pseudonymný',
         ],
     ],
     'filter' => [

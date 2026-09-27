@@ -29,6 +29,8 @@ class Canal extends Model
 
     protected $guarded = ['id'];
 
+    protected $attributes = ['identity_mode' => 'organization'];
+
     protected $casts = [
         'published' => 'datetime',
         'title' => \App\Casts\StringLength255::class,
@@ -36,7 +38,7 @@ class Canal extends Model
         'youtube_disabled_at' => 'datetime',
         'front_listed_at' => 'datetime',
         'denomination' => \App\Enums\Denomination::class,
-        'type' => \App\Enums\CanalType::class,
+        'identity_mode' => \App\Enums\CanalIdentityMode::class,
         'post_section' => \App\Enums\CanalSection::class,
         'import_day' => 'integer',
     ];

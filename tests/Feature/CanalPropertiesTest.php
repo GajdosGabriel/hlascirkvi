@@ -65,6 +65,25 @@ class CanalPropertiesTest extends TestCase
 
     // ------------------------------------------------------------ uloženie
 
+    public function test_manager_can_save_each_identity_mode_and_invalid_modes_are_rejected(): void
+    {
+        $canal = Canal::factory()->create();
+        $this->actingAs($this->manager($canal));
+
+        foreach (\App\Enums\CanalIdentityMode::cases() as $mode) {
+            $this->put('/dashboard/canals/' . $canal->id, $this->payload($canal, [
+                'identity_mode' => $mode->value,
+            ]))->assertSessionHasNoErrors()->assertRedirect();
+            $this->assertSame($mode, $canal->fresh()->identity_mode);
+        }
+
+        foreach (['invalid', '', null] as $mode) {
+            $this->put('/dashboard/canals/' . $canal->id, $this->payload($canal, [
+                'identity_mode' => $mode,
+            ]))->assertSessionHasErrors('identity_mode');
+        }
+    }
+
     public function test_spravca_ulozi_cirkevne_zaradenie(): void
     {
         $canal = Canal::factory()->create();

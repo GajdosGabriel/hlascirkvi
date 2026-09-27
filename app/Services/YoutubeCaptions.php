@@ -13,7 +13,7 @@ use Throwable;
  * Oficiálne API vydá titulky len vlastníkovi kanála, preto sa ide cez
  * interné rozhranie prehrávača (klient ANDROID) — webový klient dnes vracia
  * prázdne titulky. Je to neoficiálna cesta: YouTube ju môže kedykoľvek
- * zmeniť; vtedy text() vráti null a zhrnutie sa urobí z popisu.
+ * zmeniť; vtedy text() vráti null a video sa preskočí bez zhrnutia.
  *
  * Prepis sa drží v cache 30 dní — skúšanie rôznych rozsahov zhrnutia
  * nemá YouTube zakaždým volať znova.
@@ -31,7 +31,7 @@ class YoutubeCaptions
             return null;
         }
 
-        $text = Cache::remember('yt-captions:' . $videoId, now()->addDays(30), fn () => $this->fetch($videoId) ?? '');
+        $text = Cache::remember('yt-captions:'.$videoId, now()->addDays(30), fn () => $this->fetch($videoId) ?? '');
 
         return $text === '' ? null : $text;
     }
@@ -40,7 +40,7 @@ class YoutubeCaptions
     {
         try {
             $player = Http::timeout(20)
-                ->withHeaders(['User-Agent' => 'com.google.android.youtube/' . self::CLIENT_VERSION . ' (Linux; U; Android 14)'])
+                ->withHeaders(['User-Agent' => 'com.google.android.youtube/'.self::CLIENT_VERSION.' (Linux; U; Android 14)'])
                 ->post('https://www.youtube.com/youtubei/v1/player?prettyPrint=false', [
                     'context' => ['client' => [
                         'clientName' => 'ANDROID',
@@ -57,7 +57,7 @@ class YoutubeCaptions
                 return null;
             }
 
-            $url = preg_replace('/&fmt=[^&]*/', '', $track['baseUrl']) . '&fmt=json3';
+            $url = preg_replace('/&fmt=[^&]*/', '', $track['baseUrl']).'&fmt=json3';
             $events = (array) Http::timeout(20)->get($url)->json('events');
         } catch (Throwable $e) {
             Log::warning('YoutubeCaptions: titulky sa nepodarilo stiahnuť', ['video_id' => $videoId, 'error' => $e->getMessage()]);

@@ -49,14 +49,14 @@
                         <option value="{{ $key }}" @selected(request('publication', request('deletedAt') ? 'deletedAt' : (request('unpublished') ? 'unpublished' : '')) === (string) $key)>{{ $label }}</option>
                     @endforeach
                 </select>
-                <select name="type" class="form-control ar-canal-search__sort"
-                        aria-label="{{ __('canal.type.label') }}" onchange="this.form.submit()">
-                    <option value="">{{ __('canal.type.all') }}</option>
-                    @foreach (\App\Enums\CanalType::cases() as $type)
-                        <option value="{{ $type->value }}" @selected(request('type') === $type->value)>{{ __('canal.type.options.' . $type->value) }}</option>
+                <select name="identity_mode" class="form-control ar-canal-search__sort"
+                        aria-label="{{ __('canal.identity_mode.label') }}" onchange="this.form.submit()">
+                    <option value="">{{ __('canal.identity_mode.all') }}</option>
+                    @foreach (\App\Enums\CanalIdentityMode::cases() as $type)
+                        <option value="{{ $type->value }}" @selected(request('identity_mode') === $type->value)>{{ __('canal.identity_mode.options.' . $type->value) }}</option>
                     @endforeach
                 </select>
-                @foreach (request()->except(['search', 'sort', 'page', 'publication', 'unpublished', 'deletedAt', 'type']) as $key => $value)
+                @foreach (request()->except(['search', 'sort', 'page', 'publication', 'unpublished', 'deletedAt', 'identity_mode']) as $key => $value)
                     @if (is_scalar($value))
                         <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                     @endif
