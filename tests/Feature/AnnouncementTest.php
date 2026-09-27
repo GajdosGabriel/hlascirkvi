@@ -78,7 +78,7 @@ class AnnouncementTest extends TestCase
     {
         $this->actingAs($this->superadmin())
             ->post('/admin/announcement', [
-                'placement' => AnnouncementPlacement::Home->value,
+                'placement' => AnnouncementPlacement::AboveMenu->value,
                 'variant'   => AnnouncementVariant::Warning->value,
                 'title'     => 'Odstávka webu',
                 'body'      => 'V nedeľu od 8:00 do 10:00.',
@@ -90,7 +90,8 @@ class AnnouncementTest extends TestCase
         $announcement = Announcement::sole();
 
         $this->assertSame('Odstávka webu', $announcement->title);
-        $this->assertSame(AnnouncementPlacement::Home, $announcement->placement);
+        $this->assertSame(AnnouncementPlacement::AboveMenu, $announcement->placement);
+        $this->get('/gdpr')->assertOk()->assertSeeInOrder(['Odstávka webu', '<nav'], false);
         $this->assertTrue($announcement->active);
         // Nezaškrtnuté políčko formulár posiela ako "0", nie ako chýbajúcu hodnotu.
         $this->assertFalse($announcement->dismissible);

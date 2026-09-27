@@ -51,7 +51,9 @@
         };
     @endphp
     @if ($filterOptions !== null)
-        <x-filters.bar class="mb-5" :filters="$filterOptions" :selects="$filterSelects" :keep="$filterKeep" search="Hľadať" />
+        <x-filters.bar class="mb-5" :filters="$filterOptions" :selects="$filterSelects" :keep="$filterKeep" search="Hľadať">
+            {{ $filter_actions ?? '' }}
+        </x-filters.bar>
     @endif
 
     <div class="ar-admin__content min-w-0">

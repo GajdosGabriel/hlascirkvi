@@ -36,7 +36,7 @@ class Comment extends Model
     }
 
     protected $guarded= [];
-    protected $hidden = ['commentable_type', 'updated_at', 'deleted_at', 'reply_to_guest'];
+    protected $hidden = ['commentable_type', 'updated_at', 'deleted_at', 'reply_to_guest', 'pending_user_id'];
 
     // Tabuľka `comments` nemá stĺpec canal_id, takže eager load väzby na
     // kanál len posielal dopyt bez kľúčov. Komentár patrí užívateľovi —
@@ -72,7 +72,7 @@ class Comment extends Model
      */
     public function fromYoutube(): bool
     {
-        return $this->youtube_comment_id !== null
+        return $this->source === 'youtube' || $this->youtube_comment_id !== null
             || ((int) $this->user_id === \App\Services\Youtube\CommentSync::USER_ID
                 && str_starts_with((string) $this->user_avatar, 'https://yt3.'));
     }

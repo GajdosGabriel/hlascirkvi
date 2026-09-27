@@ -356,6 +356,8 @@ class DashboardStats
     protected function latestComments(int $canalId, int $limit = 6): Collection
     {
         return $this->commentsQuery($canalId)
+            ->leftJoin('users', 'users.id', '=', 'comments.user_id')
+            ->leftJoin('pending_users', 'pending_users.id', '=', 'comments.pending_user_id')
             ->orderByDesc('comments.created_at')
             ->limit($limit)
             ->get([
@@ -363,6 +365,7 @@ class DashboardStats
                 'comments.body',
                 'comments.created_at',
                 'comments.user_name',
+                DB::raw('coalesce(users.email, pending_users.email) as author_email'),
                 'posts.id as post_id',
                 'posts.title as post_title',
                 'posts.slug as post_slug',

@@ -58,6 +58,7 @@
 
 
     <div id="app">
+        <x-announcements placement="above_menu" />
         <x-navigation.main-menu/>
 
         {{-- Oznamy správcu webu. Sú rovnaké aj v layouts/article — ten stojí

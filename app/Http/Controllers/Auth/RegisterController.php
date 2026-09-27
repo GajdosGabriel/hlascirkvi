@@ -65,18 +65,21 @@ class RegisterController extends Controller
         // sa berie ako nová registrácia.
         $isResend = $pending->exists && $pending->expires_at?->isFuture();
 
-        $pending->forceFill([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'password' => Hash::make($data['password']),
-            'ip' => $request->ip(),
-            'user_agent' => mb_substr((string) $request->userAgent(), 0, 255),
-        ])->save();
+        // Preserve credentials associated with an existing confirmation link.
+        if (! $isResend) {
+            $pending->forceFill([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'password' => Hash::make($data['password']),
+                'ip' => $request->ip(),
+                'user_agent' => mb_substr((string) $request->userAgent(), 0, 255),
+            ])->save();
+        }
 
         // Opakované odoslanie formulára s tou istou adresou nepošle ďalší
         // e-mail skôr, než je dovolené — inak by sa dal formulár použiť na
         // zasypanie cudzej schránky.
-        $pending->sendConfirmation(isResend: $isResend);
+        $sent = $pending->sendConfirmation(isResend: $isResend);
 
         Recorder::info('auth', 'registration_pending', 'Registrácia čaká na potvrdenie e-mailu',
             status: 'ok',
@@ -86,6 +89,11 @@ class RegisterController extends Controller
         );
 
         $request->session()->put(self::SESSION_KEY, $pending->id);
+        if ($isResend) {
+            $request->session()->flash('flash', $sent
+                ? 'Registrácia už čaká na potvrdenie. Poslali sme nový odkaz; pôvodné meno a heslo zostali nezmenené.'
+                : 'Registrácia už čaká na potvrdenie. Použite odkaz v e-maile. Pôvodné meno a heslo zostali nezmenené.');
+        }
 
         if ($request->wantsJson()) {
             return new JsonResponse(['redirect' => route('register.pending')], 202);
@@ -103,7 +111,7 @@ class RegisterController extends Controller
             return redirect()->route('register');
         }
 
-        return view('auth.register-pending', ['email' => $pending->email]);
+        return view('auth.register-pending', ['email' => $pending->email, 'pending' => $pending]);
     }
 
     public function resend(Request $request)
@@ -116,10 +124,12 @@ class RegisterController extends Controller
         }
 
         if (! $pending->sendConfirmation(isResend: true)) {
-            return back()->with('flash', 'E-mail sme poslali len nedávno. Počkajte prosím pár minút a pozrite aj nevyžiadanú poštu.');
+            return redirect()->route('register.pending')->with('flash', $pending->send_count >= PendingRegistration::MAX_SENDS
+                ? 'Dosiahli ste limit odoslaní. Použite posledný e-mail s odkazom. Po vypršaní registrácie sa môžete registrovať znova.'
+                : 'E-mail sme poslali len nedávno. Ďalší môžete poslať po 2 minútach. Pozrite aj nevyžiadanú poštu.');
         }
 
-        return back()->with('flash', 'Potvrdzovací e-mail sme poslali znova.');
+        return redirect()->route('register.pending')->with('flash', 'Potvrdzovací e-mail sme poslali znova. Použite najnovší odkaz.');
     }
 
     /**

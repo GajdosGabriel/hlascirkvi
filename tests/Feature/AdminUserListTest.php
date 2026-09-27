@@ -89,9 +89,9 @@ class AdminUserListTest extends TestCase
     public function test_hlavicka_obsahuje_odkazy_na_radenie(): void
     {
         $this->actingAs($this->admin)
-            ->get(route('admin.user.index', ['sort' => 'email']))
+            ->get(route('admin.user.index', ['sort' => 'name']))
             ->assertOk()
-            ->assertSee('sort=-email', false)
+            ->assertSee('sort=-name', false)
             ->assertSee('sort=-created', false)
             ->assertSee('aria-sort="ascending"', false);
     }

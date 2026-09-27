@@ -14,7 +14,7 @@
 
     // Pruh cez celú šírku, panel v obsahu, karta do bočného stĺpca.
     $shape = match ($placement) {
-        'top', 'footer' => 'bar',
+        'above_menu', 'top', 'footer' => 'bar',
         'sidebar'       => 'card',
         default         => 'panel',
     };

@@ -388,7 +388,7 @@
                             <a href="{{ route('admin.user.edit', $row->id) }}" class="ar-row items-center">
                                 <img class="ar-avatar" src="{{ $row->avatar ?: '/images/avatar.png' }}" alt="" loading="lazy" referrerpolicy="no-referrer">
                                 <span class="min-w-0 flex-1">
-                                    <span class="ar-row__title block truncate">{{ trim($row->first_name . ' ' . $row->last_name) ?: $row->email }}</span>
+                                    <span class="ar-row__title block truncate">{{ $row->email }}</span>
                                     <span class="ar-row__meta block">
                                         {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}
                                         @if ($row->last_login_via === 'google') · <i class="fab fa-google"></i> Google @endif

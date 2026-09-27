@@ -1,14 +1,14 @@
 <template>
-    <div>
+    <div class="discussion">
         <!--
             Nadpis a pridanie stáli v jednom riadku ako "Komentáre pridať nový"
             a druhý prepínač visel ešte pod zoznamom. Teraz je akcia jedna a
             na jednom mieste — vedľa nadpisu, v rovnakej lište ako archív.
         -->
-        <div class="ar-rule mb-5">
-            <h2 class="ar-display flex items-center gap-2 text-lg font-bold">
+        <div class="discussion-header">
+            <h2 class="discussion-title">
                 Komentáre
-                <span v-if="total" class="ar-badge ar-badge--count">
+                <span v-if="total" class="discussion-count">
                     {{ total }}
                 </span>
             </h2>
@@ -17,7 +17,7 @@
                 type="button"
                 @click="showForm"
                 :class="show ? 'ar-btn--quiet' : 'ar-btn--accent'"
-                class="ar-btn shrink-0"
+                class="ar-btn discussion-compose shrink-0"
             >
                 <i class="far" :class="show ? 'fa-times-circle' : 'fa-comment-dots'"></i>
                 {{ show ? "Zavrieť" : "Pridať komentár" }}
@@ -31,7 +31,7 @@
             @newComment="addNewComment"
         />
 
-        <div v-if="comments.length" class="space-y-4">
+        <div v-if="comments.length" class="discussion-list">
             <comment-item
                 v-for="comment in comments"
                 :key="comment.id"
@@ -41,7 +41,7 @@
             ></comment-item>
         </div>
 
-        <p v-else-if="!show && !loading && !loadError" class="text-sm text-gray-500">
+        <p v-else-if="!show && !loading && !loadError" class="discussion-empty">
             Zatiaľ tu nie je žiadny komentár. Napíšte prvý.
         </p>
         <p v-if="loadError" role="alert" class="mt-4 text-sm text-red-600">Komentáre sa nepodarilo načítať. Skúste to znova.</p>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import "./discussion.css";
 import { bus } from "../eventBus";
 import CommentItem from "./Comment-Item.vue";
 import NewReply from "./NewReply.vue";

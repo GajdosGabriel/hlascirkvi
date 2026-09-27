@@ -3,7 +3,7 @@
          (App\Models\PendingComment); do zoznamu sa preto zatiaľ nepridá. -->
     <div
         v-if="pending"
-        class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4"
+        class="discussion-editor"
         role="status"
     >
         <p class="font-semibold">Ďakujeme, komentár sme prijali.</p>
@@ -19,7 +19,7 @@
     <form
         v-else
         @submit.prevent="storeComment"
-        class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4"
+        class="discussion-editor"
     >
         <label class="ar-label" :for="uid + '-body'">
             {{ parentId ? "Vaša odpoveď" : "Váš komentár" }}

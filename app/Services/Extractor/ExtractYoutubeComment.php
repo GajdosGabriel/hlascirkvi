@@ -100,7 +100,8 @@ class ExtractYoutubeComment
                     }
 
                     $post->comments()->create([
-                        'user_id' => 100,
+                        'user_id' => null,
+                        'source' => 'youtube',
                         'body' => cleanHardSpace($comment->snippet->topLevelComment->snippet->textDisplay),
                         'user_avatar' => $comment->snippet->topLevelComment->snippet->authorProfileImageUrl,
                         'user_name' => \App\Services\Youtube\AuthorName::fromHandle($comment->snippet->topLevelComment->snippet->authorDisplayName),

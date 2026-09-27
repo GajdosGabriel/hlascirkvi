@@ -171,7 +171,7 @@ class CommentSync
         // Komentáre zo starého sťahovania nemajú ID — spárujú sa podľa textu
         // a doplní sa im ID aj neorezaný avatar.
         $legacy = $post->comments()->withTrashed()->without(['user', 'favorites'])
-            ->where('user_id', self::USER_ID)
+            ->where(fn ($q) => $q->where('source', 'youtube')->orWhere('user_id', self::USER_ID))
             ->whereNull('youtube_comment_id')
             ->get()
             ->keyBy(fn (Comment $comment) => $this->normalize($comment->body));
@@ -237,7 +237,8 @@ class CommentSync
         }
 
         $model = $post->comments()->create($author + [
-            'user_id' => self::USER_ID,
+            'user_id' => null,
+            'source' => 'youtube',
             'parent_id' => $parentId,
             'body' => $body,
             'youtube_comment_id' => $youtubeId,

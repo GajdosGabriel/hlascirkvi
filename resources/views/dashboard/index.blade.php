@@ -250,7 +250,7 @@
                                 <span class="min-w-0">
                                     <span class="ar-row__title">{{ $shorten($row->body) }}</span>
                                     <span class="ar-row__meta">
-                                        {{ $row->user_name ?: 'návštevník' }}
+                                        {{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? ($row->author_email ?: $row->user_name ?: 'návštevník') : ($row->user_name ?: 'návštevník') }}
                                         <span class="mx-1 text-gray-300">·</span>
                                         {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}
                                     </span>

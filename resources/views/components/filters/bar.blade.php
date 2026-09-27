@@ -3,6 +3,7 @@
     <div {{ $attributes->merge(['class' => 'ar-filters']) }}>
 
         <div class="ar-filters__set">
+            {{ $slot }}
             @foreach ($selects as $key => $select)
                 <form method="GET" action="{{ $resetUrl() }}" class="ar-filters__select">
                     @foreach ($hiddenFields($key) as $name => $value)

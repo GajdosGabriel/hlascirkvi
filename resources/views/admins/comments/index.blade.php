@@ -54,9 +54,7 @@
                     @php
                         $post = $posts[$comment->commentable_id] ?? null;
                         $youtube = $comment->fromYoutube();
-                        $authorName = $comment->user_name
-                            ?: trim(($comment->user->first_name ?? '') . ' ' . ($comment->user->last_name ?? ''))
-                            ?: 'Anonym';
+                        $authorName = $comment->user?->email ?: $comment->user_name ?: 'Anonym';
                         $authorTotal = $authorCounts[$comment->user_id] ?? null;
                     @endphp
 

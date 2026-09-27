@@ -56,6 +56,19 @@ class YoutubeCommentSyncTest extends TestCase
         ]);
     }
 
+    public function test_import_does_not_need_or_create_a_user_account(): void
+    {
+        User::findOrFail(CommentSync::USER_ID)->forceDelete();
+        $this->videoPost();
+        $before = User::count();
+        $this->fakeThreads([
+            ['snippet' => ['topLevelComment' => $this->comment('external', 'Ďakujem za povzbudenie.')]],
+        ]);
+        $this->assertSame(1, (new CommentSync)->handle()['comments']);
+        $this->assertSame($before, User::count());
+        $this->assertDatabaseHas('comments', ['youtube_comment_id' => 'external', 'user_id' => null, 'source' => 'youtube']);
+    }
+
     public function test_skips_abusive_threads_and_replies(): void
     {
         $this->videoPost();

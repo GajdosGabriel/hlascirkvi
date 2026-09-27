@@ -16,6 +16,10 @@
 
 
 
+        <x-slot name="filter_actions">
+            <a class="ar-tab whitespace-nowrap" href="{{ route('admin.user.index', ['pending' => 1]) }}">Čakajúce účty a registrácie</a>
+        </x-slot>
+
         <x-slot name="page">
             @php
                 $num = fn ($value) => number_format((int) $value, 0, ',', ' ');

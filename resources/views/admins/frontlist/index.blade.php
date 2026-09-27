@@ -81,7 +81,7 @@
                         <th title="Záujem za posledných {{ config('frontlist.window_days') }} dní">Skóre</th>
                         <th>Zverejnených</th>
                         <th>Naposledy</th>
-                        <th>Akcia</th>
+                        <th>{{ __('canal.actions.label') }}</th>
                     </tr>
                 </thead>
 
@@ -139,11 +139,38 @@
                             </td>
 
                             <td>
-                                <form method="POST" action="{{ route('admin.frontlist.destroy', $canal->id) }}"
-                                      onsubmit="return confirm('Vyradiť kanál {{ $canal->title }} z predného zoznamu?')">
-                                    @csrf @method('DELETE')
-                                    <button class="btn" title="Vyradiť zo zoznamu — kanál samotný ostáva">Vyradiť</button>
-                                </form>
+                                @php($canalModel = $canalModels->get($canal->id))
+                                @if ($canalModel)
+                                    <dropdown-slot label="{{ __('canal.actions.label') }}">
+                                        @can('view', $canalModel)
+                                            <a href="{{ route('organizations.show', $canal->id) }}">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                                {{ __('canal.actions.show') }}
+                                            </a>
+                                        @endcan
+                                        @can('manage', $canalModel)
+                                            <a href="{{ route('profile.canals.edit', $canal->id) }}">
+                                                <i class="fas fa-pen" aria-hidden="true"></i>
+                                                {{ __('canal.actions.edit') }}
+                                            </a>
+                                            <a href="{{ route('profile.canals.show', $canal->id) }}">
+                                                <i class="fas fa-columns" aria-hidden="true"></i>
+                                                {{ __('canal.actions.dashboard') }}
+                                            </a>
+                                        @endcan
+                                        @can('superadmin')
+                                            <hr class="ui-dropdown__divider">
+                                            <form method="POST" action="{{ route('admin.frontlist.destroy', $canal->id) }}"
+                                                  onsubmit="return confirm({{ Illuminate\Support\Js::from(__('canal.actions.remove_confirmation', ['title' => $canal->title])) }})">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" title="{{ __('canal.actions.remove_hint') }}">
+                                                    <i class="fas fa-times" aria-hidden="true"></i>
+                                                    {{ __('canal.actions.remove') }}
+                                                </button>
+                                            </form>
+                                        @endcan
+                                    </dropdown-slot>
+                                @endif
                             </td>
                         </tr>
                     @empty

@@ -31,6 +31,7 @@ class FrontListController extends Controller
 
         return view('admins.frontlist.index', [
             'canals'  => $canals,
+            'canalModels' => Canal::without('favorites')->whereKey($canals->pluck('id'))->get()->keyBy('id'),
             'cardIds' => $this->frontList->cardIds($canals),
             'types'   => CanalType::options(),
             'hladane' => $hladane,

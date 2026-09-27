@@ -25,7 +25,7 @@ class AdminDashboardStats
     /** Koľko dní dozadu sa skladá mapa „kedy sa číta“ — štyri celé týždne. */
     public const RHYTHM_DAYS = 28;
 
-    public const CACHE_KEY = 'admin:dashboard';
+    public const CACHE_KEY = 'admin:dashboard:v2';
 
     /**
      * Ako dlho platí zacachovaná nástenka. Súhrny cez posts, comments
@@ -369,6 +369,11 @@ class AdminDashboardStats
     protected function latestComments(int $limit = 6): Collection
     {
         return DB::table('comments')
+            ->join('users', 'users.id', '=', 'comments.user_id')
+            ->whereNotNull('users.email_verified_at')
+            ->whereNull('users.deleted_at')
+            ->where('comments.source', 'site')
+            ->whereNull('comments.youtube_comment_id')
             ->leftJoin('posts', function ($join) {
                 $join->on('posts.id', '=', 'comments.commentable_id')
                     ->where('comments.commentable_type', Post::class);
@@ -379,7 +384,7 @@ class AdminDashboardStats
             ->get([
                 'comments.id',
                 'comments.body',
-                'comments.user_name',
+                'users.email as user_name',
                 'comments.created_at',
                 'comments.youtube_comment_id',
                 'posts.id as post_id',

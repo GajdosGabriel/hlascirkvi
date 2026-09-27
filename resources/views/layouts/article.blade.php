@@ -165,6 +165,7 @@
     @endcan
 
     <div id="app">
+        <x-announcements placement="above_menu" />
         <x-navigation.main-menu />
 
         {{-- Rovnaké oznamy ako pod layouts/app — detail príspevku stojí na

@@ -18,6 +18,12 @@ class UserController extends Controller
 
     public function index(UserFilters $filters)
     {
+        if (request()->boolean('pending')) {
+            $legacy = \Illuminate\Support\Facades\DB::table('pending_users')->select('id', 'email', 'created_at', 'kind')->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(snapshot, '$.user.uuid')) as uuid");
+            $pending = \Illuminate\Support\Facades\DB::table('pending_registrations')->select('id', 'email', 'created_at')->selectRaw("'registration' as kind, NULL as uuid")
+                ->unionAll($legacy)->orderByDesc('created_at')->paginate(50)->withQueryString();
+            return view('admins.users.pending', compact('pending'));
+        }
         return view('admins.users.index', [
             'users' => User::filter($filters)->paginate(50)->withQueryString(),
             'summary' => $this->summary(),
@@ -63,8 +69,12 @@ class UserController extends Controller
         ];
     }
 
-    public function edit(User $user)
+    public function edit($user)
     {
+        if (\Illuminate\Support\Facades\DB::table('pending_users')->where('id', $user)->exists()) {
+            return redirect()->route('admin.user.index', ['pending' => 1]);
+        }
+        $user = User::findOrFail($user);
         return view('users.edit', [
             'user' => $user,
             'statuses' => User::statusOptions(),

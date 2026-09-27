@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\User;
+use App\Services\PendingLogin;
 use Illuminate\Auth\AuthManager;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use LogicException;
 use Illuminate\Validation\ValidationException;
+use LogicException;
 
 class LoginController extends Controller
 {
@@ -41,6 +43,12 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    protected function validateLogin(Request $request)
+    {
+        $request->validate(['email' => 'required|string', 'password' => 'required|string']);
+        $request->merge(['email' => mb_strtolower(trim($request->input('email')))]);
+    }
+
     /**
      * Po prihlásení vždy nástenka. Výnimkou je len chránená stránka, z ktorej
      * middleware `auth` poslal na prihlásenie — tam vráti redirect()->intended().
@@ -64,6 +72,15 @@ class LoginController extends Controller
         }
         $user = $provider->retrieveByCredentials($credentials);
 
+        if (! $user && ! User::withTrashed()->whereEmail($credentials['email'])->exists()) {
+            $pending = app(PendingLogin::class)->find($credentials['email'], $credentials['password']);
+            if ($pending) {
+                $request->attributes->set('pending_registration_id', $pending->id);
+
+                return false;
+            }
+        }
+
         if ($user && $provider->validateCredentials($user, $credentials) && $user->banned()) {
             $request->attributes->set('inactive_account_message', $user->accountAccessMessage());
 
@@ -75,6 +92,18 @@ class LoginController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
+        if ($id = $request->attributes->get('pending_registration_id')) {
+            $this->clearLoginAttempts($request);
+            $request->session()->regenerate();
+            $request->session()->put('pending_registration', $id);
+            $message = 'Pred prihlásením potvrďte svoju e-mailovú adresu. Ak e-mail nemáte, môžete si ho poslať znova.';
+            $request->session()->flash('flash', $message);
+
+            return $request->wantsJson()
+                ? response()->json(['redirect' => route('register.pending'), 'message' => $message], 202)
+                : redirect()->route('register.pending');
+        }
+
         if ($message = $request->attributes->get('inactive_account_message')) {
             return redirect()->route('login')
                 ->withInput($request->only('email'))

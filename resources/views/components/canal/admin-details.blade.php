@@ -138,7 +138,7 @@
         @if ($canal->users->isNotEmpty())
             {{ $plural($canal->users->count(), 'Správca', 'Správcovia', 'Správcovia') }}:
             @foreach ($canal->users as $user)
-                <a href="{{ route('admin.user.edit', $user->id) }}" class="ar-link" title="{{ $user->email }}">{{ $user->fullname }}</a>@if (! $loop->last), @endif
+                <a href="{{ route('admin.user.edit', $user->id) }}" class="ar-link" title="{{ $user->email }}">{{ $user->email }}</a>@if (! $loop->last), @endif
             @endforeach
         @else
             <span class="ar-badge ar-badge--warn">Bez správcu</span>

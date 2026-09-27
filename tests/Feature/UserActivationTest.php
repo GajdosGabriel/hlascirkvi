@@ -83,7 +83,7 @@ class UserActivationTest extends TestCase
         $user = new User(['first_name' => 'K•••m', 'last_name' => '', 'email' => 'krajcikova.martina.km@gmail.com']);
 
         $this->assertTrue($user->hasPlaceholderName());
-        $this->assertSame('krajcikova.martina.km (meno nezadané)', $user->adminName());
+        $this->assertSame('krajcikova.martina.km@gmail.com', $user->adminName());
 
         $named = new User(['first_name' => 'Martina', 'last_name' => 'Krajčíková', 'email' => 'krajcikova.martina.km@gmail.com']);
 

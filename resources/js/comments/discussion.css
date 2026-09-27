@@ -1,0 +1,44 @@
+.discussion { --discussion-line: #e3e6eb; color: var(--ar-ink, #242832); background: #eef1f5; border: 1px solid #e3e7ed; border-radius: 20px; padding: 24px; }
+.discussion-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 24px; }
+.discussion-title { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 750; letter-spacing: -.6px; }
+.discussion-count { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 9px; border-radius: 9px; background: #edf0f3; color: #586170; font-size: 13px; letter-spacing: 0; }
+.discussion .discussion-compose { border-radius: 999px; padding: 11px 18px; }
+.discussion-list { border-top: 1px solid var(--discussion-line); }
+.discussion-comment { padding: 28px 0; border-bottom: 1px solid var(--discussion-line); }
+.discussion-comment__layout { display: flex; align-items: flex-start; gap: 14px; }
+.discussion-comment__avatar { background: #edf0f3; border: 1px solid #e8eaed; }
+.discussion-comment__name { display: block; overflow-wrap: anywhere; font-size: 15px; font-weight: 700; line-height: 1.5; }
+.discussion-comment__date { display: block; margin-top: 2px; font-size: 12px; color: #747c88; }
+.discussion-comment__body { margin-top: 12px; white-space: pre-line; overflow-wrap: anywhere; font-size: 15px; line-height: 1.8; color: #343c49; }
+.discussion-comment__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+.discussion-action { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 36px; padding: 7px 12px; border: 1px solid #e6e9ed; border-radius: 999px; background: #fff; color: #626b78; font-size: 12px; font-weight: 600; transition: background .15s, color .15s, border-color .15s; }
+.discussion-action:hover { background: #f3f5f7; color: var(--ar-accent, #a84c36); border-color: #d1d6dd; }
+.discussion-action--active { color: var(--ar-accent, #a84c36); background: var(--ar-paper, #faf6f2); border-color: currentColor; }
+.discussion-action__count { border-left: 1px solid #dce0e5; padding-left: 8px; font-variant-numeric: tabular-nums; }
+.discussion button:focus-visible { outline: 2px solid var(--ar-accent, #a84c36); outline-offset: 4px; }
+.discussion-thread-toggle { display: inline-flex; align-items: center; gap: 9px; min-height: 40px; margin-top: 12px; color: var(--ar-accent, #a84c36); font-size: 12px; font-weight: 700; }
+.discussion-thread-toggle i { font-size: 10px; }
+.discussion-thread-toggle span { color: #697281; font-variant-numeric: tabular-nums; }
+.discussion-thread { margin-top: 10px; padding-left: 18px; border-left: 2px solid #e4e8ed; }
+.discussion-comment--reply { padding: 18px 0; }
+.discussion-comment--reply:first-child { padding-top: 4px; }
+.discussion-comment--reply:last-child { border-bottom: 0; padding-bottom: 4px; }
+.discussion-editor { border: 1px solid #e1e5ea; border-radius: 16px; padding: 20px; background: #f7f8fa; }
+.discussion-editor .ar-field { background: #fff; border-radius: 10px; }
+.discussion-editor textarea { min-height: 120px; line-height: 1.7; resize: vertical; }
+.discussion-editor .ar-btn { border-radius: 999px; }
+.discussion-thread > .discussion-editor { margin-top: 16px; }
+.discussion-empty { padding: 28px 20px; border: 1px dashed #dce1e7; border-radius: 16px; background: #f8f9fb; text-align: center; font-size: 14px; color: #697281; }
+@media (max-width: 640px) {
+    .discussion { padding: 16px; border-radius: 16px; }
+    .discussion-header { gap: 12px; padding-bottom: 20px; }
+    .discussion-title { font-size: 21px; }
+    .discussion-comment { padding: 22px 0; }
+    .discussion-comment__layout { gap: 10px; }
+    .discussion-comment__avatar { width: 32px; height: 32px; }
+    .discussion-comment__body { font-size: 14px; line-height: 1.75; }
+    .discussion-thread { margin-left: -30px; padding-left: 12px; }
+    .discussion-comment--reply { padding: 16px 0; }
+    .discussion-comment--reply .discussion-comment__avatar { width: 28px; height: 28px; }
+    .discussion-editor { padding: 14px; }
+}

@@ -34,6 +34,9 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
      */
     public function createFromPendingRegistration(PendingRegistration $pending): User
     {
+        if ($user = app(\App\Services\PendingUsers::class)->restoreVerified($pending->email, $pending->only(['first_name', 'last_name', 'password']))) {
+            return $user;
+        }
         $user = new User([
             'first_name' => $pending->first_name,
             'last_name' => $pending->last_name,
@@ -54,6 +57,9 @@ class EloquentUserRepository extends AbstractRepository implements UserRepositor
      */
     public function createUserBySocial($profile)
     {
+        if ($user = app(\App\Services\PendingUsers::class)->restoreVerified($profile['email'], $profile)) {
+            return $user;
+        }
         $user = new User([
             'first_name' => $profile['first_name'],
             'last_name' => $profile['last_name'],

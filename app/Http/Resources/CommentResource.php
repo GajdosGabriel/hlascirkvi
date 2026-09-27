@@ -30,8 +30,8 @@ class CommentResource extends JsonResource
             'source' => $this->resource->fromYoutube() ? 'youtube' : 'site',
             // Pri komentári z YouTube je používateľ len zástupný účet —
             // komponent z neho potrebuje iba id na overenie práv.
-            'user' => $this->resource->fromYoutube() ? ['id' => $this->user_id] : $this->user,
-            'user_name' => $this->user_name ? $this->user_name : "{$this->user->first_name} {$this->user->last_name}",
+            'user' => $this->resource->fromYoutube() ? ['id' => $this->user_id] : ($this->user ?? ['id' => null]),
+            'user_name' => $this->user_name ?: trim(($this->user?->first_name ?? '') . ' ' . ($this->user?->last_name ?? '')) ?: 'Návštevník',
             'user_avatar' => $this->user_avatar ? $this->user_avatar : $this->user?->avatar,
             'favorites' => $this->favorites,
             'is_favorited' => $this->isFavorited,

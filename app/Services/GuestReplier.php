@@ -109,7 +109,8 @@ class GuestReplier
         }
 
         $reply = $post->comments()->create([
-            'user_id' => \App\Services\Youtube\CommentSync::USER_ID,
+            'user_id' => null,
+            'source' => 'system',
             'user_name' => self::AUTHOR_NAME,
             'parent_id' => $parentId,
             'body' => $body,

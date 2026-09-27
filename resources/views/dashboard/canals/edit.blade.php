@@ -165,7 +165,7 @@
                              zámer — bez nej by sa pole `users` vôbec neposlalo. --}}
                         <input type="hidden" name="users_submitted" value="1">
                         <div class="ar-picker" data-user-picker data-self="{{ auth()->id() }}"
-                             data-users="{{ $users->map(fn ($u) => ['id' => $u->id, 'name' => $u->fullname])->values()->toJson(JSON_UNESCAPED_UNICODE) }}">
+                             data-users="{{ $users->map(fn ($u) => ['id' => $u->id, 'name' => auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $u->email : $u->fullname])->values()->toJson(JSON_UNESCAPED_UNICODE) }}">
                             <label class="ar-label" for="manager-search">
                                 Správcovia
                                 <span class="ar-picker__count" data-picker-count></span>
@@ -175,10 +175,10 @@
                                 @foreach ($users->whereIn('id', $managerIds) as $manager)
                                     <li class="ar-picker__chip" data-id="{{ $manager->id }}">
                                         <span class="ar-picker__avatar">{{ mb_substr($manager->first_name, 0, 1) }}{{ mb_substr($manager->last_name, 0, 1) }}</span>
-                                        <span class="ar-picker__name">{{ $manager->fullname }}</span>
+                                        <span class="ar-picker__name">{{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $manager->email : $manager->fullname }}</span>
                                         <input type="hidden" name="users[]" value="{{ $manager->id }}">
                                         <button type="button" class="ar-picker__remove" data-picker-remove
-                                                aria-label="Odobrať {{ $manager->fullname }}">&times;</button>
+                                                aria-label="Odobrať {{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $manager->email : $manager->fullname }}">&times;</button>
                                     </li>
                                 @endforeach
                             </ul>
@@ -208,7 +208,7 @@
                     @else
                         <div class="flex flex-wrap gap-2">
                             @forelse ($canal->users as $manager)
-                                <span class="ar-chip"><i class="fas fa-user"></i> {{ $manager->fullname }}</span>
+                                <span class="ar-chip"><i class="fas fa-user"></i> {{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $manager->email : $manager->fullname }}</span>
                             @empty
                                 <span class="ar-chip ar-chip--muted">Bez správcu</span>
                             @endforelse

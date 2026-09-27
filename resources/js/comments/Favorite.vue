@@ -5,15 +5,13 @@
         :disabled="pending"
         :aria-pressed="reply.is_favorited ? 'true' : 'false'"
         :title="reply.is_favorited ? 'Zrušiť Páči sa mi to' : 'Páči sa mi to'"
-        :class="reply.is_favorited
-            ? 'text-[color:var(--ar-accent)]'
-            : 'text-gray-500 hover:text-[color:var(--ar-accent)]'"
-        class="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors disabled:cursor-wait"
+        :class="{ 'discussion-action--active': reply.is_favorited }"
+        class="discussion-action disabled:cursor-wait"
     >
         <i :class="reply.is_favorited ? 'fas' : 'far'" class="fa-thumbs-up"></i>
         <span>Páči sa mi to</span>
-        <span v-if="reply.favorites_count" class="tabular-nums font-normal text-gray-400">
-            · {{ reply.favorites_count }}
+        <span v-if="reply.favorites_count" class="discussion-action__count">
+            {{ reply.favorites_count }}
         </span>
     </button>
 </template>

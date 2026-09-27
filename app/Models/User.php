@@ -186,7 +186,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Meno pre administrátora. Náhradné „K•••m“ mu nič nepovie, preto dostane
-     * nemaskovanú časť e-mailu — celú adresu aj tak vidí.
+     * celú e-mailovú adresu.
      */
     public function adminName(): string
     {
@@ -194,7 +194,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return trim($this->fullname);
         }
 
-        return Str::before((string) $this->email, '@') . ' (meno nezadané)';
+        return (string) $this->email;
     }
 
     public function getFullnameAttribute()

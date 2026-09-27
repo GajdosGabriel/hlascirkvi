@@ -64,6 +64,31 @@ class RemoteEventSchemaTest extends TestCase
         $this->assertArrayNotHasKey('offers', $event->schemaOrg());
     }
 
+    public function test_image_is_never_missing(): void
+    {
+        $event = new RemoteEvent([
+            'primary_image' => ['large' => 'https://cdn.example.com/plagat.jpg'],
+            'files' => [
+                ['type' => 'image', 'original_file_url' => 'https://cdn.example.com/foto.jpg'],
+                ['type' => 'image', 'original_file_url' => 'https://cdn.example.com/logo.svg'],
+                ['type' => 'image', 'is_primary' => true, 'original_file_url' => 'https://cdn.example.com/plagat.jpg'],
+            ],
+        ]);
+
+        $this->assertSame(
+            ['https://cdn.example.com/plagat.jpg', 'https://cdn.example.com/foto.jpg'],
+            $event->schemaOrg()['image']
+        );
+
+        // Bez plagátu aj galérie — predvolený obrázok webu, nie chýbajúce pole.
+        foreach ([[], ['primary_image' => ['large' => 'https://cdn.example.com/placeholder.svg']]] as $data) {
+            $image = (new RemoteEvent($data))->schemaOrg()['image'];
+
+            $this->assertSame([\App\Support\Seo::url(config('seo.image'))], $image);
+            $this->assertNotEmpty($image[0]);
+        }
+    }
+
     public function test_organizer_always_has_a_url(): void
     {
         $event = new RemoteEvent([

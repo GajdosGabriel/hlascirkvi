@@ -1,17 +1,16 @@
 <template>
     <article
-        :class="isReply
-            ? 'border-l-2 border-[color:var(--ar-line)] pl-3 sm:pl-4'
-            : 'group rounded-xl border border-[color:var(--ar-line)] bg-white p-4 shadow-sm transition hover:border-gray-300 hover:shadow-md sm:p-5'"
+        class="discussion-comment"
+        :class="{ 'discussion-comment--reply': isReply }"
     >
-        <div class="flex items-start gap-3 sm:gap-4">
+        <div class="discussion-comment__layout">
             <!-- Avatar z YouTube sa bez no-referrer občas nenačíta a starý
                  alebo zmazaný avatar nahradí predvolený obrázok. -->
             <img
                 :src="comment.user_avatar || '/images/avatar.png'"
                 :alt="comment.user_name"
                 :class="isReply ? 'h-8 w-8 sm:h-9 sm:w-9' : 'h-10 w-10 sm:h-11 sm:w-11'"
-                class="shrink-0 rounded-full bg-[color:var(--ar-paper-deep)] object-cover ring-2 ring-white"
+                class="discussion-comment__avatar shrink-0 rounded-full object-cover"
                 referrerpolicy="no-referrer"
                 loading="lazy"
                 @error="avatarFailed"
@@ -22,11 +21,11 @@
                     <div class="min-w-0 pr-2">
                         <div class="flex min-w-0 items-center gap-2">
                             <strong
-                                class="block truncate text-sm text-[color:var(--ar-ink)]"
+                                class="discussion-comment__name"
                                 v-text="comment.user_name"
                             ></strong>
                         </div>
-                        <span class="mt-0.5 block text-xs text-gray-400">{{ comment.datetime }}</span>
+                        <span class="discussion-comment__date">{{ comment.datetime }}</span>
                     </div>
 
                     <div class="flex shrink-0 items-center gap-1.5">
@@ -55,7 +54,7 @@
 
                 <p
                     v-else-if="! editComment"
-                    class="mt-3 whitespace-pre-line break-words text-sm leading-relaxed text-gray-700"
+                    class="discussion-comment__body"
                 >
                     {{ comment.body }}
                 </p>
@@ -81,24 +80,35 @@
 
                 <!-- Na nezverejnený komentár sa odpovedať ani reagovať nedá —
                      server by odpoveď odmietol. -->
-                <div v-if="! editComment && ! waiting" class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+                <div v-if="! editComment && ! waiting" class="discussion-comment__actions">
                     <favorite :reply="comment"></favorite>
 
                     <button
                         type="button"
-                        class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 transition-colors hover:text-[color:var(--ar-accent)]"
+                        class="discussion-action"
                         @click="reply(comment)"
                     >
                         <i class="fas fa-reply"></i> Odpovedať
                     </button>
                 </div>
 
+                <button
+                    v-if="!isReply && !waiting && replies.length"
+                    type="button"
+                    class="discussion-thread-toggle"
+                    :aria-expanded="repliesExpanded"
+                    @click="repliesExpanded = !repliesExpanded"
+                >
+                    <i class="fas" :class="repliesExpanded ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+                    {{ repliesExpanded ? 'Skryť odpovede' : 'Zobraziť odpovede' }}
+                    <span>{{ replies.length }}</span>
+                </button>
                 <div
-                    v-if="! isReply && ! waiting && (replies.length || replyTo)"
-                    class="mt-4 space-y-4"
+                    v-if="!isReply && !waiting && ((replies.length && repliesExpanded) || replyTo)"
+                    class="discussion-thread"
                 >
                     <comment-item
-                        v-for="item in replies"
+                        v-for="item in (repliesExpanded ? replies : [])"
                         :key="item.id"
                         :comment="item"
                         :post="post"
@@ -145,6 +155,7 @@ export default {
             draft: this.comment.body,
             // Komentár (hlavný alebo odpoveď), na ktorý je otvorený formulár.
             replyTo: null,
+            repliesExpanded: true,
         };
     },
 
@@ -203,6 +214,7 @@ export default {
                 this.comment.replies = [];
             }
             this.comment.replies.push(reply);
+            this.repliesExpanded = true;
             this.replyTo = null;
 
             bus.$emit("flash", { body: reply.published ? "Odpoveď je pridaná!" : "Odpoveď bola skrytá automatickou kontrolou. Podrobnosti dostanete e-mailom." });

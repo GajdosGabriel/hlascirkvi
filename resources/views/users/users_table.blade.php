@@ -11,7 +11,6 @@
                 $columns = [
                     'id' => ['Id', false],
                     'name' => ['Názov', false],
-                    'email' => ['Email', false],
                     'status' => ['Stav', false],
                     'created' => ['Registrácia', true],
                     'login' => ['Posledné prihlásenie', true],
@@ -33,6 +32,7 @@
                     </a>
                 </th>
             @endforeach
+            <th>UUID</th>
             <th>Akcia</th>
         </tr>
     </thead>
@@ -42,9 +42,9 @@
             <tr class="border-2 border-gray-300">
                 <td class="td">{{ $user->id }} </td>
                 <td class="td">
-                    <div class="font-semibold">{{ $user->first_name }} {{ $user->last_name }}</div>
+                    <div class="font-semibold">{{ $user->adminName() }}</div>
+                    <div class="text-sm text-gray-500 break-all">{{ $user->email }}</div>
                 </td>
-                <td class="max-w-[14rem] break-all">{{ $user->email }}</td>
                 <td class="text-center">
                     <x-dashboard.status-badge :badge="$user->accountBadge()" />
                 </td>
@@ -60,6 +60,7 @@
                     @endif
                 </td>
                 <td class="text-sm">{{ $user->last_login_via_label ?? '—' }}</td>
+                <td class="text-xs font-mono whitespace-nowrap">{{ $user->uuid }}</td>
                 <td class="td">
                     <dropdown-slot label="Spravovať používateľa">
                         <a href="{{ route('admin.user.edit', [$user->id]) }}">

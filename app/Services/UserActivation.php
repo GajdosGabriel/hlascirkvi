@@ -48,7 +48,8 @@ class UserActivation
      */
     public function verifiedUserFor(string $email): User
     {
-        $user = User::whereEmail($email)->first();
+        $user = User::whereEmail($email)->first()
+            ?? app(PendingUsers::class)->restoreVerified($email);
 
         if (! $user) {
             $user = new User([

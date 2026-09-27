@@ -2,6 +2,7 @@
 
 namespace App\Services\EventPortal;
 
+use App\Support\Seo;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
@@ -617,9 +618,7 @@ class RemoteEvent implements Arrayable
             $schema['endDate'] = $this->endAt()->toIso8601String();
         }
 
-        if ($this->hasPoster()) {
-            $schema['image'] = [$this->poster()];
-        }
+        $schema['image'] = $this->schemaImages();
 
         if ($this->address()) {
             $schema['location'] = [
@@ -660,6 +659,33 @@ class RemoteEvent implements Arrayable
         // neposkytuje; canal (organizátor) nie je automaticky účinkujúci.
 
         return $schema;
+    }
+
+    /**
+     * Obrázky pre schema.org: plagát, potom fotografie z galérie. Podujatie
+     * bez nich dostane predvolený obrázok webu (ten istý ako og:image) —
+     * Search Console inak hlási „Chýbajúce pole image".
+     *
+     * @return string[]
+     */
+    protected function schemaImages(): array
+    {
+        $images = $this->hasPoster() ? [$this->poster()] : [];
+
+        foreach ($this->gallery() as $file) {
+            $url = $file['original_file_url'] ?? null;
+
+            if (is_string($url) && $url !== '' && ! Str::endsWith($url, '.svg')) {
+                $images[] = $url;
+            }
+        }
+
+        $images = array_values(array_unique(array_filter(array_map(
+            static fn ($url) => Seo::url($url),
+            $images
+        ))));
+
+        return $images ?: [Seo::url(config('seo.image'))];
     }
 
     public function get(string $key, mixed $default = null): mixed

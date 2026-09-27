@@ -21,7 +21,7 @@ class CommentController extends Controller
     {
         $source = 'users';
         abort_unless(in_array($source, ['users', 'youtube', 'all'], true), 422);
-        $comments = Comment::with(['user:id,first_name,last_name,avatar', 'parent:id,body,user_name'])
+        $comments = Comment::with(['user:id,first_name,last_name,avatar,email', 'parent:id,body,user_name'])
             ->when($source !== 'all', fn ($query) => $this->source($query, $source))
             ->withCount('replies')
             ->filter($filters)
@@ -143,7 +143,9 @@ class CommentController extends Controller
                     });
             });
         }
-        return $query->whereNull('comments.youtube_comment_id')
+        return $query->where('comments.source', 'site')
+            ->whereExists(fn ($q) => $q->selectRaw('1')->from('users')->whereColumn('users.id', 'comments.user_id')->whereNotNull('users.email_verified_at')->whereNull('users.deleted_at'))
+            ->whereNull('comments.youtube_comment_id')
             ->whereNotNull('comments.user_id')
             ->where('comments.user_id', '!=', CommentSync::USER_ID);
     }
