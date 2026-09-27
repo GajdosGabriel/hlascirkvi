@@ -81,6 +81,31 @@ class AdminAiSummaryTest extends TestCase
         $this->assertDatabaseCount('ai_usages', 0);
     }
 
+    public function test_usage_filters_apply_to_totals_groups_and_paginated_calls_only(): void
+    {
+        $this->travelTo(now()->startOfMonth()->addDays(10)->startOfDay());
+        $attributes = ['model' => 'model-a', 'prompt_tokens' => 100, 'completion_tokens' => 20, 'cost_usd' => 0.01];
+        for ($i = 0; $i < 26; $i++) {
+            AiUsage::create($attributes + ['feature' => 'canal_enrichment']);
+        }
+        AiUsage::create($attributes + ['feature' => 'guest_reply']);
+        AiUsage::create(array_replace($attributes, ['feature' => 'canal_enrichment', 'model' => 'model-b']));
+        $old = AiUsage::create($attributes + ['feature' => 'canal_enrichment']);
+        $old->forceFill(['created_at' => now()->subDays(8)])->save();
+
+        $url = '/admin/ai?days=7&feature=canal_enrichment&model=model-a';
+        $response = $this->actingAs($this->admin())->get($url)->assertOk();
+        $response->assertViewHas('periodTotals', fn ($total) => (int) $total->calls === 26 && (int) $total->prompt === 2600 && abs($total->cost - 0.26) < 0.00001);
+        $response->assertViewHas('month', fn ($total) => (int) $total->calls === 29);
+        $response->assertViewHas('daily', fn ($rows) => $rows->count() === 1 && (int) $rows->first()->calls === 26);
+        $response->assertViewHas('groups', fn ($groups) => $groups->every(fn ($group) => $group['rows']->count() === 1 && (int) $group['rows']->first()->calls === 26));
+        $response->assertViewHas('recent', fn ($rows) => $rows->total() === 26 && $rows->count() === 25 && str_contains($rows->nextPageUrl(), 'feature=canal_enrichment'));
+        $this->get($url.'&page=2')->assertOk()->assertViewHas('recent', fn ($rows) => $rows->count() === 1);
+        $this->get('/admin/ai?feature=missing')->assertOk()->assertViewHas('periodTotals', fn ($total) => (int) $total->calls === 0);
+        $this->getJson('/admin/ai?days=10000')->assertUnprocessable();
+        $this->travelBack();
+    }
+
     public function test_vynutene_zhrnutie_zapise_spotrebu_aj_pri_vypnutych_davkach(): void
     {
         $this->fakeSummary();

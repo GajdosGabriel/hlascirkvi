@@ -209,8 +209,72 @@
                     <p class="text-sm text-gray-500">Zatiaľ žiadne kontroly profilov.</p>
                 @endforelse
             </x-dashboard.panel>
-            {{-- Po dňoch --}}
-            <x-dashboard.panel title="Posledných 30 dní" class="mt-6">
+            <x-dashboard.panel title="Prehľad spotreby" class="mt-6" id="spotreba">
+                <form method="GET" action="{{ route('admin.ai.index') }}#spotreba" class="grid gap-4 sm:grid-cols-4 mb-6">
+                    <div class="form-group">
+                        <label for="usage_days">Obdobie</label>
+                        <select id="usage_days" name="days" class="form-control">
+                            @foreach ([1 => 'Dnes', 7 => 'Posledných 7 dní', 30 => 'Posledných 30 dní', 90 => 'Posledných 90 dní', 365 => 'Posledných 365 dní'] as $value => $label)
+                                <option value="{{ $value }}" @selected($days === $value)>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="usage_feature">Operácia</label>
+                        <select id="usage_feature" name="feature" class="form-control">
+                            <option value="">Všetky operácie</option>
+                            @foreach ($features as $feature)
+                                <option value="{{ $feature }}" @selected(($filters['feature'] ?? '') === $feature)>{{ $featureLabels[$feature] ?? $feature }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="usage_model">Model</label>
+                        <select id="usage_model" name="model" class="form-control">
+                            <option value="">Všetky modely</option>
+                            @foreach ($models as $usageModel)
+                                <option value="{{ $usageModel }}" @selected(($filters['model'] ?? '') === $usageModel)>{{ $usageModel }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="flex items-end gap-3 pb-4">
+                        <button type="submit" class="ar-btn ar-btn--accent">Zobraziť</button>
+                        <a href="{{ route('admin.ai.index') }}#spotreba" class="underline">Zrušiť filtre</a>
+                    </div>
+                </form>
+                <p class="mb-4 text-sm text-gray-500">Filtre platia pre nasledujúce prehľady a zoznam volaní. Mesačná spotreba a limit vyššie zahŕňajú všetky operácie.</p>
+                <div class="grid gap-4 sm:grid-cols-3">
+                    <x-dashboard.metric label="Cena za výber" :value="$usd($periodTotals->cost)" />
+                    <x-dashboard.metric label="Volania za výber" :value="$num($periodTotals->calls)" />
+                    <x-dashboard.metric label="Tokeny za výber" :value="$num($periodTotals->prompt + $periodTotals->completion)">
+                        {{ $num($periodTotals->prompt) }} vstup · {{ $num($periodTotals->completion) }} výstup
+                    </x-dashboard.metric>
+                </div>
+            </x-dashboard.panel>
+
+            @foreach ($groups as $column => $group)
+                <x-dashboard.panel :title="$group['title']" class="mt-6">
+                    <x-dashboard.table :label="$group['title']">
+                        <thead><tr><th>Názov</th><th>Volania</th><th>Vstupné tokeny</th><th>Výstupné tokeny</th><th>Cena</th><th>Podiel ceny</th></tr></thead>
+                        <tbody>
+                            @forelse ($group['rows'] as $row)
+                                <tr>
+                                    <td>{{ $column === 'feature' ? ($featureLabels[$row->label] ?? $row->label) : $row->label }}</td>
+                                    <td>{{ $num($row->calls) }}</td>
+                                    <td>{{ $num($row->prompt) }}</td>
+                                    <td>{{ $num($row->completion) }}</td>
+                                    <td>{{ $usd($row->cost) }}</td>
+                                    <td>{{ $periodTotals->cost > 0 ? number_format($row->cost / $periodTotals->cost * 100, 1, ',', ' ') . ' %' : '—' }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="6">Pre zvolený výber nie sú žiadne volania.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </x-dashboard.table>
+                </x-dashboard.panel>
+            @endforeach
+
+            <x-dashboard.panel title="Spotreba po dňoch" class="mt-6">
                 @if ($daily->isEmpty())
                     <p class="text-sm text-gray-500">Zatiaľ žiadne volania.</p>
                 @else
@@ -233,18 +297,20 @@
             </x-dashboard.panel>
 
             {{-- Posledné volania --}}
-            <x-dashboard.panel title="Posledné zhrnutia" class="mt-6">
+            <x-dashboard.panel title="AI volania" class="mt-6">
                 @if ($recent->isEmpty())
                     <p class="text-sm text-gray-500">Zatiaľ žiadne volania.</p>
                 @else
                     <x-dashboard.table label="Posledné volania OpenAI">
                         <thead>
-                            <tr><th>Kedy</th><th>Príspevok</th><th>Tokeny</th><th>Cena</th></tr>
+                            <tr><th>Kedy</th><th>Operácia</th><th>Model</th><th>Príspevok</th><th>Tokeny (vstup / výstup)</th><th>Cena</th></tr>
                         </thead>
                         <tbody>
                             @foreach ($recent as $usage)
                                 <tr>
                                     <td class="whitespace-nowrap">{{ $usage->created_at?->format('j. n. H:i') }}</td>
+                                    <td>{{ $featureLabels[$usage->feature] ?? $usage->feature }}</td>
+                                    <td>{{ $usage->model }}</td>
                                     <td>
                                         @if ($usage->post)
                                             <a href="{{ route('post.show', [$usage->post->id, $usage->post->slug]) }}" class="underline">
@@ -254,12 +320,13 @@
                                             —
                                         @endif
                                     </td>
-                                    <td>{{ $num($usage->prompt_tokens + $usage->completion_tokens) }}</td>
+                                    <td>{{ $num($usage->prompt_tokens) }} / {{ $num($usage->completion_tokens) }}</td>
                                     <td>{{ $usd($usage->cost_usd) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </x-dashboard.table>
+                    <div class="mt-4">{{ $recent->fragment('spotreba')->links() }}</div>
                 @endif
             </x-dashboard.panel>
         </x-slot>

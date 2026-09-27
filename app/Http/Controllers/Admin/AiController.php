@@ -21,8 +21,25 @@ use Illuminate\Validation\Rule;
  */
 class AiController extends Controller
 {
-    public function index(PostSummarizer $summarizer)
+    public function index(Request $request, PostSummarizer $summarizer)
     {
+        $filters = $request->validate([
+            'days' => ['nullable', 'integer', 'in:1,7,30,90,365'],
+            'feature' => ['nullable', 'string', 'max:255'],
+            'model' => ['nullable', 'string', 'max:255'],
+        ]);
+        $days = (int) ($filters['days'] ?? 30);
+        $period = AiUsage::query()
+            ->where('created_at', '>=', now()->subDays($days - 1)->startOfDay())
+            ->when($filters['feature'] ?? null, fn ($q, $value) => $q->where('feature', $value))
+            ->when($filters['model'] ?? null, fn ($q, $value) => $q->where('model', $value));
+        $sums = 'COUNT(*) as calls, COALESCE(SUM(prompt_tokens), 0) as prompt, COALESCE(SUM(completion_tokens), 0) as completion, COALESCE(SUM(cost_usd), 0) as cost';
+        $groups = collect(['feature' => 'Podľa operácie', 'model' => 'Podľa modelu'])
+            ->map(fn ($title, $column) => [
+                'title' => $title,
+                'rows' => (clone $period)->select($column.' as label')->selectRaw($sums)
+                    ->groupBy($column)->orderByDesc('cost')->get(),
+            ]);
         $month = AiUsage::thisMonth()->toBase()
             ->selectRaw('COUNT(*) as calls, COALESCE(SUM(prompt_tokens), 0) as prompt, COALESCE(SUM(completion_tokens), 0) as completion, COALESCE(SUM(cost_usd), 0) as cost')
             ->first();
@@ -31,9 +48,7 @@ class AiController extends Controller
             ->selectRaw('COUNT(*) as calls, COALESCE(SUM(prompt_tokens + completion_tokens), 0) as tokens, COALESCE(SUM(cost_usd), 0) as cost')
             ->first();
 
-        // Po dňoch za 30 dní — aby bolo vidieť, koľko stojí bežný deň.
-        $daily = AiUsage::query()->toBase()
-            ->where('created_at', '>=', now()->subDays(29)->startOfDay())
+        $daily = (clone $period)->toBase()
             ->selectRaw('DATE(created_at) as day, COUNT(*) as calls, SUM(prompt_tokens + completion_tokens) as tokens, SUM(cost_usd) as cost')
             ->groupBy(DB::raw('DATE(created_at)'))
             ->orderByDesc('day')
@@ -49,6 +64,13 @@ class AiController extends Controller
             ->count();
 
         return view('admins.ai', [
+            'days' => $days,
+            'filters' => $filters,
+            'features' => AiUsage::query()->distinct()->orderBy('feature')->pluck('feature'),
+            'models' => AiUsage::query()->distinct()->orderBy('model')->pluck('model'),
+            'featureLabels' => ['post_summary' => 'Zhrnutia príspevkov', 'canal_enrichment' => 'Dopĺňanie kanálov', 'guest_reply' => 'Odpovede návštevníkom'],
+            'periodTotals' => (clone $period)->selectRaw($sums)->first(),
+            'groups' => $groups,
             'configured' => $summarizer->isConfigured(),
             'enabled' => $summarizer->enabled(),
             'batch' => $summarizer->batchSize(),
@@ -65,8 +87,8 @@ class AiController extends Controller
             'averageCost' => $averageCost,
             'waiting' => $waiting,
             'summarized' => Post::query()->whereNotNull('summary')->count(),
-            'recent' => AiUsage::with(['post' => fn ($q) => $q->without(['favorites', 'images', 'canal'])->select('id', 'title', 'slug')])
-                ->where('feature', PostSummarizer::FEATURE)->latest('id')->limit(15)->get(),
+            'recent' => (clone $period)->with(['post' => fn ($q) => $q->without(['favorites', 'images', 'canal'])->select('id', 'title', 'slug')])
+                ->latest('id')->paginate(25)->withQueryString(),
         ]);
     }
 
