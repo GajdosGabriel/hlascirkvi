@@ -78,7 +78,7 @@ class CanalRequest extends FormRequest
             // Osobnosť alebo cirkev/spoločenstvo — rozhoduje, na ktorej karte
             // predného zoznamu kanál stojí.
             'identity_mode'             => ['sometimes', 'required', Rule::enum(CanalIdentityMode::class)],
-            'import_day'       => 'nullable|integer|between:0,6',
+            'import_day'       => ['nullable', Rule::in(['auto', 0, 1, 2, 3, 4, 5, 6])],
             'post_section'     => ['nullable', Rule::enum(CanalSection::class)],
             // `users` a `published` sa vykresľujú len v @can('superadmin') bloku
             // formulára (resources/views/dashboard/canals/edit.blade.php).
@@ -86,6 +86,7 @@ class CanalRequest extends FormRequest
             'users'            => 'nullable|array',
             'users.*'          => 'integer|exists:users,id',
             'published'        => 'nullable|date',
+            'front_listed'     => 'sometimes|boolean',
         ];
     }
 
@@ -114,6 +115,12 @@ class CanalRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+        // Popis píše správca v HTML editore a vypisuje sa na verejnom
+        // profile — ukladá sa už očistený (App\Support\SafeHtml).
+        if ($this->has('description')) {
+            $this->merge(['description' => \App\Support\SafeHtml::clean($this->input('description'))]);
+        }
+
         if ($this->has('youtube_channel')) {
             $this->merge(['youtube_channel' => $this->channelId($this->input('youtube_channel'))]);
         }
@@ -161,7 +168,7 @@ class CanalRequest extends FormRequest
         // a smerovanie videí nastavuje admin až v úprave, preto tu ostávajú
         // na predvolených hodnotách stĺpca.
         $data = collect($this->validated())
-            ->except(['users', 'published', 'import_day', 'post_section'])
+            ->except(['users', 'published', 'import_day', 'post_section', 'front_listed'])
             ->all();
 
         // Bez zadaného typu vznikne organizácia. Osobný kanál sa zakladá

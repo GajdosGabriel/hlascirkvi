@@ -41,6 +41,12 @@ class Canal extends Model
         'identity_mode' => \App\Enums\CanalIdentityMode::class,
         'post_section' => \App\Enums\CanalSection::class,
         'import_day' => 'integer',
+        'video_check_next_at' => 'datetime',
+        'video_check_attempted_at' => 'datetime',
+        'video_check_succeeded_at' => 'datetime',
+        'name_search_window_start' => 'datetime',
+        'name_search_window_end' => 'datetime',
+        'name_search_completed_until' => 'datetime',
     ];
 
     protected static function booted(): void
@@ -53,8 +59,8 @@ class Canal extends Model
     }
 
     /**
-     * Dni, v ktoré denný beh hľadá kanál na YouTube podľa mena. Číslovanie
-     * kopíruje Carbon::dayOfWeek, aby sa dopyt dal poskladať bez prekladu.
+     * Dni týždennej kontroly videí. So zdrojom sa číta kanál/playlist,
+     * bez zdroja sa zachováva pôvodné hľadanie mena. Číslovanie Carbon::dayOfWeek.
      */
     public const IMPORT_DAYS = [
         0 => 'Nedeľa',
@@ -187,5 +193,12 @@ class Canal extends Model
         $acronym = '';
         foreach (explode(' ', $this->title) as $word) $acronym .= mb_substr($word, 0, 1, 'utf-8');
         return $acronym;
+    }
+
+    // Popis na vypísanie cez v-html: HTML z editora očistené, starý čistý
+    // text escapovaný. Nie je v $appends — posiela sa len tam, kde sa kreslí.
+    public function getDescriptionHtmlAttribute(): string
+    {
+        return \App\Support\SafeHtml::render($this->description);
     }
 }

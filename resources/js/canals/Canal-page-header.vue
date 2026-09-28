@@ -78,10 +78,9 @@
         <transition name="fade">
             <div
                 v-if="showDescription"
-                class="w-full border-t border-[color:var(--ar-line)] pt-3 text-sm leading-relaxed text-gray-600"
-            >
-                {{ canal.description }}
-            </div>
+                class="ar-canal-description w-full border-t border-[color:var(--ar-line)] pt-3 text-sm leading-relaxed text-gray-600"
+                v-html="canal.description_html"
+            ></div>
         </transition>
     </div>
 </template>
@@ -172,6 +171,36 @@ export default {
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.2s ease;
+}
+
+/* Popis je HTML z editora (očistené na serveri, App\Support\SafeHtml). */
+.ar-canal-description :deep(p + p),
+.ar-canal-description :deep(ul),
+.ar-canal-description :deep(ol),
+.ar-canal-description :deep(blockquote) {
+    margin-top: 0.5rem;
+}
+.ar-canal-description :deep(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+}
+.ar-canal-description :deep(ol) {
+    list-style: decimal;
+    padding-left: 1.25rem;
+}
+.ar-canal-description :deep(a) {
+    text-decoration: underline;
+}
+.ar-canal-description :deep(h2),
+.ar-canal-description :deep(h3),
+.ar-canal-description :deep(h4) {
+    margin-top: 0.75rem;
+    font-weight: 700;
+    color: var(--ar-ink);
+}
+.ar-canal-description :deep(blockquote) {
+    border-left: 3px solid var(--ar-line);
+    padding-left: 0.75rem;
 }
 
 .fade-enter-from,

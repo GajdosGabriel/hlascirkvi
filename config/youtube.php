@@ -10,5 +10,11 @@
 */
 
 return [
-    'key' => env('YOUTUBE_API_KEY', 'YOUR_API_KEY')
+    'key' => env('YOUTUBE_API_KEY', 'YOUR_API_KEY'),
+    'name_search' => [
+        'max_pages_per_run' => 40,
+        'max_pages_per_canal' => 3,
+        'initial_days' => 30,
+        'overlap_days' => 2,
+    ],
 ];

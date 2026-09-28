@@ -25,6 +25,8 @@ class CanalResource extends JsonResource
             'street' => $this->street,
             'psc' => $this->psc,
             'description' => $this->description,
+            // Na vypísanie cez v-html: HTML z editora očistené, starý čistý text escapovaný.
+            'description_html' => $this->description_html,
             'phone' => $this->phone,
             'youtube_channel' => $this->youtube_channel,
             'youtube_playlist' => $this->youtube_playlist,

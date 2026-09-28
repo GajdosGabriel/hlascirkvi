@@ -180,7 +180,7 @@
                     <div class="mb-4 border-b border-gray-200 pb-4">
                         <p class="font-semibold">
                             @if ($enrichment->canal)
-                                <a href="{{ route('profile.canals.edit', $enrichment->canal) }}" class="underline">{{ $enrichment->canal->title }}</a>
+                                <a href="{{ route('admin.canal.show', $enrichment->canal) }}" class="underline">{{ $enrichment->canal->title }}</a>
                             @else
                                 Odstránený kanál
                             @endif

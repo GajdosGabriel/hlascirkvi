@@ -9,6 +9,7 @@ use App\Services\Youtube\NotifyAdmin;
 use App\Services\Youtube\PlaylistId;
 use App\Services\Youtube\VideoId;
 use App\Services\Youtube\VideoImporter;
+use App\Services\Youtube\VideoImportSchedule;
 use App\Services\Youtube\YoutubeApi;
 use App\Services\Youtube\YoutubeApiException;
 use Illuminate\Support\Facades\Log;
@@ -73,10 +74,20 @@ class VideoUpload
         $canals = $this->canals->getYoutubeVideos()
             ->when($canalId, fn ($canals) => $canals->where('id', $canalId));
 
-        foreach ($canals as $canal) {
+        $canals = $canals->filter(fn ($canal) => $canalId !== null || VideoImportSchedule::due($canal));
+        \App\Models\Canal::whereKey($canals->modelKeys())->whereNull('video_check_next_at')
+            ->update(['video_check_next_at' => now()]);
+
+        foreach ($canals->sortBy('video_check_next_at') as $canal) {
+            $canal->video_check_next_at ??= now();
+            $canal->forceFill(['video_check_attempted_at' => now()])->save();
             try {
                 $saved += $this->validateUrlPlaylistOrChannel($canal);
+                if ($canal->youtube_disabled_at === null) {
+                    VideoImportSchedule::succeeded($canal);
+                }
             } catch (\Throwable $e) {
+                VideoImportSchedule::failed($canal, $e);
                 Log::warning('Import videí z YouTube zlyhal: ' . $e->getMessage(), [
                     'canal_id' => $canal->id,
                     'channel' => $canal->youtube_channel,

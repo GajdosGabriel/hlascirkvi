@@ -48,11 +48,18 @@ class EloquentCanalRepository extends AbstractRepository implements CanalReposit
      */
     protected function getResult(int $day)
     {
-        return $this->entity->where('import_day', $day)->whereNull('youtube_disabled_at')->notPaused()->where(function ($query) {
-            $query->whereNull('youtube_channel')->orWhere('youtube_channel', '=', '');
-        })->where(function ($query) {
-            $query->whereNull('youtube_playlist')->orWhere('youtube_playlist', '=', '');
-        })->get();
+        return $this->entity->whereNotNull('import_day')
+            ->where(function ($query) use ($day) {
+                $query->where('video_check_next_at', '<=', now())
+                    ->orWhere(fn ($q) => $q->whereNull('video_check_next_at')->where('import_day', $day));
+            })
+            ->where(fn ($q) => $q->whereNull('video_check_attempted_at')->orWhere('video_check_attempted_at', '<', now()->startOfDay()))
+            ->orderBy('video_check_next_at')->orderBy('id')
+            ->whereNull('youtube_disabled_at')->notPaused()->where(function ($query) {
+                $query->whereNull('youtube_channel')->orWhere('youtube_channel', '=', '');
+            })->where(function ($query) {
+                $query->whereNull('youtube_playlist')->orWhere('youtube_playlist', '=', '');
+            })->get();
     }
 
 

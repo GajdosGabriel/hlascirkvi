@@ -41,14 +41,12 @@ class CanalController extends Controller
 
     /**
      * Detail kanála v administrácii. Obsah zdieľa s dashboard/canals/{id}
-     * (components/canal/overview), navyše ukazuje admin-details — preto
-     * rovnaké počty a vzťahy ako výpis.
+     * (components/canal/overview), vrátane spoločného načítania počtov
+     * a vzťahov. Administrátorské odkazy riadia oprávnenia v komponente.
      */
     public function show(Canal $canal)
     {
-        $canal->load(['village:id,fullname', 'users:id,first_name,last_name,email', 'favorites'])
-            ->loadCount(['posts', 'prayers', 'seminars'])
-            ->loadMax('posts', 'created_at');
+        app(\App\Services\CanalOverview::class)->load($canal);
 
         return view('admins.canals.show', compact('canal'));
     }

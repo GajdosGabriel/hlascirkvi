@@ -150,6 +150,27 @@ class YoutubeApi
         ])->items ?? [];
     }
 
+    /** Jedna stránka pravidelného hľadania, s pevným časovým oknom. */
+    public function recentVideos(string $query, string $after, string $before, ?string $pageToken = null): object
+    {
+        $response = $this->get('search', array_filter([
+            'q' => $query,
+            'type' => 'video',
+            'part' => 'snippet',
+            'order' => 'date',
+            'maxResults' => 50,
+            'publishedAfter' => $after,
+            'publishedBefore' => $before,
+            'pageToken' => $pageToken,
+            'fields' => 'nextPageToken,items/id/videoId',
+        ], fn ($value) => $value !== null));
+
+        return (object) [
+            'items' => $response->items ?? [],
+            'nextPageToken' => $response->nextPageToken ?? null,
+        ];
+    }
+
     private function firstId(string $endpoint, array $query): ?string
     {
         $id = $this->get($endpoint, $query + ['fields' => 'items/id'])->items[0]->id ?? null;

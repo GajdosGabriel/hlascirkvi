@@ -32,7 +32,6 @@
                     </a>
                 </th>
             @endforeach
-            <th>UUID</th>
             <th>Akcia</th>
         </tr>
     </thead>
@@ -60,7 +59,6 @@
                     @endif
                 </td>
                 <td class="text-sm">{{ $user->last_login_via_label ?? '—' }}</td>
-                <td class="text-xs font-mono whitespace-nowrap">{{ $user->uuid }}</td>
                 <td class="td">
                     <dropdown-slot label="Spravovať používateľa">
                         <a href="{{ route('admin.user.edit', [$user->id]) }}">
@@ -70,7 +68,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="8"><x-dashboard.empty>Bez záznamu</x-dashboard.empty></td></tr>
+            <tr><td colspan="7"><x-dashboard.empty>Bez záznamu</x-dashboard.empty></td></tr>
         @endforelse
     </tbody>
 </x-dashboard.table>

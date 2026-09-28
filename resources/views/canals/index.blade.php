@@ -82,8 +82,10 @@
 
     $canalImage = $posts->first()?->images?->first()?->originalImageUrl;
 
-    $canalDescription = strip_tags((string) $canal->description)
-        ?: 'Kázne, prenosy bohoslužieb a videá kanála ' . $canal->title . ' na Hlase Cirkvi.';
+    // Popis býva HTML z editora — značky sa nahradia medzerou, aby sa
+    // odseky v meta popise nezliali do jedného slova.
+    $canalDescription = \App\Support\Seo::text(preg_replace('/<[^>]*>/', ' ', (string) $canal->description))
+        ?:'Kázne, prenosy bohoslužieb a videá kanála ' . $canal->title . ' na Hlase Cirkvi.';
 
     $seo = [
         'title' => $canalPage > 1
@@ -142,7 +144,7 @@
 
                 {{-- Identita a odber. Vlastný Vue komponent, preto stojí
                      samostatne a čísla kanála idú až pod neho. --}}
-                <canal-page-header :canal="{{ $canal }}"></canal-page-header>
+                <canal-page-header :canal="{{ json_encode($canal->toArray() + ['description_html' => $canal->description_html]) }}"></canal-page-header>
 
                 @if (! $canal->published)
                     <p class="mb-5 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">

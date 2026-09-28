@@ -7,7 +7,7 @@
 @section('content')
 
     @php
-        $isAdmin = auth()->user()->hasRole('admin');
+        $isAdmin = auth()->user()->can('admin');
         $isSuperadmin = auth()->user()->can('superadmin');
 
         // Po neúspešnej validácii sa formulár vracia s tým, čo užívateľ
@@ -56,9 +56,11 @@
 
                     <div>
                         <label class="ar-label" for="description">Popis kanála</label>
-                        <textarea class="{{ $field('description') }}" id="description" name="description" rows="5"
-                                  placeholder="Predstavte svoj kanál a jeho obsah.">{{ old('description', $canal->description) }}</textarea>
-                        <p class="ar-hint">Zobrazí sa v hlavičke verejného profilu kanála.</p>
+                        {{-- HTML editor (TinyMCE). Starý popis je čistý text, editor
+                             by mu zlial riadky — forEditor() ho rozdelí na odseky. --}}
+                        <textarea class="{{ $field('description') }}" id="description" name="description" rows="8"
+                                  placeholder="Predstavte svoj kanál a jeho obsah.">{{ \App\Support\SafeHtml::forEditor(old('description', $canal->description)) }}</textarea>
+                        <p class="ar-hint">Zobrazí sa v hlavičke verejného profilu kanála. Povolené je základné formátovanie, zoznamy a odkazy.</p>
                         @error('description') <p class="ar-error">{{ $message }}</p> @enderror
                     </div>
 
@@ -260,7 +262,17 @@
                         </div>
 
                         <div>
-                            <span class="ar-label">Predný zoznam na úvodnej stránke</span>
+                            @if ($isSuperadmin)
+                                <label class="ar-label" for="front_listed">Predný zoznam na úvodnej stránke</label>
+                                <select class="{{ $field('front_listed') }}" id="front_listed" name="front_listed">
+                                    <option value="0" @selected(! old('front_listed', (bool) $canal->front_listed_at))>Nezaradiť do predného zoznamu</option>
+                                    <option value="1" @selected(old('front_listed', (bool) $canal->front_listed_at))>Zaradiť do predného zoznamu</option>
+                                </select>
+                                <p class="ar-hint">Zaradenie sa prejaví po uložení. Na verejnom zozname sa zobrazujú iba zverejnené kanály; výber na úvodné karty je automatický.</p>
+                                @error('front_listed') <p class="ar-error">{{ $message }}</p> @enderror
+                            @else
+                                <span class="ar-label">Predný zoznam na úvodnej stránke</span>
+                            @endif
                             <p class="ar-hint">
                                 @if ($canal->front_listed_at)
                                     Kanál v prednom zozname je.
@@ -287,19 +299,36 @@
                             @error('post_section') <p class="ar-error">{{ $message }}</p> @enderror
                         </div>
 
-                        <div class="sm:max-w-xs">
-                            <label class="ar-label" for="import_day">Hľadať videá podľa mena v deň</label>
-                            <select class="{{ $field('import_day') }}" id="import_day" name="import_day">
-                                <option value="">Nehľadať podľa mena</option>
+                        <div class="sm:max-w-md" data-video-schedule @if (! filled(old('youtube_channel', $canal->youtube_channel))) hidden @endif>
+                            <label class="ar-label" for="import_day">Deň kontroly videí</label>
+                            <select class="{{ $field('import_day') }}" id="import_day" name="import_day"
+                                    @disabled(! filled(old('youtube_channel', $canal->youtube_channel)))>
+                                <option value="" @selected($importDay === null || $importDay === '')>Denne</option>
+                                <option value="auto" @selected($importDay === 'auto')>Automaticky rozložiť — {{ $importDays[$suggestedImportDay] }}</option>
                                 @foreach ($importDays as $cislo => $nazov)
                                     <option value="{{ $cislo }}" @selected((string) $importDay === (string) $cislo)>{{ $nazov }}</option>
                                 @endforeach
                             </select>
-                            {{-- Hľadanie podľa mena je fulltext cez celé YouTube a stojí
-                                 sto jednotiek dennej kvóty, preto len jeden deň v týždni
-                                 a len pre kanály bez vlastného kanála či playlistu. --}}
-                            <p class="ar-hint">Len pre kanály bez vlastného kanála aj playlistu na YouTube.</p>
+                            <p class="ar-hint">Kontroluje nové videá zo zadaného YouTube kanála aj pripojeného playlistu. Vybraný deň znamená raz týždenne o 16:24. Automatická voľba pri uložení vyberie najmenej obsadený deň.</p>
                             @error('import_day') <p class="ar-error">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div>
+                            <span class="ar-label">Stav kontroly videí</span>
+                            <p class="ar-hint">Posledná úspešná kontrola: {{ $canal->video_check_succeeded_at?->format('d. m. Y H:i') ?? 'Zatiaľ neevidovaná' }}.</p>
+                            @if ($canal->youtube_disabled_at || $canal->post_section === \App\Enums\CanalSection::Paused)
+                                <p class="ar-hint">Automatická kontrola je pozastavená.</p>
+                            @elseif ($canal->video_check_next_at && $canal->video_check_next_at->isPast())
+                                <p class="ar-hint">Čaká na najbližší denný beh{{ $canal->video_check_attempted_at?->isToday() ? ' zajtra' : '' }}.</p>
+                            @else
+                                <p class="ar-hint">Najbližšia kontrola: {{ ($canal->video_check_next_at ?? \App\Services\Youtube\VideoImportSchedule::nextDate($canal))?->format('d. m. Y H:i') ?? 'Nie je naplánovaná' }}.</p>
+                            @endif
+                            @if ($canal->name_search_window_end)
+                                <p class="ar-hint">Vyhľadávanie je rozpracované, pokračovať bude pri ďalšom dennom behu.</p>
+                            @endif
+                            @if ($canal->video_check_error)
+                                <p class="ar-error">{{ $canal->video_check_error }}</p>
+                            @endif
                         </div>
                     </div>
                 </section>
@@ -308,6 +337,29 @@
             <x-dashboard.form-bar :cancel="route('profile.canals.index')" />
         </form>
     </x-dashboard.frame>
+
+    {{-- Ponuka editora zodpovedá značkám, ktoré nechá App\Support\SafeHtml. --}}
+    @include('posts.editor', ['selector' => '#description', 'height' => 280])
+
+    @if ($isAdmin)
+        @push('scripts')
+            <script>
+                window.arReady(() => {
+                    const source = document.getElementById('youtube_channel');
+                    const schedule = document.querySelector('[data-video-schedule]');
+                    if (!source || !schedule) return;
+                    const refresh = () => {
+                        const visible = source.value.trim() !== '';
+                        schedule.hidden = !visible;
+                        schedule.querySelector('select').disabled = !visible;
+                    };
+                    source.addEventListener('input', refresh);
+                    source.addEventListener('change', refresh);
+                    refresh();
+                });
+            </script>
+        @endpush
+    @endif
 
     @if ($isSuperadmin)
         @push('scripts')

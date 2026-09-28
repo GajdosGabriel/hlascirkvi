@@ -319,7 +319,7 @@
                     {{-- h1 na tejto stránke patrí titulku článku, kanál preto
                          dostane obyčajný riadok. --}}
                     <canal-page-header heading="div" profile-url="{{ route('organizations.show', $post->canal_id) }}"
-                                       :canal="{{ json_encode($post->canal->only(['id', 'title', 'description', 'avatar', 'initialName', 'isFavorited'])) }}"></canal-page-header>
+                                       :canal="{{ json_encode($post->canal->only(['id', 'title', 'description', 'description_html', 'avatar', 'initialName', 'isFavorited'])) }}"></canal-page-header>
                 </div>
 
                 {{-- Automatické zhrnutie dlhého popisu (príkaz posts:summarize).

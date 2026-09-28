@@ -5,13 +5,31 @@
         "slug": "tkkbs",
         "verified_at": "2026-09-28",
         "fields": {
+            "url_www": "https://www.tkkbs.sk",
             "email": "reporter@tkkbs.sk",
             "phone": "+421 2 592 06 510",
-            "street": "Kapitulská 11"
+            "street": "Kapitulská 11",
+            "psc": 81499
         },
         "sources": [
-            "https://www.tkkbs.sk/showpage.php?name=redakcia"
-        ]
+            "https://www.tkkbs.sk/",
+            "https://www.tkkbs.sk/showpage.php?name=redakcia",
+            "https://konferencia.kbs.sk/obsah/sekcia/h/konferencia-biskupov-slovenska/p/kontakt"
+        ],
+        "paragraphs": [
+            "Tlačová kancelária Konferencie biskupov Slovenska je známa pod skratkou TK KBS. Je oficiálnym informačným pracoviskom Konferencie biskupov Slovenska. Verejnosti prináša správy zo života Katolíckej cirkvi. Sleduje domáce aj zahraničné cirkevné udalosti.",
+            "Redakcia publikuje tlačové správy, rozhovory a pozvánky. Informuje o aktivitách biskupov a cirkevných inštitúcií. Na webe sprístupňuje aj fotografie, zvukové záznamy a videá.",
+            "Súčasťou obsahu sú správy zo Svätej stolice a zo života pápeža. TK KBS pripravuje tiež tematické projekty a denné prehľady. Redakcia sídli spolu so sekretariátom KBS na Kapitulskej ulici v Bratislave."
+        ],
+        "coordinates": {
+            "latitude": 48.1433518,
+            "longitude": 17.1052254,
+            "street": "Kapitulská 11",
+            "village_id": 4209,
+            "source_url": "https://bratislava.oma.sk/u/kapitulska/11",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
     },
     {
         "id": 256,
@@ -863,5 +881,335 @@
             "precision": "building/address point",
             "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
         }
+    },
+    {
+        "id": 15,
+        "title": "Kuffa Marian",
+        "slug": "kuffa-marian",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.ikv.sk",
+            "email": "ikv@ikv.sk",
+            "phone": "+421 52 431 39 12",
+            "street": "Žakovce 30",
+            "psc": 5973
+        },
+        "sources": [
+            "https://www.ikv.sk/",
+            "https://www.ikv.sk/kontakty.html",
+            "https://slovensko.stvr.sk/clanky/spolocnost/19201/knaz-marian-kuffa"
+        ],
+        "paragraphs": [
+            "Marián Kuffa je slovenský rímskokatolícky kňaz. Pôsobí vo farnosti Žakovce pod Tatrami. Je predstaveným Inštitútu Krista Veľkňaza. Verejnosť ho pozná najmä vďaka službe ľuďom na okraji spoločnosti.",
+            "V Žakovciach pomáha ľuďom bez domova a po výkone trestu. Inštitút poskytuje zázemie aj ľuďom so závislosťami a ďalším núdznym. Súčasťou diela sú zariadenia sociálnych služieb na viacerých miestach Slovenska.",
+            "Marián Kuffa vystupuje na duchovných a spoločenských podujatiach. Jeho kázne a prednášky sa šíria aj prostredníctvom internetu. Aktuálne kontakty na žakovské dielo zverejňuje Inštitút Krista Veľkňaza na svojom webe."
+        ]
+    },
+    {
+        "id": 85,
+        "title": "Ján Krstiteľ",
+        "slug": "jan-krstitel",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://koinonia.sk",
+            "email": "vysnyklatov@koinonia.sk",
+            "phone": "+421 904 738 091",
+            "street": "Vyšný Klátov 300",
+            "psc": 4412
+        },
+        "sources": [
+            "https://koinonia.sk/kto-sme/",
+            "https://koinonia.sk/kontakt/"
+        ],
+        "paragraphs": [
+            "Koinonia Ján Krstiteľ je katolícke spoločenstvo zamerané na evanjelizáciu. Jeho začiatky siahajú do roku 1974. Komunita bola oficiálne založená v talianskom Lorete v roku 1979. Slovenské komunitné centrum vzniklo pri Košiciach v roku 1994.",
+            "Spoločenstvo tvoria zasvätení členovia, rodiny aj slobodní ľudia. Dôraz kladie na ohlasovanie evanjelia, charizmy a priateľstvo. Organizuje formačné stretnutia, kurzy a školu evanjelizácie.",
+            "Venuje sa mladým ľuďom a sociálnym aktivitám. Pri svojej činnosti využíva hudbu, film a internetové médiá. Centrum Koinonie na Slovensku sa nachádza vo Vyšnom Klátove."
+        ],
+        "coordinates": {
+            "latitude": 48.7382234,
+            "longitude": 21.1245945,
+            "street": "Vyšný Klátov 300",
+            "village_id": 4209,
+            "source_url": "https://poi.oma.sk/w335645332",
+            "precision": "building/complex",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    },
+    {
+        "id": 257,
+        "title": "Kresťanská Misia Maranata",
+        "slug": "krestanska-misia-maranata",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.facebook.com/MaranataKrestanskaMisia"
+        },
+        "sources": [
+            "https://www.facebook.com/MaranataKrestanskaMisia",
+            "https://uesa.sav.sk/wp-content/uploads/2022/07/CS-si-rom.pdf"
+        ],
+        "paragraphs": [
+            "Kresťanská misia Maranata je evanjelikálne spoločenstvo pôsobiace najmä medzi Rómami. Jej začiatky sú spojené s oblasťou Spiša. Postupne rozšírila činnosť do viacerých obcí východného Slovenska. Medzi jej miestne pôsobiská patria Rudňany, Markušovce, Bystrany a ďalšie lokality.",
+            "Spoločenstvo pripravuje pravidelné bohoslužby a biblické vyučovanie. Veľkú časť služby zabezpečujú pastori vyrastajúci z miestnych komunít. Dôraz kladie na osobnú vieru, modlitbu a praktickú zmenu života.",
+            "Svoje bohoslužby a kázne zverejňuje aj prostredníctvom videí. Online kanál prináša záznamy nedeľných aj ďalších stretnutí. Verejná prezentácia misie je dostupná najmä cez jej sociálne siete."
+        ]
+    },
+    {
+        "id": 263,
+        "title": "Rómsky zbor - Sabinov",
+        "slug": "romsky-zbor-sabinov",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.facebook.com/AcSabinov",
+            "email": "rinaldo1977@gmail.com",
+            "psc": 8301
+        },
+        "sources": [
+            "https://www.facebook.com/AcSabinov",
+            "https://www.nakazdomzalezi.sk/co-robime/mensinove-projekty/",
+            "https://www.registeruz.sk/cruz-public/domain/accountingentity/show/265278"
+        ],
+        "paragraphs": [
+            "Rómsky zbor v Sabinove je miestnym zborom Apoštolskej cirkvi na Slovensku. Jeho začiatky siahajú do obdobia okolo roku 2000. Ako samostatný cirkevný zbor pôsobí od roku 2003. Sídlo má na Severnej ulici v Sabinove.",
+            "Zbor organizuje pravidelné bohoslužby a modlitebné stretnutia. Samostatný program venuje deťom a mládeži. Jeho pracovníci pôsobia aj v ďalších rómskych komunitách.",
+            "K činnosti patrí praktická sociálna pomoc a osobná evanjelizácia. Členovia zboru sa podieľali aj na sprístupňovaní biblických textov v rómčine. Chvály a bohoslužby zverejňuje zbor prostredníctvom internetu."
+        ]
+    },
+    {
+        "id": 266,
+        "title": "Apoštolská cirkev Bratislava",
+        "slug": "apostolska-cirkev-bratislava",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.bratislavacitychurch.sk",
+            "email": "office@citychurch.sk",
+            "phone": "+421 905 486 792"
+        },
+        "sources": [
+            "https://www.acsr.sk/zbory/citychurch-bratislava/",
+            "https://www.bratislavacitychurch.sk"
+        ],
+        "paragraphs": [
+            "CityChurch Bratislava je zbor Apoštolskej cirkvi na Slovensku. Patrí k evanjelikálnemu letnično-charizmatickému prostrediu. Zbor vedie pastor spolu s tímom spolupracovníkov. Jeho kancelária sídli na Sreznevského ulici v Bratislave.",
+            "Pravidelné nedeľné bohoslužby sú otvorené verejnosti. Zbor pripravuje aj stretnutia mládeže EXIT. Dorast sa stretáva v programe WIDELIFE.",
+            "Spoločenstvo poskytuje biblické vyučovanie a priestor na spoločnú modlitbu. Kázne a bohoslužby sprístupňuje aj v online podobe. Aktuálny program a kontakty zverejňuje na vlastnom webe a v adresári Apoštolskej cirkvi."
+        ],
+        "coordinates": {
+            "latitude": 48.17047,
+            "longitude": 17.13895,
+            "street": "Sreznevského 2",
+            "village_id": 242,
+            "source_url": "https://www.acsr.sk/zbory/citychurch-bratislava/",
+            "precision": "published address/map point"
+        }
+    },
+    {
+        "id": 268,
+        "title": "Katolícka večerná univerzita",
+        "slug": "katolicka-vecerna-univerzita",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.tvlux.sk/archiv/abecedne/vsetko",
+            "email": "tvlux@tvlux.sk",
+            "phone": "+421 905 320 616",
+            "street": "Prepoštská 5",
+            "psc": 81101
+        },
+        "sources": [
+            "https://www.tvlux.sk/archiv/abecedne/vsetko",
+            "https://www.tvlux.sk/kontakt"
+        ],
+        "paragraphs": [
+            "Katolícka večerná univerzita je archívny vzdelávací formát Televízie LUX. Prináša záznamy prednášok z teológie a duchovného života. Jednotlivé diely vedú kňazi, rehoľníci aj odborní laici. Témy vychádzajú z učenia a praxe Katolíckej cirkvi.",
+            "Prednášky sa venujú Svätému písmu, morálke a spiritualite. Ďalšie časti približujú cirkevné dejiny a pastoráciu. Archív obsahuje aj záznamy z kongresov a odborných podujatí.",
+            "Relácia umožňuje sledovať ucelené prednášky na diaľku. Staršie vydania zostávajú dostupné vo videoarchíve TV LUX. Kontaktné údaje patria prevádzkovateľovi katolíckej televízie."
+        ]
+    },
+    {
+        "id": 274,
+        "title": "Spoločenstvo Dobrého pastiera",
+        "slug": "spolocenstvo-dobreho-pastiera",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.dobrypastier.sk",
+            "email": "info@dobrypastier.sk"
+        },
+        "sources": [
+            "https://www.dobrypastier.sk",
+            "https://www.mladezba.sk/app/uploads/2021/12/LIFENET-2019.pdf",
+            "https://www.kbs.sk/documents/pdf/sekularne_instituty/sekulinstituty2025.pdf"
+        ],
+        "paragraphs": [
+            "Spoločenstvo Dobrého pastiera je katolícke spoločenstvo zamerané na novú evanjelizáciu. Tvoria ho ľudia viacerých generácií. Venuje sa rodinám, deťom, mladým aj starším členom. Svoje poslanie spája s ohlasovaním evanjelia a duchovným sprevádzaním.",
+            "Spoločenstvo organizuje modlitby chvál a formačné stretnutia. Pripravuje kurzy zamerané na rast vo viere. Súčasťou programu sú aj aktivity pre manželov a rodiny.",
+            "Členovia sa stretávajú v menších skupinách a domoch modlitby. Verejné podujatia ponúkajú priestor na modlitbu, vyučovanie a vzájomné vzťahy. Aktuálne informácie a kontakt poskytuje spoločenstvo prostredníctvom svojho webu."
+        ]
+    },
+    {
+        "id": 279,
+        "title": "Komunita redemptoristov a laikov (Koral)",
+        "slug": "komunita-redemptoristov-a-laikov-koral",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.spolocenstvo-rl.sk",
+            "email": "anthony@spolocenstvo-rl.sk",
+            "phone": "+421 903 398 706",
+            "psc": 91304
+        },
+        "sources": [
+            "https://www.vyveska.sk/duchovne-cvicenia-v-tichu-pre-dospelych.html",
+            "https://kftn.estranky.sk/clanky/drietoma.html"
+        ],
+        "paragraphs": [
+            "KORAL je spoločenstvo redemptoristov a laikov v Kostolnej-Záriečí. Pôsobí pri miestnom kláštore redemptoristov. Prepája rehoľnú službu s aktívnym zapojením laikov. Jeho zázemie sa nachádza v tichom prostredí neďaleko Trenčína.",
+            "Komunita pripravuje duchovné cvičenia a formačné pobyty. Program zahŕňa spoločnú modlitbu, prednášky a slávenie svätej omše. Niektoré obnovy sú vedené v tichu.",
+            "Na podujatia pozýva dospelých aj ďalšie skupiny záujemcov. Pri organizovaní spolupracuje občianske združenie KORAL s redemptoristami. Verejné pozvánky uvádzajú kontakt a adresu kláštora v Kostolnej-Záriečí."
+        ]
+    },
+    {
+        "id": 280,
+        "title": "KM Maranata Anglicko",
+        "slug": "km-maranata-anglicko",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://www.youtube.com/channel/UCOwF5ufqAJGLmf8nfFTuWGg",
+            "https://hlascirkvi.sk/post/27653/krestanska-misia-maranata-sheffield-live-tema-pevne-zaklady-bozieho-domu",
+            "https://hlascirkvi.sk/post/14469/christian-mission-immanuel-sheffield-pastor-tomas-budi"
+        ],
+        "paragraphs": [
+            "KM Maranata Anglicko je kresťanské spoločenstvo pôsobiace v meste Sheffield. Jeho program je určený najmä slovensky a česky hovoriacim veriacim. Patrí do evanjelikálneho prostredia. Na stretnutiach vystupujú pastori a ďalší kazatelia.",
+            "Spoločenstvo organizuje nedeľné aj stredajšie bohoslužby. Program tvoria chvály, modlitby a biblické kázne. Niektoré stretnutia vysiela naživo.",
+            "Videoarchív zachytáva pravidelný život komunity v Sheffielde. Nahrávky sú publikované prevažne v slovenčine. Verejne overiteľný samostatný web ani kontaktná adresa neboli pri kontrole nájdené."
+        ]
+    },
+    {
+        "id": 374,
+        "title": "Tomáš Halík",
+        "slug": "tomas-halik",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://halik.cz",
+            "email": "tomas.halik@ff.cuni.cz",
+            "phone": "+420 221 619 356",
+            "street": "náměstí Jana Palacha 2",
+            "psc": 11638
+        },
+        "sources": [
+            "https://halik.cz",
+            "https://ufar.ff.cuni.cz/cs/o-ufaru/vyucujici/tomas-halik/",
+            "https://www.farnostsalvator.cz/tomas-halik"
+        ],
+        "paragraphs": [
+            "Tomáš Halík je český rímskokatolícky kňaz, teológ a sociológ. Narodil sa v roku 1948 v Prahe. Pôsobí ako profesor Univerzity Karlovej. Dlhodobo sa venuje filozofii a sociológii náboženstva.",
+            "Počas komunistického režimu študoval teológiu tajne. Za kňaza bol tajne vysvätený v roku 1978. Neskôr sa stal farárom Akademickej farnosti pri kostole Najsvätejšieho Salvátora v Prahe.",
+            "Je autorom kníh o viere, pochybnostiach a dialógu v modernej spoločnosti. Prednáša doma aj v zahraničí a zapája sa do medzináboženského dialógu. Jeho oficiálny web a pracovisko Univerzity Karlovej zverejňujú aktuálnu tvorbu aj kontakty."
+        ],
+        "coordinates": {
+            "latitude": 50.0889715,
+            "longitude": 14.4158664,
+            "street": "náměstí Jana Palacha 2",
+            "village_id": 4209,
+            "source_url": "https://ufar.ff.cuni.cz/cs/o-ufaru/vyucujici/tomas-halik/",
+            "precision": "institution address point"
+        }
+    },
+    {
+        "id": 383,
+        "title": "Jakub Limr",
+        "slug": "jakub-limr",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.mozaika.hk",
+            "email": "info@mozaika.hk",
+            "street": "Malé náměstí 2/18",
+            "psc": 50003
+        },
+        "sources": [
+            "https://www.mozaika.hk/kdojsme",
+            "https://www.mozaika.hk/podcast"
+        ],
+        "paragraphs": [
+            "Jakub Limr je hlavný pastor Kresťanského spoločenstva Mozaika v Hradci Králové. Mozaika patrí do českej Cirkvi Kresťanské spoločenstvá. Ide o evanjelikálne charizmatické spoločenstvo. Je otvorené ľuďom všetkých generácií.",
+            "Jakub Limr pravidelne káže na bohoslužbách Mozaiky. Vo svojich príhovoroch spája biblické témy s každodenným životom. Kázne sú dostupné vo forme videí aj podcastov.",
+            "Spoločenstvo kladie dôraz na vzťah s Bohom a vzťahy medzi ľuďmi. Organizuje nedeľné zhromaždenia, malé skupiny a praktickú pomoc. Verejný kontakt a adresu zverejňuje Mozaika na svojej oficiálnej stránke."
+        ],
+        "coordinates": {
+            "latitude": 50.2101866,
+            "longitude": 15.8371476,
+            "street": "Malé náměstí 2/18",
+            "village_id": 4209,
+            "source_url": "https://www.mozaika.hk/kdojsme",
+            "precision": "building/address point"
+        }
+    },
+    {
+        "id": 393,
+        "title": "Robert Balek",
+        "slug": "robert-balek",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "email": "robert.balek@gmail.com"
+        },
+        "sources": [
+            "https://www.verbisti.sk/vyhlasenie-k-nazorom-p-roberta-baleka/",
+            "https://www.mojakomunita.sk/web/balek",
+            "https://www.farapd.sk/wp-content/uploads/2024/10/Bartolomej%20okt%C3%B3ber%202024.pdf"
+        ],
+        "paragraphs": [
+            "Róbert Balek je slovenský katolícky kňaz a misionár. Dlhodobo pôsobí v Rusku. V minulosti bol členom Spoločnosti Božieho Slova. Od roku 2022 pôsobí ako diecézny kňaz inkardinovaný v Irkutskej diecéze.",
+            "Jeho služba je spojená so Sibírou, Moskvou a ďalšími časťami Ruska. Venuje sa pastorácii miestnych katolíkov a misijnej činnosti. O svojich skúsenostiach prednáša aj počas návštev Slovenska.",
+            "Publikuje duchovné zamyslenia, príbehy a videá. V obsahu sa venuje modlitbe, odpusteniu a rodinným vzťahom. Verejný e-mail bol zverejnený pri prezentácii jeho misijného diela."
+        ]
+    },
+    {
+        "id": 501,
+        "title": "Viliam Judák",
+        "slug": "viliam-judak",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.biskupstvo-nitra.sk/?page_id=30",
+            "email": "nitra@kbs.sk",
+            "phone": "+421 37 772 17 47",
+            "street": "Námestie Jána Pavla II. 7",
+            "psc": 95050
+        },
+        "sources": [
+            "https://www.biskupstvo-nitra.sk/?page_id=30",
+            "https://www.kbs.sk/obsah/sekcia/h/cirkevne-provincie/p/rimskokatolicka-cirkev/c/biskupstvo-nitra"
+        ],
+        "paragraphs": [
+            "Viliam Judák je slovenský rímskokatolícky biskup a cirkevný historik. Narodil sa v roku 1957 v Harvelke. Kňazskú vysviacku prijal v roku 1985. Nitrianskym diecéznym biskupom je od roku 2005.",
+            "Prednáša cirkevné dejiny a katolícku teológiu. V minulosti pôsobil ako rektor Kňazského seminára svätého Gorazda v Nitre. Zastával aj funkciu dekana bohosloveckej fakulty Univerzity Komenského.",
+            "Odborne sa venuje kresťanskému staroveku a stredovekým cirkevným dejinám Slovenska. Je autorom monografií, duchovnej literatúry a ďalších publikácií. Verejný kontakt zabezpečuje Biskupský úrad v Nitre."
+        ],
+        "coordinates": {
+            "latitude": 48.3184088,
+            "longitude": 18.0865548,
+            "street": "Námestie Jána Pavla II. 7",
+            "village_id": 2333,
+            "source_url": "https://nitra.oma.sk/u/namestie-jana-pavla-ii/7",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    },
+    {
+        "id": 758,
+        "title": "Fatima TV",
+        "slug": "fatima-tv",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.youtube.com/@fatimatv9954"
+        },
+        "sources": [
+            "https://www.youtube.com/@fatimatv9954",
+            "https://fatimskyapostolat.sk/wp-content/uploads/2024/10/Spojenectvo-s-Mariou-33-jun-2024.pdf",
+            "https://christianitas.sk/jan-pavol-ii-a-jeho-odkaz-svetu-pozrite-si-nove-video-na-fatima-tv/"
+        ],
+        "paragraphs": [
+            "Fatima TV je slovenský internetový videokanál s katolíckym obsahom. Názvom odkazuje na posolstvo Panny Márie z Fatimy. Obsah pripravuje a moderuje aj redaktorka Anna Kulanová. Kanál publikuje rozhovory, komentáre a duchovné príspevky.",
+            "Videá sa venujú mariánskej úcte a životu Katolíckej cirkvi. Ďalšie príspevky predstavujú svätcov, duchovných autorov a aktuálne cirkevné témy. Časť obsahu vzniká v spolupráci s ďalšími katolíckymi médiami a iniciatívami.",
+            "Hlavným verejným miestom projektu je jeho kanál na YouTube. Samostatná oficiálna webová stránka ani všeobecný verejný kontakt sa pri kontrole nenašli. Profil preto uvádza iba overený odkaz na videokanál."
+        ]
     }
 ]
