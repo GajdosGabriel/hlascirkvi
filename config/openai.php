@@ -1,5 +1,7 @@
 <?php
 
+$defaultModel = env('OPENAI_MODEL', 'gpt-6-luna');
+
 return [
 
     /*
@@ -51,14 +53,14 @@ return [
     /*
     | Model pre zhrnutia popisov príspevkov (App\Services\PostSummarizer).
     */
-    'summary_model' => env('OPENAI_SUMMARY_MODEL', 'gpt-4o-mini'),
+    'summary_model' => env('OPENAI_SUMMARY_MODEL', $defaultModel),
 
     /*
     | Model pre odpovede za hostí z YouTube (App\Services\GuestReplier).
     */
-    'reply_model' => env('OPENAI_REPLY_MODEL', 'gpt-4o-mini'),
+    'reply_model' => env('OPENAI_REPLY_MODEL', $defaultModel),
 
-    'enrichment_model' => env('OPENAI_ENRICHMENT_MODEL', 'gpt-6-luna'),
+    'enrichment_model' => env('OPENAI_ENRICHMENT_MODEL', $defaultModel),
     'enrichment_search_cost_usd' => (float) env('OPENAI_ENRICHMENT_SEARCH_COST_USD', 0.01),
 
     /*

@@ -3,10 +3,15 @@
 Po nasadení tejto úpravy nastavte v produkčnom `.env`:
 
 ```dotenv
-OPENAI_ENRICHMENT_MODEL=gpt-6-luna
+OPENAI_MODEL=gpt-6-luna
 ```
 
-Toto nastavenie je samostatné; `OPENAI_SUMMARY_MODEL` a `OPENAI_REPLY_MODEL` ho nemenia.
+Spoločný model sa používa pre dopĺňanie kontaktov, zhrnutia aj odpovede.
+Pôvodné riadky `OPENAI_ENRICHMENT_MODEL`, `OPENAI_SUMMARY_MODEL` a
+`OPENAI_REPLY_MODEL` odstráňte, ak chcete používať spoločné nastavenie.
+Ponechaná premenná má prednosť pred `OPENAI_MODEL` a slúži ako výnimka pre
+danú funkciu. Bez nastavenia sa použije `gpt-6-luna`.
+Existujúci `OPENAI_API_KEY` ponechajte bez zmeny.
 
 Spustite novú migráciu a obnovte konfiguráciu:
 
