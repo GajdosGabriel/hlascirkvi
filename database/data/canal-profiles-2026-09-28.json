@@ -1,0 +1,867 @@
+[
+    {
+        "id": 101,
+        "title": "TKKBS",
+        "slug": "tkkbs",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "email": "reporter@tkkbs.sk",
+            "phone": "+421 2 592 06 510",
+            "street": "Kapitulská 11"
+        },
+        "sources": [
+            "https://www.tkkbs.sk/showpage.php?name=redakcia"
+        ]
+    },
+    {
+        "id": 256,
+        "title": "Kresťanské spoločenstvo Milosť",
+        "slug": "krestanske-spolocenstvo-milost",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.milost.sk",
+            "email": "milost@milost.sk",
+            "phone": "+421 903 651 217"
+        },
+        "sources": [
+            "https://www.milost.sk/cirkev",
+            "https://www.milost.sk/cirkev/kontakt"
+        ],
+        "paragraphs": [
+            "Kresťanské spoločenstvo Milosť pôsobí v Banskej Bystrici. Patrí k letnično-charizmatickému prostrediu. Zdôrazňuje osobný vzťah s Bohom. Základom jeho vyučovania je Biblia.",
+            "Organizuje pravidelné bohoslužby. Súčasťou činnosti sú verejné prednášky. Venuje sa deťom a mládeži.",
+            "Pri stretnutiach pozýva aj zahraničných hostí. Bohoslužby sprístupňuje cez internet. Aktuálne kontakty uvádza na spoločnom webe Kresťanských spoločenstiev."
+        ]
+    },
+    {
+        "id": 258,
+        "title": "Apoštolská cirkev Košice",
+        "slug": "apostolska-cirkev-kosice",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://ackosice.sk/en/kontakt/"
+        ],
+        "paragraphs": [
+            "Apoštolská cirkev Košice je miestny kresťanský zbor. Jeho zázemím je kresťanské centrum na Bratislavskej ulici. Duchovnú službu zabezpečuje tím pastorov. Kancelária zboru poskytuje verejný kontakt pre záujemcov.",
+            "Zbor organizuje pravidelné nedeľné bohoslužby. Počas týždňa sa konajú modlitebné stretnutia. Samostatný program je určený mladým dospelým.",
+            "Ďalšou súčasťou činnosti je služba mládeži. Zbor sprístupňuje online obsah a informácie o podujatiach. Aktuálny program zverejňuje na svojej stránke a sociálnych sieťach."
+        ]
+    },
+    {
+        "id": 259,
+        "title": "Cirkev bratská Prešov",
+        "slug": "cirkev-bratska-presov",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://www.cbpo.sk/"
+        ],
+        "paragraphs": [
+            "Cirkev bratská v Prešove je kresťanský zbor na Slovenskej ulici. Jeho členovia vyznávajú vieru v Ježiša Krista. Bibliu prijímajú ako meradlo viery a učenia. Spoločenstvo je otvorené aj novým návštevníkom.",
+            "Pravidelne organizuje nedeľné bohoslužby. Počas týždňa ponúka biblické hodiny a modlitby. Pre mladých pripravuje stretnutia klubu STARter.",
+            "Zbor podporuje život v malých skupinách a prácu s deťmi. Kázne sprístupňuje vo forme nahrávok a podcastov. Jeho poslanie zahŕňa aj praktickú pomoc ľuďom v núdzi."
+        ]
+    },
+    {
+        "id": 260,
+        "title": "Slovo života Bratislava",
+        "slug": "slovo-zivota-bratislava",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://www.slovozivota.sk/"
+        ],
+        "paragraphs": [
+            "Slovo života Bratislava je kresťanské spoločenstvo. Hlási sa k osobnému obráteniu a vzťahu s Bohom. Za základnú autoritu považuje Bibliu. Jeho stretnutia sa konajú na Tomášikovej ulici v Bratislave.",
+            "Pravidelne organizuje nedeľné bohoslužby. Súčasťou jeho života sú spoločné modlitby. Venuje sa aj dorastu a mladým ľuďom.",
+            "Spoločenstvo pripravuje detské tábory a ďalšie podujatia. Vyučovanie sprístupňuje prostredníctvom videí a podcastov. Internetová stránka ponúka kalendár, archív aj priame prenosy."
+        ]
+    },
+    {
+        "id": 261,
+        "title": "Sbor Bratrské jednoty baptistů v Aši",
+        "slug": "sbor-bratrske-jednoty-baptistu-v-asi",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "psc": 35201
+        },
+        "sources": [
+            "https://bjbas.cz/",
+            "https://bjbas.cz/kontakt"
+        ],
+        "paragraphs": [
+            "Zbor Bratskej jednoty baptistov v Aši je miestna kresťanská cirkev. Pôsobí v českom meste Aš. Združuje ľudí, ktorí vyznávajú osobnú vieru v Ježiša Krista. Svoje priestory otvára aj návštevníkom.",
+            "Pravidelne organizuje nedeľné bohoslužby. Počas týždňa sa stretáva na biblickej hodine. Obe stretnutia možno sledovať aj online.",
+            "Zbor sprístupňuje videozáznamy a zvukové nahrávky. Jeho kázne sú dostupné aj cez podcastové platformy. Kontaktná adresa zboru je na Bratskej ulici v Aši."
+        ]
+    },
+    {
+        "id": 262,
+        "title": "Cirkev adventistov s.d.",
+        "slug": "cirkev-adventistov-sd",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "psc": 82104
+        },
+        "sources": [
+            "https://adventisti.sk/o-nas",
+            "https://adventisti.sk/"
+        ],
+        "paragraphs": [
+            "Cirkev adventistov siedmeho dňa na Slovensku patrí do celosvetového adventistického spoločenstva. Jej prvé slovenské spoločenstvo vzniklo v Bratislave v roku 1903. Základom jej viery je Biblia. Dôraz kladie na vzťah s Ježišom Kristom.",
+            "Sobotu prežíva ako deň odpočinku a spoločného stretávania. Súčasťou viery je nádej na Kristov návrat. Podporuje starostlivosť o telesné aj duševné zdravie.",
+            "Miestne zbory ponúkajú bohoslužby, štúdium Biblie a mládežnícke aktivity. Cirkev rozvíja aj vzdelávacie a mediálne projekty. Slovenské združenie má kontaktné sídlo na Cablkovej ulici v Bratislave."
+        ],
+        "coordinates": {
+            "latitude": 48.1674859,
+            "longitude": 17.1587697,
+            "street": "Cablkova 3",
+            "village_id": 242,
+            "source_url": "https://www.openstreetmap.org/node/4381512899",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    },
+    {
+        "id": 264,
+        "title": "KS Milosť Poprad",
+        "slug": "ks-milost-poprad",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "email": "poprad@milost.sk",
+            "phone": "+421 904 814 881",
+            "psc": 5801
+        },
+        "sources": [
+            "https://poprad.milost.sk/"
+        ],
+        "paragraphs": [
+            "Kresťanské spoločenstvo Poprad je miestna kresťanská komunita. Vystupuje aj pod označením KS Milosť Poprad. Stretáva sa na Moyzesovej ulici. Jeho priestory sa nachádzajú v areáli bytového družstva za Kauflandom.",
+            "Organizuje pravidelné nedeľné bohoslužby. Ich záznamy sprístupňuje na internete. Web ponúka aj živé vysielanie.",
+            "Spoločenstvo sa venuje deťom a mládeži. Zverejňuje články o viere a kresťanskom živote. Záujemcovia môžu sledovať kalendár podujatí a kontaktovať ho priamo."
+        ]
+    },
+    {
+        "id": 265,
+        "title": "KS Milosť Bratislava",
+        "slug": "ks-milost-bratislava",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://bratislava.milost.sk",
+            "email": "bratislava@milost.sk",
+            "phone": "+421 908 122 624",
+            "psc": 83104
+        },
+        "sources": [
+            "https://www.milost.sk/cirkev",
+            "https://www.milost.sk/cirkev/kontakt"
+        ],
+        "paragraphs": [
+            "KS Milosť Bratislava je miestne kresťanské spoločenstvo. Patrí do siete Kresťanských spoločenstiev Milosť. Vychádza z biblického učenia. Zdôrazňuje osobnú vieru v Ježiša Krista.",
+            "Pravidelne usporadúva spoločné bohoslužby. Stretáva sa v bratislavskom R1 Centre. Program zahŕňa nedeľné aj stredajšie stretnutia.",
+            "Spoločenstvo poskytuje verejný e-mailový a telefonický kontakt. Svoj program predstavuje na vlastnom webe. Odkaz naň je aj v spoločnom adresári zborov Milosť."
+        ]
+    },
+    {
+        "id": 267,
+        "title": "Oaza Tv - Praha",
+        "slug": "oaza-tv-praha",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.cirkevoaza.cz",
+            "phone": "+420 603 107 482"
+        },
+        "sources": [
+            "https://www.cirkevoaza.cz/how-to-begin/?lang=en",
+            "https://www.cirkevoaza.cz/o-nas/o-cirkvi-oaza/",
+            "https://www.cirkevoaza.cz/kontakt/kancelar/"
+        ],
+        "paragraphs": [
+            "Oáza TV je internetové vysielanie spojené s Cirkvou Oáza. Jej pražská komunita pôsobí v Nebušiciach. Cirkev sa hlási k letnično-charizmatickej tradícii. Za základ svojho učenia považuje Bibliu.",
+            "Pravidelné bohoslužby sprístupňuje aj cez internet. Ponúka archív kázní a duchovného vyučovania. Podporuje osobný vzťah s Bohom a službu druhým.",
+            "Komunita je otvorená ľuďom rôzneho veku a pôvodu. Rozvíja programy pre deti, mládež a rodiny. Verejný kontakt na vysielanie a komunitu poskytuje pražská kancelária cirkvi."
+        ]
+    },
+    {
+        "id": 269,
+        "title": "Gréckokatolícky magazín",
+        "slug": "greckokatolicky-magazin",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.logos.tv",
+            "email": "tv@logos.tv",
+            "phone": "+421 908 030 388"
+        },
+        "sources": [
+            "https://www.logos.tv/historia-televizie",
+            "https://www.logos.tv/kontakt",
+            "https://www.logos.tv/dejiny-greckokatolikov"
+        ],
+        "paragraphs": [
+            "Gréckokatolícky magazín je relácia mediálneho projektu LOGOS TV. Venuje sa dianiu v Gréckokatolíckej cirkvi. Jej história siaha do roku 2014. Prináša obsah z prostredia kresťanov východného obradu.",
+            "LOGOS TV sprístupňuje cirkevné spravodajstvo a tematické relácie. Súčasťou jeho ponuky sú homílie a duchovné zamyslenia. Zabezpečuje aj živé prenosy z chrámov a pútnických miest.",
+            "Mediálny projekt zastrešuje občianske združenie Pre LOGOS. Na webe ponúka archív relácií aj možnosti podpory. Verejný kontakt redakcie je uvedený na spoločnej stránke televízie."
+        ]
+    },
+    {
+        "id": 270,
+        "title": "Bratislavské Hanusove Dni",
+        "slug": "bratislavske-hanusove-dni",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://hanusovedni.sk/sk/bhd/",
+            "email": "kancelaria@slh.sk"
+        },
+        "sources": [
+            "https://hanusovedni.sk/sk/bhd/about/",
+            "https://hanusovedni.sk/sk/bhd/contact/"
+        ],
+        "paragraphs": [
+            "Bratislavské Hanusove dni sú spoločenský a akademický festival. Jeho zámerom je prepájať vieru s rozumom. Oslovuje akademickú obec aj širšiu verejnosť. Vychádza z kresťanského pohľadu na kultúru a človeka.",
+            "Program tvoria prednášky a verejné diskusie. Ich témy zahŕňajú teológiu, politiku a psychológiu. Venujú sa aj ďalším spoločenským vedám.",
+            "Festival sprevádzajú duchovné a umelecké podujatia. Vytvára priestor na premýšľanie o pravde, dobre a kráse. Aktuálne miesta konania a program zverejňujú organizátori na festivalovom webe."
+        ]
+    },
+    {
+        "id": 271,
+        "title": "Výveska",
+        "slug": "vyveska",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.vyveska.sk"
+        },
+        "sources": [
+            "https://www.vyveska.sk/",
+            "https://www.vyveska.sk/vycvikovy-program-krestansky-kouc-jesen-2019.html"
+        ],
+        "paragraphs": [
+            "Výveska je internetový portál kresťanských podujatí. Zhromažďuje pozvánky na akcie rôznych organizátorov. Pomáha návštevníkom nájsť program podľa ich záujmu. Jej obsah má podobu priebežne dopĺňaného kalendára.",
+            "V ponuke sa objavujú duchovné obnovy a cvičenia. Portál informuje aj o chválach a konferenciách. Priestor dáva kultúrnym a spoločenským podujatiam.",
+            "Jednotlivé pozvánky obsahujú údaje o konkrétnej akcii. Podrobnosti o účasti poskytuje príslušný organizátor. Portál slúži ako spoločné informačné miesto pre kresťanskú verejnosť."
+        ]
+    },
+    {
+        "id": 273,
+        "title": "Kresťanské spoločenstvá - konferencie",
+        "slug": "krestanske-spolocenstva-konferencie",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.milost.sk",
+            "email": "milost@milost.sk",
+            "phone": "+421 903 651 217"
+        },
+        "sources": [
+            "https://www.milost.sk/cirkev/kontakt",
+            "https://www.milost.sk/cirkev"
+        ],
+        "paragraphs": [
+            "Tento kanál sa zameriava na konferencie Kresťanských spoločenstiev. Ich verejným informačným miestom je web Milosť. Kontaktné zázemie majú v Banskej Bystrici. Stretnutia nadväzujú na bežný život miestnych zborov.",
+            "K programu patria biblické prednášky. Na podujatia prichádzajú aj zahraniční hostia. Účastníci sa stretávajú pri spoločnom vyučovaní a uctievaní.",
+            "Organizátori publikujú program pripravovaných akcií. Vybrané bohoslužby a stretnutia sprístupňujú online. Informácie pre návštevníkov poskytuje kancelária spoločenstva."
+        ]
+    },
+    {
+        "id": 276,
+        "title": "Koinonia Ján Krstiteľ",
+        "slug": "koinonia-jan-krstitel",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://koinonia.sk/kto-sme/",
+            "https://koinonia.sk/kontakt/"
+        ],
+        "paragraphs": [
+            "Koinonia Ján Krstiteľ je katolícke spoločenstvo zamerané na evanjelizáciu. Spája zasvätených bratov a sestry s rodinami a slobodnými členmi. Je súčasťou medzinárodnej federácie komunít. Slovenské centrum vzniklo v roku 1994 neďaleko Košíc.",
+            "Spoločenstvo kladie dôraz na ohlasovanie evanjelia, charizmy a priateľstvo. Organizuje formačné stretnutia a kurzy. K jeho aktivitám patrí aj škola evanjelizácie.",
+            "Venuje sa mladým ľuďom a sociálnym aktivitám. Pri ohlasovaní využíva hudbu, film a ďalšie médiá. Jeho komunitné centrum sa nachádza vo Vyšnom Klátove."
+        ]
+    },
+    {
+        "id": 277,
+        "title": "Rád bosých bratov Preblahoslavenej Panny Márie",
+        "slug": "rad-bosych-bratov-preblahoslavenej-panny-marie",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://bosikarmelitani.sk",
+            "email": "lorincik.karmel@gmail.com",
+            "phone": "+421 948 981 960",
+            "psc": 4011
+        },
+        "sources": [
+            "https://bosikarmelitani.sk/bosi-karmelitani/",
+            "https://bosikarmelitani.sk/kontakt/"
+        ],
+        "paragraphs": [
+            "Bosí karmelitáni sú katolícka mužská rehoľa. Ich spiritualita vyrastá z tradície hory Karmel. Dôležité miesto v nej má modlitba a vnútorné stíšenie. Rehoľný život spája rozjímanie so spoločným životom bratov.",
+            "Na Slovensku pôsobia vo viacerých komunitách. Jedna z nich sa nachádza v Košiciach na Lorinčíku. Tamojší kláštor je zasvätený Panne Márii Karmelskej a Jozefovi.",
+            "Karmelitánske prostredie podporuje prehlbovanie duchovného života. Bratia sprístupňujú informácie o svojich komunitách a spiritualite na spoločnom webe. Lorinčícky kláštor má vlastný verejný e-mailový a telefonický kontakt."
+        ]
+    },
+    {
+        "id": 281,
+        "title": "CB Hermanovce nad Topľou",
+        "slug": "cb-hermanovce-nad-toplou",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.hermanovcent.sk/cb",
+            "email": "hermanovce@cb.sk",
+            "phone": "+421 915 510 807",
+            "psc": 9434
+        },
+        "sources": [
+            "https://www.hermanovcent.sk/cb",
+            "https://www.hermanovcent.sk/taborisko-opal-camp",
+            "https://www.cb.sk/index.php/kontakt/zamestnanci-cb"
+        ],
+        "paragraphs": [
+            "Zbor Cirkvi bratskej pôsobí v Hermanovciach nad Topľou. Je súčasťou Cirkvi bratskej na Slovensku. Jeho sídlo sa nachádza v obci pri Slanských vrchoch. Zbor vytvára zázemie pre spoločný kresťanský život.",
+            "Svoje bohoslužby sprístupňuje aj prostredníctvom živého vysielania. Pri modlitebni prevádzkuje táborisko Opál. To slúži aj cirkevným zborom z okolia.",
+            "Zbor sa podieľa na letných dobrodružných táboroch pre mládež. Na prípravu táborových aktivít založil občianske združenie TriP. Verejné kontakty a odkazy na jeho aktivity uvádza aj oficiálna stránka obce."
+        ]
+    },
+    {
+        "id": 282,
+        "title": "UPeCe Žilina",
+        "slug": "upece-zilina",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.upczilina.sk",
+            "email": "upc.zilina@gmail.com",
+            "phone": "+421 909 266 182",
+            "psc": 1008
+        },
+        "sources": [
+            "https://www.upczilina.sk/",
+            "https://www.upczilina.sk/contact-us/"
+        ],
+        "paragraphs": [
+            "UPeCe Žilina je univerzitné pastoračné centrum pri Žilinskej univerzite. Prepája duchovný život so stretávaním mladých ľudí. Sídli v historickej budove známej ako Paľova búda. Nachádza sa oproti univerzitnému areálu.",
+            "Študentom poskytuje priestor na oddych a rozhovory. K dispozícii má herňu so spoločenskými a stolovými hrami. Kaplnka slúži na modlitbu a stíšenie.",
+            "Centrum pripravuje prednášky, diskusie a duchovné obnovy. Program dopĺňajú športové turnaje a spoločné voľnočasové aktivity. Aktuálne podujatia zverejňuje na svojej internetovej stránke."
+        ]
+    },
+    {
+        "id": 283,
+        "title": "MPK Slovensko",
+        "slug": "mpk-slovensko",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "email": "mpks@mpks.sk"
+        },
+        "sources": [
+            "https://www.mpks.sk/kontakt"
+        ],
+        "paragraphs": [
+            "Mládež pre Krista Slovensko vystupuje pod skratkou MPKS. Funguje ako občianske združenie. Jeho činnosť zahŕňa viacero kresťanských projektov. Národné zázemie má v Prešove.",
+            "Medzi jeho aktivity patrí festival CampFest. Súčasťou jeho služieb je televízia LifeTv. Venuje sa aj kresťanskému poradenstvu prostredníctvom projektu Nová DNA.",
+            "S aktivitami združenia je spojené prostredie Svarína pri Kráľovej Lehote. Organizácia rozvíja aj dobrovoľnícke programy. Kontakty na jednotlivé služby a zodpovedných pracovníkov uvádza na spoločnom webe."
+        ]
+    },
+    {
+        "id": 287,
+        "title": "Spoločenstvo Martindom",
+        "slug": "spolocenstvo-martindom",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://www.martindom.sk/spolocenstvo/o-nas/",
+            "https://www.martindom.sk/spolocenstvo/nas-pribeh/",
+            "https://www.martindom.sk/kontakt/"
+        ],
+        "paragraphs": [
+            "Martindom je kresťanské spoločenstvo v Bratislave. Svoju identitu nachádza v Katolíckej cirkvi. Zároveň je otvorené kresťanom z iných denominácií. Záleží mu na duchovnom živote ľudí aj na hodnotách spoločnosti.",
+            "K jeho základným prejavom patrí spoločná modlitba chvál. Členovia rozvíjajú vzťah s Ježišom prostredníctvom modlitby, Písma a bohoslužieb. Spoločenstvo podporuje osobnú formáciu a službu blížnym.",
+            "Dôležitú úlohu majú malé skupiny, v ktorých ľudia zdieľajú svoj život. Martindom sa usiluje o zrozumiteľné ohlasovanie evanjelia a osobné svedectvo. Jeho príbeh nadväzuje na modlitebnú skupinu vzniknutú v roku 1992."
+        ],
+        "coordinates": {
+            "latitude": 48.174801,
+            "longitude": 17.1627716,
+            "street": "Rožňavská 17",
+            "village_id": 242,
+            "source_url": "https://www.openstreetmap.org/way/1207883898",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    },
+    {
+        "id": 348,
+        "title": "MisieFilmom",
+        "slug": "misiefilmom",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://misiefilmom.sk",
+            "email": "misiefilmom@misiefilmom.sk",
+            "phone": "+421 948 084 416",
+            "psc": 91701
+        },
+        "sources": [
+            "https://misiefilmom.sk/",
+            "https://misiefilmom.sk/kontakt/"
+        ],
+        "paragraphs": [
+            "Misie Filmom je katolícky mediálny projekt. Zastrešuje ho občianske združenie Formácia. Prostredníctvom videí sprístupňuje duchovný obsah. Jeho kontaktné zázemie sa nachádza v Trnave.",
+            "Ponuka zahŕňa katechézy a prednášky. Zverejňuje aj dokumenty a osobné svedectvá. Samostatný priestor venuje obsahu pre deti.",
+            "Projekt povzbudzuje divákov k ďalšiemu zdieľaniu vhodných videí. Do služby zapája videomisionárov a modlitbových podporovateľov. Nové príspevky možno sledovať na webe aj na jeho kanáli YouTube."
+        ]
+    },
+    {
+        "id": 358,
+        "title": "TV LUX",
+        "slug": "tv-lux",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://www.tvlux.sk/",
+            "https://www.tvlux.sk/content/read/dakovna-put-tv-lux-na-hore-butkov"
+        ],
+        "paragraphs": [
+            "TV LUX je slovenská katolícka televízia. Svoje vysielanie začala v roku 2008. Prináša program zameraný na kresťanskú vieru a život Cirkvi. Oslovuje divákov prostredníctvom televízneho aj internetového vysielania.",
+            "Súčasťou programu sú priame prenosy svätých omší. Televízia ponúka duchovné zamyslenia a modlitby. Vysiela aj rozhovory a tematické relácie.",
+            "Web sprístupňuje program vysielania a archív relácií. Diváci môžu sledovať aj správy z cirkevného diania. Činnosť televízie podporuje spoločenstvo jej priateľov a priaznivcov."
+        ]
+    },
+    {
+        "id": 370,
+        "title": "Nadácia POLIS",
+        "slug": "nadacia-polis",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.nadaciapolis.sk",
+            "email": "kancelaria@nadaciapolis.sk",
+            "phone": "+421 905 409 384"
+        },
+        "sources": [
+            "https://www.nadaciapolis.sk/",
+            "https://www.nadaciapolis.sk/Nadacia_Polis/Kontakt.html",
+            "https://granty.zilina.sk/nadacia-polis-zilina-3/",
+            "https://www.nocvedy.sk/zilina/"
+        ],
+        "paragraphs": [
+            "Nadácia POLIS pôsobí v Žiline ako priestor verejného dialógu. Jej kontaktné sídlo je na Mariánskom námestí. Venuje sa občianskym a kultúrnym témam. Podporuje stretávanie ľudí s rozličnými skúsenosťami.",
+            "Organizuje verejné diskusie a prednášky. Pozornosť venuje historickej pamäti a spoločenským otázkam. Podujatiami sa snaží rozvíjať kritické myslenie.",
+            "Jej priestory slúžia aj popularizácii vedy. Aktivity približuje prostredníctvom sociálnych sietí a videozáznamov. Aktuálne kontaktné informácie zverejňuje na vlastnej internetovej stránke."
+        ]
+    },
+    {
+        "id": 371,
+        "title": "Godzone",
+        "slug": "godzone",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://godzone.sk/"
+        ],
+        "paragraphs": [
+            "Godzone je slovenský evanjelizačný projekt. Je súčasťou Katolíckej cirkvi. Usiluje sa sprostredkovať posolstvo Ježiša Krista súčasným jazykom. Pri ohlasovaní využíva tvorivé a moderné formy.",
+            "Počas roka organizuje evanjelizačné podujatia. Pripravuje aj formačné stretnutia a kurzy. Jeho program oslovuje účastníkov zo Slovenska a Česka.",
+            "Tím tvorí piesne, prednášky a svedectvá. Publikuje podcasty a vydáva knihy. Internetová stránka predstavuje jeho celoročnú službu a možnosti zapojenia."
+        ]
+    },
+    {
+        "id": 465,
+        "title": "Komunita Blahoslavenstiev",
+        "slug": "komunita-blahoslavenstiev",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://blahoslavenstva.sk/sk"
+        ],
+        "paragraphs": [
+            "Komunita Blahoslavenstiev spája zasvätených bratov, sestry a laikov. Na Slovensku pôsobí v Okoličnom pri Liptovskom Mikuláši. Jej spiritualita zdôrazňuje život v Duchu Svätom. Spoločný život zahŕňa liturgiu, adoráciu a prácu.",
+            "Komunita organizuje duchovné cvičenia a semináre. Pripravuje obnovy pre mladých aj rodiny. Záujemcom umožňuje kratšie alebo dlhšie pobyty.",
+            "Duchovný obsah sprístupňuje aj prostredníctvom živých prenosov a videozáznamov. Venuje sa hudobnej a vydavateľskej tvorbe. Jej web ponúka kalendár podujatí aj možnosti prihlásenia."
+        ]
+    },
+    {
+        "id": 478,
+        "title": "Saleziáni Don Bosca",
+        "slug": "saleziani-don-bosca",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://saleziani.sk/prihovor-don-timko",
+            "https://saleziani.sk/salezianska-rodina-na-slovensku",
+            "https://hody.saleziani.sk/saleziani/"
+        ],
+        "paragraphs": [
+            "Saleziáni dona Bosca sú katolícka rehoľná spoločnosť. Ich poslanie vyrastá z diela Jána Bosca. Zameriavajú sa na výchovu a sprevádzanie mladých ľudí. Osobitnú pozornosť venujú tým, ktorí potrebujú väčšiu podporu.",
+            "Výchovnú prácu spájajú s kresťanskou vierou. Vytvárajú prostredie priateľstva, prijatia a osobného rastu. Pri službe spolupracujú s laikmi a dobrovoľníkmi.",
+            "Pripravujú animátorov a podporujú prácu mládežníckych stredísk. Ich činnosť má aj misijný rozmer. Na Slovensku sú súčasťou širšej saleziánskej rodiny."
+        ]
+    },
+    {
+        "id": 495,
+        "title": "Rád menších bratov konventuálov",
+        "slug": "rad-mensich-bratov-konventualov",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.minoriti.sk"
+        },
+        "sources": [
+            "https://www.minoriti.sk/"
+        ],
+        "paragraphs": [
+            "Rád menších bratov konventuálov je katolícka rehoľa. Jeho členovia sú známi ako minoriti. Hlásia sa k františkánskej tradícii. Na Slovensku svoju činnosť predstavujú prostredníctvom spoločného webu.",
+            "Bratia sa venujú duchovnému sprevádzaniu veriacich. Organizujú duchovné cvičenia a púte. Spolupracujú aj so svetskými františkánmi.",
+            "Súčasťou ich aktivít sú stretnutia a tábory pre miništrantov. Pracujú tiež s mladými ľuďmi. Aktuálne správy približujú život jednotlivých komunít a ich pastoračnú službu."
+        ]
+    },
+    {
+        "id": 496,
+        "title": "Spoločenstvo Maranatha",
+        "slug": "spolocenstvo-maranatha",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "email": "kancelaria@maranathapo.sk",
+            "street": "Švábska 22",
+            "psc": 8005
+        },
+        "sources": [
+            "https://maranathapo.sk/o-nas/",
+            "https://maranathapo.sk/kontakty/"
+        ],
+        "paragraphs": [
+            "Marana Tha je katolícke spoločenstvo pôsobiace v Prešove. Spája deti, mládež a dospelých. Jeho názov vyjadruje očakávanie a blízkosť Pána. Spoločenstvo patrí do Združenia kresťanských spoločenstiev mládeže.",
+            "Vytvára priestor na modlitbu, chvály a duchovnú formáciu. Členovia chcú rozvíjať osobný vzťah s Ježišom. Dôležitá je aj pastorácia a služba druhým.",
+            "Spoločenstvo sa venuje deťom, mladým, mužom a ženám. Organizuje evanjelizačné aktivity a ponúka kurzy Alfa. Jeho kontaktným miestom je komunitné a pastoračné centrum na Švábskej ulici."
+        ]
+    },
+    {
+        "id": 497,
+        "title": "Sigord - Centrum pre rodinu",
+        "slug": "sigord-centrum-pre-rodinu",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "email": "centrum.rodina@gmail.com",
+            "phone": "+421 903 983 316"
+        },
+        "sources": [
+            "https://centrumsigord.sk/uvodna-stranka/",
+            "https://centrumsigord.sk/centrum/o-nas/"
+        ],
+        "paragraphs": [
+            "Centrum pre rodinu Sigord sa venuje duchovnej obnove rodín. Vzniklo v roku 2008. Jeho činnosť je spojená s gréckokatolíckym prostredím Prešova. Rodinnú pastoráciu považuje za svoju základnú úlohu.",
+            "Snúbencom ponúka prípravu na manželstvo. Pre manželov pripravuje kurzy a duchovné cvičenia. Venuje sa aj témam výchovy detí.",
+            "Rodiny sa môžu zapojiť do rodinných táborov. Súčasťou programu sú spoločné liturgie a ďalšie duchovné aktivity. Aktuálnu ponuku a kontakty centrum zverejňuje na svojom webe."
+        ]
+    },
+    {
+        "id": 498,
+        "title": "Verbisti",
+        "slug": "verbisti",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "phone": "+421 37 776 94 11",
+            "street": "Kalvária 3",
+            "psc": 94901
+        },
+        "sources": [
+            "https://www.verbisti.sk/nasa-spolocnost/",
+            "https://www.verbisti.sk/kontakty/"
+        ],
+        "paragraphs": [
+            "Spoločnosť Božieho Slova je katolícka misijná rehoľa. Jej členovia sú známi ako verbisti. Založil ju Arnold Janssen v roku 1875. Vznikla v holandskom Steyli.",
+            "Jej poslaním je ohlasovanie evanjelia. Na Slovensku a v Česku sa venuje farskej pastorácii a biblickému apoštolátu. Pracuje aj s univerzitnou mládežou.",
+            "Verbisti pôsobia v zahraničných misiách. Duchovný obsah šíria aj prostredníctvom médií. Ich misijné domy poskytujú zázemie pre rehoľný život a službu."
+        ]
+    },
+    {
+        "id": 499,
+        "title": "Rehoľa menších bratov (františkáni)",
+        "slug": "rehola-mensich-bratov-frantiskani",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "email": "provincialat@frantiskani.sk",
+            "street": "Františkánska 2",
+            "psc": 81101
+        },
+        "sources": [
+            "https://frantiskani.sk/",
+            "https://frantiskani.sk/pre-zaujemcov/"
+        ],
+        "paragraphs": [
+            "Rehoľa menších bratov je katolícka rehoľa známa ako františkáni. Nadväzuje na duchovný odkaz Františka z Assisi. Bratia na Slovensku žijú vo viacerých kláštorných komunitách. Spoločné zázemie provincie sa nachádza v Bratislave.",
+            "Ich činnosť zahŕňa duchovnú a pastoračnú službu. Pripravujú misie a podujatia pre veriacich. Venujú sa aj sprevádzaniu mladých ľudí.",
+            "S františkánskym prostredím je spojená mládežnícka služba Gifra. Súčasťou ich diela sú tiež vydavateľské aktivity. Na oficiálnom webe zverejňujú informácie o spiritualite, kláštoroch a možnostiach rehoľného povolania."
+        ]
+    },
+    {
+        "id": 500,
+        "title": "Hnutie kresťanských rodín",
+        "slug": "hnutie-krestanskych-rodin",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://hkrsr.sk/"
+        ],
+        "paragraphs": [
+            "Hnutie kresťanských rodín na Slovensku je dobrovoľná laická organizácia. Je určené kresťanským manželom, rodičom a ich rodinám. Vychádza z katolíckeho prostredia. Otvorené je aj členom iných kresťanských cirkví.",
+            "Podporuje vzájomné stretávanie rodín. Snaží sa prispievať k stabilnému a harmonickému rodinnému životu. Zdôrazňuje kresťanskú lásku, slobodu, jednotu a službu.",
+            "Jeho korene siahajú k malým rodinným spoločenstvám z konca šesťdesiatych rokov. Medzi jeho programy patria Originálne manželské rekolekcie. Aktuálne termíny a kontakty na organizátorov jednotlivých programov zverejňuje na svojom webe."
+        ]
+    },
+    {
+        "id": 594,
+        "title": "Family Garden",
+        "slug": "family-garden",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://familygarden.sk",
+            "email": "bratislava@familygarden.sk",
+            "phone": "+421 903 821 321",
+            "street": "Pavlovičova 3",
+            "psc": 82104
+        },
+        "sources": [
+            "https://familygarden.sk/kontakt/",
+            "https://familygarden.sk/o-nas/",
+            "https://familygarden.sk/"
+        ],
+        "paragraphs": [
+            "Family Garden je poradenské centrum pre rodiny v Bratislave. Funguje ako občianske združenie. Svoje poslanie spája s podporou zdravých manželských a rodinných vzťahov. Vychádza z kresťanských hodnôt.",
+            "Ponúka sprevádzanie jednotlivcov aj párov. Venuje sa manželskému poradenstvu a koučingu. Pomáha pri vzťahových krízach aj pri otázkach výchovy.",
+            "Vzdelávacie aktivity sa dotýkajú komunikácie, konfliktov a práce s emóciami. Centrum zdôrazňuje odbornú úroveň a finančnú dostupnosť služieb. Sídli v priestoroch Rodinného centra Mama Margity v bratislavskej Trnávke."
+        ],
+        "coordinates": {
+            "latitude": 48.166255,
+            "longitude": 17.166953,
+            "street": "Pavlovičova 3",
+            "village_id": 242,
+            "source_url": "https://familygarden.sk/kontakt/",
+            "precision": "GPS published by organization"
+        }
+    },
+    {
+        "id": 595,
+        "title": "Trenčín - Centrum pre rodinu",
+        "slug": "trencin-centrum-pre-rodinu",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.cprtrencin.sk",
+            "email": "info@cprtrencin.sk",
+            "phone": "+421 903 440 132",
+            "street": "Farská 12",
+            "psc": 91101
+        },
+        "sources": [
+            "https://www.cprtrencin.sk/o-nas/o-centre/",
+            "https://www.cprtrencin.sk/kontakt/"
+        ],
+        "paragraphs": [
+            "Centrum pre rodinu Trenčín je občianske združenie rodín z Trenčína a okolia. Jeho činnosť podporujú dobrovoľníci. Zameriava sa na posilňovanie rodinných vzťahov. Pomoc ponúka úplným aj neúplným rodinám.",
+            "Pripravuje aktivity pre rozličné vekové skupiny. Sprevádza aj ľudí v náročnej životnej situácii. Pri podujatiach spolupracuje so školami, farnosťami a miestnymi inštitúciami.",
+            "Medzi jeho aktivity patria detské tábory a Deň rodiny. Kontaktné sídlo má na Farskej ulici v Trenčíne. Počas rekonštrukcie podľa svojho webu pôsobí dočasne na Mládežníckej ulici v budove plavárne."
+        ],
+        "coordinates": {
+            "latitude": 48.8939785,
+            "longitude": 18.041562,
+            "street": "Farská 12",
+            "village_id": 3592,
+            "source_url": "https://www.openstreetmap.org/way/61372363",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    },
+    {
+        "id": 642,
+        "title": "Slovo+",
+        "slug": "slovo",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "email": "info@slovoplus.sk"
+        },
+        "sources": [
+            "https://www.slovoplus.sk/redakcia",
+            "https://www.slovoplus.sk/podpora"
+        ],
+        "paragraphs": [
+            "Slovo+ je kresťanské médium s internetovým aj tlačeným obsahom. Jeho vydavateľom je BeneMedia. Web prináša texty pre každodenné prežívanie viery. Články sú čitateľom voľne dostupné.",
+            "Redakcia pripravuje duchovné impulzy a osobné svedectvá. Venuje sa aj praktickým otázkam života s Bohom. Popri webe vydáva mesačník Slovo+.",
+            "Súčasťou tvorby sú podcasty a videá. Tím sa stretáva s čitateľmi aj pri návštevách farností. Fungovanie média podporujú jeho čitatelia a pravidelní darcovia."
+        ]
+    },
+    {
+        "id": 648,
+        "title": "Moja komunita",
+        "slug": "moja-komunita",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.mojakomunita.sk",
+            "email": "info@mojakomunita.sk",
+            "street": "Prídavková 41/A",
+            "psc": 84106
+        },
+        "sources": [
+            "https://www.mojakomunita.sk/o-nas",
+            "https://www.mojakomunita.sk/kontakt"
+        ],
+        "paragraphs": [
+            "Moja komunita je kresťanský internetový portál a sociálna sieť. Slúži jednotlivcom, farnostiam, zborom a spoločenstvám. Umožňuje im predstaviť svoj život na internete. Projekt funguje od roku 2010.",
+            "Používatelia môžu publikovať blogy a oznamy. Portál poskytuje priestor na diskusie a multimediálny obsah. Pomáha komunitám komunikovať s ich členmi.",
+            "K jeho službám patrí aj modlitbová stena. Na tvorbe obsahu sa podieľajú kresťania a organizácie z rôznych prostredí. Prevádzkovateľom portálu je spoločnosť Kreatim."
+        ],
+        "coordinates": {
+            "latitude": 48.2385134,
+            "longitude": 17.0541299,
+            "street": "Prídavková 41/A",
+            "village_id": 242,
+            "source_url": "https://www.openstreetmap.org/way/135758890",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    },
+    {
+        "id": 649,
+        "title": "Združenie Zázračnej medaily",
+        "slug": "zdruzenie-zazracnej-medaily",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.zzm.sk",
+            "email": "zzm.slovensko@gmail.com",
+            "phone": "+421 910 842 255"
+        },
+        "sources": [
+            "https://www.zzm.sk/kontakt/",
+            "https://www.zzm.sk/category/pozehnanie-kaplniek-a-zalozenie-zzm/"
+        ],
+        "paragraphs": [
+            "Združenie Zázračnej medaily spája ctiteľov Panny Márie. Jeho spiritualita sa viaže na Zázračnú medailu. Na Slovensku má vlastné národné centrum. Vytvára aj miestne skupiny vo farnostiach.",
+            "K jeho aktivitám patrí podomová návšteva putovnej kaplnky Panny Márie. Do tejto formy modlitby sa zapájajú rodiny aj osamelí ľudia. Stretnutia približujú históriu medaily a poslanie združenia.",
+            "Činnosť sprevádza národný direktor a koordinátorka. Regionálne kontakty pomáhajú členom v jednotlivých častiach Slovenska. Národné centrum sídli na Oravskej ulici v Nitre."
+        ]
+    },
+    {
+        "id": 650,
+        "title": "Služobnice Ducha Svätého ustavičnej poklony",
+        "slug": "sluzobnice-ducha-svateho-ustavicnej-poklony",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.sspsap.sk",
+            "email": "sspsap.nitra@gmail.com",
+            "phone": "+421 904 738 699",
+            "street": "Dražovská 15",
+            "psc": 94901
+        },
+        "sources": [
+            "https://www.sspsap.sk/domov/",
+            "https://www.sspsap.sk/kontakt/"
+        ],
+        "paragraphs": [
+            "Služobnice Ducha Svätého ustavičnej poklony sú kontemplatívne rehoľné sestry. Známe sú aj ako ružové sestry. Na Slovensku pôsobia v Nitre. Ich domovom je Kláštor Najsvätejšej Trojice.",
+            "Stredobodom ich služby je modlitba a eucharistická adorácia. Prijímajú prosby ľudí o príhovornú modlitbu. Svoje modlitby a obety venujú aj tým, ktorí prežívajú ťažkosti.",
+            "V kláštornej kaplnke sa slávia sväté omše a liturgia hodín. Prostredníctvom internetu sprístupňujú živý prenos z kaplnky. Záujemcom ponúkajú aj informácie o rehoľnom povolaní a duchovných obnovách."
+        ],
+        "coordinates": {
+            "latitude": 48.3292557,
+            "longitude": 18.0840465,
+            "street": "Dražovská 15",
+            "village_id": 2333,
+            "source_url": "https://www.openstreetmap.org/way/58272047",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    },
+    {
+        "id": 658,
+        "title": "Vd ecav",
+        "slug": "vd-ecav",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.vdecav.sk",
+            "email": "sekretariat@vdecav.sk",
+            "phone": "+421 51 772 25 15",
+            "street": "Hlavná 137",
+            "psc": 8001
+        },
+        "sources": [
+            "https://ecav.sk/vychodny-distrikt",
+            "https://ecav.sk/aktuality/pozvanky/misijne-dni-vd-ecav-2026"
+        ],
+        "paragraphs": [
+            "Východný dištrikt je súčasťou Evanjelickej cirkvi augsburského vyznania na Slovensku. Jeho biskupský úrad sídli v Prešove. Predstavuje cirkevné zázemie pre evanjelické zbory vo svojom územnom obvode. Na jeho čele pôsobí dištriktuálny biskup.",
+            "Úrad zabezpečuje administratívnu a organizačnú podporu dištriktu. Jeho pracovníci poskytujú kontaktné miesto pre cirkevné záležitosti. Dištrikt organizuje aj spoločné misijné podujatia.",
+            "Misijné dni prinášajú biblické vyučovanie, semináre a diskusie. Ich program zahŕňa aktivity pre deti, mládež aj dospelých. Informácie o činnosti a podujatiach sú dostupné na dištriktuálnom webe."
+        ],
+        "coordinates": {
+            "latitude": 48.9989119,
+            "longitude": 21.2393984,
+            "street": "Hlavná 137",
+            "village_id": 2822,
+            "source_url": "https://www.openstreetmap.org/relation/1231167",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    },
+    {
+        "id": 661,
+        "title": "Spoločnosť Božieho Slova / Verbisti",
+        "slug": "spolocnost-bozieho-slova-verbisti",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://www.verbisti.sk/nasa-spolocnost/",
+            "https://www.verbisti.sk/kontakty/"
+        ],
+        "paragraphs": [
+            "Spoločnosť Božieho Slova je katolícka misijná rehoľa. Jej členovia sú známi ako verbisti. Založil ju Arnold Janssen v roku 1875. Vznikla v holandskom Steyli.",
+            "Jej poslaním je ohlasovanie evanjelia. Na Slovensku a v Česku sa venuje farskej pastorácii a biblickému apoštolátu. Pracuje aj s univerzitnou mládežou.",
+            "Verbisti pôsobia v zahraničných misiách. Duchovný obsah šíria aj prostredníctvom médií. Ich misijné domy poskytujú zázemie pre rehoľný život a službu."
+        ],
+        "coordinates": {
+            "latitude": 48.1244068,
+            "longitude": 17.094853,
+            "street": "Krupinská 2",
+            "village_id": 242,
+            "source_url": "https://www.openstreetmap.org/way/1488707137",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    },
+    {
+        "id": 745,
+        "title": "CYRILOMETODODIA, o. z.",
+        "slug": "cyrilometododia-o-z",
+        "verified_at": "2026-09-28",
+        "fields": {
+            "url_www": "https://www.cyrilometodiada.sk",
+            "email": "cyrilometodiada@cyrilometodiada.sk",
+            "phone": "+421 907 817 323"
+        },
+        "sources": [
+            "https://www.cyrilometodiada.sk/o-nas/",
+            "https://www.cyrilometodiada.sk/podujatia/",
+            "https://www.cyrilometodiada.sk/kontakt/"
+        ],
+        "paragraphs": [
+            "CYRILOMETODIADA je občianske združenie venované kresťanskému a kultúrnemu dedičstvu Slovenska. Inšpiruje sa odkazom Cyrila, Metoda a Gorazda. Venuje pozornosť aj historickým osobnostiam slovenského národa. Názvom nadväzuje na literárne dielo Jána Hollého.",
+            "Prostredníctvom podujatí pripomína dejinné a spoločenské udalosti. Organizuje prednášky, výstavy a knižné prezentácie. Na svojom webe sprístupňuje články a prednáškové materiály.",
+            "Združenie chce rozvíjať povedomie o kresťanských a národných koreňoch Slovákov. Medzi jeho zámery patrí kultúrna spolupráca so slovanskými krajinami. Verejný kontakt zabezpečuje predsedníčka Daniela Suchá."
+        ]
+    },
+    {
+        "id": 755,
+        "title": "EVS",
+        "slug": "evs",
+        "verified_at": "2026-09-28",
+        "fields": [],
+        "sources": [
+            "https://evs.sk/",
+            "https://evs.sk/dobrovolnici/"
+        ],
+        "paragraphs": [
+            "EVS je skratka Slovenského evanjelizačného strediska. Združuje ľudí, ktorí chcú sprostredkovať kresťanské evanjelium. Svoju prácu opiera o hodnoty lásky a pravdy. Dôležité sú preň aj priateľstvo a tvorivosť.",
+            "Stredisko organizuje konferencie a menšie stretnutia. Pripravuje každodenné biblické zamyslenia. Venuje sa vydávaniu kníh a internetovým projektom.",
+            "K jeho službám patria návštevy cirkevných zborov a väzenská misia. Na aktivitách spolupracujú pracovníci aj dobrovoľníci. Kancelárie má v Bratislave a Prešove."
+        ],
+        "coordinates": {
+            "latitude": 48.1562387,
+            "longitude": 17.1223869,
+            "street": "Legionárska 4",
+            "village_id": 242,
+            "source_url": "https://www.openstreetmap.org/node/11334826748",
+            "precision": "building/address point",
+            "attribution": "© OpenStreetMap contributors, ODbL 1.0, https://www.openstreetmap.org/copyright"
+        }
+    }
+]

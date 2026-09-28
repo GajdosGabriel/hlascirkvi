@@ -58,7 +58,7 @@ return [
     */
     'reply_model' => env('OPENAI_REPLY_MODEL', 'gpt-4o-mini'),
 
-    'enrichment_model' => env('OPENAI_ENRICHMENT_MODEL', 'gpt-4.1-mini'),
+    'enrichment_model' => env('OPENAI_ENRICHMENT_MODEL', 'gpt-6-luna'),
     'enrichment_search_cost_usd' => (float) env('OPENAI_ENRICHMENT_SEARCH_COST_USD', 0.01),
 
     /*

@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CanalEnrichment extends Model
 {
-    public function canal()
+    public function canal(): BelongsTo
     {
         return $this->belongsTo(Canal::class);
     }
@@ -19,6 +20,7 @@ class CanalEnrichment extends Model
         'notification_completed_at' => 'datetime',
         'changes' => 'array',
         'evidence' => 'array',
+        'diagnostics' => 'array',
         'recipients' => 'array',
         'notified' => 'array',
     ];

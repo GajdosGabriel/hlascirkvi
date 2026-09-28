@@ -29,15 +29,19 @@ class CanalProfileEnricher
             fn ($field) => trim(html_entity_decode(strip_tags((string) $canal->$field))) === ''));
     }
 
-    public function run(Canal $canal): void
+    public function run(Canal $canal, bool $retryEmpty = false): void
     {
-        Cache::lock('canal-enrichment:'.$canal->id, 300)->get(function () use ($canal) {
+        Cache::lock('canal-enrichment:'.$canal->id, 600)->get(function () use ($canal, $retryEmpty) {
             $canal = $canal->fresh();
             if (! $canal || $canal->identity_mode !== CanalIdentityMode::Organization || ! $canal->published
                 || $canal->created_at->gt(now()->subHours(2))) {
                 return;
             }
             $audit = CanalEnrichment::firstOrCreate(['canal_id' => $canal->id]);
+            if ($retryEmpty && $audit->completed_at && ! $audit->changes && $this->missing($canal) !== []
+                && $this->enabled() && $this->budget->isConfigured() && ! $this->budget->budgetExhausted()) {
+                $audit->update(['completed_at' => null, 'notification_completed_at' => null, 'attempts' => 0, 'retry_at' => null]);
+            }
             if ($audit->completed_at) {
                 $this->notify($canal, $audit);
 
@@ -48,13 +52,14 @@ class CanalProfileEnricher
                 return;
             }
             if (($missing = $this->missing($canal)) === []) {
-                $audit->update(['completed_at' => now(), 'notification_completed_at' => now()]);
+                $audit->update(['completed_at' => now(), 'notification_completed_at' => now(), 'diagnostics' => ['status' => 'already_complete']]);
 
                 return;
             }
             $audit->update(['attempts' => $audit->attempts + 1, 'retry_at' => now()->addHours(6)]);
             try {
                 $found = $this->research->research($canal, $missing);
+                $audit->update(['diagnostics' => ['status' => $found === [] ? 'no_verified_results' : 'verified_results', 'passes' => $this->research->diagnostics]]);
                 DB::transaction(function () use ($canal, $audit, $found) {
                     // Re-read under a row lock: users may have edited the profile during the search.
                     $current = Canal::whereKey($canal->id)->lockForUpdate()->first();
@@ -82,8 +87,9 @@ class CanalProfileEnricher
                         }
                     }
                     $recipients = $changes && $current ? $current->users()->pluck('users.id')->all() : [];
+                    $retry = $found === [] && $audit->attempts < 3;
                     $audit->update([
-                        'completed_at' => now(), 'changes' => $changes, 'evidence' => $evidence,
+                        'completed_at' => $retry ? null : now(), 'changes' => $changes, 'evidence' => $evidence,
                         'recipients' => $recipients, 'notified' => [],
                         'notification_completed_at' => $recipients === [] ? now() : null,
                     ]);
@@ -92,6 +98,7 @@ class CanalProfileEnricher
                     $this->notify($fresh, $audit->fresh());
                 }
             } catch (Throwable $e) {
+                $audit->update(['diagnostics' => ['status' => 'failed', 'passes' => $this->research->diagnostics]]);
                 Log::warning('Canal profile enrichment failed', ['canal_id' => $canal->id, 'error' => $e->getMessage()]);
             }
         });

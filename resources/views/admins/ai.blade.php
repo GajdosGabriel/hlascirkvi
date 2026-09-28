@@ -175,6 +175,7 @@
             </div>
 
             <x-dashboard.panel title="Dopĺňanie organizačných kanálov" class="mt-6">
+                <p class="mb-4 text-sm text-gray-500">Model pre nové vyhľadávania: {{ config('openai.enrichment_model') }}</p>
                 @forelse ($enrichments as $enrichment)
                     <div class="mb-4 border-b border-gray-200 pb-4">
                         <p class="font-semibold">
@@ -186,7 +187,15 @@
                         </p>
                         <p class="text-sm text-gray-500">
                             @if ($enrichment->completed_at)
-                                {{ $enrichment->changes ? 'Doplnené údaje' : 'Bez doplnenia – údaje sú vyplnené alebo sa nenašiel spoľahlivý zdroj.' }}
+                                @if ($enrichment->changes)
+                                    Doplnené údaje
+                                @elseif (($enrichment->diagnostics['status'] ?? null) === 'already_complete')
+                                    Všetky údaje už boli vyplnené.
+                                @elseif (($enrichment->diagnostics['status'] ?? null) === 'no_verified_results')
+                                    Bez overených výsledkov po {{ $enrichment->attempts }} pokusoch.
+                                @else
+                                    Bez doplnenia – pri tomto pokuse sa presný dôvod nezaznamenal.
+                                @endif
                             @elseif ($enrichment->attempts >= 3)
                                 Vyhľadávanie zlyhalo po troch pokusoch. Podrobnosti sú v denníku.
                             @elseif ($enrichment->retry_at)
@@ -195,6 +204,21 @@
                                 Čaká na spracovanie.
                             @endif
                         </p>
+                        @foreach ($enrichment->diagnostics['passes'] ?? [] as $pass)
+                            <p class="text-sm text-gray-500">
+                                @if (($pass['status'] ?? null) === 'follow_up_failed')
+                                    Následné dohľadávanie zlyhalo.
+                                @else
+                                    {{ $pass['model'] }} · {{ $pass['follow_up'] ? 'Dohľadávanie' : 'Prvé hľadanie' }}:
+                                    prijaté {{ count($pass['accepted']) }}, nenájdené {{ count($pass['not_found']) }},
+                                    zamietnuté pri overení {{ count($pass['rejected']) }}.
+                                    {{ $pass['identity_match'] ? '' : 'Identita organizácie nepotvrdená.' }}
+                                @endif
+                            </p>
+                            @foreach ($pass['rejection_reasons'] ?? [] as $field => $reason)
+                                <p class="text-sm text-gray-500">{{ ['url_www' => 'Web', 'email' => 'E-mail', 'phone' => 'Telefón', 'street' => 'Ulica', 'description' => 'Popis'][$field] ?? $field }}: {{ $reason }}</p>
+                            @endforeach
+                        @endforeach
                         @foreach ($enrichment->changes ?? [] as $field => $value)
                             <p class="mt-1 text-sm">
                                 <strong>{{ ['url_www' => 'Web', 'email' => 'E-mail', 'phone' => 'Telefón', 'street' => 'Ulica', 'description' => 'Popis'][$field] ?? $field }}:</strong>
