@@ -37,21 +37,25 @@
                 Čo hľadáte
             </h2>
 
-            <div class="space-y-4">
+            {{-- Skupiny sú zbalené, aby nezaberali miesto; otvorená ostáva
+                 len tá, v ktorej je aktívny filter. --}}
+            <div class="divide-y divide-[color:var(--ev-line)]">
                 @foreach ($tagGroups as $group)
                     @php
                         $groupTags = collect($group['tags'] ?? [])
                             ->filter(fn ($tag) => ($tag['events_count'] ?? 0) > 0)
                             ->take(14);
+                        $groupIsActive = $groupTags->contains(fn ($tag) => in_array($tag['slug'] ?? '', $activeTags, true));
                     @endphp
 
                     @continue($groupTags->isEmpty())
 
-                    <div>
-                        <div class="mb-1.5 text-xs uppercase tracking-wider text-stone-400">
-                            {{ $group['label'] ?? '' }}
-                        </div>
-                        <div class="flex flex-wrap gap-1.5">
+                    <details class="group py-1" @if ($groupIsActive) open @endif>
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-2 rounded-md px-2 py-1.5 text-xs uppercase tracking-wider text-stone-500 transition hover:bg-stone-50 [&::-webkit-details-marker]:hidden">
+                            <span>{{ $group['label'] ?? '' }}</span>
+                            <i class="fas fa-chevron-down text-[10px] text-stone-400 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="flex flex-wrap gap-1.5 px-2 pb-2 pt-1.5">
                             @foreach ($groupTags as $tag)
                                 @php $isActive = in_array($tag['slug'] ?? '', $activeTags, true); @endphp
                                 <a href="{{ $evTagUrl($tag['slug'] ?? '') }}"
@@ -65,7 +69,7 @@
                                 </a>
                             @endforeach
                         </div>
-                    </div>
+                    </details>
                 @endforeach
             </div>
         </section>

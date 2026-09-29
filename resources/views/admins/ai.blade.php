@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
 @section('title')
-    <title>AI zhrnutia</title>
+    <title>AI workers</title>
 @endsection
 
 @section('content')
     <x-pages.admin>
-        <x-slot name="title">AI zhrnutia</x-slot>
+        <x-slot name="title">AI workers</x-slot>
         <x-slot name="page">
             @php
                 $num = fn ($value) => number_format((int) $value, 0, ',', ' ');
@@ -134,19 +134,9 @@
                             <input class="form-control" type="text" id="post" name="post" required
                                    value="{{ old('post') }}" placeholder="12345 alebo https://www.hlascirkvi.sk/post/12345/…">
                         </div>
-                        <div class="form-group">
-                            <label for="force_length">Rozsah</label>
-                            <select class="form-control" id="force_length" name="length">
-                                @foreach ($lengths as $key => $option)
-                                    <option value="{{ $key }}" @selected($key === old('length', $length))>
-                                        {{ $option['label'] }}{{ $key === $length ? ' — uložené' : '' }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
                         <p class="text-sm text-gray-500">
                             Vytvorí (alebo prepíše) zhrnutie hneď — aj keď sú automatické zhrnutia vypnuté a aj pri
-                            krátkych titulkoch. Bez titulkov sa nič nevytvorí. Mesačný limit platí. Rozsah tu platí len pre toto volanie, na skúšanie.
+                            krátkych titulkoch. Bez titulkov sa nič nevytvorí. Mesačný limit platí.
                         </p>
                         <button type="submit" class="ar-btn ar-btn--accent"><i class="fas fa-magic"></i> Vytvoriť zhrnutie</button>
                     </form>
@@ -174,7 +164,7 @@
                 </x-dashboard.panel>
             </div>
 
-            <x-dashboard.panel title="Dopĺňanie organizačných kanálov" class="mt-6">
+            <x-dashboard.panel title="Dopĺňanie organizačných kanálov" class="mt-6" id="kanaly">
                 <p class="mb-4 text-sm text-gray-500">Model pre nové vyhľadávania: {{ config('openai.enrichment_model') }}</p>
                 @forelse ($enrichments as $enrichment)
                     <div class="mb-4 border-b border-gray-200 pb-4">
@@ -232,6 +222,7 @@
                 @empty
                     <p class="text-sm text-gray-500">Zatiaľ žiadne kontroly profilov.</p>
                 @endforelse
+                <div class="mt-4">{{ $enrichments->fragment('kanaly')->links() }}</div>
             </x-dashboard.panel>
             <x-dashboard.panel title="Prehľad spotreby" class="mt-6" id="spotreba">
                 <form method="GET" action="{{ route('admin.ai.index') }}#spotreba" class="grid gap-4 sm:grid-cols-4 mb-6">

@@ -46,6 +46,7 @@
     <header class="border-b border-[color:var(--ev-line)] bg-white">
         <div class="mx-auto max-w-6xl px-4 py-8 md:py-10">
 
+            @if ($event->isOngoing() || $event->isPast() || $event->isToday())
             <div class="mb-4 flex flex-wrap items-center gap-2">
                 @if ($event->isOngoing())
                     <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-800">
@@ -60,15 +61,8 @@
                         Dnes
                     </span>
                 @endif
-
-                @foreach (array_slice($event->tags(), 0, 5) as $tag)
-                    <a href="{{ route('akcie.index', ['tags' => $tag['slug'] ?? '']) }}"
-                       class="inline-flex items-center gap-1 rounded-full border border-[color:var(--ev-line)] px-2.5 py-1 text-xs text-stone-600 transition hover:border-amber-400 hover:text-amber-800">
-                        @if (! empty($tag['emoji']))<span>{{ $tag['emoji'] }}</span>@endif
-                        {{ $tag['name'] ?? '' }}
-                    </a>
-                @endforeach
             </div>
+            @endif
 
             <h1 class="ev-display max-w-4xl text-3xl font-bold leading-tight md:text-[2.5rem]">
                 {{ $event->title() }}
@@ -173,13 +167,6 @@
                     </div>
                 @endif
 
-                @if ($event->sourceUrl())
-                    <p class="mt-8 text-xs text-stone-400">
-                        Zdroj informácií:
-                        <a href="{{ $event->sourceUrl() }}" target="_blank" rel="noopener nofollow"
-                           class="underline hover:text-stone-600">{{ parse_url($event->sourceUrl(), PHP_URL_HOST) }}</a>
-                    </p>
-                @endif
             </article>
 
             {{-- Bočný panel --}}
@@ -350,6 +337,22 @@
                             </button>
                         </div>
                     </section>
+
+                    {{-- Štítky --}}
+                    @if ($event->tags())
+                        <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+                            <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-stone-400">Štítky</h2>
+                            <div class="flex flex-wrap items-center gap-2">
+                                @foreach (array_slice($event->tags(), 0, 5) as $tag)
+                                    <a href="{{ route('akcie.index', ['tags' => $tag['slug'] ?? '']) }}"
+                                       class="inline-flex items-center gap-1 rounded-full border border-[color:var(--ev-line)] px-2.5 py-1 text-xs text-stone-600 transition hover:border-amber-400 hover:text-amber-800">
+                                        @if (! empty($tag['emoji']))<span>{{ $tag['emoji'] }}</span>@endif
+                                        {{ $tag['name'] ?? '' }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </section>
+                    @endif
                 </div>
             </aside>
         </div>

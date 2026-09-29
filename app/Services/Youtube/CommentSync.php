@@ -142,8 +142,10 @@ class CommentSync
         try {
             $threads = $this->api->commentThreads($post->video_id)->items;
         } catch (YoutubeApiException $e) {
-            // Vypnuté komentáre nie sú chyba, len nie je čo sťahovať.
-            if ($e->is('commentsDisabled', 'videoNotFound')) {
+            // Nedostupné komentáre označíme ako skontrolované, aby sa video
+            // neskúšalo každú hodinu. Chyby kľúča sa nesmú takto potlačiť.
+            if ($e->is('commentsDisabled', 'videoNotFound')
+                || ($e->status === 403 && $e->is('forbidden') && ! $e->stopsRun())) {
                 return 0;
             }
 

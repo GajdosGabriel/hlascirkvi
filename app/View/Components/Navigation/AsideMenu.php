@@ -137,7 +137,7 @@ class AsideMenu extends Component
             [
                 'url' => route('admin.ai.index'),
                 'icon' => 'ai',
-                'name' => 'AI zhrnutia',
+                'name' => 'AI workers',
             ],
             [
                 'url' => route('admin.statistic.index'),

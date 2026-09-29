@@ -185,6 +185,48 @@ class YoutubeCommentSyncTest extends TestCase
         $this->assertNotNull($post->refresh()->comments_synced_at);
     }
 
+    public function test_forbidden_comments_wait_for_the_normal_resync_interval(): void
+    {
+        $this->freezeTime();
+        $post = $this->videoPost(['video_available' => true]);
+        $this->fakeYoutube([
+            'videos' => $this->videosFrom([
+                self::VIDEO => $this->videoResource(self::VIDEO, ['statistics' => ['commentCount' => '3']]),
+            ]),
+            'commentThreads' => $this->youtubeError(403, 'forbidden'),
+        ]);
+
+        $this->assertSame(['posts' => 1, 'comments' => 0], (new CommentSync)->handle());
+        $this->assertNotNull($post->refresh()->comments_synced_at);
+        $this->assertTrue((bool) $post->video_available);
+
+        $this->travel(1)->hours();
+        $this->assertSame(['posts' => 0, 'comments' => 0], (new CommentSync)->handle());
+        $this->assertCount(1, $this->youtubeRequests('commentThreads'));
+
+        $this->travel(3)->days();
+        $this->assertSame(['posts' => 1, 'comments' => 0], (new CommentSync)->handle());
+        $this->assertCount(2, $this->youtubeRequests('commentThreads'));
+    }
+
+    public function test_global_api_failures_are_not_marked_as_synced(): void
+    {
+        $post = $this->videoPost();
+        $other = $this->videoPost(['video_id' => 'video000002']);
+        $api = $this->mock(\App\Services\Youtube\YoutubeApi::class);
+        $api->shouldReceive('videos')->andReturn([
+            self::VIDEO => json_decode(json_encode($this->videoResource(self::VIDEO, ['statistics' => ['commentCount' => '3']]))),
+            'video000002' => json_decode(json_encode($this->videoResource('video000002', ['statistics' => ['commentCount' => '3']]))),
+        ]);
+        $api->shouldReceive('commentThreads')->once()->andThrow(
+            new \App\Services\Youtube\YoutubeApiException('Restricted API key', 'forbidden', 403, 'API_KEY_SERVICE_BLOCKED')
+        );
+
+        $this->assertSame(['posts' => 0, 'comments' => 0], (new CommentSync)->handle());
+        $this->assertNull($post->refresh()->comments_synced_at);
+        $this->assertNull($other->refresh()->comments_synced_at);
+    }
+
     public function test_zmazane_video_sa_oznaci_ako_nedostupne(): void
     {
         $post = $this->videoPost();

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 /**
- * AI zhrnutia: vypínač, limit a spotreba. Zostatok kreditu OpenAI cez API
+ * AI workers: vypínač a limit AI zhrnutí, spotreba. Zostatok kreditu OpenAI cez API
  * s bežným kľúčom zistiť nejde, preto stránka ukazuje vlastnú evidenciu
  * volaní (ai_usages) a odkaz na vyúčtovanie OpenAI.
  */
@@ -77,7 +77,7 @@ class AiController extends Controller
             'limit' => $summarizer->monthlyLimit(),
             'length' => $summarizer->length(),
             'maxTokens' => $summarizer->maxTokens(),
-            'enrichments' => CanalEnrichment::with('canal')->latest('updated_at')->limit(10)->get(),
+            'enrichments' => CanalEnrichment::with('canal')->latest('updated_at')->paginate(10, ['*'], 'kanaly')->withQueryString(),
             'enrichmentEnabled' => app(CanalProfileEnricher::class)->enabled(),
             'lengths' => PostSummarizer::LENGTHS,
             'model' => config('openai.summary_model'),
