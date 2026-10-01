@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 @section('title')
-    <title>{{ 'Nový článok' }}</title>
+    <title>{{ 'Nový článok' }} | Hlas Cirkvi</title>
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <a href="{{ url()->previous() }}" class="btn"> <i class="fa fa-arrow-left"></i> Späť</a>
+            <a href="{{ url()->previous() }}" class="btn"> <i class="ph ph-arrow-left"></i> Späť</a>
         </x-slot>
 
 

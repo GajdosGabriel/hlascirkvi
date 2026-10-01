@@ -13,7 +13,7 @@
 
         <x-slot name="title_right">
             <a class="btn btn-primary" href="{{ route('admin.announcement.create') }}">
-                <i class="fas fa-plus" aria-hidden="true"></i> Nový oznam
+                <i class="ph ph-plus" aria-hidden="true"></i> Nový oznam
             </a>
         </x-slot>
 
@@ -54,7 +54,7 @@
                                 @endif
                                 @if ($announcement->link_url)
                                     <div class="text-gray-500">
-                                        <i class="fas fa-link" aria-hidden="true"></i> {{ $announcement->link_url }}
+                                        <i class="ph ph-link" aria-hidden="true"></i> {{ $announcement->link_url }}
                                     </div>
                                 @endif
                             </td>
@@ -88,16 +88,16 @@
 
                             <td class="whitespace-nowrap">
                                 <a class="btn btn-default" href="{{ route('admin.announcement.edit', $announcement) }}">
-                                    <i class="fas fa-edit" aria-hidden="true"></i> Upraviť
+                                    <i class="ph ph-pencil-simple-line" aria-hidden="true"></i> Upraviť
                                 </a>
 
                                 <form method="POST" action="{{ route('admin.announcement.destroy', $announcement) }}"
                                       class="mt-2"
-                                      onsubmit="return confirm('Naozaj zmazať oznam „{{ $announcement->title }}“?');">
+                                      data-confirm="Naozaj zmazať oznam „{{ $announcement->title }}“?">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-default text-red-700">
-                                        <i class="fas fa-trash" aria-hidden="true"></i> Zmazať
+                                        <i class="ph ph-trash" aria-hidden="true"></i> Zmazať
                                     </button>
                                 </form>
                             </td>

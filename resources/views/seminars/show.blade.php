@@ -28,7 +28,7 @@
             <div class=" flex justify-between">
                 <div>
                     <h2 class="text-2xl">
-                        <seminar-title :seminar="{{ $seminar }}"></seminar-title>
+                        <seminar-title :seminar="{{ $seminar }}">{{ $seminar->title }}</seminar-title>
                     </h2>
                     <seminar-info :seminar="{{ $seminar }}"></seminar-info>
                     <seminar-description :seminar="{{ $seminar }}"></seminar-description>

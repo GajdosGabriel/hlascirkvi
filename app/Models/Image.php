@@ -44,14 +44,20 @@ class Image extends Model
 
     /**
      * Hodnota do atribútu srcset. Staršie záznamy varianty nemajú, vtedy vráti
-     * null a šablóna zostane pri obyčajnom src.
+     * null a šablóna zostane pri obyčajnom src. `$maxWidth` vynechá väčšie
+     * varianty (karta v mriežke ich nikdy nepotrebuje), no aspoň jedna ostane.
      */
-    public function srcset(string $format = 'jpg'): ?string
+    public function srcset(string $format = 'jpg', ?int $maxWidth = null): ?string
     {
         $paths = $this->variants[$format] ?? null;
 
         if (empty($paths)) {
             return null;
+        }
+
+        if ($maxWidth !== null) {
+            $fits = array_filter($paths, fn ($path, $width) => $width <= $maxWidth, ARRAY_FILTER_USE_BOTH);
+            $paths = $fits ?: array_slice($paths, -1, 1, true);
         }
 
         $sources = [];
@@ -63,24 +69,8 @@ class Image extends Model
         return implode(', ', $sources);
     }
 
-    /**
-     * Všetky cesty na disku sú relatívne k disku, adresu z nich skladáme na
-     * jednom mieste. Lokálny vývoj si ju berie z produkcie – predtým to bola
-     * podmienka priamo v accessore náhľadu, takže veľký obrázok sa lokálne
-     * nenačítal a šablóna to musela riešiť onerror fallbackom.
-     */
     protected function publicUrl(?string $path): string
     {
-        $path = ltrim((string) $path, '/');
-        $disk = Storage::disk(config('images.disk'));
-
-        // Z produkcie sa dotiahne len to, čo v úložisku naozaj chýba, takže
-        // obrázky nahraté lokálne sa dajú lokálne aj pozrieť. Na produkcii je
-        // remote_base prázdne a k dopytu na disk sa vôbec nedôjde.
-        if (($base = config('images.remote_base')) && ! $disk->exists($path)) {
-            return rtrim($base, '/') . '/' . $path;
-        }
-
-        return $disk->url($path);
+        return \App\Support\MediaUrl::url($path);
     }
 }

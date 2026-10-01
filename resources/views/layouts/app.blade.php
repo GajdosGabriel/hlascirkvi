@@ -17,11 +17,6 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,600' rel='stylesheet' type='text/css'>
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
-    <link
-        rel="stylesheet"
-        href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
     {{-- https://github.com/aFarkas/lazysizes--}}
     <script src="{{ asset('js/lazysizes.min.js') }}" async=""></script>
     <!-- Styles / Scripts -->
@@ -34,7 +29,7 @@
 
 
 
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         window.App = {!! json_encode([
             'csrfToken' => csrf_token(),
                 'user' => Auth::user(),
@@ -49,6 +44,7 @@
 {{-- Stránky, ktoré už nosia nový vzhľad, si sem doplnia `ar-body`; ostatné
      ostávajú na pôvodnom bielom podklade. --}}
 <body class="@yield('body-class')">
+    <a href="#obsah" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-blue-900 focus:shadow-lg">Preskočiť na obsah</a>
 
     @can('admin')
     {{-- Admin nesleduje smartlook a google statistick --}}
@@ -67,7 +63,7 @@
 
         @include('partials.verify-banner')
 
-        <main class="@yield('main-class')">
+        <main id="obsah" tabindex="-1" class="@yield('main-class')">
             @include('layouts.errors')
 
             @yield('content')

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex text-sm space-x-3 text-gray-400 mt-1">
+        <div class="flex text-sm space-x-3 text-gray-500 mt-1">
             <div class="cursor-pointer hover:text-gray-600 text-gray-500">
                 Pridal: {{ seminar.canal.title }}
             </div>

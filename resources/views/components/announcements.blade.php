@@ -5,11 +5,11 @@
      * zostaveného CSS nikdy nedostala a oznam by ostal nezafarbený.
      */
     $tones = [
-        'info'    => ['bar' => 'bg-blue-800 text-blue-50',      'panel' => 'border-blue-200 bg-blue-50 text-blue-900',         'accent' => 'text-blue-800',    'icon' => 'fas fa-info-circle'],
-        'success' => ['bar' => 'bg-emerald-800 text-emerald-50','panel' => 'border-emerald-200 bg-emerald-50 text-emerald-900','accent' => 'text-emerald-800', 'icon' => 'fas fa-check-circle'],
-        'warning' => ['bar' => 'bg-amber-600 text-amber-50',    'panel' => 'border-amber-200 bg-amber-50 text-amber-900',      'accent' => 'text-amber-800',   'icon' => 'fas fa-exclamation-triangle'],
-        'danger'  => ['bar' => 'bg-red-800 text-red-50',        'panel' => 'border-red-200 bg-red-50 text-red-900',            'accent' => 'text-red-800',     'icon' => 'fas fa-exclamation-circle'],
-        'neutral' => ['bar' => 'bg-slate-800 text-slate-100',   'panel' => 'border-slate-300 bg-slate-100 text-slate-800',     'accent' => 'text-slate-800',   'icon' => 'far fa-bell'],
+        'info'    => ['bar' => 'bg-blue-800 text-blue-50',      'panel' => 'border-blue-200 bg-blue-50 text-blue-900',         'accent' => 'text-blue-800',    'icon' => 'ph-fill ph-info'],
+        'success' => ['bar' => 'bg-emerald-800 text-emerald-50','panel' => 'border-emerald-200 bg-emerald-50 text-emerald-900','accent' => 'text-emerald-800', 'icon' => 'ph-fill ph-check-circle'],
+        'warning' => ['bar' => 'bg-amber-600 text-amber-50',    'panel' => 'border-amber-200 bg-amber-50 text-amber-900',      'accent' => 'text-amber-800',   'icon' => 'ph-fill ph-warning'],
+        'danger'  => ['bar' => 'bg-red-800 text-red-50',        'panel' => 'border-red-200 bg-red-50 text-red-900',            'accent' => 'text-red-800',     'icon' => 'ph-fill ph-warning-circle'],
+        'neutral' => ['bar' => 'bg-slate-800 text-slate-100',   'panel' => 'border-slate-300 bg-slate-100 text-slate-800',     'accent' => 'text-slate-800',   'icon' => 'ph ph-bell'],
     ];
 
     // Pruh cez celú šírku, panel v obsahu, karta do bočného stĺpca.
@@ -44,7 +44,7 @@
                         @if ($item->link_url)
                             <a href="{{ $item->link_url }}"
                                class="ml-2 whitespace-nowrap font-semibold underline underline-offset-2 hover:no-underline">
-                                {{ $linkText }} <i class="fas fa-angle-double-right" aria-hidden="true"></i>
+                                {{ $linkText }} <i class="ph ph-caret-double-right" aria-hidden="true"></i>
                             </a>
                         @endif
                     </div>
@@ -71,7 +71,7 @@
                     @if ($item->link_url)
                         <p class="mt-2">
                             <a href="{{ $item->link_url }}" class="{{ $tone['accent'] }} font-semibold">
-                                {{ $linkText }} <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                                {{ $linkText }} <i class="ph ph-caret-double-right" aria-hidden="true"></i>
                             </a>
                         </p>
                     @endif
@@ -93,7 +93,7 @@
                     @if ($item->link_url)
                         <p class="mt-2">
                             <a href="{{ $item->link_url }}" class="text-sm font-semibold underline underline-offset-2 hover:no-underline">
-                                {{ $linkText }} <i class="fas fa-angle-double-right" aria-hidden="true"></i>
+                                {{ $linkText }} <i class="ph ph-caret-double-right" aria-hidden="true"></i>
                             </a>
                         </p>
                     @endif
@@ -111,7 +111,7 @@
 
 @once
     @push('scripts')
-        <script>
+        <script nonce="{{ csp_nonce() }}">
             /*
              * Zatvorené oznamy si pamätá prehliadač návštevníka — na serveri
              * by to znamenalo tabuľku na niečo, čo sa nikde inde nepoužije.

@@ -84,7 +84,7 @@ final class FrontListItem implements Arrayable
     public function avatarUrl(): ?string
     {
         return $this->avatar
-            ? Storage::url('organizations/' . $this->id . '/' . $this->avatar)
+            ? \App\Support\MediaUrl::canalAvatar($this->id, $this->avatar)
             : null;
     }
 

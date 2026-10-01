@@ -19,7 +19,11 @@ return [
     // Koľko sekúnd čakáme na odpoveď. Radšej krátko: keď portál mlčí,
     // ukážeme poslednú známu odpoveď (viď `stale_ttl`) než aby sa stránka
     // sekla na pol minúty.
-    'timeout' => (int) env('EVENT_PORTAL_TIMEOUT', 8),
+    'timeout' => (int) env('EVENT_PORTAL_TIMEOUT', 3),
+
+    // Samostatný strop na nadviazanie spojenia: nedostupný server sa pozná
+    // hneď, nemá zmysel čakať celý `timeout`.
+    'connect_timeout' => (int) env('EVENT_PORTAL_CONNECT_TIMEOUT', 2),
 
     // Bežná životnosť odpovede v cache.
     'ttl' => [

@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Filters\PostFilters;
 use App\Services\CreditUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Services\VisitModels\ViewRecorder;
 use App\Repositories\Contracts\PostRepository;
 use App\Http\Controllers\Controller;
@@ -61,7 +62,53 @@ class PostController extends Controller
             'post'    => $post,
             'series'  => $this->series($post),
             'isSaved' => (bool) auth()->user()?->savedPosts()->whereKey($post->id)->exists(),
-        ] + $this->channelPanels($post));
+        ] + $this->cachedChannelPanels($post));
+    }
+
+
+    /**
+     * Panely kanála sú pre všetkých návštevníkov rovnaké a stoja päť dopytov,
+     * preto sa neprihlásenému návštevníkovi (crawlery, čitatelia z vyhľadávania)
+     * držia päť minút v cache. Prihlásený vidí vždy čerstvé.
+     */
+    protected function cachedChannelPanels(Post $post): array
+    {
+        if (auth()->check()) {
+            return $this->channelPanels($post);
+        }
+
+        // Do cache idú len ID a skalárne hodnoty: `serializable_classes` je
+        // false, takže uložené modely by sa vrátili ako __PHP_Incomplete_Class.
+        $ids = Cache::remember("post.panels.ids.{$post->id}", now()->addMinutes(5), function () use ($post) {
+            $panels = $this->channelPanels($post);
+
+            return [
+                'rail'      => $panels['rail']->pluck('id')->all(),
+                'railNext'  => $panels['railNext'],
+                'railTotal' => $panels['railTotal'],
+                'topPosts'  => $panels['topPosts']->pluck('id')->all(),
+                'firstPost' => $panels['firstPost']?->id,
+                'yearAgo'   => $panels['yearAgo']?->id,
+            ];
+        });
+
+        $all = array_filter(array_unique(array_merge(
+            $ids['rail'],
+            $ids['topPosts'],
+            [$ids['firstPost'], $ids['yearAgo']]
+        )));
+
+        $models = Post::whereIn('id', $all)->get()->keyBy('id');
+        $pick   = fn (array $list) => collect($list)->map(fn ($id) => $models->get($id))->filter()->values();
+
+        return [
+            'rail'      => $pick($ids['rail']),
+            'railNext'  => $ids['railNext'],
+            'railTotal' => $ids['railTotal'],
+            'topPosts'  => $pick($ids['topPosts']),
+            'firstPost' => $ids['firstPost'] ? $models->get($ids['firstPost']) : null,
+            'yearAgo'   => $ids['yearAgo'] ? $models->get($ids['yearAgo']) : null,
+        ];
     }
 
 
@@ -152,6 +199,7 @@ class PostController extends Controller
 
         return [
             'rail'      => $rail,
+            'railNext'  => optional($rail->nextCursor())->encode(),
             'railTotal' => $this->post->countInCanal($post->canal_id),
             'topPosts'  => $this->post->mostViewedInCanal($post->canal_id, $post->id),
             'firstPost' => $first,

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    <title>{{ "Články {$canal->title}" }}</title>
+    <title>{{ "Články {$canal->title}" }} | Hlas Cirkvi</title>
 @endsection
 
 @section('content')
@@ -27,10 +27,10 @@
 
         <x-slot name="actions">
             <a href="{{ route('profile.posts.create') }}" class="ar-btn ar-btn--accent">
-                <i class="fas fa-plus"></i> Nový článok
+                <i class="ph ph-plus"></i> Nový článok
             </a>
             <a href="{{ route('organizations.show', $canal->id) }}" class="ar-btn ar-btn--quiet">
-                <i class="far fa-eye"></i> Verejný profil
+                <i class="ph ph-eye"></i> Verejný profil
             </a>
         </x-slot>
 

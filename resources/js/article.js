@@ -55,14 +55,14 @@ export function initArticle() {
         var finish = function () {
             cursor = '';
             if (label) label.textContent = 'Zobraziť celý kanál';
-            if (icon) icon.className = 'fas fa-arrow-right';
+            if (icon) icon.className = 'ph ph-arrow-right';
         };
 
         var load = function () {
             if (!cursor || busy) return;
             busy = true;
             if (label) label.textContent = 'Načítavam…';
-            if (icon) icon.className = 'fas fa-circle-notch fa-spin';
+            if (icon) icon.className = 'ph ph-circle-notch fa-spin';
 
             fetch(url + '?cursor=' + encodeURIComponent(cursor), {
                 headers: { 'X-Requested-With': 'XMLHttpRequest' },
@@ -78,7 +78,7 @@ export function initArticle() {
 
                     if (cursor) {
                         if (label) label.textContent = 'Viac príspevkov';
-                        if (icon) icon.className = 'fas fa-arrow-down';
+                        if (icon) icon.className = 'ph ph-arrow-down';
                     } else {
                         finish();
                     }

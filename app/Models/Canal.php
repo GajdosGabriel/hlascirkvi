@@ -102,7 +102,7 @@ class Canal extends Model
         return $candidate;
     }
 
-    protected $appends = ['favoritesCount', 'isFavorited', 'initialName'];
+    protected $appends = ['favoritesCount', 'isFavorited', 'initialName', 'avatarUrl'];
 
     // favoritesCount aj isFavorited sú v $appends, takže sa počítajú pri každej
     // serializácii kanála. Bez načítanej väzby si každý kanál vypýtal vlastné
@@ -188,6 +188,13 @@ class Canal extends Model
 
 
     // Inicialy mena
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return $this->avatar
+            ? \App\Support\MediaUrl::canalAvatar($this->id, $this->avatar)
+            : null;
+    }
+
     public function getInitialNameAttribute()
     {
         $acronym = '';

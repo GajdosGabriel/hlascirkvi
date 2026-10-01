@@ -13,7 +13,7 @@
     <div class="text-center">
         <div class="mx-auto grid h-12 w-12 place-items-center rounded-full"
              style="background: var(--ar-accent-soft); color: var(--ar-accent)">
-            <i class="far fa-envelope text-xl"></i>
+            <i class="ph ph-envelope-simple text-xl"></i>
         </div>
 
         <h1 class="ar-display mt-4 text-2xl font-bold">Ešte jeden krok</h1>

@@ -1,16 +1,13 @@
 <template>
     <div class="shrink-0">
         <img
-            v-if="canal.avatar"
+            v-if="canal.avatarUrl && !failed"
             :alt="canal.title"
+            width="48"
+            height="48"
             class="h-12 w-12 rounded-full object-cover ring-1 ring-[color:var(--ar-line)]"
-            :src="
-                domain +
-                'storage/organizations/' +
-                canal.id +
-                '/' +
-                canal.avatar
-            "
+            :src="canal.avatarUrl"
+            @error="failed = true"
         />
 
         <!-- Bez fotky nesie kanál iniciálky; rozmer musí sedieť s obrázkom,
@@ -29,7 +26,7 @@ export default {
     props: ["canal"],
     data: function () {
         return {
-            domain: window.App.baseUrl,
+            failed: false,
         };
     },
 };

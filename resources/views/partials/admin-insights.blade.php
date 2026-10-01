@@ -1,7 +1,7 @@
 {{-- Prvky úvodu administrácie (admins/home) a výpisu komentárov
-     (admins/comments). Stoja v hlavičke, nie v šablóne — <style> vnútri
+     (admins/comments). Stoja v hlavičke, nie v šablóne — <style nonce="{{ csp_nonce() }}"> vnútri
      #app Vue zahodí. --}}
-<style>
+<style nonce="{{ csp_nonce() }}">
     /* ---- Liturgický deň v hlavičke ------------------------------------- */
     .ar-liturgy {
         display: flex;

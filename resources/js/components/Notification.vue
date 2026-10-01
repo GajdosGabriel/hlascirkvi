@@ -2,7 +2,7 @@
     <div class="fixed bottom-10 right-3">
         <transition name="fade">
             <div :class="addClass" v-if="banner" class="flex items-center  p-5 rounded-md border-2 border-gray-500">
-                <i class="fas fa-info-circle fa-lg mr-4"></i>
+                <i class="ph-fill ph-info fa-lg mr-4"></i>
                 {{ body }}
             </div>
         </transition>

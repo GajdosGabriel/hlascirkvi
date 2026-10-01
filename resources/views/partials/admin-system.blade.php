@@ -1,4 +1,4 @@
-<style>
+<style nonce="{{ csp_nonce() }}">
     /* Spoločné formuláre administrácie a správy kanála vrátane Vue prvkov. */
     .ar-dash .form-control {
         max-width: 100%;
@@ -47,7 +47,7 @@
     }
     .ar-dash .card { border: 1px solid var(--ar-line); border-radius: .625rem; background: #fff; box-shadow: none; }
     .ar-dash .card_header { padding: .75rem 1rem; border-bottom: 1px solid var(--ar-line); background: transparent; color: var(--ar-ink-soft); }
-    /* Formulár článku (posts/form). Nesmie byť v samotnej šablóne — <style>
+    /* Formulár článku (posts/form). Nesmie byť v samotnej šablóne — <style nonce="{{ csp_nonce() }}">
        vnútri #app Vue zahodí. */
     .post-form__meta {
         display: grid;

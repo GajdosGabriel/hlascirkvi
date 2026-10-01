@@ -102,7 +102,7 @@
                                 v-text="group.message"
                             ></span>
 
-                            <span class="mt-0.5 flex items-center gap-2 text-xs text-gray-400">
+                            <span class="mt-0.5 flex items-center gap-2 text-xs text-gray-500">
                                 <span>{{ group.time }}</span>
                                 <span
                                     v-if="group.count > 1"
@@ -121,7 +121,7 @@
                     >
                         <button
                             type="button"
-                            class="flex h-7 w-7 items-center justify-center rounded text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                            class="flex h-7 w-7 items-center justify-center rounded text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                             :title="group.unread ? 'Označiť ako prečítané' : 'Označiť ako neprečítané'"
                             :aria-label="group.unread ? 'Označiť ako prečítané' : 'Označiť ako neprečítané'"
                             :disabled="busy"
@@ -135,7 +135,7 @@
 
                         <button
                             type="button"
-                            class="flex h-7 w-7 items-center justify-center rounded text-gray-400 transition-colors hover:bg-gray-100 hover:text-red-600 disabled:opacity-50"
+                            class="flex h-7 w-7 items-center justify-center rounded text-gray-500 transition-colors hover:bg-gray-100 hover:text-red-600 disabled:opacity-50"
                             title="Zmazať"
                             aria-label="Zmazať notifikáciu"
                             :disabled="busy"

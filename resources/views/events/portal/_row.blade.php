@@ -10,7 +10,7 @@
                      class="lazyload h-44 w-full object-cover sm:h-full">
             @else
                 <div class="ev-noposter flex h-28 w-full items-center justify-center sm:h-full">
-                    <i class="far fa-calendar text-2xl"></i>
+                    <i class="ph ph-calendar-blank text-2xl"></i>
                 </div>
             @endif
         </a>
@@ -20,13 +20,13 @@
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
                 @if ($event->timeLabel())
                     <span class="font-semibold text-[color:var(--ev-accent)]">
-                        <i class="far fa-clock mr-1 text-xs"></i>{{ $event->timeLabel() }}
+                        <i class="ph ph-clock mr-1 text-xs"></i>{{ $event->timeLabel() }}
                     </span>
                 @endif
 
                 @if ($event->isOngoing())
                     <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800">
-                        <i class="fas fa-circle text-[6px]"></i> prebieha
+                        <i class="ph-fill ph-circle text-[6px]"></i> prebieha
                     </span>
                 @endif
 
@@ -55,12 +55,12 @@
                 @if ($event->municipality())
                     <a href="{{ $evUrl(['municipality' => $event->municipalitySlug()]) }}"
                        class="hover:text-[color:var(--ev-accent)]">
-                        <i class="fas fa-map-marker-alt mr-1"></i>{{ $event->address() ?: $event->municipality() }}
+                        <i class="ph ph-map-pin mr-1"></i>{{ $event->address() ?: $event->municipality() }}
                     </a>
                 @endif
 
                 @if ($event->organizer())
-                    <span><i class="fas fa-church mr-1"></i>{{ $event->organizer() }}</span>
+                    <span><i class="ph ph-church mr-1"></i>{{ $event->organizer() }}</span>
                 @endif
 
                 @if ($event->isFree())

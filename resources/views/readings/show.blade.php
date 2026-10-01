@@ -29,7 +29,7 @@
         <nav class="mb-6 flex items-center gap-2 text-sm" aria-label="Iné dni">
             @if ($prev)
                 <a href="{{ route('readings.show', [$prev->format('Y-m-d')]) }}" class="rounded px-2 py-1 hover:bg-gray-100" title="Predchádzajúci deň">
-                    <i class="fa fa-angle-left" aria-hidden="true"></i><span class="sr-only">Predchádzajúci deň</span>
+                    <i class="ph ph-caret-left" aria-hidden="true"></i><span class="sr-only">Predchádzajúci deň</span>
                 </a>
             @endif
 
@@ -51,7 +51,7 @@
 
             @if ($next)
                 <a href="{{ route('readings.show', [$next->format('Y-m-d')]) }}" class="rounded px-2 py-1 hover:bg-gray-100" title="Nasledujúci deň">
-                    <i class="fa fa-angle-right" aria-hidden="true"></i><span class="sr-only">Nasledujúci deň</span>
+                    <i class="ph ph-caret-right" aria-hidden="true"></i><span class="sr-only">Nasledujúci deň</span>
                 </a>
             @endif
         </nav>

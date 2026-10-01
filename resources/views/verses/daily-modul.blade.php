@@ -4,7 +4,7 @@
             @if ($verse)
                 <p>{{ $verse->biblicky_vers }}</p>
                 <p class="">
-                    <a href="{{ url('zamyslenia') }}">Viac <i class="fa fa-angle-double-right"></i></a>
+                    <a href="{{ url('zamyslenia') }}">Viac <i class="ph ph-caret-double-right"></i></a>
                     {{ $verse->biblicky_vers_ref }}
                 </p>
             @endif

@@ -14,3 +14,4 @@ yarn-error.log
 /.idea/laravel-plugin.xml
 .env.testing
 /.phpstan.cache
+/storage/fonts

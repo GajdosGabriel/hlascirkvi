@@ -36,9 +36,13 @@ function cleanTitle($titleText)
     $titleText = str_replace("&quot;", ' ', $titleText);
     $titleText = str_replace("&amp;", '', $titleText);
     $titleText = str_replace("&nbsp;", ' ', $titleText);
+    // Hashtagy a podčiarkovníky z YouTube importu (`Názov_Ivanka #ps#sr`);
+    // `#5` ostáva, je to číslo, nie hashtag.
+    $titleText = preg_replace('/#\p{L}[\p{L}\p{N}_]*/u', '', $titleText);
+    $titleText = str_replace('_', ' ', $titleText);
     // Reome white space
     $titleText = preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $titleText);
-    return $titleText;
+    return \App\Support\TitleNormalizer::clean(trim($titleText));
 }
 
 
@@ -126,4 +130,15 @@ function localized_date($format, $date)
     }
 
     return trim($result);
+}
+
+if (! function_exists('csp_nonce')) {
+    /**
+     * Nonce aktuálnej požiadavky pre inline <script> a <style> (CSP).
+     * Mimo požiadavky cez SecurityHeaders (napr. chybové stránky) je prázdny.
+     */
+    function csp_nonce(): string
+    {
+        return app()->bound('csp.nonce') ? app('csp.nonce') : '';
+    }
 }

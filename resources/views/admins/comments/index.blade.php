@@ -41,7 +41,7 @@
                                 <span class="ar-row__title ar-clamp-2">{{ $row->title }}</span>
                                 <span class="ar-row__meta block">posledný komentár {{ \Carbon\Carbon::parse($row->last_at)->diffForHumans() }}</span>
                             </span>
-                            <span class="ar-row__value"><i class="far fa-comment mr-1"></i>{{ $num($row->recent) }}</span>
+                            <span class="ar-row__value"><i class="ph ph-chat-circle mr-1"></i>{{ $num($row->recent) }}</span>
                         </a>
                     @endforeach
                 </x-dashboard.panel>
@@ -61,7 +61,7 @@
                     <article class="ar-item" data-admin-comment="{{ $comment->id }}">
                         <img class="ar-avatar mt-0.5" src="{{ $comment->user_avatar ?: ($comment->user->avatar ?? null) ?: '/images/avatar.png' }}"
                              alt="" loading="lazy" referrerpolicy="no-referrer"
-                             onerror="this.onerror=null;this.src='/images/avatar.png'">
+                             data-img-fallback="/images/avatar.png">
 
                         <div class="ar-item__body">
                             <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -72,10 +72,10 @@
                                 @endif
 
                                 @if ($youtube)
-                                    <span class="ar-badge" style="background:#fef2f2;color:#b91c1c"><i class="fab fa-youtube"></i> YouTube</span>
+                                    <span class="ar-badge" style="background:#fef2f2;color:#b91c1c"><i class="ph ph-youtube-logo"></i> YouTube</span>
                                 @endif
                                 @if ($comment->parent_id)
-                                    <span class="ar-badge ar-badge--count"><i class="fas fa-reply"></i> odpoveď</span>
+                                    <span class="ar-badge ar-badge--count"><i class="ph ph-arrow-bend-up-left"></i> odpoveď</span>
                                 @endif
                                 @if ($comment->published === null)
                                     <span class="ar-badge ar-badge--warn">neschválený</span>
@@ -107,10 +107,10 @@
                                         @if ($post->video_id)
                                             <img src="https://i.ytimg.com/vi/{{ $post->video_id }}/default.jpg" alt="" class="h-5 w-8 flex-none rounded object-cover" loading="lazy">
                                         @else
-                                            <i class="far fa-file-alt"></i>
+                                            <i class="ph ph-file-text"></i>
                                         @endif
                                         <span>{{ $post->title }}</span>
-                                        <i class="fas fa-external-link-alt text-[10px] text-gray-400"></i>
+                                        <i class="ph ph-arrow-square-out text-[10px] text-gray-400"></i>
                                     </a>
                                     @if ($post->deleted_at)
                                         <span class="ar-badge ar-badge--warn">článok je zmazaný</span>
@@ -120,29 +120,29 @@
 
                             <div class="ar-item__meta">
                                 @if ($post?->canal)
-                                    <a href="{{ route('organizations.show', [$post->canal_id]) }}" class="hover:text-[color:var(--ar-accent)]"><i class="fas fa-broadcast-tower"></i>{{ $post->canal }}</a>
+                                    <a href="{{ route('organizations.show', [$post->canal_id]) }}" class="hover:text-[color:var(--ar-accent)]"><i class="ph ph-broadcast"></i>{{ $post->canal }}</a>
                                 @endif
                                 @if ($post)
-                                    <span title="Komentáre pod článkom"><i class="far fa-comments"></i>{{ $num($post->comments) }} v diskusii</span>
-                                    <span title="Zhliadnutia článku"><i class="far fa-eye"></i>{{ $num($post->count_view) }}</span>
+                                    <span title="Komentáre pod článkom"><i class="ph ph-chats-circle"></i>{{ $num($post->comments) }} v diskusii</span>
+                                    <span title="Zhliadnutia článku"><i class="ph ph-eye"></i>{{ $num($post->count_view) }}</span>
                                 @endif
                                 @if ($comment->replies_count)
-                                    <span><i class="fas fa-reply-all"></i>{{ $num($comment->replies_count) }} {{ $comment->replies_count === 1 ? 'odpoveď' : ($comment->replies_count < 5 ? 'odpovede' : 'odpovedí') }}</span>
+                                    <span><i class="ph ph-arrow-bend-double-up-left"></i>{{ $num($comment->replies_count) }} {{ $comment->replies_count === 1 ? 'odpoveď' : ($comment->replies_count < 5 ? 'odpovede' : 'odpovedí') }}</span>
                                 @endif
                                 @if ($comment->favoritesCount)
-                                    <span><i class="fas fa-heart text-red-400"></i>{{ $num($comment->favoritesCount) }}</span>
+                                    <span><i class="ph-fill ph-heart text-red-400"></i>{{ $num($comment->favoritesCount) }}</span>
                                 @endif
                                 @if ($authorTotal > 1)
-                                    <span title="Komentáre tohto autora spolu"><i class="far fa-user"></i>{{ $num($authorTotal) }} komentárov od autora</span>
+                                    <span title="Komentáre tohto autora spolu"><i class="ph ph-user"></i>{{ $num($authorTotal) }} komentárov od autora</span>
                                 @endif
-                                <span title="Dĺžka komentára"><i class="fas fa-text-width"></i>{{ $num(mb_strlen($comment->body)) }} znakov</span>
+                                <span title="Dĺžka komentára"><i class="ph ph-text-aa"></i>{{ $num(mb_strlen($comment->body)) }} znakov</span>
                             </div>
                         </div>
 
                         @unless ($comment->trashed())
                             <div class="ar-item__actions">
                                 <button type="button" class="ar-act ar-act--danger" data-admin-comment-delete="{{ $comment->id }}" title="Zmazať komentár" aria-label="Zmazať komentár">
-                                    <i class="far fa-trash-alt"></i>
+                                    <i class="ph ph-trash"></i>
                                 </button>
                             </div>
                         @endunless
@@ -161,7 +161,7 @@
 @endsection
 
 @push('scripts')
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         // Mazanie ide cez to isté API ako vo Vue komponente komentára.
         // Počúva sa na document: Vue obsah #app pri pripojení prekreslí.
         document.addEventListener('click', (e) => {

@@ -23,9 +23,12 @@ class CreditUser
 
 //        $value = Cache::get('lastCredit');
 
-       if( Cache::get('lastVisit')) $this->checkDailyCredit();
+       // Do cache ide reťazec, nie Carbon: `serializable_classes` je false a
+       // objekt by sa vrátil ako __PHP_Incomplete_Class. Staršia položka
+       // s objektom nie je reťazec, takže sa len prepíše.
+       if( is_string(Cache::get('lastVisit'))) $this->checkDailyCredit();
 
-        Cache::put('lastVisit', Carbon::now());
+        Cache::put('lastVisit', Carbon::now()->toDateTimeString());
 
 //        dd(Cache::get('lastVisit'));
 

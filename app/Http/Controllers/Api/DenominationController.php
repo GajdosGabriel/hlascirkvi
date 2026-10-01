@@ -17,10 +17,12 @@ class DenominationController extends Controller
 {
     public function index()
     {
-        return collect(Denomination::options())
+        $items = collect(Denomination::options())
             ->map(fn (Denomination $denomination) => [
                 'value' => $denomination->value,
                 'label' => $denomination->label(),
             ]);
+
+        return response()->json($items)->header('Cache-Control', 'public, max-age=86400');
     }
 }

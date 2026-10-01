@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
         <span>Osobný Credit</span>
-        <i class="fab fa-pagelines"></i>
+        <i class="ph ph-plant"></i>
     </div>
     {{--<div class="card-body">--}}
         {{--<div class="level">--}}

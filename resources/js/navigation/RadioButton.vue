@@ -8,7 +8,7 @@
             @click="toggle"
         >
             <span class="flex items-center gap-3">
-                <i class="fas fa-volume-up w-5 text-center" aria-hidden="true"></i>
+                <i class="ph ph-speaker-high w-5 text-center" aria-hidden="true"></i>
                 Rádiá
             </span>
             <svg
@@ -47,7 +47,7 @@
             :aria-expanded="open ? 'true' : 'false'"
             @click="toggle"
         >
-            <i class="fas fa-volume-up" aria-hidden="true"></i>
+            <i class="ph ph-speaker-high" aria-hidden="true"></i>
             Rádiá
             <svg
                 class="h-4 w-4 transition-transform"

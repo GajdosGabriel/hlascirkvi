@@ -28,7 +28,7 @@
                     <a href="{{ request()->fullUrlWithQuery(['sort' => $next, 'page' => null]) }}"
                        class="inline-flex items-center gap-1 whitespace-nowrap hover:underline" style="color: inherit">
                         {{ $label }}
-                        <i class="fas {{ $asc ? 'fa-sort-up' : ($desc ? 'fa-sort-down' : 'fa-sort opacity-50') }}" aria-hidden="true"></i>
+                        <i class="ph {{ $asc ? 'ph-caret-up' : ($desc ? 'ph-caret-down' : 'ph-caret-up-down opacity-50') }}" aria-hidden="true"></i>
                     </a>
                 </th>
             @endforeach
@@ -62,7 +62,7 @@
                 <td class="td">
                     <dropdown-slot label="Spravovať používateľa">
                         <a href="{{ route('admin.user.edit', [$user->id]) }}">
-                            <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
+                            <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
                         </a>
                     </dropdown-slot>
                 </td>

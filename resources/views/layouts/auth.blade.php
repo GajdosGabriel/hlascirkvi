@@ -42,7 +42,7 @@
 @endsection
 
 @section('headerCSS')
-<style>
+<style nonce="{{ csp_nonce() }}">
     .ar-label {
         display: block;
         margin-bottom: .35rem;
@@ -170,7 +170,7 @@
 @endsection
 
 @section('script')
-<script>
+<script nonce="{{ csp_nonce() }}">
     // Prepínač viditeľnosti hesla. Bez neho sa dlhšie heslo píše naslepo
     // dvakrát a človek zbytočne končí na hláške, že sa heslá nezhodujú.
     //

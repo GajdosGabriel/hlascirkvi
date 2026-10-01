@@ -20,11 +20,15 @@ class PostController extends Controller
         $this->post = $postRepository;
     }
 
-    public function index(PostFilters $filters)
+    public function index(PostFilters $filters, Request $request)
     {
+        // `per_page` (alebo `limit`) 1–50, predvolene 28. simplePaginate
+        // nerobí COUNT(*) nad celou tabuľkou a vracia len next/prev.
+        $perPage = max(1, min(50, (int) ($request->query('per_page') ?? $request->query('limit') ?? 28)));
+
         $posts = $this->post->postsInSection(PostSection::Front)
             ->filter($filters)
-            ->paginate(28);
+            ->simplePaginate($perPage);
 
         return PostResource::collection($posts);
     }

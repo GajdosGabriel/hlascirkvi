@@ -22,7 +22,7 @@
 
         <x-slot name="actions">
             <a href="{{ route('profile.canals.prayers.create', $canal->id) }}" class="ar-btn ar-btn--accent">
-                <i class="fas fa-plus"></i> Nová modlitba
+                <i class="ph ph-plus"></i> Nová modlitba
             </a>
         </x-slot>
 
@@ -43,7 +43,7 @@
                         </p>
 
                         <div class="ar-item__meta">
-                            <span><i class="far fa-user"></i>{{ $prayer->user_name ?: 'návštevník' }}</span>
+                            <span><i class="ph ph-user"></i>{{ $prayer->user_name ?: 'návštevník' }}</span>
                             <time datetime="{{ $prayer->created_at->toIso8601String() }}">
                                 {{ $prayer->created_at->locale('sk')->isoFormat('D. M. YYYY') }}
                             </time>
@@ -59,7 +59,7 @@
                     <div class="ar-item__actions">
                         <dropdown-slot label="Spravovať modlitbu">
                             <a href="{{ route('profile.canals.prayers.edit', [$canal->id, $prayer->id]) }}">
-                                <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
+                                <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
                             </a>
                         </dropdown-slot>
                     </div>

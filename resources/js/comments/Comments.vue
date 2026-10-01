@@ -19,7 +19,7 @@
                 :class="show ? 'ar-btn--quiet' : 'ar-btn--accent'"
                 class="ar-btn discussion-compose shrink-0"
             >
-                <i class="far" :class="show ? 'fa-times-circle' : 'fa-comment-dots'"></i>
+                <i class="ph" :class="show ? 'ph-x-circle' : 'ph-chat-circle-dots'"></i>
                 {{ show ? "Zavrieť" : "Pridať komentár" }}
             </button>
         </div>

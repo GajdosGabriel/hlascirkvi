@@ -2,7 +2,7 @@
      partialu (partials/design-system.blade.php), ale bývajú len tu: dlaždice
      s číslami, graf a riadkové výpisy nikde inde na webe nie sú a do
      spoločného súboru by len pribúdali. --}}
-<style>
+<style nonce="{{ csp_nonce() }}">
     /* ---- Panel -------------------------------------------------------- */
 
     /* Karta nástenky. Oproti .ar-card sa nedvíha pri prejdení myšou — panel

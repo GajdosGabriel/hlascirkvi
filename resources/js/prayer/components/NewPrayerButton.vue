@@ -1,6 +1,6 @@
 <template>
     <button type="button" class="ar-btn ar-btn--accent" @click="openModal">
-        <i class="fas fa-praying-hands"></i>
+        <i class="ph ph-hands-praying"></i>
         <span>Poprosiť o modlitbu</span>
     </button>
 </template>

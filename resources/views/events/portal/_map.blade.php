@@ -18,7 +18,7 @@
         <div id="ev-map" class="h-[30rem] w-full md:h-[34rem]"></div>
     @else
         <div class="flex h-64 flex-col items-center justify-center px-6 text-center">
-            <i class="fas fa-map-marked-alt mb-3 text-3xl text-stone-300"></i>
+            <i class="ph ph-map-trifold mb-3 text-3xl text-stone-300"></i>
             <p class="ev-display mb-1 font-semibold">Na mape nie je čo ukázať</p>
             <p class="text-sm text-stone-500">
                 Žiadne z podujatí v tomto výbere nemá zadané súradnice miesta.
@@ -28,7 +28,7 @@
 
     <div class="flex flex-wrap items-center justify-between gap-2 border-t border-[color:var(--ev-line)] px-4 py-2.5 text-xs text-stone-500">
         <span>
-            <i class="fas fa-map-pin mr-1 text-[color:var(--ev-accent)]"></i>
+            <i class="ph ph-map-pin mr-1 text-[color:var(--ev-accent)]"></i>
             {{ $mapped }} z {{ $items->count() }} podujatí na
             {{ count($mapPoints) }} {{ count($mapPoints) === 1 ? 'mieste' : 'miestach' }}
         </span>
@@ -50,7 +50,7 @@
               integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w=="
               crossorigin="anonymous" referrerpolicy="no-referrer">
 
-        <style>
+        <style nonce="{{ csp_nonce() }}">
             /* Vlastná značka namiesto predvolenej modrej kvapky — sadne
                palete výpisu a rovno nesie počet podujatí na mieste. */
             .ev-pin {
@@ -82,7 +82,7 @@
                 integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <script>
+        <script nonce="{{ csp_nonce() }}">
             (function () {
                 var points = @json($mapPoints);
 

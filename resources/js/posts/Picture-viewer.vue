@@ -14,7 +14,7 @@
                 class="rounded cursor-pointer "
                 alt="image.title"
                 :class="{ 'h-full': open }"
-                :src="'/storage/' + image.url"
+                :src="image.originalImageUrl || '/storage/' + image.url"
                 @click="showModal"
             />
         </transition>

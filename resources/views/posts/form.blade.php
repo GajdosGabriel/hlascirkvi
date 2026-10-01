@@ -1,13 +1,13 @@
-{{-- Štýly formulára sú v partials/admin-system: <style> vnútri #app Vue
+{{-- Štýly formulára sú v partials/admin-system: <style nonce="{{ csp_nonce() }}"> vnútri #app Vue
      pri kompilácii šablóny zahodí. --}}
 <div class="post-form__meta">
 
     <div class="form-category {{ $errors->has('section') ? ' has-error' : '' }}">
-        <label>Výpis</label>
+        <label for="post-section">Výpis</label>
         {{-- Do 9/2026 to bol zoznam updaterov typu `post` načítaný priamo
              v šablóne, pričom ten istý záznam znamenal aj „príspevok je
              zverejnený". Zaradenie je dnes stĺpec `posts.section`. --}}
-        <select name="section" required class="form-control">
+        <select id="post-section" name="section" required class="form-control">
             <option value="" disabled @selected(! $post->section)>Vybrať výpis</option>
             @foreach (\App\Enums\PostSection::options() as $option)
                 <option value="{{ $option->value }}" @selected(old('section', $post->section?->value) === $option->value)>
@@ -20,8 +20,8 @@
 
     {{-- Video Link --}}
     <div class="form-category">
-        <label>Video YouTube</label>
-        <input type="text" name="video_id" value="{{ old('video_id') ?? $post->video_id }}" class="form-control"
+        <label for="post-video-id">Video YouTube</label>
+        <input type="text" id="post-video-id" name="video_id" value="{{ old('video_id') ?? $post->video_id }}" class="form-control" maxlength="191" inputmode="url" spellcheck="false" autocapitalize="off"
             placeholder="Odkaz na video Youtube">
     </div>
 
@@ -48,13 +48,13 @@
 
     @can('admin')
         <div class="form-author">
-            <label>Kanál</label>
+            <label for="post-canal-id">Kanál</label>
             {{-- Upravovaný príspevok ostáva vo svojom kanáli, nový ide do aktívneho.
                  Podmienka „kanál príspevku ALEBO aktívny kanál" označila dve
                  možnosti naraz, prehliadač nechal poslednú v abecede — a uloženie
                  tak príspevok ticho presunulo do aktívneho kanála správcu. --}}
             @php($selectedCanal = old('canal_id', $post->canal_id ?? auth()->user()->canal_id))
-            <select class="form-control" name="canal_id" required>
+            <select class="form-control" id="post-canal-id" name="canal_id" required>
                 <option value="" disabled @selected(! $selectedCanal)>Autor</option>
                 @can('superadmin')
                     @foreach (\App\Models\Canal::orderBy('title', 'asc')->get() as $canal)
@@ -94,7 +94,8 @@
 
 {{-- Title Field --}}
 <div class="form-group {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
-    <input type="text" name="title" class="form-control" placeholder="Nadpis ..."
+    <label for="post-title" class="sr-only">Nadpis</label>
+    <input type="text" id="post-title" name="title" class="form-control" placeholder="Nadpis ..."
         value="{{ old('title') ?? $post->title }}" minlength="3" maxlength="200" required>
 </div>
 

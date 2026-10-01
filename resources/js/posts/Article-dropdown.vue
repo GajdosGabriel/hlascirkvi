@@ -1,22 +1,22 @@
 <template>
     <dropdown-slot :align="align" label="Spravovať článok">
         <a :href="'/dashboard/posts/' + post.id + '/edit'">
-            <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
+            <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
         </a>
 
         <button v-if="$auth.isAdmin()" type="button" @click="updatePost">
-            <i class="fas fa-inbox" aria-hidden="true"></i> Do buffera
+            <i class="ph ph-tray" aria-hidden="true"></i> Do buffera
         </button>
 
         <button v-if="$auth.isAdmin()" type="button" :disabled="summarizing" @click="summarize">
-            <i class="fas fa-magic" aria-hidden="true"></i>
+            <i class="ph ph-magic-wand" aria-hidden="true"></i>
             {{ summarizing ? "Vytváram zhrnutie…" : "AI zhrnutie" }}
         </button>
 
         <hr class="ui-dropdown__divider">
 
         <button type="button" class="ui-dropdown__item--danger" @click="deletePost">
-            <i class="far fa-trash-alt" aria-hidden="true"></i> Zmazať
+            <i class="ph ph-trash" aria-hidden="true"></i> Zmazať
         </button>
     </dropdown-slot>
 </template>

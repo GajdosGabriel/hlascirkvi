@@ -13,7 +13,7 @@
 
         <x-slot name="title_right">
             <a class="btn btn-primary" href="{{ route('frontlist.index') }}" target="_blank" rel="noopener">
-                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Pozrieť na webe
+                <i class="ph ph-arrow-square-out" aria-hidden="true"></i> Pozrieť na webe
             </a>
         </x-slot>
 
@@ -144,27 +144,27 @@
                                     <dropdown-slot label="{{ __('canal.actions.label') }}">
                                         @can('view', $canalModel)
                                             <a href="{{ route('organizations.show', $canal->id) }}">
-                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                                <i class="ph ph-eye" aria-hidden="true"></i>
                                                 {{ __('canal.actions.show') }}
                                             </a>
                                         @endcan
                                         @can('manage', $canalModel)
                                             <a href="{{ route('profile.canals.edit', $canal->id) }}">
-                                                <i class="fas fa-pen" aria-hidden="true"></i>
+                                                <i class="ph ph-pencil-simple" aria-hidden="true"></i>
                                                 {{ __('canal.actions.edit') }}
                                             </a>
                                             <a href="{{ route('profile.canals.show', $canal->id) }}">
-                                                <i class="fas fa-columns" aria-hidden="true"></i>
+                                                <i class="ph ph-columns" aria-hidden="true"></i>
                                                 {{ __('canal.actions.dashboard') }}
                                             </a>
                                         @endcan
                                         @can('superadmin')
                                             <hr class="ui-dropdown__divider">
                                             <form method="POST" action="{{ route('admin.frontlist.destroy', $canal->id) }}"
-                                                  onsubmit="return confirm({{ Illuminate\Support\Js::from(__('canal.actions.remove_confirmation', ['title' => $canal->title])) }})">
+                                                  data-confirm="{{ __('canal.actions.remove_confirmation', ['title' => $canal->title]) }}">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" title="{{ __('canal.actions.remove_hint') }}">
-                                                    <i class="fas fa-times" aria-hidden="true"></i>
+                                                    <i class="ph ph-x" aria-hidden="true"></i>
                                                     {{ __('canal.actions.remove') }}
                                                 </button>
                                             </form>

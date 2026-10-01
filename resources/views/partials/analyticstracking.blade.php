@@ -1,33 +1,9 @@
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            {{-- Rovnaké App ID ako fb:app_id v partials/meta.blade.php.
-                 Predtým tu bolo iné než v konfigurácii aj než v SDK skripte
-                 na detaile príspevku — tri rôzne ID na troch miestach. --}}
-            appId      : '{{ config('seo.facebook_app_id') }}',
-            xfbml      : true,
-            version    : 'v3.1'
-        });
-        FB.AppEvents.logPageView();
-    };
-
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/sk_SK/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-
-
-
 {{-- App::environment(), nie env('APP_ENV') — po `php artisan config:cache`
      vracia env() null a analytika sa na produkcii ticho vypne. --}}
 @production
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-18613776-13"></script>
-<script>
+<script nonce="{{ csp_nonce() }}">
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -36,7 +12,7 @@
 </script>
 
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="{{ csp_nonce() }}">
     window.smartlook||(function(d) {
         var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
         var c=d.createElement('script');o.api=[];c.async=true;c.type='text/javascript';

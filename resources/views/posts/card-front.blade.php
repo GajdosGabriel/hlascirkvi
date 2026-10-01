@@ -25,7 +25,7 @@
 
         @if ($isRecommended)
             <span class="absolute left-2 top-2 whitespace-nowrap rounded-full bg-white/95 px-2 py-0.5 text-[.62rem] font-bold uppercase tracking-wide text-[color:var(--ar-accent)] shadow-sm">
-                <i class="fas fa-thumbs-up mr-0.5"></i> Odporúčané
+                <i class="ph-fill ph-thumbs-up mr-0.5"></i> Odporúčané
             </span>
         @endif
 
@@ -38,16 +38,18 @@
 
     {{-- Text karty --}}
     <div class="flex flex-1 flex-col p-3">
-        <a href="{{ $postUrl }}" title="{{ $post->title }}"
-           class="ar-display block text-[.8rem] font-semibold leading-snug transition-colors group-hover:text-[color:var(--ar-accent)] md:text-sm">
-            <span class="ar-clamp-3">{{ $post->title }}</span>
-        </a>
+        <h2 class="contents">
+            <a href="{{ $postUrl }}" title="{{ $post->title }}"
+               class="ar-display block text-[.8rem] font-semibold leading-snug transition-colors group-hover:text-[color:var(--ar-accent)] md:text-sm">
+                <span class="ar-clamp-3">{{ $post->title }}</span>
+            </a>
+        </h2>
 
         <div class="mt-auto pt-3 text-xs">
             <a href="{{ $canalUrl }}" class="ar-link inline-block max-w-full truncate align-bottom font-medium text-gray-600 hover:text-[color:var(--ar-accent)]">
                 {{ $post->canal->title }}
             </a>
-            <time datetime="{{ $post->created_at->toIso8601String() }}" class="mt-0.5 block text-gray-400">
+            <time datetime="{{ $post->created_at->toIso8601String() }}" class="mt-0.5 block text-gray-500">
                 {{ $post->dateForHumans }}
             </time>
         </div>

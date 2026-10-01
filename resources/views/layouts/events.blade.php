@@ -15,16 +15,11 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Roboto:wght@300;400;500;700&display=swap">
 
-    <link rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-          crossorigin="anonymous">
-
     <script src="{{ asset('js/lazysizes.min.js') }}" async></script>
 
     {{-- Vue komponenty v hlavičke a v pätičke čítajú window.App; bez neho
          spadne celý bundle a s ním aj prihlasovacie menu. --}}
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         window.App = {!! json_encode([
             'csrfToken' => csrf_token(),
             'user' => Auth::user(),
@@ -38,7 +33,7 @@
     {{-- Vlastná paleta a stavebné prvky výpisu. Zámerne v layoute a nie
          v app.css: týka sa len podujatí a keď sa raz sekcia prekreslí,
          maže sa jeden súbor, nie riadky roztrúsené v globálnych štýloch. --}}
-    <style>
+    <style nonce="{{ csp_nonce() }}">
         :root {
             --ev-paper:      #faf7f1;
             --ev-paper-deep: #f2ece1;
@@ -208,6 +203,7 @@
     @stack('head')
 </head>
 <body class="ev-body">
+    <a href="#obsah" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-blue-900 focus:shadow-lg">Preskočiť na obsah</a>
 
     @can('admin')
     @else
@@ -217,7 +213,7 @@
     <div id="app">
         <x-navigation.main-menu />
 
-        <main>
+        <main id="obsah" tabindex="-1">
             @include('layouts.errors')
 
             @yield('content')

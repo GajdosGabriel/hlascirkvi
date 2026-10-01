@@ -72,19 +72,19 @@
                  v atribúte onclick, lebo ten mount Vue prežije; skript nižšie
                  beží cez arReady (viď partials/ar-ready). --}}
             <div id="ev-stale" class="mb-6 flex items-start gap-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
-                <i class="fas fa-exclamation-triangle mt-0.5"></i>
+                <i class="ph-fill ph-warning mt-0.5"></i>
                 <div class="flex-1">
                     Portál s podujatiami je práve nedostupný, zobrazujeme poslednú načítanú verziu zoznamu.
                 </div>
                 <button type="button" aria-label="Zavrieť hlásenie" title="Zavrieť"
                         class="-my-1 -mr-1 shrink-0 rounded px-2 py-1 leading-none text-amber-700 transition hover:bg-amber-100 hover:text-amber-900"
-                        onclick="try { sessionStorage.setItem('ev-stale-closed', '1') } catch (e) {} this.parentNode.remove()">
-                    <i class="fas fa-times"></i>
+                        data-dismiss-remember="ev-stale-closed">
+                    <i class="ph ph-x"></i>
                 </button>
             </div>
 
             @push('scripts')
-                <script>
+                <script nonce="{{ csp_nonce() }}">
                     window.arReady(function () {
                         try {
                             if (sessionStorage.getItem('ev-stale-closed')) {
@@ -136,7 +136,7 @@
                         </p>
                         <a href="{{ route('akcie.index') }}"
                            class="inline-flex items-center gap-2 rounded-md border border-[color:var(--ev-line)] bg-white px-4 py-2 text-sm font-medium transition hover:bg-stone-50">
-                            <i class="fas fa-undo text-xs"></i> Zobraziť všetky podujatia
+                            <i class="ph ph-arrow-counter-clockwise text-xs"></i> Zobraziť všetky podujatia
                         </a>
                     </div>
 

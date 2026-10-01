@@ -161,7 +161,8 @@ class EventPortalClient
 
         try {
             $response = Http::acceptJson()
-                ->timeout((int) config('eventportal.timeout', 8))
+                ->timeout((int) config('eventportal.timeout', 3))
+                ->connectTimeout((int) config('eventportal.connect_timeout', 2))
                 // X-Locale: texty, ktoré portál posiela hotové (napr. ticket_cta),
                 // majú prísť po slovensky, nie v predvolenom jazyku API.
                 ->withHeaders(['User-Agent' => 'hlascirkvi.sk (event portal reader)', 'X-Locale' => 'sk'])

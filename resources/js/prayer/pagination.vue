@@ -10,11 +10,11 @@
             :disabled="!links.prev"
             @click="fetchPaginate(links.prev)"
         >
-            <i class="fas fa-chevron-left"></i>
+            <i class="ph ph-caret-left"></i>
             <span>Novšie</span>
         </button>
 
-        <span class="text-xs font-semibold tabular-nums text-gray-400">
+        <span class="text-xs font-semibold tabular-nums text-gray-500">
             {{ meta.current_page }} / {{ meta.last_page }}
         </span>
 
@@ -25,7 +25,7 @@
             @click="fetchPaginate(links.next)"
         >
             <span>Staršie</span>
-            <i class="fas fa-chevron-right"></i>
+            <i class="ph ph-caret-right"></i>
         </button>
     </nav>
 </template>

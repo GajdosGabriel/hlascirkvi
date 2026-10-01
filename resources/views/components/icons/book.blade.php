@@ -1,1 +1,1 @@
-<i class=" fa fa-book" aria-hidden="true"></i>
+<i class=" ph ph-book" aria-hidden="true"></i>

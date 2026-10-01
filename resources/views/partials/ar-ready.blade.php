@@ -8,7 +8,7 @@
      žila len v layouts/article; layouts/app a layouts/events ju nemali, hoci
      pod nimi je 55 pohľadov. Pohľady podujatí si dovtedy pomáhali vlastným
      DOMContentLoaded (funguje, lebo @vite vkladá modul, ktorý beží pred ním). --}}
-<script>
+<script nonce="{{ csp_nonce() }}">
     (function () {
         var pending = [];
         var started = false;

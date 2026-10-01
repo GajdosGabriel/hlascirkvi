@@ -13,7 +13,7 @@
             <span class="ar-org__avatar co-avatar" aria-hidden="true">
                 {{ \Illuminate\Support\Str::limit($canal->initialName, 3, '') }}
                 @if ($canal->avatar)
-                    <img src="{{ Storage::url('organizations/' . $canal->id . '/' . $canal->avatar) }}" alt="" onerror="this.remove()">
+                    <img src="{{ \App\Support\MediaUrl::canalAvatar($canal->id, $canal->avatar) }}" alt="" width="76" height="76" data-img-hide>
                 @endif
             </span>
             <div class="co-heading">
@@ -32,18 +32,18 @@
         </div>
         @unless ($canal->trashed())
             <div class="co-actions">
-                <a class="ar-btn ar-btn--accent" href="{{ route('profile.canals.edit', $canal) }}"><i class="fas fa-pen" aria-hidden="true"></i> Upraviť profil</a>
+                <a class="ar-btn ar-btn--accent" href="{{ route('profile.canals.edit', $canal) }}"><i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť profil</a>
                 @if ($canal->published)
-                    <a class="ar-btn" href="{{ route('organizations.show', $canal) }}">Verejný profil <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                    <a class="ar-btn" href="{{ route('organizations.show', $canal) }}">Verejný profil <i class="ph ph-arrow-square-out" aria-hidden="true"></i></a>
                 @endif
             </div>
         @endunless
     </section>
 
     <div class="co-metrics" aria-label="Obsah a sledovanosť kanála">
-        @foreach ([['Príspevky', $canal->posts_count, 'Nezmazaný obsah', 'file-alt'], ['Modlitby', $canal->prayers_count, 'Modlitbové úmysly', 'praying-hands'], ['Podujatia', $canal->seminars_count, 'Všetky podujatia', 'calendar-alt'], ['Sledujúci', $canal->favorites_count, 'Kanál medzi obľúbenými', 'heart']] as [$label, $count, $hint, $icon])
+        @foreach ([['Príspevky', $canal->posts_count, 'Nezmazaný obsah', 'file-text'], ['Modlitby', $canal->prayers_count, 'Modlitbové úmysly', 'hands-praying'], ['Podujatia', $canal->seminars_count, 'Všetky podujatia', 'calendar-blank'], ['Sledujúci', $canal->favorites_count, 'Kanál medzi obľúbenými', 'heart']] as [$label, $count, $hint, $icon])
             <section class="ar-panel co-metric">
-                <div class="co-metric-label">{{ $label }} <i class="fas fa-{{ $icon }}" aria-hidden="true"></i></div>
+                <div class="co-metric-label">{{ $label }} <i class="ph ph-{{ $icon }}" aria-hidden="true"></i></div>
                 <strong>{{ number_format($count, 0, ',', ' ') }}</strong>
                 <span class="co-muted">{{ $hint }}</span>
             </section>
@@ -127,7 +127,7 @@
                 <ul class="co-managers">
                     @forelse ($canal->users as $manager)
                         <li>
-                            <span class="co-person" aria-hidden="true"><i class="fas fa-user"></i></span>
+                            <span class="co-person" aria-hidden="true"><i class="ph ph-user"></i></span>
                             <div><strong>{{ trim($manager->first_name . ' ' . $manager->last_name) ?: 'Správca kanála' }}</strong>
                                 @can('superadmin')<a class="ar-link" href="{{ route('admin.user.edit', $manager->id) }}">{{ $manager->email }}</a>@endcan
                             </div>

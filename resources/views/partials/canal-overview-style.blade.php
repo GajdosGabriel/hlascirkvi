@@ -1,4 +1,4 @@
-<style>
+<style nonce="{{ csp_nonce() }}">
 .co-overview{display:grid;gap:20px;color:var(--ar-ink)}
 .co-hero{padding:28px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;border-top:3px solid var(--ar-accent)}
 .co-identity{display:flex;align-items:center;gap:18px;min-width:0;flex:1}

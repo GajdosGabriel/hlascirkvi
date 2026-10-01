@@ -16,9 +16,9 @@
         <div class="w-full">
             <h4 class="border-b-2 py-3 border-gray-300 font-semibold">Kontakt</h4>
             <ul class="mt-2 space-y-1">
-                <li><span class="fa fa-globe"></span> Trenčín, Slovensko</li>
-                <li><span class="fa fa-phone"></span> 0905 320 616</li>
-                {{--<p><span class="fa fa-envelope"></span><a href="#" data-toggle="modal" data-target="#contact" data-whatever="@mdo" >Napíšte nám</a></p>--}}
+                <li><span class="ph ph-globe"></span> Trenčín, Slovensko</li>
+                <li><span class="ph ph-phone"></span> 0905 320 616</li>
+                {{--<p><span class="ph ph-envelope-simple"></span><a href="#" data-toggle="modal" data-target="#contact" data-whatever="@mdo" >Napíšte nám</a></p>--}}
             </ul>
 
         </div>
@@ -55,10 +55,10 @@
 
 
             {{--<p>--}}
-            {{--<a class="fa fa-twitter footer-socialicon" target="_blank" href="https://twitter.com/"></a>--}}
-            {{--<a class="fa fa-facebook footer-socialicon" target="_blank" href="https://www.facebook.com/"></a>--}}
-            {{--<a class="fa fa-google-plus footer-socialicon" target="_blank" href="https://plus.google.com/"></a>--}}
-            {{--<a class="fa fa-linkedin footer-socialicon" target="_blank" href="https://plus.google.com/"></a>--}}
+            {{--<a class="ph ph-twitter-logo footer-socialicon" target="_blank" href="https://twitter.com/"></a>--}}
+            {{--<a class="ph ph-facebook-logo footer-socialicon" target="_blank" href="https://www.facebook.com/"></a>--}}
+            {{--<a class="ph ph-google-logo footer-socialicon" target="_blank" href="https://plus.google.com/"></a>--}}
+            {{--<a class="ph ph-linkedin-logo footer-socialicon" target="_blank" href="https://plus.google.com/"></a>--}}
             {{--</p>--}}
 
         </div>

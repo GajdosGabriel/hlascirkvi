@@ -16,16 +16,11 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
 
-    <link rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
-          crossorigin="anonymous">
-
     <script src="{{ asset('js/lazysizes.min.js') }}" async></script>
 
     {{-- Vue komponenty v hlavičke, v článku aj v pätičke čítajú window.App;
          bez neho spadne celý bundle a s ním aj komentáre a prihlásenie. --}}
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         window.App = {!! json_encode([
             'csrfToken' => csrf_token(),
             'user' => Auth::user(),
@@ -40,7 +35,7 @@
 
     {{-- Prvky, ktoré nosí len detail príspevku. Zámerne tu a nie v app.css:
          týkajú sa jednej šablóny a keď sa raz prekreslí, maže sa jeden blok. --}}
-    <style>
+    <style nonce="{{ csp_nonce() }}">
         /* Ukazovateľ prečítanej časti článku. Šírku dopĺňa skript v šablóne. */
         .ar-progress {
             position: fixed;
@@ -158,6 +153,7 @@
     @stack('head')
 </head>
 <body class="ar-body">
+    <a href="#obsah" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-blue-900 focus:shadow-lg">Preskočiť na obsah</a>
 
     @can('admin')
     @else
@@ -174,7 +170,7 @@
 
         @include('partials.verify-banner')
 
-        <main>
+        <main id="obsah" tabindex="-1">
             @include('layouts.errors')
 
             @yield('content')

@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 @section('title')
-    <title>{{ 'Upraviť článok' }}</title>
+    <title>{{ 'Upraviť článok' }} | Hlas Cirkvi</title>
 @endsection
 
 @section('content')

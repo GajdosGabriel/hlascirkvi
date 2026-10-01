@@ -11,7 +11,7 @@
             :class="buttonClass"
             class="ar-btn"
         >
-            <i class="far fa-thumbs-up"></i>
+            <i class="ph ph-thumbs-up"></i>
             {{ label }}
             <span v-if="favoriteCount > 0" class="tabular-nums opacity-70">{{ favoriteCount }}</span>
         </button>

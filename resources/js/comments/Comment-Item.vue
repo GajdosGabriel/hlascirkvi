@@ -31,12 +31,12 @@
                     <div class="flex shrink-0 items-center gap-1.5">
                         <dropdown-slot v-if="canUpdate" label="Spravovať komentár">
                             <button type="button" @click="startEdit">
-                                <i class="fas fa-pen" aria-hidden="true"></i>
+                                <i class="ph ph-pencil-simple" aria-hidden="true"></i>
                                 Upraviť
                             </button>
                             <hr class="ui-dropdown__divider">
                             <button type="button" class="ui-dropdown__item--danger" @click.prevent="destroy()">
-                                <i class="far fa-trash-alt" aria-hidden="true"></i>
+                                <i class="ph ph-trash" aria-hidden="true"></i>
                                 Zmazať
                             </button>
                         </dropdown-slot>
@@ -49,7 +49,7 @@
                     v-if="! editComment && waiting"
                     class="mt-2 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800"
                 >
-                    <i class="far fa-clock mr-1.5"></i> Váš komentár nie je zverejnený. Podrobnosti o automatickej kontrole dostanete e-mailom.
+                    <i class="ph ph-clock mr-1.5"></i> Váš komentár nie je zverejnený. Podrobnosti o automatickej kontrole dostanete e-mailom.
                 </p>
 
                 <p
@@ -88,7 +88,7 @@
                         class="discussion-action"
                         @click="reply(comment)"
                     >
-                        <i class="fas fa-reply"></i> Odpovedať
+                        <i class="ph ph-arrow-bend-up-left"></i> Odpovedať
                     </button>
                 </div>
 
@@ -99,7 +99,7 @@
                     :aria-expanded="repliesExpanded"
                     @click="repliesExpanded = !repliesExpanded"
                 >
-                    <i class="fas" :class="repliesExpanded ? 'fa-chevron-up' : 'fa-chevron-down'" aria-hidden="true"></i>
+                    <i class="ph" :class="repliesExpanded ? 'ph-caret-up' : 'ph-caret-down'" aria-hidden="true"></i>
                     {{ repliesExpanded ? 'Skryť odpovede' : 'Zobraziť odpovede' }}
                     <span>{{ replies.length }}</span>
                 </button>

@@ -48,7 +48,7 @@ class SocialAvatar
 
             $filename = Str::random(20) . '.' . $extension;
 
-            Storage::disk('public')->put('organizations/' . $canal->id . '/' . $filename, $response->body());
+            \App\Support\MediaUrl::disk()->put('organizations/' . $canal->id . '/' . $filename, $response->body());
 
             $canal->update(['avatar' => $filename]);
         } catch (\Throwable $e) {

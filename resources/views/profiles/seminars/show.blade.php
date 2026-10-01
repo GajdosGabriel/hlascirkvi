@@ -7,7 +7,7 @@
 
 @section('content')
     <x-pages.dashboard>
-        <x-slot name="title"><seminar-title :seminar="{{ $seminar }}"></seminar-title></x-slot>
+        <x-slot name="title"><seminar-title :seminar="{{ $seminar }}">{{ $seminar->title }}</seminar-title></x-slot>
         <x-slot name="title_right">
             <c-article-dropdown :post="{{ $seminar }}" :model="'/seminars/'" :redirect="'seminars'"></c-article-dropdown>
         </x-slot>

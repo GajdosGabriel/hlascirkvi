@@ -164,6 +164,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return 'users/'.$this->id.'/'.$this->avatar;
     }
 
+    public function avatarUrl(): string
+    {
+        return \App\Support\MediaUrl::userAvatar($this->id, $this->avatar);
+    }
+
     /**
      * E-mail v tvare, ktorý smie ísť k inému používateľovi („g•••o@gmail.com“).
      * Celú adresu vidí len admin a používateľ sám; `email` je preto v $hidden

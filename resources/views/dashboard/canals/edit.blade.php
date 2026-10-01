@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    <title>{{ "Upraviť kanál {$canal->title}" }}</title>
+    <title>{{ "Upraviť kanál {$canal->title}" }} | Hlas Cirkvi</title>
 @endsection
 
 @section('content')
@@ -29,10 +29,10 @@
             <x-slot name="lead">Úprava údajov kanála. Polia označené <span class="ar-req">*</span> sú povinné.</x-slot>
             <x-slot name="actions">
                 <a href="{{ route('organizations.show', $canal) }}" class="ar-btn ar-btn--quiet" target="_blank" rel="noopener">
-                    <i class="fas fa-external-link-alt"></i> Zobraziť kanál
+                    <i class="ph ph-arrow-square-out"></i> Zobraziť kanál
                 </a>
                 <a href="{{ route('profile.canals.index') }}" class="ar-btn ar-btn--quiet">
-                    <i class="fas fa-arrow-left"></i> Späť na kanály
+                    <i class="ph ph-arrow-left"></i> Späť na kanály
                 </a>
             </x-slot>
         </x-dashboard.header>
@@ -135,7 +135,7 @@
 
                     <div>
                         <label class="ar-label" for="url_www">Webová stránka</label>
-                        <input class="{{ $field('url_www') }}" type="text" id="url_www" name="url_www" inputmode="url"
+                        <input class="{{ $field('url_www') }}" type="text" id="url_www" name="url_www" inputmode="url" pattern="S+" autocapitalize="off" spellcheck="false"
                                value="{{ old('url_www', $canal->url_www) }}" maxlength="191" autocomplete="url"
                                placeholder="www.vasweb.sk">
                         {{-- Cast Urlwww z adresy nechá len schému a doménu. --}}
@@ -159,7 +159,7 @@
                              podľa mena. Pôvodný <select multiple> s Ctrl+klik nad
                              tisíckami mien sa nedal rozumne použiť. --}}
                         {{-- Zoznam mien je v atribúte, nie v <script type="application/json">:
-                             Vue pri pripojení #app značky <script> zo šablóny vyhodí. --}}
+                             Vue pri pripojení #app značky <script nonce="{{ csp_nonce() }}"> zo šablóny vyhodí. --}}
                         {{-- Kanál môže ostať bez správcu: tie, ktoré pridal príkaz
                              youtube:channels, nezaložil nikto z užívateľov. Značka
                              users_submitted povie controlleru, že prázdny výber je
@@ -185,11 +185,11 @@
                             </ul>
                             <p class="ar-picker__empty" data-picker-empty hidden>Kanál zatiaľ nemá správcu.</p>
                             <button type="button" class="ar-picker__self" data-picker-self hidden>
-                                <i class="fas fa-user-plus"></i> Pridať mňa ako správcu
+                                <i class="ph ph-user-plus"></i> Pridať mňa ako správcu
                             </button>
 
                             <div class="ar-picker__search">
-                                <i class="fas fa-search ar-picker__icon" aria-hidden="true"></i>
+                                <i class="ph ph-magnifying-glass ar-picker__icon" aria-hidden="true"></i>
                                 <input class="{{ $field('users') }} ar-picker__input" type="search" id="manager-search"
                                        placeholder="Pridať správcu — začnite písať meno…" autocomplete="off" spellcheck="false"
                                        role="combobox" aria-expanded="false" aria-controls="manager-results" aria-autocomplete="list">
@@ -209,7 +209,7 @@
                     @else
                         <div class="flex flex-wrap gap-2">
                             @forelse ($canal->users as $manager)
-                                <span class="ar-chip"><i class="fas fa-user"></i> {{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $manager->email : $manager->fullname }}</span>
+                                <span class="ar-chip"><i class="ph ph-user"></i> {{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $manager->email : $manager->fullname }}</span>
                             @empty
                                 <span class="ar-chip ar-chip--muted">Bez správcu</span>
                             @endforelse
@@ -240,7 +240,7 @@
                                 <label class="ar-label" for="youtube_channel">ID kanála YouTube</label>
                                 <input class="{{ $field('youtube_channel') }} font-mono text-sm" type="text" id="youtube_channel"
                                        name="youtube_channel" value="{{ old('youtube_channel', $canal->youtube_channel) }}"
-                                       maxlength="191" placeholder="UC… alebo adresa kanála" spellcheck="false">
+                                       maxlength="191" inputmode="url" pattern="S+" placeholder="UC… alebo adresa kanála" spellcheck="false" autocapitalize="off">
                                 @error('youtube_channel') <p class="ar-error">{{ $message }}</p> @enderror
                             </div>
 
@@ -248,7 +248,7 @@
                                 <label class="ar-label" for="youtube_playlist">ID playlistu YouTube</label>
                                 <input class="{{ $field('youtube_playlist') }} font-mono text-sm" type="text" id="youtube_playlist"
                                        name="youtube_playlist" value="{{ old('youtube_playlist', $canal->youtube_playlist) }}"
-                                       maxlength="191" placeholder="PL… alebo adresa playlistu" spellcheck="false">
+                                       maxlength="191" inputmode="url" pattern="S+" placeholder="PL… alebo adresa playlistu" spellcheck="false" autocapitalize="off">
                                 @error('youtube_playlist') <p class="ar-error">{{ $message }}</p> @enderror
                             </div>
                         </div>
@@ -343,7 +343,7 @@
 
     @if ($isAdmin)
         @push('scripts')
-            <script>
+            <script nonce="{{ csp_nonce() }}">
                 window.arReady(() => {
                     const source = document.getElementById('youtube_channel');
                     const schedule = document.querySelector('[data-video-schedule]');
@@ -363,7 +363,7 @@
 
     @if ($isSuperadmin)
         @push('scripts')
-            <script>
+            <script nonce="{{ csp_nonce() }}">
                 // Až nad strom, ktorý Vue prekreslilo (partials/ar-ready) — inak by
                 // poslucháče ostali na zahodených uzloch.
                 window.arReady(() => document.querySelectorAll('[data-user-picker]').forEach((picker) => {
@@ -431,7 +431,7 @@
                                 '<li class="ar-picker__option" role="option" aria-selected="false" data-index="' + i + '">' +
                                     '<span class="ar-picker__avatar">' + esc(initials(u.name)) + '</span>' +
                                     '<span>' + highlight(u, q) + '</span>' +
-                                    '<span class="ar-picker__plus"><i class="fas fa-plus"></i> Pridať</span>' +
+                                    '<span class="ar-picker__plus"><i class="ph ph-plus"></i> Pridať</span>' +
                                 '</li>').join('')
                             : '<li class="ar-picker__none">Nikto s takým menom — alebo je už správcom.</li>';
 

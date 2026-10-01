@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    <title>{{ 'Kanál ' . $canal->title }}</title>
+    <title>{{ 'Kanál ' . $canal->title }} | Hlas Cirkvi</title>
 @endsection
 
 @section('content')

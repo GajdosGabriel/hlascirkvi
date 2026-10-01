@@ -46,9 +46,9 @@
     // Prepínače výpisu zodpovedajú filtrom v App\Filters\PostFilters. Prepnutie
     // jedného zhasne ostatné, preto ich zoznam nesie aj tie nezvolené.
     $sorts = [
-        'first'       => ['label' => 'Od začiatku',      'icon' => 'fas fa-hourglass-start'],
-        'recomended'  => ['label' => 'Odporúčané',       'icon' => 'far fa-thumbs-up'],
-        'mostVisited' => ['label' => 'Najsledovanejšie', 'icon' => 'far fa-eye'],
+        'first'       => ['label' => 'Od začiatku',      'icon' => 'ph ph-hourglass-high'],
+        'recomended'  => ['label' => 'Odporúčané',       'icon' => 'ph ph-thumbs-up'],
+        'mostVisited' => ['label' => 'Najsledovanejšie', 'icon' => 'ph ph-eye'],
     ];
     $activeSort = collect(array_keys($sorts))->first(fn ($key) => request()->filled($key));
     $reset      = array_fill_keys(array_keys($sorts), null);
@@ -107,7 +107,7 @@
                 'description' => \App\Support\Seo::text($canalDescription, 300),
                 'url' => $canalUrl,
                 'logo' => $canal->avatar
-                    ? url(Storage::url('organizations/' . $canal->id . '/' . $canal->avatar))
+                    ? \App\Support\MediaUrl::canalAvatar($canal->id, $canal->avatar)
                     : null,
                 'sameAs' => array_values(array_filter([$canal->url_www])),
             ]),
@@ -148,7 +148,7 @@
 
                 @if (! $canal->published)
                     <p class="mb-5 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
-                        <i class="fas fa-exclamation-triangle mr-1.5"></i>
+                        <i class="ph-fill ph-warning mr-1.5"></i>
                         Kanál je zrušený — nové príspevky už nepribúdajú.
                     </p>
                 @endif
@@ -194,26 +194,26 @@
                 @if ($contacts)
                     <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
                         @isset($contacts['obec'])
-                            <span><i class="fas fa-map-marker-alt mr-1.5 text-[color:var(--ar-accent)]"></i>{{ $contacts['obec'] }}</span>
+                            <span><i class="ph ph-map-pin mr-1.5 text-[color:var(--ar-accent)]"></i>{{ $contacts['obec'] }}</span>
                         @endisset
 
                         @isset($contacts['web'])
                             <a href="{{ $contacts['web'] }}" target="_blank" rel="noopener nofollow"
                                class="ar-link hover:text-gray-900">
-                                <i class="fas fa-globe mr-1.5"></i>{{ preg_replace('~^https?://(www\.)?~', '', rtrim($contacts['web'], '/')) }}
+                                <i class="ph ph-globe mr-1.5"></i>{{ preg_replace('~^https?://(www\.)?~', '', rtrim($contacts['web'], '/')) }}
                             </a>
                         @endisset
 
                         @isset($contacts['mail'])
                             @auth
                                 <a href="#poslat-spravu" class="ar-link hover:text-gray-900"
-                                   onclick="event.preventDefault(); var f = document.getElementById('poslat-spravu'); f.hidden = !f.hidden; if (!f.hidden) f.querySelector('textarea').focus();">
-                                    <i class="far fa-envelope mr-1.5"></i>Poslať správu
+                                   data-toggle-target="poslat-spravu">
+                                    <i class="ph ph-envelope-simple mr-1.5"></i>Poslať správu
                                 </a>
                             @else
                                 <a href="{{ route('login') }}" class="ar-link hover:text-gray-900"
                                    title="Správu môžete poslať po prihlásení">
-                                    <i class="far fa-envelope mr-1.5"></i>Poslať správu
+                                    <i class="ph ph-envelope-simple mr-1.5"></i>Poslať správu
                                 </a>
                             @endauth
                         @endisset
@@ -231,7 +231,7 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                             <button type="submit" class="ar-tab ar-tab--on mt-2">
-                                <i class="far fa-paper-plane"></i> Odoslať
+                                <i class="ph ph-paper-plane-tilt"></i> Odoslať
                             </button>
                         </form>
                     @endif
@@ -241,7 +241,7 @@
                 <div class="mt-6 flex flex-wrap items-center gap-2 pb-6">
                     <a href="{{ $channelUrl($reset) }}"
                        class="ar-tab {{ $activeSort ? '' : 'ar-tab--on' }}">
-                        <i class="far fa-clock"></i> Najnovšie
+                        <i class="ph ph-clock"></i> Najnovšie
                     </a>
 
                     @foreach ($sorts as $key => $sort)
@@ -262,7 +262,7 @@
                         <label for="channel-search" class="sr-only">Hľadať v kanáli</label>
                         <input id="channel-search" type="search" name="search" value="{{ $search }}"
                                placeholder="Hľadať v kanáli…">
-                        <button type="submit" title="Hľadať"><i class="fas fa-search"></i></button>
+                        <button type="submit" title="Hľadať"><i class="ph ph-magnifying-glass"></i></button>
                     </form>
                 </div>
             </div>
@@ -289,8 +289,8 @@
                             — {{ implode(', ', $selection) }}
                         </p>
                         <a href="{{ route('organizations.show', [$canal->id]) }}"
-                           class="shrink-0 text-xs text-gray-400 hover:text-[color:var(--ar-accent)]">
-                            <i class="fas fa-times mr-1"></i> zrušiť výber
+                           class="shrink-0 text-xs text-gray-500 hover:text-[color:var(--ar-accent)]">
+                            <i class="ph ph-x mr-1"></i> zrušiť výber
                         </a>
                     </div>
                 @endif
@@ -327,7 +327,7 @@
                     {{-- Posledné komentáre pod príspevkami kanála --}}
                     @if ($comments->isNotEmpty())
                         <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
-                            <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">
+                            <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
                                 Posledné komentáre
                             </h2>
                             <ul class="space-y-3">
@@ -338,14 +338,14 @@
                                             <p class="ar-clamp-2 text-sm leading-snug text-gray-700">
                                                 {{ $comment->body }}
                                             </p>
-                                            <p class="mt-1 truncate text-xs text-gray-400">
+                                            <p class="mt-1 truncate text-xs text-gray-500">
                                                 {{-- Meno z importu prichádza ako youtubová prezývka
                                                      so zavináčom; ten pred ňou nič nehovorí. --}}
                                                 <span class="font-medium text-gray-500">{{ ltrim((string) $comment->user_name, '@') ?: 'Anonym' }}</span>
                                                 · {{ \Carbon\Carbon::parse($comment->created_at)->locale('sk')->diffForHumans() }}
                                             </p>
-                                            <p class="mt-0.5 truncate text-xs text-gray-400 transition-colors group-hover:text-[color:var(--ar-accent)]">
-                                                <i class="far fa-comment mr-1"></i>{{ $comment->post_title }}
+                                            <p class="mt-0.5 truncate text-xs text-gray-500 transition-colors group-hover:text-[color:var(--ar-accent)]">
+                                                <i class="ph ph-chat-circle mr-1"></i>{{ $comment->post_title }}
                                             </p>
                                         </a>
                                     </li>
@@ -384,12 +384,12 @@
 
                         <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
                             <div class="mb-3 flex items-baseline justify-between">
-                                <h2 class="text-xs font-bold uppercase tracking-wider text-gray-400">
+                                <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500">
                                     Archív kanála
                                 </h2>
                                 @if ($year)
                                     <a href="{{ $channelUrl(['rok' => null, 'mesiac' => null]) }}"
-                                       class="text-xs text-gray-400 hover:text-[color:var(--ar-accent)]">celý archív</a>
+                                       class="text-xs text-gray-500 hover:text-[color:var(--ar-accent)]">celý archív</a>
                                 @endif
                             </div>
 
@@ -423,7 +423,7 @@
                                 @endforeach
                             </div>
 
-                            <p class="mt-3 flex items-center justify-end gap-1.5 text-[.65rem] text-gray-400">
+                            <p class="mt-3 flex items-center justify-end gap-1.5 text-[.65rem] text-gray-500">
                                 menej
                                 @foreach ([0.14, 0.4, 0.65, 1] as $shade)
                                     <span class="inline-block h-2.5 w-2.5 rounded-sm"

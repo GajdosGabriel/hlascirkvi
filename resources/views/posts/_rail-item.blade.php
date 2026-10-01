@@ -31,7 +31,7 @@
             <span class="ar-clamp-2">{{ $item->title }}</span>
         </span>
         <time datetime="{{ $item->created_at->toIso8601String() }}"
-              class="mt-1.5 block text-xs text-gray-400">
+              class="mt-1.5 block text-xs text-gray-500">
             {{ $item->created_at->locale('sk')->isoFormat('D. M. YYYY') }}
         </time>
     </span>

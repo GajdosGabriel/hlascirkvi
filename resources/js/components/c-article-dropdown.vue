@@ -1,13 +1,13 @@
 <template>
     <dropdown-slot label="Spravovať">
         <a :href="model + post.id + '/edit'">
-            <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
+            <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
         </a>
 
         <hr class="ui-dropdown__divider">
 
         <button type="button" class="ui-dropdown__item--danger" @click="deletePost">
-            <i class="far fa-trash-alt" aria-hidden="true"></i> Zmazať
+            <i class="ph ph-trash" aria-hidden="true"></i> Zmazať
         </button>
     </dropdown-slot>
 </template>

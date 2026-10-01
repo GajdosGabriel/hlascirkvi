@@ -2,7 +2,7 @@
      v layoute článku; odkedy rovnaký vzhľad nosí aj úvodná stránka, stoja
      na jednom mieste a oba layouty ich len vložia. Špecifiká článku
      (ar-prose, ar-player, ar-progress) ostávajú v layouts/article. --}}
-<style>
+<style nonce="{{ csp_nonce() }}">
     :root {
         --ar-paper:       #f6f6f7;
         --ar-paper-deep:  #ececee;
@@ -122,7 +122,7 @@
         outline: none;
         transition: width .28s ease, border-color .15s ease;
     }
-    .ar-search input::placeholder { color: #9ca3af; }
+    .ar-search input::placeholder { color: #6b7280; }
     .ar-search input:focus,
     .ar-search--open input {
         width: 16rem;
@@ -144,7 +144,7 @@
         width: 2.25rem;
         align-items: center;
         justify-content: center;
-        color: #9ca3af;
+        color: #6b7280;
         transition: color .15s ease;
     }
     .ar-search button:hover { color: var(--ar-accent); }
@@ -239,7 +239,7 @@
         font-size: .7rem;
         letter-spacing: .06em;
         text-transform: uppercase;
-        color: #9ca3af;
+        color: #6b7280;
     }
 
     /* ---- Mriežka archívu ------------------------------------------------ */
@@ -362,7 +362,7 @@
 
     .ar-prayer__meta {
         font-size: .75rem;
-        color: #9ca3af;
+        color: #6b7280;
     }
 
     /* Vypočutá prosba dostane zelený prúžok namiesto pôvodného zeleného
@@ -413,7 +413,7 @@
     }
     .ar-modal__close {
         flex: 0 0 auto;
-        color: #9ca3af;
+        color: #6b7280;
         line-height: 1;
         transition: color .15s ease;
     }
@@ -441,7 +441,7 @@
         border-color: var(--ar-accent);
         box-shadow: 0 0 0 3px rgba(var(--ar-accent-rgb), .12);
     }
-    .ar-hint { margin-top: .3rem; font-size: .75rem; color: #9ca3af; }
+    .ar-hint { margin-top: .3rem; font-size: .75rem; color: #6b7280; }
 
     /* Obsah dashboardu a administrácie siaha aspoň po spodok okna — pri
        prázdnom výpise by inak pätička vyskočila do polovice obrazovky.
@@ -470,7 +470,7 @@
     }
     .ar-filters__reset {
         font-size: .75rem;
-        color: #9ca3af;
+        color: #6b7280;
         white-space: nowrap;
         transition: color .15s ease;
     }
@@ -539,7 +539,7 @@
 
     /* Prúžok pri kanáli, do ktorého sa práve zapisuje. Tailwindovská utilita
        (border-l-[3px]) by tu neprešla — .ar-card nastavuje border skratkou
-       a tento <style> stojí v hlavičke až za vygenerovaným app.css. */
+       a tento <style nonce="{{ csp_nonce() }}"> stojí v hlavičke až za vygenerovaným app.css. */
     .ar-org--active { border-left: 3px solid var(--ar-accent); }
 
     .ar-org__avatar {
@@ -581,8 +581,8 @@
         color: var(--ar-ink-soft);
         white-space: nowrap;
     }
-    .ar-chip i { font-size: .625rem; color: #9ca3af; }
-    .ar-chip--muted { border-style: dashed; color: #9ca3af; }
+    .ar-chip i { font-size: .625rem; color: #6b7280; }
+    .ar-chip--muted { border-style: dashed; color: #6b7280; }
 
     /* Prázdny výpis — po zapnutí filtra sa inak stránka javí ako rozbitá. */
     .ar-empty {
@@ -686,7 +686,7 @@
         font-weight: 700;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: #9ca3af;
+        color: #6b7280;
     }
     .ar-aside .card_header h4 { font: inherit; letter-spacing: inherit; }
     .ar-aside .card_header svg,

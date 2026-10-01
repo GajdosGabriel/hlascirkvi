@@ -5,7 +5,7 @@
      a editor pripojený skôr zahodí — ostal po ňom len holý textarea. --}}
 @push('scripts')
     <script src="{{ asset('tinymce/js/tinymce/tinymce.min.js') }}"></script>
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         window.arReady(() => tinymce.init({
             selector: @json($selector ?? '#editor'),
             language: 'sk',

@@ -6,6 +6,12 @@
 @endphp
 
 
+    {{-- Jeden formulár pre všetky tlačidlá „Prepnúť na kanál" (atribút form= a
+         formaction=), namiesto samostatného formulára s CSRF tokenom na každý kanál. --}}
+    <form id="canal-switch-form" method="POST" hidden>
+        @csrf @method('PUT')
+    </form>
+
     <div class="space-y-3">
         @forelse ($canals as $canal)
             @php
@@ -34,8 +40,8 @@
                         {{ $canal->initialName }}
 
                         @if ($canal->avatar)
-                            <img src="{{ Storage::url('organizations/' . $canal->id . '/' . $canal->avatar) }}"
-                                 alt="" loading="lazy" onerror="this.remove()">
+                            <img src="{{ \App\Support\MediaUrl::canalAvatar($canal->id, $canal->avatar) }}"
+                                 alt="" width="48" height="48" loading="lazy" data-img-hide>
                         @endif
                     </span>
 
@@ -67,7 +73,7 @@
                         <div class="mt-2 flex flex-wrap items-center gap-1.5">
                             @if ($canal->front_listed_at)
                                 <span class="ar-chip">
-                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                    <i class="ph ph-user" aria-hidden="true"></i>
                                     Predný zoznam
                                 </span>
                             @endif
@@ -81,12 +87,12 @@
 
                             @if ($canal->post_section === \App\Enums\CanalSection::Live)
                                 <span class="ar-chip">
-                                    <i class="fas fa-church" aria-hidden="true"></i>
+                                    <i class="ph ph-church" aria-hidden="true"></i>
                                     Nedeľné prenosy
                                 </span>
                             @elseif ($canal->post_section === \App\Enums\CanalSection::Paused)
                                 <span class="ar-chip ar-chip--muted">
-                                    <i class="fas fa-pause" aria-hidden="true"></i>
+                                    <i class="ph-fill ph-pause" aria-hidden="true"></i>
                                     Pozastavené
                                 </span>
                             @endif
@@ -110,24 +116,22 @@
                         <dropdown-slot label="Možnosti kanála">
                             @if ($isActive)
                                 <span class="ui-dropdown__item ui-dropdown__item--current">
-                                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                    <i class="ph-fill ph-check-circle" aria-hidden="true"></i>
                                     Prihlásený kanál
                                 </span>
                             @else
-                                <form method="POST"
-                                      action="{{ route('profile.canals.switch', $canal->id) }}">
-                                    @method('PUT') @csrf
-                                    <button type="submit" class="ui-dropdown__item--accent">
-                                        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
-                                        Prepnúť na kanál
-                                    </button>
-                                </form>
+                                <button type="submit" form="canal-switch-form"
+                                        formaction="{{ route('profile.canals.switch', $canal->id) }}"
+                                        class="ui-dropdown__item--accent">
+                                    <i class="ph ph-arrows-left-right" aria-hidden="true"></i>
+                                    Prepnúť na kanál
+                                </button>
                             @endif
 
                             <hr class="ui-dropdown__divider">
 
                             <a href="{{ route('profile.canals.edit', $canal->id) }}">
-                                <i class="fas fa-pen" aria-hidden="true"></i>
+                                <i class="ph ph-pencil-simple" aria-hidden="true"></i>
                                 Upraviť
                             </a>
                         </dropdown-slot>

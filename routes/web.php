@@ -72,6 +72,11 @@ Route::get('/zdravie-z-bozej-ruky', 'Public\HomeController@zdravie')->name('zdra
 // (config frontlist.card_limit) a odkazujú sem.
 Route::get('/osobnosti', 'Public\FrontListController@index')->name('frontlist.index');
 
+// Zoznamové adresy, ktoré niekto hádá alebo zdieľa — {id} varianty ostávajú vyššie.
+Route::permanentRedirect('/organizations', '/osobnosti');
+Route::permanentRedirect('/seminars', '/konferencie-a-pute');
+Route::permanentRedirect('/seminare', '/konferencie-a-pute');
+
 
 // Google: ID token z Google Identity Services (ako v projekte event), bez
 // Socialite a bez client secretu.

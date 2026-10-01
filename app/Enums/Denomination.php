@@ -26,8 +26,8 @@ enum Denomination: string
     public function icon(): string
     {
         return match ($this) {
-            self::Catholic    => 'fab fa-korvue',
-            self::Evangelical => 'fab fa-product-hunt',
+            self::Catholic    => 'ph ph-cross',
+            self::Evangelical => 'ph ph-book-open-text',
         };
     }
 

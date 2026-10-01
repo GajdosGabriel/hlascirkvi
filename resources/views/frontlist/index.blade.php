@@ -38,7 +38,7 @@
                                     {{ $canal->initials() }}
 
                                     @if ($canal->avatarUrl())
-                                        <img src="{{ $canal->avatarUrl() }}" alt="" loading="lazy" onerror="this.remove()"
+                                        <img src="{{ $canal->avatarUrl() }}" alt="" width="44" height="44" loading="lazy" data-img-hide
                                              class="absolute inset-0 h-full w-full object-cover">
                                     @endif
                                 </span>

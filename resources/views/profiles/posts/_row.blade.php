@@ -28,11 +28,11 @@
                 {{ $post->created_at->locale('sk')->isoFormat('D. M. YYYY') }}
             </time>
 
-            <span><i class="far fa-eye"></i>{{ number_format((int) $post->count_view, 0, ',', ' ') }}</span>
-            <span><i class="far fa-comment"></i>{{ $post->comments_count }}</span>
+            <span><i class="ph ph-eye"></i>{{ number_format((int) $post->count_view, 0, ',', ' ') }}</span>
+            <span><i class="ph ph-chat-circle"></i>{{ $post->comments_count }}</span>
 
             @if ($post->favorites->isNotEmpty())
-                <span><i class="fas fa-star"></i>{{ $post->favorites->count() }}</span>
+                <span><i class="ph-fill ph-star"></i>{{ $post->favorites->count() }}</span>
             @endif
         </div>
 
@@ -58,7 +58,7 @@
             <dropdown-slot label="Spravovať článok">
                 @if (! $post->deleted_at)
                     <a href="{{ route('profile.posts.edit', $post->id) }}">
-                        <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
+                        <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
                     </a>
 
                     {{-- Zmaže čas vydania, čím sa článok vráti do frontu
@@ -67,7 +67,7 @@
                         <form action="{{ route('postSupport.update', [$post->id]) }}" method="post">
                             @csrf @method('PUT')
                             <button type="submit">
-                                <i class="fas fa-inbox" aria-hidden="true"></i> Do buffera
+                                <i class="ph ph-tray" aria-hidden="true"></i> Do buffera
                             </button>
                         </form>
                     @endif
@@ -76,16 +76,17 @@
                 @endif
 
                 <form action="{{ route('profile.posts.destroy', $post->id) }}"
-                      method="post">
+                      method="post"
+                      @unless ($post->deleted_at) data-confirm="Naozaj zmazať článok?" @endunless>
                     @csrf @method('DELETE')
 
                     @if ($post->deleted_at)
                         <button type="submit" class="ui-dropdown__item--ok">
-                            <i class="fas fa-undo" aria-hidden="true"></i> Obnoviť
+                            <i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i> Obnoviť
                         </button>
                     @else
                         <button type="submit" class="ui-dropdown__item--danger">
-                            <i class="far fa-trash-alt" aria-hidden="true"></i> Zmazať
+                            <i class="ph ph-trash" aria-hidden="true"></i> Zmazať
                         </button>
                     @endif
                 </form>

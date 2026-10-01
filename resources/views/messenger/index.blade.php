@@ -15,7 +15,7 @@
             @if(auth()->user()->id == $message->requested_user)
             <li class="other">
                 <div class="avatar">
-                    <img src="{{  url('storage/'. $user->userPictureUrl() ) }}" />
+                    <img src="{{ $user->avatarUrl() }}" data-img-fallback="{{ asset('images/avatar.png') }}" />
                 </div>
                 <div class="messages">
                     <p> {{ $message->body }}</p>
@@ -26,7 +26,7 @@
             @else
             <li class="self">
                 <div class="avatar">
-                    <img src="{{  url('storage/'. auth()->user()->userPictureUrl() ) }}" />
+                    <img src="{{ auth()->user()->avatarUrl() }}" data-img-fallback="{{ asset('images/avatar.png') }}" />
                 </div>
                 <div class="messages">
                     <p>{{ $message->body }}</p>

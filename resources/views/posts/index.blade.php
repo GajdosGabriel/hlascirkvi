@@ -46,11 +46,11 @@
     @php
         // Prepínače výpisu zodpovedajú filtrom v App\Filters\PostFilters.
         $views = [
-            'recomended'  => ['label' => 'Odporúčané',       'icon' => 'far fa-thumbs-up',
+            'recomended'  => ['label' => 'Odporúčané',       'icon' => 'ph ph-thumbs-up',
                               'perex' => 'Príspevky, ktoré odporučili naši čitatelia.'],
-            'trends'      => ['label' => 'Trend',            'icon' => 'fas fa-sort-amount-up',
+            'trends'      => ['label' => 'Trend',            'icon' => 'ph ph-sort-ascending',
                               'perex' => 'Najsledovanejšie videá zverejnené za posledné dva týždne.'],
-            'mostVisited' => ['label' => 'Najsledovanejšie', 'icon' => 'far fa-eye',
+            'mostVisited' => ['label' => 'Najsledovanejšie', 'icon' => 'ph ph-eye',
                               'perex' => 'Príspevky podľa celkového počtu zobrazení.'],
         ];
 
@@ -89,7 +89,7 @@
                 <nav class="ar-viewbar__tabs" aria-label="Zoradenie príspevkov">
                     <a href="{{ route('posts.index') }}"
                        class="ar-tab {{ $active || $search !== '' ? '' : 'ar-tab--on' }}">
-                        <i class="far fa-clock"></i> Najnovšie
+                        <i class="ph ph-clock"></i> Najnovšie
                     </a>
 
                     @foreach ($views as $key => $view)
@@ -103,7 +103,7 @@
 
                 <button type="button" class="ar-viewbar__icon ar-viewbar__open"
                         title="Hľadať" aria-label="Hľadať" data-viewbar-open>
-                    <i class="fas fa-search"></i>
+                    <i class="ph ph-magnifying-glass"></i>
                 </button>
 
                 {{-- Hľadanie. Pole stojí vpravo zúžené a roztiahne sa až po
@@ -115,12 +115,12 @@
                     <label for="post-search" class="sr-only">Hľadať v príspevkoch</label>
                     <input id="post-search" type="search" name="search" value="{{ $search }}"
                            placeholder="Hľadať…">
-                    <button type="submit" title="Hľadať"><i class="fas fa-search"></i></button>
+                    <button type="submit" title="Hľadať"><i class="ph ph-magnifying-glass"></i></button>
                 </form>
 
                 <button type="button" class="ar-viewbar__icon ar-viewbar__close"
                         title="Zavrieť hľadanie" aria-label="Zavrieť hľadanie" data-viewbar-close>
-                    <i class="fas fa-times"></i>
+                    <i class="ph ph-x"></i>
                 </button>
             </div>
         </div>
@@ -169,7 +169,7 @@
 @endsection
 
 @section('script')
-    <script>
+    <script nonce="{{ csp_nonce() }}">
         // Mobilná lišta: ikona hľadania prepne riadok na pole, krížik späť na
         // prepínače. Aktívny prepínač sa navyše posunie do zorného poľa, keď
         // stojí mimo viditeľnej časti riadka. Vue pri štarte prekreslí #app,

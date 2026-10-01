@@ -63,7 +63,7 @@
                     Zrušiť
                 </button>
                 <button type="submit" class="ar-btn ar-btn--accent">
-                    <i class="far fa-paper-plane"></i>
+                    <i class="ph ph-paper-plane-tilt"></i>
                     {{ parentId ? "Odoslať odpoveď" : "Odoslať komentár" }}
                 </button>
             </div>

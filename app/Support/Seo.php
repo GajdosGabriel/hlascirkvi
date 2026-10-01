@@ -311,9 +311,14 @@ class Seo
     /** Titulok stránky s menom webu — ak ho už sám nenesie. */
     protected static function documentTitle(string $title, string $siteName): string
     {
-        return Str::contains($title, $siteName)
-            ? $title
-            : $title . ' | ' . $siteName;
+        if (Str::contains($title, $siteName)) {
+            return $title;
+        }
+
+        // Vyhľadávače skracujú <title> okolo 70 znakov vrátane mena webu.
+        $suffix = ' | ' . $siteName;
+
+        return Str::limit($title, max(30, 70 - mb_strlen($suffix)), '…', true) . $suffix;
     }
 
     /**

@@ -53,7 +53,7 @@
                     <details class="group py-1" @if ($groupIsActive) open @endif>
                         <summary class="flex cursor-pointer list-none items-center justify-between gap-2 rounded-md px-2 py-1.5 text-xs uppercase tracking-wider text-stone-500 transition hover:bg-stone-50 [&::-webkit-details-marker]:hidden">
                             <span>{{ $group['label'] ?? '' }}</span>
-                            <i class="fas fa-chevron-down text-[10px] text-stone-400 transition-transform group-open:rotate-180"></i>
+                            <i class="ph ph-caret-down text-[10px] text-stone-400 transition-transform group-open:rotate-180"></i>
                         </summary>
                         <div class="flex flex-wrap gap-1.5 px-2 pb-2 pt-1.5">
                             @foreach ($groupTags as $tag)
@@ -84,7 +84,7 @@
         </p>
         <a href="{{ $portalUrl }}/nahrat-plagat" target="_blank" rel="noopener nofollow"
            class="inline-flex items-center gap-2 rounded-md bg-[color:var(--ev-night)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-stone-800">
-            <i class="fas fa-plus text-xs"></i> Pridať podujatie
+            <i class="ph ph-plus text-xs"></i> Pridať podujatie
         </a>
     </section>
 

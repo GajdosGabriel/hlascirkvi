@@ -50,7 +50,7 @@
             <div class="mb-4 flex flex-wrap items-center gap-2">
                 @if ($event->isOngoing())
                     <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-800">
-                        <i class="fas fa-circle text-[6px]"></i> Práve prebieha
+                        <i class="ph-fill ph-circle text-[6px]"></i> Práve prebieha
                     </span>
                 @elseif ($event->isPast())
                     <span class="rounded-full bg-stone-200 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-stone-600">
@@ -71,7 +71,7 @@
             <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-stone-600">
                 @if ($event->startAt())
                     <span class="font-medium">
-                        <i class="far fa-calendar mr-2 text-[color:var(--ev-accent)]"></i>
+                        <i class="ph ph-calendar-blank mr-2 text-[color:var(--ev-accent)]"></i>
                         {{ $event->dateLabel() }}
                         @if ($event->timeLabel())
                             <span class="text-stone-400">·</span> {{ $event->timeLabel() }}
@@ -80,7 +80,7 @@
                 @endif
 
                 @if ($event->address())
-                    <span><i class="fas fa-map-marker-alt mr-2 text-[color:var(--ev-accent)]"></i>{{ $event->address() }}</span>
+                    <span><i class="ph ph-map-pin mr-2 text-[color:var(--ev-accent)]"></i>{{ $event->address() }}</span>
                 @endif
             </div>
         </div>
@@ -137,7 +137,7 @@
                                 <li>
                                     <a href="{{ $file['original_file_url'] ?? '#' }}" target="_blank" rel="noopener nofollow"
                                        class="flex items-center gap-3 rounded-md border border-[color:var(--ev-line)] bg-white p-3 text-sm transition hover:border-amber-400">
-                                        <i class="far fa-file-alt text-lg text-stone-400"></i>
+                                        <i class="ph ph-file-text text-lg text-stone-400"></i>
                                         <span class="flex-1 truncate">{{ $file['name'] ?? $file['original_name'] ?? 'Príloha' }}</span>
                                         <span class="text-xs uppercase text-stone-400">{{ $file['extension'] ?? '' }}</span>
                                     </a>
@@ -189,7 +189,7 @@
                                     <div class="text-stone-600">{{ $event->longDate() }}</div>
                                     @if ($event->timeLabel())
                                         <div class="mt-1 text-stone-600">
-                                            <i class="far fa-clock mr-1 text-xs"></i>{{ $event->timeLabel() }}
+                                            <i class="ph ph-clock mr-1 text-xs"></i>{{ $event->timeLabel() }}
                                         </div>
                                     @endif
                                     @if ($event->isMultiDay() && $event->endAt())
@@ -241,7 +241,7 @@
                             @if ($cta = $event->ticketCta())
                                 <a href="{{ $event->ticketUrl() }}" target="_blank" rel="noopener nofollow"
                                    class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
-                                    <i class="fas fa-ticket-alt"></i> {{ $cta['label'] }}
+                                    <i class="ph ph-ticket"></i> {{ $cta['label'] }}
                                 </a>
                             @else
                                 {{-- Prihlásenie na akciu cez portál Event: registrácia
@@ -250,7 +250,7 @@
                                      v sekcii Organizátor. --}}
                                 <a href="{{ config('eventportal.url') }}/register?event={{ $event->id() }}" target="_blank" rel="noopener nofollow"
                                    class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
-                                    Rezervovať miesto <i class="fas fa-external-link-alt text-xs"></i>
+                                    Rezervovať miesto <i class="ph ph-arrow-square-out text-xs"></i>
                                 </a>
                             @endif
                         </section>
@@ -275,7 +275,7 @@
                             @if ($event->mapUrl())
                                 <a href="{{ $event->mapUrl() }}" target="_blank" rel="noopener"
                                    class="mt-3 inline-flex items-center gap-2 text-sm text-[color:var(--ev-accent)] hover:underline">
-                                    <i class="fas fa-directions"></i> Zobraziť na mape
+                                    <i class="ph ph-navigation-arrow"></i> Zobraziť na mape
                                 </a>
                             @endif
                         </section>
@@ -295,7 +295,7 @@
                             @if ($event->website())
                                 <a href="{{ $event->website() }}" target="_blank" rel="noopener nofollow"
                                    class="mt-2 flex items-center gap-2 text-sm text-stone-600 hover:text-[color:var(--ev-accent)] hover:underline">
-                                    <i class="fas fa-external-link-alt text-xs"></i> Stránka podujatia u organizátora
+                                    <i class="ph ph-arrow-square-out text-xs"></i> Stránka podujatia u organizátora
                                 </a>
                             @endif
                         </section>
@@ -304,7 +304,7 @@
                             <h2 class="mb-2 text-xs font-semibold uppercase tracking-wider text-stone-400">Organizátor</h2>
                             <a href="{{ $event->website() }}" target="_blank" rel="noopener nofollow"
                                class="flex items-center gap-2 text-sm text-stone-600 hover:text-[color:var(--ev-accent)] hover:underline">
-                                <i class="fas fa-external-link-alt text-xs"></i> Stránka podujatia u organizátora
+                                <i class="ph ph-arrow-square-out text-xs"></i> Stránka podujatia u organizátora
                             </a>
                         </section>
                     @endif
@@ -317,23 +317,23 @@
                                target="_blank" rel="noopener"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ev-line)] text-stone-500 transition hover:border-blue-400 hover:text-blue-600"
                                title="Zdieľať na Facebooku">
-                                <i class="fab fa-facebook-f"></i>
+                                <i class="ph ph-facebook-logo"></i>
                             </a>
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($event->title() . ' ' . $event->url()) }}"
                                target="_blank" rel="noopener"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ev-line)] text-stone-500 transition hover:border-green-400 hover:text-green-600"
                                title="Poslať cez WhatsApp">
-                                <i class="fab fa-whatsapp"></i>
+                                <i class="ph ph-whatsapp-logo"></i>
                             </a>
                             <a href="mailto:?subject={{ rawurlencode($event->title()) }}&body={{ rawurlencode($event->url()) }}"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ev-line)] text-stone-500 transition hover:border-amber-400 hover:text-amber-700"
                                title="Poslať e-mailom">
-                                <i class="far fa-envelope"></i>
+                                <i class="ph ph-envelope-simple"></i>
                             </a>
                             <button type="button"
                                     class="js-copy-link flex h-9 flex-1 items-center justify-center gap-2 rounded-md border border-[color:var(--ev-line)] text-sm text-stone-500 transition hover:border-amber-400 hover:text-amber-700"
                                     data-url="{{ $event->url() }}">
-                                <i class="far fa-copy"></i> Kopírovať odkaz
+                                <i class="ph ph-copy"></i> Kopírovať odkaz
                             </button>
                         </div>
                     </section>
@@ -372,7 +372,7 @@
                                      alt="{{ $other->title() }}" class="lazyload h-32 w-full object-cover">
                             @else
                                 <div class="ev-noposter flex h-32 w-full items-center justify-center">
-                                    <i class="far fa-calendar text-2xl"></i>
+                                    <i class="ph ph-calendar-blank text-2xl"></i>
                                 </div>
                             @endif
                             <div class="p-3">
@@ -389,7 +389,7 @@
 
         <div class="mt-12 border-t border-[color:var(--ev-line)] pt-6">
             <a href="{{ route('akcie.index') }}" class="text-sm text-stone-500 hover:text-stone-800">
-                <i class="fas fa-arrow-left mr-2"></i> Späť na všetky podujatia
+                <i class="ph ph-arrow-left mr-2"></i> Späť na všetky podujatia
             </a>
         </div>
     </div>

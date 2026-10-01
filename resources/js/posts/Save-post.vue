@@ -14,7 +14,7 @@
                 : 'ar-btn--quiet'"
             class="ar-btn"
         >
-            <i :class="saved ? 'fas fa-bookmark' : 'far fa-bookmark'"></i>
+            <i :class="saved ? 'ph-fill ph-bookmark-simple' : 'ph ph-bookmark-simple'"></i>
             {{ saved ? "Uložené" : "Uložiť" }}
         </button>
 

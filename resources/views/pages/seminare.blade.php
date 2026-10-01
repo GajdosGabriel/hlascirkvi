@@ -18,7 +18,7 @@
 @section('body-class', 'ar-body')
 
 @section('headerCSS')
-<style>
+<style nonce="{{ csp_nonce() }}">
     .seminars-page {
         max-width: 1152px;
         margin: 0 auto;
@@ -170,7 +170,7 @@
             </div>
             @auth
                 <a class="seminars-create" href="{{ route('profile.canals.seminars.create', auth()->user()->canal_id) }}">
-                    <i class="fas fa-plus" aria-hidden="true"></i> Nový seminár
+                    <i class="ph ph-plus" aria-hidden="true"></i> Nový seminár
                 </a>
             @endauth
         </div>
@@ -185,7 +185,7 @@
     @forelse ($seminars as $seminar)
         <section class="seminar-section" aria-labelledby="seminar-{{ $seminar->id }}">
             <header class="seminar-heading">
-                <span class="seminar-icon" aria-hidden="true"><i class="fas fa-book-open"></i></span>
+                <span class="seminar-icon" aria-hidden="true"><i class="ph ph-book-open"></i></span>
                 <div class="seminar-info">
                     <h2 class="ar-display" id="seminar-{{ $seminar->id }}">
                         <a href="{{ route('seminars.show', $seminar->id) }}">{{ $seminar->title }}</a>

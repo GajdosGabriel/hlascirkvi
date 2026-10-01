@@ -92,29 +92,29 @@
     <div class="mt-3 flex flex-wrap items-center gap-1.5">
         @if ($canal->email)
             <a href="mailto:{{ $canal->email }}" class="ar-chip ar-link">
-                <i class="fas fa-envelope" aria-hidden="true"></i>{{ $canal->email }}
+                <i class="ph ph-envelope-simple" aria-hidden="true"></i>{{ $canal->email }}
             </a>
         @endif
 
         @if ($canal->phone)
             <a href="tel:{{ $canal->phone_numeric ?: $canal->phone }}" class="ar-chip ar-link">
-                <i class="fas fa-phone" aria-hidden="true"></i>{{ $canal->phone }}
+                <i class="ph ph-phone" aria-hidden="true"></i>{{ $canal->phone }}
             </a>
         @endif
 
         @if ($canal->url_www)
             <a href="{{ $canal->url_www }}" target="_blank" rel="noopener nofollow" class="ar-chip ar-link">
-                <i class="fas fa-globe" aria-hidden="true"></i>{{ \Illuminate\Support\Str::limit(preg_replace('#^https?://(www\.)?#', '', $canal->url_www), 32) }}
+                <i class="ph ph-globe" aria-hidden="true"></i>{{ \Illuminate\Support\Str::limit(preg_replace('#^https?://(www\.)?#', '', $canal->url_www), 32) }}
             </a>
         @endif
 
         @if ($youtubeUrl)
             <a href="{{ $youtubeUrl }}" target="_blank" rel="noopener" class="ar-chip ar-link">
-                <i class="fab fa-youtube" aria-hidden="true"></i>YouTube
+                <i class="ph ph-youtube-logo" aria-hidden="true"></i>YouTube
             </a>
         @elseif ($canal->youtube_channel)
             <span class="ar-chip ar-chip--muted">
-                <i class="fab fa-youtube" aria-hidden="true"></i>{{ $canal->youtube_channel }}
+                <i class="ph ph-youtube-logo" aria-hidden="true"></i>{{ $canal->youtube_channel }}
             </span>
         @endif
 

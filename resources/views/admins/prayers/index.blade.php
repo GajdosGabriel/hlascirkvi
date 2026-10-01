@@ -29,7 +29,7 @@
                             <div class="flex space-x-1 items-center">
                                 <dropdown-slot label="Spravovať modlitbu">
                                     <a href="{{ route('profile.canals.prayers.edit', [$prayer->canal_id, $prayer->id]) }}">
-                                        <i class="fas fa-pen" aria-hidden="true"></i> Upraviť
+                                        <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
                                     </a>
 
                                     <hr class="ui-dropdown__divider">
@@ -39,7 +39,7 @@
                                         method="post">
                                         @method('DELETE') @csrf
                                         <button type="submit" class="ui-dropdown__item--danger">
-                                            <i class="far fa-trash-alt" aria-hidden="true"></i> Zmazať
+                                            <i class="ph ph-trash" aria-hidden="true"></i> Zmazať
                                         </button>
                                     </form>
                                 </dropdown-slot>

@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Stránkovanie">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <a href="#"

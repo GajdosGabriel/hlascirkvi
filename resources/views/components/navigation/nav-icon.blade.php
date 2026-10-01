@@ -18,11 +18,11 @@
     @break
 
     @case('pray')
-        <i class="fas fa-praying-hands w-4 shrink-0 text-center" aria-hidden="true"></i>
+        <i class="ph ph-hands-praying w-4 shrink-0 text-center" aria-hidden="true"></i>
     @break
 
     @case('radio')
-        <i class="fas fa-volume-up w-4 shrink-0 text-center" aria-hidden="true"></i>
+        <i class="ph ph-speaker-high w-4 shrink-0 text-center" aria-hidden="true"></i>
     @break
 
     @case('calendar')

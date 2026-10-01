@@ -3,7 +3,7 @@
 
         <header class="card_header cursor-pointer" @click="openModal">
             <h4>Modlitebný múr</h4>
-            <i class="fas fa-praying-hands"></i>
+            <i class="ph ph-hands-praying"></i>
         </header>
 
 

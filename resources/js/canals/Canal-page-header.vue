@@ -40,7 +40,7 @@
                     class="mt-0.5 inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 transition-colors hover:text-[color:var(--ar-accent)]"
                 >
                     <i
-                        class="fas fa-chevron-down text-[.6rem] transition-transform"
+                        class="ph ph-caret-down text-[.6rem] transition-transform"
                         :class="{ 'rotate-180': showDescription }"
                     ></i>
                     {{ showDescription ? "Skryť profil" : "Profil kanála" }}
@@ -56,7 +56,7 @@
                 :class="classButton"
                 class="ar-btn"
             >
-                <i class="far" :class="favorited ? 'fa-bell-slash' : 'fa-bell'"></i>
+                <i class="ph" :class="favorited ? 'ph-bell-slash' : 'ph-bell'"></i>
                 {{ buttonText }}
             </button>
 

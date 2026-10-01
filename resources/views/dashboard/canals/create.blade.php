@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    <title>Nový kanál</title>
+    <title>Nový kanál | Hlas Cirkvi</title>
 @endsection
 
 @section('content')

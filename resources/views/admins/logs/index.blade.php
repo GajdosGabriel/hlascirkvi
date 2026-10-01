@@ -79,19 +79,19 @@
                             <div class="ar-item__meta">
                                 @if ($log->recipient)
                                     <a href="{{ $filterUrl(['recipient' => $log->recipient]) }}" class="hover:text-[color:var(--ar-accent)] break-all" title="Všetky udalosti tohto príjemcu">
-                                        <i class="far fa-envelope"></i>{{ $log->recipient }}
+                                        <i class="ph ph-envelope-simple"></i>{{ $log->recipient }}
                                     </a>
                                 @endif
                                 @if ($log->user_id)
                                     <a href="{{ route('admin.user.edit', $log->user_id) }}" class="hover:text-[color:var(--ar-accent)]">
-                                        <i class="far fa-user"></i>{{ $userName ?: '#' . $log->user_id }}
+                                        <i class="ph ph-user"></i>{{ $userName ?: '#' . $log->user_id }}
                                     </a>
                                 @endif
                                 @if ($log->subject_type)
-                                    <span><i class="fas fa-link"></i>{{ class_basename($log->subject_type) }} #{{ $log->subject_id }}</span>
+                                    <span><i class="ph ph-link"></i>{{ class_basename($log->subject_type) }} #{{ $log->subject_id }}</span>
                                 @endif
                                 @if ($log->ip)
-                                    <span><i class="fas fa-network-wired"></i>{{ $log->ip }}</span>
+                                    <span><i class="ph ph-network"></i>{{ $log->ip }}</span>
                                 @endif
                             </div>
 

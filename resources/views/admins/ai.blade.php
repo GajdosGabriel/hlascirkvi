@@ -121,7 +121,7 @@
                                 Limit platí pre titulky; pokyny a výstup sa účtujú navyše. Automatický výstup je text na A4.</small>
                         </div>
 
-                        <button type="submit" class="ar-btn ar-btn--accent"><i class="fas fa-check"></i> Uložiť</button>
+                        <button type="submit" class="ar-btn ar-btn--accent"><i class="ph ph-check"></i> Uložiť</button>
                     </form>
                 </x-dashboard.panel>
 
@@ -138,7 +138,7 @@
                             Vytvorí (alebo prepíše) zhrnutie hneď — aj keď sú automatické zhrnutia vypnuté a aj pri
                             krátkych titulkoch. Bez titulkov sa nič nevytvorí. Mesačný limit platí.
                         </p>
-                        <button type="submit" class="ar-btn ar-btn--accent"><i class="fas fa-magic"></i> Vytvoriť zhrnutie</button>
+                        <button type="submit" class="ar-btn ar-btn--accent"><i class="ph ph-magic-wand"></i> Vytvoriť zhrnutie</button>
                     </form>
 
                     @if ($result = session('ai_result'))

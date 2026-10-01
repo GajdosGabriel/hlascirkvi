@@ -13,7 +13,7 @@ export function initCopyLink() {
         button.addEventListener('click', function () {
             var done = function () {
                 var original = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-check"></i> Skopírované';
+                button.innerHTML = '<i class="ph ph-check"></i> Skopírované';
                 setTimeout(function () { button.innerHTML = original; }, 2000);
             };
 

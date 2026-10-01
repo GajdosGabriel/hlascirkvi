@@ -12,7 +12,7 @@
 
     <div class="page">
         <div class="space-y-5 max-w-4xl ">
-            <h3 class="page_title">Ochrana osobných údajov</h3>
+            <h1 class="page_title">Ochrana osobných údajov</h1>
 
             <p>
                 Podmienky spracúvania osobných údajov na eshope (www.zastavy-vlajky.sk).
@@ -24,8 +24,8 @@
 
             </p>
 
+            <h2 class="text-xl font-semibold">Kto je správca?</h2>
             <p>
-                <strong>Kto je správca?</strong>
 
                 Správcom osobných údajov pre zákazníkom, odberateľom noviniek je firma Gajdoš Gabriel, programátor projektu.
                 Východná 3, 911 08 Trenčín, (ďalej len „prevádzkovateľ“) spracúva vami poskytnuté osobné
@@ -36,13 +36,13 @@
                 Prípadne vyberám ďalších spracovateľov, ktorí mi s ich spracovaním budú pomáhať.
 
                 <p />
-            <p><strong>Kontaktné údaje</strong>
+            <h2 class="text-xl font-semibold">Kontaktné údaje</h2>
+            <p>
 
                 Kontaktovať správcu osobných údajov môžete z tejto webovej stránky v záložke Kontakt.
                 <p />
+            <h2 class="text-xl font-semibold">Prehlásenie</h2>
             <p>
-
-                <strong>Prehlásenie</strong>
 
                 Prehlasujem, že ako správca vašich osobných údajov spĺňam všetky zákonné povinnosti vyžadované platnou
                 legislatívou, najmä zákonom o ochrane osobných údajov a GDPR, to znamená, že:
@@ -60,8 +60,8 @@
                 Poskytovanie služieb, plnenie zmluvy. Vaše osobné údaje v rozsahu: e-mail, nevyhnutne potrebujeme k
                 plneniu zmluvy (napr. zaslanie prístupov do aplikácie, alebo informácií o produktoch).
                 <p />
+            <h2 class="text-xl font-semibold">Vedenie účtovníctva</h2>
             <p>
-                <strong>Vedenie účtovníctva.</strong>
                 Ak ste mojimi zákazníkmi, tak vaše osobné údaje (fakturačné údaje) nevyhnutne potrebujem, aby sa
                 vyhovelo zákonnej povinnosti pre vystavovanie a evidenciu daňových dokladov.
                 Marketing – zasielanie informačných mailov. Vaše osobné údaje (e-mail a meno), môžem využívať za účelom
@@ -75,8 +75,8 @@
                 Vaše osobné údaje si ponechávam počas doby premlčacích období, pokiaľ zákon nestanoví ďalšiu dobu k ich
                 uchovaniu alebo som v konkrétnych prípadoch neuviedli inak.
                 <p />
+            <h2 class="text-xl font-semibold">Cookies</h2>
             <p>
-                <strong>Cookies</strong>
 
                 Pri prechádzaní našich webových stránok zaznamenávam vašu IP adresu, ako dlho sa na stránke zdržíte a z
                 ktorej stránke prichádzate. Používanie cookies pre meranie návštevnosti webu a prispôsobenie zobrazenia
@@ -114,9 +114,8 @@
                 Akékoľvek spracovanie osobných údajov bude vykonávané na území EU.
 
                 <p />
+            <h2 class="text-xl font-semibold">Vaše práva v súvislosti s ochranou osobných údajov</h2>
             <p>
-
-                <strong>Vaše práva v súvislosti s ochranou osobných údajov</strong>
 
                 Máte právo na informácie, ktoré sa napĺňa už touto informačnou stránkou so zásadami spracovania osobných
                 údajov.
@@ -139,8 +138,8 @@
                 strojovo čitateľnej podobe. V tomto prípade potrebujem na to aspoň 20 dní.
 
                 <p />
-            <p>
-                <strong>Právo na výmaz.</strong> Vaším ďalším právom je právo na výmaz (byť zabudnutý). Nechcem na vás
+            <h2 class="text-xl font-semibold">Právo na výmaz</h2>
+            <p> Vaším ďalším právom je právo na výmaz (byť zabudnutý). Nechcem na vás
                 zabudnúť, ale pokiaľ si to budete želať, máte na to právo. V takomto prípade vymažem všetky vaše osobné
                 údaje zo svojho systému a zo systémov všetkých ďalších spracovateľov a záloh. Na zabezpečenie práva na
                 výmaz potrebujem 10 dní.
@@ -159,8 +158,8 @@
                 ste, posielam vám ich len na základe vášho súhlasu. V oboch prípadoch môžete ukončiť odber mojich
                 emailov kliknutím na odhlasovací odkaz v každom zaslanom maile.
                 <p />
+            <h2 class="text-xl font-semibold">Mlčanlivosť</h2>
             <p>
-                <strong>Mlčanlivosť</strong>
 
                 Dovoľujeme si Vás uistiť, že moji zamestnanci i spolupracovníci, ktorí budú spracovávať vaše osobné
                 údaje sú povinní zachovávať mlčanlivosť o osobných údajoch a bezpečnostných opatreniach, ktorých
@@ -219,7 +218,7 @@
                 ktorá získava Vaše osobné údaje, a využiť svoje práva pri spracúvaní osobných údajov, podľa § 28 zákona.
             </p>
 
-            <h4> Podmienky spracovania osobných údajov prostredníctvom tretích strán</h4>
+            <h2 class="text-xl font-semibold">Podmienky spracovania osobných údajov prostredníctvom tretích strán</h2>
             <a target="_blank" href="https://www.youtube.com/t/terms">YouTube podmienky.</a> <br />
             <a target="_blank" href="https://developers.google.com/youtube/terms/developer-policies#a.-api-client-terms-of-use-and-privacy-policies">Súhlas s podmienkami YouTube api.</a> <br />
             <a target="_blank" href="https://policies.google.com/privacy">Google podmienky.</a>

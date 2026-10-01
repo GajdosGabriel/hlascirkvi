@@ -12,12 +12,12 @@
     @if ($cancel)
         <a href="{{ $cancel }}" class="ar-btn ar-btn--quiet">Zrušiť</a>
     @endif
-    <button type="submit" class="ar-btn ar-btn--accent"><i class="fas fa-check"></i> {{ $submit }}</button>
+    <button type="submit" class="ar-btn ar-btn--accent"><i class="ph ph-check"></i> {{ $submit }}</button>
 </div>
 
 @once
     @push('scripts')
-        <script>
+        <script nonce="{{ csp_nonce() }}">
             // Po prvej úprave poľa lišta upozorní, že zmeny ešte nie sú uložené.
             // Počúva sa na document: Vue obsah #app pri pripojení prekreslí,
             // takže udalosti naviazané priamo na formulár by sa stratili.

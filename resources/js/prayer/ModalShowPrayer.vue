@@ -15,7 +15,7 @@
                     </div>
 
                     <button type="button" class="ar-modal__close" title="Zavrieť" @click="toggle">
-                        <i class="fas fa-times"></i>
+                        <i class="ph ph-x"></i>
                     </button>
                 </header>
 
@@ -87,7 +87,7 @@
                                 Zavrieť
                             </button>
                             <button type="submit" class="ar-btn ar-btn--accent">
-                                <i class="fas fa-praying-hands"></i>
+                                <i class="ph ph-hands-praying"></i>
                                 Pripojiť sa k modlitbe
                             </button>
                         </div>

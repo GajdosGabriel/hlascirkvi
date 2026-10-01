@@ -8,7 +8,7 @@
         :class="{ 'discussion-action--active': reply.is_favorited }"
         class="discussion-action disabled:cursor-wait"
     >
-        <i :class="reply.is_favorited ? 'fas' : 'far'" class="fa-thumbs-up"></i>
+        <i :class="reply.is_favorited ? 'ph-fill' : 'ph'" class="ph-thumbs-up"></i>
         <span>Páči sa mi to</span>
         <span v-if="reply.favorites_count" class="discussion-action__count">
             {{ reply.favorites_count }}

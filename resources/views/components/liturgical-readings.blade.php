@@ -50,7 +50,7 @@
                                 <details class="group">
                                     <summary class="cursor-pointer font-semibold text-gray-800 hover:underline">
                                         {{ $option['citation'] }}
-                                        <i class="fa fa-angle-down text-gray-400 group-open:rotate-180" aria-hidden="true"></i>
+                                        <i class="ph ph-caret-down text-gray-500 group-open:rotate-180" aria-hidden="true"></i>
                                     </summary>
 
                                     @if ($option['heading'])
@@ -82,7 +82,7 @@
 
         <p class="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-sm">
             <a href="{{ route('readings.show') }}" class="font-semibold">
-                Čítania na celý týždeň <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                Čítania na celý týždeň <i class="ph ph-caret-double-right" aria-hidden="true"></i>
             </a>
             <a href="{{ $day->sourceUrl }}" target="_blank" rel="noopener" class="text-gray-500 hover:underline">
                 Plné znenie (KBS)

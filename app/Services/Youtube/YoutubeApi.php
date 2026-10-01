@@ -4,6 +4,7 @@ namespace App\Services\Youtube;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -20,6 +21,12 @@ use Illuminate\Support\Facades\Http;
 class YoutubeApi
 {
     private const BASE = 'https://www.googleapis.com/youtube/v3/';
+
+    /** Pauza po vyčerpanej kvóte / odmietnutom kľúči, spoločná pre všetky procesy. */
+    private const PAUSE_KEY = 'youtube:api-paused';
+
+    /** Ako dlho sa po odmietnutom kľúči nevolá API (kým ho správca neopraví). */
+    private const KEY_PAUSE_MINUTES = 60;
 
     /** Maximum ID na jeden dopyt videos.list / channels.list. */
     public const BATCH = 50;
@@ -203,6 +210,8 @@ class YoutubeApi
 
     private function get(string $endpoint, array $query): object
     {
+        $this->assertNotPaused();
+
         try {
             $response = Http::timeout(15)
                 ->connectTimeout(5)
@@ -232,10 +241,47 @@ class YoutubeApi
             // Odmietnutý kľúč zastaví všetko, čo na YouTube siaha — správca
             // sa o ňom musí dozvedieť hneď, nie z logu.
             KeyFailureAlert::report($e);
+            $this->pauseAfter($e);
 
             throw $e;
         }
 
         return $response->object() ?? (object) [];
+    }
+
+    /**
+     * Prázdny kľúč YouTube určite odmietne, dopyt sa preto ani neposiela. Po vyčerpanej kvóte či odmietnutom kľúči
+     * by ďalšie dopyty zlyhali rovnako, tak sa na chvíľu nevolá vôbec — inak by
+     * ich denný import a hodinová synchronizácia komentárov opakovali celý deň.
+     */
+    private function assertNotPaused(): void
+    {
+        if (trim($this->key) === '') {
+            throw new YoutubeApiException('Error 400 API key not valid : YOUTUBE_API_KEY nie je nastavený', 'keyInvalid', 400, 'API_KEY_INVALID');
+        }
+
+        $paused = Cache::get(self::PAUSE_KEY);
+
+        if (is_string($paused)) {
+            throw new YoutubeApiException(
+                'YouTube API pozastavené po predchádzajúcej chybe (' . $paused . ')',
+                $paused,
+                $paused === 'quotaExceeded' ? 403 : 400,
+                $paused === 'keyInvalid' ? 'API_KEY_INVALID' : null,
+            );
+        }
+    }
+
+    /**
+     * Kvóta sa obnovuje o polnoci pacifického času; odmietnutý kľúč sa po
+     * hodine skúsi znova (správca ho mohol medzitým opraviť).
+     */
+    private function pauseAfter(YoutubeApiException $e): void
+    {
+        if ($e->is('quotaExceeded', 'dailyLimitExceeded')) {
+            Cache::put(self::PAUSE_KEY, 'quotaExceeded', now('America/Los_Angeles')->addDay()->startOfDay()->addMinutes(5));
+        } elseif ($e->isKeyFailure()) {
+            Cache::put(self::PAUSE_KEY, 'keyInvalid', now()->addMinutes(self::KEY_PAUSE_MINUTES));
+        }
     }
 }

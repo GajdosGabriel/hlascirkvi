@@ -10,7 +10,7 @@
         <div class="ar-item__body">
             <a href="{{ route('profile.canals.seminars.show', [$canal->id, $seminar->id]) }}"
                class="ar-item__title">
-                <seminar-title :seminar="{{ $seminar }}"></seminar-title>
+                <seminar-title :seminar="{{ $seminar }}">{{ $seminar->title }}</seminar-title>
             </a>
 
             <div class="ar-item__meta">
@@ -19,7 +19,7 @@
                 @endphp
 
                 <span>
-                    <i class="far fa-newspaper"></i>
+                    <i class="ph ph-newspaper"></i>
                     {{ $count }}
                     {{ $count === 1 ? 'článok' : ($count >= 2 && $count <= 4 ? 'články' : 'článkov') }}
                 </span>

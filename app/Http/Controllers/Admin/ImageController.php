@@ -28,10 +28,10 @@ class ImageController extends Controller
         foreach( $images as $image)
         {
             // delete big img
-            Storage::disk('public')->delete($image->url);
+            \App\Support\MediaUrl::disk()->delete($image->url);
 
             // delete small img
-            Storage::disk('public')->delete($image->thumb);
+            \App\Support\MediaUrl::disk()->delete($image->thumb);
 
             $image->forceDelete();
         }

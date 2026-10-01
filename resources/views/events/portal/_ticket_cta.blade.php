@@ -8,8 +8,8 @@
               {{ $cta['kind'] === 'buy'
                   ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus-visible:outline-blue-600'
                   : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 focus-visible:outline-emerald-600' }}">
-        <i class="fas fa-ticket-alt text-[.65rem] opacity-90" aria-hidden="true"></i>
+        <i class="ph ph-ticket text-[.65rem] opacity-90" aria-hidden="true"></i>
         <span class="whitespace-nowrap">{{ $cta['label'] }}</span>
-        <i class="fas fa-angle-double-right text-[.65rem] transition-transform duration-200 group-hover/cta:translate-x-0.5" aria-hidden="true"></i>
+        <i class="ph ph-caret-double-right text-[.65rem] transition-transform duration-200 group-hover/cta:translate-x-0.5" aria-hidden="true"></i>
     </a>
 @endif

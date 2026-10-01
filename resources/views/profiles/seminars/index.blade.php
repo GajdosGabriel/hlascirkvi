@@ -22,7 +22,7 @@
 
         <x-slot name="actions">
             <a href="{{ route('profile.canals.seminars.create', $canal->id) }}" class="ar-btn ar-btn--accent">
-                <i class="fas fa-plus"></i> Nový seminár
+                <i class="ph ph-plus"></i> Nový seminár
             </a>
         </x-slot>
 

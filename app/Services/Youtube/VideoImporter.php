@@ -107,7 +107,9 @@ class VideoImporter
         $post = $canal->posts()->create([
             // Stiahnuté video zatiaľ nie je zverejnené — `published_at` ostáva
             // prázdne, vypúšťa ho buffer (App\Services\Buffer).
-            'title' => $video->snippet->title,
+            'title' => \App\Support\TitleNormalizer::isPlaceholder(cleanTitle((string) $video->snippet->title))
+                ? \App\Support\TitleNormalizer::fallback($canal->title, $publishedAt ?? now())
+                : $video->snippet->title,
             'video_id' => $video->id,
             'body' => (string) ($video->snippet->description ?? ''),
             // Prebiehajúci prenos má trvanie P0D; skutočné doplní synchronizácia

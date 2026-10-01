@@ -24,7 +24,7 @@
     ];
 @endphp
 
-<nav class="relative z-40 bg-blue-900 text-blue-100 shadow-lg">
+<nav aria-label="Hlavná navigácia" class="relative z-40 bg-blue-900 text-blue-100 shadow-lg">
     {{-- max-w-6xl + px-2 drží logo v jednej zvislici s obsahom stránok, ktoré
          stoja na `mx-auto max-w-6xl px-4` — logo si nesie vlastné px-2 navyše. --}}
     <div class="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-2">

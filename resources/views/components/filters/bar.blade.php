@@ -10,7 +10,7 @@
                         <input type="hidden" name="{{ $name }}" value="{{ $value }}">
                     @endforeach
 
-                    <select name="{{ $key }}" aria-label="{{ $select['label'] }}" onchange="this.form.submit()"
+                    <select name="{{ $key }}" aria-label="{{ $select['label'] }}" data-auto-submit
                             class="ar-select @if ($selected($key) !== null) ar-select--on @endif">
                         <option value="">{{ $select['placeholder'] ?? $select['label'] }}</option>
                         @foreach ($select['options'] as $value => $label)

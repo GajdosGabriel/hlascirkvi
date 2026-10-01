@@ -46,9 +46,9 @@
                 <div class="flex flex-wrap items-center gap-2 mb-4">
                     <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-stone-900">
                         @if ($featured->isOngoing())
-                            <i class="fas fa-circle text-[6px]"></i> Práve prebieha
+                            <i class="ph-fill ph-circle text-[6px]"></i> Práve prebieha
                         @elseif ($featured->isToday())
-                            <i class="fas fa-star text-[10px]"></i> Dnes
+                            <i class="ph-fill ph-star text-[10px]"></i> Dnes
                         @elseif ($featured->isTomorrow())
                             Zajtra
                         @else
@@ -76,20 +76,20 @@
 
                 <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/70 mb-7">
                     @if ($featured->address())
-                        <span><i class="fas fa-map-marker-alt mr-2 text-amber-300"></i>{{ $featured->address() }}</span>
+                        <span><i class="ph ph-map-pin mr-2 text-amber-300"></i>{{ $featured->address() }}</span>
                     @endif
                     @if ($featured->organizer())
-                        <span><i class="fas fa-church mr-2 text-amber-300"></i>{{ $featured->organizer() }}</span>
+                        <span><i class="ph ph-church mr-2 text-amber-300"></i>{{ $featured->organizer() }}</span>
                     @endif
                     @if ($featured->price())
-                        <span><i class="fas fa-ticket-alt mr-2 text-amber-300"></i>{{ $featured->price() }}</span>
+                        <span><i class="ph ph-ticket mr-2 text-amber-300"></i>{{ $featured->price() }}</span>
                     @endif
                 </div>
 
                 <div class="flex flex-wrap gap-3">
                     <a href="{{ $featured->url() }}"
                        class="inline-flex items-center gap-2 rounded-md bg-amber-400 px-5 py-2.5 font-semibold text-stone-900 transition hover:bg-amber-300">
-                        Zobraziť podujatie <i class="fas fa-arrow-right text-sm"></i>
+                        Zobraziť podujatie <i class="ph ph-arrow-right text-sm"></i>
                     </a>
 
                     {{-- Rezervácia / lístok na portáli — text podľa ticket_cta,
@@ -98,9 +98,9 @@
                         @php $cta = $featured->ticketCta(); @endphp
                         <a href="{{ $cta ? $featured->ticketUrl() : config('eventportal.url') . '/register?event=' . $featured->id() }}" target="_blank" rel="noopener nofollow"
                            class="inline-flex items-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-5 py-2.5 font-semibold text-white transition hover:bg-amber-700">
-                            <i class="fas fa-ticket-alt text-sm"></i>
+                            <i class="ph ph-ticket text-sm"></i>
                             {{ ($cta['kind'] ?? null) === 'buy' ?$cta['label'] : 'Rezervovať miesto' }}
-                            <i class="fas fa-external-link-alt text-xs"></i>
+                            <i class="ph ph-arrow-square-out text-xs"></i>
                         </a>
                     @endif
                 </div>

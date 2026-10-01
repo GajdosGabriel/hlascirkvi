@@ -15,7 +15,7 @@
                     </div>
 
                     <button type="button" class="ar-modal__close" title="Zavrieť" @click="close">
-                        <i class="fas fa-times"></i>
+                        <i class="ph ph-x"></i>
                     </button>
                 </header>
 
@@ -109,7 +109,7 @@
                             Zrušiť
                         </button>
                         <button type="submit" class="ar-btn ar-btn--accent" :disabled="saving">
-                            <i class="fas fa-praying-hands"></i>
+                            <i class="ph ph-hands-praying"></i>
                             {{ isEdit ? "Uložiť zmeny" : "Odoslať prosbu" }}
                         </button>
                     </div>

@@ -22,12 +22,12 @@
                 // Čo si žiada zásah. Zobrazí sa len to, čoho je viac ako nula;
                 // každá položka vedie na výpis, ktorý tie záznamy ukáže.
                 $todo = array_filter([
-                    ['count' => $posts->broken, 'icon' => 'fas fa-video-slash', 'label' => 'videí už na YouTube nie je', 'href' => route('admin.post.index', ['videoAvailable' => 1])],
-                    ['count' => $canals->youtube_off, 'icon' => 'fab fa-youtube', 'label' => 'kanálom sa zastavil import', 'href' => route('admin.canal.index', ['youtubeOff' => 1])],
-                    ['count' => $canals->orphans, 'icon' => 'fas fa-user-slash', 'label' => 'kanálov nemá správcu', 'href' => route('admin.canal.index', ['orphans' => 1])],
-                    ['count' => $comments->unpublished, 'icon' => 'far fa-comment-dots', 'label' => 'komentárov čaká na schválenie', 'href' => route('admin.comment.index', ['unpublished' => 1])],
-                    ['count' => $users->blocked, 'icon' => 'fas fa-ban', 'label' => 'zablokovaných účtov', 'href' => route('admin.user.index', ['status' => 'blocked']), 'info' => true],
-                    ['count' => $posts->waiting, 'icon' => 'far fa-clock', 'label' => 'článkov čaká v bufferi', 'href' => route('admin.buffer.index'), 'info' => true],
+                    ['count' => $posts->broken, 'icon' => 'ph ph-video-camera-slash', 'label' => 'videí už na YouTube nie je', 'href' => route('admin.post.index', ['videoAvailable' => 1])],
+                    ['count' => $canals->youtube_off, 'icon' => 'ph ph-youtube-logo', 'label' => 'kanálom sa zastavil import', 'href' => route('admin.canal.index', ['youtubeOff' => 1])],
+                    ['count' => $canals->orphans, 'icon' => 'ph ph-user-minus', 'label' => 'kanálov nemá správcu', 'href' => route('admin.canal.index', ['orphans' => 1])],
+                    ['count' => $comments->unpublished, 'icon' => 'ph ph-chat-circle-dots', 'label' => 'komentárov čaká na schválenie', 'href' => route('admin.comment.index', ['unpublished' => 1])],
+                    ['count' => $users->blocked, 'icon' => 'ph ph-prohibit', 'label' => 'zablokovaných účtov', 'href' => route('admin.user.index', ['status' => 'blocked']), 'info' => true],
+                    ['count' => $posts->waiting, 'icon' => 'ph ph-clock', 'label' => 'článkov čaká v bufferi', 'href' => route('admin.buffer.index'), 'info' => true],
                 ], fn ($item) => (int) $item['count'] > 0);
 
                 $rhythmAlpha = fn ($value) => $rhythm->max > 0 ? round(sqrt($value / $rhythm->max), 3) : 0;
@@ -55,7 +55,7 @@
                     <span class="ar-liturgy__dot" aria-hidden="true"></span>
                     <span class="ar-liturgy__title">{{ $liturgy->title }}</span>
                     <span>{{ $liturgy->season->label() }} · {{ $liturgy->rank->label() }} · liturgická farba {{ $liturgy->color->label() }}</span>
-                    <span class="ml-auto text-xs">čítania na dnes <i class="fas fa-arrow-right ml-1"></i></span>
+                    <span class="ml-auto text-xs">čítania na dnes <i class="ph ph-arrow-right ml-1"></i></span>
                 </a>
             @endif
 
@@ -109,7 +109,7 @@
                 @else
                     <div class="ar-todo">
                         <div class="ar-todo__item ar-todo__item--info">
-                            <span class="ar-todo__icon"><i class="fas fa-check"></i></span>
+                            <span class="ar-todo__icon"><i class="ph ph-check"></i></span>
                             <span>Všetko je v poriadku, nič nečaká na zásah.</span>
                         </div>
                     </div>
@@ -227,7 +227,7 @@
                                 <span class="min-w-0 flex-1">
                                     <span class="ar-row__title ar-clamp-2">{{ \Illuminate\Support\Str::limit(strip_tags($row->body), 180) }}</span>
                                     <span class="ar-row__meta block">
-                                        @if ($row->youtube_comment_id)<i class="fab fa-youtube text-red-600"></i>@endif
+                                        @if ($row->youtube_comment_id)<i class="ph ph-youtube-logo text-red-600"></i>@endif
                                         {{ $row->user_name ?: 'Anonym' }}
                                         · {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}
                                         @if ($row->post_title)
@@ -241,7 +241,7 @@
                         @endforelse
 
                         <x-slot name="footer">
-                            <a href="{{ route('admin.comment.index') }}" class="ar-link text-gray-500 hover:text-gray-900">Všetky komentáre <i class="fas fa-arrow-right ml-1"></i></a>
+                            <a href="{{ route('admin.comment.index') }}" class="ar-link text-gray-500 hover:text-gray-900">Všetky komentáre <i class="ph ph-arrow-right ml-1"></i></a>
                         </x-slot>
                     </x-dashboard.panel>
                 </div>
@@ -252,7 +252,7 @@
                     <x-dashboard.panel title="Viete, že…" flush>
                         @if ($posts->views > 0)
                             <div class="ar-fact">
-                                <span class="ar-fact__icon"><i class="fas fa-eye"></i></span>
+                                <span class="ar-fact__icon"><i class="ph ph-eye"></i></span>
                                 <p class="ar-fact__text">
                                     Články majú spolu <strong>{{ $compact($posts->views) }}</strong> zhliadnutí —
                                     to je, akoby si každý obyvateľ Slovenska pozrel
@@ -264,7 +264,7 @@
                         @if ($posts->duration > 0)
                             @php $hoursOfVideo = intdiv((int) $posts->duration, 3600); @endphp
                             <div class="ar-fact">
-                                <span class="ar-fact__icon"><i class="fas fa-film"></i></span>
+                                <span class="ar-fact__icon"><i class="ph ph-film-strip"></i></span>
                                 <p class="ar-fact__text">
                                     V archíve je <strong>{{ $num($hoursOfVideo) }} hodín</strong> videa. Pozerať ho bez prestávky
                                     by trvalo <strong>{{ $num(round($hoursOfVideo / 24)) }} dní</strong>.
@@ -274,7 +274,7 @@
 
                         @if ($views->peak > 0)
                             <div class="ar-fact">
-                                <span class="ar-fact__icon"><i class="fas fa-trophy"></i></span>
+                                <span class="ar-fact__icon"><i class="ph-fill ph-trophy"></i></span>
                                 <p class="ar-fact__text">
                                     Najsilnejší deň za mesiac mal <strong>{{ $num($views->peak) }}</strong> zhliadnutí,
                                     to je {{ $views->average > 0 ? number_format($views->peak / $views->average, 1, ',', ' ') . '× priemer' : 'nad priemerom' }}.
@@ -284,7 +284,7 @@
 
                         @if ($posts->new > 0)
                             <div class="ar-fact">
-                                <span class="ar-fact__icon"><i class="fas fa-seedling"></i></span>
+                                <span class="ar-fact__icon"><i class="ph ph-plant"></i></span>
                                 <p class="ar-fact__text">
                                     Denne pribudne v priemere <strong>{{ number_format($posts->new / \App\Services\Dashboard\AdminDashboardStats::WINDOW, 1, ',', ' ') }}</strong> článku
                                     a <strong>{{ number_format($comments->new / \App\Services\Dashboard\AdminDashboardStats::WINDOW, 1, ',', ' ') }}</strong> komentára.
@@ -294,7 +294,7 @@
 
                         @if ($prayers->open + $prayers->fulfilled > 0)
                             <div class="ar-fact">
-                                <span class="ar-fact__icon"><i class="fas fa-praying-hands"></i></span>
+                                <span class="ar-fact__icon"><i class="ph ph-hands-praying"></i></span>
                                 <p class="ar-fact__text">
                                     Za posledný mesiac prišlo <strong>{{ $num($prayers->new) }}</strong> prosieb o modlitbu,
                                     teda asi <strong>{{ $num(round($prayers->new / \App\Services\Dashboard\AdminDashboardStats::WINDOW)) }}</strong> denne.
@@ -304,7 +304,7 @@
 
                         @if ($users->total > 0)
                             <div class="ar-fact">
-                                <span class="ar-fact__icon"><i class="fas fa-envelope-open-text"></i></span>
+                                <span class="ar-fact__icon"><i class="ph ph-envelope-open"></i></span>
                                 <p class="ar-fact__text">
                                     <strong>{{ round($users->unverified / $users->total * 100) }} %</strong> používateľov
                                     ({{ $num($users->unverified) }}) si ešte neoverilo e-mail.
@@ -343,7 +343,7 @@
                             @endforeach
                         </div>
                         <p class="mt-3 text-xs text-[color:var(--ar-ink-soft)]">
-                            <i class="far fa-bookmark mr-1"></i> {{ $num($favorites->saved) }} článkov uložených na neskôr
+                            <i class="ph ph-bookmark-simple mr-1"></i> {{ $num($favorites->saved) }} článkov uložených na neskôr
                         </p>
                     </x-dashboard.panel>
 
@@ -391,7 +391,7 @@
                                     <span class="ar-row__title block truncate">{{ $row->email }}</span>
                                     <span class="ar-row__meta block">
                                         {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}
-                                        @if ($row->last_login_via === 'google') · <i class="fab fa-google"></i> Google @endif
+                                        @if ($row->last_login_via === 'google') · <i class="ph ph-google-logo"></i> Google @endif
                                         · {{ $row->email_verified_at ? 'overený' : 'neoverený' }}
                                     </span>
                                 </span>
@@ -400,7 +400,7 @@
                             <x-dashboard.empty>Zatiaľ nikto.</x-dashboard.empty>
                         @endforelse
                         <x-slot name="footer">
-                            <a href="{{ route('admin.user.index') }}" class="ar-link text-gray-500 hover:text-gray-900">Všetci používatelia <i class="fas fa-arrow-right ml-1"></i></a>
+                            <a href="{{ route('admin.user.index') }}" class="ar-link text-gray-500 hover:text-gray-900">Všetci používatelia <i class="ph ph-arrow-right ml-1"></i></a>
                         </x-slot>
                     </x-dashboard.panel>
 
@@ -411,7 +411,7 @@
                                     <span class="ar-row__title block truncate">{{ $row->title }}</span>
                                     <span class="ar-row__meta block">
                                         {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}
-                                        @if ($row->youtube_channel) · <i class="fab fa-youtube"></i> YouTube @endif
+                                        @if ($row->youtube_channel) · <i class="ph ph-youtube-logo"></i> YouTube @endif
                                         @unless ($row->published) · nezverejnený @endunless
                                     </span>
                                 </span>
@@ -420,7 +420,7 @@
                             <x-dashboard.empty>Zatiaľ žiadne kanály.</x-dashboard.empty>
                         @endforelse
                         <x-slot name="footer">
-                            <a href="{{ route('admin.canal.index') }}" class="ar-link text-gray-500 hover:text-gray-900">Všetky kanály <i class="fas fa-arrow-right ml-1"></i></a>
+                            <a href="{{ route('admin.canal.index') }}" class="ar-link text-gray-500 hover:text-gray-900">Všetky kanály <i class="ph ph-arrow-right ml-1"></i></a>
                         </x-slot>
                     </x-dashboard.panel>
                 </div>

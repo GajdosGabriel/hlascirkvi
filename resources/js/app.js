@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import '../css/icons.css';
 import './bootstrap';
 import { initCopyLink } from './copyLink';
 import { initNativeShare } from './nativeShare';
@@ -13,6 +14,7 @@ import { initArticle } from './article';
 import './lightbox';
 
 import { createApp } from 'vue';
+import initInlineBehaviors from './inlineBehaviors';
 
 import Auth from './Auth';
 
@@ -102,3 +104,5 @@ initNativeShare();
 
 // Obe časti sa samy ukončia, keď ich uzly na stránke nie sú.
 initArticle();
+
+initInlineBehaviors();

@@ -19,7 +19,7 @@
     @if ($total > $canals->count())
         <p class="border-t border-gray-100 px-1 py-2 text-sm">
             <a href="{{ route('frontlist.index') }}#{{ $type->anchor() }}" class="font-semibold">
-                {{ $type->showAllLabel($total) }} <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                {{ $type->showAllLabel($total) }} <i class="ph ph-caret-double-right" aria-hidden="true"></i>
             </a>
         </p>
     @endif

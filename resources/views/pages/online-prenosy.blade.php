@@ -17,7 +17,7 @@
 
 @section('body-class', 'ar-body')
 @section('headerCSS')
-<style>
+<style nonce="{{ csp_nonce() }}">
 .streams {
         max-width:1152px;
         margin:auto;
@@ -248,7 +248,7 @@
         <section class="stream" id="spolocenstvo-{{ $canalId }}" aria-labelledby="kanal-{{ $canalId }}">
             <header class="stream-heading">
                 <div class="stream-channel">
-                    <span class="stream-icon" aria-hidden="true"><i class="fas fa-church"></i></span>
+                    <span class="stream-icon" aria-hidden="true"><i class="ph ph-church"></i></span>
                     <h2 id="kanal-{{ $canalId }}"><a href="{{ route('organizations.show', [$post->canal->id]) }}">{{ $post->canal->title }}</a></h2>
                 </div>
                 @can('update', $post)
@@ -276,7 +276,7 @@
                         @forelse ($broadcasts->skip(1)->take(4) as $previousPost)
                             <li>
                                 <a class="stream-archive-link" href="{{ $previousPost->routeShow() }}">
-                                    <span class="stream-play" aria-hidden="true"><i class="fas fa-play"></i></span>
+                                    <span class="stream-play" aria-hidden="true"><i class="ph-fill ph-play"></i></span>
                                     <span>
                                         <span class="stream-archive-title">{{ $previousPost->title }}</span>
                                         <time class="stream-date" datetime="{{ $previousPost->created_at->format('Y-m-d') }}">{{ $previousPost->created_at->format('d. m. Y') }}</time>

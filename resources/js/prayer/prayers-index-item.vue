@@ -64,7 +64,7 @@
                         <span>{{ prayer.canal_title }}</span>
                     </template>
                     <span v-if="prayer.fulfilled_at" class="ar-badge ar-badge--ok">
-                        <i class="fas fa-check"></i> Vypočutá
+                        <i class="ph ph-check"></i> Vypočutá
                     </span>
                 </p>
             </div>

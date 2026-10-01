@@ -31,7 +31,7 @@
         @if ($posts->isEmpty())
             <p class="rounded-lg border border-dashed border-[color:var(--ar-line)] bg-white px-4 py-10 text-center text-sm text-gray-500">
                 Zatiaľ nemáte nič uložené. Pri videu alebo článku kliknite na
-                <span class="whitespace-nowrap"><i class="far fa-bookmark"></i> Uložiť</span>.
+                <span class="whitespace-nowrap"><i class="ph ph-bookmark-simple"></i> Uložiť</span>.
             </p>
         @else
             <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">

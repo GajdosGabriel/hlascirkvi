@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\CanalResource;
+use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
@@ -18,7 +19,7 @@ class PostResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'body' => $this->body,
+            'excerpt' => Str::limit(trim(preg_replace('/\s+/u', ' ', strip_tags((string) $this->body))), 200),
             'canal_id' => $this->canal_id,
             'slug' => $this->slug,
             'video_id' => $this->video_id,

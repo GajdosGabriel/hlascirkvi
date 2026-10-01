@@ -44,13 +44,13 @@
             <form method="GET" action="{{ route('admin.canal.index') }}"
                   class="ar-canal-search mb-5" role="search">
                 <select name="publication" class="form-control ar-canal-search__sort"
-                        aria-label="{{ __('canal.filter.label') }}" onchange="this.form.submit()">
+                        aria-label="{{ __('canal.filter.label') }}" data-auto-submit>
                     @foreach (__('canal.filter.options') as $key => $label)
                         <option value="{{ $key }}" @selected(request('publication', request('deletedAt') ? 'deletedAt' : (request('unpublished') ? 'unpublished' : '')) === (string) $key)>{{ $label }}</option>
                     @endforeach
                 </select>
                 <select name="identity_mode" class="form-control ar-canal-search__sort"
-                        aria-label="{{ __('canal.identity_mode.label') }}" onchange="this.form.submit()">
+                        aria-label="{{ __('canal.identity_mode.label') }}" data-auto-submit>
                     <option value="">{{ __('canal.identity_mode.all') }}</option>
                     @foreach (\App\Enums\CanalIdentityMode::cases() as $type)
                         <option value="{{ $type->value }}" @selected(request('identity_mode') === $type->value)>{{ __('canal.identity_mode.options.' . $type->value) }}</option>
@@ -68,7 +68,7 @@
                        aria-label="Hľadať kanál">
 
                 <select name="sort" class="form-control ar-canal-search__sort" aria-label="Radenie"
-                        onchange="this.form.submit()">
+                        data-auto-submit>
                     @foreach (\App\Filters\CanalFilters::SORTS as $value => $label)
                         <option value="{{ $value }}" @selected(request('sort', 'newest') === $value)>{{ $label }}</option>
                     @endforeach

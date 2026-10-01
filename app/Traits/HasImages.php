@@ -34,10 +34,10 @@ trait HasImages
         $canal = $this->canal;
 
         if ($canal && $canal->avatar) {
-            return Storage::url('organizations/' . $canal->id . '/' . $canal->avatar);
+            return \App\Support\MediaUrl::canalAvatar($canal->id, $canal->avatar);
         }
 
-        return url('images/foto.jpg');
+        return asset(\App\Support\MediaUrl::DEFAULT_POST);
     }
 
     /**

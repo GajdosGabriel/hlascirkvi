@@ -27,7 +27,10 @@
     <link rel="next" href="{{ $meta['next'] }}">
 @endif
 
-{{-- Open Graph — číta ho Facebook, Messenger, WhatsApp, LinkedIn aj Viber. --}}
+{{-- Open Graph — číta ho Facebook, Messenger, WhatsApp, LinkedIn aj Viber.
+     Stránky s noindex (dashboard, administrácia, uložené) sa nezdieľajú, a
+     ich og:title by pri vložení odkazu do chatu ukázal nesprávny názov. --}}
+@if (! str_starts_with($meta['robots'], 'noindex'))
 <meta property="og:site_name" content="{{ $meta['site_name'] }}">
 <meta property="og:locale" content="{{ $meta['locale'] }}">
 <meta property="og:type" content="{{ $meta['type'] }}">
@@ -80,6 +83,7 @@
 <meta name="twitter:card" content="{{ $meta['twitter_card'] }}">
 @if ($meta['twitter_site'])
     <meta name="twitter:site" content="{{ $meta['twitter_site'] }}">
+@endif
 @endif
 
 {{-- SVG berú súčasné prehliadače, .ico ostáva pre staršie a pre /favicon.ico,

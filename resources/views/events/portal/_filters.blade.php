@@ -46,7 +46,7 @@
 
                 <label class="relative block">
                     <span class="sr-only">Hľadať podujatie</span>
-                    <i class="fas fa-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-stone-400"></i>
+                    <i class="ph ph-magnifying-glass pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-stone-400"></i>
                     <input type="search" name="search" value="{{ $filters['search'] }}"
                            placeholder="Hľadať podujatie, mesto, organizátora…"
                            class="w-full rounded-lg border border-[color:var(--ev-line)] bg-white py-2 pl-9 pr-3 text-sm
@@ -56,7 +56,7 @@
 
             {{-- Podoba výpisu --}}
             <div class="flex rounded-lg border border-[color:var(--ev-line)] bg-white p-1">
-                @foreach ([['os', 'Časová os', 'fa-stream'], ['plagaty', 'Plagáty', 'fa-th-large'], ['mapa', 'Mapa', 'fa-map-marked-alt']] as [$key, $label, $icon])
+                @foreach ([['os', 'Časová os', 'ph-rows'], ['plagaty', 'Plagáty', 'ph-squares-four'], ['mapa', 'Mapa', 'ph-map-trifold']] as [$key, $label, $icon])
                     <a href="{{ $evUrl(['view' => $key === 'os' ? null : $key]) }}"
                        title="{{ $label }}"
                        class="rounded-md px-3 py-1.5 text-sm transition
@@ -96,7 +96,7 @@
                     <a href="{{ $chip['url'] }}"
                        class="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-900 transition hover:bg-amber-200">
                         {{ $chip['label'] }}
-                        <i class="fas fa-times text-[10px] opacity-60"></i>
+                        <i class="ph ph-x text-[10px] opacity-60"></i>
                     </a>
                 @endforeach
                 <a href="{{ route('akcie.index') }}" class="text-xs text-stone-500 underline hover:text-stone-800">

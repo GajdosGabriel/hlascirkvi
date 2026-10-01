@@ -1,3 +1,6 @@
+@php
+    $seo = ['title' => 'Prehľad kanála', 'noindex' => true];
+@endphp
 @extends('layouts.dashboard')
 
 @section('content')
@@ -14,13 +17,13 @@
             </p>
             <div class="mt-6 flex flex-wrap justify-center gap-2">
                 <a href="{{ route('profile.canals.index') }}" class="ar-btn ar-btn--accent">
-                    <i class="fas fa-broadcast-tower"></i> Moje kanály
+                    <i class="ph ph-broadcast"></i> Moje kanály
                 </a>
                 {{-- Odkaz viedol na `userSupport.index`, čo je routa bez metódy
                      v kontroleri — tlačidlo vracalo 500. Správa pre správcu
                      webu sa píše formulárom v pätičke. --}}
                 <a href="#napiste-nam" class="ar-btn ar-btn--quiet">
-                    <i class="far fa-envelope"></i> Napísať správcovi
+                    <i class="ph ph-envelope-simple"></i> Napísať správcovi
                 </a>
             </div>
         </div>
@@ -76,13 +79,13 @@
 
             <x-slot name="actions">
                 <a href="{{ route('profile.posts.create') }}" class="ar-btn ar-btn--accent">
-                    <i class="fas fa-plus"></i> Nový článok
+                    <i class="ph ph-plus"></i> Nový článok
                 </a>
                 <a href="{{ route('organizations.show', $canal->id) }}" class="ar-btn ar-btn--quiet">
-                    <i class="far fa-eye"></i> Verejný profil
+                    <i class="ph ph-eye"></i> Verejný profil
                 </a>
                 <a href="{{ route('profile.canals.edit', $canal->id) }}" class="ar-btn ar-btn--quiet">
-                    <i class="fas fa-sliders-h"></i> Nastavenia
+                    <i class="ph ph-sliders-horizontal"></i> Nastavenia
                 </a>
             </x-slot>
 
@@ -91,7 +94,7 @@
                  už nie je. Preto stojí nad číslami, nie medzi panelmi. --}}
             @if ($posts->broken > 0)
                 <div class="ar-alert mb-6">
-                    <i class="fas fa-exclamation-triangle mt-0.5"></i>
+                    <i class="ph-fill ph-warning mt-0.5"></i>
                     <div class="min-w-0">
                         <p class="font-semibold">
                             {{ $num($posts->broken) }}
@@ -211,7 +214,7 @@
 
                         <x-slot name="footer">
                             <a href="{{ route('profile.posts.index') }}" class="ar-link text-gray-500 hover:text-gray-900">
-                                Všetky články kanála <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                                Všetky články kanála <i class="ph ph-arrow-right ml-1 text-xs"></i>
                             </a>
                         </x-slot>
                     </x-dashboard.panel>
@@ -282,7 +285,7 @@
                                 @else
                                     Spravovať modlitby
                                 @endif
-                                <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                                <i class="ph ph-arrow-right ml-1 text-xs"></i>
                             </a>
                         </x-slot>
                     </x-dashboard.panel>

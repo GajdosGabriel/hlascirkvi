@@ -10,8 +10,11 @@
 @php
     // Vzťah images je v $with, takže tu nevzniká dopyt navyše.
     $image = $model->images->first();
-    $srcset = $image?->srcset('jpg');
-    $webp = $image?->srcset('webp');
+    // Karta má najviac ~400 px, 800w stačí pre retina; 1200w by len nafúklo HTML.
+    // JPG srcset nesie len prehliadač bez WebP (jediný zdroj stačí) — inak by
+    // každá karta niesla tie isté adresy dvakrát.
+    $webp = $image?->srcset('webp', 800);
+    $srcset = $webp ? null : $image?->srcset('jpg', 800);
 @endphp
 
 <picture class="block">

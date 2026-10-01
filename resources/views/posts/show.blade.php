@@ -149,24 +149,24 @@
 
                     <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
                         <time datetime="{{ $post->created_at->toIso8601String() }}">
-                            <i class="far fa-calendar mr-1.5 text-[color:var(--ar-accent)]"></i>
+                            <i class="ph ph-calendar-blank mr-1.5 text-[color:var(--ar-accent)]"></i>
                             {{ $post->created_at->locale('sk')->isoFormat('D. MMMM YYYY') }}
                         </time>
 
                         @if ($post->video_id && $post->youtube_published_at
                             && ! $post->youtube_published_at->isSameDay($post->created_at))
                             <span title="Zverejnené na YouTube">
-                                <i class="fab fa-youtube mr-1.5"></i>{{ $post->youtube_published_at->locale('sk')->isoFormat('D. MMMM YYYY') }}
+                                <i class="ph ph-youtube-logo mr-1.5"></i>{{ $post->youtube_published_at->locale('sk')->isoFormat('D. MMMM YYYY') }}
                             </span>
                         @endif
 
                         @if ($post->video_id && $post->video_duration && $post->video_duration !== '0:00')
-                            <span><i class="far fa-play-circle mr-1.5"></i>{{ $post->video_duration }}</span>
+                            <span><i class="ph ph-play-circle mr-1.5"></i>{{ $post->video_duration }}</span>
                         @elseif ($words > 0)
-                            <span><i class="far fa-clock mr-1.5"></i>{{ $minutes }} min čítania</span>
+                            <span><i class="ph ph-clock mr-1.5"></i>{{ $minutes }} min čítania</span>
                         @endif
 
-                        <span><i class="far fa-eye mr-1.5"></i>{{ number_format($post->count_view, 0, ',', ' ') }}</span>
+                        <span><i class="ph ph-eye mr-1.5"></i>{{ number_format($post->count_view, 0, ',', ' ') }}</span>
                     </div>
                 </div>
 
@@ -181,7 +181,7 @@
                     @if ($post->video_id)
                         @if (Session::get($post->slug) == $post->id)
                             <span class="ar-btn ar-btn--still">
-                                <i class="far fa-thumbs-up"></i> Už ste odporučili
+                                <i class="ph ph-thumbs-up"></i> Už ste odporučili
                             </span>
                         @else
                             <favorite-post :post="{{ json_encode($post->only(['id', 'favoritesCount', 'isFavorited'])) }}"></favorite-post>
@@ -196,7 +196,7 @@
                     <button type="button" data-url="{{ $postUrl }}" data-title="{{ $post->title }}"
                             class="js-native-share ar-btn ar-btn--quiet !hidden lg:!hidden"
                             title="Zdieľať" aria-label="Zdieľať">
-                        <i class="fas fa-share-alt"></i>
+                        <i class="ph ph-share-network"></i>
                     </button>
 
                     @can('update', $post)
@@ -272,7 +272,7 @@
                              nad článkom ostal prázdny rám s alt textom. --}}
                         <img src="{{ url($lead->originalImageUrl) }}" alt="{{ $post->title }}" class="w-full"
                              @if ($lead->width) width="{{ $lead->width }}" height="{{ $lead->height }}" @endif
-                             onerror="this.onerror=null; this.src='{{ url($lead->thumbImageUrl) }}';">
+                             data-img-fallback="{{ url($lead->thumbImageUrl) }}">
                     @endif
                 </a>
             </figure>
@@ -295,13 +295,13 @@
                     @if ($series['previous'])
                         <a href="{{ route('post.show', [$series['previous']->id, $series['previous']->slug]) }}"
                            rel="prev" title="{{ $series['previous']->title }}" class="ar-btn ar-btn--quiet">
-                            <i class="fas fa-arrow-left"></i> Predchádzajúca
+                            <i class="ph ph-arrow-left"></i> Predchádzajúca
                         </a>
                     @endif
                     @if ($series['next'])
                         <a href="{{ route('post.show', [$series['next']->id, $series['next']->slug]) }}"
                            rel="next" title="{{ $series['next']->title }}" class="ar-btn ar-btn--accent">
-                            Ďalšia <i class="fas fa-arrow-right"></i>
+                            Ďalšia <i class="ph ph-arrow-right"></i>
                         </a>
                     @endif
                 </div>
@@ -332,7 +332,7 @@
                             {!! nl2br(e($post->summary)) !!}
                         </div>
                         <p class="mt-3 text-xs text-gray-500">
-                            <i class="fas fa-magic mr-1"></i> Zhrnutie vytvorené automaticky z videa alebo popisu, môže obsahovať nepresnosti.
+                            <i class="ph ph-magic-wand mr-1"></i> Zhrnutie vytvorené automaticky z videa alebo popisu, môže obsahovať nepresnosti.
                         </p>
                     </aside>
                 @endif
@@ -350,7 +350,7 @@
                 {{-- Galéria: obrázky, ktoré sa nedostali nad titulok --}}
                 @if ($gallery->isNotEmpty())
                     <div class="mt-10">
-                        <h2 class="ar-rule ar-display mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">
+                        <h2 class="ar-rule ar-display mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
                             Fotografie
                         </h2>
                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -390,26 +390,26 @@
 
                     {{-- Zdieľanie --}}
                     <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
-                        <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">Zdieľať</h2>
+                        <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">Zdieľať</h2>
                         <div class="flex gap-2">
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($postUrl) }}"
                                target="_blank" rel="noopener" title="Zdieľať na Facebooku"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-blue-400 hover:text-blue-600">
-                                <i class="fab fa-facebook-f"></i>
+                                <i class="ph ph-facebook-logo"></i>
                             </a>
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' ' . $postUrl) }}"
                                target="_blank" rel="noopener" title="Poslať cez WhatsApp"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-green-400 hover:text-green-600">
-                                <i class="fab fa-whatsapp"></i>
+                                <i class="ph ph-whatsapp-logo"></i>
                             </a>
                             <a href="mailto:?subject={{ rawurlencode($post->title) }}&body={{ rawurlencode($postUrl) }}"
                                title="Poslať e-mailom"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
-                                <i class="far fa-envelope"></i>
+                                <i class="ph ph-envelope-simple"></i>
                             </a>
                             <button type="button" data-url="{{ $postUrl }}"
                                     class="js-copy-link flex h-9 flex-1 items-center justify-center gap-2 rounded-md border border-[color:var(--ar-line)] text-sm text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
-                                <i class="far fa-copy"></i> Kopírovať odkaz
+                                <i class="ph ph-copy"></i> Kopírovať odkaz
                             </button>
                         </div>
 
@@ -417,7 +417,7 @@
                              Skript ho odkryje len tam, kde ju prehliadač má. --}}
                         <button type="button" data-url="{{ $postUrl }}" data-title="{{ $post->title }}"
                                 class="js-native-share mt-2 hidden h-9 w-full flex items-center justify-center gap-2 rounded-md border border-[color:var(--ar-line)] text-sm text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
-                            <i class="fas fa-share-alt"></i> Zdieľať cez…
+                            <i class="ph ph-share-network"></i> Zdieľať cez…
                         </button>
                     </section>
 
@@ -430,7 +430,7 @@
                             $visibleParts = $series['parts']->slice($from, 7);
                         @endphp
                         <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
-                            <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">
+                            <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
                                 Diely série
                             </h2>
                             <ol class="space-y-1">
@@ -440,7 +440,7 @@
                                         <a href="{{ route('post.show', [$part->id, $part->slug]) }}"
                                            @if ($current) aria-current="page" @endif
                                            class="flex gap-2 rounded-md px-2 py-1.5 text-sm leading-snug transition-colors {{ $current ? 'bg-[color:var(--ar-accent-soft)] font-semibold text-[color:var(--ar-accent)]' : 'hover:bg-gray-50 hover:text-[color:var(--ar-accent)]' }}">
-                                            <span class="w-5 shrink-0 text-right tabular-nums text-gray-400">{{ $number + 1 }}.</span>
+                                            <span class="w-5 shrink-0 text-right tabular-nums text-gray-500">{{ $number + 1 }}.</span>
                                             <span class="ar-clamp-2 min-w-0 flex-1">{{ $part->title }}</span>
                                         </a>
                                     </li>
@@ -459,7 +459,7 @@
                          event.hlascirkvi.sk. Panel preto neukazuje akcie práve
                          tohto kanála, len odkaz na celý výpis. --}}
                     <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
-                        <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">
+                        <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
                             Podujatia
                         </h2>
                         <p class="text-sm text-gray-500">
@@ -481,7 +481,7 @@
                     @php $archive = array_filter(['Pred rokom' => $yearAgo, 'Ako to začalo' => $firstPost]); @endphp
                     @if ($archive)
                         <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
-                            <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-400">
+                            <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
                                 Z archívu
                             </h2>
                             <ul class="space-y-3">
@@ -489,7 +489,7 @@
                                     <li>
                                         <a href="{{ route('post.show', [$item->id, $item->slug]) }}"
                                            title="{{ $item->title }}" class="group flex gap-3">
-                                            <img data-src="{{ $item->thumbImage }}" data-sizes="auto" alt=""
+                                            <img data-src="{{ $item->thumbImage }}" data-sizes="auto" alt="" width="64" height="48"
                                                  class="lazyload h-12 w-16 shrink-0 rounded object-cover">
                                             <span class="min-w-0 flex-1">
                                                 <span class="ar-kicker block text-[.6rem]">{{ $label }}</span>
@@ -497,7 +497,7 @@
                                                     {{ $item->title }}
                                                 </span>
                                                 <time datetime="{{ $item->created_at->toIso8601String() }}"
-                                                      class="mt-0.5 block text-xs text-gray-400">
+                                                      class="mt-0.5 block text-xs text-gray-500">
                                                     {{ $item->created_at->locale('sk')->isoFormat('D. MMMM YYYY') }}
                                                 </time>
                                             </span>
@@ -516,14 +516,14 @@
              ukáže celý riadok naraz a tlačidlo pod ňou pridá ďalší. --}}
         <section class="mt-14" data-archive
                  data-archive-url="{{ route('post.rail', $post) }}"
-                 data-archive-next="{{ optional($rail->nextCursor())->encode() }}">
+                 data-archive-next="{{ $railNext }}">
 
             <div class="ar-rule mb-5">
                 <h2 class="ar-display text-lg font-bold">
                     Všetko od {{ $post->canal->title }}
                 </h2>
                 @if ($railTotal > 1)
-                    <span class="shrink-0 text-xs text-gray-400">
+                    <span class="shrink-0 text-xs text-gray-500">
                         {{ number_format($railTotal, 0, ',', ' ') }}
                         {{ $railTotal < 5 ? 'príspevky' : 'príspevkov' }}
                     </span>
@@ -545,7 +545,7 @@
                      doťahuje ďalšiu dávku rovno pod mriežku. --}}
                 <div class="mt-6 flex justify-center">
                     <a href="{{ $canalUrl }}" class="ar-btn ar-btn--quiet" data-archive-more>
-                        <i class="fas fa-arrow-down"></i>
+                        <i class="ph ph-arrow-down"></i>
                         <span data-archive-label>Viac príspevkov</span>
                     </a>
                 </div>
@@ -554,7 +554,7 @@
 
         <div class="mt-12 border-t border-[color:var(--ar-line)] pt-6">
             <a href="{{ $canalUrl }}" class="text-sm text-gray-500 hover:text-gray-900">
-                <i class="fas fa-arrow-left mr-2"></i> Späť na kanál {{ $post->canal->title }}
+                <i class="ph ph-arrow-left mr-2"></i> Späť na kanál {{ $post->canal->title }}
             </a>
         </div>
     </div>
@@ -562,9 +562,7 @@
 
 @push('scripts')
     @if ($post->video_id)
-        <script>
-            // Delegované na document: Vue pri mountnutí prekreslí celý #app
-            // a poslucháč priamo na tlačidle by zahodil.
+        <script nonce="{{ csp_nonce() }}">
             // Delegované na document: Vue pri mountnutí prekreslí celý #app
             // a poslucháč priamo na tlačidle by zahodil.
             document.addEventListener('click', function (event) {

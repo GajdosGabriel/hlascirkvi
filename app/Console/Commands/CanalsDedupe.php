@@ -197,11 +197,11 @@ class CanalsDedupe extends Command
         $from = 'organizations/'.$loser->id.'/'.$loser->avatar;
         $to = 'organizations/'.$keeper->id.'/'.$loser->avatar;
 
-        if (! Storage::disk('public')->exists($from)) {
+        if (! \App\Support\MediaUrl::disk()->exists($from)) {
             return;
         }
 
-        Storage::disk('public')->move($from, $to);
+        \App\Support\MediaUrl::disk()->move($from, $to);
         $keeper->update(['avatar' => $loser->avatar]);
     }
 

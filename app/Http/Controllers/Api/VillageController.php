@@ -14,7 +14,9 @@ class VillageController extends Controller
         $villages = Village::take(10)->get();
 
 
-        return VillageResource::collection($villages);
+        return VillageResource::collection($villages)
+            ->response()
+            ->header('Cache-Control', 'public, max-age=86400');
     }
 
     public function show($villages)
