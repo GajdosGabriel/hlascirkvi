@@ -2,31 +2,40 @@
 
 namespace App\Services\PostService;
 
+use App\Models\Canal;
 use Illuminate\Support\Facades\DB;
 use App\Services\Files\Form;
 
 class PostService
 {
+    /** @var array<int, string> hlásenia o obrázkoch z posledného uloženia */
+    public array $failures = [];
+
     public function store($canal, $request)
     {
-        DB::transaction(function () use ($canal, $request) {
-            // validated() namiesto all() — do modelu sa tak nedostane nič, čo
-            // PostSaveRequest nepovolil (count_view, cudzie canal_id).
-            $post = $canal->posts()->create(
-                $this->attributes($request, null)
-            );
+        $data = $this->attributes($request, null);
 
-            $file = (new Form($post, $request))->handler();
-            // $file->store();
-        });
+        // validated() už zaručuje, že vybraný kanál smie používateľ použiť.
+        if (! empty($data['canal_id']) && (int) $data['canal_id'] !== $canal->id) {
+            $canal = Canal::findOrFail($data['canal_id']);
+        }
+
+        // validated() namiesto all() — do modelu sa tak nedostane nič, čo
+        // PostSaveRequest nepovolil (count_view, cudzie canal_id).
+        $post = DB::transaction(fn () => $canal->posts()->create($data));
+
+        // Obrázky a sťahovanie náhľadu až po commite — pomalé YouTube by inak
+        // držalo zámky a pri rollbacku by na disku ostali siroty.
+        $this->failures = (new Form($post, $request))->handler();
+
+        return $post;
     }
 
     public function update($post, $request)
     {
         $post->update($this->attributes($request, $post));
 
-        $file =  (new Form($post, $request))->handler();
-        // $file->store();
+        $this->failures = (new Form($post, $request, $post->wasChanged('video_id')))->handler();
 
         return $post;
     }

@@ -27,10 +27,7 @@ class ImageController extends Controller
         // Po dávkach, aby sa pri tisíckach obrázkov nenačítalo všetko naraz.
         Image::onlyTrashed()->chunkById(200, function ($images) use (&$deleted) {
             foreach ($images as $image) {
-                // delete big img + small img
-                \App\Support\MediaUrl::disk()->delete($image->url);
-                \App\Support\MediaUrl::disk()->delete($image->thumb);
-
+                // Súbory aj varianty maže ImageObserver::forceDeleted().
                 $image->forceDelete();
                 $deleted++;
             }

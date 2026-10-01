@@ -296,7 +296,7 @@ Route::middleware(['auth', 'checkSuperAdmin'])->group(function () {
 
 // Len pre prihlásených — cez anonymný formulár chodil spam aj napriek
 // neviditeľnej kontrole (App\Support\HumanCheck).
-Route::post('store/message', 'MessengerController@toAdmin')->middleware('auth')->name('messengers.store');
+Route::post('store/message', 'MessengerController@toAdmin')->middleware(['auth', 'throttle:5,10'])->name('messengers.store');
 
 // Správa kanálu z jeho stránky — e-mail ani telefón kanála sa verejne neukazujú.
 Route::post('organizations/{canal}/message', 'MessengerController@toCanal')

@@ -37,8 +37,31 @@ final class StoreImage
     /** @var array{0: int, 1: int} rozmery najväčšieho variantu, teda toho v url */
     private array $dimensions = [0, 0];
 
+    private string $type = 'img';
+
     public function __construct(private readonly Model $model)
     {
+    }
+
+    /** Rozlišuje napr. náhľad videa ('video') od nahraných fotiek ('img'). */
+    public function ofType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Po zmazaní hlavného obrázka musí hlavným ostať niektorý z ďalších,
+     * inak karta článku nemá miniatúru.
+     */
+    public static function ensurePrimary(Model $model): void
+    {
+        if ($model->images()->where('is_primary', true)->exists()) {
+            return;
+        }
+
+        $model->images()->oldest('id')->first()?->forceFill(['is_primary' => true])->save();
     }
 
     public static function for(Model $model): self
@@ -167,7 +190,7 @@ final class StoreImage
             'org_name' => Str::limit((string) ($this->model->canal?->title ?? $source->originalName), 190, ''),
             'size' => strlen($source->binary),
             'mime' => 'jpg',
-            'type' => 'img',
+            'type' => $this->type,
             'is_primary' => ! $this->model->images()->exists(),
             'variants' => $variants,
             'width' => $dimensions[0],

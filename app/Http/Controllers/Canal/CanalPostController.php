@@ -69,7 +69,16 @@ class CanalPostController extends Controller
     {
         $this->postService->update($post, $request);
 
-        return redirect()->route('post.show', [$post->id, $post->slug]);
+        return redirect()->route('post.show', [$post->id, $post->slug])
+            ->with($this->imageWarnings());
+    }
+
+    /** Článok sa uložil, no niektorý obrázok nie — používateľ sa to dozvie. */
+    private function imageWarnings(): array
+    {
+        $failures = $this->postService->failures;
+
+        return $failures === [] ? [] : ['flash' => 'Článok bol uložený, ale: ' . implode(' ', $failures)];
     }
 
     public function store(PostSaveRequest $request)
@@ -80,7 +89,8 @@ class CanalPostController extends Controller
 
         $this->postService->store($canal, $request);
 
-        return redirect()->route('profile.posts.index');
+        return redirect()->route('profile.posts.index')
+            ->with($this->imageWarnings());
     }
 
     // Zmazať alebo obnoviť Post

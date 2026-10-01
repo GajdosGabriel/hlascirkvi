@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 
 /**
@@ -20,9 +21,8 @@ use Illuminate\Support\Facades\Crypt;
  *    Odoslanie do pár sekúnd nie je ľudské tempo; pečiatka staršia než pár
  *    hodín znamená dávno otvorenú (alebo do skriptu vytiahnutú) stránku.
  *
- * Pečiatku šifruje APP_KEY, takže sa nedá vyrobiť zvonku, a platí len po
- * obmedzený čas. Na konkrétne spojenie ju viazať netreba — to už robí CSRF
- * token, ktorý je v tom istom formulári.
+ * Pečiatku šifruje APP_KEY, takže sa nedá vyrobiť zvonku, platí len po
+ * obmedzený čas a dá sa použiť jedenkrát (zapamätá sa v cache).
  */
 final class HumanCheck
 {
@@ -68,6 +68,14 @@ final class HumanCheck
 
         if ($age > self::MAX_SECONDS) {
             return 'Formulár bol otvorený príliš dlho, obnovte stránku a skúste to znova.';
+        }
+
+        // Pečiatka je jednorazová — inak by ju bot po troch sekundách používal
+        // celé dve hodiny. Cache::add uspeje len pri prvom použití.
+        $key = 'human_check:'.hash('sha256', (string) $data[self::STAMP]);
+
+        if (! Cache::add($key, true, self::MAX_SECONDS)) {
+            return 'Formulár už bol odoslaný, obnovte stránku a skúste to znova.';
         }
 
         return null;

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Services\Youtube\PlaylistId;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 
 /**
  * Semináre boli jediná agenda kanála bez FormRequestu — `store` aj `update`
@@ -19,6 +21,20 @@ class SaveSeminarRequest extends FormRequest
         return auth()->check();
     }
 
+    protected function prepareForValidation()
+    {
+        // Prepínač posiela `Date.now()` (milisekundy), vypnutie prázdny reťazec.
+        if ($this->has('published')) {
+            $published = $this->input('published');
+
+            $this->merge([
+                'published' => is_numeric($published)
+                    ? Carbon::createFromTimestampMs((int) $published)->toDateTimeString()
+                    : $published,
+            ]);
+        }
+    }
+
     public function rules()
     {
         // Prepínač zverejnenia posiela cez PUT len `published`, takže pri
@@ -27,16 +43,18 @@ class SaveSeminarRequest extends FormRequest
 
         return [
             'title'            => $title . '|string|min:3|max:255',
-            'description'      => 'nullable|string',
-            'youtube_playlist' => 'nullable|string|max:255',
-            'published'        => 'nullable',
+            'description'      => 'nullable|string|max:5000',
+            'youtube_playlist' => ['nullable', 'string', 'regex:' . PlaylistId::PATTERN, 'max:40'],
+            'published'        => 'nullable|date',
         ];
     }
 
     public function messages()
     {
         return [
-            'title.required' => 'Názov musí obsahovať aspoň tri znaky',
+            'title.required' => 'Názov je povinný',
+            'title.min'      => 'Názov musí obsahovať aspoň tri znaky',
+            'youtube_playlist.regex' => 'Neplatné ID playlistu',
         ];
     }
 }

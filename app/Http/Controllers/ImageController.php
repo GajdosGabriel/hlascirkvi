@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\Post;
+use App\Services\Images\StoreImage;
 
 class ImageController extends Controller
 {
@@ -26,5 +27,7 @@ class ImageController extends Controller
         $this->authorize('update', $post);
 
         $image->delete();
+
+        StoreImage::ensurePrimary($post);
     }
 }

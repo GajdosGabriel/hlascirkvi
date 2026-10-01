@@ -20,9 +20,9 @@ return [
 
     /*
      * Poistka proti „decompression bomb" – GD drží raster nekomprimovaný,
-     * 50 Mpx je zhruba 200 MB pamäte a nad tým už ide o útok, nie o fotku.
+     * 24 Mpx je zhruba 100 MB pamäte a nad tým už ide o útok, nie o fotku.
      */
-    'max_pixels' => (int) env('IMAGES_MAX_PIXELS', 50000000),
+    'max_pixels' => (int) env('IMAGES_MAX_PIXELS', 24000000),
 
     /*
      * Sťahovanie obrázka z cudzej adresy. Zoznam hostiteľov je tu preto, aby

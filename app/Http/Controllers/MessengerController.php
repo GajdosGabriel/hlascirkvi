@@ -12,6 +12,8 @@ use App\Notifications\Canals\CanalMessage;
 
 class MessengerController extends Controller
 {
+    /** Správca, ktorému putujú správy z `toAdmin()`. */
+    private const ADMIN_ID = 1;
 
     /**
      * Správa pre kanál z jeho verejnej stránky. Kontakty kanála sa na stránke
@@ -29,12 +31,11 @@ class MessengerController extends Controller
 
     public function toAdmin(StoreMessengerRequest $request) {
 
-       // Odosielateľ sa berie z prihlásenia, nie z tela požiadavky. Kým sa
-       // čítal z `user_id`, dala sa správa pripísať ktorémukoľvek užívateľovi.
-       // Pri neprihlásenom odosielateľovi zostáva zástupné ID 1 ako doteraz.
+       // Odosielateľ aj adresát sa berú zo servera, nie z požiadavky: trasa
+       // vyžaduje prihlásenie a správa vždy putuje správcovi (user ID 1).
        Messenger::create([
-            'user_id' => auth()->id() ?? 1,
-            'requested_user' => $request->input('requested_user', 1),
+            'user_id' => auth()->id(),
+            'requested_user' => self::ADMIN_ID,
             'body' => $request->input('body')
         ]);
 
@@ -50,15 +51,15 @@ class MessengerController extends Controller
 
     public function store(StoreMessengerRequest $request, Canal $canal) {
 
-       $message = Messenger::create([
-            'user_id' => auth()->user()->id,
+       Messenger::create([
+            'user_id' => auth()->id(),
             'requested_user' => $canal->id,
             'body' => $request->input('body')
         ]);
 
-        if(request()->expectsJson()) {
-            return $message;
-        };
+        if ($request->expectsJson()) {
+            return response()->json(['ok' => true]);
+        }
 
         return back();
     }

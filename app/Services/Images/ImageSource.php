@@ -47,21 +47,34 @@ final class ImageSource
             throw new RuntimeException("Obrázky sa z hostiteľa {$host} nesťahujú.");
         }
 
+        $maxBytes = (int) config('images.fetch.max_bytes');
+
+        // Presmerovanie by obišlo zoznam allowed_hosts. Telo sa číta po
+        // prúde, aby sa neťahal súbor väčší než povolený limit.
         $response = Http::timeout(config('images.fetch.timeout'))
             ->retry(config('images.fetch.retries'), 250)
+            ->withoutRedirecting()
+            ->withOptions(['stream' => true])
             ->get($url)
             ->throw();
 
-        $binary = $response->body();
+        if ((int) $response->header('Content-Length') > $maxBytes) {
+            throw new RuntimeException("Obrázok z {$url} je väčší než povolených {$maxBytes} B.");
+        }
+
+        $stream = $response->toPsrResponse()->getBody();
+        $binary = '';
+
+        while (! $stream->eof()) {
+            $binary .= $stream->read(65536);
+
+            if (strlen($binary) > $maxBytes) {
+                throw new RuntimeException("Obrázok z {$url} je väčší než povolených {$maxBytes} B.");
+            }
+        }
 
         if ($binary === '') {
             throw new RuntimeException("Adresa {$url} vrátila prázdnu odpoveď.");
-        }
-
-        $maxBytes = (int) config('images.fetch.max_bytes');
-
-        if (strlen($binary) > $maxBytes) {
-            throw new RuntimeException("Obrázok z {$url} je väčší než povolených {$maxBytes} B.");
         }
 
         return new self($binary, basename((string) parse_url($url, PHP_URL_PATH)));
