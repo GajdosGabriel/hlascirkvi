@@ -178,6 +178,7 @@ export default {
         savePrayer: function () {
             this.saving = true;
             this.errors = [];
+            const edited = this.isEdit;
 
             // Úprava existujúcej prosby posiela len polia z formulára; zvyšok
             // (počty, dátum vypočutia) patrí modelu, nie tomuto oknu.
@@ -187,7 +188,7 @@ export default {
                       body: this.form.body,
                       user_name: this.form.user_name,
                   })
-                : Axios.post("/api/prayers", this.form);
+                : Axios.post("/api/prayers", { ...this.form, form_ts: window.App.humanStamp });
 
             request
                 .then((response) => {
@@ -199,8 +200,13 @@ export default {
                         return;
                     }
 
+                    // Zoznam sa dopĺňa na mieste, bez opätovného načítania stránky.
+                    bus.$emit("prayerSaved", {
+                        prayer: edited ? response.data.data : response.data.prayer,
+                        edited: edited,
+                    });
+                    this.saving = false;
                     this.show = false;
-                    window.location.reload();
                 })
                 .catch((error) => {
                     const errors = error.response?.data?.errors;

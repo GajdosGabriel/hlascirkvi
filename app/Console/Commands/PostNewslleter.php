@@ -18,7 +18,7 @@ class PostNewslleter extends Command
      *
      * @var string
      */
-    protected $signature = 'MonthlyNewsletter';
+    protected $signature = 'MonthlyNewsletter {--force : Rozoslať aj keď sa tento mesiac už rozosielalo}';
 
     /**
      * The console command description.
@@ -45,7 +45,8 @@ class PostNewslleter extends Command
     public function handle()
     {
 
-        (new Newsletter)->mountlyNewsletter();
-        
+        if (! (new Newsletter)->mountlyNewsletter((bool) $this->option('force'))) {
+            $this->warn('Newsletter za tento mesiac už bol rozoslaný. Znova ho pošle --force.');
+        }
     }
 }

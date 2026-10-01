@@ -141,6 +141,64 @@ class MailTemplatesTest extends TestCase
         $this->assertFalse($user->fresh()->send_email);
     }
 
+    public function test_hlavicka_ma_jednoklikove_odhlasenie(): void
+    {
+        $mail = new PostNewsletter(collect(), collect(), User::factory()->create());
+
+        $this->assertSame('List-Unsubscribe=One-Click', $mail->headers()->text['List-Unsubscribe-Post']);
+    }
+
+    public function test_jednoklikove_odhlasenie_bez_csrf_zapise_datum_a_ip(): void
+    {
+        $user = User::factory()->create(['send_email' => true]);
+        $url = URL::signedRoute('newsletter.unsubscribe', ['user' => $user->id]);
+
+        // Poštový server posiela telo bez tokenu; CSRF sa v testoch inak vypína.
+        $this->withMiddleware()->post($url, ['List-Unsubscribe' => 'One-Click'])->assertOk();
+
+        $user->refresh();
+        $this->assertFalse($user->send_email);
+        $this->assertNotNull($user->newsletter_unsubscribed_at);
+        $this->assertNotNull($user->newsletter_unsubscribed_ip);
+
+        // Opakovanie dátum neprepíše.
+        $at = $user->newsletter_unsubscribed_at;
+        $this->travel(1)->days();
+        $this->post($url)->assertOk()->assertSee('Odber je zrušený');
+        $this->assertTrue($at->equalTo($user->fresh()->newsletter_unsubscribed_at));
+    }
+
+    public function test_odber_sa_da_obnovit_z_odkazu_aj_z_profilu(): void
+    {
+        $user = User::factory()->create(['send_email' => false, 'newsletter_unsubscribed_at' => now()]);
+        $url = URL::signedRoute('newsletter.resubscribe', ['user' => $user->id]);
+
+        $this->get(URL::signedRoute('newsletter.unsubscribe', ['user' => $user->id]))
+            ->assertSee('Zrušiť, chcem odber');
+
+        $this->post($url)->assertOk();
+        $this->assertTrue($user->fresh()->send_email);
+        $this->assertNull($user->fresh()->newsletter_unsubscribed_at);
+
+        $this->actingAs($user->fresh())->put('/odber-noviniek', ['send_email' => 0])->assertRedirect();
+        $this->assertFalse($user->fresh()->send_email);
+        $this->actingAs($user->fresh())->put('/odber-noviniek', ['send_email' => 1])->assertRedirect();
+        $this->assertTrue($user->fresh()->send_email);
+    }
+
+    public function test_newsletter_sa_za_mesiac_rozosle_len_raz(): void
+    {
+        \Illuminate\Support\Facades\Mail::fake();
+        User::factory()->create(['send_email' => true]);
+
+        $this->assertTrue((new \App\Services\Newsletter)->mountlyNewsletter());
+        $this->assertFalse((new \App\Services\Newsletter)->mountlyNewsletter());
+        \Illuminate\Support\Facades\Mail::assertQueuedCount(1);
+
+        $this->assertTrue((new \App\Services\Newsletter)->mountlyNewsletter(force: true));
+        \Illuminate\Support\Facades\Mail::assertQueuedCount(2);
+    }
+
     public function test_odhlasenie_bez_podpisu_neprejde(): void
     {
         $user = User::factory()->create(['send_email' => true]);

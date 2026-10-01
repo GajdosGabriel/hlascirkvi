@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class View extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['viewable_type', 'viewable_id', 'visitor_hash', 'viewed_on', 'created_at'];
 
     // Tabuľka má len created_at, žiadne updated_at — riadok sa nikdy needituje.
     public $timestamps = false;

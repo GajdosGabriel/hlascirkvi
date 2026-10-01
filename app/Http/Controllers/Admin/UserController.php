@@ -24,8 +24,13 @@ class UserController extends Controller
                 ->unionAll($legacy)->orderByDesc('created_at')->paginate(50)->withQueryString();
             return view('admins.users.pending', compact('pending'));
         }
+        $users = User::filter($filters)->paginate(50)->withQueryString();
+        if ($users->currentPage() > 1 && $users->isEmpty()) {
+            return redirect()->to($users->url($users->lastPage()));
+        }
+
         return view('admins.users.index', [
-            'users' => User::filter($filters)->paginate(50)->withQueryString(),
+            'users' => $users,
             'summary' => $this->summary(),
         ]);
     }

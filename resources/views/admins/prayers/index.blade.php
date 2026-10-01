@@ -36,7 +36,8 @@
 
                                     <form
                                         action="{{ route('profile.canals.prayers.destroy', [$prayer->canal_id, $prayer->id]) }}"
-                                        method="post">
+                                        method="post"
+                                        data-confirm="Naozaj zmazať túto modlitbu?">
                                         @method('DELETE') @csrf
                                         <button type="submit" class="ui-dropdown__item--danger">
                                             <i class="ph ph-trash" aria-hidden="true"></i> Zmazať

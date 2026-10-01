@@ -17,8 +17,8 @@ function typePage()
 // Remove HardSpace text
 function cleanHardSpace($text)
 {
-    $text = str_replace("&quot;", '', $text);;
-    $text = str_replace("<br>", '', $text);;
+    $text = str_replace("&quot;", '', $text);
+    $text = str_replace("<br>", '', $text);
     return  $text;
 }
 
@@ -29,12 +29,12 @@ function cleanBody($bodyText)
     return preg_replace('~\\s?<p>(\\s|&nbsp;)+</p>\\s?~', '', $bodyText);
 }
 
-// Clean body text
+// Clean title text
 function cleanTitle($titleText)
 {
-    // Remove &nbsp space characters
-    $titleText = str_replace("&quot;", ' ', $titleText);
-    $titleText = str_replace("&amp;", '', $titleText);
+    // Decode entities and remove &nbsp space characters
+    $titleText = str_replace("&quot;", '"', $titleText);
+    $titleText = str_replace("&amp;", '&', $titleText);
     $titleText = str_replace("&nbsp;", ' ', $titleText);
     // Hashtagy a podčiarkovníky z YouTube importu (`Názov_Ivanka #ps#sr`);
     // `#5` ostáva, je to číslo, nie hashtag.

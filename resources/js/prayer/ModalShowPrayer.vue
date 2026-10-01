@@ -156,6 +156,7 @@ export default {
                     model: "Prayer",
                     model_id: this.prayer.id,
                     email: this.email,
+                    form_ts: window.App.humanStamp,
                 })
                 .then(({ data }) => {
                     this.email = "";
@@ -169,6 +170,11 @@ export default {
                     this.prayer = "";
                 })
                 .catch((error) => {
+                    if (error.response?.status === 429) {
+                        this.errors = ["Príliš veľa požiadaviek, skúste to o chvíľu."];
+                        return;
+                    }
+
                     const errors = error.response?.data?.errors;
                     this.errors = errors
                         ? Object.values(errors).flat()

@@ -12,9 +12,9 @@ return [
     |
     */
 
-    'password' => 'Heslo sa musí zhodovať a obsahovať najmenej šesť znakov.',
+    'password' => 'Heslo sa musí zhodovať, obsahovať najmenej 8 znakov a nesmie patriť medzi uniknuté heslá.',
     'reset'    => 'Heslo bolo zmenené!',
-    'sent'     => 'Pripomienka k zmene hesla bola odoslaná!',
+    'sent'     => 'Ak účet s touto adresou existuje, poslali sme naň odkaz na obnovu hesla.',
     'token'    => 'Klúč pre obnovu hesla je neplatný.',
     'user'     => 'Nepodarilo sa nájsť používateľa s touto e-mailovou adresou.',
 ];

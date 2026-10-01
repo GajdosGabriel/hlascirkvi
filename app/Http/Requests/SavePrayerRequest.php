@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsHuman;
 use App\Rules\NoUrlLinkRule;
+use App\Support\HumanCheck;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SavePrayerRequest extends FormRequest
@@ -18,6 +20,19 @@ class SavePrayerRequest extends FormRequest
     }
 
     /**
+     * Názvy polí v chybách zodpovedajú popiskom vo formulári.
+     */
+    public function attributes()
+    {
+        return [
+            'title' => 'Modlitba za',
+            'body' => 'Viac o úmysle',
+            'user_name' => 'Prezývka',
+            'email' => 'E-mailová adresa',
+        ];
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -26,8 +41,9 @@ class SavePrayerRequest extends FormRequest
     {
         if(auth()->guest() ) {
             return [
-                'title' => [ 'required','min:3', new NoUrlLinkRule],
-                'body' => [ 'required','min:3', new NoUrlLinkRule],
+                HumanCheck::STAMP => ['required', new IsHuman],
+                'title' => [ 'required','min:3','max:255', new NoUrlLinkRule],
+                'body' => [ 'required','min:3','max:3000', new NoUrlLinkRule],
                 // Prezývka je nepovinná; bez nej sa prosba vypíše ako „Anonym".
                 'user_name' => 'nullable|string|min:2|max:255',
                 'email' => 'required|email|max:255',
@@ -45,12 +61,12 @@ class SavePrayerRequest extends FormRequest
         // „Prosba o modlitbu". Pri ich úprave sa nadpis nevyžaduje, inak by
         // nešli uložiť bez vymýšľania nadpisu.
         $prayer = $this->route('prayer');
-        $title = $prayer && blank($prayer->title) ? ['nullable', 'string', 'min:3', 'max:255'] : ['required', 'min:3'];
+        $title = $prayer && blank($prayer->title) ? ['nullable', 'string', 'min:3', 'max:255'] : ['required', 'min:3', 'max:255'];
 
         // 'body' tu bolo dvakrát — druhý zápis prvý ticho prepísal.
         return [
             'title' => [ ...$title, ...$links],
-            'body' => [ 'bail', 'required','min:3', ...$links],
+            'body' => [ 'bail', 'required','min:3','max:3000', ...$links],
             'user_name' => 'nullable|string|min:2|max:255',
             'published' => $prayer && $this->user()->can('superadmin')
                 ? ['sometimes', 'nullable', 'date']

@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 abstract class Filters
 {
 
+    protected const MAX_SEARCH_LENGTH = 100;
+
     protected $request, $builder;
     protected $filters = [];
 
@@ -52,14 +54,21 @@ abstract class Filters
      * jediného znaku `%` prešlo celú tabuľku a vrátilo všetko — nad 40-tisíc
      * príspevkami je to plný sken na jedno kliknutie.
      */
-    protected function likePattern(?string $value): string
+    protected function likePattern(mixed $value): string
     {
-        return '%' . addcslashes((string) $value, '%_\\') . '%';
+        $value = is_scalar($value) ? (string) $value : '';
+        $value = mb_substr(trim($value), 0, self::MAX_SEARCH_LENGTH);
+
+        return '%' . addcslashes($value, '%_\\') . '%';
     }
 
     public function getFilters()
     {
-        return array_filter($this->request->only($this->filters));
+        // Pole v parametri (`?search[]=a`) nie je platný vstup žiadneho filtra.
+        return array_filter(
+            $this->request->only($this->filters),
+            fn ($value) => ! is_array($value)
+        );
     }
 
 

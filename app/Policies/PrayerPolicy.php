@@ -30,7 +30,7 @@ class PrayerPolicy
      */
     public function view(User $user, Prayer $prayer)
     {
-        return $user->canal_id == $prayer->canal_id;
+        return $this->owns($user, $prayer);
     }
 
     /**
@@ -53,7 +53,7 @@ class PrayerPolicy
      */
     public function update(User $user, Prayer $prayer)
     {
-        return $user->canal_id == $prayer->canal_id;
+        return $this->owns($user, $prayer);
     }
 
     /**
@@ -65,7 +65,7 @@ class PrayerPolicy
      */
     public function delete(User $user, Prayer $prayer)
     {
-        return $user->canal_id == $prayer->canal_id;
+        return $this->owns($user, $prayer);
     }
 
     /**
@@ -90,5 +90,13 @@ class PrayerPolicy
     public function forceDelete(User $user, Prayer $prayer)
     {
         //
+    }
+
+    // Rozhoduje zoznam správcov kanála (rovnako ako CanalPolicy::manage),
+    // nie aktívny kanál — správca viacerých kanálov upraví modlitbu v každom.
+    protected function owns(User $user, Prayer $prayer): bool
+    {
+        return $prayer->canal_id !== null
+            && $user->canals()->whereKey($prayer->canal_id)->exists();
     }
 }

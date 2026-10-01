@@ -35,6 +35,7 @@ class PendingFavoriteTest extends TestCase
             'model' => 'Prayer',
             'model_id' => $prayer->id,
             'email' => $email,
+            'form_ts' => $this->humanStamp(),
         ]);
     }
 
@@ -105,9 +106,9 @@ class PendingFavoriteTest extends TestCase
     {
         $canal = Canal::factory()->create();
 
-        $this->postJson("/api/organizations/{$canal->id}/favorites")->assertJsonValidationErrors('email');
+        $this->postJson("/api/organizations/{$canal->id}/favorites", ['form_ts' => $this->humanStamp()])->assertJsonValidationErrors('email');
 
-        $this->postJson("/api/organizations/{$canal->id}/favorites", ['email' => 'odber@example.com'])
+        $this->postJson("/api/organizations/{$canal->id}/favorites", ['email' => 'odber@example.com', 'form_ts' => $this->humanStamp()])
             ->assertAccepted();
 
         $this->assertDatabaseMissing('users', ['email' => 'odber@example.com']);
@@ -131,5 +132,48 @@ class PendingFavoriteTest extends TestCase
 
         $this->assertTrue($prayer->favorites()->whereUserId($user->id)->exists());
         $this->assertSame(0, PendingFavorite::count());
+    }
+
+    public function test_odpoved_prihlaseneho_nevyda_model_ani_zoznam_ludi(): void
+    {
+        $user = User::factory()->create();
+        $prayer = Prayer::factory()->create();
+
+        $this->actingAs($user)->putJson("/favorites/{$prayer->id}", [
+            'model' => 'Prayer',
+            'model_id' => $prayer->id,
+            'favorited' => true,
+        ])->assertOk()->assertExactJson(['isFavorited' => true, 'favoritesCount' => 1]);
+
+        // Explicitný stav je idempotentný.
+        $this->actingAs($user)->putJson("/favorites/{$prayer->id}", [
+            'model' => 'Prayer',
+            'model_id' => $prayer->id,
+            'favorited' => true,
+        ])->assertExactJson(['isFavorited' => true, 'favoritesCount' => 1]);
+    }
+
+    public function test_nepublikovany_obsah_sa_oznacit_neda(): void
+    {
+        $user = User::factory()->create();
+        $prayer = Prayer::factory()->create(['published' => null]);
+
+        $this->actingAs($user)->putJson("/favorites/{$prayer->id}", [
+            'model' => 'Prayer',
+            'model_id' => $prayer->id,
+        ])->assertNotFound();
+    }
+
+    public function test_host_bez_pecite_nespusti_email(): void
+    {
+        $prayer = Prayer::factory()->create();
+
+        $this->putJson("/favorites/{$prayer->id}", [
+            'model' => 'Prayer',
+            'model_id' => $prayer->id,
+            'email' => 'x@example.com',
+        ])->assertJsonValidationErrors('form_ts');
+
+        Notification::assertNothingSent();
     }
 }

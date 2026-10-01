@@ -17,7 +17,7 @@ class Announcement extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $guarded = [];
+    protected $fillable = ['placement', 'variant', 'title', 'body', 'link_url', 'link_text', 'dismissible', 'active', 'sort_order', 'published_from', 'published_until'];
 
     protected $casts = [
         'placement'       => AnnouncementPlacement::class,

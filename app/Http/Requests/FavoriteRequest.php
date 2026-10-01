@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Http\Controllers\FavoriteController;
+use App\Rules\IsHuman;
+use App\Support\HumanCheck;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -33,6 +35,10 @@ class FavoriteRequest extends FormRequest
             'model_id' => 'integer|required',
             // Neprihlásený sa pripája cez e-mail (App\Models\PendingFavorite).
             'email' => [Rule::requiredIf(auth()->guest()), 'nullable', 'email', 'max:100'],
+            // Prihlásený posiela cieľový stav, nie „prepni".
+            'favorited' => ['sometimes', 'boolean'],
+            // Neprihlásený spúšťa odoslanie e-mailu na ľubovoľnú adresu.
+            HumanCheck::STAMP => [Rule::requiredIf(auth()->guest()), new IsHuman],
         ];
     }
 }

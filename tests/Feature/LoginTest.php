@@ -34,7 +34,7 @@ class LoginTest extends TestCase
         $this->get('/login')
             ->assertOk()
             // Tlačidlo Google závisí od GOOGLE_CLIENT_ID, overuje ho SocialLoginTest.
-            ->assertSee('Pokračovať cez Facebook')
+            ->assertDontSee('Pokračovať cez Facebook')
             ->assertSee('Zabudnuté heslo?')
             ->assertSee('action="'.route('login').'"', false);
     }

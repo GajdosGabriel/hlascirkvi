@@ -66,7 +66,7 @@ class PostFilters extends Filters
 
     public function search()
     {
-        session()->flash('search', $this->request->search);
+        session()->flash('search', mb_substr((string) $this->request->search, 0, self::MAX_SEARCH_LENGTH));
 
         return $this->builder->where('title', 'LIKE', $this->likePattern($this->request->search));
     }

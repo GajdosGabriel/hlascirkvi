@@ -58,11 +58,11 @@ class CanalRequest extends FormRequest
                 'not_regex:' . Canal::EMOJI_PATTERN,
                 $titleUnchanged ? null : Rule::unique('canals', 'title')->ignore($canal),
             ]),
-            'description'      => 'nullable|string',
+            'description'      => 'nullable|string|max:5000',
             'street'           => 'nullable|string|max:191',
             'phone'            => ['nullable', 'string', 'max:20', 'regex:/^\+?[0-9 ()-]{6,20}$/'],
             'email'            => 'nullable|email|max:100',
-            'url_www'          => 'nullable|string|max:191',
+            'url_www'          => ['nullable', 'url:http,https', 'max:191'],
             'mod_title'        => 'nullable|string|max:20',
             'village_id'       => 'required|integer|exists:villages,id',
             // Do oboch polí patrí ID, nie adresa kanála. Adresu (aj s @handle)
@@ -96,6 +96,7 @@ class CanalRequest extends FormRequest
             'title.required' => 'Kanál musí mať názov.',
             'title.min' => 'Názov kanála musí mať aspoň 2 znaky.',
             'title.not_regex' => 'Názov kanála nesmie obsahovať smajlíky ani emoji.',
+            'description.max' => 'Popis môže mať najviac 5000 znakov.',
             'title.unique' => 'Názov kanála už existuje. Ak si nárokujete názov kanála, kontaktujte administrátora.',
             // Hlášky kľúčované len názvom poľa ('street', 'phone') platili pre
             // všetky pravidlá a uvádzali iné limity, než aké naozaj platia.
@@ -119,6 +120,17 @@ class CanalRequest extends FormRequest
         // profile — ukladá sa už očistený (App\Support\SafeHtml).
         if ($this->has('description')) {
             $this->merge(['description' => \App\Support\SafeHtml::clean($this->input('description'))]);
+        }
+
+        // Zástupný text je `www.vasweb.sk` — bez schémy by odkaz bol relatívny.
+        if ($this->has('url_www')) {
+            $web = trim((string) $this->input('url_www'));
+
+            if ($web !== '' && ! preg_match('~^[a-z][a-z0-9+.-]*:~i', $web)) {
+                $web = 'https://' . ltrim($web, '/');
+            }
+
+            $this->merge(['url_www' => $web === '' ? null : $web]);
         }
 
         if ($this->has('youtube_channel')) {

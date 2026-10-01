@@ -35,19 +35,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('MonthlyNewsletter')->dailyAt('08:20');
-        // $schedule->command('MonthlyNewsletter')->everyMinute();
-
-        // $schedule->command('MonthlyNewsletter')->monthlyOn(4, '08:20');
-
         /*
          * Príkazy siahajúce na cudzie API majú withoutOverlapping(). YouTube
          * klient (App\Services\Youtube\YoutubeApi) má timeout aj retry, beh
          * cez stovky kanálov však trvá dlhšie ako interval niektorých
          * spustení — bez zámku by sa na seba navrstvili.
+         *
+         * Beh cez všetky kanály je len jeden denne: každý ďalší míňa kvótu
+         * YouTube API (chyby quotaExceeded).
          */
-
-        // $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
         $schedule->command('UserSearchByChannelAndPlaylist')->dailyAt('16:24')->withoutOverlapping();
 
         // Týždenná zostava podľa import_day a zameškané kontroly.
@@ -61,17 +57,14 @@ class Kernel extends ConsoleKernel
             ->between('06:50', '21:30')
             ->withoutOverlapping();
 
-        $schedule->command('UserSearchByChannelAndPlaylist')->sundays()
-            ->hourly()
-            ->between('12:00', '16:00')
-            ->withoutOverlapping();
-
-        //  $schedule->command('UserSearchByChannelAndPlaylist')->everyMinute();
-
-        $schedule->command('prayer:zdruzenieMedaily')->hourly()->withoutOverlapping();
-        $schedule->command('prayer:sluzobniceDuchaSvateho')->hourly()->withoutOverlapping();
-        // Dočasné vypnuté lebo sa opakuje
-        // $schedule->command('prayer:mojaKomunita')->hourlyAt(45);
+        // Zdroje modlitbových úmyslov: zoznam je v config/prayer.php.
+        foreach (config('prayer.sources', []) as $source) {
+            if ($source['enabled'] ?? false) {
+                $schedule->command($source['command'])
+                    ->hourlyAt($source['minute'] ?? 0)
+                    ->withoutOverlapping();
+            }
+        }
 
         $schedule->command('youtube:comments')->hourlyAt(17)->withoutOverlapping();
         $schedule->command('comments:moderate')->dailyAt('03:45')->withoutOverlapping();
@@ -83,7 +76,6 @@ class Kernel extends ConsoleKernel
         // zareaguje portál (App\Services\GuestReplier).
         $schedule->command('comments:reply-to-guests')->everyFifteenMinutes()->withoutOverlapping();
 
-        // $schedule->command('prayer:fulfilledOrNotYet')->everyMinute();
         $schedule->command('prayer:fulfilledOrNotYet')->dailyAt('17:20');
 
         // Tabuľka `views` je len pamäť na „tento návštevník tu dnes už bol",
@@ -95,6 +87,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('model:prune', ['--model' => [SystemLog::class]])
             ->dailyAt('03:25')
             ->withoutOverlapping();
+
+        // IP posledného prihlásenia sa drží 90 dní od prihlásenia.
+        $schedule->command('users:prune-login-ips')->dailyAt('03:30')->withoutOverlapping();
 
         // Nepotvrdené registrácie z formulára (App\Models\PendingRegistration)
         // po vypršaní odkazu. Skutočný účet z nich nikdy nevznikol.

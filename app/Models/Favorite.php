@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Favorite extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['user_id', 'favorited_id', 'favorited_type'];
     protected $hidden = ['pending_user_id'];
 
     public function favorited()

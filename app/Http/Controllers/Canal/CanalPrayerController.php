@@ -17,6 +17,8 @@ class CanalPrayerController extends Controller
 
     public function index(Canal $canal)
     {
+        $this->authorize('manage', $canal);
+
         $prayers = $canal->prayers()
             ->latest()->paginate(30);
         return view('profiles.prayers.index', compact('prayers', 'canal'));

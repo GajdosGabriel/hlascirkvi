@@ -32,7 +32,20 @@ class PostController extends Controller
 
     public function index(PostFilters $filters)
     {
+        // Neplatné číslo strany by ticho vykreslilo prvú (duplicitná adresa),
+        // strana za koncom prázdny výpis — oboje presmerujeme na platnú adresu.
+        $rawPage = request()->query('page');
+        if ($rawPage !== null && (! is_string($rawPage) || ! ctype_digit($rawPage) || (int) $rawPage < 1)) {
+            return redirect()->to(request()->fullUrlWithQuery(['page' => null]), 301);
+        }
+
         $posts = $this->post->postsInSection(PostSection::Front)->filter($filters)->paginate(30);
+
+        if ($posts->currentPage() > 1 && $posts->isEmpty()) {
+            $last = $posts->lastPage();
+
+            return redirect()->to(request()->fullUrlWithQuery(['page' => $last > 1 ? $last : null]), 302);
+        }
 
         return view('posts.index', compact('posts'));
     }
@@ -174,7 +187,7 @@ class PostController extends Controller
             'html' => view('posts._rail-items', ['items' => $rail])->render(),
             // Prázdny kurzor je pre prehliadač znamenie, že archív skončil.
             'next' => optional($rail->nextCursor())->encode(),
-        ]);
+        ])->header('X-Robots-Tag', 'noindex, nofollow');
     }
 
 

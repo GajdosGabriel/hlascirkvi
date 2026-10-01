@@ -10,7 +10,6 @@ use App\Support\EmailMask;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Socialite;
 
 class AuthController extends Controller
 {
@@ -21,7 +20,6 @@ class AuthController extends Controller
     public function __construct(UserRepository $user)
     {
         $this->user = $user;
-        \Session::put('backUrl', \URL::previous());
     }
 
     /**
@@ -86,47 +84,6 @@ class AuthController extends Controller
             'first_name' => $firstName,
             'last_name' => $lastName,
             'avatar' => (string) ($payload['picture'] ?? ''),
-        ]);
-    }
-
-    /**
-     * Redirect the user to the Social Provider authentication page.
-     *
-     * @return Response
-     */
-    public function redirectToProvider($service)
-    {
-        return Socialite::driver($service)->redirect();
-    }
-
-    /**
-     * Obtain the user information from Facebook and other.
-     *
-     * @return Response
-     */
-    public function handleProviderCallback(Request $request, $service)
-    {
-        // Zrušené prihlásenie, vypršaná session so state alebo výpadok
-        // poskytovateľa — bez toho by používateľ skončil na päťstovke.
-        try {
-            $oauth_user = Socialite::driver($service)->user();
-        } catch (\Throwable $e) {
-            report($e);
-
-            return $this->loginFailed('Prihlásenie sa nepodarilo dokončiť, skúste to znova.');
-        }
-
-        if (! $oauth_user->getEmail()) {
-            return $this->loginFailed('Poskytovateľ nám neposlal e-mailovú adresu, bez nej sa prihlásiť nedá.');
-        }
-
-        [$firstName, $lastName] = $this->splitName((string) $oauth_user->getName(), $oauth_user->getEmail());
-
-        return $this->completeSocialLogin($service, [
-            'email' => $oauth_user->getEmail(),
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'avatar' => (string) $oauth_user->getAvatar(),
         ]);
     }
 

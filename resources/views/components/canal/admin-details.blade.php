@@ -102,7 +102,7 @@
             </a>
         @endif
 
-        @if ($canal->url_www)
+        @if (preg_match('#^https?://#i', $canal->url_www ?? ''))
             <a href="{{ $canal->url_www }}" target="_blank" rel="noopener nofollow" class="ar-chip ar-link">
                 <i class="ph ph-globe" aria-hidden="true"></i>{{ \Illuminate\Support\Str::limit(preg_replace('#^https?://(www\.)?#', '', $canal->url_www), 32) }}
             </a>

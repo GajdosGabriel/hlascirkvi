@@ -18,12 +18,22 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'published' => $this->published,
+            'published' => $this->published !== null,
+            'published_at' => $this->published,
             'created_at' => $this->created_at,
             'created_at_humans' => $this->created_at->diffForHumans(),
             'commentable_id' => $this->commentable_id,
             'parent_id' => $this->parent_id,
-            'replies' => CommentResource::collection($this->whenLoaded('replies')),
+            // Len pri odpovedi na inú odpoveď; odpoveď priamo na hlavný komentár
+            // netreba označovať.
+            'reply_to_id' => $this->reply_to_id !== $this->parent_id ? $this->reply_to_id : null,
+            'reply_to_name' => $this->when(
+                $this->reply_to_id && $this->reply_to_id !== $this->parent_id,
+                fn () => $this->replyTo?->user_name
+                    ?: trim(($this->replyTo?->user?->first_name ?? '') . ' ' . ($this->replyTo?->user?->last_name ?? ''))
+                    ?: null
+            ),
+            'replies' =>CommentResource::collection($this->whenLoaded('replies')),
             // 'commentable_type' => $this->commentable_type,
             'post_slug' => $this->commentable->slug,
             'post_title' => $this->commentable->title,
@@ -33,7 +43,6 @@ class CommentResource extends JsonResource
             'user' => $this->resource->fromYoutube() ? ['id' => $this->user_id] : ($this->user ?? ['id' => null]),
             'user_name' => $this->user_name ?: trim(($this->user?->first_name ?? '') . ' ' . ($this->user?->last_name ?? '')) ?: 'Návštevník',
             'user_avatar' => $this->user_avatar ? $this->user_avatar : $this->user?->avatar,
-            'favorites' => $this->favorites,
             'is_favorited' => $this->isFavorited,
             'favorites_count' => $this->favoritesCount,
 

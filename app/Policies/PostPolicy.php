@@ -30,7 +30,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        return $user->canal_id == $post->canal_id;
+        return $user->canals()->whereKey($post->canal_id)->exists();
     }
 
     /**
@@ -65,7 +65,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->canal_id == $post->canal_id;
+        return $user->canals()->whereKey($post->canal_id)->exists();
     }
 
     /**

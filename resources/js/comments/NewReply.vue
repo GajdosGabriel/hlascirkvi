@@ -22,7 +22,7 @@
         class="discussion-editor"
     >
         <label class="ar-label" :for="uid + '-body'">
-            {{ parentId ? "Vaša odpoveď" : "Váš komentár" }}
+            {{ parentId ? "Vaša odpoveď" : "Váš komentár" }}<template v-if="replyToName"> pre {{ replyToName }}</template>
         </label>
         <textarea
             :id="uid + '-body'"
@@ -79,13 +79,14 @@ export default {
         post: { required: true },
         // Komentár, na ktorý sa odpovedá; bez neho ide o nový hlavný komentár.
         parentId: { default: null },
-        initialBody: { type: String, default: "" },
+        // Meno autora odpovede, na ktorú sa reaguje (len vo vlákne).
+        replyToName: { type: String, default: "" },
     },
     data: function () {
         return {
             // Formulárov je na stránke naraz viac, id pre <label for> musia byť jedinečné.
             uid: "comment-form-" + ++counter,
-            body: this.initialBody,
+            body: "",
             email: "",
             errors: [],
             // Server komentár prijal, ale zverejní ho až po overení e-mailu.
@@ -108,6 +109,10 @@ export default {
     },
 
     methods: {
+        focus: function () {
+            this.$refs.body?.focus();
+        },
+
         // Odpoveď formulár zavrie (ako Zrušiť), hlavný komentár ho ukáže znova.
         closeNotice: function () {
             this.pending = false;
@@ -120,6 +125,7 @@ export default {
                     body: this.body,
                     email: this.email,
                     parent_id: this.parentId,
+                    form_ts: window.App.humanStamp,
                 })
                 .then(({ data }) => {
                     this.body = "";

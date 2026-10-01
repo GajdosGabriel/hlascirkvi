@@ -12,7 +12,7 @@ class CanalSeminarController extends Controller
 {
     public function index(Canal $canal)
     {
-        $this->authorize('viewAny', $canal);
+        $this->authorize('manage', $canal);
 
         $seminars = $canal->seminars()->withCount('posts')
             ->orderBy('created_at', 'desc')->get();
@@ -80,6 +80,6 @@ class CanalSeminarController extends Controller
 
         $seminar->posts()->detach();
         $seminar->delete();
-        return redirect()->route('konferencie.pute');
+        return redirect()->route('profile.canals.seminars.index', $canal->id);
     }
 }

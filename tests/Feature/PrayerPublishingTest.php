@@ -39,6 +39,7 @@ class PrayerPublishingTest extends TestCase
             'title' => 'Prosba o zdravie',
             'body' => 'Modlite sa prosím za moju rodinu.',
             'email' => $email,
+            'form_ts' => $this->humanStamp(),
         ]);
     }
 
@@ -87,14 +88,46 @@ class PrayerPublishingTest extends TestCase
         Notification::assertSentTo($this->admin, NewPrayer::class);
     }
 
-    public function test_adresa_overeneho_uctu_zverejni_hned_bez_prihlasenia(): void
+    public function test_adresa_overeneho_uctu_bez_prihlasenia_caka_na_potvrdenie(): void
     {
-        $user = User::factory()->create(['email' => 'overeny@example.com']);
+        User::factory()->create(['email' => 'overeny@example.com']);
 
-        $this->anonymousPrayer('overeny@example.com')->assertCreated()->assertJson(['pending' => false]);
+        // Odpoveď je rovnaká ako pri neznámej adrese — neprezrádza účet.
+        $this->anonymousPrayer('overeny@example.com')->assertCreated()->assertJson(['pending' => true]);
 
         $this->assertGuest();
+        $this->assertSame(0, Prayer::count());
+        $this->assertSame(1, PendingPrayer::count());
+    }
+
+    public function test_prihlaseny_overeny_zverejni_hned(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->postJson('/api/prayers', [
+            'title' => 'Prosba o zdravie',
+            'body' => 'Modlite sa prosím za moju rodinu.',
+        ])->assertCreated()->assertJson(['pending' => false, 'prayer' => ['title' => 'Prosba o zdravie']])
+            ->assertJsonMissingPath('prayer.published');
+
         $this->assertSame($user->fresh()->canal_id, Prayer::sole()->canal_id);
+    }
+
+    public function test_hosta_bez_peciatky_a_s_dlhym_textom_odmietne(): void
+    {
+        $this->postJson('/api/prayers', [
+            'title' => 'Prosba o zdravie',
+            'body' => 'Modlite sa prosím za moju rodinu.',
+            'email' => 'modlitba@example.com',
+        ])->assertJsonValidationErrors('form_ts');
+
+        $this->postJson('/api/prayers', [
+            'title' => str_repeat('a', 256),
+            'body' => str_repeat('b', 3001),
+            'email' => 'modlitba@example.com',
+            'form_ts' => $this->humanStamp(),
+        ])->assertJsonValidationErrors(['title', 'body']);
+
         $this->assertSame(0, PendingPrayer::count());
     }
 

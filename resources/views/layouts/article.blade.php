@@ -25,6 +25,7 @@
             'csrfToken' => csrf_token(),
             'user' => Auth::user(),
             'signedIn' => Auth::check(),
+            'humanStamp' => Auth::guest() ? \App\Support\HumanCheck::stamp() : null,
             'baseUrl' => asset('/'),
         ]) !!};
     </script>

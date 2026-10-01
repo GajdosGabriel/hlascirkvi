@@ -3,12 +3,28 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication {
         createApplication as bootApplication;
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Test nikdy nesmie siahnuť na skutočné API (YouTube, KBS…) — žiadna
+        // kvóta ani sieť; potrebné odpovede si test falšuje cez Http::fake.
+        Http::preventStrayRequests();
+    }
+
+    /** Pečiatka ľudského formulára (\App\Support\HumanCheck) staršia než minimálny čas. */
+    protected function humanStamp(): string
+    {
+        return \Illuminate\Support\Facades\Crypt::encryptString((string) (time() - 60));
     }
 
     /**

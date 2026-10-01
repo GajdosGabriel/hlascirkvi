@@ -13,6 +13,14 @@
             </p>
         </header>
 
+        <p
+            v-if="notice"
+            class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-800"
+            role="status"
+        >
+            {{ notice }}
+        </p>
+
         <p v-if="loading" class="py-10 text-center text-sm text-gray-400">
             Načítavam prosby…
         </p>
@@ -38,6 +46,7 @@
 import Axios from "axios";
 import prayersIndexItem from "./prayers-index-item";
 import pagination from "./pagination";
+import { bus } from "../eventBus";
 
 export default {
     components: { prayersIndexItem, pagination },
@@ -48,6 +57,7 @@ export default {
             meta: {},
             prayers: [],
             loading: true,
+            notice: "",
             url: "/api/prayers?page=1",
         };
     },
@@ -61,6 +71,20 @@ export default {
 
     created() {
         this.getPrayers();
+
+        bus.$on("prayerSaved", ({ prayer, edited }) => {
+            if (edited) {
+                this.prayers = this.prayers.map((item) => (item.id === prayer.id ? prayer : item));
+                this.notice = "Zmeny boli uložené.";
+            } else {
+                this.prayers.unshift(prayer);
+                this.meta.total = (this.meta.total || 0) + 1;
+                this.notice = "Prosba bola pridaná.";
+            }
+
+            clearTimeout(this.noticeTimer);
+            this.noticeTimer = setTimeout(() => (this.notice = ""), 6000);
+        });
     },
 
     watch: {

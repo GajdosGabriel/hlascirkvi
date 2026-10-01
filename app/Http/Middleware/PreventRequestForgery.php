@@ -19,6 +19,8 @@ class PreventRequestForgery extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        // Poštový server (Gmail, Yahoo) posiela List-Unsubscribe-Post bez
+        // session aj tokenu (RFC 8058). Oprávnenie nesie podpis v URL.
+        'newsletter/odhlasit/*',
     ];
 }

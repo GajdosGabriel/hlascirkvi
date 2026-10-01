@@ -48,6 +48,7 @@ class PendingCommentTest extends TestCase
         return $this->postJson("/api/posts/{$this->post->id}/comments", [
             'body' => 'Komentár od návštevníka.',
             'email' => $email,
+            'form_ts' => $this->humanStamp(),
         ]);
     }
 
@@ -126,6 +127,7 @@ class PendingCommentTest extends TestCase
             'title' => 'Prosba o zdravie',
             'body' => 'Modlite sa prosím za moju rodinu.',
             'email' => 'navstevnik@example.com',
+            'form_ts' => $this->humanStamp(),
         ]);
 
         $this->get(route('comments.confirm', $this->tokenFor(PendingComment::sole())));
@@ -143,6 +145,7 @@ class PendingCommentTest extends TestCase
             'body' => 'Odpoveď návštevníka.',
             'email' => 'navstevnik@example.com',
             'parent_id' => $parent->id,
+            'form_ts' => $this->humanStamp(),
         ])->assertAccepted();
 
         $parent->delete();

@@ -36,6 +36,9 @@ class RegisterController extends Controller
     /** Kľúč v session, podľa ktorého stránka „pozrite si schránku" vie, o koho ide. */
     protected const SESSION_KEY = 'pending_registration';
 
+    /** Adresa, ktorá už má účet — stránka sa tvári rovnako, nič sa však neposiela. */
+    protected const SESSION_EMAIL_KEY = 'pending_registration_email';
+
     public function __construct(protected UserRepository $user)
     {
         $this->middleware('guest')->except('confirm');
@@ -60,13 +63,27 @@ class RegisterController extends Controller
 
         $data = $this->validator($request->all())->validate();
 
+        // Odpoveď je pre obsadenú adresu rovnaká ako pre voľnú, aby sa formulár
+        // nedal použiť na zisťovanie registrovaných adries.
+        if (User::withTrashed()->whereEmail($data['email'])->exists()) {
+            $request->session()->forget(self::SESSION_KEY);
+            $request->session()->put(self::SESSION_EMAIL_KEY, $data['email']);
+
+            return $this->pendingRedirect($request);
+        }
+        $request->session()->forget(self::SESSION_EMAIL_KEY);
+
         $pending = PendingRegistration::firstOrNew(['email' => $data['email']]);
         // Záznam, ktorému už vypršal odkaz (a model:prune ho ešte nezmazal),
         // sa berie ako nová registrácia.
         $isResend = $pending->exists && $pending->expires_at?->isFuture();
 
-        // Preserve credentials associated with an existing confirmation link.
-        if (! $isResend) {
+        // Údaje z čakajúcej registrácie smie prepísať len ten istý prehliadač,
+        // ktorý ju založil (oprava preklepu v hesle). Cudzí odkaz by inak
+        // dovolil nastaviť heslo k adrese, ktorá nie je moja.
+        $sameBrowser = $isResend && $request->session()->get(self::SESSION_KEY) === $pending->id;
+
+        if (! $isResend || $sameBrowser) {
             $pending->forceFill([
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
@@ -80,7 +97,6 @@ class RegisterController extends Controller
         // e-mail skôr, než je dovolené — inak by sa dal formulár použiť na
         // zasypanie cudzej schránky.
         $sent = $pending->sendConfirmation(isResend: $isResend);
-
         Recorder::info('auth', 'registration_pending', 'Registrácia čaká na potvrdenie e-mailu',
             status: 'ok',
             recipient: $pending->email,
@@ -90,11 +106,19 @@ class RegisterController extends Controller
 
         $request->session()->put(self::SESSION_KEY, $pending->id);
         if ($isResend) {
-            $request->session()->flash('flash', $sent
-                ? 'Registrácia už čaká na potvrdenie. Poslali sme nový odkaz; pôvodné meno a heslo zostali nezmenené.'
-                : 'Registrácia už čaká na potvrdenie. Použite odkaz v e-maile. Pôvodné meno a heslo zostali nezmenené.');
+            $request->session()->flash('flash', match (true) {
+                $sameBrowser && $sent => 'Údaje sme aktualizovali a poslali nový odkaz. Platí vždy najnovší.',
+                $sameBrowser => 'Údaje sme aktualizovali. Nový odkaz môžete poslať o chvíľu; platí vždy najnovší.',
+                $sent => 'Registrácia už čaká na potvrdenie. Poslali sme nový odkaz; pôvodné meno a heslo zostali nezmenené.',
+                default => 'Registrácia už čaká na potvrdenie. Použite odkaz v e-maile. Pôvodné meno a heslo zostali nezmenené.',
+            });
         }
 
+        return $this->pendingRedirect($request);
+    }
+
+    protected function pendingRedirect(Request $request)
+    {
         if ($request->wantsJson()) {
             return new JsonResponse(['redirect' => route('register.pending')], 202);
         }
@@ -108,6 +132,11 @@ class RegisterController extends Controller
         $pending = $this->pendingFromSession($request);
 
         if (! $pending) {
+            // Adresa, ktorá už má účet: stránka vyzerá rovnako, e-mail však neodišiel.
+            if ($email = $request->session()->get(self::SESSION_EMAIL_KEY)) {
+                return view('auth.register-pending', ['email' => $email, 'pending' => null]);
+            }
+
             return redirect()->route('register');
         }
 
@@ -192,7 +221,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
-            'email' => 'required|string|email:rfc,dns|max:100|unique:users',
+            'email' => 'required|string|email:rfc|max:100',
             // Namiesto holého min:6 aj kontrola v zozname uniknutých hesiel
             // (haveibeenpwned). Keď služba neodpovie, Laravel heslo prepustí,
             // takže výpadok neposkladá registráciu.

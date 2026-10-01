@@ -410,7 +410,7 @@ export default {
             }
 
             this.request(
-                axios.delete("/api/notifications", { data: { only: only } })
+                axios.delete("/api/notifications", { data: { only: only || "all" } })
             );
         },
 

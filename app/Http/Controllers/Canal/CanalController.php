@@ -15,6 +15,7 @@ use App\Services\FrontList\FrontList;
 use App\Services\Youtube\VideoImportSchedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Kanály prihláseného užívateľa (/dashboard/canals).
@@ -25,6 +26,14 @@ use Illuminate\Support\Facades\DB;
  */
 class CanalController extends Controller
 {
+    // Najviac kanálov, ktoré si môže založiť bežný užívateľ.
+    public const MAX_CANALS = 3;
+
+    public function __construct()
+    {
+        $this->middleware('throttle:10,60')->only('store');
+    }
+
     public function create()
     {
         return view('dashboard.canals.create', [
@@ -36,6 +45,13 @@ class CanalController extends Controller
 
     public function store(CanalRequest $request)
     {
+        if (! $request->user()->can('admin')
+            && $request->user()->canals()->count() >= self::MAX_CANALS) {
+            throw ValidationException::withMessages([
+                'title' => 'Môžete mať najviac ' . self::MAX_CANALS . ' kanály. Ďalší kanál vám môže založiť administrátor.',
+            ]);
+        }
+
         DB::transaction(fn () => $request->save());
 
         return redirect()->route('profile.canals.index')

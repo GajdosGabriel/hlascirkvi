@@ -16,6 +16,11 @@ class PostSupportController extends Controller
         // (`section`) si ponechá — pri ďalšom vydaní pôjde tam, kam patril.
         $postSupport->update(['published_at' => null]);
 
-        return redirect()->route('profile.posts.index')->with(session()->flash('flash', 'Video presunuté do Buffer!'));
+        // Akciu volá aj JSON klient (Article-dropdown.vue), aj HTML formuláre.
+        if ($request->expectsJson()) {
+            return response()->noContent();
+        }
+
+        return redirect()->route('profile.posts.index')->with('flash', 'Video presunuté do Buffer!');
     }
 }

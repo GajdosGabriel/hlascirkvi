@@ -30,7 +30,7 @@ class CanalPolicy
      */
     public function view(User $user, Canal $canal)
     {
-        return $user->canal_id == $canal->id;
+        return $this->manage($user, $canal);
     }
 
     /**
@@ -53,7 +53,7 @@ class CanalPolicy
      */
     public function update(User $user, Canal $canal)
     {
-        return $user->canal_id == $canal->id;
+        return $this->manage($user, $canal);
     }
 
     /**
@@ -83,7 +83,7 @@ class CanalPolicy
      */
     public function delete(User $user, Canal $canal)
     {
-        return $user->canal_id == $canal->id;
+        return $this->manage($user, $canal);
     }
 
     /**

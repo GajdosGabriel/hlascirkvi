@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Rules\IsHuman;
+use App\Support\HumanCheck;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,7 +29,7 @@ class SaveCommentsRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'body' => 'bail|required|min:3',
+            'body' => 'bail|required|min:3|max:2000',
         ];
 
         // Úprava mení len text (PostCommentController::update), no Vue posiela
@@ -52,20 +54,39 @@ class SaveCommentsRequest extends FormRequest
 
         if (auth()->guest()) {
             $rules['email'] = 'required|email|max:255';
+            $rules[HumanCheck::STAMP] = ['required', new IsHuman];
         }
 
         return $rules;
     }
 
-    /** @return array{body: string, parent_id?: int} */
+    public function attributes()
+    {
+        return ['body' => 'Váš komentár'];
+    }
+
+    /**
+     * Komentár je čistý text. API ho vracia v pôvodnej podobe aj pre cudzích
+     * klientov, takže značky sa odstránia už pri ukladaní.
+     */
+    protected function prepareForValidation(): void
+    {
+        if (is_string($this->input('body'))) {
+            $this->merge(['body' => trim(strip_tags($this->input('body')))]);
+        }
+    }
+
+    /** @return array{body: string, parent_id?: int, reply_to_id?: int} */
     public function commentData(): array
     {
         $data = $this->only('body');
 
         if ($this->filled('parent_id')) {
-            // Vlákno má jednu úroveň: odpoveď na odpoveď patrí pod hlavný komentár.
-            $parent = Comment::find($this->input('parent_id'));
-            $data['parent_id'] = $parent->parent_id ?? $parent->id;
+            // Vlákno má jednu úroveň: odpoveď na odpoveď patrí pod hlavný
+            // komentár, no `reply_to_id` si pamätá, na ktorý sa reagovalo.
+            $target = Comment::find($this->input('parent_id'));
+            $data['parent_id'] = $target->parent_id ?? $target->id;
+            $data['reply_to_id'] = $target->id;
         }
 
         return $data;

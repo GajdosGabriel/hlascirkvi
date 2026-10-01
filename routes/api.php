@@ -46,11 +46,16 @@ Route::get('rss-reader-canal/{canal}', 'Api\RssController@getRssCanal')
  * Verejné zápisy — anonymný komentár a anonymné označenie obľúbeného kanála
  * sú funkcia webu, nie diera. Sú preto obmedzené sadzbou.
  */
-Route::middleware('throttle:10,1')->group(function () {
+// Limiter `guest-writes` (AppServiceProvider) stráži aj hodinový počet
+// potvrdzovacích e-mailov z jednej IP — limitReached stráži len opakovanie
+// na tú istú adresu, nie počet rôznych adries.
+Route::middleware('throttle:guest-writes')->group(function () {
     Route::apiResource('posts.comments', Api\PostCommentController::class)->only(['store']);
     Route::apiResource('organizations.favorites', Api\CanalFavoriteController::class)
         ->only(['store'])
-        ->parameters(['organizations' => 'canal']);
+        ->parameters(['organizations' => 'canal'])
+        ->withoutMiddleware('throttle:guest-writes')
+        ->middleware('throttle:favorites');
 
     // Modlitbu vie pridať aj neprihlásený — formulár od neho žiada e-mail
     // (resources/js/prayer/ModalNewPrayer.vue:103) a EloquentUserRepository

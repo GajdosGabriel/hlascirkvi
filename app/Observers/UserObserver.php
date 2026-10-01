@@ -39,16 +39,9 @@ class UserObserver
         }
     }
 
-    /**
-     * Stĺpec `api_token` sa nikde nečíta — v kóde je toto jediný zápis a žiadny
-     * guard ho nepoužíva. Pretáčal sa pritom pri každom uložení užívateľa.
-     * Keďže je v schéme NOT NULL bez defaultu, generuje sa aspoň raz pri
-     * založení účtu; zrušiť ho môže až migrácia.
-     */
     public function creating(User $user)
     {
         $user->uuid ??= (string) Str::uuid7();
-        $user->api_token = bin2hex(openssl_random_pseudo_bytes(30));
     }
 
     /**

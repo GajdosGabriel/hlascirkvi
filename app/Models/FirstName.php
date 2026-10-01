@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FirstName extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['name', 'vocative', 'count', 'gender'];
     // protected $primaryKey = "name";
 
 

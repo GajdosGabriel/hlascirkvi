@@ -58,7 +58,8 @@ class PendingUsers
             $attributes['email_verified_at'] = now();
             $attributes['remember_token'] = null;
             $attributes['password'] = $profile['password'] ?? \Illuminate\Support\Facades\Hash::make(Str::random(40));
-            $attributes['api_token'] = Str::random(60);
+            // Staršie snapshoty ešte nesú zrušený stĺpec api_token.
+            unset($attributes['api_token']);
             DB::table('users')->insert($attributes);
             foreach (self::RELATIONS as $table) {
                 DB::table($table)->where('pending_user_id', $pending->id)->update(['user_id' => $pending->id, 'pending_user_id' => null]);

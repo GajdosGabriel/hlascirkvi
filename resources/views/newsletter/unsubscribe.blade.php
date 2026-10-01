@@ -23,8 +23,7 @@
                 vášho účtu (napríklad obnova hesla) budú chodiť ďalej.
             </p>
 
-            <form method="POST" action="{{ $action }}" class="mt-6">
-                @csrf
+            <form method="POST" action="{{ $unsubscribeAction }}" class="mt-6">
                 <button type="submit" class="ar-btn ar-btn--accent w-full" style="padding:.65rem 1rem">
                     Áno, odhlásiť odber
                 </button>
@@ -33,9 +32,15 @@
             <h1 class="ar-display mt-4 text-2xl font-bold">Odber je zrušený</h1>
 
             <p class="mt-3 text-sm" style="color: var(--ar-ink-soft)">
-                Novinky vám už posielať nebudeme. Ak si to rozmyslíte, stačí napísať
-                administrátorovi portálu.
+                Novinky vám už posielať nebudeme{{ $unsubscribedAt ? ' (odhlásené '.$unsubscribedAt->format('j. n. Y').')' : '' }}.
+                Ak si to rozmyslíte, môžete odber kedykoľvek obnoviť.
             </p>
+
+            <form method="POST" action="{{ $resubscribeAction }}" class="mt-6">
+                <button type="submit" class="ar-btn ar-btn--accent w-full" style="padding:.65rem 1rem">
+                    Zrušiť, chcem odber
+                </button>
+            </form>
         @endif
 
         <a href="{{ route('posts.index') }}" class="ar-btn ar-btn--quiet mt-3 w-full" style="padding:.65rem 1rem">

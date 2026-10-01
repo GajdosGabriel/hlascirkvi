@@ -10,6 +10,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Notifications\Comments\CreatedNewComment;
 use App\Notifications\Comments\RepliedToComment;
+use App\Services\Youtube\CommentSync;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -57,7 +58,7 @@ class PendingConfirmation
             foreach (PendingComment::forEmail($email)->with('post')->orderBy('id')->get() as $row) {
                 // Príspevok medzitým mohol zmiznúť.
                 if ($row->post) {
-                    $this->publishComment($row->post, $user, $row->only(['body', 'parent_id']));
+                    $this->publishComment($row->post, $user, $row->only(['body', 'parent_id', 'reply_to_id']));
                 }
                 $row->delete();
             }
@@ -111,14 +112,31 @@ class PendingConfirmation
      * Uloží komentár pod príspevok a upovedomí autora komentára, na ktorý sa
      * odpovedá, a správcu kanála.
      *
-     * @param  array{body: string, parent_id?: int|null}  $data
+     * @param  array{body: string, parent_id?: int|null, reply_to_id?: int|null}  $data
      */
     public function publishComment(Post $post, User $user, array $data): Comment
     {
-        // Komentár, na ktorý sa odpovedalo, mohol byť medzitým zmazaný —
-        // odpoveď potom ostane ako hlavný komentár.
-        if (! empty($data['parent_id']) && ! $post->comments()->published()->whereKey($data['parent_id'])->exists()) {
+        // Hlavný komentár vlákna sa načíta raz; mohol byť medzitým zmazaný
+        // alebo skrytý — odpoveď potom ostane ako hlavný komentár.
+        $parent = ! empty($data['parent_id'])
+            ? $post->comments()->published()->with('user')->find($data['parent_id'])
+            : null;
+
+        if (! $parent) {
             $data['parent_id'] = null;
+            $data['reply_to_id'] = null;
+        }
+
+        // Komentár, na ktorý sa priamo odpovedalo (iná odpoveď vo vlákne).
+        // Ak zmizol, odpoveď ostane pod hlavným komentárom.
+        $target = $parent;
+
+        if ($parent && ! empty($data['reply_to_id']) && (int) $data['reply_to_id'] !== $parent->id) {
+            $target = $post->comments()->published()->with('user')->find($data['reply_to_id']);
+            $data['reply_to_id'] = $target?->id ?? $parent->id;
+            $target ??= $parent;
+        } elseif ($parent) {
+            $data['reply_to_id'] = $parent->id;
         }
 
         $comment = $post->comments()->create($data + ['user_id' => $user->id]);
@@ -129,7 +147,7 @@ class PendingConfirmation
 
         // Odpoveď na komentár hosťa (napr. z YouTube) si poznačíme,
         // aby sme na ňu zareagovali aj na YouTube.
-        if ($comment->parent_id && Comment::find($comment->parent_id)?->fromYoutube()) {
+        if ($parent?->fromYoutube()) {
             $comment->forceFill(['reply_to_guest' => true])->save();
         }
 
@@ -139,11 +157,11 @@ class PendingConfirmation
         // upovedomiť správcu kanála, ak nekomentoval sám sebe.
         $owner = $post->canal?->user;
 
-        // Autor komentára, na ktorý sa odpovedá. Anonymné komentáre (user_id
-        // 100) patria spoločnému účtu, tomu nemá zmysel nič posielať.
-        $parentAuthor = $comment->parent_id ? Comment::find($comment->parent_id)?->user : null;
+        // Autor komentára, na ktorý sa priamo odpovedá. Anonymné komentáre
+        // patria spoločnému účtu, tomu nemá zmysel nič posielať.
+        $parentAuthor = $target?->user;
 
-        if ($parentAuthor && $parentAuthor->id !== 100 && $parentAuthor->id !== (int) $comment->user_id) {
+        if ($parentAuthor && $parentAuthor->id !== CommentSync::USER_ID && $parentAuthor->id !== (int) $comment->user_id) {
             $parentAuthor->notify(new RepliedToComment($comment));
         }
 

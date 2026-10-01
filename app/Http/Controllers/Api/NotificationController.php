@@ -90,18 +90,22 @@ class NotificationController extends Controller
     }
 
     /**
-     * Hromadné mazanie. Bez parametrov zmaže všetko, `ids` zmaže vybrané
-     * (zoskupené duplicitné hlásenia v zvončeku sú viac záznamov naraz)
-     * a `only=read` upratovanie prečítaných.
+     * Hromadné mazanie. `ids` zmaže vybrané (zoskupené duplicitné hlásenia
+     * v zvončeku sú viac záznamov naraz), `only=read` upratovanie prečítaných
+     * a `only=all` všetko. Bez niektorého z nich sa nezmaže nič — preklep
+     * v klientovi (prázdne `ids`) nesmie zmazať celú históriu.
      */
     public function destroyAll(Request $request)
     {
         $notifications = $request->user()->notifications();
+        $ids = $this->ids($request);
 
-        if ($ids = $this->ids($request)) {
+        if ($ids) {
             $notifications->whereIn('id', $ids);
         } elseif ($request->input('only') === 'read') {
             $notifications->whereNotNull('read_at');
+        } elseif ($request->input('only') !== 'all') {
+            abort(422, 'Určte ids alebo only=read|all.');
         }
 
         $notifications->delete();
@@ -117,9 +121,9 @@ class NotificationController extends Controller
     private function ids(Request $request): array
     {
         $request->validate([
-            'ids' => 'sometimes|array',
-            'ids.*' => 'string',
-            'only' => 'sometimes|in:read',
+            'ids' => 'sometimes|array|max:100',
+            'ids.*' => 'string|uuid',
+            'only' => 'sometimes|in:read,all',
         ]);
 
         return array_values(array_filter((array) $request->input('ids', [])));

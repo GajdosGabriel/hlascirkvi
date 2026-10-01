@@ -5,7 +5,9 @@ namespace App\Services;
 
 
 use App\Mail\PostNewsletter;
+use App\Models\NewsletterRun;
 use App\Models\Prayer;
+use Illuminate\Database\UniqueConstraintViolationException;
 use App\Services\SystemLog\Recorder;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -19,8 +21,19 @@ class Newsletter
 
     protected int $skipped = 0;
 
-    public function mountlyNewsletter()
+    /**
+     * @return bool false, ak sa tento mesiac už rozosielalo (bez `$force`)
+     */
+    public function mountlyNewsletter(bool $force = false): bool
     {
+        // Mesiac sa zabuduje do unikátneho kľúča: súbežné či opakované
+        // spustenie (plánovač + ručne) narazí na existujúci riadok a skončí.
+        $run = $this->claimRun(now()->format('Y-m'), $force);
+
+        if ($run === null) {
+            return false;
+        }
+
         $this->queued = $this->skipped = 0;
 
         // Predtým `->get()` nad všetkými odberateľmi naraz. Po dávkach sa
@@ -35,6 +48,25 @@ class Newsletter
             status: $this->queued > 0 ? 'ok' : 'skipped',
             context: ['queued' => $this->queued, 'skipped' => $this->skipped],
         );
+
+        $run->update(['queued' => $this->queued, 'skipped' => $this->skipped, 'finished_at' => now()]);
+
+        return true;
+    }
+
+    private function claimRun(string $period, bool $force): ?NewsletterRun
+    {
+        try {
+            return NewsletterRun::create(['period' => $period]);
+        } catch (UniqueConstraintViolationException) {
+            // Beh, ktorý spadol uprostred, treba pustiť s --force; inak by
+            // už rozoslaným príjemcom prišiel newsletter dvakrát.
+            if (! $force) {
+                return null;
+            }
+
+            return NewsletterRun::where('period', $period)->firstOrFail();
+        }
     }
 
     public function handle($users)

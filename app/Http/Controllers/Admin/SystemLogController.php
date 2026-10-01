@@ -26,6 +26,10 @@ class SystemLogController extends Controller
             ->paginate(50)
             ->withQueryString();
 
+        if ($logs->currentPage() > 1 && $logs->isEmpty()) {
+            return redirect()->to($logs->url($logs->lastPage()));
+        }
+
         return view('admins.logs.index', [
             'logs' => $logs,
             'summary' => $this->summary(),

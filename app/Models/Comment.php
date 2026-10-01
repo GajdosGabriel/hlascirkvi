@@ -60,10 +60,16 @@ class Comment extends Model
         return $this->belongsTo(Comment::class, 'parent_id');
     }
 
+    // Komentár, na ktorý sa priamo odpovedalo (môže byť odpoveď v tom istom vlákne).
+    public function replyTo()
+    {
+        return $this->belongsTo(Comment::class, 'reply_to_id');
+    }
+
     // Vlákno má jednu úroveň, preto sa odpovede ďalej nevnárajú.
     public function replies()
     {
-        return $this->hasMany(Comment::class, 'parent_id')->with('user')->oldest();
+        return $this->hasMany(Comment::class, 'parent_id')->with('user', 'replyTo.user')->oldest();
     }
 
     /**

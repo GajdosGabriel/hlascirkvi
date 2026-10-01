@@ -81,9 +81,10 @@ class PendingAuthenticationTest extends TestCase
         return $token;
     }
 
-    public function test_repeat_registration_preserves_credentials_and_original_link(): void
+    public function test_repeat_registration_from_foreign_browser_preserves_credentials_and_original_link(): void
     {
         $token = $this->registerAndCatchToken();
+        $this->flushSession();
         $this->post('/register', $this->formData([
             'first_name' => 'Changed', 'password' => 'another-strong-password-2026',
             'password_confirmation' => 'another-strong-password-2026',
@@ -93,6 +94,19 @@ class PendingAuthenticationTest extends TestCase
         $this->assertTrue(Hash::check('kostolna-vez-2026', $pending->password));
         $this->assertNotNull(PendingRegistration::findByToken($token));
         Notification::assertSentTimes(ConfirmRegistration::class, 1);
+    }
+
+    public function test_repeat_registration_from_same_browser_updates_credentials(): void
+    {
+        $token = $this->registerAndCatchToken();
+        $this->post('/register', $this->formData([
+            'first_name' => 'Changed', 'password' => 'another-strong-password-2026',
+            'password_confirmation' => 'another-strong-password-2026',
+        ]))->assertRedirect(route('register.pending'));
+        $pending = PendingRegistration::firstOrFail();
+        $this->assertSame('Changed', $pending->first_name);
+        $this->assertTrue(Hash::check('another-strong-password-2026', $pending->password));
+        $this->assertNotNull(PendingRegistration::findByToken($token));
     }
 
     public function test_pending_login_requires_password_and_does_not_send_or_authenticate(): void

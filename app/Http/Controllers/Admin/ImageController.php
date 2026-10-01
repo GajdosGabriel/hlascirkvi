@@ -4,15 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Services\SystemLog\Recorder;
 
 class ImageController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'checkSuperAdmin']);
     }
 
     public function index() {
@@ -23,18 +22,22 @@ class ImageController extends Controller
     // Definitivne vymazanie obrázkov a záznamov v DB
     public function destroy()
     {
-        $images = Image::onlyTrashed()->get();
+        $deleted = 0;
 
-        foreach( $images as $image)
-        {
-            // delete big img
-            \App\Support\MediaUrl::disk()->delete($image->url);
+        // Po dávkach, aby sa pri tisíckach obrázkov nenačítalo všetko naraz.
+        Image::onlyTrashed()->chunkById(200, function ($images) use (&$deleted) {
+            foreach ($images as $image) {
+                // delete big img + small img
+                \App\Support\MediaUrl::disk()->delete($image->url);
+                \App\Support\MediaUrl::disk()->delete($image->thumb);
 
-            // delete small img
-            \App\Support\MediaUrl::disk()->delete($image->thumb);
+                $image->forceDelete();
+                $deleted++;
+            }
+        });
 
-            $image->forceDelete();
-        }
+        Recorder::info('admin', 'images_purged', 'Definitívne vymazané obrázky z koša',
+            userId: auth()->id(), context: ['count' => $deleted]);
 
         session()->flash('flash', 'Obrázky boli definitívne vymazané!');
 

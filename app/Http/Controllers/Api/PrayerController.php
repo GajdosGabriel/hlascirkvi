@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
+use App\Support\HumanCheck;
 use App\Models\Prayer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -47,39 +47,31 @@ class PrayerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Prihlásený s overeným účtom zverejňuje hneď. Neprihlásený vždy cez
+     * potvrdenie e-mailu — aj keď adresa patrí overenému účtu, inak by
+     * ktokoľvek so znalosťou cudzieho e-mailu písal za iného. Hosť dostane
+     * vždy rovnakú odpoveď, aby sa nedalo zisťovať, ktoré adresy sú registrované.
      */
     public function store(SavePrayerRequest $request)
     {
-        $data = collect($request->validated())->except('email')->all();
-        $user = auth()->user() ?? User::whereEmail($request->email)->first();
+        $data = collect($request->validated())->except(['email', HumanCheck::STAMP])->all();
+        $user = auth()->user();
 
-        // Adresa patrí overenému účtu — modlitba mu pribudne, akoby ju pridal
-        // prihlásený. Návštevníka to však do účtu neprihlási.
         if ($user?->hasVerifiedEmail()) {
             abort_if($user->banned(), 403, $user->accountAccessMessage());
 
-            app(UserActivation::class)->publishPrayer($user, $data);
+            $prayer = app(UserActivation::class)->publishPrayer($user, $data);
 
-            return response()->json(['pending' => false], 201);
+            // Klient vloží novú prosbu na začiatok zoznamu bez opätovného načítania.
+            return response()->json([
+                'pending' => false,
+                'prayer' => (new PrayerResource($prayer->refresh()))->resolve(),
+            ], 201);
         }
 
-        // Bez overeného účtu sa nič nezakladá — modlitba čaká v čakárni, kým
-        // autor nepotvrdí adresu (Public\PrayerController::confirm). Platí aj
-        // pre prihláseného so starším neovereným účtom.
+        // Nič sa nezakladá — modlitba čaká v čakárni, kým autor nepotvrdí
+        // adresu (Public\PrayerController::confirm). Platí aj pre prihláseného
+        // so starším neovereným účtom.
         $email = $user?->email ?? $request->email;
 
         if (PendingPrayer::limitReached($email)) {
@@ -98,35 +90,6 @@ class PrayerController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /**
      * Parameter sa volal $modlitby, ale routa má {prayer} — implicitná väzba
      * sa preto nenaviazala a kontajner dodal prázdny model, takže úprava
      * modlitby ticho nerobila nič.
@@ -136,18 +99,16 @@ class PrayerController extends Controller
         $this->authorize('update', $prayer);
 
         $prayer->update($request->validated());
+
+        return new PrayerResource($prayer);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Prayer $prayer)
     {
         $this->authorize('delete', $prayer);
 
         $prayer->delete();
+
+        return response()->noContent();
     }
 }

@@ -100,6 +100,7 @@ class ApiAuthorizationTest extends TestCase
         $this->postJson("/api/posts/{$post->id}/comments", [
             'body' => 'Komentár od neprihláseného návštevníka.',
             'email' => 'navstevnik@example.com',
+            'form_ts' => $this->humanStamp(),
         ])->assertAccepted()->assertJson(['pending' => true]);
 
         // Komentár čaká na potvrdenie e-mailu, účet zatiaľ nevzniká.
@@ -116,6 +117,7 @@ class ApiAuthorizationTest extends TestCase
         $this->postJson('/api/posts/'.$post->getKey().'/comments', [
             'body' => 'Pokus o komentár pod cudzím účtom.',
             'email' => $victim->getAttribute('email'),
+            'form_ts' => $this->humanStamp(),
         ])->assertAccepted();
 
         // Komentár pod cudzím menom by bol verejný — čaká, kým ho majiteľ
@@ -134,6 +136,7 @@ class ApiAuthorizationTest extends TestCase
             'body' => 'Modlite sa prosím za moju rodinu.',
             'user_name' => 'Anonym',
             'email' => 'modlitba@example.com',
+            'form_ts' => $this->humanStamp(),
         ])->assertSuccessful();
 
         // Účet nevznikne — modlitba čaká na potvrdenie e-mailu.

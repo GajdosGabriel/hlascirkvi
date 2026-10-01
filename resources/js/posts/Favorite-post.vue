@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { bus } from "../eventBus";
+
 export default {
     props: ["post"],
     data: function () {
@@ -75,13 +77,31 @@ export default {
                 return;
             }
 
-            this.isFavorite = !this.isFavorite;
+            var before = { isFavorite: this.isFavorite, favoriteCount: this.favoriteCount };
+
+            this.isFavorite = !before.isFavorite;
             this.favoriteCount += this.isFavorite ? 1 : -1;
 
-            axios.put("/favorites/" + this.post.id, {
-                model: "Post",
-                model_id: this.post.id,
-            });
+            axios
+                .put("/favorites/" + this.post.id, {
+                    model: "Post",
+                    model_id: this.post.id,
+                    favorited: this.isFavorite,
+                })
+                .then(({ data }) => {
+                    this.isFavorite = data.isFavorited;
+                    this.favoriteCount = data.favoritesCount;
+                })
+                .catch((error) => {
+                    this.isFavorite = before.isFavorite;
+                    this.favoriteCount = before.favoriteCount;
+                    bus.$emit("flash", {
+                        body: error.response?.status === 429
+                            ? "Príliš veľa požiadaviek, skúste to o chvíľu."
+                            : "Nepodarilo sa uložiť, skúste to znova.",
+                        type: "danger",
+                    });
+                });
         },
     },
 };

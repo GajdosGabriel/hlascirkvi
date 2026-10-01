@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Listeners\SystemLogSubscriber;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,6 +39,15 @@ class Handler extends ExceptionHandler
     {
         // Mail, ktorý neodišiel, patrí aj do denníka udalostí (admin → Denník),
         // nielen do súborového logu. Hlásenie sa tým nezastaví.
+        // ModelNotFoundException sa mení na NotFoundHttpException s pôvodnou
+        // správou ("No query results for model [App\Models\Post] 1"), ktorú
+        // by klient videl aj pri APP_DEBUG=false.
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Nenájdené.'], 404);
+            }
+        });
+
         $this->reportable(function (TransportExceptionInterface $e) {
             SystemLogSubscriber::mailFailed($e);
         });

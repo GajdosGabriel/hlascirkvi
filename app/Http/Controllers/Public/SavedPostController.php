@@ -24,8 +24,31 @@ class SavedPostController extends Controller
 
     public function toggle(Request $request, Post $post)
     {
-        $changes = $request->user()->savedPosts()->toggle($post->id);
+        $saved = $request->user()->savedPosts();
 
-        return response()->json(['saved' => $changes['attached'] !== []]);
+        if ($saved->whereKey($post->id)->exists()) {
+            $saved->detach($post->id);
+
+            return response()->json(['saved' => false]);
+        }
+
+        // Pridať sa dá len zverejnený príspevok; odobrať sa dá vždy. Inak by
+        // sa v pivote držali riadky, ktoré zoznam (`published()`) nezobrazí.
+        abort_unless($post->published_at !== null, 404);
+
+        $saved->attach($post->id);
+
+        return response()->json(['saved' => true]);
+    }
+
+    public function destroy(Request $request, int $postId)
+    {
+        $request->user()->savedPosts()->detach($postId);
+
+        if ($request->expectsJson()) {
+            return response()->json(['saved' => false]);
+        }
+
+        return back();
     }
 }

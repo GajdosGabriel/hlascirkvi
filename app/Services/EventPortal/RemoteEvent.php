@@ -76,10 +76,7 @@ class RemoteEvent implements Arrayable
      */
     public function bodyHtml(): string
     {
-        return strip_tags(
-            $this->body(),
-            '<p><br><h2><h3><h4><strong><b><em><i><u><ul><ol><li><a><blockquote><hr>'
-        );
+        return (string) \App\Support\SafeHtml::clean($this->body());
     }
 
     public function excerpt(int $length = 220): string

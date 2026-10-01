@@ -29,13 +29,41 @@ trait HasFavorites
         return $this->morphMany(Favorite::class, 'favorited');
     }
 
-    public function favorite()
+    /**
+     * Nesmie sa serializovať: zoznam user_id by prezradil, kto sa modlí
+     * alebo komu sa čo páči.
+     */
+    public function initializeHasFavorites(): void
     {
-        if ($this->toggleFavorite()) {
-            session()->flash('flash', 'Príhlásenie bolo úspešné!');
+        $this->makeHidden('favorites');
+    }
+
+    /**
+     * Nastaví označenie (`true`/`false`), alebo ho prepne, ak stav nie je daný.
+     * Vráti výsledný stav.
+     */
+    public function favorite(?bool $state = null): bool
+    {
+        $favorited = $state === null ? $this->toggleFavorite() : $this->setFavorite($state);
+
+        session()->flash('flash', $favorited ? 'Označenie bolo pridané.' : 'Označenie bolo zrušené.');
+
+        return $favorited;
+    }
+
+    public function setFavorite(bool $state): bool
+    {
+        abort_unless(auth()->check(), 401);
+
+        if ($state) {
+            $this->favorites()->firstOrCreate(['user_id' => auth()->id()]);
         } else {
-            session()->flash('flash', 'Zrušenie bolo úspešné!');
+            $this->favorites()->whereUserId(auth()->id())->delete();
         }
+
+        $this->unsetRelation('favorites');
+
+        return $state;
     }
 
     /**

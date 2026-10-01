@@ -50,6 +50,7 @@ class PostCommentController extends Controller
 
     public function update(Post $post, Comment $comment, SaveCommentsRequest $request)
     {
+        abort_unless($this->belongsToPost($comment, $post), 404);
         $this->authorize('update', $comment);
 
         $comment->update($request->only('body'));
@@ -93,10 +94,17 @@ class PostCommentController extends Controller
 
     public function destroy(Post $post, Comment $comment)
     {
+        abort_unless($this->belongsToPost($comment, $post), 404);
         $this->authorize('delete', $comment);
 
         $comment->delete();
 
         return new CommentResource($comment);
+    }
+
+    private function belongsToPost(Comment $comment, Post $post): bool
+    {
+        return $comment->commentable_type === Post::class
+            && (int) $comment->commentable_id === $post->getKey();
     }
 }

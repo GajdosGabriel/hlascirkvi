@@ -106,7 +106,7 @@ class Post extends Model
 
     public function setBodyAttribute($value)
     {
-        $this->attributes['body'] = cleanBody($value);
+        $this->attributes['body'] = \App\Support\SafeHtml::clean(cleanBody((string) $value)) ?? '';
     }
 
     public function setTitleAttribute($value)

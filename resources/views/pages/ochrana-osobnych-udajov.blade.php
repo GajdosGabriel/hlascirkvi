@@ -75,6 +75,18 @@
                 Vaše osobné údaje si ponechávam počas doby premlčacích období, pokiaľ zákon nestanoví ďalšiu dobu k ich
                 uchovaniu alebo som v konkrétnych prípadoch neuviedli inak.
                 <p />
+            <h2 class="text-xl font-semibold">IP adresy a ako dlho ich uchovávam</h2>
+            <p>
+                IP adresu spracúvam z oprávneného záujmu na ochranu webu pred zneužitím a spamom:
+            </p>
+            <ul class="list-disc pl-6">
+                <li>pri odoslaní komentára, modlitby, obľúbeného alebo registrácie, kým čakajú na potvrdenie
+                    odkazom z e-mailu, najviac 7 dní; po potvrdení alebo uplynutí lehoty sa záznam vrátane IP
+                    maže, v zverejnenom komentári ani modlitbe sa IP neuchováva,</li>
+                <li>pri prihlásení (IP posledného prihlásenia) 90 dní od prihlásenia,</li>
+                <li>v systémovom denníku udalostí 31 dní (varovania a chyby 90 dní),</li>
+                <li>pri návštevách stránok len v podobe pseudonymného odtlačku, ktorý sa maže po 90 dňoch.</li>
+            </ul>
             <h2 class="text-xl font-semibold">Cookies</h2>
             <p>
 

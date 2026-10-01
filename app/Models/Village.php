@@ -9,7 +9,7 @@ class Village extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['id', 'fullname', 'shortname', 'zip', 'district_id', 'region_id', 'use'];
 
     public $timestamps = false;
 

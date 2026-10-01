@@ -91,6 +91,13 @@ return [
             'level' => 'debug',
         ],
 
+        // Testy píšu do vlastného súboru, aby nezahlcovali laravel.log.
+        'testing' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/testing.log'),
+            'level' => 'debug',
+        ],
+
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,

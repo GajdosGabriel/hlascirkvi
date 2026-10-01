@@ -50,7 +50,13 @@ class PostNewsletter extends Mailable
 
     public function headers(): Headers
     {
-        return new Headers(text: ['List-Unsubscribe' => '<'.$this->unsubscribeUrl().'>']);
+        // List-Unsubscribe-Post (RFC 8058) od roku 2024 vyžadujú Gmail a Yahoo
+        // pre hromadné e-maily, inak sa tlačidlo „Zrušiť odber" nezobrazí.
+        // POST na rovnakú podpísanú adresu odhlási bez CSRF tokenu.
+        return new Headers(text: [
+            'List-Unsubscribe' => '<'.$this->unsubscribeUrl().'>',
+            'List-Unsubscribe-Post' => 'List-Unsubscribe=One-Click',
+        ]);
     }
 
     /** Bez expirácie — odkaz musí fungovať aj v starom e-maile. */

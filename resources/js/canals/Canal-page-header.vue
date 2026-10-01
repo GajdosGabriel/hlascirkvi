@@ -150,9 +150,17 @@ export default {
 
             axios
                 .post("/api/organizations/" + this.canal.id + "/favorites")
-                .then(() => {
-                    this.favorited = !this.favorited;
+                .then(({ data }) => {
+                    this.favorited = data.isFavorited;
                     this.messageNotification();
+                })
+                .catch((error) => {
+                    bus.$emit("flash", {
+                        body: error.response?.status === 429
+                            ? "Príliš veľa požiadaviek, skúste to o chvíľu."
+                            : "Nepodarilo sa uložiť, skúste to znova.",
+                        type: "danger",
+                    });
                 });
         },
 

@@ -66,7 +66,6 @@ Route::get('sitemap-prispevky-{page}.xml', 'Public\SitemapController@posts')
 Route::get('/gdpr', 'Public\HomeController@gdpr')->name('gdpr');
 Route::get('/online-prenosy', 'Public\HomeController@zivePrenosy')->name('online-prenosy');
 Route::get('/konferencie-a-pute', 'Public\HomeController@seminare')->name('konferencie.pute');
-Route::get('/zdravie-z-bozej-ruky', 'Public\HomeController@zdravie')->name('zdravie');
 
 // Celý predný zoznam kanálov. Karty v bočnom paneli ukazujú len pár kanálov
 // (config frontlist.card_limit) a odkazujú sem.
@@ -83,15 +82,6 @@ Route::permanentRedirect('/seminare', '/konferencie-a-pute');
 Route::post('/auth/google', 'Auth\AuthController@googleAuth')
     ->middleware('throttle:10,1')
     ->name('auth.google');
-
-// oAuth Routes (Socialite)...
-Route::get('/auth/{service}', 'Auth\AuthController@redirectToProvider')
-    ->where('service', '(github|facebook|twitter|linkedin|bitbucket)')
-    ->name('auth.redirect');
-
-Route::get('/auth/{service}/callback', 'Auth\AuthController@handleProviderCallback')
-    ->where('service', '(github|facebook|twitter|linkedin|bitbucket)')
-    ->name('auth.callback');
 
 Route::get('zamyslenia/{slug?}', 'VerseController@index')->name('verses.index');
 
@@ -116,7 +106,7 @@ Route::middleware('checkBanned')->group(function () {
 // Front routes
 Route::middleware('checkBanned')->group(function () {
     // Neprihlásený cez ňu posiela potvrdzovací e-mail — preto sadzba.
-    Route::resource('favorites', FavoriteController::class)->only('update')->middleware('throttle:10,1');
+    Route::resource('favorites', FavoriteController::class)->only('update')->middleware('throttle:favorites');
     // URL ostáva /organizations/{id} — je zaindexovaná a rozposlaná v e-mailoch.
     // Parameter sa volá {canal}, aby implicitná väzba trafila Canal $canal
     // v Public\CanalController.
@@ -157,8 +147,8 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
 
         // Modlitba sa zo správy kanála len zakladá a upravuje — detail
         // (show) kontroler nemá, registrovaná routa by skončila 500-kou.
-        Route::resource('canals.prayers', Canal\CanalPrayerController::class)->except('show');
-        Route::resource('canals.seminars', Canal\CanalSeminarController::class);
+        Route::resource('canals.prayers', Canal\CanalPrayerController::class)->except('show')->scoped();
+        Route::resource('canals.seminars', Canal\CanalSeminarController::class)->scoped();
     });
 });
 
@@ -242,7 +232,17 @@ Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserSupportController@conf
 // samy), odhlási až POST. Prihlásenie nahrádza podpis v URL.
 Route::middleware('signed')->group(function () {
     Route::get('newsletter/odhlasit/{user}', 'Public\NewsletterController@show')->name('newsletter.unsubscribe');
+    // POST je zároveň cieľ List-Unsubscribe-Post (RFC 8058) — bez CSRF, pozri
+    // App\Http\Middleware\PreventRequestForgery::$except.
     Route::post('newsletter/odhlasit/{user}', 'Public\NewsletterController@unsubscribe');
+    Route::post('newsletter/odhlasit/{user}/spat', 'Public\NewsletterController@resubscribe')
+        ->name('newsletter.resubscribe');
+});
+
+// Nastavenie odberu pre prihláseného používateľa.
+Route::middleware(['auth', 'checkBanned'])->group(function () {
+    Route::get('odber-noviniek', 'Public\NewsletterController@edit')->name('newsletter.preferences');
+    Route::put('odber-noviniek', 'Public\NewsletterController@update')->name('newsletter.preferences.update');
 });
 
 // Import videí z YouTube playlistu je dlhá externá operácia, ktorá zapisuje —
@@ -259,6 +259,12 @@ Route::middleware(['auth', 'checkBanned'])->group(function () {
     Route::put('post/{post}/ulozit', 'Public\SavedPostController@toggle')
         ->middleware('throttle:30,1')
         ->name('saved.toggle');
+    // Odstránenie nejde cez route model: skrytý či zmazaný príspevok sa musí
+    // dať zo zoznamu odobrať tiež.
+    Route::delete('post/{postId}/ulozit', 'Public\SavedPostController@destroy')
+        ->whereNumber('postId')
+        ->middleware('throttle:30,1')
+        ->name('saved.destroy');
 });
 
 Route::middleware('bannedCanal')->group(function () {

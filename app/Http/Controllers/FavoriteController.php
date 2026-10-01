@@ -32,7 +32,9 @@ class FavoriteController extends Controller
     {
         $class = self::MODELS[$request->validated()['model']];
 
-        $model = $class::find($request->validated()['model_id']);
+        // Len zverejnený obsah: skrytý, nepublikovaný alebo zmazaný (SoftDeletes
+        // ho vynecháva) dáva rovnakú odpoveď ako neexistujúce ID.
+        $model = $this->visible($class)->find($request->validated()['model_id']);
 
         abort_if($model === null, 404);
 
@@ -48,11 +50,29 @@ class FavoriteController extends Controller
             return back()->with('flash', 'Poslali sme vám e-mail — pripojenie sa započíta po jeho potvrdení.');
         }
 
-        $model->favorite();
+        // Explicitné `favorited` je idempotentné — súbežné kliky nevedú k
+        // náhodnému prepnutiu. Bez neho sa stav prepne (formuláre bez JS).
+        $favorited = $model->favorite($request->validated()['favorited'] ?? null);
 
-        if (request()->expectsJson()) return $model;
+        if ($request->expectsJson()) {
+            // Zámerne nie celý model: ten nesie e-mail, telefón, adresu a ďalšie
+            // interné polia kanála aj zoznam user_id označených.
+            return response()->json([
+                'isFavorited' => $favorited,
+                'favoritesCount' => $model->favorites()->count(),
+            ]);
+        }
 
         return back();
+    }
+
+    private function visible(string $class)
+    {
+        $query = $class::query();
+
+        return $class === Canal::class
+            ? $query->whereNotNull('published')
+            : $query->published();
     }
 
 }

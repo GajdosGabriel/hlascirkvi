@@ -35,12 +35,28 @@
                                 Upraviť
                             </button>
                             <hr class="ui-dropdown__divider">
-                            <button type="button" class="ui-dropdown__item--danger" @click.prevent="destroy()">
+                            <button type="button" class="ui-dropdown__item--danger" @click.prevent="confirmingDelete = true">
                                 <i class="ph ph-trash" aria-hidden="true"></i>
                                 Zmazať
                             </button>
                         </dropdown-slot>
                     </div>
+                </div>
+
+                <div
+                    v-if="confirmingDelete"
+                    class="mt-2 flex flex-wrap items-center gap-2 rounded-md bg-red-50 px-3 py-2 text-sm text-red-800"
+                    role="alertdialog"
+                >
+                    <span class="grow">
+                        Zmazať {{ isReply ? 'odpoveď' : 'komentár' }} od <strong>{{ comment.user_name }}</strong>? Nedá sa vrátiť späť.
+                    </span>
+                    <button type="button" class="ar-btn ar-btn--quiet" :disabled="deleting" @click.prevent="confirmingDelete = false">
+                        Ponechať
+                    </button>
+                    <button type="button" class="ar-btn ar-btn--accent" :disabled="deleting" @click.prevent="destroy">
+                        Zmazať
+                    </button>
                 </div>
 
                 <!-- Nezverejnený komentár vidí len jeho autor; trieda redText,
@@ -56,6 +72,10 @@
                     v-else-if="! editComment"
                     class="discussion-comment__body"
                 >
+                    <span v-if="comment.reply_to_name" class="font-semibold">
+                        <i class="ph ph-arrow-bend-up-left" aria-hidden="true"></i>
+                        {{ comment.reply_to_name }}:
+                    </span>
                     {{ comment.body }}
                 </p>
 
@@ -86,6 +106,7 @@
                     <button
                         type="button"
                         class="discussion-action"
+                        :aria-expanded="replyTo && replyTo.id === comment.id ? 'true' : 'false'"
                         @click="reply(comment)"
                     >
                         <i class="ph ph-arrow-bend-up-left"></i> Odpovedať
@@ -119,10 +140,11 @@
 
                     <new-reply
                         v-if="replyTo"
+                        ref="replyForm"
                         :key="replyTo.id"
                         :post="post"
                         :parent-id="replyTo.id"
-                        :initial-body="replyTo.id === comment.id ? '' : '@' + replyTo.user_name + ' '"
+                        :reply-to-name="replyTo.id === comment.id ? '' : replyTo.user_name"
                         @newComment="addReply"
                         @cancel="replyTo = null"
                     />
@@ -156,6 +178,8 @@ export default {
             // Komentár (hlavný alebo odpoveď), na ktorý je otvorený formulár.
             replyTo: null,
             repliesExpanded: true,
+            confirmingDelete: false,
+            deleting: false,
         };
     },
 
@@ -174,7 +198,7 @@ export default {
         },
 
         waiting: function () {
-            return this.comment.published == null;
+            return ! this.comment.published;
         },
 
         replies: function () {
@@ -206,7 +230,10 @@ export default {
             if (this.isReply) {
                 return this.$emit("reply", target);
             }
-            this.replyTo = this.replyTo && this.replyTo.id === target.id ? null : target;
+            // Opakované kliknutie formulár nezavrie (stratil by sa rozpísaný
+            // text), len naň vráti fokus; zatvára ho „Zrušiť".
+            this.replyTo = target;
+            this.$nextTick(() => this.$refs.replyForm?.focus());
         },
 
         addReply: function (reply) {
@@ -233,16 +260,27 @@ export default {
         },
 
         destroy: function () {
-            if (!window.confirm("Skutočne vymazať!")) {
-                return;
-            }
-            axios.delete("/api/comments/" + this.comment.id);
+            this.deleting = true;
 
-            // Bolo to jQuery $(el).fadeOut(300). Kvôli tomuto jedinému volaniu
-            // sa do bundlu ťahalo celé jQuery.
-            this.$el.style.transition = "opacity 300ms";
-            this.$el.style.opacity = 0;
-            setTimeout(() => this.$emit("deleted", this.comment.id), 300);
+            // Komentár sa skryje až po úspešnej odpovedi; pri 403/500 ostáva
+            // na obrazovke a používateľ dostane hlásenie.
+            axios
+                .delete(this.comment.url.destroy)
+                .then(() => {
+                    // Bolo to jQuery $(el).fadeOut(300). Kvôli tomuto jedinému volaniu
+                    // sa do bundlu ťahalo celé jQuery.
+                    this.$el.style.transition = "opacity 300ms";
+                    this.$el.style.opacity = 0;
+                    setTimeout(() => this.$emit("deleted", this.comment.id), 300);
+                })
+                .catch((error) => {
+                    this.deleting = false;
+                    this.confirmingDelete = false;
+                    bus.$emit("flash", {
+                        body: error.response?.data?.message || "Komentár sa nepodarilo zmazať.",
+                        type: "danger",
+                    });
+                });
         },
 
         updateComment: function () {

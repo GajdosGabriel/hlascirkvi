@@ -41,7 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * vrátane `password`, `disabled`, `email_verified_at` a `canal_id`. V spojení
      * s `$user->update($request->all())` v API to znamenalo prevzatie účtu.
      *
-     * Stavové stĺpce (disabled, email_verified_at, verified, api_token) sa
+     * Stavové stĺpce (disabled, email_verified_at, verified) sa
      * zámerne nastavujú priamym priradením tam, kde na to je dôvod.
      *
      * @var array
@@ -68,10 +68,8 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    // api_token tu chýbal, takže sa posielal klientovi v každej serializácii
-    // užívateľa — napríklad v odpovedi na pridanie komentára.
     protected $hidden = [
-        'password', 'remember_token', 'api_token', 'email', 'send_email', 'front_author', 'disabled', 'status_changed_by', 'status_reason', 'last_login_ip', 'updated_at', 'deleted_at', 'set_denomination', 'email_verified_at', 'vocative',
+        'password', 'remember_token', 'email', 'send_email', 'newsletter_unsubscribed_at', 'newsletter_unsubscribed_ip', 'front_author', 'disabled', 'status_changed_by', 'status_reason', 'last_login_ip', 'updated_at', 'deleted_at', 'set_denomination', 'email_verified_at', 'vocative',
     ];
 
     // 'created_at' tu bolo bez kľúča, takže skončilo pod indexom 0 a ako cast
@@ -84,6 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_login_at' => 'datetime',
         'disabled' => 'boolean',
         'send_email' => 'boolean',
+        'newsletter_unsubscribed_at' => 'datetime',
         'front_author' => 'boolean',
         'verified' => 'boolean',
         'gender' => \App\Enums\Gender::class,

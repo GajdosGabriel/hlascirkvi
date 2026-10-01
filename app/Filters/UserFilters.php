@@ -89,7 +89,7 @@ class UserFilters extends Filters
 
     public function search()
     {
-        session()->flash('search', $this->request->search);
+        session()->flash('search', is_scalar($this->request->search) ? $this->request->search : '');
 
         // Zoskupené, inak by orWhere prebilo výber stavu.
         return $this->builder->where(function ($query) {

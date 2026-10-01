@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'full_name' => $this->first_name .' '. $this->last_name,
+            'full_name' => trim($this->first_name .' '. $this->last_name),
             'verified' => $this->verified,
             'avatar' => $this->avatar,
             'gender' => $this->gender,

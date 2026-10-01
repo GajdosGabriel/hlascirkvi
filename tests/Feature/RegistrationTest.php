@@ -61,7 +61,7 @@ class RegistrationTest extends TestCase
         $this->get('/register')
             ->assertOk()
             // Tlačidlo Google závisí od GOOGLE_CLIENT_ID, overuje ho SocialLoginTest.
-            ->assertSee('Pokračovať cez Facebook')
+            ->assertDontSee('Pokračovať cez Facebook')
             // Pole pasce musí byť v stránke, inak sa nemá čo kontrolovať.
             ->assertSee('name="'.HumanCheck::TRAP.'"', false)
             ->assertDontSee('7 plus 3');
@@ -161,8 +161,12 @@ class RegistrationTest extends TestCase
     {
         User::factory()->create(['email' => 'jan.novak@gmail.com']);
 
-        $this->post('/register', $this->formData())->assertSessionHasErrors('email');
+        // Odpoveď sa nemá líšiť od voľnej adresy, ale registrácia sa nezaloží.
+        $this->post('/register', $this->formData())
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('register.pending'));
         $this->assertDatabaseCount('pending_registrations', 0);
+        $this->get(route('register.pending'))->assertOk()->assertSee('jan.novak@gmail.com');
     }
 
     /** Účet mohol medzitým vzniknúť inak (Google) — ten sa neprepisuje. */

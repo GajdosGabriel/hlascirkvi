@@ -96,16 +96,27 @@ class CanalPostController extends Controller
 
         $this->authorize('update', $post);
 
+        $isAdmin = auth()->user()->can('admin');
+
         if ($post->deleted_at) {
+            // Článok, ktorý skryl administrátor, správca kanála nevráti.
+            abort_if($post->deleted_by_admin && ! $isAdmin, 403, 'Príspevok zmazal administrátor.');
+
+            // Obnovia sa len komentáre zmazané spolu s článkom (rovnaký deleted_at).
+            $deletedAt = $post->deleted_at;
             $post->restore();
-            $post->comments()->restore();
-            return redirect()->route('profile.posts.index')->with(session()->flash('flash', 'Príspevok bol obnovený!'));
-        } else {
-            $post->comments()->delete();
-            $post->delete();
+            $post->comments()->onlyTrashed()->where('deleted_at', $deletedAt)->restore();
+            $post->forceFill(['deleted_by_admin' => false])->saveQuietly();
+
+            return redirect()->route('profile.posts.index')->with('flash', 'Príspevok bol obnovený!');
         }
 
-        return redirect()->route('profile.posts.index')->with(session()->flash('flash', 'Príspevok bol zmazaný!'));
+        $post->delete();
+        // Komentáre dostanú rovnaký čas zmazania ako článok; už zmazané ostanú nedotknuté.
+        $post->comments()->update(['deleted_at' => $post->deleted_at]);
+        $post->forceFill(['deleted_by_admin' => $isAdmin])->saveQuietly();
+
+        return redirect()->route('profile.posts.index')->with('flash', 'Príspevok bol zmazaný!');
     }
 
     protected function activeCanal(): ?Canal

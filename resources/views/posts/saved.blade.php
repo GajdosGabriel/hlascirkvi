@@ -23,6 +23,9 @@
             <h1 class="ar-display text-3xl font-extrabold leading-tight">Uložené na neskôr</h1>
             <p class="mt-2 text-sm text-gray-500">
                 Príspevky, ktoré ste si odložili tlačidlom „Uložiť“. Zoznam vidíte len vy.
+                @if ($posts->total() > 0)
+                    <span class="font-semibold text-gray-700">Uložených: {{ $posts->total() }}</span>
+                @endif
             </p>
         </div>
     </header>
@@ -36,7 +39,16 @@
         @else
             <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 @foreach ($posts as $post)
-                    @include('posts.card-front')
+                    <div class="flex flex-col gap-2">
+                        <div class="flex-1">@include('posts.card-front')</div>
+                        <form method="POST" action="{{ route('saved.destroy', $post->id) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="ar-btn ar-btn--quiet w-full">
+                                <i class="ph ph-bookmark-simple-slash"></i> Odstrániť
+                            </button>
+                        </form>
+                    </div>
                 @endforeach
             </div>
 
@@ -44,5 +56,9 @@
                 {{ $posts->onEachSide(1)->links() }}
             </div>
         @endif
+
+        <p class="mt-8 text-center text-xs text-gray-500">
+            <a href="{{ route('newsletter.preferences') }}" class="ar-link">Nastavenie odberu noviniek</a>
+        </p>
     </div>
 @endsection

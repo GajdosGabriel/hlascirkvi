@@ -131,4 +131,54 @@ class CommentRepliesTest extends TestCase
             ->assertJsonPath('total', 11);
         $this->assertEmpty(array_intersect(array_column($page->json('data'), 'id'), array_column($next->json('data'), 'id')));
     }
+
+    public function test_komentar_sa_neda_upravit_ani_zmazat_cez_iny_prispevok(): void
+    {
+        [$post, $comment, $author] = $this->postWithComment();
+        $other = Post::factory()->create();
+
+        $this->actingAs($author)
+            ->putJson("/api/posts/{$other->id}/comments/{$comment->id}", ['body' => 'Zmenený text'])
+            ->assertNotFound();
+        $this->actingAs($author)
+            ->deleteJson("/api/posts/{$other->id}/comments/{$comment->id}")
+            ->assertNotFound();
+
+        $this->assertNotSame('Zmenený text', $comment->fresh()->body);
+        $this->assertNotNull($comment->fresh());
+
+        $this->actingAs($author)
+            ->putJson("/api/posts/{$post->id}/comments/{$comment->id}", ['body' => 'Zmenený text'])
+            ->assertSuccessful();
+    }
+
+    public function test_prilis_dlhy_komentar_sa_odmietne(): void
+    {
+        [$post] = $this->postWithComment();
+
+        $this->actingAs(User::factory()->create())
+            ->postJson("/api/posts/{$post->id}/comments", ['body' => str_repeat('a', 2001)])
+            ->assertJsonValidationErrors('body');
+    }
+
+    public function test_html_sa_z_komentara_odstrani_a_published_je_pravdivostna_hodnota(): void
+    {
+        [$post] = $this->postWithComment();
+
+        $this->actingAs(User::factory()->create())
+            ->postJson("/api/posts/{$post->id}/comments", ['body' => 'Ahoj <b>svet</b><script>x()</script>'])
+            ->assertSuccessful()
+            ->assertJsonPath('body', 'Ahoj svetx()')
+            ->assertJsonPath('published', true);
+    }
+
+    public function test_chyba_validacie_pomenuje_pole_ako_formular(): void
+    {
+        [$post] = $this->postWithComment();
+
+        $this->actingAs(User::factory()->create())
+            ->postJson("/api/posts/{$post->id}/comments", ['body' => 'a'])
+            ->assertUnprocessable()
+            ->assertJsonPath('errors.body.0', fn ($m) => str_contains($m, 'Váš komentár'));
+    }
 }

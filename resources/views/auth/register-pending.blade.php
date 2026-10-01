@@ -26,7 +26,9 @@
         </p>
 
         <div class="mt-6 flex flex-col items-center gap-3">
-            @if ($pending->send_count < \App\Models\PendingRegistration::MAX_SENDS)
+            @if (! $pending)
+            {{-- Adresa už má účet; rovnaký vzhľad ako pri novej registrácii. --}}
+            @elseif ($pending->send_count < \App\Models\PendingRegistration::MAX_SENDS)
             <form method="POST" action="{{ route('register.resend') }}" class="w-full">
                 @csrf
                 <button type="submit" class="ar-btn ar-btn--quiet w-full" style="padding:.65rem 1rem">
@@ -46,7 +48,7 @@
 
         <p class="mt-5 text-xs" style="color: var(--ar-ink-soft)">
             E-mail neprišiel? Skúste priečinok s nevyžiadanou poštou.
-            Odkaz platí do {{ $pending->expires_at->format('d.m.Y H:i') }}.
+            Odkaz platí {{ \App\Models\PendingRegistration::TTL_DAYS }} dní.
         </p>
     </div>
 @endsection
