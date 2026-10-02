@@ -40,7 +40,15 @@ class PrayerDespam extends Command
         $query->orderBy('id')->chunkById(500, function ($prayers) use ($detector, &$found) {
             foreach ($prayers as $prayer) {
                 if ($hit = $detector->inspect($prayer->title, $prayer->body)) {
-                    $found[] = [$prayer, $hit];
+                    // Len skalárne hodnoty, nie modely — zoznam môže mať tisíce položiek.
+                    $found[] = [
+                        'id' => $prayer->id,
+                        'date' => optional($prayer->created_at)->format('Y-m-d'),
+                        'author' => mb_strimwidth((string) $prayer->user_name, 0, 16, '…'),
+                        'hit' => $hit,
+                        'text' => mb_strimwidth(preg_replace('/\s+/u', ' ', $prayer->body), 0, 60, '…'),
+                        'trashed' => $prayer->trashed(),
+                    ];
                 }
             }
         });
@@ -54,12 +62,12 @@ class PrayerDespam extends Command
         $this->table(
             ['id', 'dátum', 'autor', 'dôvod', 'signály', 'text'],
             array_map(fn ($row) => [
-                $row[0]->id,
-                optional($row[0]->created_at)->format('Y-m-d'),
-                mb_strimwidth((string) $row[0]->user_name, 0, 16, '…'),
-                $row[1]['reason'],
-                implode(', ', $row[1]['signals']),
-                mb_strimwidth(preg_replace('/\s+/u', ' ', $row[0]->body), 0, 60, '…'),
+                $row['id'],
+                $row['date'],
+                $row['author'],
+                $row['hit']['reason'],
+                implode(', ', $row['hit']['signals']),
+                $row['text'],
             ], $found),
         );
 
@@ -74,13 +82,13 @@ class PrayerDespam extends Command
 
         $deleted = 0;
 
-        foreach ($found as [$prayer, $hit]) {
-            if ($prayer->trashed()) {
-                continue;
-            }
+        $ids = array_column(array_filter($found, fn ($row) => ! $row['trashed']), 'id');
 
-            $prayer->delete();
-            $deleted++;
+        foreach (array_chunk($ids, 500) as $chunk) {
+            foreach (Prayer::whereIn('id', $chunk)->get() as $prayer) {
+                $prayer->delete();
+                $deleted++;
+            }
         }
 
         $this->info(sprintf('Zmazaných: %d (soft delete, dajú sa obnoviť)', $deleted));

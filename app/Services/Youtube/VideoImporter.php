@@ -10,7 +10,10 @@ use App\Services\Images\StoreImage;
 use App\Services\Images\YoutubeThumbnail;
 use App\Services\VideoUploadFilter;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * Uloženie videí z YouTube ako príspevkov kanála. Jedna cesta pre denný
@@ -66,16 +69,55 @@ class VideoImporter
         $saved = [];
 
         foreach ($new as $id) {
-            $video = $videos[$id] ?? null;
-
-            if ($video === null || ! $this->acceptable($video, $canal, $section)) {
+            if (Cache::has($this->skipKey($canal, $id))) {
                 continue;
             }
 
-            $saved[] = $this->save($canal, $video, $section);
+            $video = $videos[$id] ?? null;
+
+            if ($video === null) {
+                $this->skip($canal, $id, 7);
+
+                continue;
+            }
+
+            $verdict = $this->verdict($video, $canal, $section);
+
+            if ($verdict !== true) {
+                // Ohlásený prenos sa môže stať vložiteľným — ten sa nepamätá.
+                if ($verdict === false) {
+                    $this->skip($canal, $id, 30);
+                }
+
+                continue;
+            }
+
+            // Jedno zlyhanie (napr. súbeh dvoch importov na unikátnom
+            // video_id) nesmie zahodiť zvyšok dávky.
+            try {
+                $saved[] = $this->save($canal, $video, $section);
+            } catch (Throwable $e) {
+                Log::warning('Uloženie videa z YouTube zlyhalo.', [
+                    'canal_id' => $canal->id,
+                    'video_id' => $id,
+                    'exception' => get_class($e),
+                    'message' => $e->getMessage(),
+                ]);
+            }
         }
 
         return $saved;
+    }
+
+    /** Zamietnuté video sa nevyhodnocuje pri každom behu odznova. */
+    private function skipKey(Canal $canal, string $id): string
+    {
+        return 'youtube:skipped:' . $canal->id . ':' . $id;
+    }
+
+    private function skip(Canal $canal, string $id, int $days): void
+    {
+        Cache::put($this->skipKey($canal, $id), true, now()->addDays($days));
     }
 
     /**
@@ -84,7 +126,27 @@ class VideoImporter
      */
     protected function acceptable(object $video, Canal $canal, ?PostSection $section): bool
     {
+        return $this->verdict($video, $canal, $section) === true;
+    }
+
+    /**
+     * @return bool|null true = prijať, false = trvalo zamietnuť, null = zamietnuť
+     *                   len teraz (ohlásený prenos)
+     */
+    private function verdict(object $video, Canal $canal, ?PostSection $section): ?bool
+    {
         if (! ($video->status->embeddable ?? false) || ($video->status->privacyStatus ?? 'public') === 'private') {
+            return false;
+        }
+
+        // Fulltext hľadanie vráti aj cudzie videá s názvom kanála v titulku.
+        // Kanál s vlastným YouTube kanálom (a bez playlistu, ktorý môže niesť
+        // cudzie videá) prijme len videá z neho; seminár má vlastný zdroj.
+        $own = ChannelId::fromInput((string) $canal->youtube_channel);
+        $author = $video->snippet->channelId ?? null;
+
+        if ($section === null && $own !== null && trim((string) $canal->youtube_playlist) === ''
+            && is_string($author) && $author !== $own) {
             return false;
         }
 
@@ -93,13 +155,20 @@ class VideoImporter
         if (($video->snippet->liveBroadcastContent ?? 'none') === 'upcoming'
             && $canal->post_section !== CanalSection::Live
             && $section === null) {
-            return false;
+            return null;
         }
 
         return ! (new VideoUploadFilter($canal, (string) ($video->snippet->title ?? '')))->wordsChecker();
     }
 
     protected function save(Canal $canal, object $video, ?PostSection $section): Post
+    {
+        // Vytvorenie, obrázok a zverejnenie ako celok — pri chybe nezostane
+        // polotovar bez published_at, ktorý by import už nikdy nedoplnil.
+        return DB::transaction(fn () => $this->store($canal, $video, $section));
+    }
+
+    private function store(Canal $canal, object $video, ?PostSection $section): Post
     {
         $publishedAt = $video->snippet->publishedAt ?? null;
         $duration = $video->contentDetails->duration ?? null;

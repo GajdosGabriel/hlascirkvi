@@ -38,8 +38,8 @@ class GuestRepliedToComment extends Notification implements ShouldQueue
             ->subject("Odpoveď na váš komentár pri {$title}")
             ->line("pri príspevku „{$title}“ ste odpovedali na komentár z YouTube:")
             ->quote($this->answered->body, 'Vaša odpoveď')
-            ->line('Autor komentára na našom webe odpovedať nemôže, preto vám odpisujeme za portál:')
-            ->quote($this->reply->body, $this->reply->user_name)
+            ->line('Autor komentára na našom webe odpovedať nemôže, preto za portál odpovedal automatický asistent (umelá inteligencia) a odpoveď môže byť nepresná:')
+            ->quote($this->reply->body, 'Automatická odpoveď portálu')
             ->action('Zobraziť diskusiu', url($commentable?->path() ?? '/'));
     }
 
@@ -48,7 +48,7 @@ class GuestRepliedToComment extends Notification implements ShouldQueue
         $commentable = $this->reply->commentable;
 
         return [
-            'message' => $this->reply->user_name . ' odpovedal na váš komentár pri ' . ($commentable?->title ?? 'príspevku'),
+            'message' => 'Portál (automatická odpoveď) odpovedal na váš komentár pri ' . ($commentable?->title ?? 'príspevku'),
             'link' => $commentable?->path(),
         ];
     }

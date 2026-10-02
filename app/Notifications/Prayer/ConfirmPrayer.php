@@ -45,7 +45,7 @@ class ConfirmPrayer extends Notification implements ShouldQueue
         }
 
         return $mail
-            ->quote($notifiable->body, $notifiable->title)
+            ->quote($notifiable->body, $notifiable->title, 200)
             ->action('Potvrdiť a zverejniť modlitbu', route('modlitby.confirm', $this->token))
             ->note('Odkaz platí do '.$this->expiresAt->format('d.m.Y').'. Potvrdením vás prihlásime do účtu na portáli — ak ho ešte nemáte, vznikne.'
                 .' Ak ste modlitbu nepridali vy, e-mail pokojne ignorujte — bez potvrdenia sa nezverejní a údaje sa samy zmažú.'

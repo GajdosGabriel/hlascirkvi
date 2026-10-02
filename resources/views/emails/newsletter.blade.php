@@ -16,7 +16,7 @@
     $link = route('post.show', [$post->id, $post->slug]);
 @endphp
 <table class="digest-item" width="100%" cellpadding="0" cellspacing="0" role="presentation"><tr>
-<td class="digest-thumb" width="120"><a href="{{ $link }}"><img src="{{ $thumb }}" width="120" alt=""></a></td>
+<td class="digest-thumb" width="120"><a href="{{ $link }}"><img src="{{ $thumb }}" width="120" alt="{{ $post->title }}"></a></td>
 <td class="digest-text"><a class="digest-link" href="{{ $link }}">{{ $post->title }}</a><p class="digest-meta">{{ $post->canal?->title }}</p></td>
 </tr></table>
 @endforeach

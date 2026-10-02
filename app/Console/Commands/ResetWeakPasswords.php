@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -65,6 +67,10 @@ class ResetWeakPasswords extends Command
             $this->line('ID: ' . implode(', ', $found));
         }
 
+        if (! $dryRun && $found) {
+            $this->info(sprintf('Zneplatnených relácií: %d.', $this->invalidateSessions($found)));
+        }
+
         $this->info(sprintf(
             '%s %d účtov so slabým heslom.',
             $dryRun ? 'Nájdených (dry-run, nič sa nezmenilo):' : 'Prepísaných:',
@@ -72,6 +78,42 @@ class ResetWeakPasswords extends Command
         ));
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Zmena hesla sama nezruší už prihlásené cookies — relácie týchto účtov
+     * sa mažú, aby nikto s uhádnutým heslom neostal prihlásený.
+     *
+     * @param  int[]  $userIds
+     */
+    private function invalidateSessions(array $userIds): int
+    {
+        $driver = config('session.driver');
+
+        if ($driver === 'database') {
+            return DB::table(config('session.table', 'sessions'))->whereIn('user_id', $userIds)->delete();
+        }
+
+        if ($driver !== 'file') {
+            $this->warn("Ovládač relácií '{$driver}' sa nedá prehľadať — relácie zneplatnite ručne.");
+
+            return 0;
+        }
+
+        $key = Auth::guard('web')->getName();
+        $ids = array_flip(array_map('strval', $userIds));
+        $removed = 0;
+
+        foreach (File::files(config('session.files')) as $file) {
+            $data = @unserialize((string) @file_get_contents($file->getPathname()));
+
+            if (is_array($data) && isset($data[$key]) && isset($ids[(string) $data[$key]])) {
+                File::delete($file->getPathname());
+                $removed++;
+            }
+        }
+
+        return $removed;
     }
 
     private function isWeak(string $hash): bool

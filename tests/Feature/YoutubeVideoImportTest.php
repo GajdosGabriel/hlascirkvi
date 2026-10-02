@@ -173,7 +173,7 @@ class YoutubeVideoImportTest extends TestCase
     /** Filter mal prehodené argumenty a kanál 256 neprepustil nič. */
     public function test_filter_kanala_256_prepusti_len_bohosluzby(): void
     {
-        $this->canal(['id' => 256]);
+        $this->canal(['id' => 256, 'video_title_include' => 'Bohoslužba Banská Bystrica']);
 
         $this->fakeYoutube([
             'playlistItems' => $this->playlistPage(['video000001', 'video000002']),

@@ -43,7 +43,7 @@ class CommentModerationTest extends TestCase
     {
         Notification::fake();
         $comment = Comment::factory()->create(['body' => 'Pokojná diskusia.']);
-        DB::table('comments')->where('id', $comment->id)->update(['body' => 'Postrieľajte ich všetkých.']);
+        DB::table('comments')->where('id', $comment->id)->update(['body' => 'Postrieľajte ich všetkých.', 'moderated_at' => null]);
         $this->artisan('comments:moderate')->assertSuccessful();
         $this->artisan('comments:moderate')->assertSuccessful();
         $this->assertNull($comment->fresh()->published);

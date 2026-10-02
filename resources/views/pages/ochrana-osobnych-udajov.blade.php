@@ -87,6 +87,18 @@
                 <li>v systémovom denníku udalostí 31 dní (varovania a chyby 90 dní),</li>
                 <li>pri návštevách stránok len v podobe pseudonymného odtlačku, ktorý sa maže po 90 dňoch.</li>
             </ul>
+            <h2 class="text-xl font-semibold">Správy kanálom</h2>
+            <p>
+                Ak cez stránku kanála pošlete správu, odošle sa e-mailom kanálu spolu s vaším menom a e-mailovou
+                adresou (nastavenou ako adresa pre odpoveď), aby vám mohol odpovedať. Kanál tieto údaje spracúva
+                samostatne; portál text správy neuchováva.
+            </p>
+            <h2 class="text-xl font-semibold">Údaje kanálov doplnené pomocou AI</h2>
+            <p>
+                Chýbajúce kontaktné údaje kanálov (web, e-mail, telefón, adresa, popis) môže portál doplniť z verejných
+                zdrojov pomocou umelej inteligencie. Správcu kanála o tom informujeme e-mailom a údaje môže kedykoľvek
+                upraviť alebo odstrániť.
+            </p>
             <h2 class="text-xl font-semibold">Cookies</h2>
             <p>
 

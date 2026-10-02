@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Canal;
 use App\Models\User;
+use App\Services\SystemLog\Recorder;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -50,11 +51,14 @@ class PruneUnverifiedUsers extends Command
         }
 
         $deleted = 0;
+        $ids = [];
+        $canalIds = [];
 
         foreach ($users as $user) {
-            DB::transaction(function () use ($user) {
+            DB::transaction(function () use ($user, &$canalIds) {
                 foreach ($user->canals as $canal) {
                     if ($this->canalIsEmpty($canal, $user)) {
+                        $canalIds[] = $canal->id;
                         $canal->forceDelete();
                     }
                 }
@@ -66,8 +70,13 @@ class PruneUnverifiedUsers extends Command
                 $user->forceDelete();
             });
 
+            $ids[] = $user->id;
             $deleted++;
         }
+
+        // Doklad pre správcu (GDPR): len ID a počty, e-maily do denníka nepatria.
+        Recorder::warning('admin', 'users_pruned', sprintf('Zmazaných %d neoverených účtov', $deleted),
+            context: ['user_ids' => $ids, 'canal_ids' => $canalIds, 'days' => $days, 'cli_user' => get_current_user()]);
 
         $this->info(sprintf('Zmazaných %d neoverených účtov.', $deleted));
 

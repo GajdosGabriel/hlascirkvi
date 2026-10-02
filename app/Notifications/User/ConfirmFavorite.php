@@ -56,7 +56,7 @@ class ConfirmFavorite extends Notification implements ShouldQueue
         }
 
         if ($model instanceof Prayer) {
-            $mail->quote($model->body, $model->title);
+            $mail->quote($model->body, $model->title, 200);
         }
 
         return $mail

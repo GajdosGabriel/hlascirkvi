@@ -94,7 +94,7 @@ class SpamDetector
      * Malé písmená bez diakritiky. Otáznik zahadzujeme, lebo starší import
      * nechal v texte mojibake („pôži??iek"); inak by sa časť spamu nenašla.
      *
-     * @return string text obalený medzerami, aby sa dal hľadať cez str_contains
+     * @return string text obalený medzerami; slovník sa hľadá od začiatku slova (" " + kmeň), nie ako podreťazec
      */
     private function normalize(string $s): string
     {
@@ -119,7 +119,7 @@ class SpamDetector
      */
     private function hits(string $text, array $needles): array
     {
-        return array_values(array_filter($needles, fn ($n) => str_contains($text, $n)));
+        return array_values(array_filter($needles, fn ($n) => str_contains($text, " ".$n)));
     }
 
     /**

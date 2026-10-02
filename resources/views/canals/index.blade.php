@@ -230,6 +230,10 @@
                             @error('body')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
+                            <p class="mt-1 text-xs text-gray-500">
+                                Kanál dostane vašu správu aj e-mailovú adresu, aby vám mohol odpovedať.
+                                Viac v <a href="{{ route('gdpr') }}" class="underline">zásadách ochrany osobných údajov</a>.
+                            </p>
                             <button type="submit" class="ar-tab ar-tab--on mt-2">
                                 <i class="ph ph-paper-plane-tilt"></i> Odoslať
                             </button>

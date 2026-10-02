@@ -46,7 +46,7 @@ class ConfirmComment extends Notification implements ShouldQueue
         }
 
         return $mail
-            ->quote($notifiable->body, $title ? 'Komentár k príspevku „'.$title.'"' : null)
+            ->quote($notifiable->body, $title ? 'Komentár k príspevku „'.$title.'"' : null, 200)
             ->action('Potvrdiť a zverejniť komentár', route('comments.confirm', $this->token))
             ->note('Odkaz platí do '.$this->expiresAt->format('d.m.Y').'. Potvrdením vás prihlásime do účtu na portáli — ak ho ešte nemáte, vznikne.'
                 .' Ak ste komentár nenapísali vy, e-mail pokojne ignorujte — bez potvrdenia sa nezverejní a údaje sa samy zmažú.'

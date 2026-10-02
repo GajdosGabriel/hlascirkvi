@@ -40,7 +40,7 @@ class PortalMail extends MailMessage
      * sa a stojí v odsadenom bloku, aby bolo jasné, čo píše portál a čo
      * cudzí človek.
      */
-    public function quote(?string $text, ?string $caption = null): static
+    public function quote(?string $text, ?string $caption = null, int $limit = 1500): static
     {
         $text = trim(strip_tags((string) $text));
 
@@ -48,7 +48,7 @@ class PortalMail extends MailMessage
             return $this;
         }
 
-        $body = str_replace(["\r\n", "\r", "\n"], '<br>', e(Str::limit($text, 1500)));
+        $body = str_replace(["\r\n", "\r", "\n"], '<br>', e(Str::limit($text, $limit)));
         $caption = $caption ? '<p class="quote-caption">'.e($caption).'</p>' : '';
 
         return $this->line(new HtmlString(

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Canal;
 use App\Models\User;
+use App\Services\Youtube\ChannelId;
 use App\Services\Youtube\VideoId;
 use App\Services\Youtube\VideoImporter;
 use App\Services\Youtube\YoutubeApi;
+use App\Services\Youtube\YoutubeApiException;
 
 class YoutubeController extends Controller
 {
@@ -31,17 +33,13 @@ class YoutubeController extends Controller
     // Search by name in title and save/
     public function searchAndSaveUser(User $user, $slug)
     {
-        $this->saveFoundVideos($user, $this->searchVideosByUserName($user));
-
-        return redirect('/');
+        return $this->searchAndSave($user, $user->canals()->first());
     }
 
     // Search by name in title and save/
     public function searchAndSaveCanal(Canal $canal, $slug)
     {
-        $this->saveFoundVideos($canal, $this->searchVideosByUserName($canal));
-
-        return redirect('/');
+        return $this->searchAndSave($canal, $canal);
     }
 
     /**
@@ -50,9 +48,16 @@ class YoutubeController extends Controller
      */
     public function getNewVideoByChannel(User $user, $channelId)
     {
-        $items = $this->api->playlistItems(YoutubeApi::uploadsPlaylistId($channelId))->items;
+        if (! ChannelId::isId($channelId)) {
+            return $this->fail('Neplatné ID kanála YouTube.');
+        }
 
-        $this->saveFoundVideos($user, array_map([VideoId::class, 'from'], $items));
+        try {
+            $items = $this->api->playlistItems(YoutubeApi::uploadsPlaylistId($channelId))->items;
+            $this->saveFoundVideos($user, array_map([VideoId::class, 'from'], $items));
+        } catch (YoutubeApiException $e) {
+            return $this->fail('YouTube API zlyhalo: ' . $e->getMessage());
+        }
 
         return redirect('/');
     }
@@ -60,7 +65,44 @@ class YoutubeController extends Controller
     // Z linku na Youtube vyhľadávanie zoberie základné informácie
     public function getVideoById($videoId)
     {
-        return response()->json($this->api->videos([$videoId])[$videoId] ?? false);
+        if (! VideoId::isId($videoId)) {
+            return response()->json(['error' => 'Neplatné ID videa.'], 422);
+        }
+
+        try {
+            return response()->json($this->api->videos([$videoId])[$videoId] ?? false);
+        } catch (YoutubeApiException $e) {
+            return response()->json(['error' => $e->getMessage()], 502);
+        }
+    }
+
+    /**
+     * Kanál s vlastným YouTube kanálom sa číta cez uploads playlist (1 jednotka,
+     * len jeho videá). Fulltext search (100 jednotiek, cudzie videá) ostáva
+     * len pre tých, ktorí kanál nemajú.
+     */
+    private function searchAndSave(Canal|User $owner, ?Canal $canal)
+    {
+        try {
+            $channelId = $canal ? ChannelId::fromInput((string) $canal->youtube_channel) : null;
+
+            $ids = $channelId !== null
+                ? array_map([VideoId::class, 'from'], $this->api->playlistItems(YoutubeApi::uploadsPlaylistId($channelId))->items)
+                : $this->searchVideosByUserName($owner);
+
+            $this->saveFoundVideos($owner, $ids);
+        } catch (YoutubeApiException $e) {
+            return $this->fail('YouTube API zlyhalo: ' . $e->getMessage());
+        }
+
+        return redirect('/');
+    }
+
+    private function fail(string $message)
+    {
+        session()->flash('flash', $message);
+
+        return redirect('/');
     }
 
     /**

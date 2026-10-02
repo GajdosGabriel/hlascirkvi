@@ -1,74 +1,51 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Gabriel
- * Date: 21.02.2019
- * Time: 17:01
- */
-
 namespace App\Services;
 
 use App\Models\Canal;
 
-
-
+/**
+ * Obmedzenie importu na videá s určitými slovami v titulku. Pravidlo drží
+ * kanál v stĺpci `video_title_include` (jedna fráza na riadok); bez neho
+ * filter nič neodmieta.
+ */
 class VideoUploadFilter
 {
     public $canal;
     public $title;
 
-    // Preklep v názve (má byť countWords), ale property sa pod ním číta na
-    // troch miestach v tejto triede — premenovanie patrí k väčšiemu upratovaniu.
-    // Deklarácia tu je preto, že dynamické vlastnosti sú v PHP 9 fatal.
-    public bool $coutWords = false;
-
     public function __construct(Canal $canal, $title)
     {
         $this->canal = $canal;
         $this->title = $title;
-        $this->coutWords = false;
     }
 
-    public function wordsChecker()
+    /** True, keď má byť video odmietnuté. */
+    public function wordsChecker(): bool
     {
-        $this->countWords();
+        $words = $this->getAcceptedWords();
 
-        if ($this->canal->id === 256 ) {
-            return ! $this->coutWords;
-        }
-        return $this->coutWords;
+        return $words !== [] && ! $this->containsAny($words);
     }
 
-    public function getAcceptedWords()
+    /** @return string[] */
+    public function getAcceptedWords(): array
     {
-        // Kresťanské spoločenstvo
-        if ($this->canal->id === 256) {
-            return [
-                'Bohoslužba Banská Bystrica',
-            ];
-        }
-        return [];
+        $lines = preg_split('/\R/u', (string) $this->canal->video_title_include) ?: [];
+
+        return array_values(array_filter(array_map('trim', $lines), fn ($line) => $line !== ''));
     }
 
-
-    public function countWords()
+    private function containsAny(array $words): bool
     {
         $title = mb_strtolower((string) $this->title);
 
-        foreach ($this->getAcceptedWords() as $word) {
-            // Argumenty strpos boli prehodené — hľadalo sa, či kľúčové slovo
-            // obsahuje celý titulok. Kanál 256 tak od 01/2022 neprepustil ani
-            // jedno video.
+        foreach ($words as $word) {
             if (str_contains($title, mb_strtolower($word))) {
-                $this->coutWords = true;
+                return true;
             }
         }
-    }
 
-
-    public function getExcusedWords()
-    {
-        //
+        return false;
     }
 }

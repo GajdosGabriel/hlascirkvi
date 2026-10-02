@@ -15,7 +15,7 @@ class Comment extends Model
 {
     use SoftDeletes, HasFactory, HasFavorites, HasFilter, HasDatetime;
 
-    protected $casts = ['published' => 'datetime'];
+    protected $casts = ['published' => 'datetime', 'moderated_at' => 'datetime'];
 
 
     protected static function booted(): void
@@ -36,7 +36,7 @@ class Comment extends Model
     }
 
     protected $guarded= [];
-    protected $hidden = ['commentable_type', 'updated_at', 'deleted_at', 'reply_to_guest', 'pending_user_id'];
+    protected $hidden = ['commentable_type', 'updated_at', 'deleted_at', 'reply_to_guest', 'pending_user_id', 'moderated_at'];
 
     // Tabuľka `comments` nemá stĺpec canal_id, takže eager load väzby na
     // kanál len posielal dopyt bez kľúčov. Komentár patrí užívateľovi —
