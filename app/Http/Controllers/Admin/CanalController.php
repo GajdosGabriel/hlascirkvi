@@ -3,7 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Canal;
-use Illuminate\Http\Request;
+use App\Enums\CanalIdentityMode;
+use App\Enums\CanalSection;
+use App\Enums\Denomination;
+use App\Http\Requests\CanalRequest;
+use App\Models\User;
+use App\Models\Village;
+use App\Services\FrontList\FrontList;
+use App\Services\Youtube\VideoImportSchedule;
+use Illuminate\Support\Facades\DB;
 use App\Filters\CanalFilters;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
@@ -13,6 +21,48 @@ class CanalController extends Controller
     public function __construct()
     {
         $this->middleware('checkSuperAdmin');
+    }
+
+    public function create()
+    {
+        $canal = new Canal(['published' => now(), 'post_section' => CanalSection::Front]);
+        $canal->setRelation('users', collect());
+
+        return view('admins.canals.create', [
+            'canal' => $canal,
+            'villages' => Village::orderBy('fullname')->get(['id', 'fullname', 'zip']),
+            'denominations' => Denomination::options(),
+            'types' => CanalIdentityMode::options(),
+            'sections' => CanalSection::options(),
+            'importDays' => Canal::IMPORT_DAYS,
+            'suggestedImportDay' => VideoImportSchedule::suggestedDay(),
+            'users' => User::orderBy('last_name')->orderBy('first_name')->get(['id', 'first_name', 'last_name', 'email']),
+        ]);
+    }
+
+    public function store(CanalRequest $request)
+    {
+        $canal = DB::transaction(function () use ($request) {
+            $data = collect($request->validated())->except(['users', 'front_listed'])->all();
+            if (($data['import_day'] ?? null) === 'auto') {
+                $data['import_day'] = VideoImportSchedule::suggestedDay();
+            }
+
+            $canal = new Canal($data);
+            VideoImportSchedule::assignDayForNewSource($canal);
+            VideoImportSchedule::reset($canal);
+            $canal->save();
+            $canal->users()->sync($request->validated('users', []) ?? []);
+
+            if ($request->boolean('front_listed')) {
+                app(FrontList::class)->add($canal);
+            }
+
+            return $canal;
+        });
+
+        return redirect()->route('admin.canal.show', $canal)
+            ->with('flash', 'Nový kanál bol vytvorený.');
     }
 
     public function index(CanalFilters $filters)

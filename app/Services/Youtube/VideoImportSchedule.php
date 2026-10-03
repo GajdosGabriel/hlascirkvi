@@ -13,6 +13,17 @@ class VideoImportSchedule
         return filled($canal->youtube_channel) || filled($canal->youtube_playlist);
     }
 
+    public static function assignDayForNewSource(Canal $canal): void
+    {
+        // Pridaný YouTube zdroj dostane týždenný termín aj bez výberu vo
+        // formulári. Už nastavený deň ani existujúci denný import nemeníme.
+        if (self::hasSource($canal)
+            && $canal->import_day === null
+            && (! $canal->exists || $canal->isDirty(['youtube_channel', 'youtube_playlist']))) {
+            $canal->import_day = self::suggestedDay($canal->id);
+        }
+    }
+
     public static function nextDate(Canal $canal, ?CarbonInterface $after = null): ?Carbon
     {
         if ($canal->import_day === null && ! self::hasSource($canal)) {

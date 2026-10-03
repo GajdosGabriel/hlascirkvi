@@ -4,6 +4,11 @@
     <title>{{ 'Kanál ' . $canal->title }} | Hlas Cirkvi</title>
 @endsection
 
+@section('headerCSS')
+    @parent
+    @include('partials.canal-overview-style')
+@endsection
+
 @section('content')
     <x-pages.dashboard>
         <x-slot name="title">Prehľad kanála</x-slot>

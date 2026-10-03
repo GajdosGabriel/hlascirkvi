@@ -12,7 +12,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <new-canal />
+            <a href="{{ route('admin.canal.create') }}" class="ar-btn ar-btn--accent"><i class="ph ph-plus"></i> Nový kanál</a>
         </x-slot>
 
 

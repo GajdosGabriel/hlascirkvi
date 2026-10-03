@@ -139,6 +139,7 @@ class CanalController extends Controller
             $data['import_day'] = VideoImportSchedule::suggestedDay($canal->id);
         }
         $canal->fill($data);
+        VideoImportSchedule::assignDayForNewSource($canal);
         if ($canal->isDirty(['import_day', 'youtube_channel', 'youtube_playlist', 'title', 'post_section'])) {
             VideoImportSchedule::reset($canal);
             if ($canal->isDirty(['title', 'youtube_channel', 'youtube_playlist'])) {

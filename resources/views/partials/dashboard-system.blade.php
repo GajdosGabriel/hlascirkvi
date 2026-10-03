@@ -111,6 +111,18 @@
     }
     .ar-chart__dot { fill: var(--ar-accent); }
     .ar-chart__label { font-size: 12px; fill: #b6bac3; }
+    .ar-chart__day { outline: none; }
+    .ar-chart__hit { fill: transparent; pointer-events: all; cursor: crosshair; }
+    .ar-chart__detail { visibility: hidden; pointer-events: none; }
+    .ar-chart__day:hover .ar-chart__detail,
+    .ar-chart__day:focus .ar-chart__detail { visibility: visible; }
+    /* Pri práci myšou zobrazíme iba deň pod kurzorom, aj keď iný ostal fokusovaný. */
+    .ar-chart:has(.ar-chart__day:hover) .ar-chart__day:not(:hover) .ar-chart__detail { visibility: hidden; }
+    .ar-chart__guide { stroke: var(--ar-accent); stroke-width: 1; stroke-dasharray: 4 4; opacity: .45; }
+    .ar-chart__active-dot { fill: var(--ar-accent); stroke: #fff; stroke-width: 2; }
+    .ar-chart__tooltip { fill: #fff; stroke: var(--ar-line); stroke-width: 1; }
+    .ar-chart__tooltip-date { font-size: 11px; fill: var(--ar-ink-soft); }
+    .ar-chart__tooltip-value { font-size: 13px; font-weight: 700; fill: var(--ar-ink); }
 
     /* Mesačný pásik pod grafom: koľko toho kanál vydal za posledný rok. */
     .ar-months {

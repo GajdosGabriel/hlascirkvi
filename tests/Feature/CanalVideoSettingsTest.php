@@ -78,6 +78,47 @@ class CanalVideoSettingsTest extends TestCase
         $this->assertNull($canal->video_check_error);
     }
 
+    public function test_adding_source_assigns_least_busy_day_and_keeps_explicit_day(): void
+    {
+        foreach (range(1, 6) as $day) {
+            Canal::factory()->create(['import_day' => $day]);
+        }
+
+        foreach (['youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw', 'youtube_playlist' => 'PL' . str_repeat('a', 32)] as $field => $source) {
+            $canal = Canal::factory()->create(['import_day' => null]);
+            $this->actingAs($this->actor($canal, 'admin'))
+                ->put('/dashboard/canals/'.$canal->id, $this->payload($canal, [
+                    $field => $source, 'import_day' => '',
+                ]))->assertSessionHasNoErrors()->assertRedirect();
+            $canal->refresh();
+            $this->assertNotNull($canal->import_day);
+            $this->assertSame($canal->import_day, $canal->video_check_next_at->dayOfWeek);
+            $this->assertSame('16:24', $canal->video_check_next_at->format('H:i'));
+            if ($field === 'youtube_channel') {
+                $this->assertSame(0, $canal->import_day);
+            }
+        }
+
+        $canal = Canal::factory()->create(['import_day' => null]);
+        $this->actingAs($this->actor($canal, 'admin'))
+            ->put('/dashboard/canals/'.$canal->id, $this->payload($canal, [
+                'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw', 'import_day' => 0,
+            ]))->assertSessionHasNoErrors();
+        $this->assertSame(0, $canal->fresh()->import_day);
+    }
+
+    public function test_existing_daily_source_is_not_rescheduled_by_unrelated_edit(): void
+    {
+        $canal = Canal::factory()->create([
+            'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw', 'import_day' => null,
+        ]);
+        $this->actingAs($this->actor($canal, 'admin'))
+            ->put('/dashboard/canals/'.$canal->id, $this->payload($canal, [
+                'description' => 'Nový popis', 'import_day' => '',
+            ]))->assertSessionHasNoErrors();
+        $this->assertNull($canal->fresh()->import_day);
+    }
+
     public function test_hidden_field_does_not_erase_legacy_name_search_day(): void
     {
         $canal = Canal::factory()->create(['import_day' => 3]);

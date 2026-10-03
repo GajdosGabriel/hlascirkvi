@@ -8,6 +8,7 @@ use App\Enums\Denomination;
 use App\Models\Canal;
 use App\Services\Youtube\ChannelId;
 use App\Services\Youtube\PlaylistId;
+use App\Services\Youtube\VideoImportSchedule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -178,13 +179,18 @@ class CanalRequest extends FormRequest
         //
         // Zakladajúci formulár ponúka len zaradenie kanála; deň importu
         // a smerovanie videí nastavuje admin až v úprave, preto tu ostávajú
-        // na predvolených hodnotách stĺpca.
+        // na predvolených hodnotách stĺpca. YouTube zdroj dostane deň automaticky.
         $data = collect($this->validated())
             ->except(['users', 'published', 'import_day', 'post_section', 'front_listed'])
             ->all();
 
         // Bez zadaného typu vznikne organizácia. Osobný kanál sa zakladá
         // aj automaticky po overení e-mailu (UserActivation).
-        return auth()->user()->canals()->create($data + ['identity_mode' => \App\Enums\CanalIdentityMode::Organization]);
+        $canal = new Canal($data + ['identity_mode' => \App\Enums\CanalIdentityMode::Organization]);
+        VideoImportSchedule::assignDayForNewSource($canal);
+        VideoImportSchedule::reset($canal);
+        auth()->user()->canals()->save($canal);
+
+        return $canal;
     }
 }

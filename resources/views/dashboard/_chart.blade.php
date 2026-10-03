@@ -55,7 +55,7 @@
         </x-slot>
 
     <div class="ar-panel__body ar-chart__wrap">
-        <svg class="ar-chart" viewBox="0 0 {{ $w }} {{ $h }}" role="img"
+        <svg class="ar-chart" viewBox="0 0 {{ $w }} {{ $h }}" role="group"
              aria-label="{{ $chartLabel ?? 'Zhliadnutia príspevkov kanála za posledných 30 dní' }}">
 
             <defs>
@@ -87,6 +87,32 @@
                 <text class="ar-chart__label" x="{{ $x($index) }}" y="{{ $h - 6 }}" text-anchor="{{ $anchor }}">
                     {{ \Carbon\Carbon::parse($days[$index]->day)->format('j. n.') }}
                 </text>
+            @endforeach
+
+            {{-- Celá výška dňa reaguje na myš, aj keď je jeho hodnota nulová.
+                 Detail je súčasťou SVG, takže sa škáluje spolu s grafom. --}}
+            @foreach ($days as $index => $day)
+                @php
+                    $dayX = $x($index);
+                    $dayY = $y($day->views);
+                    $hitLeft = $index === 0 ? $padLeft : ($x($index - 1) + $dayX) / 2;
+                    $hitRight = $index === $days->count() - 1 ? $w - 8 : ($dayX + $x($index + 1)) / 2;
+                    $tooltipX = max($padLeft, min($w - 8 - 174, $dayX - 87));
+                    $tooltipY = $dayY < 66 ? $dayY + 12 : $dayY - 54;
+                    $dateLabel = \Carbon\Carbon::parse($day->day)->format('j. n. Y');
+                    $viewsLabel = number_format($day->views, 0, ',', ' ') . ' zhliadnutí';
+                @endphp
+                <g class="ar-chart__day" tabindex="0" role="img" aria-label="{{ $dateLabel }} — {{ $viewsLabel }}">
+                    <rect class="ar-chart__hit" x="{{ $hitLeft }}" y="{{ $padTop }}"
+                          width="{{ $hitRight - $hitLeft }}" height="{{ $plotHeight }}"/>
+                    <g class="ar-chart__detail" aria-hidden="true">
+                        <line class="ar-chart__guide" x1="{{ $dayX }}" y1="{{ $padTop }}" x2="{{ $dayX }}" y2="{{ $baseline }}"/>
+                        <circle class="ar-chart__active-dot" cx="{{ $dayX }}" cy="{{ $dayY }}" r="4"/>
+                        <rect class="ar-chart__tooltip" x="{{ $tooltipX }}" y="{{ $tooltipY }}" width="174" height="46" rx="6"/>
+                        <text class="ar-chart__tooltip-date" x="{{ $tooltipX + 12 }}" y="{{ $tooltipY + 17 }}">{{ $dateLabel }}</text>
+                        <text class="ar-chart__tooltip-value" x="{{ $tooltipX + 12 }}" y="{{ $tooltipY + 34 }}">{{ $viewsLabel }}</text>
+                    </g>
+                </g>
             @endforeach
         </svg>
     </div>

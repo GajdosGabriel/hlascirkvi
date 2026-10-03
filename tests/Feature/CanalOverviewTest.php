@@ -26,6 +26,11 @@ class CanalOverviewTest extends TestCase
         foreach (['admin.canal.show', 'profile.canals.show'] as $route) {
             $response = $this->actingAs($admin)->get(route($route, $canal));
             $response->assertOk()->assertSee('Obsah a aktivita')->assertSee('kontakt@example.org')->assertSee('Zdroj nie je dostupný');
+            // Vue removes style tags inside #app when mounting the page.
+            $html = $response->getContent();
+            $head = substr($html, 0, strpos($html, '</head>'));
+            $this->assertStringContainsString('.co-overview', $head);
+            $this->assertStringNotContainsString('.co-overview', substr($html, strpos($html, '</head>')));
             $response->assertViewHas('canal', fn ($model) => $model->posts_count === 3
                 && $model->published_posts_count === 2 && $model->unpublished_posts_count === 1
                 && $model->deleted_posts_count === 1 && $model->favorites_count === 0);

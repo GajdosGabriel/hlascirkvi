@@ -174,6 +174,10 @@ Route::permanentRedirect('organization/{canal}/seminar/{rest?}', '/dashboard/can
 
 Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 'checkBanned'])->group(function () {
     Route::get('canal', 'Admin\CanalController@index')->name('canal.index');
+    Route::get('canal/create', 'Admin\CanalController@create')->name('canal.create');
+    Route::post('canal', 'Admin\CanalController@store')->name('canal.store');
+    Route::get('canal/create', 'Admin\CanalController@create')->name('canal.create');
+    Route::post('canal', 'Admin\CanalController@store')->name('canal.store');
     // Detail aj pre zrušený kanál — výpis ich vie ukázať (?deletedAt).
     Route::get('canal/{canal}', 'Admin\CanalController@show')->name('canal.show')->withTrashed();
     Route::permanentRedirect('organization', '/admin/canal');
@@ -211,7 +215,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::resource('prayer', Admin\PrayerController::class)->only('index');
     Route::resource('comment', Admin\CommentController::class)->only('index');
     Route::resource('statistic', Admin\StatisticController::class)->only('index');
-    Route::resource('user', Admin\UserController::class)->only(['index', 'edit', 'update']);
+    Route::resource('user', Admin\UserController::class)->only(['index', 'show', 'edit', 'update']);
     Route::resource('image', Admin\ImageController::class)->only(['index', 'destroy']);
     Route::resource('logs', Admin\SystemLogController::class)->only('index');
 });

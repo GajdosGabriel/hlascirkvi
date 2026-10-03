@@ -6,7 +6,6 @@
     $paused = $canal->post_section === \App\Enums\CanalSection::Paused;
     $web = preg_match('#^https?://#i', $canal->url_www ?? '') ? $canal->url_www : null;
 @endphp
-@include('partials.canal-overview-style')
 <div class="co-overview">
     <section class="ar-panel co-hero">
         <div class="co-identity">
@@ -53,7 +52,7 @@
     <div class="co-columns">
         <div class="co-stack">
             <section class="ar-panel co-panel">
-                <h3>Obsah a aktivita</h3>
+                <h3><i class="ph ph-chart-bar" aria-hidden="true"></i> Obsah a aktivita</h3>
                 <dl class="co-facts">
                     <div><dt>Zverejnené príspevky</dt><dd>{{ $canal->published_posts_count }}</dd></div>
                     <div><dt>Nezverejnené príspevky</dt><dd>{{ $canal->unpublished_posts_count }}</dd></div>
@@ -83,7 +82,7 @@
                 @endunless
             </section>
             <section class="ar-panel co-panel">
-                <h3>O kanáli</h3>
+                <h3><i class="ph ph-info" aria-hidden="true"></i> O kanáli</h3>
                 @if ($canal->description)
                     <div class="co-description">{!! $canal->description_html !!}</div>
                 @else
@@ -98,7 +97,7 @@
         </div>
         <div class="co-stack">
             <section class="ar-panel co-panel">
-                <h3>Kontaktné údaje</h3>
+                <h3><i class="ph ph-address-book" aria-hidden="true"></i> Kontaktné údaje</h3>
                 <dl class="co-facts">
                     <div><dt>E-mail</dt><dd>@if ($canal->email)<a class="ar-link" href="mailto:{{ $canal->email }}">{{ $canal->email }}</a>@else Neuvedený @endif</dd></div>
                     <div><dt>Telefón</dt><dd>@if ($canal->phone)<a class="ar-link" href="tel:{{ $canal->phone }}">{{ $canal->phone }}</a>@else Neuvedený @endif</dd></div>
@@ -106,7 +105,7 @@
                 </dl>
             </section>
             <section class="ar-panel co-panel">
-                <h3>Import z YouTube</h3>
+                <h3><i class="ph ph-youtube-logo" aria-hidden="true"></i> Import z YouTube</h3>
                 <span class="ar-badge {{ $canal->youtube_disabled_at || $paused ? 'ar-badge--warn' : 'ar-badge--count' }}">{{ $paused ? 'Pozastavený' : ($canal->youtube_disabled_at ? 'Vypnutý' : ($hasSource ? 'Zdroj nastavený' : 'Bez zdroja')) }}</span>
                 @if ($canal->youtube_disabled_at)
                     <p class="co-muted">Vypnutý {{ $canal->youtube_disabled_at->format('j. n. Y') }}. {{ $canal->youtube_disabled_reason }}</p>
@@ -123,7 +122,7 @@
                 </dl>
             </section>
             <section class="ar-panel co-panel">
-                <h3>Správcovia <span class="ar-badge ar-badge--count">{{ $canal->users->count() }}</span></h3>
+                <h3><i class="ph ph-users" aria-hidden="true"></i> Správcovia <span class="ar-badge ar-badge--count">{{ $canal->users->count() }}</span></h3>
                 <ul class="co-managers">
                     @forelse ($canal->users as $manager)
                         <li>

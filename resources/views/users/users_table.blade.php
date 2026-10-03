@@ -41,7 +41,7 @@
             <tr class="border-2 border-gray-300">
                 <td class="td">{{ $user->id }} </td>
                 <td class="td">
-                    <div class="font-semibold">{{ $user->adminName() }}</div>
+                    <a href="{{ route('admin.user.show', $user->id) }}" class="font-semibold hover:underline">{{ $user->adminName() }}</a>
                     <div class="text-sm text-gray-500 break-all">{{ $user->email }}</div>
                 </td>
                 <td class="text-center">
@@ -61,6 +61,9 @@
                 <td class="text-sm">{{ $user->last_login_via_label ?? '—' }}</td>
                 <td class="td">
                     <dropdown-slot label="Spravovať používateľa">
+                        <a href="{{ route('admin.user.show', $user->id) }}">
+                            <i class="ph ph-eye" aria-hidden="true"></i> Zobraziť
+                        </a>
                         <a href="{{ route('admin.user.edit', [$user->id]) }}">
                             <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
                         </a>
