@@ -74,6 +74,7 @@ class PostController extends Controller
         return view('posts.show', [
             'post'    => $post,
             'series'  => $this->series($post),
+            'collections' => $post->seminars()->published()->orderBy('title')->get(),
             'isSaved' => (bool) auth()->user()?->savedPosts()->whereKey($post->id)->exists(),
         ] + $this->cachedChannelPanels($post));
     }
@@ -145,7 +146,7 @@ class PostController extends Controller
      */
     protected function series(Post $post): ?array
     {
-        $seminar = $post->seminars()->latest('seminars.id')->first();
+        $seminar = $post->seminars()->published()->latest('seminars.id')->first();
 
         if (! $seminar) {
             return null;

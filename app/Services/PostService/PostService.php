@@ -22,7 +22,11 @@ class PostService
 
         // validated() namiesto all() — do modelu sa tak nedostane nič, čo
         // PostSaveRequest nepovolil (count_view, cudzie canal_id).
-        $post = DB::transaction(fn () => $canal->posts()->create($data));
+        $post = DB::transaction(function () use ($canal, $data, $request) {
+            $post = $canal->posts()->create($data);
+            $this->syncCollections($post, $request);
+            return $post;
+        });
 
         // Obrázky a sťahovanie náhľadu až po commite — pomalé YouTube by inak
         // držalo zámky a pri rollbacku by na disku ostali siroty.
@@ -33,7 +37,10 @@ class PostService
 
     public function update($post, $request)
     {
-        $post->update($this->attributes($request, $post));
+        DB::transaction(function () use ($post, $request) {
+            $post->update($this->attributes($request, $post));
+            $this->syncCollections($post, $request);
+        });
 
         $this->failures = (new Form($post, $request, $post->wasChanged('video_id')))->handler();
 
@@ -55,7 +62,7 @@ class PostService
      */
     protected function attributes($request, $post): array
     {
-        $data = collect($request->validated())->except('publish_now')->all();
+        $data = collect($request->validated())->except(['publish_now', 'collections', 'collections_present'])->all();
 
         // posts.body je NOT NULL; príspevok s videom smie byť bez textu.
         if (array_key_exists('body', $data)) {
@@ -72,5 +79,21 @@ class PostService
         }
 
         return $data;
+    }
+
+    protected function syncCollections($post, $request): void
+    {
+        if ($request->boolean('collections_present') || $request->has('collections')) {
+            $ids = $request->validated('collections', []);
+            if (! $post->wasChanged('canal_id')) {
+                // Historické semináre mohli zoskupovať videá z iných kanálov.
+                // Formulár ich neponúka; odstrániť ich môže správca kolekcie.
+                $ids = array_merge($ids, $post->seminars()->where('seminars.canal_id', '!=', $post->canal_id)->pluck('seminars.id')->all());
+            }
+            $post->seminars()->sync($ids);
+        } elseif ($post->wasChanged('canal_id')) {
+            // Pri presune sa pôvodné zaradenia nemajú preniesť do cudzieho kanála.
+            $post->seminars()->detach();
+        }
     }
 }

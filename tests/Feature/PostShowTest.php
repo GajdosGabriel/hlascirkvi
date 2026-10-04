@@ -36,7 +36,7 @@ class PostShowTest extends TestCase
     {
         $canal = Canal::factory()->create();
         $parts = Post::factory()->count(3)->create(['canal_id' => $canal->id]);
-        $seminar = Seminar::create(['title' => 'Kurz Alfa', 'canal_id' => $canal->id]);
+        $seminar = Seminar::create(['title' => 'Kurz Alfa', 'published' => now(), 'canal_id' => $canal->id]);
         $seminar->posts()->attach($parts->pluck('id'));
 
         $middle = $parts[1];

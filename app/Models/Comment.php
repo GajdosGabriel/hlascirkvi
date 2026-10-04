@@ -30,6 +30,17 @@ class Comment extends Model
         });
     }
 
+    /** Rovnaký výber pre administráciu aj jej súhrnné počty. */
+    public static function verifiedSiteUsers($query = null)
+    {
+        return ($query ?? static::query())->where('comments.source', 'site')
+            ->whereExists(fn ($q) => $q->selectRaw('1')->from('users')
+                ->whereColumn('users.id', 'comments.user_id')
+                ->whereNotNull('users.email_verified_at')->whereNull('users.deleted_at'))
+            ->whereNull('comments.youtube_comment_id')
+            ->whereNotNull('comments.user_id')
+            ->where('comments.user_id', '!=', \App\Services\Youtube\CommentSync::USER_ID);
+    }
     public function scopePublished($query)
     {
         return $query->whereNotNull($this->qualifyColumn('published'));

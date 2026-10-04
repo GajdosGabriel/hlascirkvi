@@ -22,11 +22,12 @@
 
         <x-slot name="page">
             <ul>
-                @foreach ($prayers as $prayer)
+                @forelse ($prayers as $prayer)
                     <li class="ar-panel mb-3 p-4">
                         <div class="flex flex-wrap justify-between gap-2">
                             <div>{{ $prayer->title }}</div>
                             <div class="flex space-x-1 items-center">
+                                @if (! $prayer->trashed() && $prayer->canal)
                                 <dropdown-slot label="Spravovať modlitbu">
                                     <a href="{{ route('profile.canals.prayers.edit', [$prayer->canal_id, $prayer->id]) }}">
                                         <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
@@ -44,6 +45,9 @@
                                         </button>
                                     </form>
                                 </dropdown-slot>
+                                @else
+                                    <span class="text-sm text-gray-500">{{ $prayer->trashed() ? 'Zrušená modlitba' : 'Kanál už nie je dostupný' }}</span>
+                                @endif
                             </div>
 
                         </div>
@@ -52,12 +56,17 @@
 
                         <div class="flex">
                             <div class="text-gray-400 text-sm font-semibold mr-4">Meno: {{ $prayer->user_name ?: '—' }}</div>
-                            <div class="text-gray-400 text-sm">Vytvorené: {{ $prayer->created_at->format('m. d. Y') }}
+                            <div class="text-gray-400 text-sm">Vytvorené: {{ $prayer->created_at->format('j. n. Y') }}
                             </div>
                         </div>
 
                     </li>
-                @endforeach
+                @empty
+                    <li class="ar-panel p-4">
+                        <p>Žiadne modlitby nezodpovedajú tomuto výberu.</p>
+                        <a class="ar-link mt-2 inline-block" href="{{ route('admin.prayer.index') }}">Zobraziť všetky modlitby</a>
+                    </li>
+                @endforelse
             </ul>
 
             <div class="md:block my-8">

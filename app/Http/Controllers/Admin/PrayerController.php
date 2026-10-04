@@ -16,11 +16,9 @@ class PrayerController extends Controller
 
     public function index(PrayerFilters $filters)
     {
-        // Odkazy na úpravu a mazanie potrebujú len číslo kanála, a to nesie
-        // samotná modlitba (`canal_id`). Cez vzťah sa brať nedá: kanál
-        // je mäkko mazaný, takže pri modlitbe zo zmazaného kanála vracia null
-        // a celý výpis padne.
-        $prayers = Prayer::query()
+        // Zrušená modlitba a modlitba zo zrušeného kanála zostáva v archíve,
+        // ale nemá odkazy na formuláre, ktoré by skončili na 404.
+        $prayers = Prayer::with('canal:id')
             ->orderBy('created_at', 'desc')
             ->filter($filters)
             ->paginate(30)

@@ -12,6 +12,7 @@ return [
     |
     */
 
-    'previous' => '&laquo; Predchádzajúca',
-    'next'     => 'Nasledujúca &raquo;',
+    'previous' => '« Predchádzajúca',
+    'next'     => 'Nasledujúca »',
+    'goto_page' => 'Prejsť na stranu :page',
 ];

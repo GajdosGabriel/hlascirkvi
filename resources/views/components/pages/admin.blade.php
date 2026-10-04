@@ -5,6 +5,18 @@
 
     @php
         $filterSelects = match (Route::currentRouteName()) {
+            'admin.seminar.index' => [
+                'kind' => [
+                    'label' => 'Typ',
+                    'placeholder' => 'Všetky typy',
+                    'options' => ['collection' => 'Tematické kolekcie', 'seminar' => 'Semináre / podujatia'],
+                ],
+                'status' => [
+                    'label' => 'Zverejnenie',
+                    'placeholder' => 'Všetky kolekcie',
+                    'options' => ['published' => 'Zverejnené', 'unpublished' => 'Nezverejnené'],
+                ],
+            ],
             'admin.user.index' => [
                 'status' => [
                     'label' => __('model_status.filter.label'),
@@ -36,7 +48,7 @@
         };
 
         $filterOptions = match (Route::currentRouteName()) {
-            'admin.user.index', 'admin.logs.index' => [],
+            'admin.user.index', 'admin.logs.index', 'admin.seminar.index' => [],
             'admin.comment.index' => ['unpublished', 'deletedAt'],
             'admin.post.index' => ['unpublished', 'deletedAt', 'videoAvailable'],
             'admin.prayer.index' => ['fulfilled', 'unpublished', 'deletedAt'],

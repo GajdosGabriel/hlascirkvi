@@ -49,17 +49,12 @@ class VerseController extends Controller
      */
     function date_from_day_of_year($format = null, $dayOfYear = null, $year = null)
     {
-        $format = ($format === null) ? 'j. F Y' : $format;
+        $offset = ($dayOfYear ?? now()->dayOfYear) - 1;
 
-        $dayOfYear = ($dayOfYear === null) ? now()->dayOfYear : $dayOfYear - 1;
-
-        $year = ($year === null) ? now()->year : $year;
-
-        $dt = \Carbon\Carbon::create($year, 1, 1, 0)->addSeconds($dayOfYear*86400)->toDateTimeString();
-
-        return $this->localized_date($format, $dt);
+        return Carbon::create($year ?? now()->year, 1, 1, 0)
+            ->addDays($offset)->locale(config('app.locale'))
+            ->translatedFormat($format ?? 'j. F Y');
     }
-
     /**
      * Localized Date
      *

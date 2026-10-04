@@ -14,7 +14,7 @@
             <div class="page-content">
                 <h1>Stránka sa nenašla!</h1>
                 <p>Chyba 404</p>
-                <a href="{{ URL::previous() }}"><button class="btn btn-primary">Vrátiť sa späť</button></a>
+                <a href="{{ url('/') }}" class="btn btn-primary">Prejsť na úvodnú stránku</a>
             </div>
         </div>
     </div>

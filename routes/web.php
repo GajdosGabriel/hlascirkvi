@@ -149,6 +149,8 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         // (show) kontroler nemá, registrovaná routa by skončila 500-kou.
         Route::resource('canals.prayers', Canal\CanalPrayerController::class)->except('show')->scoped();
         Route::resource('canals.seminars', Canal\CanalSeminarController::class)->scoped();
+        Route::post('canals/{canal}/seminars/{seminar}/posts', 'Canal\CanalSeminarController@posts')
+            ->scopeBindings()->name('canals.seminars.posts');
     });
 });
 
@@ -213,6 +215,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::resource('buffer', Admin\BufferController::class)->only('index');
     Route::resource('post', Admin\PostController::class)->only('index');
     Route::resource('prayer', Admin\PrayerController::class)->only('index');
+    Route::resource('seminar', Admin\SeminarController::class)->only(['index', 'create']);
     Route::resource('comment', Admin\CommentController::class)->only('index');
     Route::resource('statistic', Admin\StatisticController::class)->only('index');
     Route::resource('user', Admin\UserController::class)->only(['index', 'show', 'edit', 'update']);

@@ -76,7 +76,7 @@ class SitemapController extends Controller
                 ['loc' => route('gdpr'), 'changefreq' => 'yearly', 'priority' => '0.2'],
             ];
 
-            foreach (Seminar::whereNotNull('published')->get(['id', 'updated_at']) as $seminar) {
+            foreach (Seminar::published()->get(['id', 'updated_at']) as $seminar) {
                 $urls[] = [
                     'loc' => route('seminars.show', [$seminar->id]),
                     'lastmod' => $this->iso($seminar->updated_at),

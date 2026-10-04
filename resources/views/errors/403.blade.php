@@ -14,7 +14,7 @@
             <div class="page-content">
                 <h2>Na úkon nie ste autorizovaný</h2>
                 <p>Chyba 403 {{ $exception->getMessage() }}</p>
-                <a href="{{ URL::previous() }}"><button class="btn btn-primary">Vrátiť sa späť</button></a>
+                <a href="{{ url('/') }}" class="btn btn-primary">Prejsť na úvodnú stránku</a>
             </div>
         </div>
     </div>

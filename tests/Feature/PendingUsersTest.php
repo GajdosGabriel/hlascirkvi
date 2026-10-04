@@ -71,7 +71,7 @@ class PendingUsersTest extends TestCase
             ->assertDontSee('Nepotvrdený komentár')->assertDontSee('Importovaný komentár');
         app(PendingUsers::class)->move($unverified->id);
         $this->get(route('admin.user.edit', $unverified->id))->assertRedirect(route('admin.user.index', ['pending' => 1]));
-        $this->get(route('admin.user.index', ['pending' => 1]))->assertOk()->assertSee($unverified->email)->assertSee($unverified->uuid);
+        $this->get(route('admin.user.index', ['pending' => 1]))->assertOk()->assertSee($unverified->email)->assertDontSee($unverified->uuid)->assertDontSee('<th>UUID</th>', false);
     }
 
     public function test_blocked_pending_account_cannot_bypass_restriction(): void

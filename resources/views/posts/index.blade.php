@@ -56,6 +56,7 @@
 
         $active = collect(array_keys($views))->first(fn ($key) => request()->filled($key));
         $search = trim((string) request('search'));
+        $searchQuery = $search !== '' ? ['search' => $search] : [];
 
         if ($search !== '') {
             $heading = 'Výsledky hľadania';
@@ -87,13 +88,15 @@
                  v partials/design-system). --}}
             <div class="ar-viewbar mt-6 {{ $search !== '' ? 'is-searching' : '' }}" data-viewbar>
                 <nav class="ar-viewbar__tabs" aria-label="Zoradenie príspevkov">
-                    <a href="{{ route('posts.index') }}"
+                    <a href="{{ route('posts.index', $searchQuery) }}"
+                       @if (!$active) aria-current="page" @endif
                        class="ar-tab {{ $active || $search !== '' ? '' : 'ar-tab--on' }}">
                         <i class="ph ph-clock"></i> Najnovšie
                     </a>
 
                     @foreach ($views as $key => $view)
-                        <a href="{{ route('posts.index', [$key => 'true']) }}"
+                        <a href="{{ route('posts.index', array_merge($searchQuery, [$key => 'true'])) }}"
+                           @if ($active === $key) aria-current="page" @endif
                            title="{{ $view['perex'] }}"
                            class="ar-tab {{ $active === $key ? 'ar-tab--on' : '' }}">
                             <i class="{{ $view['icon'] }}"></i> {{ $view['label'] }}
@@ -112,10 +115,13 @@
                      bez textu vráti bežný výpis. --}}
                 <form action="{{ route('posts.index') }}" method="GET"
                       class="ar-search {{ $search !== '' ? 'ar-search--open' : '' }} ml-auto">
+                    @if ($active)
+                        <input type="hidden" name="{{ $active }}" value="true">
+                    @endif
                     <label for="post-search" class="sr-only">Hľadať v príspevkoch</label>
                     <input id="post-search" type="search" name="search" value="{{ $search }}"
                            placeholder="Hľadať…">
-                    <button type="submit" title="Hľadať"><i class="ph ph-magnifying-glass"></i></button>
+                    <button type="submit" title="Hľadať" aria-label="Hľadať v príspevkoch"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></button>
                 </form>
 
                 <button type="button" class="ar-viewbar__icon ar-viewbar__close"
@@ -130,7 +136,7 @@
         <div class="grid gap-10 lg:grid-cols-12">
 
             {{-- Výpis príspevkov --}}
-            <div class="lg:col-span-8">
+            <div class="min-w-0 lg:col-span-8">
                 {{-- Oznamy správcu webu. Stoja nad mriežkou, aby ich čitateľ
                      videl skôr než prvý príspevok. --}}
                 <x-announcements placement="home" />
@@ -139,9 +145,13 @@
                     @forelse ($posts as $post)
                         @include('posts.card-front')
                     @empty
-                        <p class="col-span-full rounded-lg border border-dashed border-[color:var(--ar-line)] bg-white px-4 py-10 text-center text-sm text-gray-500">
-                            Pre tento výber sme nenašli žiadny príspevok.
-                        </p>
+                        <div class="col-span-full rounded-lg border border-dashed border-[color:var(--ar-line)] bg-white px-4 py-10 text-center text-sm text-gray-500">
+                            <p>Pre tento výber sme nenašli žiadny príspevok.</p>
+                            @if ($search !== '' || $active)
+                                <p class="mt-2">Skúste iný výraz alebo zrušte vybraný filter.</p>
+                                <a href="{{ route('posts.index') }}" class="ar-tab mt-4">Zobraziť najnovšie príspevky</a>
+                            @endif
+                        </div>
                     @endforelse
                 </div>
 
@@ -153,7 +163,7 @@
             </div>
 
             {{-- Bočný panel --}}
-            <aside class="ar-aside lg:col-span-4">
+            <aside class="ar-aside min-w-0 lg:col-span-4">
                 <x-liturgical-readings />
 
                 <x-announcements placement="sidebar" />

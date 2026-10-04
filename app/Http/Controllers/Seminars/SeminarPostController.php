@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Seminars;
 
+use App\Models\Post;
 use App\Models\Seminar;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class SeminarPostController extends Controller
 {
-    public function show(Seminar $seminar)
+    public function show(Seminar $seminar, Post $post)
     {
-        return view('profiles.seminars.show', ['seminar' => $seminar]);
+        abort_unless($seminar->posts()->whereKey($post->id)->exists(), 404);
+
+        return redirect()->route('post.show', [$post->id, $post->slug]);
     }
 }

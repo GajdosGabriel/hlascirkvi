@@ -60,6 +60,8 @@
 
     @if ($featured)
         @include('events.portal._hero')
+    @else
+        <h1 class="mx-auto max-w-6xl px-4 py-6 text-2xl font-semibold ev-display">Podujatia</h1>
     @endif
 
     @include('events.portal._filters')

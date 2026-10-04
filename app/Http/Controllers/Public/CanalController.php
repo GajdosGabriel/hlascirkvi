@@ -42,6 +42,9 @@ class CanalController extends Controller
         return view('canals.index', [
             'canal'         => $canal,
             'posts'         => $posts,
+            'collections'   => $canal->seminars()->published()->orderBy('title')
+                ->withCount(['posts' => fn ($q) => $q->published()->available()])
+                ->paginate(12, ['*'], 'collections_page')->withQueryString(),
             'year'          => $year,
             'month'         => $month,
         ] + $this->channelPanels($canal));

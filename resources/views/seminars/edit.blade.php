@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 @section('title')
-    <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title>
+    <title>{{ 'Úprava kolekcie' }}</title>
 @endsection
 
 @section('content')
     <x-pages.dashboard>
 
         <x-slot name="title">
-            Upraviť seminár
+            Upraviť kolekciu
         </x-slot>
 
         <x-slot name="title_right">

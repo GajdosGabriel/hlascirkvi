@@ -36,6 +36,11 @@ class PostSaveRequest extends FormRequest
             // oboje naraz.
             'section' => ['required', Rule::enum(PostSection::class)],
             'publish_now' => 'nullable|boolean',
+            'collections_present' => 'sometimes|boolean',
+            'collections' => 'sometimes|array|max:100',
+            'collections.*' => ['integer', 'distinct', Rule::exists('seminars', 'id')
+                ->whereNull('deleted_at')->where('canal_id', $this->input('canal_id',
+                    $this->route('post')?->canal_id ?? auth()->user()->canal_id))],
 
             /*
              * Výber kanála sa vo formulári ukáže len administrácii

@@ -62,7 +62,7 @@ class AsideMenu extends Component
             [
                 'url' => route('profile.canals.seminars.index', $canalId),
                 'icon' => 'seminar',
-                'name' => 'Semináre',
+                'name' => 'Kolekcie a semináre',
             ],
             [
                 'url' => route('profile.canals.prayers.index', $canalId),
@@ -113,6 +113,11 @@ class AsideMenu extends Component
                 'url' => route('admin.post.index'),
                 'icon' => 'post',
                 'name' => 'Články',
+            ],
+            [
+                'url' => route('admin.seminar.index'),
+                'icon' => 'seminar',
+                'name' => 'Kolekcie a semináre',
             ],
             [
                 'url' => route('admin.prayer.index'),

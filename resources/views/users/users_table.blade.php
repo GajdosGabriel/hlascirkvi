@@ -64,9 +64,11 @@
                         <a href="{{ route('admin.user.show', $user->id) }}">
                             <i class="ph ph-eye" aria-hidden="true"></i> Zobraziť
                         </a>
+                        @unless ($user->trashed())
                         <a href="{{ route('admin.user.edit', [$user->id]) }}">
                             <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
                         </a>
+                        @endunless
                     </dropdown-slot>
                 </td>
             </tr>

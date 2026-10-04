@@ -74,8 +74,14 @@ class SitemapTest extends TestCase
         ]);
         DB::purge('sqlite');
 
+        Schema::create('canals', function (Blueprint $table) {
+            $table->id();
+            $table->dateTime('published')->nullable();
+            $table->softDeletes();
+        });
         Schema::create('seminars', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('canal_id');
             $table->timestamp('published')->nullable();
             $table->timestamps();
             $table->softDeletes();

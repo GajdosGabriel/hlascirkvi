@@ -45,16 +45,15 @@ class VideoUploadSeminars
             $token = $page->nextPageToken;
         } while ($token !== null && count($ids) < self::MAX_VIDEOS);
 
-        // Video, ktoré už na webe je (aj zmazané), sa obnoví a priradí k semináru.
-        Post::withTrashed()->whereIn('video_id', $ids)->get()->each(function (Post $post) {
-            $post->restore();
-            $post->seminars()->sync($this->seminar->id);
-        });
+        (new VideoImporter($this->api))->import($this->canal, $ids,
+            $this->seminar->kind === 'collection' ? null : PostSection::Seminar);
 
-        $saved = (new VideoImporter($this->api))->import($this->canal, $ids, PostSection::Seminar);
-
-        foreach ($saved as $post) {
-            $post->seminars()->attach($this->seminar->id);
-        }
+        // Opakovaný import iba doplní väzby. Neobnovuje zmazané videá a neodoberá iné kolekcie.
+        $posts = Post::whereIn('video_id', $ids)
+            ->where(fn ($q) => $q->where('canal_id', $this->canal->id)
+                ->orWhere(fn ($public) => $public->published()->available()
+                    ->whereHas('canal', fn ($canal) => $canal->whereNotNull('published'))))
+            ->pluck('id');
+        $this->seminar->posts()->syncWithoutDetaching($posts);
     }
 }

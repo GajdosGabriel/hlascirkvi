@@ -143,11 +143,7 @@ class CommentController extends Controller
                     });
             });
         }
-        return $query->where('comments.source', 'site')
-            ->whereExists(fn ($q) => $q->selectRaw('1')->from('users')->whereColumn('users.id', 'comments.user_id')->whereNotNull('users.email_verified_at')->whereNull('users.deleted_at'))
-            ->whereNull('comments.youtube_comment_id')
-            ->whereNotNull('comments.user_id')
-            ->where('comments.user_id', '!=', CommentSync::USER_ID);
+        return Comment::verifiedSiteUsers($query);
     }
 
 }

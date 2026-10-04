@@ -40,6 +40,8 @@ import NewPrayerButton from './prayer/components/NewPrayerButton.vue';
 import PostPublishButtons from './posts/card/buttons.vue';
 import PictureViewer from './posts/Picture-viewer.vue';
 import PostImages from './posts/PostImages.vue';
+import CanalSelect from './posts/CanalSelect.vue';
+import CollectionSelect from './posts/CollectionSelect.vue';
 import NavigationMain from './navigation/Navigation-main.vue';
 import MobileMenu from './navigation/MobileMenu.vue';
 import ArticleDropdown from './posts/Article-dropdown.vue';
@@ -76,6 +78,8 @@ const components = {
     'post-publish-buttons': PostPublishButtons,
     'picture-viewer': PictureViewer,
     'post-images': PostImages,
+    'canal-select': CanalSelect,
+    'collection-select': CollectionSelect,
     'navigation-main': NavigationMain,
     'mobile-menu': MobileMenu,
     'article-dropdown': ArticleDropdown,

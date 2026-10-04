@@ -23,6 +23,10 @@ class SaveSeminarRequest extends FormRequest
 
     protected function prepareForValidation()
     {
+        if ($this->has('youtube_playlist')) {
+            $input = trim((string) $this->input('youtube_playlist'));
+            $this->merge(['youtube_playlist' => $input === '' ? null : (PlaylistId::fromInput($input) ?? $input)]);
+        }
         // Prepínač posiela `Date.now()` (milisekundy), vypnutie prázdny reťazec.
         if ($this->has('published')) {
             $published = $this->input('published');
@@ -44,7 +48,8 @@ class SaveSeminarRequest extends FormRequest
         return [
             'title'            => $title . '|string|min:3|max:255',
             'description'      => 'nullable|string|max:5000',
-            'youtube_playlist' => ['nullable', 'string', 'regex:' . PlaylistId::PATTERN, 'max:40'],
+            'kind'             => 'sometimes|required|in:seminar,collection',
+            'youtube_playlist' => ['nullable', 'string', 'regex:' . PlaylistId::PATTERN, 'max:255'],
             'published'        => 'nullable|date',
         ];
     }

@@ -105,6 +105,7 @@
 
     /* Podrobnosti kanála v admin/canal (components/canal/admin-details). */
     .ar-canal-admin { border-top: 1px dashed var(--ar-line); padding-top: .75rem; }
+    .ar-canal-admin .ar-badge { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
     .ar-canal-admin__facts {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));

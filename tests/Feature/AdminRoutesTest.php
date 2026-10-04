@@ -70,6 +70,8 @@ class AdminRoutesTest extends TestCase
             'admin.image.index',
             'admin.post.index',
             'admin.prayer.index',
+            'admin.seminar.index',
+            'admin.seminar.create',
             'admin.statistic.index',
             'admin.user.index',
         ];

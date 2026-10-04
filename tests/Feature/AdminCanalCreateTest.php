@@ -36,6 +36,8 @@ class AdminCanalCreateTest extends TestCase
             ->assertSee('Vytvoriť kanál')
             ->assertSee('name="users_submitted"', false)
             ->assertSee('name="published"', false)
+            ->assertSee('name="front_listed"', false)
+            ->assertSee('Kresťanské osobnosti')
             ->assertSee('name="youtube_channel"', false)
             ->assertDontSee('name="_method"', false);
 
@@ -139,6 +141,34 @@ class AdminCanalCreateTest extends TestCase
         $this->assertNotNull($canal->import_day);
         $this->assertSame($canal->import_day, $canal->video_check_next_at->dayOfWeek);
         $this->assertTrue($canal->users->contains($admin));
+    }
+
+    public function test_dashboard_create_offers_and_saves_front_list_only_for_superadmin(): void
+    {
+        foreach (['superadmin', 'admin', 'user'] as $role) {
+            $user = User::factory()->create();
+            $user->assignRole($role);
+            $this->actingAs($user);
+
+            $response = $this->get(route('profile.canals.create'))->assertOk();
+            if ($role === 'superadmin') {
+                $response->assertSee('name="front_listed"', false);
+            } else {
+                $response->assertDontSee('name="front_listed"', false);
+            }
+
+            $title = 'Zaradenie pri vytvorení ' . $role;
+            $this->post(route('profile.canals.store'), [
+                'title' => $title,
+                'village_id' => Village::factory()->create()->id,
+                'identity_mode' => 'personal',
+                'front_listed' => '1',
+            ])->assertSessionHasNoErrors()->assertRedirect();
+
+            $canal = Canal::where('title', $title)->firstOrFail();
+            $this->assertSame($role === 'superadmin', $canal->front_listed_at !== null);
+            $this->assertSame('personal', $canal->identity_mode->value);
+        }
     }
 
     public function test_regular_user_cannot_create_admin_channel(): void

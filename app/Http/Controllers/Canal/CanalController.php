@@ -52,7 +52,13 @@ class CanalController extends Controller
             ]);
         }
 
-        DB::transaction(fn () => $request->save());
+        DB::transaction(function () use ($request) {
+            $canal = $request->save();
+
+            if ($request->user()->can('superadmin') && $request->boolean('front_listed')) {
+                app(FrontList::class)->add($canal);
+            }
+        });
 
         return redirect()->route('profile.canals.index')
             ->with('flash', 'Nový kanál bol vytvorený.');

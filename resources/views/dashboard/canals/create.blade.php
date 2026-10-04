@@ -43,6 +43,7 @@
                     </select>
                     <small class="form-text text-muted">Za kanálom stojí človek, alebo cirkev či spoločenstvo.</small>
                 </div>
+                @include('dashboard.canals._front-list')
             </fieldset>
 
             <fieldset class="rounded-lg border bg-white p-6">

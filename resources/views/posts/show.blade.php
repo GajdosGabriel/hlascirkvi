@@ -280,6 +280,14 @@
 
         {{-- Séria: poloha v seminári a posun na susedné diely hneď pod
              médiom, kde sa po dopozeraní hľadá „čo ďalej". --}}
+        @if ($collections->isNotEmpty())
+            <nav aria-label="Kolekcie príspevku" class="mb-4 flex flex-wrap gap-2 items-center text-sm">
+                <span class="text-gray-500">V kolekciách:</span>
+                @foreach ($collections as $collection)
+                    <a class="ar-btn ar-btn--quiet" href="{{ route('seminars.show', $collection) }}">{{ $collection->title }}</a>
+                @endforeach
+            </nav>
+        @endif
         @if ($series)
             <nav aria-label="Diely série"
                  class="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[color:var(--ar-line)] bg-white px-4 py-3">
@@ -393,19 +401,19 @@
                         <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">Zdieľať</h2>
                         <div class="flex gap-2">
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($postUrl) }}"
-                               target="_blank" rel="noopener" title="Zdieľať na Facebooku"
+                               target="_blank" rel="noopener" title="Zdieľať na Facebooku" aria-label="Zdieľať na Facebooku"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-blue-400 hover:text-blue-600">
-                                <i class="ph ph-facebook-logo"></i>
+                                <i class="ph ph-facebook-logo" aria-hidden="true"></i>
                             </a>
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' ' . $postUrl) }}"
-                               target="_blank" rel="noopener" title="Poslať cez WhatsApp"
+                               target="_blank" rel="noopener" title="Poslať cez WhatsApp" aria-label="Poslať cez WhatsApp"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-green-400 hover:text-green-600">
-                                <i class="ph ph-whatsapp-logo"></i>
+                                <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
                             </a>
                             <a href="mailto:?subject={{ rawurlencode($post->title) }}&body={{ rawurlencode($postUrl) }}"
-                               title="Poslať e-mailom"
+                               title="Poslať e-mailom" aria-label="Poslať e-mailom"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
-                                <i class="ph ph-envelope-simple"></i>
+                                <i class="ph ph-envelope-simple" aria-hidden="true"></i>
                             </a>
                             <button type="button" data-url="{{ $postUrl }}"
                                     class="js-copy-link flex h-9 flex-1 items-center justify-center gap-2 rounded-md border border-[color:var(--ar-line)] text-sm text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">

@@ -3,6 +3,7 @@
 namespace App\Services\Dashboard;
 
 use App\Models\Canal;
+use App\Models\Comment;
 use App\Models\LiturgicalDay;
 use App\Models\Post;
 use Carbon\CarbonImmutable;
@@ -25,7 +26,7 @@ class AdminDashboardStats
     /** Koľko dní dozadu sa skladá mapa „kedy sa číta“ — štyri celé týždne. */
     public const RHYTHM_DAYS = 28;
 
-    public const CACHE_KEY = 'admin:dashboard:v2';
+    public const CACHE_KEY = 'admin:dashboard:v3';
 
     /**
      * Ako dlho platí zacachovaná nástenka. Súhrny cez posts, comments
@@ -141,10 +142,7 @@ class AdminDashboardStats
             ->first();
 
         // Rovnaká definícia ako dlaždica „Bez správcu“ vo výpise kanálov.
-        $row->orphans = DB::table('canals')
-            ->whereNull('deleted_at')
-            ->whereNotExists(fn ($q) => $q->from('canal_user')->whereColumn('canal_user.canal_id', 'canals.id'))
-            ->count();
+        $row->orphans = Canal::doesntHave('users')->count();
 
         return $row;
     }
@@ -174,7 +172,7 @@ class AdminDashboardStats
         $from = $now->subDays(self::WINDOW);
         $prev = $now->subDays(self::WINDOW * 2);
 
-        return DB::table('comments')
+        return Comment::verifiedSiteUsers()->toBase()
             ->whereNull('deleted_at')
             ->selectRaw('count(*) as total')
             ->selectRaw('coalesce(sum(created_at >= ?), 0) as new', [$from])
@@ -368,7 +366,7 @@ class AdminDashboardStats
     /** @return Collection<int, object> posledné komentáre aj s článkom, pod ktorým sú */
     protected function latestComments(int $limit = 6): Collection
     {
-        return DB::table('comments')
+        return Comment::verifiedSiteUsers()->toBase()
             ->join('users', 'users.id', '=', 'comments.user_id')
             ->whereNotNull('users.email_verified_at')
             ->whereNull('users.deleted_at')

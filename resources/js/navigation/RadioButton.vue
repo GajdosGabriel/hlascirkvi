@@ -28,10 +28,12 @@
             <a
                 v-for="radio in radios"
                 :key="radio.name"
-                href="#"
+                :href="radio.url"
+                target="_blank"
+                rel="noopener noreferrer"
                 :title="radio.title || radio.name"
                 class="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-blue-100 transition-colors hover:bg-blue-800 hover:text-white"
-                @click.prevent="play(radio)"
+                @click="open = false"
             >
                 {{ radio.name }}
                 <img v-if="radio.flag" :src="radio.flag" class="h-4 rounded-sm" alt="" />
@@ -69,10 +71,12 @@
             <a
                 v-for="radio in radios"
                 :key="radio.name"
-                href="#"
+                :href="radio.url"
+                target="_blank"
+                rel="noopener noreferrer"
                 :title="radio.title || radio.name"
                 class="flex items-center justify-between gap-2 px-4 py-2 text-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
-                @click.prevent="play(radio)"
+                @click="open = false"
             >
                 {{ radio.name }}
                 <img v-if="radio.flag" :src="radio.flag" class="h-4 rounded-sm" alt="" />
@@ -130,54 +134,7 @@ export default {
     methods: {
         toggle() {
             this.open = !this.open;
-        },
-
-        play(radio) {
-            window.open(
-                radio.url,
-                "pagename",
-                "resizable,height=500,width=470"
-            );
-            this.open = false;
         }
     }
 };
 </script>
-
-<style>
-/* Pozor: tieto pravidlá sú globálne a spoliehajú sa na ne aj iné časti webu. */
-[v-cloak] > * {
-    display: none;
-}
-
-li {
-    display: block;
-    transition-duration: 0.2s;
-}
-
-li:hover {
-    cursor: pointer;
-}
-
-ul li ul {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    transition: all 0.3s ease;
-    margin-top: 1rem;
-    left: 0;
-    display: none;
-}
-
-ul li:hover > ul,
-ul li ul:hover {
-    visibility: visible;
-    opacity: 1;
-    display: block;
-}
-
-ul li ul li {
-    clear: both;
-    width: 100%;
-}
-</style>

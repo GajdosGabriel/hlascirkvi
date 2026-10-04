@@ -112,7 +112,7 @@
     .ar-chart__dot { fill: var(--ar-accent); }
     .ar-chart__label { font-size: 12px; fill: #b6bac3; }
     .ar-chart__day { outline: none; }
-    .ar-chart__hit { fill: transparent; pointer-events: all; cursor: crosshair; }
+    .ar-chart__hit { fill: transparent; pointer-events: all; cursor: pointer; }
     .ar-chart__detail { visibility: hidden; pointer-events: none; }
     .ar-chart__day:hover .ar-chart__detail,
     .ar-chart__day:focus .ar-chart__detail { visibility: visible; }

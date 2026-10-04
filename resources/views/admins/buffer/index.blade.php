@@ -10,7 +10,7 @@
 
         <x-slot name="title">
 
-            Buffer príspevky (Nezverenené)
+            Príspevky čakajúce na zverejnenie
 
         </x-slot>
 

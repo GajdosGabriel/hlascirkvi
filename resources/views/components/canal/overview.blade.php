@@ -40,7 +40,7 @@
     </section>
 
     <div class="co-metrics" aria-label="Obsah a sledovanosť kanála">
-        @foreach ([['Príspevky', $canal->posts_count, 'Nezmazaný obsah', 'file-text'], ['Modlitby', $canal->prayers_count, 'Modlitbové úmysly', 'hands-praying'], ['Podujatia', $canal->seminars_count, 'Všetky podujatia', 'calendar-blank'], ['Sledujúci', $canal->favorites_count, 'Kanál medzi obľúbenými', 'heart']] as [$label, $count, $hint, $icon])
+        @foreach ([['Príspevky', $canal->posts_count, 'Nezmazaný obsah', 'file-text'], ['Modlitby', $canal->prayers_count, 'Modlitbové úmysly', 'hands-praying'], ['Kolekcie', $canal->seminars_count, 'Kolekcie a semináre', 'calendar-blank'], ['Sledujúci', $canal->favorites_count, 'Kanál medzi obľúbenými', 'heart']] as [$label, $count, $hint, $icon])
             <section class="ar-panel co-metric">
                 <div class="co-metric-label">{{ $label }} <i class="ph ph-{{ $icon }}" aria-hidden="true"></i></div>
                 <strong>{{ number_format($count, 0, ',', ' ') }}</strong>
@@ -65,7 +65,7 @@
                             <a class="ar-btn" href="{{ route('profile.posts.index') }}">Spravovať príspevky</a>
                         @endif
                         <a class="ar-btn" href="{{ route('profile.canals.prayers.index', $canal) }}">Modlitby</a>
-                        <a class="ar-btn" href="{{ route('profile.canals.seminars.index', $canal) }}">Podujatia</a>
+                        <a class="ar-btn" href="{{ route('profile.canals.seminars.index', $canal) }}">Kolekcie a semináre</a>
                         @can('superadmin')
                             <a class="ar-btn" href="{{ route('admin.buffer.index', ['posts' => $canal->id]) }}">Čakajúce videá</a>
                         @endcan

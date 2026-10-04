@@ -89,7 +89,7 @@
         </button>
 
         <p class="text-center text-xs" style="color: var(--ar-ink-soft)">
-            Registráciou súhlasíte so <a href="{{ route('gdpr') }}" class="ar-link">spracovaním osobných údajov</a>.
+            Informácie o použití údajov pri registrácii nájdete v <a href="{{ route('gdpr') }}" class="ar-link">ochrane osobných údajov</a>.
         </p>
     </form>
 @endsection

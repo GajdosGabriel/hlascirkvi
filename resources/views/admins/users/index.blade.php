@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 @section('title')
-    <title>{{ 'Registrovaný užívatelia.' }}</title>
+    <title>{{ 'Registrovaní používatelia.' }}</title>
 @endsection
 
 @section('content')
     <x-pages.admin>
 
         <x-slot name="title">
-            Registrovaný užívatelia
+            Registrovaní používatelia
         </x-slot>
 
         <x-slot name="title_right">

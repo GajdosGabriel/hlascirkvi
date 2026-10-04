@@ -48,28 +48,14 @@
 
     @can('admin')
         <div class="form-author">
-            <label for="post-canal-id">Kanál</label>
-            {{-- Upravovaný príspevok ostáva vo svojom kanáli, nový ide do aktívneho.
-                 Podmienka „kanál príspevku ALEBO aktívny kanál" označila dve
-                 možnosti naraz, prehliadač nechal poslednú v abecede — a uloženie
-                 tak príspevok ticho presunulo do aktívneho kanála správcu. --}}
-            @php($selectedCanal = old('canal_id', $post->canal_id ?? auth()->user()->canal_id))
-            <select class="form-control" id="post-canal-id" name="canal_id" required>
-                <option value="" disabled @selected(! $selectedCanal)>Autor</option>
-                @can('superadmin')
-                    @foreach (\App\Models\Canal::orderBy('title', 'asc')->get() as $canal)
-                        <option @selected((int) $selectedCanal === $canal->id) value="{{ $canal->id }}">
-                            {{ $canal->title }}
-                        </option>
-                    @endforeach
-                @else
-                    @foreach (auth()->user()->canals as $canal)
-                        <option @selected((int) $selectedCanal === $canal->id) value="{{ $canal->id }}">
-                            {{ $canal->title }}
-                        </option>
-                    @endforeach
-                @endcan
-            </select>
+            @php
+                $selectedCanal = old('canal_id', $post->canal_id ?? auth()->user()->canal_id);
+                $selectableCanals = auth()->user()->can('superadmin')
+                    ? \App\Models\Canal::orderBy('title')->get(['id', 'title'])
+                    : auth()->user()->canals->sortBy('title')->values();
+            @endphp
+            <canal-select :canals='@json($selectableCanals->map(fn ($canal) => ["id" => $canal->id, "title" => $canal->title])->values())'
+                :selected='@json((string) $selectedCanal)'></canal-select>
         </div>
     @endcan
 
@@ -93,6 +79,19 @@
 
 
 {{-- Title Field --}}
+@php
+    $collectionCanal = old('canal_id', $post->canal_id ?? ($canal->id ?? auth()->user()->canal_id));
+    $collectionOptions = \App\Models\Seminar::without('canal')
+        ->when(! auth()->user()->can('superadmin'), fn ($q) => $q->whereIn('canal_id', auth()->user()->canals()->pluck('canals.id')))
+        ->orderBy('title')->get(['id', 'title', 'kind', 'canal_id']);
+    $chosenCollections = session()->hasOldInput('collections_present')
+        ? old('collections', []) : $post->seminars->modelKeys();
+@endphp
+<collection-select :items='@json($collectionOptions)' :selected='@json($chosenCollections)'
+    :canal-id='@json((string) $collectionCanal)' manage-base="{{ url('/dashboard/canals') }}"></collection-select>
+@error('collections') <p class="invalid-feedback">{{ $message }}</p> @enderror
+@error('collections.*') <p class="invalid-feedback">{{ $message }}</p> @enderror
+
 <div class="form-group {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
     <label for="post-title" class="sr-only">Nadpis</label>
     <input type="text" id="post-title" name="title" class="form-control" placeholder="Nadpis ..."
@@ -118,6 +117,6 @@
     </post-images>
 </div>
 
-<x-dashboard.form-bar :cancel="url(URL::previous())"
+<x-dashboard.form-bar :cancel="route('profile.posts.index')"
     :submit="$post->exists ? 'Uložiť zmeny' : 'Vytvoriť článok'"
     :note="$post->exists ? 'Zmeny sa prejavia hneď po uložení.' : 'Článok sa vytvorí po kliknutí na tlačidlo.'" />

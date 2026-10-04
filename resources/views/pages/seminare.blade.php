@@ -66,6 +66,11 @@
         font-weight: 600;
     }
     .seminars-create:hover { background: #991b1b; }
+    .seminars-filters { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; margin-top: 24px; }
+    .seminars-filters label { display: block; font-size: .875rem; margin-bottom: 6px; }
+    .seminars-filters input, .seminars-filters select { width: 100%; border: 1px solid var(--ar-line); border-radius: 8px; padding: 10px 12px; background: #fff; }
+    .seminars-search { flex: 1 1 240px; min-width: 0; }
+    .seminars-filters button { padding: 11px 18px; background: var(--ar-accent); color: #fff; border-radius: 8px; }
     .seminars-summary {
         display: flex;
         flex-wrap: wrap;
@@ -169,15 +174,37 @@
                 <p class="seminars-intro">Vzdelávanie, kurzy a stretnutia, ktoré prehlbujú vieru. Objavte záznamy prednášok a vráťte sa k myšlienkam, ktoré vás oslovili.</p>
             </div>
             @auth
-                <a class="seminars-create" href="{{ route('profile.canals.seminars.create', auth()->user()->canal_id) }}">
+                <a class="seminars-create" href="{{ route('profile.canals.seminars.create', ['canal' => auth()->user()->canal_id, 'kind' => 'seminar']) }}">
                     <i class="ph ph-plus" aria-hidden="true"></i> Nový seminár
                 </a>
             @endauth
         </div>
+        <form class="seminars-filters" method="get" action="{{ route('konferencie.pute') }}" role="search">
+            <div class="seminars-search">
+                <label for="seminars-search">Hľadať podujatie, prednášku alebo kanál</label>
+                <input id="seminars-search" type="search" name="q" value="{{ $search }}" maxlength="200" placeholder="Názov alebo téma">
+            </div>
+            <div>
+                <label for="seminars-year">Ročník podujatia</label>
+                <select id="seminars-year" name="year">
+                    <option value="">Všetky roky</option>
+                    @foreach ($years as $optionYear)
+                        <option value="{{ $optionYear }}" @selected((string) $year === (string) $optionYear)>{{ $optionYear }}</option>
+                    @endforeach
+                    @if ($hasUnknownYear)
+                        <option value="unknown" @selected($year === 'unknown')>Bez uvedeného roku</option>
+                    @endif
+                </select>
+            </div>
+            <button type="submit">Vyhľadať</button>
+            @if ($search !== '' || $year !== '')
+                <a class="ar-link" href="{{ route('konferencie.pute') }}">Zrušiť filtre</a>
+            @endif
+        </form>
         @if ($seminars->isNotEmpty())
             <div class="seminars-summary">
                 <span>Podujatia v archíve <strong>{{ $seminars->count() }}</strong></span>
-                <span>Záznamy prednášok <strong>{{ $seminars->sum(fn ($seminar) => $seminar->posts->count()) }}</strong></span>
+                <span>Záznamy prednášok <strong>{{ $seminars->sum(fn ($seminar) => $seminar->posts_count) }}</strong></span>
             </div>
         @endif
     </header>
@@ -208,12 +235,19 @@
                         @include('posts.card-front')
                     @endforeach
                 </div>
+                @if ($seminar->posts_count > $seminar->posts->count())
+                    <p class="mt-4">
+                        <a class="ar-link font-semibold" href="{{ route('seminars.show', $seminar->id) }}">
+                            Zobraziť všetky prednášky ({{ $seminar->posts_count }}) <span aria-hidden="true">→</span>
+                        </a>
+                    </p>
+                @endif
             @else
                 <p class="seminars-empty">Záznamy z tohto podujatia zatiaľ nie sú k dispozícii.</p>
             @endif
         </section>
     @empty
-        <p class="seminars-empty">Momentálne tu nie sú žiadne podujatia. Pozrite sa sem opäť neskôr.</p>
+        <p class="seminars-empty">{{ $search !== '' || $year !== '' ? 'Žiadne podujatie ani prednáška nezodpovedá zvoleným filtrom.' : 'Momentálne tu nie sú žiadne podujatia. Pozrite sa sem opäť neskôr.' }}</p>
     @endforelse
 </div>
 @endsection

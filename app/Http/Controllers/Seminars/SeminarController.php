@@ -18,9 +18,12 @@ class SeminarController extends Controller
 
     public function show(Seminar $seminar)
     {
-        $seminar->load(['posts' => fn ($query) => $query->published()->available()]);
+        $isPublic = Seminar::published()->whereKey($seminar->id)->exists();
+        abort_if(! $isPublic && \Illuminate\Support\Facades\Gate::denies('view', $seminar), 404);
+        $posts = $seminar->posts()->published()->available()->orderBy('posts.id')->paginate(24);
+        $seminar->setRelation('posts', $posts->getCollection());
 
-        return view('seminars.show', compact('seminar'));
+        return view('seminars.show', compact('seminar', 'posts', 'isPublic'));
     }
 
     public function uploadVideosfromPlaylist(Seminar $seminar)

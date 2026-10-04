@@ -72,7 +72,7 @@
                     <span class="ar-canal-admin__sub">
                         {{ $plural((int) $canal->posts_count, 'príspevok', 'príspevky', 'príspevkov') }}
                         · {{ $num($canal->prayers_count) }} {{ $plural((int) $canal->prayers_count, 'modlitba', 'modlitby', 'modlitieb') }}
-                        · {{ $num($canal->seminars_count) }} {{ $plural((int) $canal->seminars_count, 'seminár', 'semináre', 'seminárov') }}
+                        · {{ $num($canal->seminars_count) }} {{ $plural((int) $canal->seminars_count, 'kolekcia', 'kolekcie', 'kolekcií') }}
                     </span>
                 @else
                     —

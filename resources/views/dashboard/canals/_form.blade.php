@@ -67,6 +67,8 @@
                         <p class="ar-hint">Osobná identita, organizácia alebo vystupovanie pod pseudonymom.</p>
                         @error('identity_mode') <p class="ar-error">{{ $message }}</p> @enderror
                     </div>
+
+                    @include('dashboard.canals._front-list')
                 </div>
             </section>
 
@@ -240,31 +242,6 @@
                                    value="{{ old('mod_title', $canal->mod_title) }}" maxlength="20">
                             <p class="ar-hint">Max. 20 znakov, napr. meno kazateľa.</p>
                             @error('mod_title') <p class="ar-error">{{ $message }}</p> @enderror
-                        </div>
-
-                        <div>
-                            @if ($isSuperadmin)
-                                <label class="ar-label" for="front_listed">Predný zoznam na úvodnej stránke</label>
-                                <select class="{{ $field('front_listed') }}" id="front_listed" name="front_listed">
-                                    <option value="0" @selected(! old('front_listed', (bool) $canal->front_listed_at))>Nezaradiť do predného zoznamu</option>
-                                    <option value="1" @selected(old('front_listed', (bool) $canal->front_listed_at))>Zaradiť do predného zoznamu</option>
-                                </select>
-                                <p class="ar-hint">Zaradenie sa prejaví po uložení. Na verejnom zozname sa zobrazujú iba zverejnené kanály; výber na úvodné karty je automatický.</p>
-                                @error('front_listed') <p class="ar-error">{{ $message }}</p> @enderror
-                            @else
-                                <span class="ar-label">Predný zoznam na úvodnej stránke</span>
-                            @endif
-                            <p class="ar-hint">
-                                @if ($canal->front_listed_at)
-                                    Kanál v prednom zozname je.
-                                @else
-                                    Kanál v prednom zozname nie je.
-                                @endif
-                                @if ($isSuperadmin)
-                                    {{-- Správa zoznamu beží za checkSuperAdmin. --}}
-                                    <a href="{{ route('admin.frontlist.index') }}">Spravovať zoznam</a>
-                                @endif
-                            </p>
                         </div>
 
                         <div class="sm:max-w-md">

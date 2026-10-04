@@ -273,6 +273,23 @@
         </div>
     </header>
 
+    @if ($collections->isNotEmpty())
+        <section class="mx-auto max-w-6xl px-4 py-6" aria-labelledby="channel-collections">
+            <h2 id="channel-collections" class="ar-display text-xl font-semibold mb-4">Kolekcie a semináre</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach ($collections as $collection)
+                    <a href="{{ route('seminars.show', $collection) }}" class="block rounded-lg border bg-white p-4 hover:border-red-700">
+                        <span class="text-xs text-gray-500">{{ $collection->kind_label }}</span>
+                        <h3 class="font-semibold mt-1">{{ $collection->title }}</h3>
+                        @if ($collection->description)<p class="text-sm text-gray-600 mt-2">{{ \Illuminate\Support\Str::limit($collection->description, 130) }}</p>@endif
+                        <p class="text-sm mt-3">Počet príspevkov: {{ $collection->posts_count }} <span aria-hidden="true">→</span></p>
+                    </a>
+                @endforeach
+            </div>
+            <div class="mt-4">{{ $collections->fragment('channel-collections')->links() }}</div>
+        </section>
+    @endif
+
     <div class="mx-auto max-w-6xl px-4 py-8">
         <div class="grid gap-10 lg:grid-cols-12">
 
