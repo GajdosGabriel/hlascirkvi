@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.legacy-page')
 
 @php
     /* Značky pre vyhľadávače a náhľady odkazov skladá partials/meta. Popis
@@ -22,66 +22,46 @@
 @endphp
 
 @section('content')
-
-    <div class="page">
-
-        <div class="md:grid grid-cols-12 gap-16 px-6 mb-4">
-            <div class="col-span-12">
-                <h1 class="text-2xl font-semibold">{{ $post->title }}</h1>
-                <span class="font-semibold"> Zamyslenie na {{ $date }}</span>
-            </div>
-        </div>
-
-        <div class="md:grid grid-cols-12 gap-16 px-6">
-
-            <div class="col-span-6">
-                <div class="">
-
-                    <div class="two-collums"> {!! $post->zamyslenie !!}<p>{{ $post->autor }}</p>
-                    </div>
-
-                    <div class="flex justify-between m-4">
-                        @if ($previous)
-                            <a class="hover:bg-gray-100 px-2 rounded" href="{{ URL::to('zamyslenia/' . $previous) }}">
-                                ← Predchádzajúce</a>
-                        @endif
-
-                        @if ($next)
-                            <a class="hover:bg-gray-100 px-2 rounded" href="{{ URL::to('zamyslenia/' . $next) }}">Nasledujúce
-                                →</a>
-                        @endif
-                    </div>
+    <div class="ar-document">
+        <header class="ar-document__header">
+            <p class="ar-kicker">Denné zamyslenie</p>
+            <h1 class="ar-display">{{ $post->title }}</h1>
+            <p class="ar-document__intro">Zamyslenie na {{ $date }}</p>
+        </header>
+        <div class="grid gap-6 lg:grid-cols-3">
+            <article class="ar-document__card lg:col-span-2">
+                <div class="ar-document__prose space-y-5">
+                    {!! $post->zamyslenie !!}
+                    @if ($post->autor)
+                        <p class="border-t border-[color:var(--ar-line)] pt-5 text-sm">{{ $post->autor }}</p>
+                    @endif
                 </div>
-            </div>
-
-            <div class="col-span-3 mb-6">
-                <div class="border-2 p-3 rounded-md shadow-md mb-6">
-                    <div class="font-semibold">Biblický verš k zamysleniu</div>
-
-                    <div class="card-body">
-                        <blockquote>
-                            {{ $post->biblicky_vers }}
-                            <div class="footer">{{ $post->biblicky_vers_ref }}</div>
-                        </blockquote>
-                    </div>
-                </div>
-
-                <div class="border-2 p-3 rounded-md shadow-md">
-                    <div class="font-semibold">Verš starej zmluvy</div>
-
-                    <div class="card-body">
-                        <blockquote>
-                            {{ $post->szvers_text }}
-                            <div class="footer">{{ $post->szvers_ref }}</div>
-                        </blockquote>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-span-2">
-                <img class="rounded-md" src="{{ asset('images/biblia1.jpg') }}" alt="Biblia" loading="lazy">
-            </div>
-
+                <nav class="mt-8 flex flex-wrap justify-between gap-3 border-t border-[color:var(--ar-line)] pt-6" aria-label="Ďalšie zamyslenia">
+                    @if ($previous)
+                        <a class="ar-btn ar-btn--quiet" href="{{ URL::to('zamyslenia/' . $previous) }}">← Predchádzajúce</a>
+                    @endif
+                    @if ($next)
+                        <a class="ar-btn ar-btn--quiet" href="{{ URL::to('zamyslenia/' . $next) }}">Nasledujúce →</a>
+                    @endif
+                </nav>
+            </article>
+            <aside class="space-y-6" aria-label="Biblické verše">
+                <section class="ar-document__card">
+                    <h2 class="ar-kicker">Biblický verš k zamysleniu</h2>
+                    <blockquote class="mt-4 text-lg leading-relaxed">
+                        <p>{{ $post->biblicky_vers }}</p>
+                        <footer class="mt-4 text-sm text-[color:var(--ar-ink-soft)]">{{ $post->biblicky_vers_ref }}</footer>
+                    </blockquote>
+                </section>
+                <section class="ar-document__card">
+                    <h2 class="ar-kicker">Verš starej zmluvy</h2>
+                    <blockquote class="mt-4 text-lg leading-relaxed">
+                        <p>{{ $post->szvers_text }}</p>
+                        <footer class="mt-4 text-sm text-[color:var(--ar-ink-soft)]">{{ $post->szvers_ref }}</footer>
+                    </blockquote>
+                </section>
+                <img class="w-full rounded-xl" src="{{ asset('images/biblia1.jpg') }}" alt="Biblia" loading="lazy">
+            </aside>
         </div>
     </div>
 @endsection

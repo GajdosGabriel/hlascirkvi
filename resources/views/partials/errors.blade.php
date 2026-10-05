@@ -1,9 +1,9 @@
-@if (count($errors) > 0)
-
-        <ul class="bg-red-700 text-white p-4 border-3 border-white">
+@if ($errors->any())
+    <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800" role="alert">
+        <ul class="list-disc space-y-1 pl-5">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
-
+    </div>
 @endif

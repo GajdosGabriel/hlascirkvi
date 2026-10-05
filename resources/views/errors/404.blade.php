@@ -1,21 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.error-page')
 
-@php
-    /* Chybová stránka do vyhľadávača nepatrí ani vtedy, keď na ňu vedie odkaz. */
-    $seo = [
-        'title' => 'Stránka sa nenašla',
-        'noindex' => true,
-    ];
-@endphp
-
-@section('content')
-    <div class="container">
-        <div class="page">
-            <div class="page-content">
-                <h1>Stránka sa nenašla!</h1>
-                <p>Chyba 404</p>
-                <a href="{{ url('/') }}" class="btn btn-primary">Prejsť na úvodnú stránku</a>
-            </div>
-        </div>
-    </div>
-@endsection
+@section('error-code', '404')
+@section('error-title', 'Stránka sa nenašla')
+@section('error-description', 'Odkaz môže byť neaktuálny alebo bola stránka presunutá. Na úvodnej stránke nájdete najnovšie články, videá a podujatia.')

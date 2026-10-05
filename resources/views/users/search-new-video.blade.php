@@ -1,20 +1,21 @@
-@extends('layouts.app')
+@extends('layouts.legacy-page')
+
+@php $seo = ['title' => 'Vyhľadať video', 'noindex' => true]; @endphp
 
 @section('content')
-<div class="container">
-
-    <div class="page">
-
-        <div class="page-content">
-            <youtube-dash user="{{ $user->full_name }}"></youtube-dash>
-        </div>
-
-        <div class="page-aside">
-            {{--@include('users.user-card')--}}
-            <x-front-list-card type="personal" />
-            <x-front-list-card type="organization" />
+    <div class="ar-document">
+        <header class="ar-document__header">
+            <p class="ar-kicker">Videotéka</p>
+            <h1 class="ar-display">Vyhľadať nové video</h1>
+        </header>
+        <div class="grid gap-6 lg:grid-cols-3">
+            <div class="ar-document__card lg:col-span-2">
+                <youtube-dash user="{{ $user->full_name }}"></youtube-dash>
+            </div>
+            <aside class="ar-aside">
+                <x-front-list-card type="personal" />
+                <x-front-list-card type="organization" />
+            </aside>
         </div>
     </div>
-
-</div>
 @endsection

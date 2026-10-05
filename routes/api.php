@@ -67,7 +67,9 @@ Route::middleware('throttle:guest-writes')->group(function () {
  * Zápisy pre prihlásených
  */
 Route::middleware(['auth:sanctum', 'checkBanned'])->group(function () {
-    Route::get('/user', fn (Request $request) => new UserResource($request->user()))->name('api.user');
+    Route::get('/user', fn (Request $request) => new UserResource(
+        $request->user()->load(['canals' => fn ($query) => $query->select('canals.id', 'canals.title')->orderBy('canals.title')])
+    ))->name('api.user');
 
     // Zvonček v navigácii: zoznam, prečítané/neprečítané, mazanie jednej
     // položky aj hromadné akcie. Hromadné cesty stoja pred zdrojom, aby ich

@@ -1,13 +1,12 @@
-<x-cards.card :title="'Denné zamyslenie'" :icon="'components.icons.book'">
-    <div class="card_body">
-        <div class="font-semibold text-gray-600">
-            @if ($verse)
-                <p>{{ $verse->biblicky_vers }}</p>
-                <p class="">
-                    <a href="{{ url('zamyslenia') }}">Viac <i class="ph ph-caret-double-right"></i></a>
-                    {{ $verse->biblicky_vers_ref }}
-                </p>
-            @endif
-        </div>
-    </div>
-</x-cards.card>
+<section class="rounded-xl border border-[color:var(--ar-line)] bg-white p-5">
+    <h2 class="ar-kicker">Denné zamyslenie</h2>
+    @if ($verse)
+        <blockquote class="mt-4 leading-relaxed">
+            <p>{{ $verse->biblicky_vers }}</p>
+            <footer class="mt-2 text-sm text-[color:var(--ar-ink-soft)]">{{ $verse->biblicky_vers_ref }}</footer>
+        </blockquote>
+        <a class="ar-btn ar-btn--quiet mt-4" href="{{ url('zamyslenia') }}">Prečítať zamyslenie <span aria-hidden="true">→</span></a>
+    @else
+        <p class="mt-3 text-sm text-[color:var(--ar-ink-soft)]">Dnešné zamyslenie zatiaľ nie je dostupné.</p>
+    @endif
+</section>

@@ -26,6 +26,10 @@ class UserResource extends JsonResource
             'description' => $this->description,
             'canal' => new CanalResource($this->canal),
             'canal_id' => $this->canal_id,
+            'canals' => $this->whenLoaded('canals', fn () => $this->canals->map(fn ($canal) => [
+                'id' => $canal->id,
+                'title' => $canal->title,
+            ])),
             'notify_bell' => $this->notify_bell,
             // Zoznam notifikácií si zvonček dotiahne až pri otvorení
             // (GET /api/notifications) — tu stačí počet neprečítaných na

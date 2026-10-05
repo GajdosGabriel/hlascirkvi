@@ -1,34 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.legacy-page')
+
+@php $seo = ['title' => 'Video']; @endphp
 
 @section('content')
-
-    <div class="container">
-
-        <div class="page">
-
-            <div class="page-content">
-
-                {{--<h2 class="page-header">Post show</h2>--}}
-
-                    <div class="video-header">
-{{--                                <h4>{{ $video->snippet->title }}</h4>--}}
-{{--                                <span>Vysielané {{ date("d. M. Y", strtotime($video->snippet->publishedAt))  }}</span>--}}
-                    </div>
-
-                    <div class="video-container">
-                        <iframe width="640" height="360" src="https://www.youtube-nocookie.com/embed/{{ $videoId }}?rel=0" frameborder="0" loading="lazy" allowfullscreen></iframe>
-                    </div>
-
+    <div class="ar-document">
+        <header class="ar-document__header">
+            <p class="ar-kicker">Videotéka</p>
+            <h1 class="ar-display">Video</h1>
+        </header>
+        <div class="ar-document__card">
+            <div class="ar-video-player">
+                <iframe src="https://www.youtube-nocookie.com/embed/{{ $videoId }}?rel=0" title="Video – Hlas Cirkvi" loading="lazy" allowfullscreen></iframe>
             </div>
-
-
-            <div class="page-aside">
-                {{--<h4>user profil</h4>--}}
-
-            </div>
-
         </div>
+        <a href="{{ url('/') }}" class="ar-btn ar-btn--quiet mt-6">Prejsť na úvodnú stránku</a>
     </div>
-
-
-    @endsection
+@endsection

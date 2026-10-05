@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.legacy-page')
 
 @php
     $seo = [
@@ -8,9 +8,9 @@
 @endphp
 
 @section('content')
-    <div class="page">
-        <div class="space-y-5 max-w-4xl">
-            <h1 class="page_title">Ochrana osobných údajov</h1>
+    <div class="ar-document">
+        <div class="ar-document__card ar-document__prose space-y-5">
+            <header class="ar-document__header"><p class="ar-kicker">Súkromie a dôvera</p><h1 class="ar-display">Ochrana osobných údajov</h1></header>
             <p>
                 Hlas Cirkvi (hlascirkvi.sk) je kresťanský informačný a komunitný portál. Sprístupňuje články,
                 videá, prednášky, modlitbové úmysly a informácie o podujatiach. Používatelia môžu spravovať

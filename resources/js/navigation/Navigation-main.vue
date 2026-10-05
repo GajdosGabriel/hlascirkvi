@@ -8,7 +8,7 @@
             :aria-expanded="open ? 'true' : 'false'"
             @click="toggle"
         >
-            <span class="max-w-[9rem] truncate">{{ canal.title }}</span>
+            <span class="max-w-[9rem] truncate">{{ canal?.title || user.full_name }}</span>
             <svg
                 class="h-4 w-4 shrink-0 transition-transform"
                 :class="{ 'rotate-180': open }"
@@ -28,6 +28,26 @@
             v-show="open"
             class="absolute right-0 top-full z-50 mt-2 w-48 overflow-hidden rounded-md border border-gray-200 bg-white py-1 text-gray-700 shadow-xl"
         >
+            <template v-if="user.canals?.length > 1 && otherCanals.length">
+                <p class="px-4 py-2 text-xs font-semibold text-gray-500">Prepnúť kanál</p>
+                <form
+                    v-for="item in otherCanals"
+                    :key="item.id"
+                    :action="`/dashboard/canals/${item.id}/switch`"
+                    method="POST"
+                >
+                    <input type="hidden" name="_token" :value="csrfToken" />
+                    <input type="hidden" name="_method" value="PUT" />
+                    <button
+                        type="submit"
+                        class="block w-full truncate px-4 py-2 text-left text-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
+                    >
+                        {{ item.title }}
+                    </button>
+                </form>
+                <hr class="my-1 border-gray-200" />
+            </template>
+
             <a
                 v-if="user.isSuperadmin"
                 href="/admin/home"
@@ -76,8 +96,15 @@ export default {
         return {
             open: false,
             user: "",
-            canal: ""
+            canal: null,
+            csrfToken: document.querySelector('meta[name="csrf-token"]')?.content || ""
         };
+    },
+
+    computed: {
+        otherCanals() {
+            return (this.user.canals || []).filter(item => item.id !== this.user.canal_id);
+        }
     },
 
     methods: {

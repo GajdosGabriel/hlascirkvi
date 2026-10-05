@@ -1,42 +1,28 @@
-@extends('layouts.app')
+@extends('layouts.legacy-page')
+
+@php $seo = ['title' => 'Hanusove dni 2018']; @endphp
 
 @section('content')
-<div class="container">
-
-    @include('pages.header-nav')
-
-    <h2 class="page-header">Hanusové dni 2018</h2>
-
-    @foreach($hanusoveDnis as $video)
-        <div class="video-item">
-
-            <div class="video-header">
-                <h4>{{ $video->snippet->title }}</h4>
-                <span>{{ date("d. M. Y", strtotime($video->snippet->publishedAt))  }}</span>
-            </div>
-
-            <div class="video-container">
-                <iframe width="640" height="360" src="https://www.youtube-nocookie.com/embed/{{ $video->snippet->resourceId->videoId }}?rel=0&amp;modestbranding=1" frameborder="0" loading="lazy" allowfullscreen></iframe>
-            </div>
-
-            <div class="video-item__side">
-                {{--<div>--}}
-                    {{--<h5>Predchádzajúce prenosy</h5>--}}
-                    {{--@foreach($milostBystricas as $video)--}}
-                    {{--<span style="font-size: 80%">{{ $video->snippet->title }}</span><br>--}}
-                    {{--@endforeach--}}
-                {{--</div>--}}
-
-                @auth
-                <div style="margin-top: auto; font-size: 80%; cursor: pointer">
-                    <messenger stamp="{{ \App\Support\HumanCheck::stamp() }}"></messenger>
-                </div>
-                @endauth
-
-            </div>
+    <div class="ar-document">
+        <header class="ar-document__header">
+            <p class="ar-kicker">Videoarchív</p>
+            <h1 class="ar-display">Hanusove dni 2018</h1>
+            <p class="ar-document__intro">Pozrite si záznamy a vyberte si video, ktoré vás zaujíma.</p>
+        </header>
+        <div class="ar-video-grid">
+            @forelse ($hanusoveDnis as $video)
+                <article class="ar-video-card">
+                    <div class="ar-video-player">
+                        <iframe src="https://www.youtube-nocookie.com/embed/{{ $video->snippet->resourceId->videoId }}?rel=0" title="{{ $video->snippet->title }}" loading="lazy" allowfullscreen></iframe>
+                    </div>
+                    <div class="ar-video-card__content">
+                        <h2 class="ar-display">{{ $video->snippet->title }}</h2>
+                        <time datetime="{{ $video->snippet->publishedAt }}">{{ date('d. m. Y', strtotime($video->snippet->publishedAt)) }}</time>
+                    </div>
+                </article>
+            @empty
+                <p class="ar-document__card">Momentálne tu nie sú dostupné žiadne videá.</p>
+            @endforelse
         </div>
-    @endforeach
-
-
-</div>
+    </div>
 @endsection
