@@ -54,6 +54,8 @@ class CanalRequest extends FormRequest
             && trim((string) $this->input('title')) === trim((string) $canal->title);
 
         return [
+            'avatar_file' => $canal ? ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120', 'dimensions:max_width=6000,max_height=4000'] : ['prohibited'],
+            'remove_avatar' => $canal ? ['sometimes', 'boolean'] : ['prohibited'],
             'title' => array_filter([
                 'required', 'string', 'max:191', 'min:2',
                 'not_regex:' . Canal::EMOJI_PATTERN,
@@ -94,6 +96,10 @@ class CanalRequest extends FormRequest
     public function messages()
     {
         return [
+            'avatar_file.image' => 'Vyberte platný obrázok.',
+            'avatar_file.mimes' => 'Fotka musí byť vo formáte JPG, PNG alebo WebP.',
+            'avatar_file.max' => 'Fotka môže mať najviac 5 MB.',
+            'avatar_file.dimensions' => 'Fotka môže mať najviac 6000 × 4000 pixelov.',
             'title.required' => 'Kanál musí mať názov.',
             'title.min' => 'Názov kanála musí mať aspoň 2 znaky.',
             'title.not_regex' => 'Názov kanála nesmie obsahovať smajlíky ani emoji.',

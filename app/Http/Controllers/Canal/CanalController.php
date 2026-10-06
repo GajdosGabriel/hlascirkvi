@@ -140,7 +140,7 @@ class CanalController extends Controller
             : ['youtube_channel', 'youtube_playlist', 'mod_title', 'import_day', 'post_section'];
 
         $data = collect($request->validated())
-            ->except(['users', 'published', 'front_listed', ...$adminOnly])->all();
+            ->except(['users', 'published', 'front_listed', 'avatar_file', 'remove_avatar', ...$adminOnly])->all();
         if (($data['import_day'] ?? null) === 'auto') {
             $data['import_day'] = VideoImportSchedule::suggestedDay($canal->id);
         }
@@ -152,7 +152,9 @@ class CanalController extends Controller
                 $canal->name_search_completed_until = null;
             }
         }
-        $canal->save();
+        app(\App\Services\Canal\StoreAvatar::class)->save(
+            $canal, $request->file('avatar_file'), $request->boolean('remove_avatar')
+        );
 
         // Sťahovanie videí sa vypína samo, keď zdroj na YouTube zmizne
         // (App\Services\Youtube\DisableImport). Po zápise iného kanála či

@@ -29,22 +29,40 @@
             class="absolute right-0 top-full z-50 mt-2 w-48 overflow-hidden rounded-md border border-gray-200 bg-white py-1 text-gray-700 shadow-xl"
         >
             <template v-if="user.canals?.length > 1 && otherCanals.length">
-                <p class="px-4 py-2 text-xs font-semibold text-gray-500">Prepnúť kanál</p>
-                <form
-                    v-for="item in otherCanals"
-                    :key="item.id"
-                    :action="`/dashboard/canals/${item.id}/switch`"
-                    method="POST"
+                <button
+                    type="button"
+                    class="flex w-full items-center justify-between px-4 py-2 text-left text-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
+                    :aria-expanded="channelsOpen ? 'true' : 'false'"
+                    @click="channelsOpen = !channelsOpen"
                 >
-                    <input type="hidden" name="_token" :value="csrfToken" />
-                    <input type="hidden" name="_method" value="PUT" />
-                    <button
-                        type="submit"
-                        class="block w-full truncate px-4 py-2 text-left text-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
+                    Prepnúť kanál
+                    <svg
+                        class="h-4 w-4 shrink-0 transition-transform"
+                        :class="{ 'rotate-180': channelsOpen }"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
                     >
-                        {{ item.title }}
-                    </button>
-                </form>
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <div v-show="channelsOpen">
+                    <form
+                        v-for="item in otherCanals"
+                        :key="item.id"
+                        :action="`/dashboard/canals/${item.id}/switch`"
+                        method="POST"
+                    >
+                        <input type="hidden" name="_token" :value="csrfToken" />
+                        <input type="hidden" name="_method" value="PUT" />
+                        <button
+                            type="submit"
+                            class="block w-full truncate px-4 py-2 text-left text-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
+                        >
+                            {{ item.title }}
+                        </button>
+                    </form>
+                </div>
                 <hr class="my-1 border-gray-200" />
             </template>
 
@@ -95,6 +113,7 @@ export default {
     data() {
         return {
             open: false,
+            channelsOpen: false,
             user: "",
             canal: null,
             csrfToken: document.querySelector('meta[name="csrf-token"]')?.content || ""
@@ -110,6 +129,7 @@ export default {
     methods: {
         toggle: function() {
             this.open = !this.open;
+            this.channelsOpen = false;
         },
 
         logout() {

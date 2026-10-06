@@ -16,7 +16,7 @@
 
         $field = fn (string $name) => 'ar-field' . ($errors->has($name) ? ' ar-field--error' : '');
     @endphp
-        <form method="POST" action="{{ $creating ? route('admin.canal.store') : route('profile.canals.update', $canal) }}" class="space-y-5">
+        <form method="POST" enctype="multipart/form-data" action="{{ $creating ? route('admin.canal.store') : route('profile.canals.update', $canal) }}" class="space-y-5">
             @csrf
             @unless ($creating)
                 @method('PUT')
@@ -28,6 +28,26 @@
                     <h2 class="ar-panel__title">Základné údaje</h2>
                 </div>
                 <div class="ar-panel__body ar-form">
+                    @unless ($creating)
+                        <div>
+                            <label class="ar-label" for="avatar_file">Profilová fotka (avatar)</label>
+                            @if ($canal->avatarUrl)
+                                <img src="{{ $canal->avatarUrl }}" alt="Profilová fotka kanála" width="96" height="96"
+                                     style="width:96px;height:96px;object-fit:cover;border-radius:50%;margin-bottom:12px">
+                            @endif
+                            <input class="{{ $field('avatar_file') }}" type="file" id="avatar_file" name="avatar_file"
+                                   accept="image/jpeg,image/png,image/webp" aria-describedby="avatar_hint">
+                            <p class="ar-hint" id="avatar_hint">JPG, PNG alebo WebP, najviac 5 MB a 6000 × 4000 pixelov. Nová fotka nahradí aktuálny avatar po uložení formulára.</p>
+                            @error('avatar_file') <p class="ar-error">{{ $message }}</p> @enderror
+                            @if ($canal->avatar)
+                                <label class="ar-label" style="margin-top:12px">
+                                    <input type="checkbox" name="remove_avatar" value="1" @checked(old('remove_avatar'))>
+                                    Odstrániť aktuálnu fotku (ak vyberiete novú, použije sa nová)
+                                </label>
+                            @endif
+                            @error('remove_avatar') <p class="ar-error">{{ $message }}</p> @enderror
+                        </div>
+                    @endunless
                     <div>
                         <label class="ar-label" for="title">Názov kanála <span class="ar-req">*</span></label>
                         <input class="{{ $field('title') }}" type="text" id="title" name="title"
