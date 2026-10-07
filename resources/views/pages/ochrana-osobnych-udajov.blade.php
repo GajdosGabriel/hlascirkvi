@@ -105,8 +105,16 @@
             <p>
                 Používame nevyhnutné cookies na prihlásenie, udržanie relácie a ochranu formulárov.
                 Pri zapamätaní prihlásenia sa používa aj cookie na túto funkciu. Cookies môžete obmedziť
-                v prehliadači; prihlásenie a niektoré formuláre potom nemusia fungovať. Voliteľné analytické
-                cookies možno používať až po vašom súhlase, ktorý môžete odmietnuť alebo odvolať.
+                v prehliadači; prihlásenie a niektoré formuláre potom nemusia fungovať.
+            </p>
+            <p>
+                Na meranie návštevnosti používame službu Google Analytics 4 (Google Ireland Limited). Ukladá
+                analytické cookies (napríklad <code>_ga</code>) a zaznamenáva zobrazené stránky, posúvanie,
+                kliknutia na odchádzajúce odkazy, sťahovanie súborov, vyhľadávanie, použitie formulárov, prehrávanie
+                videí a približnú polohu zariadenia. IP adresa sa pred uložením anonymizuje, reklamné funkcie
+                Google signals nepoužívame a údaje uchovávame najviac 14 mesiacov. Meranie môžete zablokovať
+                v prehliadači alebo doplnkom
+                <a href="https://tools.google.com/dlpage/gaoptout" class="underline" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out</a>.
             </p>
             <p>
                 Videá a ďalší vložený obsah môžu nadviazať spojenie s externým poskytovateľom, ktorý dostane
