@@ -118,5 +118,8 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user): void
     {
         $user->recordLogin('password', $request->ip());
+
+        // Odoslanie udalosti do Google Analytics na ďalšej stránke (partials.analyticstracking).
+        $request->session()->flash('ga_event', ['name' => 'login', 'params' => ['method' => 'email']]);
     }
 }

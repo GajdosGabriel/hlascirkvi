@@ -203,7 +203,8 @@ class RegisterController extends Controller
         }
 
         return redirect()->route('posts.index')
-            ->with('flash', 'Vitajte! Registrácia je dokončená a účet je pripravený.');
+            ->with('flash', 'Vitajte! Registrácia je dokončená a účet je pripravený.')
+            ->with('ga_event', ['name' => 'sign_up', 'params' => ['method' => 'email']]);
     }
 
     protected function pendingFromSession(Request $request): ?PendingRegistration

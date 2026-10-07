@@ -46,4 +46,9 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
     ],
 
+    // Google Analytics 4 — ID merania (G-XXXXXXXXXX) z GA: Správca → Dátové toky.
+    'google_analytics' => [
+        'measurement_id' => env('GA_MEASUREMENT_ID', 'G-CWSGN76K8B'),
+    ],
+
 ];

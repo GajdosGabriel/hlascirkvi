@@ -54,8 +54,12 @@ class NewsletterController extends Controller
             ? $this->subscribeUser($user, 'profile')
             : $this->unsubscribeUser($user, $request->ip(), 'profile');
 
-        return redirect()->route('newsletter.preferences')
+        $redirect = redirect()->route('newsletter.preferences')
             ->with('flash', $data['send_email'] ? 'Odber noviniek je zapnutý.' : 'Odber noviniek je vypnutý.');
+
+        return $data['send_email']
+            ? $redirect->with('ga_event', ['name' => 'newsletter_signup', 'params' => ['method' => 'profile']])
+            : $redirect;
     }
 
     private function page(User $user)
