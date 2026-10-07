@@ -35,6 +35,14 @@ class EventPortalController extends Controller
 
     public function index(Request $request)
     {
+        // ?location=… je starý parameter, ktorý výpis už nepozná; canonical ho
+        // vynecháva, takže by ostal ako alternatívna stránka. Natrvalo preč.
+        if ($request->query->has('location')) {
+            $query = http_build_query($request->except('location'));
+
+            return redirect(route('akcie.index') . ($query ? '?' . $query : ''), 301);
+        }
+
         $filters = $this->filters($request);
         $view = in_array($request->query('view'), self::VIEWS, true)
             ? $request->query('view')

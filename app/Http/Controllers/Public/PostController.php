@@ -65,6 +65,15 @@ class PostController extends Controller
             return redirect(route('post.show', [$post->id, $post->slug]) . ($query ? '?' . $query : ''), 301);
         }
 
+        // Detail príspevku sa nestránkuje. ?page=N pochádza zo starých odkazov
+        // a vracal by 200 s kanonickou adresou bez parametra, čo Search Console
+        // vedie ako „Alternatívna stránka so správnou kanonickou značkou".
+        if (request()->query->has('page')) {
+            $query = http_build_query(request()->except('page'));
+
+            return redirect(route('post.show', [$post->id, $post->slug]) . ($query ? '?' . $query : ''), 301);
+        }
+
         $creditUser->setPostHistory($post);
 
         // Zobrazenie sa tu nezapisuje — pošle ho až prehliadač cez view()
