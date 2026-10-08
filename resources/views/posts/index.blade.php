@@ -166,6 +166,8 @@
             <aside class="ar-aside min-w-0 lg:col-span-4">
                 <x-liturgical-readings />
 
+                <x-upcoming-events />
+
                 <x-announcements placement="sidebar" />
 
                 <comments-card></comments-card>

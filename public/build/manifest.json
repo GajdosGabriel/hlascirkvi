@@ -8,7 +8,7 @@
     "src": "node_modules/@phosphor-icons/web/src/regular/Phosphor.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DYjsV31E.css",
+    "file": "assets/app-Cgc2gNE1.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -17,12 +17,12 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-tDb0l-3i.js",
+    "file": "assets/app-Dfw-XTDO.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-CLe8Rppt.css"
+      "assets/app-BqzpeNzK.css"
     ],
     "assets": [
       "assets/Phosphor-DtdjzkpE.woff2",

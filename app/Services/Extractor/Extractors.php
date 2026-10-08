@@ -89,12 +89,17 @@ class Extractors
                 continue;
             }
 
+            $createdAt = Carbon::now()->subHours(2)->addMinute(rand(3, 55))->toDateTimeString();
+
+            // Vkladá sa mimo Eloquentu, takže Prayer::booted() stĺpec `published`
+            // nevyplní — bez neho by modlitba ostala skrytá (Prayer::published()).
             DB::table('prayers')->insert([
                 'title' => isset($item['title'])  ? $item['title'] : '',
                 'body' => $item['body'],
                 'user_name' => $item['user'],
                 'canal_id' => $item['canal'],
-                'created_at' => Carbon::now()->subHours(2)->addMinute(rand(3, 55))->toDateTimeString(),
+                'created_at' => $createdAt,
+                'published' => $createdAt,
             ]);
         }
     }

@@ -8,10 +8,17 @@
 
 
             <ul class="">
-                <li v-for="prayer in prayers.slice(0, 7)" :key="prayer.id">
+                <li v-for="prayer in visiblePrayers" :key="prayer.id">
                     <prayers-card-item :prayer="prayer"></prayers-card-item>
                 </li>
             </ul>
+
+            <p v-if="prayers.length > collapsedCount" class="border-t border-gray-100 px-4 py-2 text-sm">
+                <button type="button" class="font-semibold" :aria-expanded="expanded ? 'true' : 'false'" @click="expanded = !expanded">
+                    {{ expanded ? 'Zobraziť menej' : 'Zobraziť ďalšie (' + (prayers.length - collapsedCount) + ')' }}
+                    <i class="ph" :class="expanded ? 'ph-caret-up' : 'ph-caret-down'" aria-hidden="true"></i>
+                </button>
+            </p>
 
 
 
@@ -31,7 +38,16 @@
         data() {
             return {
                 prayers: [],
-                url: '/api/prayers?page=1'
+                url: '/api/prayers?page=1',
+                // Zbalený modul ukazuje prvé tri, zvyšok načítanej strany až po rozkliknutí.
+                collapsedCount: 3,
+                expanded: false
+            }
+        },
+
+        computed: {
+            visiblePrayers() {
+                return this.expanded ? this.prayers : this.prayers.slice(0, this.collapsedCount);
             }
         },
 
