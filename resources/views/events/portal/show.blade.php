@@ -206,6 +206,7 @@
                                     @foreach (['google' => 'Google', 'outlook' => 'Outlook', 'download' => '.ics'] as $key => $label)
                                         @if (! empty($event->calendarLinks()[$key]))
                                             <a href="{{ $event->calendarLinks()[$key] }}" target="_blank" rel="noopener nofollow"
+                                               data-ga-event="event_calendar_add" data-ga-label="{{ $event->title() }}"
                                                class="rounded border border-[color:var(--ev-line)] px-2 py-1 transition hover:border-amber-400 hover:text-amber-800">
                                                 {{ $label }}
                                             </a>
@@ -240,6 +241,7 @@
                                  pri akciách bez lístkov; formulár beží na portáli. --}}
                             @if ($cta = $event->ticketCta())
                                 <a href="{{ $event->ticketUrl() }}" target="_blank" rel="noopener nofollow"
+                                   data-ga-event="event_ticket_click" data-ga-label="{{ $event->title() }}"
                                    class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                                     <i class="ph ph-ticket"></i> {{ $cta['label'] }}
                                 </a>
