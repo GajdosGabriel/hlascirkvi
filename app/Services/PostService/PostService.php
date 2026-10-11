@@ -5,6 +5,7 @@ namespace App\Services\PostService;
 use App\Models\Canal;
 use Illuminate\Support\Facades\DB;
 use App\Services\Files\Form;
+use App\Services\SystemLog\Recorder;
 
 class PostService
 {
@@ -32,6 +33,8 @@ class PostService
         // držalo zámky a pri rollbacku by na disku ostali siroty.
         $this->failures = (new Form($post, $request))->handler();
 
+        Recorder::activity('post', 'created', 'Nový príspevok: ' . $post->title, $post);
+
         return $post;
     }
 
@@ -43,6 +46,8 @@ class PostService
         });
 
         $this->failures = (new Form($post, $request, $post->wasChanged('video_id')))->handler();
+
+        Recorder::activity('post', 'updated', 'Príspevok upravený: ' . $post->title, $post);
 
         return $post;
     }

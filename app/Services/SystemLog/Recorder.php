@@ -39,6 +39,29 @@ class Recorder
     }
 
     /**
+     * Čo užívateľ na webe urobil — uložil si príspevok, pridal komentár,
+     * upravil kanál. Užívateľ je ten prihlásený, ak ho volajúci neurčí inak
+     * (potvrdenie z e-mailu beží bez prihlásenia); IP sa berie z požiadavky.
+     *
+     *     Recorder::activity('post', 'saved', 'Uložené na neskôr: ' . $post->title, $post);
+     */
+    public static function activity(
+        string $channel,
+        string $event,
+        string $message,
+        ?Model $subject = null,
+        ?int $userId = null,
+        array $context = [],
+    ): ?SystemLog {
+        return static::record($channel, $event, $message,
+            userId: $userId ?? (auth()->id() !== null ? (int) auth()->id() : null),
+            subject: $subject,
+            context: $context,
+            ip: app()->runningInConsole() && ! app()->runningUnitTests() ? null : request()?->ip(),
+        );
+    }
+
+    /**
      * @param  string  $event  bez kanála (`sent`), uloží sa ako `mail.sent`
      */
     public static function record(

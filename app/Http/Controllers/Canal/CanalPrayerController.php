@@ -48,7 +48,9 @@ class CanalPrayerController extends Controller
     {
         $this->authorize('manage', $canal);
 
-        $canal->prayers()->create($request->validated());
+        $prayer = $canal->prayers()->create($request->validated());
+
+        \App\Services\SystemLog\Recorder::activity('prayer', 'created', 'Nová modlitba: ' . $prayer->title, $prayer);
 
         return redirect()->route('profile.canals.prayers.index', $canal);
     }
@@ -56,6 +58,8 @@ class CanalPrayerController extends Controller
     public function destroy(Canal $canal, Prayer $prayer)
     {
         $prayer->delete();
+
+        \App\Services\SystemLog\Recorder::activity('prayer', 'deleted', 'Modlitba zmazaná: ' . $prayer->title, $prayer);
 
         return back();
     }

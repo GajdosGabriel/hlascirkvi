@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Post;
+use App\Models\SystemLog;
 use App\Models\User;
 use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,6 +44,28 @@ class SavedPostTest extends TestCase
             ->assertOk()
             ->assertJson(['saved' => false]);
         $this->assertDatabaseCount('saved_posts', 0);
+    }
+
+    public function test_ulozenie_aj_odobratie_sa_zapise_do_dennika(): void
+    {
+        $user = User::factory()->create();
+        $post = Post::factory()->create(['title' => 'Kázeň na neskôr']);
+
+        $this->actingAs($user)->putJson("/post/{$post->id}/ulozit")->assertOk();
+        $this->assertDatabaseHas('system_logs', [
+            'event' => 'post.saved',
+            'message' => 'Uložené na neskôr: Kázeň na neskôr',
+            'user_id' => $user->id,
+            'subject_type' => $post->getMorphClass(),
+            'subject_id' => $post->id,
+        ]);
+
+        $this->actingAs($user)->delete("/post/{$post->id}/ulozit")->assertRedirect();
+        $this->assertDatabaseHas('system_logs', ['event' => 'post.unsaved', 'user_id' => $user->id, 'subject_id' => $post->id]);
+
+        // Odobratie príspevku, ktorý uložený nie je, sa nezapisuje.
+        $this->actingAs($user)->delete("/post/{$post->id}/ulozit")->assertRedirect();
+        $this->assertSame(2, SystemLog::where('channel', 'post')->count());
     }
 
     public function test_stranka_ukaze_len_vlastne_ulozene(): void

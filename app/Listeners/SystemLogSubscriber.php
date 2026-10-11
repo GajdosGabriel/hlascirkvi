@@ -13,8 +13,10 @@ use App\Services\SystemLog\Recorder;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Console\Events\ScheduledTaskFailed;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Mail\Events\MessageSending;
@@ -76,6 +78,8 @@ class SystemLogSubscriber
             Lockout::class => 'lockout',
             PasswordReset::class => 'passwordReset',
             Registered::class => 'registered',
+            Logout::class => 'logout',
+            Verified::class => 'verified',
         ];
     }
 
@@ -231,6 +235,31 @@ class SystemLogSubscriber
             status: 'ok',
             recipient: $event->user->email ?? null,
             userId: $event->user->getAuthIdentifier(),
+            ip: request()?->ip(),
+        );
+    }
+
+    /** Vypršaná session udalosť nevyvolá — zapíše sa len vedomé odhlásenie. */
+    public function logout(Logout $event): void
+    {
+        if (! $event->user) {
+            return;
+        }
+
+        Recorder::info('auth', 'logout', 'Odhlásenie',
+            status: 'ok',
+            recipient: $event->user->email ?? null,
+            userId: $event->user->getAuthIdentifier(),
+            ip: request()?->ip(),
+        );
+    }
+
+    public function verified(Verified $event): void
+    {
+        Recorder::info('auth', 'verified', 'E-mailová adresa overená',
+            status: 'ok',
+            recipient: $event->user->email ?? null,
+            userId: $event->user->getKey(),
             ip: request()?->ip(),
         );
     }

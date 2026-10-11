@@ -192,6 +192,8 @@ class CanalController extends Controller
             }
         }
 
+        \App\Services\SystemLog\Recorder::activity('canal', 'updated', 'Kanál upravený: ' . $canal->title, $canal);
+
         // Názov, typ aj zverejnenie sa na kartách predného zoznamu prejavia
         // hneď, nie až po vypršaní cache.
         if ($canal->front_listed_at) {

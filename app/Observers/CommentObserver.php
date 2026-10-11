@@ -26,6 +26,24 @@ class CommentObserver
     public function created(Comment $comment): void
     {
         $this->notifyAuthor($comment);
+
+        // Len komentáre ľudí z webu — import z YouTube by denník zaplavil.
+        if ($comment->user_id && ! $comment->fromYoutube() && (int) $comment->user_id !== CommentSync::USER_ID) {
+            Recorder::activity('comment', 'created', 'Komentár: ' . $this->excerpt($comment), $comment, (int) $comment->user_id);
+        }
+    }
+
+    /** Zmazanie človekom (autor, správca) — hromadné mazanie s príspevkom ide dopytom mimo observera. */
+    public function deleted(Comment $comment): void
+    {
+        if (auth()->check()) {
+            Recorder::activity('comment', 'deleted', 'Komentár zmazaný: ' . $this->excerpt($comment), $comment);
+        }
+    }
+
+    private function excerpt(Comment $comment): string
+    {
+        return mb_substr(trim(strip_tags((string) $comment->body)), 0, 120);
     }
 
     public function updated(Comment $comment): void

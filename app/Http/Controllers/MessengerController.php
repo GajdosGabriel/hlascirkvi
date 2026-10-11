@@ -25,6 +25,8 @@ class MessengerController extends Controller
 
         $canal->notify(new CanalMessage($canal, $request->user(), $request->input('body')));
 
+        \App\Services\SystemLog\Recorder::activity('message', 'sent', 'Správa kanálu: ' . $canal->title, $canal);
+
         return back()->with('flash', 'Správa bola odoslaná!');
     }
 

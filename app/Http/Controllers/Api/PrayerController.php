@@ -109,6 +109,8 @@ class PrayerController extends Controller
 
         $prayer->delete();
 
+        \App\Services\SystemLog\Recorder::activity('prayer', 'deleted', 'Modlitba zmazaná: ' . $prayer->title, $prayer);
+
         return response()->noContent();
     }
 }

@@ -83,6 +83,8 @@ class UserActivation
     {
         $prayer = $this->ensureCanal($user)->prayers()->create($data);
 
+        \App\Services\SystemLog\Recorder::activity('prayer', 'created', 'Nová modlitba: ' . $prayer->title, $prayer, (int) $user->id);
+
         Notification::send(User::role('admin')->get(), new NewPrayer($prayer));
 
         return $prayer;

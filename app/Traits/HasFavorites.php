@@ -57,8 +57,8 @@ trait HasFavorites
 
         if ($state) {
             $this->favorites()->firstOrCreate(['user_id' => auth()->id()]);
-        } else {
-            $this->favorites()->whereUserId(auth()->id())->delete();
+        } elseif ($this->favorites()->whereUserId(auth()->id())->delete()) {
+            Favorite::log($this, (int) auth()->id(), false);
         }
 
         $this->unsetRelation('favorites');
@@ -81,6 +81,8 @@ trait HasFavorites
 
         if (! $deleted) {
             $this->favorites()->create(['user_id' => auth()->id()]);
+        } else {
+            Favorite::log($this, (int) auth()->id(), false);
         }
 
         $this->unsetRelation('favorites');

@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Messenger;
 use App\Notifications\Messengers\ComingNewMessage;
 use App\Models\User;
+use App\Services\SystemLog\Recorder;
 
 class MessengerObserver
 {
@@ -20,6 +21,10 @@ class MessengerObserver
         $messenger->requestedUser->notify(new ComingNewMessage($messenger));
 
         session()->flash('flash', 'Správa bola odoslaná!');
+
+        // Text správy je súkromný, do denníka ide len to, že odišla a komu.
+        Recorder::activity('message', 'sent', 'Súkromná správa odoslaná', $messenger, (int) $messenger->user_id,
+            ['requested_user' => $messenger->requested_user]);
 
     }
 

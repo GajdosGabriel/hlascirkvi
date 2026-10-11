@@ -210,6 +210,8 @@ class CanalRequest extends FormRequest
         VideoImportSchedule::reset($canal);
         auth()->user()->canals()->save($canal);
 
+        \App\Services\SystemLog\Recorder::activity('canal', 'created', 'Nový kanál: ' . $canal->title, $canal);
+
         return $canal;
     }
 }

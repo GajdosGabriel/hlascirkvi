@@ -117,6 +117,7 @@ class CanalPostController extends Controller
             $post->restore();
             $post->comments()->onlyTrashed()->where('deleted_at', $deletedAt)->restore();
             $post->forceFill(['deleted_by_admin' => false])->saveQuietly();
+            \App\Services\SystemLog\Recorder::activity('post', 'restored', 'Príspevok obnovený: ' . $post->title, $post);
 
             return redirect()->route('profile.posts.index')->with('flash', 'Príspevok bol obnovený!');
         }
@@ -125,6 +126,7 @@ class CanalPostController extends Controller
         // Komentáre dostanú rovnaký čas zmazania ako článok; už zmazané ostanú nedotknuté.
         $post->comments()->update(['deleted_at' => $post->deleted_at]);
         $post->forceFill(['deleted_by_admin' => $isAdmin])->saveQuietly();
+        \App\Services\SystemLog\Recorder::activity('post', 'deleted', 'Príspevok zmazaný: ' . $post->title, $post);
 
         return redirect()->route('profile.posts.index')->with('flash', 'Príspevok bol zmazaný!');
     }

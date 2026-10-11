@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Services\SystemLog\Recorder;
 use Illuminate\Http\Request;
 
 /**
@@ -28,6 +29,7 @@ class SavedPostController extends Controller
 
         if ($saved->whereKey($post->id)->exists()) {
             $saved->detach($post->id);
+            $this->log($request, $post, false);
 
             return response()->json(['saved' => false]);
         }
@@ -37,18 +39,34 @@ class SavedPostController extends Controller
         abort_unless($post->published_at !== null, 404);
 
         $saved->attach($post->id);
+        $this->log($request, $post, true);
 
         return response()->json(['saved' => true]);
     }
 
     public function destroy(Request $request, int $postId)
     {
-        $request->user()->savedPosts()->detach($postId);
+        // Zo zoznamu sa dá odobrať aj príspevok, ktorý sa medzitým skryl či zmazal.
+        if ($request->user()->savedPosts()->detach($postId)) {
+            $this->log($request, Post::withoutGlobalScopes()->find($postId), false);
+        }
 
         if ($request->expectsJson()) {
             return response()->json(['saved' => false]);
         }
 
         return back();
+    }
+
+    /**
+     * Uloženie je často jediné, čo čitateľ po registrácii urobí — bez záznamu
+     * v denníku by pri účte nebolo vidno nič okrem prihlásenia.
+     */
+    private function log(Request $request, ?Post $post, bool $saved): void
+    {
+        Recorder::activity('post', $saved ? 'saved' : 'unsaved',
+            ($saved ? 'Uložené na neskôr: ' : 'Odobraté z uložených: ') . ($post?->title ?? 'zmazaný príspevok'),
+            $post, (int) $request->user()->getKey(),
+        );
     }
 }

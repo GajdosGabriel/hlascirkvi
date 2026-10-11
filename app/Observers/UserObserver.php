@@ -25,18 +25,42 @@ class UserObserver
         $user->slug =  Str::slug($user->first_name . " " . $user->last_name, '-');
 
         // Ak zamenia first name s last name
-        $firstName = FirstName::whereName($user->first_name)->orderBy('count', 'desc')->first();
+        $name = $user->first_name;
+        $firstName = $this->findFirstName($name);
 
-        if(!$firstName){
-            $firstName = FirstName::whereName($user->last_name)->orderBy('count', 'desc')->first();
+        if (! $firstName) {
+            $name = $user->last_name;
+            $firstName = $this->findFirstName($name);
         }
 
         if ($firstName) {
-            $user->vocative = $firstName->vocative;
+            // Slovenčina oslovuje nominatívom („Dobrý deň, Mária,"). Stĺpec
+            // first_names.vocative má české tvary („Mário", „Petře"), preto sa
+            // z tabuľky berie len to, že ide o krstné meno, a jeho rod —
+            // oslovenie je meno tak, ako si ho užívateľ napísal.
+            $user->vocative = $name;
             $user->gender = $firstName->gender;
         } else {
             $user->vocative = null;
         }
+    }
+
+    /**
+     * `first_names` má kolaciu utf8mb4_unicode_ci, ktorá nerozlišuje diakritiku:
+     * „Maria" tak vráti aj „Mária" a podľa počtu by vyhrala tá. Prednosť má
+     * preto záznam, ktorý sedí na písmeno presne; variant s inou diakritikou sa
+     * berie až vtedy, keď presný neexistuje (meno napísané bez dĺžňov, ktoré
+     * v zozname bez nich nie je).
+     */
+    private function findFirstName(?string $name): ?FirstName
+    {
+        if ((string) $name === '') {
+            return null;
+        }
+
+        $candidates = FirstName::whereName($name)->orderBy('count', 'desc')->get();
+
+        return $candidates->firstWhere('name', $name) ?? $candidates->first();
     }
 
     public function creating(User $user)
