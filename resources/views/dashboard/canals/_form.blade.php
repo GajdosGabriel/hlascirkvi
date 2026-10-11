@@ -15,6 +15,12 @@
         $published = old('published', $canal->published?->format('Y-m-d\TH:i:s'));
 
         $field = fn (string $name) => 'ar-field' . ($errors->has($name) ? ' ar-field--error' : '');
+
+        // Administrátor vidí pri správcovi meno aj e-mail a hľadať môže podľa
+        // oboch — samotný e-mail sa podľa mena nájsť nedal.
+        $managerLabel = fn ($user) => $isAdmin
+            ? trim(trim((string) $user->fullname) . ' · ' . $user->email, ' ·')
+            : $user->fullname;
     @endphp
         <form method="POST" enctype="multipart/form-data" action="{{ $creating ? route('admin.canal.store') : route('profile.canals.update', $canal) }}" class="space-y-5">
             @csrf
@@ -104,7 +110,7 @@
                             <select class="{{ $field('village_id') }}" id="village_id" name="village_id" required autocomplete="address-level2">
                                 <option value="">Vyberte mesto alebo obec</option>
                                 @foreach ($villages as $village)
-                                    <option value="{{ $village->id }}" @selected((int) old('village_id', $canal->village_id) === $village->id)>
+                                    <option value="{{ $village->id }}" @selected((int) old('village_id', $canal->village_id ?? \App\Models\Village::WHOLE_COUNTRY) === $village->id)>
                                         {{ $village->fullname }} {{ $village->zip }}
                                     </option>
                                 @endforeach
@@ -138,7 +144,7 @@
 
                     <div>
                         <label class="ar-label" for="url_www">Webová stránka</label>
-                        <input class="{{ $field('url_www') }}" type="text" id="url_www" name="url_www" inputmode="url" pattern="S+" autocapitalize="off" spellcheck="false"
+                        <input class="{{ $field('url_www') }}" type="text" id="url_www" name="url_www" inputmode="url" pattern="\S+" autocapitalize="off" spellcheck="false"
                                value="{{ old('url_www', $canal->url_www) }}" maxlength="191" autocomplete="url"
                                placeholder="www.vasweb.sk">
                         {{-- Cast Urlwww z adresy nechá len schému a doménu. --}}
@@ -169,7 +175,7 @@
                              zámer — bez nej by sa pole `users` vôbec neposlalo. --}}
                         <input type="hidden" name="users_submitted" value="1">
                         <div class="ar-picker" data-user-picker data-self="{{ auth()->id() }}"
-                             data-users="{{ $users->map(fn ($u) => ['id' => $u->id, 'name' => auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $u->email : $u->fullname])->values()->toJson(JSON_UNESCAPED_UNICODE) }}">
+                             data-users="{{ $users->map(fn ($u) => ['id' => $u->id, 'name' => $managerLabel($u)])->values()->toJson(JSON_UNESCAPED_UNICODE) }}">
                             <label class="ar-label" for="manager-search">
                                 Správcovia
                                 <span class="ar-picker__count" data-picker-count></span>
@@ -179,10 +185,10 @@
                                 @foreach ($users->whereIn('id', $managerIds) as $manager)
                                     <li class="ar-picker__chip" data-id="{{ $manager->id }}">
                                         <span class="ar-picker__avatar">{{ mb_substr($manager->first_name, 0, 1) }}{{ mb_substr($manager->last_name, 0, 1) }}</span>
-                                        <span class="ar-picker__name">{{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $manager->email : $manager->fullname }}</span>
+                                        <span class="ar-picker__name">{{ $managerLabel($manager) }}</span>
                                         <input type="hidden" name="users[]" value="{{ $manager->id }}">
                                         <button type="button" class="ar-picker__remove" data-picker-remove
-                                                aria-label="Odobrať {{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $manager->email : $manager->fullname }}">&times;</button>
+                                                aria-label="Odobrať {{ $managerLabel($manager) }}">&times;</button>
                                     </li>
                                 @endforeach
                             </ul>
@@ -194,7 +200,7 @@
                             <div class="ar-picker__search">
                                 <i class="ph ph-magnifying-glass ar-picker__icon" aria-hidden="true"></i>
                                 <input class="{{ $field('users') }} ar-picker__input" type="search" id="manager-search"
-                                       placeholder="Pridať správcu — začnite písať meno…" autocomplete="off" spellcheck="false"
+                                       placeholder="Pridať správcu — začnite písať meno alebo e-mail…" autocomplete="off" spellcheck="false"
                                        role="combobox" aria-expanded="false" aria-controls="manager-results" aria-autocomplete="list">
                                 <ul class="ar-picker__results" id="manager-results" role="listbox" data-picker-results hidden></ul>
                             </div>
@@ -203,7 +209,7 @@
                         </div>
 
                         <div>
-                            <label for="published" class="block text-sm font-semibold">Dátum zverejnenia</label>
+                            <label class="ar-label" for="published">Dátum zverejnenia</label>
                             <input class="{{ $field('published') }}" type="datetime-local" step="1"
                                    id="published" name="published" value="{{ $published }}">
                             <p class="ar-hint">Prázdny dátum znamená nezverejnený kanál. Vyplnený dátum eviduje zverejnenie, neslúži na jeho plánovanie.</p>
@@ -212,7 +218,7 @@
                     @else
                         <div class="flex flex-wrap gap-2">
                             @forelse ($canal->users as $manager)
-                                <span class="ar-chip"><i class="ph ph-user"></i> {{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? $manager->email : $manager->fullname }}</span>
+                                <span class="ar-chip"><i class="ph ph-user"></i> {{ $managerLabel($manager) }}</span>
                             @empty
                                 <span class="ar-chip ar-chip--muted">Bez správcu</span>
                             @endforelse
@@ -243,7 +249,8 @@
                                 <label class="ar-label" for="youtube_channel">ID kanála YouTube</label>
                                 <input class="{{ $field('youtube_channel') }} font-mono text-sm" type="text" id="youtube_channel"
                                        name="youtube_channel" value="{{ old('youtube_channel', $canal->youtube_channel) }}"
-                                       maxlength="191" inputmode="url" pattern="S+" placeholder="UC… alebo adresa kanála" spellcheck="false" autocapitalize="off">
+                                       maxlength="191" inputmode="url" pattern="\S+" placeholder="UC… alebo adresa kanála" spellcheck="false" autocapitalize="off">
+                                <p class="ar-hint">Stačí vložiť adresu kanála, napr. https://www.youtube.com/@meno — ID sa doplní samo. Načítavajú sa všetky videá kanála.</p>
                                 @error('youtube_channel') <p class="ar-error">{{ $message }}</p> @enderror
                             </div>
 
@@ -251,7 +258,8 @@
                                 <label class="ar-label" for="youtube_playlist">ID playlistu YouTube</label>
                                 <input class="{{ $field('youtube_playlist') }} font-mono text-sm" type="text" id="youtube_playlist"
                                        name="youtube_playlist" value="{{ old('youtube_playlist', $canal->youtube_playlist) }}"
-                                       maxlength="191" inputmode="url" pattern="S+" placeholder="PL… alebo adresa playlistu" spellcheck="false" autocapitalize="off">
+                                       maxlength="191" inputmode="url" pattern="\S+" placeholder="PL… alebo adresa playlistu" spellcheck="false" autocapitalize="off">
+                                <p class="ar-hint">Nepovinné. Vyplňte, len ak majú videá chodiť (aj) z jedného konkrétneho playlistu.</p>
                                 @error('youtube_playlist') <p class="ar-error">{{ $message }}</p> @enderror
                             </div>
                         </div>
@@ -271,7 +279,9 @@
                                     <option value="{{ $option->value }}" @selected($section === $option->value)>{{ $option->label() }}</option>
                                 @endforeach
                             </select>
-                            <p class="ar-hint">
+                            {{-- Text sa mení s výberom (skript nižšie), nie až po uložení. --}}
+                            <p class="ar-hint" data-section-hint
+                               data-hints="{{ collect($sections)->mapWithKeys(fn ($option) => [$option->value => $option->hint()])->toJson(JSON_UNESCAPED_UNICODE) }}">
                                 {{ \App\Enums\CanalSection::tryFrom((string) $section)?->hint() ?? '' }}
                             </p>
                             @error('post_section') <p class="ar-error">{{ $message }}</p> @enderror
@@ -291,6 +301,8 @@
                             @error('import_day') <p class="ar-error">{{ $message }}</p> @enderror
                         </div>
 
+                        {{-- Nový kanál ešte žiadnu kontrolu nemá. --}}
+                        @unless ($creating)
                         <div>
                             <span class="ar-label">Stav kontroly videí</span>
                             <p class="ar-hint">Posledná úspešná kontrola: {{ $canal->video_check_succeeded_at?->format('d. m. Y H:i') ?? 'Zatiaľ neevidovaná' }}.</p>
@@ -308,11 +320,13 @@
                                 <p class="ar-error">{{ $canal->video_check_error }}</p>
                             @endif
                         </div>
+                        @endunless
                     </div>
                 </section>
             @endif
 
-            <x-dashboard.form-bar :cancel="$creating ? route('admin.canal.index') : route('profile.canals.index')" :submit="$creating ? 'Vytvoriť kanál' : 'Uložiť zmeny'" />
+            <x-dashboard.form-bar :cancel="$creating ? route('admin.canal.index') : route('profile.canals.index')" :submit="$creating ? 'Vytvoriť kanál' : 'Uložiť zmeny'"
+                                  :note="$creating ? 'Kanál sa vytvorí po kliknutí na tlačidlo.' : 'Zmeny sa prejavia hneď po uložení.'" />
         </form>
     {{-- Ponuka editora zodpovedá značkám, ktoré nechá App\Support\SafeHtml. --}}
     @include('posts.editor', ['selector' => '#description', 'height' => 280])
@@ -335,6 +349,13 @@
                     playlist?.addEventListener('input', refresh);
                     playlist?.addEventListener('change', refresh);
                     refresh();
+
+                    const section = document.getElementById('post_section');
+                    const sectionHint = document.querySelector('[data-section-hint]');
+                    if (section && sectionHint) {
+                        const hints = JSON.parse(sectionHint.dataset.hints || '{}');
+                        section.addEventListener('change', () => { sectionHint.textContent = hints[section.value] ?? ''; });
+                    }
                 });
             </script>
         @endpush
@@ -412,7 +433,7 @@
                                     '<span>' + highlight(u, q) + '</span>' +
                                     '<span class="ar-picker__plus"><i class="ph ph-plus"></i> Pridať</span>' +
                                 '</li>').join('')
-                            : '<li class="ar-picker__none">Nikto s takým menom — alebo je už správcom.</li>';
+                            : '<li class="ar-picker__none">Nikto taký sa nenašiel — alebo je už správcom.</li>';
 
                         results.hidden = false;
                         input.setAttribute('aria-expanded', 'true');

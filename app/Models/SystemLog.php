@@ -22,6 +22,9 @@ class SystemLog extends Model
 
     protected $guarded = ['id'];
 
+    /** Telo mailu ide von len cez detail (SystemLogController::show). */
+    protected $hidden = ['body'];
+
     protected $casts = [
         'context' => 'array',
     ];

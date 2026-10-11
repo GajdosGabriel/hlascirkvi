@@ -220,7 +220,7 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::resource('statistic', Admin\StatisticController::class)->only('index');
     Route::resource('user', Admin\UserController::class)->only(['index', 'show', 'edit', 'update']);
     Route::resource('image', Admin\ImageController::class)->only(['index', 'destroy']);
-    Route::resource('logs', Admin\SystemLogController::class)->only('index');
+    Route::resource('logs', Admin\SystemLogController::class)->only('index', 'show');
 });
 
 // Obe tieto routy sú odkazy z e-mailu, takže musia zostať GET. Autorizáciu

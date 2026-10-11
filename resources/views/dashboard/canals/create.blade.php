@@ -54,7 +54,7 @@
                         <select class="form-control" id="village_id" name="village_id" required autocomplete="address-level2">
                             <option value="">Vyberte mesto alebo obec</option>
                             @foreach ($villages as $village)
-                                <option value="{{ $village->id }}" @selected(old('village_id') == $village->id)>{{ $village->fullname }} {{ $village->zip }}</option>
+                                <option value="{{ $village->id }}" @selected(old('village_id', \App\Models\Village::WHOLE_COUNTRY) == $village->id)>{{ $village->fullname }} {{ $village->zip }}</option>
                             @endforeach
                         </select>
                     </div>

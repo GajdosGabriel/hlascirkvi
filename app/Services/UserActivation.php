@@ -110,7 +110,7 @@ class UserActivation
             'title' => Canal::uniqueTitle((string) $user->fullname),
             'slug' => $user->slug,
             'identity_mode' => CanalIdentityMode::Personal,
-            'village_id' => 4209,
+            'village_id' => \App\Models\Village::WHOLE_COUNTRY,
         ]);
 
         $user->update(['canal_id' => $canal->id]);

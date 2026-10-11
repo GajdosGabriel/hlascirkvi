@@ -3,6 +3,12 @@
 namespace App\Listeners;
 
 use App\Models\User;
+use App\Notifications\Comments\ConfirmComment;
+use App\Notifications\Prayer\ConfirmPrayer;
+use App\Notifications\User\ConfirmEmail;
+use App\Notifications\User\ConfirmFavorite;
+use App\Notifications\User\ConfirmRegistration;
+use App\Notifications\User\ResetPassword;
 use App\Services\SystemLog\Recorder;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Lockout;
@@ -37,6 +43,18 @@ use Throwable;
  */
 class SystemLogSubscriber
 {
+    /**
+     * Maily s odkazom, ktorý sám niečo odomyká (nové heslo, potvrdenie účtu
+     * či príspevku) — token je v databáze len ako hash, telo do denníka nepatrí.
+     */
+    private const BODY_OMITTED = [
+        ResetPassword::class, ConfirmEmail::class, ConfirmRegistration::class,
+        ConfirmFavorite::class, ConfirmPrayer::class, ConfirmComment::class,
+    ];
+
+    /** Strop uloženého tela mailu v bajtoch. */
+    private const BODY_LIMIT = 500_000;
+
     /** Mail, ktorý sa práve posiela (MessageSending → MessageSent). */
     private static ?array $pending = null;
 
@@ -66,7 +84,8 @@ class SystemLogSubscriber
         self::$pending = [
             'recipient' => $this->recipients($event->message),
             'subject' => (string) $event->message->getSubject(),
-            'class' => $this->mailClass($event->data),
+            'context' => $this->mailContext($event->message, $event->data),
+            'body' => $this->mailBody($event->message, $event->data),
         ];
     }
 
@@ -74,18 +93,14 @@ class SystemLogSubscriber
     {
         self::$pending = null;
 
-        $class = $this->mailClass($event->data);
-
         Recorder::info('mail', 'sent', (string) $event->message->getSubject(),
             status: 'sent',
             recipient: $this->recipients($event->message),
-            context: [
-                'class' => $class,
+            context: $this->mailContext($event->message, $event->data) + [
                 'queued' => $event->data['__laravel_notification_queued'] ?? null,
                 'message_id' => $event->sent->getMessageId(),
-                'cc' => $this->addresses($event->message->getCc()),
-                'bcc' => $this->addresses($event->message->getBcc()),
             ],
+            body: $this->mailBody($event->message, $event->data),
         );
     }
 
@@ -110,7 +125,8 @@ class SystemLogSubscriber
         Recorder::error('mail', 'failed', $pending['subject'] ?? 'Mail sa nepodarilo odoslať',
             status: 'failed',
             recipient: $pending['recipient'] ?? null,
-            context: ['class' => $pending['class'] ?? null] + Recorder::exception($e),
+            context: ($pending['context'] ?? []) + Recorder::exception($e),
+            body: $pending['body'] ?? null,
         );
     }
 
@@ -254,6 +270,52 @@ class SystemLogSubscriber
         }
 
         return is_string($route) ? $route : ($notifiable->email ?? null);
+    }
+
+    /** Hlavička mailu do kontextu — kto, komu, čo bolo priložené. */
+    private function mailContext(Email $message, array $data): array
+    {
+        return [
+            'class' => $this->mailClass($data),
+            'from' => $this->addresses($message->getFrom()),
+            'reply_to' => $this->addresses($message->getReplyTo()),
+            'cc' => $this->addresses($message->getCc()),
+            'bcc' => $this->addresses($message->getBcc()),
+            'attachments' => array_values(array_filter(array_map(
+                fn ($part) => $part->getFilename(),
+                $message->getAttachments()
+            ))),
+            'body_omitted' => $this->bodyOmitted($message, $data),
+        ];
+    }
+
+    /**
+     * Prečo sa telo neukladá: `sensitive` = odkaz s tokenom, `bulk` = hromadný
+     * newsletter (stovky takmer rovnakých mailov s odhlasovacím odkazom).
+     */
+    private function bodyOmitted(Email $message, array $data): ?string
+    {
+        if (in_array($this->mailClass($data), self::BODY_OMITTED, true)) {
+            return 'sensitive';
+        }
+
+        return $message->getHeaders()->has('List-Unsubscribe') ? 'bulk' : null;
+    }
+
+    /** Telo mailu tak, ako odišlo (HTML, inak text). Citlivé, hromadné a priveľké sa neukladajú. */
+    private function mailBody(Email $message, array $data): ?string
+    {
+        if ($this->bodyOmitted($message, $data) !== null) {
+            return null;
+        }
+
+        $html = $message->getHtmlBody();
+        $text = $message->getTextBody();
+        $body = is_string($html) && $html !== ''
+            ? $html
+            : (is_string($text) && $text !== '' ? '<pre style="white-space:pre-wrap;font-family:inherit">' . e($text) . '</pre>' : null);
+
+        return $body !== null && strlen($body) <= self::BODY_LIMIT ? $body : null;
     }
 
     private function mailClass(array $data): ?string

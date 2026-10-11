@@ -110,7 +110,7 @@ class AdminCanalCreateTest extends TestCase
         foreach ([
             ['youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw'],
             ['youtube_playlist' => 'PL' . str_repeat('a', 32), 'import_day' => ''],
-            ['youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw', 'import_day' => 0],
+            ['youtube_channel' => 'UC' . str_repeat('b', 22), 'import_day' => 0],
         ] as $index => $settings) {
             $title = 'Nový zdroj ' . $index;
             $this->post(route('admin.canal.store'), $settings + [
@@ -126,6 +126,25 @@ class AdminCanalCreateTest extends TestCase
                 $this->assertSame(0, $canal->import_day);
             }
         }
+    }
+
+    public function test_youtube_source_of_another_canal_is_rejected(): void
+    {
+        $existing = Canal::factory()->create(['youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw']);
+
+        $this->actingAs($this->admin())->post(route('admin.canal.store'), [
+            'title' => 'Druhý kanál s tým istým zdrojom',
+            'village_id' => Village::factory()->create()->id,
+            'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw',
+        ])->assertSessionHasErrors('youtube_channel');
+
+        // Zmazaný kanál zdroj neblokuje.
+        $existing->delete();
+        $this->post(route('admin.canal.store'), [
+            'title' => 'Druhý kanál s tým istým zdrojom',
+            'village_id' => Village::factory()->create()->id,
+            'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw',
+        ])->assertSessionHasNoErrors();
     }
 
     public function test_dashboard_create_also_schedules_youtube_source(): void

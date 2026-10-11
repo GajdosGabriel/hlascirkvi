@@ -30,7 +30,7 @@ class CanalController extends Controller
 
         return view('admins.canals.create', [
             'canal' => $canal,
-            'villages' => Village::orderBy('fullname')->get(['id', 'fullname', 'zip']),
+            'villages' => Village::forSelect(),
             'denominations' => Denomination::options(),
             'types' => CanalIdentityMode::options(),
             'sections' => CanalSection::options(),

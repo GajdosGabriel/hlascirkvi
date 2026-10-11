@@ -72,8 +72,10 @@ class CanalRequest extends FormRequest
             // prepisuje prepareForValidation() na ID; čo sa preložiť nedá,
             // sa sem dostane nezmenené a skončí chybovou hláškou — inak by
             // denný import na takom kanáli padal na 403 od YouTube.
-            'youtube_channel'  => ['nullable', 'string', 'regex:' . ChannelId::PATTERN, 'max:40'],
-            'youtube_playlist' => ['nullable', 'string', 'regex:' . PlaylistId::PATTERN, 'max:40'],
+            // Ten istý zdroj pri dvoch kanáloch by každé video importoval
+            // dvakrát. Nezmenená hodnota sa nekontroluje — rovnako ako názov.
+            'youtube_channel'  => array_filter(['nullable', 'string', 'regex:' . ChannelId::PATTERN, 'max:40', $this->uniqueSource('youtube_channel', $canal)]),
+            'youtube_playlist' => array_filter(['nullable', 'string', 'regex:' . PlaylistId::PATTERN, 'max:40', $this->uniqueSource('youtube_playlist', $canal)]),
             // Vlastnosti kanála, ktoré do 9/2026 niesli updatery. Zaradenie
             // vidí každý správca, deň importu a smerovanie videí len admin —
             // kontrolu role robí controller, tu ide len o tvar dát.
@@ -112,7 +114,18 @@ class CanalRequest extends FormRequest
             'phone.regex' => 'Telefón môže obsahovať len číslice, medzery, zátvorky, pomlčky a úvodné +.',
             'youtube_channel.regex' => 'Kanál sa nedal určiť. Zadajte ID kanála (UC…) alebo adresu kanála na YouTube.',
             'youtube_playlist.regex' => 'Playlist sa nedal určiť. Zadajte ID playlistu (PL…) alebo jeho adresu na YouTube.',
+            'youtube_channel.unique' => 'Tento kanál YouTube už má priradený iný kanál na portáli.',
+            'youtube_playlist.unique' => 'Tento playlist YouTube už má priradený iný kanál na portáli.',
         ];
+    }
+
+    private function uniqueSource(string $column, ?Canal $canal)
+    {
+        if ($canal !== null && trim((string) $this->input($column)) === trim((string) $canal->{$column})) {
+            return null;
+        }
+
+        return Rule::unique('canals', $column)->ignore($canal)->whereNull('deleted_at');
     }
 
     /**

@@ -74,6 +74,44 @@ class EventPortalClientProtectionTest extends TestCase
         Http::assertSentCount(1);
     }
 
+    public function test_filter_combinations_cannot_use_up_the_whole_outbound_budget(): void
+    {
+        config(['eventportal.filter_limit' => 1]);
+        Http::fake([
+            '*' => Http::response(['data' => [], 'meta' => ['total' => 0]]),
+        ]);
+
+        $client = new EventPortalClient;
+        $client->events(['tags' => 'hudba,put']);
+        $client->events(['tags' => 'divadlo,viera']);
+        $client->events(['search' => 'koncert']);
+
+        Http::assertSentCount(1);
+
+        // Jeden štítok, obec ani detail pod menší strop nespadajú.
+        $client->events(['tags' => 'hudba']);
+        $client->events(['municipality' => 'nitra']);
+        $client->event(15);
+
+        Http::assertSentCount(4);
+    }
+
+    public function test_event_detail_is_503_not_404_when_portal_fails_without_a_stale_copy(): void
+    {
+        Http::fake(['*' => Http::response('', 429)]);
+
+        $this->get('/akcie/15')
+            ->assertStatus(503)
+            ->assertHeader('Retry-After', 60);
+    }
+
+    public function test_event_detail_stays_404_when_portal_says_the_event_is_gone(): void
+    {
+        Http::fake(['*' => Http::response(['message' => 'Not found'], 404)]);
+
+        $this->get('/akcie/15')->assertStatus(404);
+    }
+
     public function test_public_event_list_has_a_per_ip_rate_limit(): void
     {
         $route = Route::getRoutes()->getByName('akcie.index');

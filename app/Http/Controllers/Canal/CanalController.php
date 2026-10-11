@@ -37,7 +37,7 @@ class CanalController extends Controller
     public function create()
     {
         return view('dashboard.canals.create', [
-            'villages' => Village::orderBy('fullname')->get(['id', 'fullname', 'zip']),
+            'villages' => Village::forSelect(),
             'denominations' => Denomination::options(),
             'types' => CanalIdentityMode::options(),
         ]);
@@ -111,7 +111,7 @@ class CanalController extends Controller
 
         return view('dashboard.canals.edit', [
             'canal' => $canal,
-            'villages' => Village::orderBy('fullname')->get(['id', 'fullname', 'zip']),
+            'villages' => Village::forSelect(),
             // Zaradenie, smerovanie videí a deň importu sú dnes stĺpce kanála
             // s pevným číselníkom — netreba pre ne dopyt do databázy.
             'denominations' => Denomination::options(),

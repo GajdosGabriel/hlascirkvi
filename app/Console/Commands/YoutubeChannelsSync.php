@@ -31,7 +31,7 @@ class YoutubeChannelsSync extends Command
 
     private const BRATISLAVA = 242;
 
-    private const CELE_SLOVENSKO = 4209;
+    private const CELE_SLOVENSKO = \App\Models\Village::WHOLE_COUNTRY;
 
     /**
      * `id` = existujúci kanál na webe, ktorému sa zdroj aktualizuje.

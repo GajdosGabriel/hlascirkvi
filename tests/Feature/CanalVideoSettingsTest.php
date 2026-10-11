@@ -102,7 +102,7 @@ class CanalVideoSettingsTest extends TestCase
         $canal = Canal::factory()->create(['import_day' => null]);
         $this->actingAs($this->actor($canal, 'admin'))
             ->put('/dashboard/canals/'.$canal->id, $this->payload($canal, [
-                'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw', 'import_day' => 0,
+                'youtube_channel' => 'UC' . str_repeat('b', 22), 'import_day' => 0,
             ]))->assertSessionHasNoErrors();
         $this->assertSame(0, $canal->fresh()->import_day);
     }

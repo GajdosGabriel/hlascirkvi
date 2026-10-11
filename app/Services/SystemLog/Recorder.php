@@ -52,6 +52,7 @@ class Recorder
         ?Model $subject = null,
         array $context = [],
         ?string $ip = null,
+        ?string $body = null,
     ): ?SystemLog {
         try {
             return SystemLog::create([
@@ -65,6 +66,7 @@ class Recorder
                 'subject_type' => $subject?->getMorphClass(),
                 'subject_id' => $subject?->getKey(),
                 'context' => static::context($context),
+                'body' => $body !== null && $body !== '' ? $body : null,
                 'ip' => $ip,
             ]);
         } catch (Throwable $e) {

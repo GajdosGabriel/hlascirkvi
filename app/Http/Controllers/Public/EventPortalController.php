@@ -89,6 +89,12 @@ class EventPortalController extends Controller
         $item = $this->portal->event($event);
 
         if (! $item) {
+            // Portál mlčí a záložná kópia nie je: podujatie môže existovať,
+            // takže 404 by ho vyhľadávaču zbytočne vyradilo z indexu.
+            if ($this->portal->isUnavailable()) {
+                abort(503, '', ['Retry-After' => (int) config('eventportal.cooldown', 60)]);
+            }
+
             abort(404);
         }
 

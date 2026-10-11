@@ -47,6 +47,11 @@ return [
     // administrácii a ostatným klientom používajúcim tú istú verejnú IP.
     'outbound_limit' => (int) env('EVENT_PORTAL_OUTBOUND_LIMIT', 120),
 
+    // Z toho najviac toľkoto volaní za minútu smie pripadnúť na kombinácie
+    // štítkov a hľadanie. Zvyšok ostáva detailom a základnému výpisu, ktoré
+    // by inak robot prechádzajúci filtre pripravil o celý rozpočet. 0 = vypnuté.
+    'filter_limit' => (int) env('EVENT_PORTAL_FILTER_LIMIT', 30),
+
     // Ochrana pred kombinatorickou explóziou cache kľúčov vo verejnom filtri.
     'max_tags' => (int) env('EVENT_PORTAL_MAX_TAGS', 10),
 

@@ -19,6 +19,20 @@ class Village extends Model
     // novú obec tak ukazovala na neexistujúcu nulu.
     public $incrementing = false;
 
+    /** Záznam „Celé Slovensko" — kanál bez jedného sídla (médiá, celoslovenské diela). */
+    public const WHOLE_COUNTRY = 4209;
+
+    /**
+     * Obce do výberu vo formulári. „Celé Slovensko" ide na začiatok —
+     * abecedne by sa stratilo medzi štyrmi tisíckami obcí.
+     */
+    public static function forSelect()
+    {
+        return static::orderByRaw('id = ? desc', [self::WHOLE_COUNTRY])
+            ->orderBy('fullname')
+            ->get(['id', 'fullname', 'zip']);
+    }
+
     public function district() {
         return $this->belongsTo(District::class);
     }

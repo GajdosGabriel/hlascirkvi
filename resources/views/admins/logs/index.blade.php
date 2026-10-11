@@ -93,6 +93,11 @@
                                 @if ($log->ip)
                                     <span><i class="ph ph-network"></i>{{ $log->ip }}</span>
                                 @endif
+                                @if ($log->channel === 'mail')
+                                    <a href="{{ route('admin.logs.show', $log->id) }}" class="font-medium text-[color:var(--ar-accent)] hover:underline">
+                                        <i class="ph ph-eye"></i>Zobraziť e-mail
+                                    </a>
+                                @endif
                             </div>
 
                             @if ($log->context)

@@ -26,6 +26,9 @@ class EventPortalClient
     /** Nastaví sa, keď niektoré volanie muselo siahnuť po záložnej kópii. */
     protected bool $stale = false;
 
+    /** Nastaví sa, keď volanie zlyhalo a nebola po ruke ani záložná kópia. */
+    protected bool $unavailable = false;
+
     /**
      * Výpis podujatí ako stránkovač, aby fungovali bežné {{ $events->links() }}.
      *
@@ -69,7 +72,9 @@ class EventPortalClient
     /** Detail podujatia. Vráti null, keď neexistuje alebo je portál nedostupný. */
     public function event(int $id): ?RemoteEvent
     {
-        $data = $this->get('/api/events/'.$id, [], (int) config('eventportal.ttl.show'));
+        $this->unavailable = false;
+
+        $data = $this->get('/api/events/'.$id,[], (int) config('eventportal.ttl.show'));
 
         if (! is_array($data) || empty($data['id'])) {
             return null;
@@ -117,6 +122,16 @@ class EventPortalClient
         return $this->stale;
     }
 
+    /**
+     * Skončilo posledné volanie event() naprázdno preto, že portál neodpovedal
+     * a záložná kópia neexistuje? Detail vtedy nesmie vrátiť 404 — podujatie
+     * existuje, len ho práve nevieme načítať.
+     */
+    public function isUnavailable(): bool
+    {
+        return $this->unavailable;
+    }
+
     /* ------------------------------------------------------------------ HTTP */
 
     /**
@@ -147,7 +162,18 @@ class EventPortalClient
         // spoločný strop odchádzajúcich volaní, nižší než limit portálu.
         // Po jeho dosiahnutí návštevník dostane záložnú odpoveď a portál sa
         // nedostane do stavu 429 ani pri distribuovanom prechádzaní filtrov.
+        //
+        // Kombinácie štítkov a hľadanie majú navyše vlastný, menší strop:
+        // prechádza ich najmä robot a bez neho by minul spoločný rozpočet
+        // skôr, než sa dostane na rad detail podujatia či základný výpis.
         $outboundLimit = (int) config('eventportal.outbound_limit', 120);
+        $filterLimit = $this->isFilterCombination($path, $query)
+            ? (int) config('eventportal.filter_limit', 30)
+            : 0;
+
+        if ($filterLimit > 0 && RateLimiter::tooManyAttempts(self::PREFIX.':outbound:filters', $filterLimit)) {
+            return $this->fallback($staleKey);
+        }
 
         if ($outboundLimit > 0) {
             $limiterKey = self::PREFIX.':outbound';
@@ -158,6 +184,15 @@ class EventPortalClient
 
             RateLimiter::hit($limiterKey, 60);
         }
+
+        if ($filterLimit > 0) {
+            RateLimiter::hit(self::PREFIX.':outbound:filters', 60);
+        }
+
+        // Po skončení pauzy zavolajú portál všetky práve bežiace požiadavky
+        // naraz a každá dostane tú istú chybu. Do logu ju zapíše len tá,
+        // ktorá pauzu vyhlásila.
+        $report = true;
 
         try {
             $response = Http::acceptJson()
@@ -181,7 +216,7 @@ class EventPortalClient
             if ($response->status() === 429 || $response->serverError()) {
                 $retryAfter = (int) $response->header('Retry-After');
 
-                $this->cooldown($retryAfter > 0
+                $report = $this->cooldown($retryAfter > 0
                     ? min($retryAfter, 600)
                     : (int) config('eventportal.cooldown', 60));
             }
@@ -198,14 +233,16 @@ class EventPortalClient
             return $data;
         } catch (ConnectionException|\Throwable $e) {
             if ($e instanceof ConnectionException) {
-                $this->cooldown((int) config('eventportal.cooldown', 60));
+                $report = $this->cooldown((int) config('eventportal.cooldown', 60));
             }
 
             // Telo chybovej odpovede (celá HTML stránka) do logu nepatrí.
-            Log::warning('Event portál nedostupný: '.strtok($e->getMessage(), "\n"), [
-                'path' => $path,
-                'query' => $query,
-            ]);
+            if ($report) {
+                Log::warning('Event portál nedostupný: '.strtok($e->getMessage(), "\n"), [
+                    'path' => $path,
+                    'query' => $query,
+                ]);
+            }
 
             // Do denníka najviac raz za hodinu — padá to pri každom zobrazení.
             if (Recorder::onceIn(60, 'event-portal-down')) {
@@ -230,13 +267,30 @@ class EventPortalClient
             return $fallback;
         }
 
+        $this->unavailable = true;
+
         return [];
     }
 
-    /** Zastaví volania API na daný počet sekúnd pre všetky požiadavky naraz. */
-    protected function cooldown(int $seconds): void
+    /**
+     * Zastaví volania API na daný počet sekúnd pre všetky požiadavky naraz.
+     * Vráti false, keď pauza už beží — vyhlásila ju iná požiadavka.
+     */
+    protected function cooldown(int $seconds): bool
     {
-        Cache::add(self::PREFIX.':cooldown', true, max(1, $seconds));
+        return Cache::add(self::PREFIX.':cooldown', true, max(1, $seconds));
+    }
+
+    /**
+     * Výpis zúžený viacerými štítkami alebo hľadaním — priestor, ktorý sa dá
+     * kombinovať donekonečna. Jeden štítok či obec je konečný zoznam adries.
+     *
+     * @param  array<string, mixed>  $query
+     */
+    protected function isFilterCombination(string $path, array $query): bool
+    {
+        return $path === '/api/events'
+            && (isset($query['search']) || str_contains((string) ($query['tags'] ?? ''), ','));
     }
 
     /**
