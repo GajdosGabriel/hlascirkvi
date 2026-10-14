@@ -207,6 +207,41 @@
     @apply border-2 border-gray-300 rounded-md py-2 w-full px-2;
 }
 
+/* Vyhľadávacie pole s lupou: obal okolo <input type="search"> a tlačidla,
+   ktoré formulár odošle — hľadanie sa nemusí potvrdzovať Enterom. */
+.ar-searchbox {
+    position: relative;
+    display: block;
+}
+
+.ar-searchbox input[type="search"] {
+    width: 100%;
+    padding-right: 2.5rem;
+}
+
+.ar-searchbox .ar-searchbox__btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color .15s ease;
+}
+
+.ar-searchbox .ar-searchbox__btn:hover,
+.ar-searchbox .ar-searchbox__btn:focus-visible {
+    color: #b91c1c;
+}
+
 .btn {
     @apply border-2 border-gray-300 px-3 py-2 rounded-md;
 }

@@ -182,7 +182,10 @@
         <form class="seminars-filters" method="get" action="{{ route('konferencie.pute') }}" role="search">
             <div class="seminars-search">
                 <label for="seminars-search">Hľadať podujatie, prednášku alebo kanál</label>
-                <input id="seminars-search" type="search" name="q" value="{{ $search }}" maxlength="200" placeholder="Názov alebo téma">
+                <span class="ar-searchbox">
+                    <input id="seminars-search" type="search" name="q" value="{{ $search }}" maxlength="200" placeholder="Názov alebo téma">
+                    <x-search-button />
+                </span>
             </div>
             <div>
                 <label for="seminars-year">Ročník podujatia</label>

@@ -37,9 +37,12 @@
             <x-dashboard.panel title="Pridať kanál" class="mb-5">
                 {{-- Hľadanie, nie rozbaľovací zoznam: kanálov je vyše päťsto. --}}
                 <form method="GET" action="{{ route('admin.frontlist.index') }}" class="flex flex-wrap gap-2">
-                    <input type="search" name="hladat" value="{{ $hladane }}" class="form-control max-w-sm"
-                           placeholder="Meno kanála alebo osobnosti…" autocomplete="off">
-                    <button class="btn btn-primary">Hľadať</button>
+                    <span class="ar-searchbox w-full max-w-sm">
+                        <input type="search" name="hladat" value="{{ $hladane }}" class="form-control"
+                               placeholder="Meno kanála alebo osobnosti…" autocomplete="off"
+                               aria-label="Hľadať kanál">
+                        <x-search-button label="Hľadať kanál" />
+                    </span>
                 </form>
 
                 @if ($hladane !== '')

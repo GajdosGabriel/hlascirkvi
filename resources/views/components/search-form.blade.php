@@ -8,8 +8,9 @@
         </a>
     @endif
 
-    <input name="search" class="border-2 border-gray-500 px-2 rounded-md py-1" required
-        value="{{ session()->get('search') }}" />
-
-    <button class="btn btn-small">Hľadať</button>
+    <span class="ar-searchbox">
+        <input type="search" name="search" class="border-2 border-gray-500 px-2 rounded-md py-1" required
+            aria-label="Hľadať" value="{{ session()->get('search') }}" />
+        <x-search-button />
+    </span>
 </form>

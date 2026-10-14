@@ -15,7 +15,7 @@
             <x-dashboard.panel title="Príspevky v kolekcii">
                 <p class="text-sm text-gray-600 mb-4">Označte príspevky a pridajte ich do kolekcie alebo ich z nej odoberte. Odobratie príspevok nezmaže. Jeden príspevok môže patriť do viacerých kolekcií.</p>
                 <form method="get" action="{{ route('profile.canals.seminars.show', [$canal, $seminar]) }}" class="flex flex-wrap gap-3 mb-4">
-                    <div class="flex-1"><label for="collection-q">Hľadať príspevky kanála</label><input id="collection-q" name="q" type="search" class="form-control" value="{{ $search }}" maxlength="200"></div>
+                    <div class="flex-1"><label for="collection-q">Hľadať príspevky kanála</label><span class="ar-searchbox"><input id="collection-q" name="q" type="search" class="form-control" value="{{ $search }}" maxlength="200"><x-search-button label="Hľadať príspevky" /></span></div>
                     <div><label for="membership">Zaradenie</label><select id="membership" name="membership" class="form-control">
                         <option value="all" @selected($membership === 'all')>Všetky príspevky kanála</option>
                         <option value="in" @selected($membership === 'in')>V tejto kolekcii</option>

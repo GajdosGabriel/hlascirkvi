@@ -44,14 +44,14 @@
                     <input type="hidden" name="view" value="{{ $view }}">
                 @endif
 
-                <label class="relative block">
-                    <span class="sr-only">Hľadať podujatie</span>
-                    <i class="ph ph-magnifying-glass pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-stone-400"></i>
+                <div class="ar-searchbox">
                     <input type="search" name="search" value="{{ $filters['search'] }}"
                            placeholder="Hľadať podujatie, mesto, organizátora…"
-                           class="w-full rounded-lg border border-[color:var(--ev-line)] bg-white py-2 pl-9 pr-3 text-sm
+                           aria-label="Hľadať podujatie"
+                           class="w-full rounded-lg border border-[color:var(--ev-line)] bg-white py-2 pl-3 text-sm
                                   placeholder:text-stone-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500">
-                </label>
+                    <x-search-button label="Hľadať podujatie" />
+                </div>
             </form>
 
             {{-- Podoba výpisu --}}

@@ -62,10 +62,13 @@
                     @endif
                 @endforeach
 
-                <input type="search" name="search" value="{{ request('search') }}"
-                       placeholder="Hľadať kanál podľa názvu"
-                       class="form-control ar-canal-search__input"
-                       aria-label="Hľadať kanál">
+                <span class="ar-searchbox ar-canal-search__input">
+                    <input type="search" name="search" value="{{ request('search') }}"
+                           placeholder="Hľadať kanál podľa názvu"
+                           class="form-control"
+                           aria-label="Hľadať kanál">
+                    <x-search-button label="Hľadať kanál" />
+                </span>
 
                 <select name="sort" class="form-control ar-canal-search__sort" aria-label="Radenie"
                         data-auto-submit>
@@ -73,8 +76,6 @@
                         <option value="{{ $value }}" @selected(request('sort', 'newest') === $value)>{{ $label }}</option>
                     @endforeach
                 </select>
-
-                <button type="submit" class="ar-btn ar-btn--quiet">Hľadať</button>
 
                 <span class="ml-auto text-xs text-[color:var(--ar-ink-soft)]">
                     {{ $num($canals->total()) }} {{ $canals->total() === 1 ? 'kanál' : ($canals->total() >= 2 && $canals->total() <= 4 ? 'kanály' : 'kanálov') }} vo výbere
