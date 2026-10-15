@@ -60,7 +60,7 @@
         @elseif ($shape === 'card')
             <section class="card" data-announcement="{{ $item->id }}">
                 <div class="card_header">
-                    <h4>{{ $item->title }}</h4>
+                    <h2>{{ $item->title }}</h2>
                     <i class="{{ $tone['icon'] }} {{ $tone['accent'] }}" aria-hidden="true"></i>
                 </div>
                 <div class="card_body py-3 text-sm text-gray-600">

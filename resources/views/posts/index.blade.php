@@ -133,15 +133,24 @@
     </header>
 
     <div class="mx-auto max-w-6xl px-4 py-8">
-        <div class="grid gap-10 lg:grid-cols-12">
+        {{-- Liturgia dňa stojí v kóde pred výpisom, aby ju mobil (jeden stĺpec)
+             ukázal hneď pod prepínačmi — za 30 kartami by ju nikto nenašiel.
+             Na desktope ju mriežka postaví do pravého stĺpca nad zvyšok
+             panela; druhý riadok (1fr) pohltí výšku výpisu, takže medzi
+             liturgiou a panelom nevznikne medzera. --}}
+        <div class="grid gap-y-8 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-10 lg:gap-y-0">
+
+            <aside class="ar-aside min-w-0 lg:col-span-4 lg:col-start-9 lg:row-start-1 lg:mb-4" aria-label="Liturgia dňa">
+                <x-liturgical-readings />
+            </aside>
 
             {{-- Výpis príspevkov --}}
-            <div class="min-w-0 lg:col-span-8">
+            <div class="min-w-0 lg:col-span-8 lg:col-start-1 lg:row-span-2 lg:row-start-1">
                 {{-- Oznamy správcu webu. Stoja nad mriežkou, aby ich čitateľ
                      videl skôr než prvý príspevok. --}}
                 <x-announcements placement="home" />
 
-                <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
+                <div class="grid grid-cols-2 gap-4 lg:grid-cols-3" data-post-grid>
                     @forelse ($posts as $post)
                         @include('posts.card-front')
                     @empty
@@ -155,17 +164,28 @@
                     @endforelse
                 </div>
 
-                {{-- Bez withQueryString by druhá strana zabudla zvolený
-                     prepínač aj hľadaný výraz. --}}
-                <div class="mt-8">
-                    {{ $posts->onEachSide(1)->withQueryString()->links() }}
+                {{-- „Načítať ďalšie" pripojí ďalšiu stranu pod mriežku. Číselné
+                     stránkovanie ostáva pod ním pre vyhľadávače, prehliadače bez
+                     JavaScriptu a skok na staršie príspevky. Bez withQueryString
+                     by druhá strana zabudla zvolený prepínač aj hľadaný výraz. --}}
+                <div data-post-more>
+                    @if ($posts->hasMorePages())
+                        <div class="mt-8 text-center">
+                            <a href="{{ $posts->withQueryString()->nextPageUrl() }}"
+                               class="ar-tab ar-more" data-post-more-link>
+                                Načítať ďalšie príspevky <i class="ph ph-caret-down" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    @endif
+
+                    <div class="mt-6">
+                        {{ $posts->onEachSide(1)->withQueryString()->links() }}
+                    </div>
                 </div>
             </div>
 
             {{-- Bočný panel --}}
-            <aside class="ar-aside min-w-0 lg:col-span-4">
-                <x-liturgical-readings />
-
+            <aside class="ar-aside min-w-0 lg:col-span-4 lg:col-start-9 lg:row-start-2" aria-label="Bočný panel">
                 <x-upcoming-events />
 
                 <x-announcements placement="sidebar" />
@@ -194,6 +214,42 @@
             var bar = e.target.closest('[data-viewbar]');
             bar.classList.toggle('is-searching', !!open);
             if (open) bar.querySelector('input[type="search"]').focus();
+        });
+
+        // „Načítať ďalšie": stiahne ďalšiu stranu, jej karty pripojí do mriežky
+        // a blok s tlačidlom a stránkovaním nahradí tým z novej strany. Pri
+        // chybe prehliadač normálne prejde na odkaz. Fokus skočí na prvú novú
+        // kartu, aby klávesnica nezačínala znova od tlačidla. Obrázky si
+        // lazysizes nájde sám (sleduje pribudnuté .lazyload).
+        document.addEventListener('click', function (e) {
+            var link = e.target.closest('[data-post-more-link]');
+            if (!link || link.getAttribute('aria-busy') === 'true') return;
+            e.preventDefault();
+
+            link.setAttribute('aria-busy', 'true');
+            link.classList.add('opacity-60');
+
+            fetch(link.href, { headers: { 'Accept': 'text/html' } })
+                .then(function (r) { if (!r.ok) throw r; return r.text(); })
+                .then(function (html) {
+                    var page = new DOMParser().parseFromString(html, 'text/html');
+                    var grid = document.querySelector('[data-post-grid]');
+                    var cards = page.querySelectorAll('[data-post-grid] > article');
+                    var first = null;
+
+                    cards.forEach(function (card) {
+                        var node = document.importNode(card, true);
+                        grid.appendChild(node);
+                        first = first || node;
+                    });
+
+                    document.querySelector('[data-post-more]')
+                        .replaceWith(document.importNode(page.querySelector('[data-post-more]'), true));
+
+                    var title = first && first.querySelector('h2 a');
+                    if (title) title.focus({ preventScroll: true });
+                })
+                .catch(function () { window.location.href = link.href; });
         });
 
         window.addEventListener('load', function () {

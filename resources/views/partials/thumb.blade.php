@@ -22,7 +22,10 @@
         <source type="image/webp" data-srcset="{{ $webp }}" data-sizes="auto">
     @endif
 
-    <img data-src="{{ $model->thumbImage }}"
+    {{-- Priehľadný pixel v src, kým lazysizes nedosadí skutočný obrázok —
+         bez neho prehliadač kreslí ikonu rozbitého obrázka. --}}
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+         data-src="{{ $model->thumbImage }}"
          @if ($srcset) data-srcset="{{ $srcset }}" @endif
          @if ($image?->width) width="{{ $image->width }}" height="{{ $image->height }}" @endif
          data-sizes="auto"

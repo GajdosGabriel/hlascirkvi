@@ -75,9 +75,9 @@
     }
     .ar-heat__cell--zero { background: var(--ar-paper); }
     .ar-heat__day, .ar-heat__hour {
-        font-size: .5625rem;
+        font-size: .75rem;
         font-weight: 600;
-        color: #9ca3af;
+        color: var(--ar-muted);
     }
     .ar-heat__hour { text-align: center; }
     .ar-heat__pub {
@@ -91,8 +91,8 @@
         display: flex;
         align-items: center;
         gap: .35rem;
-        font-size: .6875rem;
-        color: #9ca3af;
+        font-size: .75rem;
+        color: var(--ar-muted);
     }
     .ar-heat__legend .ar-heat__cell { width: .7rem; }
 
@@ -165,6 +165,54 @@
         border-left: 2px solid var(--ar-line);
         padding-left: .6rem;
         font-size: .75rem;
-        color: #9ca3af;
+        color: var(--ar-muted);
     }
+    /* Hodnoty heatmapy ako tabuľka (admins/home) — pre dotyk a čítačky. */
+    .ar-heat__table { margin-top: .75rem; font-size: .75rem; }
+    .ar-heat__table summary { cursor: pointer; color: var(--ar-ink-soft); }
+    .ar-heat__table summary:hover { color: var(--ar-accent); }
+    .ar-heat__table table { margin-top: .5rem; width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    .ar-heat__table th, .ar-heat__table td { border-bottom: 1px solid var(--ar-line); padding: .3rem .4rem; text-align: right; white-space: nowrap; }
+    .ar-heat__table thead th { font-weight: 600; color: var(--ar-muted); }
+    .ar-heat__table tbody th { text-align: left; font-weight: 600; }
+
+    /* Obnovenie čísel v kickeri úvodu. Podčiarknutý červený text na červenom
+       kickeri bol drobný a splýval. */
+    .ar-refresh {
+        display: inline-flex;
+        align-items: center;
+        gap: .25rem;
+        margin-left: .5rem;
+        border: 1px solid var(--ar-line);
+        border-radius: 9999px;
+        background: #fff;
+        padding: .1rem .55rem;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-transform: none;
+        color: var(--ar-ink-soft);
+    }
+    .ar-refresh:hover { border-color: var(--ar-accent); color: var(--ar-accent); }
+
+    /* Odznak zdroja YouTube pri komentároch. */
+    .ar-badge--youtube { background: #fef2f2; color: #b91c1c; }
+    /* ---- Buffer -------------------------------------------------------- */
+    .ar-plan { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .ar-plan__slot {
+        border: 1px solid var(--ar-line);
+        border-radius: 9999px;
+        background: #fff;
+        padding: .2rem .65rem;
+        font-size: .8125rem;
+        font-variant-numeric: tabular-nums;
+        color: var(--ar-ink-soft);
+    }
+    .ar-plan__slot--done { border-color: #a7f3d0; background: #ecfdf5; color: #047857; }
+    .ar-plan__slot--next { border-color: var(--ar-accent); background: var(--ar-accent); font-weight: 700; color: #fff; }
+    .ar-buffer-canals { max-height: 32rem; overflow-y: auto; }
+    .ar-row--on { background: var(--ar-accent-soft); }
+    .ar-row--on .ar-row__title { font-weight: 600; color: var(--ar-accent); }
+    /* Zbalené podrobnosti prepínačov na stránke AI zhrnutí. */
+    .ar-ai__more { margin: -.25rem 0 .75rem 1.5rem; font-size: .75rem; color: var(--ar-muted); }
+    .ar-ai__more summary { cursor: pointer; color: var(--ar-ink-soft); }
 </style>

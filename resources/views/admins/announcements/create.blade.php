@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>{{ 'Nový oznam' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Nový oznam · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
@@ -11,9 +11,7 @@
             Nový oznam
         </x-slot>
 
-        <x-slot name="title_right">
-            <a class="btn btn-default" href="{{ route('admin.announcement.index') }}">Späť na oznamy</a>
-        </x-slot>
+        <x-slot name="lead">Polia označené <span class="ar-req">*</span> sú povinné.</x-slot>
 
         <x-slot name="page">
             @include('admins.announcements._form', [

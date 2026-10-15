@@ -137,9 +137,6 @@
     }
     .ar-chip.ar-link:hover { border-color: var(--ar-accent); color: var(--ar-accent); }
 
-    .ar-canal-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
-    @media (min-width: 768px) { .ar-canal-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    @media (min-width: 1280px) { .ar-canal-tiles { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
 
     .ar-canal-search { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
     .ar-dash .ar-canal-search__input { flex: 1 1 14rem; width: auto; max-width: 22rem; }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SaveSeminarRequest;
 use App\Models\Canal;
 use App\Models\Seminar;
 use Illuminate\Http\Request;
@@ -26,17 +27,27 @@ class SeminarController extends Controller
         return view('admins.seminars.index', compact('seminars'));
     }
 
-    public function create(Request $request)
+    /**
+     * Nová kolekcia priamo v administrácii. Do 10/2026 sa tu len vyberal
+     * kanál a formulár presmeroval do správy kanála, mimo administrácie.
+     */
+    public function create()
     {
-        if ($request->filled('canal_id')) {
-            $data = $request->validate(['canal_id' => ['required', 'integer']]);
-            $canal = Canal::findOrFail($data['canal_id']);
-
-            return redirect()->route('profile.canals.seminars.create', $canal);
-        }
-
         $canals = Canal::orderBy('title')->get(['id', 'title']);
+        $seminar = new Seminar(['kind' => request('kind') === 'seminar' ? 'seminar' : 'collection']);
 
-        return view('admins.seminars.create', compact('canals'));
+        return view('admins.seminars.create', compact('canals', 'seminar'));
+    }
+
+    public function store(SaveSeminarRequest $request)
+    {
+        $data = $request->validate(['canal_id' => ['required', 'integer', 'exists:canals,id']]);
+        $canal = Canal::findOrFail($data['canal_id']);
+
+        $seminar = $canal->seminars()->create($request->validated());
+
+        // Príspevky sa do kolekcie pridávajú v jej správe — tá je len jedna.
+        return redirect()->route('profile.canals.seminars.show', [$canal, $seminar])
+            ->with('flash', 'Kolekcia bola vytvorená. Teraz do nej môžete pridať príspevky.');
     }
 }

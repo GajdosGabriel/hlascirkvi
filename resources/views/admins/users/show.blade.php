@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>{{ 'Používateľ · ' . $user->adminName() }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Užívateľ ' . $user->adminName() . ' · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>

@@ -1,10 +1,11 @@
-<footer style="background: #1e2e37; color: #a6a6a6" class="p-5">
+{{-- Rovnaká modrá rodina ako hlavná navigácia (bg-blue-900), o tón tmavšia. --}}
+<footer class="bg-blue-950 p-5 text-blue-100">
 
 
     <div class="max-w-7xl mx-auto md:flex justify-around">
 
         <div class="w-full">
-            <h4 class="border-b-2 py-3 border-gray-300 font-semibold">O projekte</h4>
+            <h2 class="border-b-2 border-blue-800 py-3 font-semibold text-white">O projekte</h2>
             <ul class="mt-2 space-y-1">
                 <li><a href="{{ route('register') }}">Založiť svoj blog</a></li>
                 {{-- Podujatia sa zakladajú na portáli event.hlascirkvi.sk, tu už nie. --}}
@@ -14,7 +15,7 @@
         </div>
 
         <div class="w-full">
-            <h4 class="border-b-2 py-3 border-gray-300 font-semibold">Kontakt</h4>
+            <h2 class="border-b-2 border-blue-800 py-3 font-semibold text-white">Kontakt</h2>
             <ul class="mt-2 space-y-1">
                 <li><span class="ph ph-globe"></span> Trenčín, Slovensko</li>
                 <li><span class="ph ph-phone"></span> 0905 320 616</li>
@@ -26,7 +27,7 @@
         {{-- Kotva: jediný formulár na správu pre administrátora webu je tento,
              odkazuje sem aj nástenka užívateľa bez kanála. --}}
         <div class="w-full" id="napiste-nam">
-            <h4 class="border-b-2 py-3 border-gray-300 font-semibold">Napíšte nám</h4>
+            <h2 class="border-b-2 border-blue-800 py-3 font-semibold text-white">Napíšte nám</h2>
             {{-- Neprihláseným sa formulár neukazuje, chodil cez neho spam. --}}
             @guest
                 <p class="my-4">
@@ -45,7 +46,7 @@
                 <div class="form-group md:flex items-center mt-4">
 
                     <button type="submit"
-                            class="px-2 p-1 border-2 text-sm rounded-sm mt-2 hover:bg-gray-700">Odoslať
+                            class="px-2 p-1 border-2 text-sm rounded-sm mt-2 hover:bg-blue-900">Odoslať
                         <span class="glyphicon glyphicon-envelope"></span>
                     </button>
                 </div>

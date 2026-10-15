@@ -28,9 +28,9 @@
         font-weight: 700;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: #9ca3af;
+        color: var(--ar-ink-soft);
     }
-    .ar-panel__note { font-size: .75rem; color: #b6bac3; }
+    .ar-panel__note { flex: 0 0 auto; font-size: .75rem; white-space: nowrap; color: var(--ar-muted); }
     .ar-panel__body { padding: 1rem; }
     /* Výpisy siahajú po okraj panela, vlastné odsadenie nesú až riadky. */
     .ar-panel__body--flush { padding: 0; }
@@ -53,11 +53,11 @@
         padding: .9rem 1rem 1rem;
     }
     .ar-kpi__label {
-        font-size: .7rem;
+        font-size: .75rem;
         font-weight: 600;
         letter-spacing: .07em;
         text-transform: uppercase;
-        color: #9ca3af;
+        color: var(--ar-muted);
     }
     .ar-kpi__value {
         font-family: Inter, system-ui, sans-serif;
@@ -72,6 +72,23 @@
         color: var(--ar-ink-soft);
     }
 
+    /* Hlavná metrika nástenky. Bez nej mali všetky dlaždice rovnakú váhu
+       a oko nevedelo, kde začať. */
+    .ar-kpi--lead {
+        border-top: 3px solid var(--ar-accent);
+        padding-top: calc(.9rem - 2px);
+    }
+    .ar-kpi--lead .ar-kpi__value { font-size: 2.25rem; }
+
+    /* Denný pásik je kontrola, že import beží — čísla menšie, nech
+       nesúperia s 30-dňovým oknom pod ním. */
+    .ar-kpi--quiet {
+        gap: .2rem;
+        padding: .65rem .85rem .75rem;
+        background: var(--ar-paper);
+    }
+    .ar-kpi--quiet .ar-kpi__value { font-size: 1.25rem; font-weight: 700; }
+
     /* Zmena proti predchádzajúcemu mesiacu. Farbí sa len smer, nie hodnota —
        pokles komentárov nie je chyba, ktorú treba zvýrazniť červenou ako
        poplach, preto tlmené odtiene. */
@@ -81,13 +98,13 @@
         gap: .25rem;
         border-radius: 9999px;
         padding: .05rem .4rem;
-        font-size: .6875rem;
+        font-size: .75rem;
         font-weight: 600;
         font-variant-numeric: tabular-nums;
     }
     .ar-delta--up   { background: #ecfdf5; color: #047857; }
     .ar-delta--down { background: #fef2f2; color: #b91c1c; }
-    .ar-delta--flat { background: var(--ar-paper-deep); color: #6b7280; }
+    .ar-delta--flat { background: var(--ar-paper-deep); color: var(--ar-muted); }
 
     /* ---- Graf ---------------------------------------------------------- */
 
@@ -110,7 +127,7 @@
         stroke-linecap: round;
     }
     .ar-chart__dot { fill: var(--ar-accent); }
-    .ar-chart__label { font-size: 12px; fill: #b6bac3; }
+    .ar-chart__label { font-size: 12px; fill: var(--ar-muted); }
     .ar-chart__day { outline: none; }
     .ar-chart__hit { fill: transparent; pointer-events: all; cursor: pointer; }
     .ar-chart__detail { visibility: hidden; pointer-events: none; }
@@ -140,11 +157,21 @@
     .ar-months__bar:hover { background: var(--ar-accent); }
     /* Mesiac bez príspevku musí byť vidieť ako prázdny, nie ako chýbajúci. */
     .ar-months__bar--empty { background: var(--ar-paper-deep); }
+    .ar-months__count {
+        display: block;
+        min-height: 1rem;
+        margin-bottom: .15rem;
+        font-size: .75rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        text-align: center;
+        color: var(--ar-ink-soft);
+    }
     .ar-months__label {
         margin-top: .3rem;
-        font-size: .5625rem;
+        font-size: .75rem;
         text-align: center;
-        color: #b6bac3;
+        color: var(--ar-muted);
     }
 
     /* ---- Riadkové výpisy ----------------------------------------------- */
@@ -167,8 +194,8 @@
     }
     .ar-row__meta {
         margin-top: .15rem;
-        font-size: .6875rem;
-        color: #9ca3af;
+        font-size: .75rem;
+        color: var(--ar-muted);
     }
     /* Číslo vpravo. tabular-nums drží stĺpec zarovnaný aj pri rôznych
        šírkach číslic. */
@@ -182,12 +209,42 @@
         white-space: nowrap;
     }
 
+    /* ---- Prvé kroky čerstvého kanála ---------------------------------- */
+
+    .ar-start { padding: 1.5rem; }
+    .ar-start__steps {
+        display: grid;
+        gap: .9rem;
+        margin-top: 1.25rem;
+        border-top: 1px solid var(--ar-line);
+        padding-top: 1.25rem;
+    }
+    .ar-start__steps > li { display: flex; align-items: flex-start; gap: .8rem; font-size: .875rem; }
+    .ar-start__num {
+        display: grid;
+        flex: 0 0 1.75rem;
+        width: 1.75rem;
+        height: 1.75rem;
+        place-items: center;
+        border-radius: 9999px;
+        background: var(--ar-accent-soft);
+        font-size: .8125rem;
+        font-weight: 700;
+        color: var(--ar-accent);
+    }
+    .ar-start__hint {
+        display: block;
+        margin-top: .1rem;
+        font-size: .8125rem;
+        color: var(--ar-muted);
+    }
+
     /* Prázdny panel. Bez neho vyzerá čerstvý kanál ako rozbitá stránka. */
     .ar-empty {
         padding: 1.5rem 1rem;
         text-align: center;
         font-size: .8125rem;
-        color: #9ca3af;
+        color: var(--ar-muted);
     }
 
     /* ---- Upozornenie --------------------------------------------------- */
@@ -264,8 +321,8 @@
         align-items: center;
         gap: .15rem .75rem;
         margin-top: .3rem;
-        font-size: .6875rem;
-        color: #9ca3af;
+        font-size: .75rem;
+        color: var(--ar-muted);
     }
     .ar-item__meta i { margin-right: .2rem; }
     .ar-item__tags {
@@ -295,7 +352,7 @@
         padding: .25rem .5rem;
         font-size: .75rem;
         font-weight: 500;
-        color: #9ca3af;
+        color: var(--ar-muted);
         cursor: pointer;
         transition: color .12s ease, border-color .12s ease, background-color .12s ease;
     }
@@ -325,7 +382,8 @@
     select.ar-field[multiple] { padding: .35rem; }
     select.ar-field[multiple] option { border-radius: .3rem; padding: .3rem .45rem; }
 
-    .ar-field--error { border-color: #fca5a5; background: #fffafa; }
+    .ar-field--error,
+    .ar-field[aria-invalid="true"] { border-color: #fca5a5; background: #fffafa; }
     .ar-error { margin-top: .3rem; font-size: .75rem; font-weight: 500; color: #b91c1c; }
 
     /* Skupina zaškrtávacích políčok ako štítky — pri desiatke dní v týždni
@@ -355,7 +413,7 @@
 
     /* Výber správcov kanála — štítky vybraných a hľadanie s rozbaľovacím
        zoznamom (dashboard/canals/edit.blade.php). */
-    .ar-picker__count { margin-left: .35rem; font-weight: 500; color: #9ca3af; }
+    .ar-picker__count { margin-left: .35rem; font-weight: 500; color: var(--ar-muted); }
     .ar-picker__chosen { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 .6rem; padding: 0; list-style: none; }
     .ar-picker__chosen:empty { display: none; }
     .ar-picker__chip {
@@ -395,12 +453,12 @@
         border-radius: 9999px;
         font-size: 1.1rem;
         line-height: 1;
-        color: #9ca3af;
+        color: var(--ar-muted);
         transition: background-color .12s ease, color .12s ease;
     }
     .ar-picker__remove:hover,
     .ar-picker__remove:focus-visible { background: #fff; color: #b91c1c; outline: none; }
-    .ar-picker__empty { margin: 0 0 .6rem; font-size: .8125rem; color: #9ca3af; }
+    .ar-picker__empty { margin: 0 0 .6rem; font-size: .8125rem; color: var(--ar-muted); }
     .ar-picker__self {
         margin: 0 0 .6rem;
         padding: 0;
@@ -419,7 +477,7 @@
         left: .8rem;
         transform: translateY(-50%);
         font-size: .8rem;
-        color: #9ca3af;
+        color: var(--ar-muted);
         pointer-events: none;
     }
     .ar-picker__input { padding-left: 2.2rem; }
@@ -452,9 +510,9 @@
     .ar-picker__option[aria-selected="true"] { background: var(--ar-accent-soft); }
     .ar-picker__option mark { background: none; color: var(--ar-accent); font-weight: 700; }
     .ar-picker__option .ar-picker__avatar { background: var(--ar-paper, #f3f4f6); }
-    .ar-picker__plus { margin-left: auto; font-size: .75rem; color: #9ca3af; }
+    .ar-picker__plus { margin-left: auto; font-size: .75rem; color: var(--ar-muted); }
     .ar-picker__option[aria-selected="true"] .ar-picker__plus { color: var(--ar-accent); }
-    .ar-picker__none { padding: .6rem .55rem; font-size: .8125rem; color: #9ca3af; }
+    .ar-picker__none { padding: .6rem .55rem; font-size: .8125rem; color: var(--ar-muted); }
 
     /* Prepínač zverejnenia kanála. */
     .ar-toggle {
@@ -509,7 +567,7 @@
         padding: .65rem 1rem;
         box-shadow: 0 -12px 24px -20px rgba(16, 24, 40, .45);
     }
-    .ar-form__bar-note { margin-right: auto; font-size: .75rem; color: #9ca3af; }
+    .ar-form__bar-note { margin-right: auto; font-size: .75rem; color: var(--ar-muted); }
     .ar-form__bar--dirty { border-color: rgba(var(--ar-accent-rgb), .35); }
     .ar-form__bar--dirty .ar-form__bar-note { font-weight: 600; color: var(--ar-accent); }
     .ar-form__bar--dirty .ar-form__bar-note::before {

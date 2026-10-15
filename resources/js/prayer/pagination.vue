@@ -14,7 +14,7 @@
             <span>Novšie</span>
         </button>
 
-        <span class="text-xs font-semibold tabular-nums text-gray-500">
+        <span class="text-xs font-semibold tabular-nums text-gray-600">
             {{ meta.current_page }} / {{ meta.last_page }}
         </span>
 

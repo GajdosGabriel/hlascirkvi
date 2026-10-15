@@ -127,13 +127,13 @@
                             : ($total >= 2 && $total <= 4 ? 'podujatia' : 'podujatí');
                     @endphp
 
-                    <span class="text-sm text-stone-500">{{ $total }} {{ $totalLabel }}</span>
+                    <span class="text-sm text-stone-600">{{ $total }} {{ $totalLabel }}</span>
                 </div>
 
                 @if ($items->isEmpty())
                     <div class="rounded-lg border border-dashed border-[color:var(--ev-line)] bg-white/60 p-10 text-center">
                         <div class="ev-display mb-2 text-lg font-semibold">Nič sa nenašlo</div>
-                        <p class="mb-5 text-sm text-stone-500">
+                        <p class="mb-5 text-sm text-stone-600">
                             Skúste zrušiť niektorý z filtrov alebo sa pozrieť do archívu.
                         </p>
                         <a href="{{ route('akcie.index') }}"
@@ -167,13 +167,13 @@
                                 <div class="mb-3 shrink-0 md:mb-0 md:w-[7.5rem]">
                                     <div class="ev-stamp inline-flex w-28 flex-col items-center rounded-lg px-2 py-2
                                                 {{ $first->isToday() ? 'ev-stamp-today' : '' }}">
-                                        <span class="text-[.65rem] uppercase tracking-wide text-stone-500">
+                                        <span class="text-[.65rem] uppercase tracking-wide text-stone-600">
                                             {{ $first->dayName() ?: '—' }}
                                         </span>
                                         <span class="ev-display text-3xl font-bold leading-none">
                                             {{ $first->dayNumber() ?? '?' }}
                                         </span>
-                                        <span class="text-[.65rem] uppercase tracking-wide text-stone-500">
+                                        <span class="text-[.65rem] uppercase tracking-wide text-stone-600">
                                             {{ $first->monthName() }}
                                         </span>
                                     </div>

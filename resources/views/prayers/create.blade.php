@@ -1,31 +1,19 @@
+@php
+    $seo = ['title' => 'Nová modlitba', 'noindex' => true];
+@endphp
 @extends('layouts.dashboard')
-@section('title')
-    <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title>
-@endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-dashboard.frame fold>
+        <x-dashboard.header heading="Nová modlitba">
+            <x-slot name="lead">Modlitebná prosba kanála {{ $canal->title }}. Polia označené <span class="ar-req">*</span> sú povinné.</x-slot>
+        </x-dashboard.header>
 
-        <x-slot name="title">
-            Nová modlitba
-        </x-slot>
-
-        <x-slot name="title_right">
-            <a class="btn btn-default" href="{{ route('profile.canals.prayers.index', $canal->id) }}">
-                Späť
-            </a>
-        </x-slot>
-
-
-        <x-slot name="page">
-            {{-- Kanál z adresy, nie aktívny kanál užívateľa — inak sa modlitba
-                 založená z iného spravovaného kanála uložila do aktívneho. --}}
-            <form action="{{ route('profile.canals.prayers.store', $canal->id) }}" method="post" class="md:w-1/2">
-                @csrf @method('POST')
-                @include('prayers._form')
-            </form>
-
-
-        </x-slot>
-        </x-pages.dashboard>
-    @endsection
+        {{-- Kanál z adresy, nie aktívny kanál užívateľa — inak sa modlitba
+             založená z iného spravovaného kanála uložila do aktívneho. --}}
+        <form action="{{ route('profile.canals.prayers.store', $canal->id) }}" method="post" class="max-w-3xl">
+            @csrf
+            @include('prayers._form')
+        </form>
+    </x-dashboard.frame>
+@endsection

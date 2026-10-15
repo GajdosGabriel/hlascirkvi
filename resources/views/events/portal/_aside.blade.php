@@ -9,7 +9,7 @@
         @endphp
 
         <section class="ev-panel">
-            <h2 class="ev-rule ev-display mb-3 text-sm font-semibold uppercase tracking-wider text-stone-500">
+            <h2 class="ev-rule ev-display mb-3 text-sm font-semibold uppercase tracking-wider text-stone-600">
                 Kde sa to deje
             </h2>
 
@@ -22,7 +22,7 @@
                                   {{ $isActive ? 'bg-amber-100 font-semibold text-amber-900' : 'hover:bg-stone-50' }}">
                             <span>{{ $municipality['municipality_name'] ?? '' }}</span>
                             <span aria-hidden="true" class="min-w-4 flex-1 border-b border-dotted border-stone-300"></span>
-                            <span class="shrink-0 text-xs text-stone-500">{{ $municipality['events_count'] ?? 0 }}</span>
+                            <span class="shrink-0 text-xs text-stone-600">{{ $municipality['events_count'] ?? 0 }}</span>
                         </a>
                     </li>
                 @endforeach
@@ -33,7 +33,7 @@
     {{-- Obsahové štítky, zoskupené tak, ako ich vracia portál --}}
     @if ($tagGroups->isNotEmpty())
         <section class="ev-panel">
-            <h2 class="ev-rule ev-display mb-3 text-sm font-semibold uppercase tracking-wider text-stone-500">
+            <h2 class="ev-rule ev-display mb-3 text-sm font-semibold uppercase tracking-wider text-stone-600">
                 Čo hľadáte
             </h2>
 
@@ -51,9 +51,9 @@
                     @continue($groupTags->isEmpty())
 
                     <details class="group py-1" @if ($groupIsActive) open @endif>
-                        <summary class="flex cursor-pointer list-none items-center justify-between gap-2 rounded-md px-2 py-1.5 text-xs uppercase tracking-wider text-stone-500 transition hover:bg-stone-50 [&::-webkit-details-marker]:hidden">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-2 rounded-md px-2 py-1.5 text-xs uppercase tracking-wider text-stone-600 transition hover:bg-stone-50 [&::-webkit-details-marker]:hidden">
                             <span>{{ $group['label'] ?? '' }}</span>
-                            <i class="ph ph-caret-down text-[10px] text-stone-400 transition-transform group-open:rotate-180"></i>
+                            <i class="ph ph-caret-down text-[10px] text-stone-500 transition-transform group-open:rotate-180"></i>
                         </summary>
                         <div class="flex flex-wrap gap-1.5 px-2 pb-2 pt-1.5">
                             @foreach ($groupTags as $tag)
@@ -65,7 +65,7 @@
                                               : 'border-[color:var(--ev-line)] bg-[color:var(--ev-paper)] text-stone-600 hover:border-amber-400 hover:bg-white' }}">
                                     @if (! empty($tag['emoji']))<span>{{ $tag['emoji'] }}</span>@endif
                                     {{ $tag['name'] ?? '' }}
-                                    <span class="text-stone-400">{{ $tag['events_count'] ?? 0 }}</span>
+                                    <span class="text-stone-600">{{ $tag['events_count'] ?? 0 }}</span>
                                 </a>
                             @endforeach
                         </div>

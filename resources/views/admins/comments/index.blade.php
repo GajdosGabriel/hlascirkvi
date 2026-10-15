@@ -1,7 +1,7 @@
 @extends('layouts.admin')
-@section('title')
-    <title>{{ 'Admin komentáre.' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Komentáre · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
@@ -9,6 +9,7 @@
         <x-slot name="title">
             {{ $title ?? 'Komentáre' }}
         </x-slot>
+        <x-slot name="lead">Komentáre registrovaných užívateľov</x-slot>
 
         <x-slot name="page">
             @php
@@ -24,13 +25,8 @@
                 <x-dashboard.metric label="Neschválené" :value="$num($summary->unpublished)">čakajú na zverejnenie</x-dashboard.metric>
             </div>
 
-            <nav class="mb-6 flex flex-wrap gap-3" aria-label="Zdroj komentárov">
-                @foreach (['users' => 'Registrovaní používatelia'] as $value => $label)
-                    <a href="{{ request()->fullUrlWithQuery(['source' => $value, 'page' => null]) }}"
-                       class="ar-btn {{ $source === $value ? 'ar-btn--accent' : 'ar-btn--quiet' }}"
-                       @if ($source === $value) aria-current="page" @endif>{{ $label }}</a>
-                @endforeach
-            </nav>
+            {{-- Prepínač zdroja mal jedinú voľbu, ktorá stále svietila — zdroj je
+                 v CommentController pevne `users`. Vráti sa, keď pribudne druhá. --}}
 
             @if ($hotPosts->isNotEmpty())
                 <x-dashboard.panel title="Najživšie diskusie za 7 dní" flush class="mb-6">
@@ -72,7 +68,7 @@
                                 @endif
 
                                 @if ($youtube)
-                                    <span class="ar-badge" style="background:#fef2f2;color:#b91c1c"><i class="ph ph-youtube-logo"></i> YouTube</span>
+                                    <span class="ar-badge ar-badge--youtube"><i class="ph ph-youtube-logo"></i> YouTube</span>
                                 @endif
                                 @if ($comment->parent_id)
                                     <span class="ar-badge ar-badge--count"><i class="ph ph-arrow-bend-up-left"></i> odpoveď</span>
@@ -84,7 +80,7 @@
                                     <span class="ar-badge ar-badge--warn">zmazaný</span>
                                 @endif
 
-                                <span class="text-xs text-gray-400" title="{{ $comment->created_at?->format('j. n. Y H:i') }}">
+                                <span class="text-xs text-[color:var(--ar-muted)]" title="{{ $comment->created_at?->format('j. n. Y H:i') }}">
                                     {{ $comment->created_at?->diffForHumans() }}
                                 </span>
                             </div>
@@ -110,7 +106,7 @@
                                             <i class="ph ph-file-text"></i>
                                         @endif
                                         <span>{{ $post->title }}</span>
-                                        <i class="ph ph-arrow-square-out text-[10px] text-gray-400"></i>
+                                        <i class="ph ph-arrow-square-out text-[10px] text-[color:var(--ar-muted)]"></i>
                                     </a>
                                     @if ($post->deleted_at)
                                         <span class="ar-badge ar-badge--warn">článok je zmazaný</span>
@@ -141,20 +137,20 @@
 
                         @unless ($comment->trashed())
                             <div class="ar-item__actions">
-                                <button type="button" class="ar-act ar-act--danger" data-admin-comment-delete="{{ $comment->id }}" title="Zmazať komentár" aria-label="Zmazať komentár">
+                                <button type="button" class="ar-act ar-act--danger" data-admin-comment-delete="{{ $comment->id }}" data-confirm-message="Naozaj zmazať komentár?" title="Zmazať komentár" aria-label="Zmazať komentár">
                                     <i class="ph ph-trash"></i>
                                 </button>
                             </div>
                         @endunless
                     </article>
                 @empty
-                    <x-dashboard.empty>Bez komentárov.</x-dashboard.empty>
+                    <x-dashboard.empty>Výberu nezodpovedá žiadny komentár.</x-dashboard.empty>
                 @endforelse
             </x-dashboard.panel>
 
-            <div class="md:block flex justify-center my-8">
-                {{ $comments->links() }}
-            </div>
+            @if ($comments->hasPages())
+                <div class="mt-8">{{ $comments->links() }}</div>
+            @endif
 
         </x-slot>
     </x-pages.admin>
@@ -166,7 +162,8 @@
         // Počúva sa na document: Vue obsah #app pri pripojení prekreslí.
         document.addEventListener('click', (e) => {
             const button = e.target.closest?.('[data-admin-comment-delete]');
-            if (!button || !window.confirm('Skutočne vymazať komentár?')) return;
+            // Text otázky nesie tlačidlo, rovnako ako data-confirm pri formulároch.
+            if (!button || !window.confirm(button.dataset.confirmMessage)) return;
 
             const id = button.dataset.adminCommentDelete;
             const row = document.querySelector(`[data-admin-comment="${id}"]`);

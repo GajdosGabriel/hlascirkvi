@@ -82,7 +82,7 @@
         <button
             v-if="prayer.fulfilled_at && isLong"
             type="button"
-            class="mt-2 text-xs font-semibold text-[color:var(--ar-accent)] hover:underline"
+            class="mt-1 py-1 text-xs font-semibold text-[color:var(--ar-accent)] hover:underline"
             @click.stop="expanded = !expanded"
         >
             {{ expanded ? "Zbaliť" : "Čítať celé" }}

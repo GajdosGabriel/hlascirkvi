@@ -20,13 +20,13 @@
         <div class="flex h-64 flex-col items-center justify-center px-6 text-center">
             <i class="ph ph-map-trifold mb-3 text-3xl text-stone-300"></i>
             <p class="ev-display mb-1 font-semibold">Na mape nie je čo ukázať</p>
-            <p class="text-sm text-stone-500">
+            <p class="text-sm text-stone-600">
                 Žiadne z podujatí v tomto výbere nemá zadané súradnice miesta.
             </p>
         </div>
     @endif
 
-    <div class="flex flex-wrap items-center justify-between gap-2 border-t border-[color:var(--ev-line)] px-4 py-2.5 text-xs text-stone-500">
+    <div class="flex flex-wrap items-center justify-between gap-2 border-t border-[color:var(--ev-line)] px-4 py-2.5 text-xs text-stone-600">
         <span>
             <i class="ph ph-map-pin mr-1 text-[color:var(--ev-accent)]"></i>
             {{ $mapped }} z {{ $items->count() }} podujatí na

@@ -117,47 +117,76 @@
                 </div>
             @endif
 
+            @if ((int) $posts->total === 0)
+                {{-- Čerstvý kanál. Osem núl, plochý graf a prázdne výpisy by mu
+                     nepovedali nič; potrebuje vedieť, čím začať. --}}
+                <section class="ar-panel">
+                    <div class="ar-panel__body ar-start">
+                        <p class="ar-kicker">Začíname</p>
+                        <h2 class="ar-display mt-1 text-xl font-bold">Kanál je pripravený, chýba mu prvý obsah</h2>
+                        <p class="mt-2 text-sm text-[color:var(--ar-ink-soft)]">
+                            Keď pribudnú príspevky, uvidíte tu zhliadnutia, komentáre a čo čaká na zverejnenie.
+                        </p>
+
+                        <ol class="ar-start__steps">
+                            <li>
+                                <span class="ar-start__num">1</span>
+                                <span class="min-w-0">
+                                    <a href="{{ route('profile.canals.edit', $canal->id) }}" class="ar-link font-semibold">Doplňte profil kanála</a>
+                                    <span class="ar-start__hint">Popis, avatar a kontakt sa zobrazia na verejnom profile.</span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="ar-start__num">2</span>
+                                <span class="min-w-0">
+                                    <a href="{{ route('profile.posts.create') }}" class="ar-link font-semibold">Napíšte prvý článok</a>
+                                    <span class="ar-start__hint">Článok alebo video s textom — zverejní sa podľa nastavení buffera.</span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="ar-start__num">3</span>
+                                <span class="min-w-0">
+                                    <a href="#napiste-nam" class="ar-link font-semibold">Požiadajte o prepojenie s YouTube</a>
+                                    <span class="ar-start__hint">Videá z vášho YouTube kanála potom pribúdajú samy. Prepojenie nastavuje správca webu.</span>
+                                </span>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+            @else
+
             <div class="mb-6">
                 <p class="ar-kicker mb-3">Dnes · {{ $now->format('j. n. Y') }}</p>
-                <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-                    <x-dashboard.metric label="Načítané zo zdrojov dnes" :value="$num($today->imported)">Videá prijaté z YouTube dnes</x-dashboard.metric>
-                    <x-dashboard.metric label="Publikované dnes" :value="$num($today->published)">{{ $num($posts->published) }} publikovaných celkovo</x-dashboard.metric>
-                    <x-dashboard.metric label="Čakajú na publikovanie" :value="$num($posts->waiting)">Všetky nezverejnené príspevky</x-dashboard.metric>
-                    <x-dashboard.metric label="Zhliadnutia dnes" :value="$compact($timeline->last()->views)">Zobrazenia príspevkov kanála</x-dashboard.metric>
+                <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                    <x-dashboard.metric class="ar-kpi--quiet" label="Načítané zo zdrojov" :value="$num($today->imported)">Videá prijaté z YouTube</x-dashboard.metric>
+                    <x-dashboard.metric class="ar-kpi--quiet" label="Publikované" :value="$num($today->published)">{{ $num($posts->published) }} publikovaných celkovo</x-dashboard.metric>
+                    <x-dashboard.metric class="ar-kpi--quiet" label="Čakajú na publikovanie" :value="$num($posts->waiting)">Všetky nezverejnené príspevky</x-dashboard.metric>
+                    <x-dashboard.metric class="ar-kpi--quiet" label="Zhliadnutia" :value="$compact($timeline->last()->views)">Zobrazenia príspevkov kanála</x-dashboard.metric>
                 </div>
             </div>
 
             {{-- ---- Čísla za posledných 30 dní -------------------------- --}}
 
+            <p class="ar-kicker mb-3">Posledných 30 dní</p>
             <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
 
-                <x-dashboard.metric label="Zhliadnutia / 30 dní" :value="$compact($views->current)">
-                        @include('dashboard._delta', ['change' => $views->change])
-                        z {{ $compact($posts->views_total) }} celkovo
-                    </x-dashboard.metric>
+                <x-dashboard.metric class="ar-kpi--lead" label="Zhliadnutia" :value="$compact($views->current)">
+                    @include('dashboard._delta', ['change' => $views->change])
+                    z {{ $compact($posts->views_total) }} celkovo
+                </x-dashboard.metric>
 
-                <x-dashboard.metric label="Príspevky" :value="$num($posts->total)">
-                        @if ($posts->new_window > 0)
-                            <span class="font-semibold text-[color:var(--ar-ink)]">+{{ $num($posts->new_window) }}</span>
-                            za 30 dní
-                        @else
-                            za 30 dní nepribudol žiadny
-                        @endif
-                    </x-dashboard.metric>
+                <x-dashboard.metric label="Nové príspevky" :value="$num($posts->new_window)">
+                    z {{ $num($posts->total) }} celkovo
+                </x-dashboard.metric>
 
-                <x-dashboard.metric label="Komentáre / 30 dní" :value="$num($comments->current)">
-                        @include('dashboard._delta', ['change' => $comments->change])
-                        z {{ $num($comments->total) }} celkovo
-                    </x-dashboard.metric>
+                <x-dashboard.metric label="Komentáre" :value="$num($comments->current)">
+                    @include('dashboard._delta', ['change' => $comments->change])
+                    z {{ $num($comments->total) }} celkovo
+                </x-dashboard.metric>
 
-                <x-dashboard.metric label="Odberatelia" :value="$num($audience->total)">
-                        @if ($audience->current > 0)
-                            <span class="font-semibold text-[color:var(--ar-ink)]">+{{ $num($audience->current) }}</span>
-                            za 30 dní
-                        @else
-                            za 30 dní bez zmeny
-                        @endif
-                    </x-dashboard.metric>
+                <x-dashboard.metric label="Noví odberatelia" :value="$num($audience->current)">
+                    z {{ $num($audience->total) }} celkovo
+                </x-dashboard.metric>
             </div>
 
             {{-- ---- Vývoj v čase a výpisy ------------------------------- --}}
@@ -172,7 +201,7 @@
                          nie podľa celkového súčtu — inak by tu navždy trónilo to
                          isté video spred rokov. --}}
                     <x-dashboard.panel title="Najsledovanejšie za 30 dní" flush>
-<x-slot name="note">zhliadnutí v okne</x-slot>
+                        <x-slot name="note">zhliadnutí v okne</x-slot>
 
                         @forelse ($topPosts as $index => $row)
                             <a href="{{ $postUrl($row) }}" class="ar-row">
@@ -190,7 +219,7 @@
 
                     {{-- Kontrola, že import beží a že nové veci idú von. --}}
                     <x-dashboard.panel title="Posledné príspevky" flush>
-<x-slot name="note">zhliadnutí celkovo</x-slot>
+                        <x-slot name="note">zhliadnutí celkovo</x-slot>
 
                         @forelse ($latestPosts as $row)
                             <a href="{{ $postUrl($row) }}" class="ar-row">
@@ -202,7 +231,7 @@
                                             <span class="ar-badge ar-badge--count ml-1">čaká v bufferi</span>
                                         @endif
                                         @if ($row->video_available !== null && ! $row->video_available)
-                                            <span class="ar-badge ml-1 bg-amber-50 text-amber-700">video nedostupné</span>
+                                            <span class="ar-badge ar-badge--warn ml-1">video nedostupné</span>
                                         @endif
                                     </span>
                                 </span>
@@ -225,18 +254,18 @@
                 <aside class="min-w-0 space-y-6 lg:col-span-4">
 
                     {{-- Fronta buffera. Zaujímavá len keď v nej niečo je —
-                         prázdny panel by na nástenke len zaberal miesto. --}}
+                         prázdny panel by na nástenke len zaberal miesto.
+                         Počet nesie dlaždica „Čakajú na publikovanie". --}}
                     @if ($posts->waiting > 0)
                         <x-dashboard.panel title="Čaká na zverejnenie" flush>
-<x-slot name="note">{{ $num($posts->waiting) }}</x-slot>
-
                             @foreach ($waitingPosts as $row)
-                                <div class="ar-row">
+                                <a href="{{ route('profile.posts.edit', $row->id) }}" class="ar-row">
                                     <span class="min-w-0">
                                         <span class="ar-row__title ar-clamp-2">{{ $row->title }}</span>
                                         <span class="ar-row__meta">v rade od {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}</span>
                                     </span>
-                                </div>
+                                    <i class="ph ph-pencil-simple ar-row__value" aria-hidden="true"></i>
+                                </a>
                             @endforeach
 
                             <x-slot name="footer">
@@ -246,7 +275,7 @@
                     @endif
 
                     <x-dashboard.panel title="Posledné komentáre" flush>
-<x-slot name="note">{{ $num($comments->total) }} celkovo</x-slot>
+                        <x-slot name="note">{{ $num($comments->total) }} celkovo</x-slot>
 
                         @forelse ($latestComments as $row)
                             <a href="{{ url("/post/{$row->post_id}/{$row->post_slug}") }}" class="ar-row">
@@ -254,7 +283,7 @@
                                     <span class="ar-row__title">{{ $shorten($row->body) }}</span>
                                     <span class="ar-row__meta">
                                         {{ auth()->user()->hasAnyRole(['admin', 'superadmin']) ? ($row->author_email ?: $row->user_name ?: 'návštevník') : ($row->user_name ?: 'návštevník') }}
-                                        <span class="mx-1 text-gray-300">·</span>
+                                        <span class="mx-1 text-gray-300" aria-hidden="true">·</span>
                                         {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}
                                     </span>
                                 </span>
@@ -265,8 +294,6 @@
                     </x-dashboard.panel>
 
                     <x-dashboard.panel title="Modlitby" flush>
-
-
                         <div class="ar-panel__body grid grid-cols-2 gap-4">
                             <div class="ar-stat">
                                 <span class="ar-stat__value">{{ $num($prayers->open) }}</span>
@@ -290,23 +317,14 @@
                         </x-slot>
                     </x-dashboard.panel>
 
-                    {{-- Čísla, ktoré sa nemenia z týždňa na týždeň, ale správca
-                         ich občas potrebuje — preto dole a v drobnom. --}}
-                    <x-dashboard.panel title="Prehľad kanála" flush>
-
-
+                    {{-- Čísla, ktoré sa nemenia z týždňa na týždeň a nie sú
+                         nikde vyššie (zverejnené a zhliadnutia celkovo nesú
+                         dlaždice) — preto dole a v drobnom. --}}
+                    <x-dashboard.panel title="Ďalšie" flush>
                         <div class="ar-panel__body space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Zverejnené články</span>
-                                <span class="font-semibold tabular-nums">{{ $num($posts->published) }}</span>
-                            </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-500">Semináre</span>
                                 <span class="font-semibold tabular-nums">{{ $num($seminars->total) }}</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Zhliadnutia celkovo</span>
-                                <span class="font-semibold tabular-nums">{{ $num($posts->views_total) }}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-500">V koši</span>
@@ -316,6 +334,7 @@
                     </x-dashboard.panel>
                 </aside>
             </div>
+            @endif
         </x-dashboard.shell>
     @endif
 @endsection

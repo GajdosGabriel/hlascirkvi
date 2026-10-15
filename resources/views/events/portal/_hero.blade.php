@@ -24,18 +24,21 @@
         <div class="grid gap-8 md:grid-cols-12 md:items-center">
 
             {{-- Plagát. Bez neho by vľavo ostala diera, preto zástupná dlaždica
-                 s dátumom — na stene plagátov sa používa tá istá. --}}
-            <div class="md:col-span-4">
-                <a href="{{ $featured->url() }}" class="block group">
+                 s dátumom — na stene plagátov sa používa tá istá. Na mobile
+                 stojí pod textom a zúžený: v plnej šírke zabral celú prvú
+                 obrazovku a názov podujatia bol až pod ním. Odkaz duplikuje
+                 titulok, preto je pre čítačky aj klávesnicu skrytý. --}}
+            <div class="order-last mx-auto w-full max-w-[14rem] md:order-none md:col-span-4 md:mx-0 md:max-w-none">
+                <a href="{{ $featured->url() }}" class="block group" tabindex="-1" aria-hidden="true">
                     @if ($featured->hasPoster())
                         <img src="{{ $featured->poster() }}"
-                             alt="{{ $featured->title() }}"
+                             alt=""
                              loading="eager"
                              class="w-full rounded-lg shadow-2xl ring-1 ring-white/10 transition duration-300 group-hover:scale-[1.02]">
                     @else
                         <div class="ev-noposter aspect-[3/4] w-full rounded-lg shadow-2xl ring-1 ring-white/10 flex flex-col items-center justify-center">
-                            <span class="ev-display text-5xl font-bold text-stone-500">{{ $featured->dayNumber() }}</span>
-                            <span class="text-sm uppercase tracking-widest text-stone-500">{{ $featured->monthShort() }}</span>
+                            <span class="ev-display text-5xl font-bold text-stone-600">{{ $featured->dayNumber() }}</span>
+                            <span class="text-sm uppercase tracking-widest text-stone-600">{{ $featured->monthShort() }}</span>
                         </div>
                     @endif
                 </a>

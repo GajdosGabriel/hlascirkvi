@@ -1,23 +1,21 @@
 @extends('layouts.admin')
-@section('title')
-    <title>{{ 'Registrovaní používatelia.' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Užívatelia · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
 
         <x-slot name="title">
-            Registrovaní používatelia
+            Užívatelia
         </x-slot>
 
+        {{-- Čakajúce účty sú iná stránka, nie filter — v lište filtrov ako
+             ar-tab sa tvárili, že výpis len zúžia. --}}
         <x-slot name="title_right">
-            {{--  --}}
-        </x-slot>
-
-
-
-        <x-slot name="filter_actions">
-            <a class="ar-tab whitespace-nowrap" href="{{ route('admin.user.index', ['pending' => 1]) }}">Čakajúce účty a registrácie</a>
+            <a class="ar-btn ar-btn--quiet" href="{{ route('admin.user.index', ['pending' => 1]) }}">
+                <i class="ph ph-hourglass-medium" aria-hidden="true"></i> Čakajúce účty
+            </a>
         </x-slot>
 
         <x-slot name="page">
@@ -81,9 +79,9 @@
 
             @include('users.users_table')
 
-            <div class="md:block flex justify-center my-8">
-                {{ $users->links() }}
-            </div>
+            @if ($users->hasPages())
+                <div class="mt-8">{{ $users->links() }}</div>
+            @endif
 
         </x-slot>
         </x-pages.admin>

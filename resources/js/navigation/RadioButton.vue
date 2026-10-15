@@ -36,7 +36,9 @@
                 @click="open = false"
             >
                 {{ radio.name }}
+                <span class="sr-only">(otvorí sa v novom okne)</span>
                 <img v-if="radio.flag" :src="radio.flag" class="h-4 rounded-sm" alt="" />
+                <i class="ph ph-arrow-square-out ml-auto opacity-60" aria-hidden="true"></i>
             </a>
         </div>
     </div>
@@ -75,11 +77,13 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 :title="radio.title || radio.name"
-                class="flex items-center justify-between gap-2 px-4 py-2 text-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
+                class="flex items-center gap-2 px-4 py-2 text-sm transition-colors hover:bg-gray-100 hover:text-gray-900"
                 @click="open = false"
             >
                 {{ radio.name }}
+                <span class="sr-only">(otvorí sa v novom okne)</span>
                 <img v-if="radio.flag" :src="radio.flag" class="h-4 rounded-sm" alt="" />
+                <i class="ph ph-arrow-square-out ml-auto opacity-60" aria-hidden="true"></i>
             </a>
         </div>
     </div>

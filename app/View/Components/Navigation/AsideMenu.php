@@ -91,74 +91,40 @@ class AsideMenu extends Component
         ];
     }
 
+    /**
+     * Položky administrácie v skupinách. Trinásť odkazov pod sebou bez
+     * členenia sa ťažko hľadalo; `group` vykreslí nad prvou položkou skupiny
+     * nadpis (components/navigation/aside-menu).
+     */
     public function adminMenu()
     {
+        $item = fn (string $route, string $icon, string $name, ?string $group = null) => [
+            'url' => route($route),
+            'icon' => $icon,
+            'name' => $name,
+            'group' => $group,
+        ];
+
         return [
-            [
-                'url' => route('admin.home.index'),
-                'icon' => 'home',
-                'name' => 'Úvod',
-            ],
-            [
-                'url' => route('admin.user.index'),
-                'icon' => 'user',
-                'name' => 'Užívatelia',
-            ],
-            [
-                'url' => route('admin.canal.index'),
-                'icon' => 'canal',
-                'name' => 'Kanály',
-            ],
-            [
-                'url' => route('admin.post.index'),
-                'icon' => 'post',
-                'name' => 'Články',
-            ],
-            [
-                'url' => route('admin.seminar.index'),
-                'icon' => 'seminar',
-                'name' => 'Kolekcie a semináre',
-            ],
-            [
-                'url' => route('admin.prayer.index'),
-                'icon' => 'pray',
-                'name' => 'Modlitby',
-            ],
-            [
-                'url' => route('admin.comment.index'),
-                'icon' => 'comment',
-                'name' => 'Komentáre',
-            ],
-            [
-                'url' => route('admin.announcement.index'),
-                'icon' => 'announcement',
-                'name' => 'Oznamy',
-            ],
-            [
-                'url' => route('admin.frontlist.index'),
-                'icon' => 'users',
-                'name' => 'Predný zoznam',
-            ],
-            [
-                'url' => route('admin.ai.index'),
-                'icon' => 'ai',
-                'name' => 'AI workers',
-            ],
-            [
-                'url' => route('admin.statistic.index'),
-                'icon' => 'statistic',
-                'name' => 'Štatistika',
-            ],
-            [
-                'url' => route('admin.buffer.index'),
-                'icon' => 'buffer',
-                'name' => ' Buffer',
-            ],
-            [
-                'url' => route('admin.logs.index'),
-                'icon' => 'logs',
-                'name' => 'Denník',
-            ],
+            $item('admin.home.index', 'home', 'Úvod'),
+
+            $item('admin.post.index', 'post', 'Články', 'Obsah'),
+            $item('admin.seminar.index', 'seminar', 'Kolekcie a semináre', 'Obsah'),
+            $item('admin.prayer.index', 'pray', 'Modlitby', 'Obsah'),
+            $item('admin.comment.index', 'comment', 'Komentáre', 'Obsah'),
+            $item('admin.buffer.index', 'buffer', 'Buffer', 'Obsah'),
+
+            $item('admin.user.index', 'user', 'Užívatelia', 'Ľudia a kanály'),
+            $item('admin.canal.index', 'canal', 'Kanály', 'Ľudia a kanály'),
+
+            $item('admin.announcement.index', 'announcement', 'Oznamy', 'Web'),
+            // Do 10/2026 „Predný zoznam" — názov nehovoril, že ide o kartu
+            // kanálov na úvodnej stránke.
+            $item('admin.frontlist.index', 'users', 'Kanály na úvode', 'Web'),
+
+            $item('admin.statistic.index', 'statistic', 'Štatistika', 'Systém'),
+            $item('admin.ai.index', 'ai', 'AI zhrnutia', 'Systém'),
+            $item('admin.logs.index', 'logs', 'Denník', 'Systém'),
         ];
     }
 }

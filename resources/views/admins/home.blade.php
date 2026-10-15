@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>Administrácia</title>
-@endsection
+@php
+    $seo = ['title' => 'Úvod · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
@@ -33,14 +33,15 @@
                 $rhythmAlpha = fn ($value) => $rhythm->max > 0 ? round(sqrt($value / $rhythm->max), 3) : 0;
                 $publishedMax = max(1, max($rhythm->published));
 
-                $denominationColors = ['catholic' => '#b91c1c', 'evangelical' => '#1d4ed8', '' => '#d1d5db'];
+                // Nezaradené musí byť na bielej vidieť (aspoň 3 : 1), #d1d5db splývalo.
+                $denominationColors = ['catholic' => '#b91c1c', 'evangelical' => '#1d4ed8', '' => '#6b7280'];
                 $denominationTotal = max(1, array_sum($denominations));
 
                 $favoriteParts = [
                     ['label' => 'články', 'value' => $favorites->posts, 'color' => '#b91c1c'],
                     ['label' => 'modlitby', 'value' => $favorites->prayers, 'color' => '#c9a227'],
                     ['label' => 'kanály', 'value' => $favorites->canals, 'color' => '#101828'],
-                    ['label' => 'komentáre', 'value' => $favorites->comments, 'color' => '#9ca3af'],
+                    ['label' => 'komentáre', 'value' => $favorites->comments, 'color' => '#0f766e'],
                 ];
                 $favoriteTotal = max(1, array_sum(array_column($favoriteParts, 'value')));
 
@@ -59,40 +60,9 @@
                 </a>
             @endif
 
-            <div class="mb-6">
-                <p class="ar-kicker mb-3">
-                    Celý web · {{ $now->format('j. n. Y') }} · údaje z {{ $now->format('H:i') }}
-                    <a href="{{ route('admin.home.index', ['refresh' => 1]) }}" class="ml-1 underline" title="Prepočítať čísla hneď">Obnoviť</a>
-                </p>
-                <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-                    <x-dashboard.metric label="Zhliadnutia dnes" :value="$num($views->today)">
-                        včera {{ $num($views->yesterday) }} · priemer {{ $num($views->average) }}/deň
-                    </x-dashboard.metric>
-                    <x-dashboard.metric label="Zhliadnutia za 30 dní" :value="$compact($views->current)">
-                        @include('admins.home._delta', ['value' => $views->change]) proti predošlým 30 dňom
-                    </x-dashboard.metric>
-                    <x-dashboard.metric label="Nové články" :value="$num($posts->new)">
-                        @include('admins.home._delta', ['value' => $change($posts->new, $posts->new_previous)]) za 30 dní · {{ $num($posts->published_today) }} dnes
-                    </x-dashboard.metric>
-                    <x-dashboard.metric label="Nové komentáre" :value="$num($comments->new)">
-                        @include('admins.home._delta', ['value' => $change($comments->new, $comments->new_previous)]) za 30 dní
-                    </x-dashboard.metric>
-                    <x-dashboard.metric label="Používatelia" :value="$num($users->total)">
-                        +{{ $num($users->new) }} za 30 dní · {{ $num($users->active) }} aktívnych
-                    </x-dashboard.metric>
-                    <x-dashboard.metric label="Kanály" :value="$num($canals->total)">
-                        {{ $num($canals->published) }} zverejnených · +{{ $num($canals->new) }} nových
-                    </x-dashboard.metric>
-                    <x-dashboard.metric label="Zhliadnutia celkovo" :value="$compact($posts->views)">
-                        {{ $num($posts->total) }} článkov v archíve
-                    </x-dashboard.metric>
-                    <x-dashboard.metric label="Otvorené modlitby" :value="$num($prayers->open)">
-                        {{ $num($prayers->fulfilled) }} vypočutých · +{{ $num($prayers->new) }} za 30 dní
-                    </x-dashboard.metric>
-                </div>
-            </div>
-
             {{-- ---- Na čo sa pozrieť ---------------------------------------- --}}
+            {{-- Stojí nad číslami: je to jediné, čo si žiada zásah. Pod ôsmimi
+                 dlaždicami ho bolo treba hľadať. --}}
 
             <div class="mb-6">
                 <p class="ar-kicker mb-3">Na čo sa pozrieť</p>
@@ -114,6 +84,39 @@
                         </div>
                     </div>
                 @endif
+            </div>
+
+            <div class="mb-6">
+                <p class="ar-kicker mb-3">
+                    Celý web · {{ $now->format('j. n. Y') }} · údaje z {{ $now->format('H:i') }}
+                    <a href="{{ route('admin.home.index', ['refresh' => 1]) }}" class="ar-refresh" title="Prepočítať čísla hneď"><i class="ph ph-arrows-clockwise" aria-hidden="true"></i> Obnoviť</a>
+                </p>
+                <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                    <x-dashboard.metric label="Zhliadnutia dnes" :value="$num($views->today)">
+                        včera {{ $num($views->yesterday) }} · priemer {{ $num($views->average) }}/deň
+                    </x-dashboard.metric>
+                    <x-dashboard.metric class="ar-kpi--lead" label="Zhliadnutia za 30 dní" :value="$compact($views->current)">
+                        @include('dashboard._delta', ['change' => $views->change]) proti predošlým 30 dňom
+                    </x-dashboard.metric>
+                    <x-dashboard.metric label="Nové články" :value="$num($posts->new)">
+                        @include('dashboard._delta', ['change' => $change($posts->new, $posts->new_previous)]) za 30 dní · {{ $num($posts->published_today) }} dnes
+                    </x-dashboard.metric>
+                    <x-dashboard.metric label="Nové komentáre" :value="$num($comments->new)">
+                        @include('dashboard._delta', ['change' => $change($comments->new, $comments->new_previous)]) za 30 dní
+                    </x-dashboard.metric>
+                    <x-dashboard.metric label="Používatelia" :value="$num($users->total)">
+                        +{{ $num($users->new) }} za 30 dní · {{ $num($users->active) }} aktívnych
+                    </x-dashboard.metric>
+                    <x-dashboard.metric label="Kanály" :value="$num($canals->total)">
+                        {{ $num($canals->published) }} zverejnených · +{{ $num($canals->new) }} nových
+                    </x-dashboard.metric>
+                    <x-dashboard.metric label="Zhliadnutia celkovo" :value="$compact($posts->views)">
+                        {{ $num($posts->total) }} článkov v archíve
+                    </x-dashboard.metric>
+                    <x-dashboard.metric label="Otvorené modlitby" :value="$num($prayers->open)">
+                        {{ $num($prayers->fulfilled) }} vypočutých · +{{ $num($prayers->new) }} za 30 dní
+                    </x-dashboard.metric>
+                </div>
             </div>
 
             <div class="grid gap-6 lg:grid-cols-12">
@@ -173,6 +176,36 @@
                                     posledné {{ \App\Services\Dashboard\AdminDashboardStats::RHYTHM_DAYS }} dni · sivý pásik = kedy články vychádzajú
                                 </span>
                             </div>
+
+                            {{-- Hodnoty políčok sú inak len v title, ktorý sa na dotyku
+                                 ani čítačkou neprečíta. Po trojhodinových úsekoch, aby
+                                 sa tabuľka zmestila aj na mobil. --}}
+                            <details class="ar-heat__table">
+                                <summary>Zobraziť hodnoty ako tabuľku</summary>
+                                <div class="overflow-x-auto">
+                                    <table>
+                                        <caption class="sr-only">Zhliadnutia podľa dňa a času</caption>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"><span class="sr-only">Deň</span></th>
+                                                @foreach (range(0, 21, 3) as $from)
+                                                    <th scope="col">{{ $from }}–{{ $from + 2 }} h</th>
+                                                @endforeach
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($rhythm->grid as $day => $hours)
+                                                <tr>
+                                                    <th scope="row">{{ $dayNames[$day] }}</th>
+                                                    @foreach (range(0, 21, 3) as $from)
+                                                        <td>{{ $num(collect($hours)->slice($from, 3)->sum()) }}</td>
+                                                    @endforeach
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </details>
                         </div>
                     </x-dashboard.panel>
 
@@ -211,7 +244,7 @@
                                 </span>
                                 <span class="ar-row__value">
                                     {{ $num($row->current) }}
-                                    @include('admins.home._delta', ['value' => $row->change])
+                                    @include('dashboard._delta', ['change' => $row->change])
                                 </span>
                             </a>
                         @empty
@@ -316,13 +349,13 @@
                     <x-dashboard.panel title="Kanály podľa zaradenia">
                         <div class="ar-split" role="img" aria-label="Podiel kanálov podľa cirkevného zaradenia">
                             @foreach ($denominations as $key => $count)
-                                <span style="width: {{ round($count / $denominationTotal * 100, 2) }}%; background: {{ $denominationColors[$key] ?? '#9ca3af' }}"></span>
+                                <span style="width: {{ round($count / $denominationTotal * 100, 2) }}%; background: {{ $denominationColors[$key] ?? '#6b7280' }}"></span>
                             @endforeach
                         </div>
                         <div class="ar-split__legend">
                             @foreach ($denominations as $key => $count)
                                 <span>
-                                    <i style="background: {{ $denominationColors[$key] ?? '#9ca3af' }}"></i>
+                                    <i style="background: {{ $denominationColors[$key] ?? '#6b7280' }}"></i>
                                     {{ \App\Enums\Denomination::tryFrom($key)?->label() ?? 'nezaradené' }}
                                     <strong class="text-[color:var(--ar-ink)]">{{ $num($count) }}</strong>
                                 </span>

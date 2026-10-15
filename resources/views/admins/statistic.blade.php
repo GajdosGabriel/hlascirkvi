@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>{{ 'Admin štatistika' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Štatistika návštev · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
@@ -11,9 +11,7 @@
             Štatistika návštev
         </x-slot>
 
-        <x-slot name="title_right">
-
-        </x-slot>
+        <x-slot name="lead">Unikátne návštevy článkov za zvolené obdobie.</x-slot>
 
 
         <x-slot name="page">
@@ -23,33 +21,21 @@
                 $maxViews = max((int) ($topPost->unique_view ?? 0), 1);
             @endphp
 
-            <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                <div>
-                    <p class="text-sm text-[color:var(--ar-ink-soft)]">Unikátne návštevy článkov za zvolené obdobie.</p>
-                    <p class="mt-1 text-xs text-gray-400">Aktuálne: {{ $periods[$days] ?? $days . ' dní' }}</p>
-                </div>
-                <nav class="inline-flex w-fit max-w-full gap-1 overflow-x-auto rounded-xl border border-[color:var(--ar-line)] bg-white p-1" aria-label="Obdobie štatistiky">
-                    @foreach ($periods as $periodDays => $periodLabel)
-                        <a href="{{ route('admin.statistic.index', ['lastDays' => $periodDays]) }}"
-                           @class([
-                               'whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition-colors',
-                               'bg-[color:var(--ar-accent)] text-white shadow-sm' => $days === $periodDays,
-                               'text-[color:var(--ar-ink-soft)] hover:bg-[color:var(--ar-paper)] hover:text-[color:var(--ar-ink)]' => $days !== $periodDays,
-                           ])
-                           @if ($days === $periodDays) aria-current="page" @endif>{{ $periodLabel }}</a>
-                    @endforeach
-                </nav>
-            </div>
+            {{-- Obdobie rovnakými prepínačmi ako filtre v ostatných výpisoch. --}}
+            <nav class="mb-6 flex flex-wrap gap-2" aria-label="Obdobie štatistiky">
+                @foreach ($periods as $periodDays => $periodLabel)
+                    <a href="{{ route('admin.statistic.index', ['lastDays' => $periodDays]) }}"
+                       @class(['ar-tab', 'ar-tab--on' => $days === $periodDays])
+                       @if ($days === $periodDays) aria-current="page" @endif>{{ $periodLabel }}</a>
+                @endforeach
+            </nav>
 
             <div class="mb-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                <x-dashboard.metric label="Unikátne návštevy" :value="number_format($totalUniqueViews, 0, ',', ' ')">spolu za obdobie</x-dashboard.metric>
+                <x-dashboard.metric class="ar-kpi--lead" label="Unikátne návštevy" :value="number_format($totalUniqueViews, 0, ',', ' ')">spolu za obdobie</x-dashboard.metric>
                 <x-dashboard.metric label="Čítané články" :value="number_format($totalPosts, 0, ',', ' ')">článkov s návštevou</x-dashboard.metric>
                 <x-dashboard.metric label="Priemer na článok" :value="number_format($averageViews, 1, ',', ' ')">unikátnej návštevy</x-dashboard.metric>
                 <x-dashboard.metric label="Najúspešnejší článok" :value="number_format($topPost->unique_view ?? 0, 0, ',', ' ')">{{ $topPost ? Str::limit($topPost->title, 32) : 'bez dát' }}</x-dashboard.metric>
             </div>
-
-
-
 
             <x-dashboard.panel title="Najčítanejšie články" flush>
                 <x-slot name="note">{{ number_format($totalPosts, 0, ',', ' ') }} záznamov</x-slot>
@@ -67,7 +53,7 @@
                 <tbody>
                     @forelse($posts as $post)
                         <tr>
-                            <td class="text-center font-semibold text-gray-400">{{ $posts->firstItem() + $loop->index }}</td>
+                            <td class="text-center font-semibold text-[color:var(--ar-muted)]">{{ $posts->firstItem() + $loop->index }}</td>
                             <td>
                                 <a href="{{ route('post.show', [$post->id, $post->slug]) }}" class="font-semibold text-[color:var(--ar-ink)] transition-colors hover:text-[color:var(--ar-accent)]">
                                     {{ Str::limit($post->title, 60) }}
@@ -94,9 +80,9 @@
             </x-dashboard.table>
             </x-dashboard.panel>
 
-            <div class="md:block flex justify-center my-8">
-                {{ $posts->links() }}
-            </div>
+            @if ($posts->hasPages())
+                <div class="mt-8">{{ $posts->links() }}</div>
+            @endif
 
         </x-slot>
 

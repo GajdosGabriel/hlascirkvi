@@ -1,34 +1,28 @@
+@php
+    $seo = ['title' => 'Upraviť článok', 'noindex' => true];
+@endphp
 @extends('layouts.dashboard')
-@section('title')
-    <title>{{ 'Upraviť článok' }} | Hlas Cirkvi</title>
-@endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-dashboard.frame fold>
+        <x-dashboard.header heading="Upraviť článok">
+            <x-slot name="lead">Polia označené <span class="ar-req">*</span> sú povinné.</x-slot>
+            @if ($post->slug)
+                <x-slot name="actions">
+                    <a href="{{ route('post.show', [$post->id, $post->slug]) }}" class="ar-btn ar-btn--quiet" target="_blank" rel="noopener">
+                        <i class="ph ph-arrow-square-out"></i> Zobraziť verejne
+                    </a>
+                </x-slot>
+            @endif
+        </x-dashboard.header>
 
         @include('layouts.errors')
 
+        <form method="POST" action="{{ route('profile.posts.update', $post->id) }}" enctype="multipart/form-data">
+            @csrf @method('PUT')
+            @include('posts.form')
+        </form>
 
-        <x-slot name="title">
-
-            Upraviť článok
-
-        </x-slot>
-
-        <x-slot name="title_right">
-
-        </x-slot>
-
-        <x-slot name="page">
-
-            <form method="POST" action="{{ route('profile.posts.update', $post->id) }}"
-                enctype="multipart/form-data">
-                @csrf @method('PUT')
-                @include('posts.form')
-            </form>
-
-            @include('posts.editor')
-
-        </x-slot>
-        </x-pages.dashboard>
-    @endsection
+        @include('posts.editor')
+    </x-dashboard.frame>
+@endsection

@@ -90,7 +90,9 @@
             @endforeach
 
             {{-- Celá výška dňa reaguje na myš, aj keď je jeho hodnota nulová.
-                 Detail je súčasťou SVG, takže sa škáluje spolu s grafom. --}}
+                 Detail je súčasťou SVG, takže sa škáluje spolu s grafom.
+                 Klávesnicou je graf jedna zastávka (posledný deň), medzi
+                 dňami sa chodí šípkami — inak by Tab prešiel tridsať bodov. --}}
             @foreach ($days as $index => $day)
                 @php
                     $dayX = $x($index);
@@ -102,7 +104,7 @@
                     $dateLabel = \Carbon\Carbon::parse($day->day)->format('j. n. Y');
                     $viewsLabel = number_format($day->views, 0, ',', ' ') . ' zhliadnutí';
                 @endphp
-                <g class="ar-chart__day" tabindex="0" role="img" aria-label="{{ $dateLabel }} — {{ $viewsLabel }}">
+                <g class="ar-chart__day" tabindex="{{ $index === $days->count() - 1 ? 0 : -1 }}" role="img" aria-label="{{ $dateLabel }} — {{ $viewsLabel }}">
                     <rect class="ar-chart__hit" x="{{ $hitLeft }}" y="{{ $padTop }}"
                           width="{{ $hitRight - $hitLeft }}" height="{{ $plotHeight }}"/>
                     <g class="ar-chart__detail" aria-hidden="true">
@@ -123,15 +125,39 @@
             <span class="ar-panel__note">{{ number_format($activity->sum('posts'), 0, ',', ' ') }} za rok</span>
         </div>
 
+        {{-- Počet stojí nad stĺpcom viditeľne — title by sa na dotykovom
+             displeji nedal prečítať. --}}
         <div class="ar-months">
             @foreach ($activity as $month)
-                <div>
+                <div aria-label="{{ $monthNames[$month->month->month - 1] }} {{ $month->month->year }}: {{ $month->posts }}" role="img">
+                    <span class="ar-months__count" aria-hidden="true">{{ $month->posts ?: '' }}</span>
                     <span class="ar-months__bar {{ $month->posts === 0 ? 'ar-months__bar--empty' : '' }}"
-                          style="height: {{ max(3, round($month->posts / $monthsMax * 44)) }}px"
-                          title="{{ $monthNames[$month->month->month - 1] }} {{ $month->month->year }} — {{ $month->posts }}"></span>
-                    <span class="ar-months__label">{{ $monthNames[$month->month->month - 1] }}</span>
+                          style="height: {{ max(3, round($month->posts / $monthsMax * 44)) }}px" aria-hidden="true"></span>
+                    <span class="ar-months__label" aria-hidden="true">{{ $monthNames[$month->month->month - 1] }}</span>
                 </div>
             @endforeach
         </div>
     </div>
 </x-dashboard.panel>
+
+@once
+    @push('scripts')
+    <script nonce="{{ csp_nonce() }}">
+        // Šípky presúvajú fokus medzi dňami grafu, Home/End na kraje okna.
+        document.addEventListener('keydown', function (event) {
+            var day = event.target.closest && event.target.closest('.ar-chart__day');
+            if (! day) return;
+
+            var days = Array.prototype.slice.call(day.closest('svg').querySelectorAll('.ar-chart__day'));
+            var index = days.indexOf(day);
+            var next = {ArrowLeft: index - 1, ArrowRight: index + 1, Home: 0, End: days.length - 1}[event.key];
+            if (next === undefined || ! days[next]) return;
+
+            event.preventDefault();
+            day.setAttribute('tabindex', '-1');
+            days[next].setAttribute('tabindex', '0');
+            days[next].focus();
+        });
+    </script>
+    @endpush
+@endonce

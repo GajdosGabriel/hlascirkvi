@@ -2,11 +2,14 @@
 <article class="ev-card rounded-lg overflow-hidden">
     <div class="flex flex-col sm:flex-row">
 
-        <a href="{{ $event->url() }}" class="sm:w-40 md:w-44 shrink-0 block group">
+        {{-- Plagát vedie na to isté podujatie ako titulok vedľa neho, preto je
+             pre čítačky aj klávesnicu skrytý (rovnako ako náhľad na úvodnej). --}}
+        <a href="{{ $event->url() }}" class="sm:w-40 md:w-44 shrink-0 block group" tabindex="-1" aria-hidden="true">
             @if ($event->hasPoster())
-                <img data-src="{{ $event->thumb() ?: $event->poster() }}"
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                     data-src="{{ $event->thumb() ?: $event->poster() }}"
                      data-sizes="auto"
-                     alt="{{ $event->title() }}"
+                     alt=""
                      class="lazyload h-44 w-full object-cover sm:h-full">
             @else
                 <div class="ev-noposter flex h-28 w-full items-center justify-center sm:h-full">
@@ -31,7 +34,7 @@
                 @endif
 
                 @if ($event->isMultiDay() && $event->endAt())
-                    <span class="text-xs text-stone-500">
+                    <span class="text-xs text-stone-600">
                         do {{ $event->endAt()->locale('sk')->isoFormat('D. MMMM') }}
                     </span>
                 @endif
@@ -51,7 +54,7 @@
                 <p class="text-sm leading-relaxed text-stone-600">{{ $event->excerpt(170) }}</p>
             @endif
 
-            <div class="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-1 text-xs text-stone-500">
+            <div class="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-1 text-xs text-stone-600">
                 @if ($event->municipality())
                     <a href="{{ $evUrl(['municipality' => $event->municipalitySlug()]) }}"
                        class="hover:text-[color:var(--ev-accent)]">

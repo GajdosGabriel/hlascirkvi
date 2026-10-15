@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>{{ 'Oznamy na webe' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Oznamy · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
@@ -12,7 +12,7 @@
         </x-slot>
 
         <x-slot name="title_right">
-            <a class="btn btn-primary" href="{{ route('admin.announcement.create') }}">
+            <a class="ar-btn ar-btn--accent" href="{{ route('admin.announcement.create') }}">
                 <i class="ph ph-plus" aria-hidden="true"></i> Nový oznam
             </a>
         </x-slot>
@@ -66,20 +66,19 @@
                                 <form method="POST" action="{{ route('admin.announcement.toggle', $announcement) }}">
                                     @csrf
                                     @method('PUT')
-                                    <button type="submit"
-                                            class="whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold
-                                                {{ $announcement->active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600' }}"
+                                    {{-- Klikateľný stavový štítok v rovnakom vzhľade ako inde v administrácii. --}}
+                                    <button type="submit" class="cursor-pointer"
                                             title="{{ $announcement->active ? 'Vypnúť zobrazovanie — text ostane uložený' : 'Zapnúť zobrazovanie' }}">
-                                        {{ $announcement->active ? 'zapnutý' : 'vypnutý' }}
+                                        <x-dashboard.status-badge :label="$announcement->active ? 'zapnutý' : 'vypnutý'" :tone="$announcement->active ? 'green' : 'gray'" />
                                     </button>
                                 </form>
 
                                 @if ($announcement->active && ! $announcement->isRunning())
-                                    <div class="mt-1 text-xs text-gray-500">mimo termínu</div>
+                                    <div class="mt-1 text-xs text-[color:var(--ar-muted)]">mimo termínu</div>
                                 @endif
                             </td>
 
-                            <td class="whitespace-nowrap text-xs text-gray-600">
+                            <td class="whitespace-nowrap text-xs text-[color:var(--ar-ink-soft)]">
                                 <div>Od: {{ $announcement->published_from?->format('d.m.Y H:i') ?? 'hneď' }}</div>
                                 <div>Do: {{ $announcement->published_until?->format('d.m.Y H:i') ?? 'bez konca' }}</div>
                             </td>
@@ -87,16 +86,16 @@
                             <td>{{ $announcement->sort_order }}</td>
 
                             <td class="whitespace-nowrap">
-                                <a class="btn btn-default" href="{{ route('admin.announcement.edit', $announcement) }}">
+                                <a class="ar-act" href="{{ route('admin.announcement.edit', $announcement) }}">
                                     <i class="ph ph-pencil-simple-line" aria-hidden="true"></i> Upraviť
                                 </a>
 
                                 <form method="POST" action="{{ route('admin.announcement.destroy', $announcement) }}"
-                                      class="mt-2"
+                                      class="mt-1"
                                       data-confirm="Naozaj zmazať oznam „{{ $announcement->title }}“?">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-default text-red-700">
+                                    <button type="submit" class="ar-act ar-act--danger">
                                         <i class="ph ph-trash" aria-hidden="true"></i> Zmazať
                                     </button>
                                 </form>
@@ -105,16 +104,16 @@
                     @empty
                         <tr>
                             <td colspan="6">
-                                <x-dashboard.empty>Zatiaľ tu nie je žiadny oznam</x-dashboard.empty>
+                                <x-dashboard.empty>Zatiaľ tu nie je žiadny oznam. <a class="ar-link" href="{{ route('admin.announcement.create') }}">Vytvoriť oznam</a></x-dashboard.empty>
                             </td>
                         </tr>
                     @endforelse
                 </tbody>
             </x-dashboard.table>
 
-            <div class="my-8 flex justify-center md:block">
-                {{ $announcements->links() }}
-            </div>
+            @if ($announcements->hasPages())
+                <div class="mt-8">{{ $announcements->links() }}</div>
+            @endif
 
         </x-slot>
     </x-pages.admin>

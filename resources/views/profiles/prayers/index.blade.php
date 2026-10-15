@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
 
-@section('title')
-    <title>{{ "Modlitby {$canal->title}" }}</title>
-@endsection
+@php
+    $seo = ['title' => "Modlitby {$canal->title}", 'noindex' => true];
+@endphp
 
 @section('content')
 
@@ -18,6 +18,9 @@
         <x-slot name="lead">
             {{ number_format($total, 0, ',', ' ') }}
             {{ $plural($total, 'modlitba', 'modlitby', 'modlitieb') }} kanála
+            @if ($prayers->hasPages())
+                <span class="mx-1.5 text-gray-300" aria-hidden="true">·</span> strana {{ $prayers->currentPage() }} z {{ $prayers->lastPage() }}
+            @endif
         </x-slot>
 
         <x-slot name="actions">
@@ -26,12 +29,7 @@
             </a>
         </x-slot>
 
-        <x-dashboard.panel title="Modlitby kanála" flush>
-<x-slot name="note">
-                    @if ($prayers->hasPages())
-                        strana {{ $prayers->currentPage() }} z {{ $prayers->lastPage() }}
-                    @endif
-                </x-slot>
+        <x-dashboard.panel flush>
 
             @forelse ($prayers as $prayer)
                 <article class="ar-item">
@@ -56,12 +54,11 @@
                         @endif
                     </div>
 
+                    {{-- Jediná akcia, preto priamy odkaz a nie ponuka. --}}
                     <div class="ar-item__actions">
-                        <dropdown-slot label="Spravovať modlitbu">
-                            <a href="{{ route('profile.canals.prayers.edit', [$canal->id, $prayer->id]) }}">
-                                <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
-                            </a>
-                        </dropdown-slot>
+                        <a class="ar-act" href="{{ route('profile.canals.prayers.edit', [$canal->id, $prayer->id]) }}">
+                            <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
+                        </a>
                     </div>
                 </article>
             @empty

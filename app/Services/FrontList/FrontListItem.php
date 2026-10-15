@@ -101,13 +101,22 @@ final class FrontListItem implements Arrayable
     }
 
     /**
-     * Kanál, ktorý práve niečo vydal — kandidát na objavovacie miesto karty
-     * a dôvod na štítok „nové".
+     * Kanál, ktorý práve niečo vydal — kandidát na objavovacie miesto karty.
      */
     public function hasFreshPost(): bool
     {
         return $this->lastPostAt !== null
             && $this->lastPostAt->gte(now()->subDays((int) config('frontlist.discovery_days')));
+    }
+
+    /**
+     * Štítok „nové" na karte. Okno je kratšie ako pri objavovaní: pri dvoch
+     * týždňoch ho mal takmer každý kanál a nič nehovoril.
+     */
+    public function hasNewPost(): bool
+    {
+        return $this->lastPostAt !== null
+            && $this->lastPostAt->gte(now()->subDays((int) config('frontlist.new_badge_days')));
     }
 
     /**

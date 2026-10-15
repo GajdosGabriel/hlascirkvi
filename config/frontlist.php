@@ -22,6 +22,9 @@ return [
     /* Za „práve vydal" sa počíta príspevok zverejnený za toľkoto dní. */
     'discovery_days' => 14,
 
+    /* Štítok „nové" pri kanáli dostane príspevok zverejnený za toľkoto dní. */
+    'new_badge_days' => 2,
+
     /*
      * Rebríček záujmu: zhliadnutia príspevkov kanála a noví sledovatelia za
      * posledných `window_days` dní. Každý deň staroby polovicu váhy stratí

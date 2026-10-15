@@ -18,7 +18,7 @@ class PrayerController extends Controller
     {
         // Zrušená modlitba a modlitba zo zrušeného kanála zostáva v archíve,
         // ale nemá odkazy na formuláre, ktoré by skončili na 404.
-        $prayers = Prayer::with('canal:id')
+        $prayers = Prayer::with('canal:id,title')
             ->orderBy('created_at', 'desc')
             ->filter($filters)
             ->paginate(30)

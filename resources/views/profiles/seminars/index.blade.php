@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
 
-@section('title')
-    <title>{{ "Kolekcie a semináre {$canal->title}" }}</title>
-@endsection
+@php
+    $seo = ['title' => "Kolekcie a semináre {$canal->title}", 'noindex' => true];
+@endphp
 
 @section('content')
 
@@ -17,7 +17,7 @@
 
         <x-slot name="lead">
             {{ number_format($total, 0, ',', ' ') }}
-            {{ $plural($total, 'kolekcia', 'kolekcie', 'kolekcií') }} kanála
+            {{ $plural($total, 'kolekcia alebo seminár', 'kolekcie a semináre', 'kolekcií a seminárov') }} kanála
         </x-slot>
 
         <x-slot name="actions">
@@ -26,9 +26,7 @@
             </a>
         </x-slot>
 
-        <x-dashboard.panel title="Kolekcie a semináre kanála" flush>
-
-
+        <x-dashboard.panel flush>
             @include('profiles.seminars._list')
         </x-dashboard.panel>
 

@@ -36,10 +36,20 @@ class CanalController extends Controller
 
     public function create()
     {
+        // Formulár zdieľa šablónu s úpravou (dashboard.canals._form), ktorá
+        // číta kanál a jeho správcov.
+        $canal = new Canal(['identity_mode' => CanalIdentityMode::Organization]);
+        $canal->setRelation('users', collect());
+
         return view('dashboard.canals.create', [
+            'canal' => $canal,
             'villages' => Village::forSelect(),
             'denominations' => Denomination::options(),
             'types' => CanalIdentityMode::options(),
+            'sections' => CanalSection::options(),
+            'importDays' => Canal::IMPORT_DAYS,
+            'suggestedImportDay' => VideoImportSchedule::suggestedDay(),
+            'users' => collect(),
         ]);
     }
 

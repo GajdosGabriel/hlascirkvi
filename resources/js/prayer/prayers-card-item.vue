@@ -1,6 +1,6 @@
 <template>
     <div class="px-4 py-2 text-base hover:bg-gray-100">
-        <div @click="passToModalShow">
+        <button type="button" class="block w-full text-left" @click="passToModalShow">
             <div class="flex justify-between w-full">
                 <div class="font-semibold" v-if="prayer.title">
                     {{ prayer.title }}
@@ -12,8 +12,8 @@
 
             <div class="flex">
                 <div class="w-full">
-                    <div class="text-sm">
-                        {{ prayer.body.slice(0, 80) }} ...
+                    <div class="ar-clamp-2 text-sm">
+                        {{ prayer.body }}
                     </div>
 
                     <div class="flex mb-2 justify-between">
@@ -38,9 +38,7 @@
                             >
                         </div>
 
-                        <div
-                            class="text-xs bg-blue-200 border-blue-600 border-1 text-gray-700 rounded-md px-2 pt-1 "
-                        >
+                        <div class="mt-1 shrink-0 text-xs text-gray-500">
                             {{ prayer.created_at_humans }}
                         </div>
                         <!-- <span class="text-xs flex items-center  flex-shrink-0">
@@ -61,7 +59,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </button>
     </div>
 </template>
 

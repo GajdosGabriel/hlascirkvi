@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>{{ 'Kanál ' . $canal->title }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Kanál ' . $canal->title . ' · Administrácia', 'noindex' => true];
+@endphp
 
 @section('headerCSS')
     @parent

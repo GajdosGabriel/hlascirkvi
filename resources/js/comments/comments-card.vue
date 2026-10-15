@@ -1,7 +1,7 @@
 <template>
     <section class="card">
         <header class="card_header">
-            <h4>Posledné komentáre</h4>
+            <h2>Posledné komentáre</h2>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5"
@@ -31,10 +31,10 @@
                     "
                 >
                     <div class="">
-                        <div class="block text-gray-800">
-                            {{ comment.body.slice(0, 40) }}
+                        <div class="ar-clamp-2 text-gray-800">
+                            {{ comment.body }}
                         </div>
-                        <div class="text-xs">
+                        <div class="text-xs text-gray-500">
                             {{ comment.created_at_humans }}
                         </div>
                     </div>

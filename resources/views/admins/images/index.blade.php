@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>Obrázky v koši</title>
-@endsection
+@php
+    $seo = ['title' => 'Obrázky v koši · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>

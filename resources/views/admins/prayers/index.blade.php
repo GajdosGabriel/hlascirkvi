@@ -1,33 +1,63 @@
 @extends('layouts.admin')
-@section('title')
-    <title>{{ 'Admin modlitby' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Modlitby · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
 
-        <x-slot name="title">
-            Modlitby
-        </x-slot>
+        <x-slot name="title">Modlitby</x-slot>
 
         <x-slot name="title_right">
             {{-- Modlitba sa zakladá do kanála, takže bez prideleného kanála
                  nie je kam odkázať — route() by na prázdnom {canal} spadla. --}}
             @if (auth()->user()->canal_id)
                 <a class="ar-btn ar-btn--accent" href="{{ route('profile.canals.prayers.create', auth()->user()->canal_id) }}">
-                    Nová modlitba
+                    <i class="ph ph-plus" aria-hidden="true"></i> Nová modlitba
                 </a>
             @endif
         </x-slot>
 
         <x-slot name="page">
-            <ul>
+            {{-- Riadky ako vo výpise modlitieb kanála. Text sa skracuje — celé
+                 prosby pod sebou robili z výpisu nekonečný stĺpec. --}}
+            <x-dashboard.panel flush>
                 @forelse ($prayers as $prayer)
-                    <li class="ar-panel mb-3 p-4">
-                        <div class="flex flex-wrap justify-between gap-2">
-                            <div>{{ $prayer->title }}</div>
-                            <div class="flex space-x-1 items-center">
-                                @if (! $prayer->trashed() && $prayer->canal)
+                    <article class="ar-item">
+                        <div class="ar-item__body">
+                            <span class="ar-item__title">{{ $prayer->title ?: 'Bez nadpisu' }}</span>
+
+                            <p class="mt-1 text-sm text-[color:var(--ar-ink-soft)]">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($prayer->body), 220) }}
+                            </p>
+
+                            <div class="ar-item__meta">
+                                <span><i class="ph ph-user"></i>{{ $prayer->user_name ?: 'návštevník' }}</span>
+                                @if ($prayer->canal)
+                                    <a class="ar-link" href="{{ route('organizations.show', $prayer->canal_id) }}"><i class="ph ph-broadcast"></i>{{ $prayer->canal->title }}</a>
+                                @endif
+                                <time datetime="{{ $prayer->created_at->toIso8601String() }}" title="Vytvorené">
+                                    {{ $prayer->created_at->format('j. n. Y') }}
+                                </time>
+                            </div>
+
+                            <div class="ar-item__tags">
+                                @if ($prayer->trashed())
+                                    <span class="ar-badge ar-badge--count">Zrušená</span>
+                                @elseif (! $prayer->published)
+                                    <span class="ar-badge ar-badge--warn">Nezverejnená</span>
+                                @endif
+                                @if ($prayer->fulfilled_at)
+                                    <span class="ar-badge ar-badge--ok">Vypočutá</span>
+                                @endif
+                                @if (! $prayer->trashed() && ! $prayer->canal)
+                                    <span class="ar-badge ar-badge--count">Kanál už nie je dostupný</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        @if (! $prayer->trashed() && $prayer->canal)
+                            <div class="ar-item__actions">
                                 <dropdown-slot label="Spravovať modlitbu">
                                     <a href="{{ route('profile.canals.prayers.edit', [$prayer->canal_id, $prayer->id]) }}">
                                         <i class="ph ph-pencil-simple" aria-hidden="true"></i> Upraviť
@@ -35,43 +65,28 @@
 
                                     <hr class="ui-dropdown__divider">
 
-                                    <form
-                                        action="{{ route('profile.canals.prayers.destroy', [$prayer->canal_id, $prayer->id]) }}"
-                                        method="post"
-                                        data-confirm="Naozaj zmazať túto modlitbu?">
+                                    <form action="{{ route('profile.canals.prayers.destroy', [$prayer->canal_id, $prayer->id]) }}"
+                                          method="post" data-confirm="Naozaj zmazať túto modlitbu?">
                                         @method('DELETE') @csrf
                                         <button type="submit" class="ui-dropdown__item--danger">
                                             <i class="ph ph-trash" aria-hidden="true"></i> Zmazať
                                         </button>
                                     </form>
                                 </dropdown-slot>
-                                @else
-                                    <span class="text-sm text-gray-500">{{ $prayer->trashed() ? 'Zrušená modlitba' : 'Kanál už nie je dostupný' }}</span>
-                                @endif
                             </div>
-
-                        </div>
-                        <div>{{ $prayer->body }}</div>
-                        <div class="text-sm text-gray-400">Zverejnené: {{ $prayer->published?->format('j. n. Y H:i') ?? 'Nezverejnená' }}</div>
-
-                        <div class="flex">
-                            <div class="text-gray-400 text-sm font-semibold mr-4">Meno: {{ $prayer->user_name ?: '—' }}</div>
-                            <div class="text-gray-400 text-sm">Vytvorené: {{ $prayer->created_at->format('j. n. Y') }}
-                            </div>
-                        </div>
-
-                    </li>
+                        @endif
+                    </article>
                 @empty
-                    <li class="ar-panel p-4">
-                        <p>Žiadne modlitby nezodpovedajú tomuto výberu.</p>
-                        <a class="ar-link mt-2 inline-block" href="{{ route('admin.prayer.index') }}">Zobraziť všetky modlitby</a>
-                    </li>
+                    <x-dashboard.empty>
+                        Žiadne modlitby nezodpovedajú tomuto výberu.
+                        <a class="ar-link ml-1" href="{{ route('admin.prayer.index') }}">Zobraziť všetky</a>
+                    </x-dashboard.empty>
                 @endforelse
-            </ul>
+            </x-dashboard.panel>
 
-            <div class="md:block my-8">
-                {{ $prayers->onEachSide(1)->links() }}
-            </div>
+            @if ($prayers->hasPages())
+                <div class="mt-8">{{ $prayers->onEachSide(1)->links() }}</div>
+            @endif
         </x-slot>
-        </x-pages.admin>
-    @endsection
+    </x-pages.admin>
+@endsection

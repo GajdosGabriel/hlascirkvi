@@ -7,13 +7,13 @@
                     {{ total }}
                 </span>
             </h2>
-            <p class="mt-1 text-sm text-gray-500">
+            <p class="mt-1 text-sm text-gray-600">
                 Prosby, pri ktorých sa ľudia dočkali odpovede. Ďakujeme za každé
                 svedectvo.
             </p>
         </header>
 
-        <p v-if="loading" class="py-10 text-center text-sm text-gray-400">
+        <p v-if="loading" class="py-10 text-center text-sm text-gray-600">
             Načítavam…
         </p>
 

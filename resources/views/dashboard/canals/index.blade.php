@@ -1,16 +1,8 @@
+@php
+    $seo = ['title' => 'Vaše kanály', 'noindex' => true];
+@endphp
 @extends('layouts.dashboard')
 
-@section('title')
-    <title>Vaše kanály | Hlas Cirkvi</title>
-@endsection
-
-@section('headerCSS')
-    {{-- Rovnaké písmo ako verejná časť. Layout ho nenačítava globálne. --}}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-@endsection
 
 @php
     $plural = fn (int $n, string $one, string $few, string $many)
@@ -31,7 +23,7 @@
             @endif
         </x-slot>
         <x-slot name="actions">
-            <a class="btn btn-primary" href="{{ route('profile.canals.create') }}">Nový kanál</a>
+            <a class="ar-btn ar-btn--accent" href="{{ route('profile.canals.create') }}"><i class="ph ph-plus"></i> Nový kanál</a>
         </x-slot>
     </x-dashboard.header>
 

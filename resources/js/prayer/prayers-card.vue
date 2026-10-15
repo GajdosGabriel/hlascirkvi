@@ -2,7 +2,7 @@
     <section class="card">
 
         <header class="card_header cursor-pointer" @click="openModal">
-            <h4>Modlitebný múr</h4>
+            <h2>Modlitebný múr</h2>
             <i class="ph ph-hands-praying"></i>
         </header>
 

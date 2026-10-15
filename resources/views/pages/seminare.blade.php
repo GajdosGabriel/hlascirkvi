@@ -107,7 +107,9 @@
         font-size: clamp(1.25rem, 3vw, 1.65rem);
         font-weight: 750;
         line-height: 1.3;
-        overflow-wrap: anywhere;
+        /* break-word, nie anywhere: anywhere zmenšuje min-content na jedno
+           písmeno a vedľajší odkaz potom názov zúžil na stĺpec písmen. */
+        overflow-wrap: break-word;
     }
     .seminar-info h2 a:hover, .seminar-canal a:hover { color: var(--ar-accent); }
     .seminar-canal {
@@ -122,7 +124,7 @@
         color: var(--ar-ink-soft);
         line-height: 1.75;
         white-space: pre-line;
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
     }
     .seminar-detail {
         display: inline-flex;
@@ -155,10 +157,12 @@
     @media (max-width: 640px) {
         .seminars-page { padding: 28px 16px 48px; }
         .seminar-heading { flex-wrap: wrap; gap: 12px; }
+        .seminar-info { flex-basis: calc(100% - 56px); }
         .seminar-detail { margin-left: 56px; }
         .seminar-recordings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     }
-    @media (max-width: 380px) {
+    /* Dva stĺpce ako na úvodnej stránke; jeden až na naozaj úzkych displejoch. */
+    @media (max-width: 340px) {
         .seminar-recordings { grid-template-columns: minmax(0, 1fr); }
     }
 </style>

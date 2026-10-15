@@ -49,7 +49,7 @@
                            placeholder="Hľadať podujatie, mesto, organizátora…"
                            aria-label="Hľadať podujatie"
                            class="w-full rounded-lg border border-[color:var(--ev-line)] bg-white py-2 pl-3 text-sm
-                                  placeholder:text-stone-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500">
+                                  placeholder:text-stone-500 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500">
                     <x-search-button label="Hľadať podujatie" />
                 </div>
             </form>
@@ -62,7 +62,7 @@
                        class="rounded-md px-3 py-1.5 text-sm transition
                               {{ ($view ?? 'os') === $key
                                   ? 'bg-stone-100 text-stone-900'
-                                  : 'text-stone-500 hover:text-stone-800' }}">
+                                  : 'text-stone-600 hover:text-stone-800' }}">
                         <i class="fas {{ $icon }}"></i>
                         <span class="ml-1.5 hidden sm:inline">{{ $label }}</span>
                     </a>
@@ -91,7 +91,7 @@
 
         @if ($chips)
             <div class="mt-2 flex flex-wrap items-center gap-2">
-                <span class="text-xs uppercase tracking-wider text-stone-400">Filtre</span>
+                <span class="text-xs uppercase tracking-wider text-stone-600">Filtre</span>
                 @foreach ($chips as $chip)
                     <a href="{{ $chip['url'] }}"
                        class="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-900 transition hover:bg-amber-200">
@@ -99,7 +99,7 @@
                         <i class="ph ph-x text-[10px] opacity-60"></i>
                     </a>
                 @endforeach
-                <a href="{{ route('akcie.index') }}" class="text-xs text-stone-500 underline hover:text-stone-800">
+                <a href="{{ route('akcie.index') }}" class="text-xs text-stone-600 underline hover:text-stone-800">
                     zrušiť všetko
                 </a>
             </div>

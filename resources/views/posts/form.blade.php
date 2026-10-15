@@ -1,85 +1,10 @@
 {{-- Štýly formulára sú v partials/admin-system: <style nonce="{{ csp_nonce() }}"> vnútri #app Vue
      pri kompilácii šablóny zahodí. --}}
-<div class="post-form__meta">
-
-    <div class="form-category {{ $errors->has('section') ? ' has-error' : '' }}">
-        <label for="post-section">Výpis</label>
-        {{-- Do 9/2026 to bol zoznam updaterov typu `post` načítaný priamo
-             v šablóne, pričom ten istý záznam znamenal aj „príspevok je
-             zverejnený". Zaradenie je dnes stĺpec `posts.section`. --}}
-        <select id="post-section" name="section" required class="form-control">
-            <option value="" disabled @selected(! $post->section)>Vybrať výpis</option>
-            @foreach (\App\Enums\PostSection::options() as $option)
-                <option value="{{ $option->value }}" @selected(old('section', $post->section?->value) === $option->value)>
-                    {{ $option->label() }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-
-
-    {{-- Video Link --}}
-    <div class="form-category">
-        <label for="post-video-id">Video YouTube</label>
-        <input type="text" id="post-video-id" name="video_id" value="{{ old('video_id') ?? $post->video_id }}" class="form-control" maxlength="191" inputmode="url" spellcheck="false" autocapitalize="off"
-            placeholder="Odkaz na video Youtube">
-    </div>
-
-    <fieldset class="form-category">
-        <legend class="post-form__section-label">{{ trans('web.publish_now') }}</legend>
-
-        {{-- Prepínač posielal do poľa `published` buď dátum, alebo reťazec
-             „null". Pole nebolo vo validácii, takže ho PostSaveRequest zahodil
-             a voľba nerobila nič. Stav dnes nesie `published_at`. --}}
-        <div class="post-form__choice">
-            <label for="publishet1">
-                <input type="radio" value="1" @checked((bool) old('publish_now', $post->published_at))
-                    required id="publishet1" name="publish_now">
-                Teraz
-            </label>
-
-            <label for="publishet2">
-                <input type="radio" value="0" @checked(! (bool) old('publish_now', $post->published_at))
-                    required id="publishet2" name="publish_now">
-                Nechať vo fronte
-            </label>
-        </div>
-    </fieldset>
-
-    @can('admin')
-        <div class="form-author">
-            @php
-                $selectedCanal = old('canal_id', $post->canal_id ?? auth()->user()->canal_id);
-                $selectableCanals = auth()->user()->can('superadmin')
-                    ? \App\Models\Canal::orderBy('title')->get(['id', 'title'])
-                    : auth()->user()->canals->sortBy('title')->values();
-            @endphp
-            <canal-select :canals='@json($selectableCanals->map(fn ($canal) => ["id" => $canal->id, "title" => $canal->title])->values())'
-                :selected='@json((string) $selectedCanal)'></canal-select>
-        </div>
-    @endcan
-
-    {{-- @can('admin') --}}
-    {{-- <div class="form-author"> --}}
-    {{-- <label>User - admin</label> --}}
-    {{-- <select class="form-control" name="canal_id" required> --}}
-    {{-- <option value="" selected disabled>Autor</option> --}}
-    {{-- @foreach ($users as $user) --}}
-    {{-- <option --}}
-    {{-- @if (isset($post->canal_id) and $post->canal_id == $canal->id) --}}
-    {{-- selected --}}
-    {{-- @endif --}}
-    {{-- value="{{ $canal->id }}">{{ $user->last_name . ' ' . $user->first_name }}</option> --}}
-    {{-- @endforeach --}}
-    {{-- </select> --}}
-    {{-- </div> --}}
-    {{-- @endcan --}}
-
-</div>
-
-
-{{-- Title Field --}}
 @php
+    $field = fn (string $name) => 'ar-field' . ($errors->has($name) ? ' ar-field--error' : '');
+    // aria-describedby len na prvky, ktoré naozaj existujú.
+    $describe = fn (string $name, ?string $hint = null) => trim(($hint ?? '') . ($errors->has($name) ? " {$name}-error" : ''));
+
     $collectionCanal = old('canal_id', $post->canal_id ?? ($canal->id ?? auth()->user()->canal_id));
     $collectionOptions = \App\Models\Seminar::without('canal')
         ->when(! auth()->user()->can('superadmin'), fn ($q) => $q->whereIn('canal_id', auth()->user()->canals()->pluck('canals.id')))
@@ -87,35 +12,121 @@
     $chosenCollections = session()->hasOldInput('collections_present')
         ? old('collections', []) : $post->seminars->modelKeys();
 @endphp
-<collection-select :items='@json($collectionOptions)' :selected='@json($chosenCollections)'
-    :canal-id='@json((string) $collectionCanal)' manage-base="{{ url('/dashboard/canals') }}"></collection-select>
-@error('collections') <p class="invalid-feedback">{{ $message }}</p> @enderror
-@error('collections.*') <p class="invalid-feedback">{{ $message }}</p> @enderror
 
-<div class="form-group {{ $errors->has('title') ? ' invalid-feedback' : '' }}">
-    <label for="post-title" class="sr-only">Nadpis</label>
-    <input type="text" id="post-title" name="title" class="form-control" placeholder="Nadpis ..."
-        value="{{ old('title') ?? $post->title }}" minlength="3" maxlength="200" required>
-</div>
+{{-- Nadpis a text sú hlavný obsah, preto stoja prvé. Do 10/2026 bol nadpis
+     až pod výpisom, videom, zverejnením a kolekciami a mal len placeholder. --}}
+<section class="ar-panel">
+    <div class="ar-panel__head">
+        <h2 class="ar-panel__title">Článok</h2>
+    </div>
+    <div class="ar-panel__body ar-form">
+        <div>
+            <label class="ar-label" for="post-title">Nadpis <span class="ar-req">*</span></label>
+            <input type="text" id="post-title" name="title" class="{{ $field('title') }} text-base font-semibold"
+                   value="{{ old('title') ?? $post->title }}" minlength="3" maxlength="200" required
+                   @error('title') aria-invalid="true" @enderror aria-describedby="{{ $describe('title') }}">
+            @error('title') <p class="ar-error" id="title-error">{{ $message }}</p> @enderror
+        </div>
 
+        <div>
+            <label class="ar-label" for="editor">Text</label>
+            <textarea id="editor" name="body" class="{{ $field('body') }}"
+                      aria-describedby="{{ $describe('body', 'body-hint') }}">{{ old('body') ?? $post->body }}</textarea>
+            <p class="ar-hint" id="body-hint">Pri článku s videom je text nepovinný.</p>
+            @error('body') <p class="ar-error" id="body-error">{{ $message }}</p> @enderror
+        </div>
 
-{{-- Text Field --}}
-<div class="form-group {{ $errors->has('body') ? ' has-error' : '' }}">
-    <textarea id="editor" name="body" placeholder="Text príspevku ...">{{ old('body') ?? $post->body }}</textarea>
-    @if ($errors->has('body'))
-        <span class="invalid-feedback">
-            <strong>{{ $errors->first('body') }}</strong></span>
-    @endif
-</div>
+        <div class="sm:max-w-xl">
+            <label class="ar-label" for="post-video-id">Video YouTube</label>
+            <input type="text" id="post-video-id" name="video_id" value="{{ old('video_id') ?? $post->video_id }}"
+                   class="{{ $field('video_id') }}" maxlength="191" inputmode="url" spellcheck="false" autocapitalize="off"
+                   placeholder="https://www.youtube.com/watch?v=…"
+                   @error('video_id') aria-invalid="true" @enderror aria-describedby="{{ $describe('video_id', 'video-hint') }}">
+            <p class="ar-hint" id="video-hint">Nepovinné. Odkaz na video alebo jeho ID.</p>
+            @error('video_id') <p class="ar-error" id="video_id-error">{{ $message }}</p> @enderror
+        </div>
+    </div>
+</section>
 
+<section class="ar-panel mt-5">
+    <div class="ar-panel__head">
+        <h2 class="ar-panel__title">Zaradenie a zverejnenie</h2>
+    </div>
+    <div class="ar-panel__body ar-form">
+        <div class="grid gap-x-5 gap-y-4 md:grid-cols-2">
+            <div>
+                <label class="ar-label" for="post-section">Výpis <span class="ar-req">*</span></label>
+                {{-- Do 9/2026 to bol zoznam updaterov typu `post` načítaný priamo
+                     v šablóne, pričom ten istý záznam znamenal aj „príspevok je
+                     zverejnený". Zaradenie je dnes stĺpec `posts.section`. --}}
+                <select id="post-section" name="section" required class="{{ $field('section') }}"
+                        @error('section') aria-invalid="true" @enderror aria-describedby="{{ $describe('section', 'section-hint') }}">
+                    <option value="" disabled @selected(! old('section', $post->section?->value))>Vybrať výpis</option>
+                    @foreach (\App\Enums\PostSection::options() as $option)
+                        <option value="{{ $option->value }}" @selected(old('section', $post->section?->value) === $option->value)>
+                            {{ $option->label() }}
+                        </option>
+                    @endforeach
+                </select>
+                <p class="ar-hint" id="section-hint">Kde na webe sa článok zobrazí.</p>
+                @error('section') <p class="ar-error" id="section-error">{{ $message }}</p> @enderror
+            </div>
+
+            {{-- Prepínač posielal do poľa `published` buď dátum, alebo reťazec
+                 „null". Pole nebolo vo validácii, takže ho PostSaveRequest zahodil
+                 a voľba nerobila nič. Stav dnes nesie `published_at`. --}}
+            <fieldset>
+                <legend class="ar-label">Zverejnenie</legend>
+                <div class="post-form__choice">
+                    <label for="publishet1">
+                        <input type="radio" value="1" @checked((bool) old('publish_now', $post->published_at))
+                               required id="publishet1" name="publish_now">
+                        Hneď
+                    </label>
+                    <label for="publishet2">
+                        <input type="radio" value="0" @checked(! (bool) old('publish_now', $post->published_at))
+                               required id="publishet2" name="publish_now" aria-describedby="publish-hint">
+                        Zaradiť do buffera
+                    </label>
+                </div>
+                <p class="ar-hint" id="publish-hint">Buffer púšťa príspevky postupne počas dňa.</p>
+            </fieldset>
+        </div>
+
+        @can('admin')
+            <div class="form-author sm:max-w-xl">
+                @php
+                    $selectedCanal = old('canal_id', $post->canal_id ?? auth()->user()->canal_id);
+                    $selectableCanals = auth()->user()->can('superadmin')
+                        ? \App\Models\Canal::orderBy('title')->get(['id', 'title'])
+                        : auth()->user()->canals->sortBy('title')->values();
+                @endphp
+                <canal-select :canals='@json($selectableCanals->map(fn ($canal) => ["id" => $canal->id, "title" => $canal->title])->values())'
+                    :selected='@json((string) $selectedCanal)'></canal-select>
+                @error('canal_id') <p class="ar-error">{{ $message }}</p> @enderror
+            </div>
+        @endcan
+
+        <collection-select :items='@json($collectionOptions)' :selected='@json($chosenCollections)'
+            :canal-id='@json((string) $collectionCanal)' manage-base="{{ url('/dashboard/canals') }}"></collection-select>
+        @error('collections') <p class="ar-error">{{ $message }}</p> @enderror
+        @error('collections.*') <p class="ar-error">{{ $message }}</p> @enderror
+    </div>
+</section>
 
 {{-- Obrázky: uložené aj novo vybrané v jednom komponente (resources/js/posts/PostImages.vue) --}}
-<div class="form-group post-form__images">
-    <span class="post-form__section-label">Obrázky</span>
-    <post-images name="pictures[]"
-        :images='@json($post->images->map(fn ($image) => ['id' => $image->id, 'thumb' => $image->thumb_image_url, 'url' => $image->original_image_url])->values())'>
-    </post-images>
-</div>
+<section class="ar-panel mt-5">
+    <div class="ar-panel__head">
+        <h2 class="ar-panel__title">Obrázky</h2>
+    </div>
+    <div class="ar-panel__body">
+        <post-images name="pictures[]"
+            :images='@json($post->images->map(fn ($image) => ['id' => $image->id, 'thumb' => $image->thumb_image_url, 'url' => $image->original_image_url])->values())'>
+        </post-images>
+        @error('pictures') <p class="ar-error">{{ $message }}</p> @enderror
+        @error('pictures.*') <p class="ar-error">{{ $message }}</p> @enderror
+    </div>
+</section>
 
 <x-dashboard.form-bar :cancel="route('profile.posts.index')"
     :submit="$post->exists ? 'Uložiť zmeny' : 'Vytvoriť článok'"

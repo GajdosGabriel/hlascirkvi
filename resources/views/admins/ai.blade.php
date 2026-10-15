@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>AI workers</title>
-@endsection
+@php
+    $seo = ['title' => 'AI zhrnutia · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
-        <x-slot name="title">AI workers</x-slot>
+        <x-slot name="title">AI zhrnutia</x-slot>
         <x-slot name="page">
             @php
                 $num = fn ($value) => number_format((int) $value, 0, ',', ' ');
@@ -59,7 +59,7 @@
                     </div>
                 @endif
 
-                <p class="mt-3 text-xs text-gray-500">
+                <p class="mt-3 text-xs text-[color:var(--ar-muted)]">
                     Cena zahŕňa všetky AI funkcie a odhad poplatkov za vyhľadávanie; vychádza z cenníka v <code>config/openai.php</code> a spotreby API.
                     Zostatok kreditu cez API zistiť nejde — skutočné čerpanie a kredit sú na
                     <a href="https://platform.openai.com/usage" target="_blank" rel="noopener" class="underline">platform.openai.com/usage</a>
@@ -79,46 +79,50 @@
                             <input type="checkbox" name="enabled" value="1" class="mt-1" @checked($enabled)>
                             <span>
                                 <span class="font-semibold">Zapnuté</span>
-                                <span class="block text-sm text-gray-500">
-                                    Vybrané video z buffera sa skontroluje na zhrnutie ešte pred zverejnením.
-                                    Bez titulkov sa zhrnutie nevytvorí. Vypnuté = nič sa neminie;
-                                    ručné vynútenie nižšie funguje aj tak.
-                                </span>
+                                <span class="ar-hint block">Video z buffera dostane zhrnutie ešte pred zverejnením.</span>
                             </span>
                         </label>
+                        {{-- Podrobnosti zbalené: pri prepínačoch stáli celé odstavce. --}}
+                        <details class="ar-ai__more">
+                            <summary>Podrobnosti</summary>
+                            Bez titulkov sa zhrnutie nevytvorí. Vypnuté = nič sa neminie; ručné vynútenie nižšie funguje aj tak.
+                        </details>
 
                         <input type="hidden" name="enrichment_enabled" value="0">
                         <label class="flex items-start gap-2">
                             <input type="checkbox" name="enrichment_enabled" value="1" class="mt-1" @checked(old('enrichment_enabled', $enrichmentEnabled))>
                             <span>
                                 <span class="font-semibold">Dopĺňať organizačné kanály</span>
-                                <span class="block text-sm text-gray-500">Po 2 hodinách od vytvorenia vyhľadá overiteľný web, e-mail, telefón, adresu a stručný popis.
-                                    Dopĺňa iba prázdne polia; osobné kanály preskočí. Po doplnení informuje správcov e-mailom.
-                                    Kontroluje aj staršie profily, po 5 každých 15 minút. Platí spoločný mesačný limit nižšie; vyhľadávanie sa účtuje navyše k tokenom.</span>
+                                <span class="ar-hint block">Doplní web, e-mail, telefón, adresu a popis do prázdnych polí.</span>
                             </span>
                         </label>
+                        <details class="ar-ai__more">
+                            <summary>Podrobnosti</summary>
+                            Spúšťa sa 2 hodiny od vytvorenia kanála a osobné kanály preskočí. Po doplnení informuje správcov e-mailom.
+                            Kontroluje aj staršie profily, po 5 každých 15 minút. Platí spoločný mesačný limit nižšie; vyhľadávanie sa účtuje navyše k tokenom.
+                        </details>
 
                         <div class="grid gap-4 sm:grid-cols-2">
                             <div class="form-group" hidden>
-                                <label for="batch">Príspevkov v doplnkovej hodinovej dávke</label>
-                                <input class="form-control" type="number" id="batch" name="batch" min="1" max="200"
+                                <label class="ar-label" for="batch">Príspevkov v doplnkovej hodinovej dávke</label>
+                                <input class="ar-field" type="number" id="batch" name="batch" min="1" max="200"
                                        value="{{ old('batch', $batch) }}" required>
                             </div>
                             <div class="form-group">
-                                <label for="limit">Mesačný limit (USD)</label>
-                                <input class="form-control" type="number" id="limit" name="limit" min="0" max="1000" step="0.01"
+                                <label class="ar-label" for="limit">Mesačný limit (USD)</label>
+                                <input class="ar-field" type="number" id="limit" name="limit" min="0" max="1000" step="0.01"
                                        value="{{ old('limit', $limit) }}" required>
-                                <small class="text-gray-500">0 = bez limitu. Po dosiahnutí sa zhrnutia zastavia do konca mesiaca.</small>
+                                <p class="ar-hint">0 = bez limitu. Po dosiahnutí sa zhrnutia zastavia do konca mesiaca.</p>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="max_tokens">Maximum tokenov titulkov na video</label>
-                            <input class="form-control" type="number" id="max_tokens" name="max_tokens" min="1" max="100000"
+                            <label class="ar-label" for="max_tokens">Maximum tokenov titulkov na video</label>
+                            <input class="ar-field" type="number" id="max_tokens" name="max_tokens" min="1" max="100000"
                                    value="{{ old('max_tokens', $maxTokens) }}" required>
-                            <small class="text-gray-500">Predvolene 15 000. Pri dlhšom prepise sa obsahovo vyberú pasáže naprieč celým videom. AI rozvinie najzaujímavejšiu myšlienku z výberu.
+                            <p class="ar-hint">Predvolene 15 000. Pri dlhšom prepise sa obsahovo vyberú pasáže naprieč celým videom. AI rozvinie najzaujímavejšiu myšlienku z výberu.
                                 Používa sa bezpečný horný odhad podľa UTF-8 bajtov, preto môže byť skutočný počet tokenov nižší.
-                                Limit platí pre titulky; pokyny a výstup sa účtujú navyše. Automatický výstup je text na A4.</small>
+                                Limit platí pre titulky; pokyny a výstup sa účtujú navyše. Automatický výstup je text na A4.</p>
                         </div>
 
                         <button type="submit" class="ar-btn ar-btn--accent"><i class="ph ph-check"></i> Uložiť</button>
@@ -130,11 +134,11 @@
                     <form method="POST" action="{{ route('admin.ai.summarize') }}" class="space-y-4">
                         @csrf
                         <div class="form-group">
-                            <label for="post">ID alebo adresa príspevku</label>
-                            <input class="form-control" type="text" id="post" name="post" required
+                            <label class="ar-label" for="post">ID alebo adresa príspevku</label>
+                            <input class="ar-field" type="text" id="post" name="post" required
                                    value="{{ old('post') }}" placeholder="12345 alebo https://www.hlascirkvi.sk/post/12345/…">
                         </div>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-sm text-[color:var(--ar-muted)]">
                             Vytvorí (alebo prepíše) zhrnutie hneď — aj keď sú automatické zhrnutia vypnuté a aj pri
                             krátkych titulkoch. Bez titulkov sa nič nevytvorí. Mesačný limit platí.
                         </p>
@@ -143,14 +147,14 @@
 
                     @if ($result = session('ai_result'))
                         <div class="mt-6 rounded-lg border border-[color:var(--ar-line)] bg-[color:var(--ar-accent-soft)] p-4">
-                            <p class="ar-kicker mb-1 text-[.65rem]">
+                            <p class="ar-kicker mb-1">
                                 Výsledok · {{ $lengths[$result['length']]['label'] ?? $result['length'] }}
                             </p>
                             <p class="mb-3 text-sm">
                                 <a href="{{ $result['url'] }}" target="_blank" rel="noopener" class="font-semibold underline">
                                     {{ \Illuminate\Support\Str::limit($result['title'], 80) }}
                                 </a>
-                                <span class="text-gray-500">
+                                <span class="text-[color:var(--ar-muted)]">
                                     · {{ ($result['source'] ?? null) === 'captions' ? 'z titulkov videa' : 'z popisu' }},
                                     {{ $num($result['words']) }} slov
                                     @if ($result['tokens'] !== null)
@@ -165,7 +169,7 @@
             </div>
 
             <x-dashboard.panel title="Dopĺňanie organizačných kanálov" class="mt-6" id="kanaly">
-                <p class="mb-4 text-sm text-gray-500">Model pre nové vyhľadávania: {{ config('openai.enrichment_model') }}</p>
+                <p class="mb-4 text-sm text-[color:var(--ar-muted)]">Model pre nové vyhľadávania: {{ config('openai.enrichment_model') }}</p>
                 @forelse ($enrichments as $enrichment)
                     <div class="mb-4 border-b border-gray-200 pb-4">
                         <p class="font-semibold">
@@ -175,7 +179,7 @@
                                 Odstránený kanál
                             @endif
                         </p>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-sm text-[color:var(--ar-muted)]">
                             @if ($enrichment->completed_at)
                                 @if ($enrichment->changes)
                                     Doplnené údaje
@@ -195,7 +199,7 @@
                             @endif
                         </p>
                         @foreach ($enrichment->diagnostics['passes'] ?? [] as $pass)
-                            <p class="text-sm text-gray-500">
+                            <p class="text-sm text-[color:var(--ar-muted)]">
                                 @if (($pass['status'] ?? null) === 'follow_up_failed')
                                     Následné dohľadávanie zlyhalo.
                                 @else
@@ -206,7 +210,7 @@
                                 @endif
                             </p>
                             @foreach ($pass['rejection_reasons'] ?? [] as $field => $reason)
-                                <p class="text-sm text-gray-500">{{ ['url_www' => 'Web', 'email' => 'E-mail', 'phone' => 'Telefón', 'street' => 'Ulica', 'description' => 'Popis'][$field] ?? $field }}: {{ $reason }}</p>
+                                <p class="text-sm text-[color:var(--ar-muted)]">{{ ['url_www' => 'Web', 'email' => 'E-mail', 'phone' => 'Telefón', 'street' => 'Ulica', 'description' => 'Popis'][$field] ?? $field }}: {{ $reason }}</p>
                             @endforeach
                         @endforeach
                         @foreach ($enrichment->changes ?? [] as $field => $value)
@@ -220,23 +224,23 @@
                         @endforeach
                     </div>
                 @empty
-                    <p class="text-sm text-gray-500">Zatiaľ žiadne kontroly profilov.</p>
+                    <p class="text-sm text-[color:var(--ar-muted)]">Zatiaľ žiadne kontroly profilov.</p>
                 @endforelse
                 <div class="mt-4">{{ $enrichments->fragment('kanaly')->links() }}</div>
             </x-dashboard.panel>
             <x-dashboard.panel title="Prehľad spotreby" class="mt-6" id="spotreba">
                 <form method="GET" action="{{ route('admin.ai.index') }}#spotreba" class="grid gap-4 sm:grid-cols-4 mb-6">
                     <div class="form-group">
-                        <label for="usage_days">Obdobie</label>
-                        <select id="usage_days" name="days" class="form-control">
+                        <label class="ar-label" for="usage_days">Obdobie</label>
+                        <select id="usage_days" name="days" class="ar-field">
                             @foreach ([1 => 'Dnes', 7 => 'Posledných 7 dní', 30 => 'Posledných 30 dní', 90 => 'Posledných 90 dní', 365 => 'Posledných 365 dní'] as $value => $label)
                                 <option value="{{ $value }}" @selected($days === $value)>{{ $label }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="usage_feature">Operácia</label>
-                        <select id="usage_feature" name="feature" class="form-control">
+                        <label class="ar-label" for="usage_feature">Operácia</label>
+                        <select id="usage_feature" name="feature" class="ar-field">
                             <option value="">Všetky operácie</option>
                             @foreach ($features as $feature)
                                 <option value="{{ $feature }}" @selected(($filters['feature'] ?? '') === $feature)>{{ $featureLabels[$feature] ?? $feature }}</option>
@@ -244,8 +248,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="usage_model">Model</label>
-                        <select id="usage_model" name="model" class="form-control">
+                        <label class="ar-label" for="usage_model">Model</label>
+                        <select id="usage_model" name="model" class="ar-field">
                             <option value="">Všetky modely</option>
                             @foreach ($models as $usageModel)
                                 <option value="{{ $usageModel }}" @selected(($filters['model'] ?? '') === $usageModel)>{{ $usageModel }}</option>
@@ -257,7 +261,7 @@
                         <a href="{{ route('admin.ai.index') }}#spotreba" class="underline">Zrušiť filtre</a>
                     </div>
                 </form>
-                <p class="mb-4 text-sm text-gray-500">Filtre platia pre nasledujúce prehľady a zoznam volaní. Mesačná spotreba a limit vyššie zahŕňajú všetky operácie.</p>
+                <p class="mb-4 text-sm text-[color:var(--ar-muted)]">Filtre platia pre nasledujúce prehľady a zoznam volaní. Mesačná spotreba a limit vyššie zahŕňajú všetky operácie.</p>
                 <div class="grid gap-4 sm:grid-cols-3">
                     <x-dashboard.metric label="Cena za výber" :value="$usd($periodTotals->cost)" />
                     <x-dashboard.metric label="Volania za výber" :value="$num($periodTotals->calls)" />
@@ -291,7 +295,7 @@
 
             <x-dashboard.panel title="Spotreba po dňoch" class="mt-6">
                 @if ($daily->isEmpty())
-                    <p class="text-sm text-gray-500">Zatiaľ žiadne volania.</p>
+                    <p class="text-sm text-[color:var(--ar-muted)]">Zatiaľ žiadne volania.</p>
                 @else
                     <x-dashboard.table label="Spotreba po dňoch">
                         <thead>
@@ -314,7 +318,7 @@
             {{-- Posledné volania --}}
             <x-dashboard.panel title="AI volania" class="mt-6">
                 @if ($recent->isEmpty())
-                    <p class="text-sm text-gray-500">Zatiaľ žiadne volania.</p>
+                    <p class="text-sm text-[color:var(--ar-muted)]">Zatiaľ žiadne volania.</p>
                 @else
                     <x-dashboard.table label="Posledné volania OpenAI">
                         <thead>

@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>{{ 'Všetky organizácie' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Kanály · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
@@ -27,12 +27,12 @@
                     : array_merge(request()->except($key === 'unpublished' ? ['page', 'month', 'publication'] : ['page', 'month']), [$key => 1]));
 
                 $tiles = [
-                    ['key' => null, 'label' => 'Kanálov spolu', 'value' => $summary->total, 'note' => 'bez zrušených'],
-                    ['key' => 'fresh', 'label' => 'Nové', 'value' => $summary->fresh, 'note' => 'za ' . \App\Filters\CanalFilters::FRESH_DAYS . ' dní'],
-                    ['key' => 'silent', 'label' => 'Utíchnuté', 'value' => $summary->silent, 'note' => 'bez príspevku ' . \App\Filters\CanalFilters::SILENT_DAYS . ' dní'],
-                    ['key' => 'orphans', 'label' => 'Bez správcu', 'value' => $summary->orphans, 'note' => 'nemá ich kto spravovať'],
+                    ['key' => null, 'label' => 'spolu', 'value' => $summary->total, 'note' => 'bez zrušených'],
+                    ['key' => 'fresh', 'label' => 'nové', 'value' => $summary->fresh, 'note' => 'za ' . \App\Filters\CanalFilters::FRESH_DAYS . ' dní'],
+                    ['key' => 'silent', 'label' => 'utíchnuté', 'value' => $summary->silent, 'note' => 'bez príspevku ' . \App\Filters\CanalFilters::SILENT_DAYS . ' dní'],
+                    ['key' => 'orphans', 'label' => 'bez správcu', 'value' => $summary->orphans, 'note' => 'nemá ich kto spravovať'],
                     ['key' => 'youtubeOff', 'label' => 'YouTube vypnutý', 'value' => $summary->youtubeOff, 'note' => 'import sa zastavil'],
-                    ['key' => 'unpublished', 'label' => 'Nepublikované', 'value' => $summary->unpublished, 'note' => 'skryté na webe'],
+                    ['key' => 'unpublished', 'label' => 'nepublikované', 'value' => $summary->unpublished, 'note' => 'skryté na webe'],
                 ];
 
                 $monthsMax = max(1, max(array_column($registrations, 'count')));
@@ -43,13 +43,13 @@
             {{-- Hľadanie a radenie. Zapnuté filtre dlaždíc sa prenášajú skrytými poľami. --}}
             <form method="GET" action="{{ route('admin.canal.index') }}"
                   class="ar-canal-search mb-5" role="search">
-                <select name="publication" class="form-control ar-canal-search__sort"
+                <select name="publication" class="ar-field ar-canal-search__sort"
                         aria-label="{{ __('canal.filter.label') }}" data-auto-submit>
                     @foreach (__('canal.filter.options') as $key => $label)
                         <option value="{{ $key }}" @selected(request('publication', request('deletedAt') ? 'deletedAt' : (request('unpublished') ? 'unpublished' : '')) === (string) $key)>{{ $label }}</option>
                     @endforeach
                 </select>
-                <select name="identity_mode" class="form-control ar-canal-search__sort"
+                <select name="identity_mode" class="ar-field ar-canal-search__sort"
                         aria-label="{{ __('canal.identity_mode.label') }}" data-auto-submit>
                     <option value="">{{ __('canal.identity_mode.all') }}</option>
                     @foreach (\App\Enums\CanalIdentityMode::cases() as $type)
@@ -65,12 +65,12 @@
                 <span class="ar-searchbox ar-canal-search__input">
                     <input type="search" name="search" value="{{ request('search') }}"
                            placeholder="Hľadať kanál podľa názvu"
-                           class="form-control"
+                           class="ar-field"
                            aria-label="Hľadať kanál">
                     <x-search-button label="Hľadať kanál" />
                 </span>
 
-                <select name="sort" class="form-control ar-canal-search__sort" aria-label="Radenie"
+                <select name="sort" class="ar-field ar-canal-search__sort" aria-label="Radenie"
                         data-auto-submit>
                     @foreach (\App\Filters\CanalFilters::SORTS as $value => $label)
                         <option value="{{ $value }}" @selected(request('sort', 'newest') === $value)>{{ $label }}</option>
@@ -83,20 +83,20 @@
                 </span>
             </form>
 
-            {{-- Súhrn: každé číslo je zároveň filter výpisu. --}}
-            <div class="ar-canal-tiles mb-6">
+            {{-- Súhrn v jednom páse ako pri užívateľoch: každé číslo je zároveň
+                 filter výpisu, klik na zapnuté ho vypne. Popis ide do title. --}}
+            <nav class="ar-stats mb-6" aria-label="Súhrn kanálov">
                 @foreach ($tiles as $tile)
                     @php
                         $active = $tile['key'] ? (request()->has($tile['key']) || ($tile['key'] === 'unpublished' && request('publication') === 'unpublished')) : ! request()->hasAny(array_filter(array_column($tiles, 'key')));
                         $href = $tile['key'] ? $toggle($tile['key']) : route('admin.canal.index', request()->only(['search', 'sort']));
                     @endphp
-                    <a href="{{ $href }}" @class(['ar-kpi', 'is-active' => $active])>
-                        <span class="ar-kpi__label">{{ $tile['label'] }}</span>
-                        <span class="ar-kpi__value">{{ $num($tile['value']) }}</span>
-                        <span class="ar-kpi__note">{{ $tile['note'] }}</span>
+                    <a href="{{ $href }}" title="{{ $tile['note'] }}"
+                       @class(['ar-stats__item', 'is-active' => $active]) @if ($active) aria-current="true" @endif>
+                        <strong>{{ $num($tile['value']) }}</strong> {{ $tile['label'] }}
                     </a>
                 @endforeach
-            </div>
+            </nav>
 
             {{-- Registrácie za posledný rok. Stĺpec je odkaz na kanály z toho mesiaca. --}}
             <div class="ar-panel mb-6">
@@ -134,9 +134,9 @@
             <x-canal.list :canals="$canals" :admin="true" />
 
 
-            <div class="md:block flex justify-center my-8">
-                {{ $canals->links() }}
-            </div>
+            @if ($canals->hasPages())
+                <div class="mt-8">{{ $canals->links() }}</div>
+            @endif
 
         </x-slot>
 

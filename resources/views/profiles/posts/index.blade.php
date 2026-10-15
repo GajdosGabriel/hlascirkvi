@@ -23,6 +23,9 @@
             {{ number_format($total, 0, ',', ' ') }}
             {{ $plural($total, 'článok', 'články', 'článkov') }}
             {{ $filtered ? 'vo výbere' : 'v archíve kanála' }}
+            @if ($posts->hasPages())
+                <span class="mx-1.5 text-gray-300" aria-hidden="true">·</span> strana {{ $posts->currentPage() }} z {{ $posts->lastPage() }}
+            @endif
         </x-slot>
 
         <x-slot name="actions">
@@ -40,12 +43,8 @@
                        :filters="['unpublished' => 'Čaká v bufferi', 'deletedAt' => 'V koši', 'videoAvailable']"
                        search="Hľadať v článkoch" />
 
-        <x-dashboard.panel title="Články kanála" flush>
-<x-slot name="note">
-                    @if ($posts->hasPages())
-                        strana {{ $posts->currentPage() }} z {{ $posts->lastPage() }}
-                    @endif
-                </x-slot>
+        {{-- Bez nadpisu: „Články kanála" len opakoval nadpis stránky. --}}
+        <x-dashboard.panel flush>
 
             @forelse ($posts as $post)
                 @include('profiles.posts._row')

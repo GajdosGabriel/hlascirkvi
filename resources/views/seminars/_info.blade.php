@@ -12,16 +12,16 @@
             <form action="{{ route('profile.canals.seminars.update', [$seminar->canal_id, $seminar->id]) }}" method="post">
                 @csrf @method('PUT')
                 <input type="hidden" name="published" value="{{ $seminar->published ? '' : now()->toDateTimeString() }}">
-                <button type="submit" class="btn">{{ $seminar->published ? 'Zrušiť zverejnenie' : 'Zverejniť' }}</button>
+                <button type="submit" class="ar-btn ar-btn--quiet">{{ $seminar->published ? 'Zrušiť zverejnenie' : 'Zverejniť' }}</button>
             </form>
             @if ($seminar->youtube_playlist)
                 <form action="{{ route('seminars.uploadVideos', $seminar->id) }}" method="post"
                       data-confirm="Načítať videá z YouTube zoznamu? Import môže chvíľu trvať.">
                     @csrf
-                    <button type="submit" class="btn">Načítať videá z YouTube</button>
+                    <button type="submit" class="ar-btn ar-btn--quiet">Načítať videá z YouTube</button>
                 </form>
             @else
-                <a class="btn" href="{{ route('profile.canals.seminars.edit', [$seminar->canal_id, $seminar->id]) }}">Doplniť playlist</a>
+                <a class="ar-btn ar-btn--quiet" href="{{ route('profile.canals.seminars.edit', [$seminar->canal_id, $seminar->id]) }}">Doplniť playlist</a>
             @endif
         </div>
     @endcan

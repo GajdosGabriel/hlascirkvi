@@ -1,7 +1,7 @@
 @extends('layouts.admin')
-@section('title')
-    <title>{{ 'Admin denník udalostí – e-mail.' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Odoslaný e-mail · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>

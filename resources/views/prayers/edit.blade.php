@@ -1,28 +1,17 @@
+@php
+    $seo = ['title' => 'Upraviť modlitbu', 'noindex' => true];
+@endphp
 @extends('layouts.dashboard')
-@section('title')
-    <title>{{ 'Vzdelávanie, konferencie a púte.' }}</title>
-@endsection
 
 @section('content')
-    <x-pages.dashboard>
+    <x-dashboard.frame fold>
+        <x-dashboard.header heading="Upraviť modlitbu">
+            <x-slot name="lead">Modlitebná prosba kanála {{ $canal->title }}. Polia označené <span class="ar-req">*</span> sú povinné.</x-slot>
+        </x-dashboard.header>
 
-        <x-slot name="title">
-            Upraviť modlitbu
-        </x-slot>
-
-        <x-slot name="title_right">
-            <a class="btn btn-default" href="{{ route('profile.canals.prayers.index', $canal->id) }}">
-                Späť
-            </a>
-        </x-slot>
-
-
-        <x-slot name="page">
-            <form action="{{ route('profile.canals.prayers.update', [$canal->id, $prayer->id]) }}" method="post"
-                class="md:w-1/2">
-                @csrf @method('PUT')
-                @include('prayers._form')
-            </form>
-        </x-slot>
-        </x-pages.dashboard>
-    @endsection
+        <form action="{{ route('profile.canals.prayers.update', [$canal->id, $prayer->id]) }}" method="post" class="max-w-3xl">
+            @csrf @method('PUT')
+            @include('prayers._form')
+        </form>
+    </x-dashboard.frame>
+@endsection

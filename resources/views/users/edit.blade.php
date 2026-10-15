@@ -1,18 +1,19 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>{{ 'Upraviť používateľa · ' . $user->adminName() }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Upraviť užívateľa ' . $user->adminName() . ' · Administrácia', 'noindex' => true];
+@endphp
 
 @section('own-errors', '1')
 
 @section('content')
     <x-pages.admin>
-        <x-slot name="title">Upraviť používateľa</x-slot>
+        <x-slot name="title">Upraviť užívateľa</x-slot>
+        <x-slot name="lead">Polia označené <span class="ar-req">*</span> sú povinné.</x-slot>
         <x-slot name="title_right">
-            <a href="{{ route('admin.user.index') }}" class="ar-tab">Používatelia</a>
-            <a href="{{ route('admin.user.show', $user->id) }}" class="ar-tab">Zobraziť</a>
-            <a href="{{ route('admin.logs.index', ['user' => $user->id]) }}" class="ar-tab" title="E-maily, prihlásenia a ďalšie udalosti používateľa">
+            <a href="{{ route('admin.user.index') }}" class="ar-btn ar-btn--quiet">Všetci užívatelia</a>
+            <a href="{{ route('admin.user.show', $user->id) }}" class="ar-btn ar-btn--quiet">Zobraziť</a>
+            <a href="{{ route('admin.logs.index', ['user' => $user->id]) }}" class="ar-btn ar-btn--quiet" title="E-maily, prihlásenia a ďalšie udalosti používateľa">
                 <i class="ph ph-list-bullets mr-1" aria-hidden="true"></i>Denník
             </a>
         </x-slot>
@@ -45,35 +46,35 @@
                     <div class="xl:col-span-2 space-y-5 min-w-0">
                         <x-dashboard.panel title="Profil používateľa">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-                                <div class="form-group">
-                                    <label for="first_name">Meno <span class="text-gray-500">(povinné)</span></label>
+                                <div class="mb-4">
+                                    <label class="ar-label" for="first_name">Meno <span class="ar-req">*</span></label>
                                     <input type="text" name="first_name" id="first_name" value="{{ old('first_name', $user->first_name) }}"
-                                        maxlength="50" autocomplete="given-name" class="form-control" required
+                                        maxlength="50" autocomplete="given-name" class="ar-field" required
                                         aria-invalid="{{ $errors->has('first_name') ? 'true' : 'false' }}" @error('first_name') aria-describedby="first_name_error" @enderror>
-                                    @error('first_name')<p id="first_name_error" class="text-red-700 text-sm mt-1">{{ $message }}</p>@enderror
+                                    @error('first_name')<p id="first_name_error" class="ar-error">{{ $message }}</p>@enderror
                                 </div>
-                                <div class="form-group">
-                                    <label for="last_name">Priezvisko</label>
+                                <div class="mb-4">
+                                    <label class="ar-label" for="last_name">Priezvisko</label>
                                     <input type="text" name="last_name" id="last_name" value="{{ old('last_name', $user->last_name) }}"
-                                        maxlength="50" autocomplete="family-name" class="form-control"
+                                        maxlength="50" autocomplete="family-name" class="ar-field"
                                         aria-invalid="{{ $errors->has('last_name') ? 'true' : 'false' }}" @error('last_name') aria-describedby="last_name_error" @enderror>
-                                    @error('last_name')<p id="last_name_error" class="text-red-700 text-sm mt-1">{{ $message }}</p>@enderror
+                                    @error('last_name')<p id="last_name_error" class="ar-error">{{ $message }}</p>@enderror
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="email">E-mail <span class="text-gray-500">(povinné)</span></label>
+                            <div class="mb-4">
+                                <label class="ar-label" for="email">E-mail <span class="ar-req">*</span></label>
                                 <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}"
-                                    maxlength="100" autocomplete="email" class="form-control" required
+                                    maxlength="100" autocomplete="email" class="ar-field" required
                                     aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}" aria-describedby="email_hint{{ $errors->has('email') ? ' email_error' : '' }}">
-                                <p id="email_hint" class="text-xs text-gray-500 mt-1">Adresa slúži na prihlásenie a doručovanie e-mailov. Musí byť jedinečná.</p>
-                                @error('email')<p id="email_error" class="text-red-700 text-sm mt-1">{{ $message }}</p>@enderror
+                                <p id="email_hint" class="ar-hint">Adresa slúži na prihlásenie a doručovanie e-mailov. Musí byť jedinečná.</p>
+                                @error('email')<p id="email_error" class="ar-error">{{ $message }}</p>@enderror
                             </div>
-                            <div class="form-group">
-                                <label for="description">Popis profilu</label>
-                                <textarea name="description" id="description" maxlength="5000" rows="5" class="form-control"
+                            <div class="mb-4">
+                                <label class="ar-label" for="description">Popis profilu</label>
+                                <textarea name="description" id="description" maxlength="5000" rows="5" class="ar-field"
                                     aria-invalid="{{ $errors->has('description') ? 'true' : 'false' }}" aria-describedby="description_hint{{ $errors->has('description') ? ' description_error' : '' }}">{{ old('description', $user->description) }}</textarea>
-                                <p id="description_hint" class="text-xs text-gray-500 mt-1">Voliteľný popis používateľa, najviac 5000 znakov.</p>
-                                @error('description')<p id="description_error" class="text-red-700 text-sm mt-1">{{ $message }}</p>@enderror
+                                <p id="description_hint" class="ar-hint">Voliteľný popis používateľa, najviac 5000 znakov.</p>
+                                @error('description')<p id="description_error" class="ar-error">{{ $message }}</p>@enderror
                             </div>
                         </x-dashboard.panel>
 
@@ -81,24 +82,24 @@
                             @if ($user->is(auth()->user()))
                                 <p class="text-sm text-gray-500 mb-4">Upravujete vlastný administrátorský účet. Jeho prístup nemôžete zneprístupniť.</p>
                             @endif
-                            <div class="form-group">
-                                <label for="status">{{ __('model_status.account_status') }}</label>
-                                <select name="status" id="status" class="form-control" required
+                            <div class="mb-4">
+                                <label class="ar-label" for="status">{{ __('model_status.account_status') }}</label>
+                                <select name="status" id="status" class="ar-field" required
                                     aria-invalid="{{ $errors->has('status') ? 'true' : 'false' }}" aria-describedby="status_hint{{ $errors->has('status') ? ' status_error' : '' }}">
                                     @foreach ($statuses as $status)
                                         <option value="{{ $status->value }}" @selected(old('status', $user->status->value) === $status->value)
                                             @disabled($user->is(auth()->user()) && ! $status->isActive())>{{ $status->label() }}</option>
                                     @endforeach
                                 </select>
-                                <p id="status_hint" class="text-xs text-gray-500 mt-1">Iba aktívny účet má prístup. Pri inom stave sa zrušia aj jeho API prístupy.</p>
-                                @error('status')<p id="status_error" class="text-red-700 text-sm mt-1">{{ $message }}</p>@enderror
+                                <p id="status_hint" class="ar-hint">Iba aktívny účet má prístup. Pri inom stave sa zrušia aj jeho API prístupy.</p>
+                                @error('status')<p id="status_error" class="ar-error">{{ $message }}</p>@enderror
                             </div>
-                            <div class="form-group">
-                                <label for="status_reason">{{ __('model_status.status_reason') }}</label>
-                                <textarea name="status_reason" id="status_reason" maxlength="500" rows="3" class="form-control"
+                            <div class="mb-4">
+                                <label class="ar-label" for="status_reason">{{ __('model_status.status_reason') }}</label>
+                                <textarea name="status_reason" id="status_reason" maxlength="500" rows="3" class="ar-field"
                                     aria-invalid="{{ $errors->has('status_reason') ? 'true' : 'false' }}" aria-describedby="status_reason_hint{{ $errors->has('status_reason') ? ' status_reason_error' : '' }}">{{ old('status_reason', $user->status_reason) }}</textarea>
-                                <p id="status_reason_hint" class="text-xs text-gray-500 mt-1">Pri neaktívnom účte je dôvod povinný. Najviac 500 znakov.</p>
-                                @error('status_reason')<p id="status_reason_error" class="text-red-700 text-sm mt-1">{{ $message }}</p>@enderror
+                                <p id="status_reason_hint" class="ar-hint">Pri neaktívnom účte je dôvod povinný. Najviac 500 znakov.</p>
+                                @error('status_reason')<p id="status_reason_error" class="ar-error">{{ $message }}</p>@enderror
                             </div>
                         </x-dashboard.panel>
                     </div>

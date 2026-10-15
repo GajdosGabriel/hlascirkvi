@@ -1,26 +1,29 @@
 @extends('layouts.admin')
 
-@section('title')
-    <title>{{ 'Predný zoznam kanálov' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Kanály na úvode · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
 
-        <x-slot name="title">
-            Predný zoznam
-        </x-slot>
+        <x-slot name="title">Kanály na úvode</x-slot>
+        <x-slot name="lead">Kto môže byť na kartách „Kresťanské osobnosti“ a „Cirkvi a spoločenstvá“ na úvodnej stránke.</x-slot>
 
         <x-slot name="title_right">
-            <a class="btn btn-primary" href="{{ route('frontlist.index') }}" target="_blank" rel="noopener">
+            <a class="ar-btn ar-btn--quiet" href="{{ route('frontlist.index') }}" target="_blank" rel="noopener">
                 <i class="ph ph-arrow-square-out" aria-hidden="true"></i> Pozrieť na webe
             </a>
         </x-slot>
 
         <x-slot name="page">
 
-            <x-dashboard.panel title="Ako sa karta radí" class="mb-5">
-                <p>
+            {{-- Vysvetlenie je potrebné raz, potom zavadzia — preto zbalené a v drobnom.
+                 Väčším písmom ako zvyšok administrácie tlačilo tabuľku pod okraj. --}}
+            <x-dashboard.panel class="mb-5">
+                <details class="text-sm text-[color:var(--ar-ink-soft)]">
+                    <summary class="cursor-pointer font-semibold text-[color:var(--ar-ink)]">Ako sa karta radí</summary>
+                <p class="mt-2">
                     Kartu „Kresťanské osobnosti" aj „Cirkvi a spoločenstvá" radí záujem návštevníkov, nie ručné
                     poradie. Skóre sú zhliadnutia príspevkov kanála a noví sledovatelia
                     (1 sledovateľ = {{ config('frontlist.follow_weight') }} zhliadnutí) za posledných
@@ -32,13 +35,14 @@
                     dostanú kanály, ktoré za posledných {{ config('frontlist.discovery_days') }} dní niečo zverejnili —
                     každý deň iné. Tu v zozname rozhodujete, kto na kartu môže a na ktorú patrí.
                 </p>
+                </details>
             </x-dashboard.panel>
 
             <x-dashboard.panel title="Pridať kanál" class="mb-5">
                 {{-- Hľadanie, nie rozbaľovací zoznam: kanálov je vyše päťsto. --}}
                 <form method="GET" action="{{ route('admin.frontlist.index') }}" class="flex flex-wrap gap-2">
                     <span class="ar-searchbox w-full max-w-sm">
-                        <input type="search" name="hladat" value="{{ $hladane }}" class="form-control"
+                        <input type="search" name="hladat" value="{{ $hladane }}" class="ar-field"
                                placeholder="Meno kanála alebo osobnosti…" autocomplete="off"
                                aria-label="Hľadať kanál">
                         <x-search-button label="Hľadať kanál" />
@@ -57,21 +61,21 @@
                                 @unless ($canal->published)
                                     {{-- Skrytý kanál sa do zoznamu pridať dá, ale na webe
                                          sa neukáže, kým ho niekto nezverejní. --}}
-                                    <span class="ml-1 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-800">skrytý kanál</span>
+                                    <span class="ar-badge ar-badge--warn ml-1">skrytý kanál</span>
                                 @endunless
                             </span>
 
                             <span class="flex items-center gap-2">
-                                <select name="identity_mode" class="form-control" aria-label="Režim identity" required>
+                                <select name="identity_mode" class="ar-field" aria-label="Režim identity" required>
                                     @foreach ($types as $type)
                                         <option value="{{ $type->value }}" @selected(($canal->identity_mode ?? \App\Enums\CanalIdentityMode::Personal) === $type)>{{ $type->label() }}</option>
                                     @endforeach
                                 </select>
-                                <button class="btn btn-primary">Pridať</button>
+                                <button class="ar-btn ar-btn--accent"><i class="ph ph-plus" aria-hidden="true"></i> Pridať</button>
                             </span>
                         </form>
                     @empty
-                        <p class="mt-3 text-gray-500">Nič sa nenašlo — alebo je taký kanál v zozname už zaradený.</p>
+                        <p class="mt-3 text-[color:var(--ar-muted)]">Nič sa nenašlo — alebo je taký kanál v zozname už zaradený.</p>
                     @endforelse
                 @endif
             </x-dashboard.panel>
@@ -99,7 +103,7 @@
                                     <span class="ml-1 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800"
                                           title="Dnes je na karte v bočnom paneli">na karte</span>
                                 @elseif ($canal->identity_mode)
-                                    <span class="ml-1 text-xs text-gray-500">len v celom zozname</span>
+                                    <span class="ml-1 text-xs text-[color:var(--ar-muted)]">len v celom zozname</span>
                                 @endif
                             </td>
 

@@ -1,8 +1,5 @@
-{{-- <input class="text-gray-700 p-1 border-2 border-gray-700 rounded-sm md:w-3/4"
-            placeholder="Search by name, email ..." type="text"> --}}
-
 <x-dashboard.table label="Registrovaní používatelia">
-    <thead class="bg-gray-500 text-white">
+    <thead>
         <tr>
             @php
                 // Klik na hlavičku radí podľa stĺpca (UserFilters::SORTS), ďalší klik
@@ -10,7 +7,7 @@
                 // Predvolene je výpis od najnovších registrácií.
                 $columns = [
                     'id' => ['Id', false],
-                    'name' => ['Názov', false],
+                    'name' => ['Meno', false],
                     'status' => ['Stav', false],
                     'created' => ['Registrácia', true],
                     'login' => ['Posledné prihlásenie', true],
@@ -38,7 +35,7 @@
 
     <tbody>
         @forelse($users as $user)
-            <tr class="border-2 border-gray-300">
+            <tr>
                 <td class="td">{{ $user->id }} </td>
                 <td class="td">
                     <a href="{{ route('admin.user.show', $user->id) }}" class="font-semibold hover:underline">{{ $user->adminName() }}</a>
@@ -73,7 +70,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="7"><x-dashboard.empty>Bez záznamu</x-dashboard.empty></td></tr>
+            <tr><td colspan="7"><x-dashboard.empty>Výberu nezodpovedá žiadny užívateľ.</x-dashboard.empty></td></tr>
         @endforelse
     </tbody>
 </x-dashboard.table>

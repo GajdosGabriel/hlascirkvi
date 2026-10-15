@@ -9,6 +9,9 @@
         --ar-ink:         #101828;
         --ar-ink-soft:    #545a67;
         --ar-line:        #e3e4e8;
+        /* Tlmený text (popisy, meta, poznámky). Svetlejšie sivé (#9ca3af,
+           #b6bac3) na bielej nedávajú ani 3 : 1, táto drží AA (4,8 : 1). */
+        --ar-muted:       #6b7280;
         --ar-accent:      #b91c1c;
         --ar-accent-soft: #fdf1f1;
         /* Zložky akcentu zvlášť: mriežka archívu mieša jeho odtiene cez
@@ -103,6 +106,19 @@
         color: var(--ar-accent);
         font-weight: 600;
     }
+    /* Na dotykových displejoch 34 px vysoké prepínače nestačia na prst. */
+    @media (pointer: coarse) {
+        .ar-tab { min-height: 2.75rem; }
+        .ar-viewbar__icon { width: 2.75rem; height: 2.75rem; }
+    }
+
+    /* „Načítať ďalšie príspevky" pod výpisom — prepínač, len väčší. */
+    .ar-more {
+        padding: .65rem 1.4rem;
+        font-size: .875rem;
+        font-weight: 600;
+        color: var(--ar-ink);
+    }
 
     /* Hľadanie vedľa prepínača. Zabalené do vlastných tried, lebo šírka sa
        mení podľa fokusu — v Tailwinde by to bola zhluk arbitrárnych variantov.
@@ -112,7 +128,7 @@
         flex: 0 0 auto;
     }
     .ar-search input {
-        width: 9.5rem;
+        width: 11.5rem; /* „Hľadať v článkoch" sa pri 9,5 rem orezalo. */
         border: 1px solid var(--ar-line);
         border-radius: 9999px;
         background: #fff;
@@ -217,7 +233,7 @@
         font-variant-numeric: tabular-nums;
         line-height: 1.35;
         text-align: right;
-        color: #c8ccd4;
+        color: var(--ar-muted);
     }
     .ar-rank--first { color: var(--ar-accent); }
 
@@ -441,7 +457,27 @@
         border-color: var(--ar-accent);
         box-shadow: 0 0 0 3px rgba(var(--ar-accent-rgb), .12);
     }
-    .ar-hint { margin-top: .3rem; font-size: .75rem; color: #6b7280; }
+    .ar-hint { margin-top: .3rem; font-size: .75rem; color: var(--ar-muted); }
+    /* Placeholder prehliadača (#9ca3af a svetlejší) nedával ani 3 : 1. */
+    .ar-field::placeholder,
+    .ar-dash .form-control::placeholder { color: var(--ar-muted); opacity: 1; }
+
+    /* Výber súboru v štýle ostatných polí — natívne „Vybrať súbor" pôsobilo
+       vedľa dropzone obrázkov článku ako z iného webu. */
+    input[type="file"].ar-field { padding: .35rem; font-size: .8125rem; color: var(--ar-ink-soft); cursor: pointer; }
+    input[type="file"].ar-field::file-selector-button {
+        margin-right: .75rem;
+        border: 1px solid var(--ar-line);
+        border-radius: 9999px;
+        background: var(--ar-paper);
+        padding: .4rem .9rem;
+        font: inherit;
+        font-weight: 600;
+        color: var(--ar-ink);
+        cursor: pointer;
+        transition: border-color .15s ease, color .15s ease;
+    }
+    input[type="file"].ar-field:hover::file-selector-button { border-color: var(--ar-accent); color: var(--ar-accent); }
 
     /* Obsah dashboardu a administrácie siaha aspoň po spodok okna — pri
        prázdnom výpise by inak pätička vyskočila do polovice obrazovky.
@@ -494,16 +530,19 @@
     @media (min-width: 1024px) {
         .ar-dash__aside { position: sticky; top: 1rem; }
     }
+    /* Položky sa zalamujú, nie posúvajú: pri vodorovnom posune bez
+       viditeľného posuvníka bolo na mobile vidieť len prvé dve a o zvyšku
+       správca nevedel. */
     .ar-dash__menu {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: .35rem;
-        overflow-x: auto;
-        padding-bottom: .25rem;
-        scrollbar-width: none;
     }
-    .ar-dash__menu::-webkit-scrollbar { display: none; }
+    @media (min-width: 640px) {
+        .ar-dash__menu { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
     @media (min-width: 1024px) {
-        .ar-dash__menu { flex-direction: column; gap: .15rem; overflow: visible; padding-bottom: 0; }
+        .ar-dash__menu { display: flex; flex-direction: column; gap: .15rem; }
     }
     .ar-dash__menu > a {
         display: flex;
@@ -514,7 +553,8 @@
         padding: .5rem .7rem;
         border: 1px solid transparent;
         border-radius: .5rem;
-        white-space: nowrap;
+        min-width: 0;
+        line-height: 1.25;
         background: transparent;
         font-size: .875rem;
         font-weight: 500;
@@ -532,6 +572,35 @@
     @media (min-width: 1024px) {
         .ar-dash__menu > a { width: 100%; }
     }
+    /* Nadpis skupiny v menu administrácie. V mriežke na mobile zaberá celý
+       riadok, v stĺpci od lg je to len tichý štítok nad položkami. */
+    .ar-dash__group {
+        grid-column: 1 / -1;
+        margin: .6rem 0 .1rem;
+        padding-left: .7rem;
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: var(--ar-muted);
+    }
+
+    /* Zbaliteľné menu formulárových stránok (components/dashboard/frame, fold). */
+    .ar-dash__fold > summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        list-style: none;
+    }
+    .ar-dash__fold > summary::-webkit-details-marker { display: none; }
+    .ar-dash__fold-caret { transition: transform .15s ease; }
+    .ar-dash__fold[open] .ar-dash__fold-caret { transform: rotate(180deg); }
+    @media (min-width: 1024px) {
+        .ar-dash__fold > summary { pointer-events: none; cursor: default; }
+        .ar-dash__fold-caret { display: none; }
+    }
+
     .ar-dash__menu svg,
     .ar-dash__menu i { flex: 0 0 auto; width: 1rem; height: 1rem; }
 
@@ -688,9 +757,13 @@
         text-transform: uppercase;
         color: #6b7280;
     }
-    .ar-aside .card_header h4 { font: inherit; letter-spacing: inherit; }
+    .ar-aside .card_header h2,
+    .ar-aside .card_header h4 { margin: 0; font: inherit; letter-spacing: inherit; }
+    /* Ikony hlavičiek v jednom tlmenom tóne — každý panel mal inú farbu
+       a akcent tak stratil zmysel. !important prebije farby, ktoré nesú
+       samotné ikony (napr. oznamy podľa tónu). */
     .ar-aside .card_header svg,
-    .ar-aside .card_header i { color: var(--ar-accent); }
+    .ar-aside .card_header i { color: #9ca3af !important; }
 
     .ar-aside .card_body { padding: .85rem 1rem; }
     .ar-aside .card > ul { padding: .5rem; }

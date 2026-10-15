@@ -8,7 +8,7 @@
                    class="flex items-center justify-between gap-2 px-1 py-1.5 hover:bg-gray-100">
                     <span class="min-w-0 truncate">{{ $canal->title }}</span>
 
-                    @if ($canal->hasFreshPost())
+                    @if ($canal->hasNewPost())
                         <span class="shrink-0 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800">nové</span>
                     @endif
                 </a>

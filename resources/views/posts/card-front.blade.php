@@ -1,9 +1,6 @@
 @php
     $postUrl         = route('post.show', [$post->id, $post->slug]);
-    // V admin buffri vedie kanál na jeho detail v administrácii, nie na verejný profil.
-    $canalUrl = Route::is('admin.buffer.index')
-        ? route('admin.canal.show', $post->canal->id)
-        : route('organizations.show', [$post->canal->id]);
+    $canalUrl = route('organizations.show', [$post->canal->id]);
 
     // `favorites` je na modeli v $with, takže sa tu nedopytujeme databázy
     // pre každú kartu zvlášť — na to doplácal pôvodný favorites()->exists().
@@ -16,10 +13,14 @@
 <article class="ar-card group flex h-full flex-col overflow-hidden rounded-lg">
 
     {{-- Náhľad so štítkami --}}
-    <a href="{{ $postUrl }}" class="relative block overflow-hidden" title="{{ $post->title }}">
+    {{-- Náhľad vedie na ten istý príspevok ako titulok pod ním, preto je
+         pre čítačky aj klávesnicu skrytý a obrázok má prázdny alt — inak by
+         čítačka názov prečítala dvakrát a Tab by na karte zastal dvakrát.
+         Prázdny alt navyše nevypíše text do sivého boxu, kým sa obrázok načíta. --}}
+    <a href="{{ $postUrl }}" class="relative block overflow-hidden" tabindex="-1" aria-hidden="true">
         @include('partials.thumb', [
             'model' => $post,
-            'alt' => $post->canal->title . ' / ' . $post->title,
+            'alt' => '',
             'class' => 'ar-thumb',
         ])
 
@@ -45,17 +46,15 @@
             </a>
         </h2>
 
-        <div class="mt-auto pt-3 text-xs">
-            <a href="{{ $canalUrl }}" class="ar-link inline-block max-w-full truncate align-bottom font-medium text-gray-600 hover:text-[color:var(--ar-accent)]">
+        {{-- py-1 dvíha odkaz kanála na 24 px, aby sa naň dalo trafiť prstom. --}}
+        <div class="mt-auto pt-2 text-xs">
+            <a href="{{ $canalUrl }}" class="ar-link inline-block max-w-full truncate py-1 align-bottom font-medium text-gray-600 hover:text-[color:var(--ar-accent)]">
                 {{ $post->canal->title }}
             </a>
-            <time datetime="{{ $post->created_at->toIso8601String() }}" class="mt-0.5 block text-gray-500">
+            <time datetime="{{ $post->created_at->toIso8601String() }}" class="block text-gray-500">
                 {{ $post->dateForHumans }}
             </time>
         </div>
 
-        @if (Route::is('admin.buffer.index'))
-            <post-publish-buttons :post="{{ $post }}" />
-        @endif
     </div>
 </article>

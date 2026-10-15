@@ -19,7 +19,7 @@
                  ktorého sa dá v obrázkoch orientovať. --}}
             <div class="absolute left-3 top-3 rounded-md bg-white/95 px-2.5 py-1 text-center shadow-sm">
                 <div class="ev-display text-lg font-bold leading-none">{{ $event->dayNumber() }}</div>
-                <div class="text-[.6rem] uppercase tracking-wider text-stone-500">{{ $event->monthShort() }}</div>
+                <div class="text-[.6rem] uppercase tracking-wider text-stone-600">{{ $event->monthShort() }}</div>
             </div>
 
             @if ($event->isOngoing())
@@ -35,7 +35,7 @@
             <a href="{{ $event->url() }}" class="ev-link">{{ $event->title() }}</a>
         </h3>
 
-        <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-stone-500">
+        <div class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-stone-600">
             @if ($event->timeLabel())
                 <span class="font-medium text-[color:var(--ev-accent)]">{{ $event->timeLabel() }}</span>
             @endif

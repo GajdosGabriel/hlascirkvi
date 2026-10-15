@@ -1,105 +1,16 @@
+@php
+    $seo = ['title' => 'Nový kanál', 'noindex' => true];
+@endphp
 @extends('layouts.dashboard')
 
-@section('title')
-    <title>Nový kanál | Hlas Cirkvi</title>
-@endsection
-
 @section('content')
-    <x-dashboard.frame>
+    <x-dashboard.frame fold>
         <x-dashboard.header heading="Nový kanál">
-            <x-slot name="lead">Vyplňte údaje o kanáli. Polia označené * sú povinné.</x-slot>
-            <x-slot name="actions">
-                <a class="btn btn-default" href="{{ route('profile.canals.index') }}">Späť na kanály</a>
-            </x-slot>
+            <x-slot name="lead">Vyplňte údaje o kanáli. Polia označené <span class="ar-req">*</span> sú povinné.</x-slot>
         </x-dashboard.header>
 
-        <form method="POST" action="{{ route('profile.canals.store') }}" class="space-y-6">
-            @csrf
-            <fieldset class="rounded-lg border bg-white p-6">
-                <legend class="px-2 text-lg font-semibold">Základné údaje</legend>
-                <div class="form-group">
-                    <label for="title">Názov kanála *</label>
-                    <input class="form-control" type="text" id="title" name="title" value="{{ old('title') }}" minlength="2" maxlength="191" required autofocus placeholder="Napr. Farnosť sv. Martina">
-                </div>
-                <div class="form-group">
-                    <label for="description">Popis kanála</label>
-                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Predstavte svoj kanál a jeho obsah.">{{ old('description') }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="denomination">Cirkev / zaradenie kanála</label>
-                    <select class="form-control" id="denomination" name="denomination">
-                        <option value="">Vyberte zaradenie</option>
-                        @foreach ($denominations as $denomination)
-                            <option value="{{ $denomination->value }}" @selected(old('denomination') === $denomination->value)>{{ $denomination->label() }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="identity_mode">Režim identity</label>
-                    <select class="form-control" id="identity_mode" name="identity_mode">
-                        @foreach ($types as $type)
-                            <option value="{{ $type->value }}" @selected(old('identity_mode', 'organization') === $type->value)>{{ $type->label() }}</option>
-                        @endforeach
-                    </select>
-                    <small class="form-text text-muted">Za kanálom stojí človek, alebo cirkev či spoločenstvo.</small>
-                </div>
-                @include('dashboard.canals._front-list')
-            </fieldset>
-
-            <fieldset class="rounded-lg border bg-white p-6">
-                <legend class="px-2 text-lg font-semibold">Adresa a kontakt</legend>
-                <div class="grid gap-x-6 sm:grid-cols-2">
-                    <div class="form-group">
-                        <label for="village_id">Mesto / obec *</label>
-                        <select class="form-control" id="village_id" name="village_id" required autocomplete="address-level2">
-                            <option value="">Vyberte mesto alebo obec</option>
-                            @foreach ($villages as $village)
-                                <option value="{{ $village->id }}" @selected(old('village_id', \App\Models\Village::WHOLE_COUNTRY) == $village->id)>{{ $village->fullname }} {{ $village->zip }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="street">Ulica a číslo</label>
-                        <input class="form-control" type="text" id="street" name="street" value="{{ old('street') }}" maxlength="191" autocomplete="street-address">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Kontaktný e-mail</label>
-                        <input class="form-control" type="email" id="email" name="email" value="{{ old('email') }}" maxlength="100" autocomplete="email" placeholder="kontakt@example.sk">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Telefón</label>
-                        <input class="form-control" type="tel" id="phone" name="phone" value="{{ old('phone') }}" maxlength="20" autocomplete="tel" placeholder="+421 900 123 456">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="url_www">Webová stránka</label>
-                    {{-- type="url" pustil len adresu so schémou, takže „www.vasweb.sk" zastavil
-                         prehliadač, hoci server (a formulár úpravy) ju prijme. --}}
-                    <input class="form-control" type="text" inputmode="url" id="url_www" name="url_www" value="{{ old('url_www') }}" maxlength="191" autocomplete="url" placeholder="www.vasweb.sk">
-                </div>
-            </fieldset>
-
-            @if (auth()->user()->hasRole('admin'))
-                <fieldset class="rounded-lg border bg-white p-6">
-                    <legend class="px-2 text-lg font-semibold">YouTube a príspevky</legend>
-                    <p class="mb-4 text-sm text-gray-600">Zadajte ID kanála a playlistu, ktoré sa používajú pri načítaní videí z YouTube. Vložiť sa dá aj adresa kanála — ID si formulár doplní sám.</p>
-                    <div class="form-group">
-                        <label for="youtube_channel">ID kanála YouTube</label>
-                        <input class="form-control" type="text" id="youtube_channel" name="youtube_channel" value="{{ old('youtube_channel') }}" maxlength="191" placeholder="UC… alebo adresa kanála">
-                    </div>
-                    <div class="form-group">
-                        <label for="youtube_playlist">ID playlistu YouTube</label>
-                        <input class="form-control" type="text" id="youtube_playlist" name="youtube_playlist" value="{{ old('youtube_playlist') }}" maxlength="191" placeholder="PL… alebo adresa playlistu">
-                    </div>
-                    <div class="form-group">
-                        <label for="mod_title">Text pred názvom príspevku</label>
-                        <input class="form-control" type="text" id="mod_title" name="mod_title" value="{{ old('mod_title') }}" maxlength="20">
-                    </div>
-                </fieldset>
-            @endif
-
-            <x-dashboard.form-bar :cancel="route('profile.canals.index')" submit="Vytvoriť kanál"
-                                  note="Kanál sa vytvorí po kliknutí na tlačidlo." />
-        </form>
+        {{-- Rovnaký formulár ako úprava kanála; `simple` skryje polia, ktoré
+             pri založení z nástenky nastavuje až administrátor. --}}
+        @include('dashboard.canals._form', ['simple' => true])
     </x-dashboard.frame>
 @endsection

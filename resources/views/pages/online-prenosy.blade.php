@@ -49,6 +49,21 @@
         gap:8px;
         margin-top:24px
     }
+    /* Na mobile by zalomené čipy všetkých spoločenstiev zabrali celú prvú
+       obrazovku — jeden riadok posúvaný do strany, blednúci okraj napovie,
+       že pokračuje (rovnako ako .ar-viewbar na úvodnej stránke). */
+    @media (max-width:639px) {
+        .streams-nav {
+            flex-wrap:nowrap;
+            overflow-x:auto;
+            margin-right:-16px;
+            padding-right:32px;
+            scrollbar-width:none;
+            -webkit-mask-image:linear-gradient(to right,#000 85%,transparent);
+                    mask-image:linear-gradient(to right,#000 85%,transparent)
+        }
+        .streams-nav::-webkit-scrollbar { display:none }
+    }
 
 .stream {
         background:#fff;

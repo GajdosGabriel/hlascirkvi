@@ -1,7 +1,7 @@
 @extends('layouts.admin')
-@section('title')
-    <title>{{ 'Admin denník udalostí.' }}</title>
-@endsection
+@php
+    $seo = ['title' => 'Denník udalostí · Administrácia', 'noindex' => true];
+@endphp
 
 @section('content')
     <x-pages.admin>
@@ -30,15 +30,15 @@
                         <input type="hidden" name="{{ $name }}" value="{{ $value }}">
                     @endif
                 @endforeach
-                <label class="flex flex-col gap-1 text-gray-500">
-                    Od
-                    <input type="date" name="from" value="{{ request('from') }}" class="rounded-md border border-gray-300 px-2 py-1 text-gray-900">
-                </label>
-                <label class="flex flex-col gap-1 text-gray-500">
-                    Do
-                    <input type="date" name="to" value="{{ request('to') }}" class="rounded-md border border-gray-300 px-2 py-1 text-gray-900">
-                </label>
-                <button type="submit" class="ar-tab">Použiť</button>
+                <div>
+                    <label class="ar-label" for="log-from">Od</label>
+                    <input type="date" id="log-from" name="from" value="{{ request('from') }}" class="ar-field">
+                </div>
+                <div>
+                    <label class="ar-label" for="log-to">Do</label>
+                    <input type="date" id="log-to" name="to" value="{{ request('to') }}" class="ar-field">
+                </div>
+                <button type="submit" class="ar-btn ar-btn--quiet">Použiť</button>
                 @if (request('recipient'))
                     <a href="{{ $filterUrl(['recipient' => null]) }}" class="ar-tab ar-tab--on" title="Zrušiť filter príjemcu">
                         {{ request('recipient') }} ✕
@@ -69,7 +69,7 @@
                                 @if ($statusLabel)
                                     <x-dashboard.status-badge :label="$statusLabel" :tone="$statusTone" />
                                 @endif
-                                <span class="text-xs text-gray-400" title="{{ $log->created_at?->format('j. n. Y H:i:s') }}">
+                                <span class="text-xs text-[color:var(--ar-muted)]" title="{{ $log->created_at?->format('j. n. Y H:i:s') }}">
                                     {{ $log->created_at?->format('j. n. H:i') }} · {{ $log->created_at?->diffForHumans() }}
                                 </span>
                             </div>
@@ -102,20 +102,20 @@
 
                             @if ($log->context)
                                 <details class="mt-2 text-xs">
-                                    <summary class="cursor-pointer text-gray-500 hover:text-gray-900">Podrobnosti</summary>
+                                    <summary class="cursor-pointer text-[color:var(--ar-ink-soft)] hover:text-[color:var(--ar-accent)]">Podrobnosti</summary>
                                     <pre class="mt-1 max-h-72 overflow-auto whitespace-pre-wrap break-all rounded-md bg-gray-50 p-2 text-gray-700">{{ json_encode($log->context, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) }}</pre>
                                 </details>
                             @endif
                         </div>
                     </article>
                 @empty
-                    <x-dashboard.empty>Žiadne udalosti.</x-dashboard.empty>
+                    <x-dashboard.empty>Výberu nezodpovedá žiadna udalosť.</x-dashboard.empty>
                 @endforelse
             </x-dashboard.panel>
 
-            <div class="md:block flex justify-center my-8">
-                {{ $logs->links() }}
-            </div>
+            @if ($logs->hasPages())
+                <div class="mt-8">{{ $logs->links() }}</div>
+            @endif
 
         </x-slot>
     </x-pages.admin>

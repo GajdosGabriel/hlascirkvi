@@ -1,5 +1,9 @@
     @php
         $creating = ! $canal->exists;
+        // Nový kanál z nástenky (profile.canals.store) zakladá správca sám pre
+        // seba: správcov, zverejnenie a smerovanie videí CanalRequest::save()
+        // aj tak zahodí, preto sa tieto polia vôbec neukazujú.
+        $simple = $simple ?? false;
         $isAdmin = auth()->user()->can('admin');
         $isSuperadmin = auth()->user()->can('superadmin');
 
@@ -22,7 +26,7 @@
             ? trim(trim((string) $user->fullname) . ' · ' . $user->email, ' ·')
             : $user->fullname;
     @endphp
-        <form method="POST" enctype="multipart/form-data" action="{{ $creating ? route('admin.canal.store') : route('profile.canals.update', $canal) }}" class="space-y-5">
+        <form method="POST" enctype="multipart/form-data" action="{{ $simple ? route('profile.canals.store') : ($creating ? route('admin.canal.store') : route('profile.canals.update', $canal)) }}" class="space-y-5">
             @csrf
             @unless ($creating)
                 @method('PUT')
@@ -155,6 +159,7 @@
             </section>
 
             {{-- Správcovia a zverejnenie --}}
+            @unless ($simple)
             <section class="ar-panel">
                 <div class="ar-panel__head">
                     <h2 class="ar-panel__title">Správcovia kanála</h2>
@@ -227,6 +232,7 @@
                     @endif
                 </div>
             </section>
+            @endunless
 
             {{-- YouTube a zaradenie — len administrátor --}}
             @if ($isAdmin)
@@ -272,6 +278,7 @@
                             @error('mod_title') <p class="ar-error">{{ $message }}</p> @enderror
                         </div>
 
+                        @unless ($simple)
                         <div class="sm:max-w-md">
                             <label class="ar-label" for="post_section">Kam idú nové videá kanála</label>
                             <select class="{{ $field('post_section') }}" id="post_section" name="post_section">
@@ -300,6 +307,7 @@
                             <p class="ar-hint">Kontroluje nové videá zo zadaného YouTube kanála aj pripojeného playlistu. Vybraný deň znamená raz týždenne o 16:24. Pri pridaní YouTube zdroja sa automaticky vyberie najmenej obsadený deň. Môžete zvoliť aj konkrétny deň.</p>
                             @error('import_day') <p class="ar-error">{{ $message }}</p> @enderror
                         </div>
+                        @endunless
 
                         {{-- Nový kanál ešte žiadnu kontrolu nemá. --}}
                         @unless ($creating)
@@ -325,7 +333,7 @@
                 </section>
             @endif
 
-            <x-dashboard.form-bar :cancel="$creating ? route('admin.canal.index') : route('profile.canals.index')" :submit="$creating ? 'Vytvoriť kanál' : 'Uložiť zmeny'"
+            <x-dashboard.form-bar :cancel="$simple ? route('profile.canals.index') : ($creating ? route('admin.canal.index') : route('profile.canals.index'))" :submit="$creating ? 'Vytvoriť kanál' : 'Uložiť zmeny'"
                                   :note="$creating ? 'Kanál sa vytvorí po kliknutí na tlačidlo.' : 'Zmeny sa prejavia hneď po uložení.'" />
         </form>
     {{-- Ponuka editora zodpovedá značkám, ktoré nechá App\Support\SafeHtml. --}}

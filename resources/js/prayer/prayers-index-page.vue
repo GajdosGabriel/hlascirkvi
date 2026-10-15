@@ -7,7 +7,7 @@
                     {{ total }}
                 </span>
             </h2>
-            <p class="mt-1 text-sm text-gray-500">
+            <p class="mt-1 text-sm text-gray-600">
                 Kliknutím na prosbu sa k modlitbe pripojíte. Prosiaci sa dozvie,
                 že sa zaňho niekto modlí.
             </p>
@@ -21,7 +21,7 @@
             {{ notice }}
         </p>
 
-        <p v-if="loading" class="py-10 text-center text-sm text-gray-400">
+        <p v-if="loading" class="py-10 text-center text-sm text-gray-600">
             Načítavam prosby…
         </p>
 
