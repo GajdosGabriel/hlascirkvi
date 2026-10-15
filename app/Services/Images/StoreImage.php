@@ -159,6 +159,13 @@ final class StoreImage
             }
 
             foreach ($encoders as $extension => $encoder) {
+                // JPG sa ukladá len v najväčšej šírke: nesie stĺpec url, teda
+                // og:image, lightbox a zálohu pre prehliadač bez WebP. Menšie
+                // šírky zobrazujú karty a galéria, tie idú už len cez WebP.
+                if ($extension === 'jpg' && $variants !== []) {
+                    continue;
+                }
+
                 $path = $this->folder() . $base . '-w' . $width . '.' . $extension;
 
                 $disk->put($path, $image->encode($encoder)->toString());
@@ -182,11 +189,12 @@ final class StoreImage
     private function record(ImageSource $source, array $variants, array $dimensions): ImageModel
     {
         $jpg = $variants['jpg'];
+        $webp = $variants['webp'];
 
         return $this->model->images()->create([
             'name' => Str::limit((string) ($this->model->title ?? $this->model->slug ?? ''), 250, ''),
             'url' => reset($jpg),
-            'thumb' => end($jpg),
+            'thumb' => end($webp),
             'org_name' => Str::limit((string) ($this->model->canal?->title ?? $source->originalName), 190, ''),
             'size' => strlen($source->binary),
             'mime' => 'jpg',
