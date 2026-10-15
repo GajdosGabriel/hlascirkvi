@@ -76,7 +76,7 @@ final class StoreImage
 
     public function fromUrl(string $url): ImageModel
     {
-        return $this->store(ImageSource::fromUrl($url));
+        return $this->store(ImageSource::fromUrl($url), trimLetterbox: true);
     }
 
     /**
@@ -103,7 +103,7 @@ final class StoreImage
         }
     }
 
-    private function store(ImageSource $source): ImageModel
+    private function store(ImageSource $source, bool $trimLetterbox = false): ImageModel
     {
         // Rozmery sa čítajú z hlavičky ešte pred dekódovaním – GD by inak
         // stihol alokovať celý raster a poistka by prišla neskoro.
@@ -114,6 +114,10 @@ final class StoreImage
         // Fotky z mobilu nesú natočenie v EXIF a GD ho pri prekódovaní zahodí.
         // Bez tohto kroku by skončili na stránke otočené nabok.
         $image->orient();
+
+        if ($trimLetterbox) {
+            $this->trimLetterbox($image);
+        }
 
         $this->written = [];
 
@@ -204,6 +208,50 @@ final class StoreImage
             'width' => $dimensions[0],
             'height' => $dimensions[1],
         ]);
+    }
+
+    /**
+     * YouTube náhľady hqdefault (480x360) a sddefault (640x480) sú 4:3, no
+     * 16:9 video v nich sedí medzi čiernymi pruhmi hore a dole. Na karte by
+     * tie pruhy zjedli štvrtinu plochy, preto ich odrežeme na 16:9.
+     *
+     * Reže sa len vtedy, keď sú oba pruhy naozaj čierne – 4:3 video s tmavou
+     * scénou má v tých miestach šum a obraz, nie čistú čiernu.
+     */
+    private function trimLetterbox(ImageInterface $image): void
+    {
+        $width = $image->width();
+        $height = $image->height();
+
+        if ($width * 3 !== $height * 4) {
+            return;
+        }
+
+        $content = (int) round($width * 9 / 16);
+        $band = intdiv($height - $content, 2);
+
+        if ($band < 4) {
+            return;
+        }
+
+        // Vzorky z vnútra pruhu, mimo prechodu do obrazu.
+        $rows = [(int) ($band * 0.2), (int) ($band * 0.5), (int) ($band * 0.8)];
+
+        foreach ($rows as $row) {
+            foreach ([$row, $height - 1 - $row] as $y) {
+                for ($x = 0; $x < $width; $x += max(1, intdiv($width, 24))) {
+                    $channels = array_slice($image->colorAt($x, $y)->channels(), 0, 3);
+
+                    foreach ($channels as $channel) {
+                        if ($channel->value() > 24) {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        $image->crop($width, $content, 0, $band);
     }
 
     private function guardAgainstOversizedRaster(string $binary): void

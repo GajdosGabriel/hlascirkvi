@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Services\Images\StoreImage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -37,6 +38,28 @@ class ImageJpgVariantsTest extends TestCase
         }
 
         $this->assertCount(4, Storage::disk('public')->allFiles());
+    }
+
+    public function test_youtube_thumbnail_with_black_bars_is_cropped_to_16_9(): void
+    {
+        Http::fake(['i.ytimg.com/*' => Http::response($this->jpeg(480, 360, letterbox: true))]);
+
+        $image = StoreImage::for(Post::factory()->create())
+            ->fromUrl('https://i.ytimg.com/vi/abc/hqdefault.jpg');
+
+        $this->assertSame([480, 270], [$image->width, $image->height]);
+        $size = getimagesizefromstring(Storage::disk('public')->get($image->url));
+        $this->assertSame([480, 270], [$size[0], $size[1]]);
+    }
+
+    public function test_4_3_thumbnail_without_bars_is_kept_whole(): void
+    {
+        Http::fake(['i.ytimg.com/*' => Http::response($this->jpeg(480, 360, letterbox: false))]);
+
+        $image = StoreImage::for(Post::factory()->create())
+            ->fromUrl('https://i.ytimg.com/vi/abc/hqdefault.jpg');
+
+        $this->assertSame([480, 360], [$image->width, $image->height]);
     }
 
     public function test_prune_removes_smaller_jpg_and_switches_thumb_to_webp(): void
@@ -81,6 +104,25 @@ class ImageJpgVariantsTest extends TestCase
 
         $this->assertCount(3, $image->fresh()->variants['jpg']);
         Storage::disk('public')->assertExists('posts/1/a-w400.jpg');
+    }
+
+    /** Svetlý obraz, voliteľne s čiernymi pruhmi ako YouTube hqdefault. */
+    private function jpeg(int $width, int $height, bool $letterbox): string
+    {
+        $gd = imagecreatetruecolor($width, $height);
+        imagefill($gd, 0, 0, imagecolorallocate($gd, 200, 120, 60));
+
+        if ($letterbox) {
+            $band = intdiv($height - (int) round($width * 9 / 16), 2);
+            $black = imagecolorallocate($gd, 0, 0, 0);
+            imagefilledrectangle($gd, 0, 0, $width - 1, $band - 1, $black);
+            imagefilledrectangle($gd, 0, $height - $band, $width - 1, $height - 1, $black);
+        }
+
+        ob_start();
+        imagejpeg($gd, null, 90);
+
+        return (string) ob_get_clean();
     }
 
     /** Záznam v tvare, aký StoreImage ukladal pred zmenou: JPG aj WebP v každej šírke. */
