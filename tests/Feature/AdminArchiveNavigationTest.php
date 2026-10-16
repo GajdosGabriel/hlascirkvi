@@ -32,7 +32,7 @@ class AdminArchiveNavigationTest extends TestCase
         session()->forget('flash');
 
         $this->get(route('admin.prayer.index', ['deletedAt' => 'true']))->assertOk()
-            ->assertSee('Zrušená modlitba')
+            ->assertSee('<span class="ar-badge ar-badge--count">Zrušená</span>', false)
             ->assertDontSee(route('profile.canals.prayers.edit', [$canal->id, $deleted->id]), false);
         $this->get(route('admin.prayer.index'))->assertOk()
             ->assertSee('Kanál už nie je dostupný')
