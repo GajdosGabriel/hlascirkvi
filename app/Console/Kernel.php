@@ -52,14 +52,6 @@ class Kernel extends ConsoleKernel
         }
 
         $schedule->command('youtube:comments')->hourlyAt(17)->withoutOverlapping(55);
-
-        // Dočasné: prepočet starých 360 px náhľadov (images:refetch) po dávkach.
-        // Hosting ukončí ručne spustený proces asi po hodine, dávka 2 500
-        // obrázkov trvá zhruba 35 minút. Po dobehnutí príkaz len zistí, že
-        // nie je čo robiť – vtedy tento riadok zmazať.
-        $schedule->command('images:refetch', ['--limit' => 2500, '--sleep' => 100])
-            ->hourlyAt(40)
-            ->withoutOverlapping(55);
         $schedule->command('comments:moderate')->dailyAt('03:45')->withoutOverlapping(120);
 
         // Zhrnutia sa automaticky kontrolujú iba pred vydaním z buffera.
