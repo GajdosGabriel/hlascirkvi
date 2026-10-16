@@ -72,12 +72,14 @@ class ImageAudit extends Command
         $this->info('Formát');
 
         $novy = Image::withTrashed()->whereNotNull('variants')->count();
-        $stary = Image::withTrashed()->whereNull('variants')->count();
+        $stary = Image::withTrashed()->whereNull('variants')->whereNull('refetch_failed_at')->count();
+        $nenahraditelne = Image::withTrashed()->whereNull('variants')->whereNotNull('refetch_failed_at')->count();
         $bezRozmerov = Image::withTrashed()->whereNull('width')->count();
 
         $this->table(['stav', 'záznamov'], [
             ['nový formát (varianty + WebP)', number_format($novy, 0, ',', ' ')],
             ['starý formát, čaká na images:refetch', number_format($stary, 0, ',', ' ')],
+            ['starý formát, nahradiť sa nedá (refetch_failed_at)', number_format($nenahraditelne, 0, ',', ' ')],
             ['bez rozmerov, čaká na images:dimensions', number_format($bezRozmerov, 0, ',', ' ')],
         ]);
     }

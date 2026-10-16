@@ -22,6 +22,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Rate Limiter Store
+    |--------------------------------------------------------------------------
+    |
+    | Počítadlá throttle sú v databáze, nie v súborovej cache: každá nová IP
+    | v nej založila dva súbory, ktoré sa po exspirácii už nikdy neprečítajú,
+    | a boti ich nahromadili milióny (68 GB). Exspirované riadky maže
+    | cache:prune-expired.
+    |
+    */
+
+    'limiter' => env('CACHE_LIMITER', 'database'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Cache Stores
     |--------------------------------------------------------------------------
     |

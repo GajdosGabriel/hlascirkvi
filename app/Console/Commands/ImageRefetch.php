@@ -29,7 +29,8 @@ class ImageRefetch extends Command
         {--canal= : Obmedziť na jeden kanál}
         {--limit=0 : Spracovať najviac toľko obrázkov (0 = všetky)}
         {--sleep=0 : Pauza medzi obrázkami v milisekundách}
-        {--dry-run : Len zistiť dostupnosť, nič nesťahovať ani nemazať}';
+        {--dry-run : Len zistiť dostupnosť, nič nesťahovať ani nemazať}
+        {--retry : Skúsiť znova aj obrázky, ktoré sa predtým nahradiť nedali}';
 
     protected $description = 'Re-fetch YouTube thumbnails in full resolution for old images';
 
@@ -114,6 +115,7 @@ class ImageRefetch extends Command
 
         if (! $post || blank($post->video_id)) {
             $stat['chyba']++;
+            $this->markFailed($image, $dryRun);
 
             return;
         }
@@ -121,14 +123,24 @@ class ImageRefetch extends Command
         // Poistka: nahradiť sa dá len tam, kde je jednoznačné čo za čo.
         if ($post->images()->count() > 1) {
             $stat['preskocene']++;
+            $this->markFailed($image, $dryRun);
 
             return;
         }
 
         foreach (self::CANDIDATES as $candidate) {
             $url = "https://i.ytimg.com/vi/{$post->video_id}/{$candidate}.jpg";
+            $available = $this->available($url);
 
-            if (! $this->available($url)) {
+            // Výpadok spojenia nie je dôkaz, že náhľad neexistuje – bez
+            // príznaku, nech to ďalšia dávka skúsi znova.
+            if ($available === null) {
+                $stat['chyba']++;
+
+                return;
+            }
+
+            if (! $available) {
                 continue;
             }
 
@@ -162,14 +174,28 @@ class ImageRefetch extends Command
         }
 
         $stat['nedostupne']++;
+        $this->markFailed($image, $dryRun);
     }
 
-    private function available(string $url): bool
+    /**
+     * Obrázok, ktorý sa nahradiť nedá (video zmazané, článok s viac
+     * obrázkami), by inak ostal medzi kandidátmi navždy a každá dávka by
+     * ho testovala odznova – na nové by sa časom nedostala.
+     */
+    private function markFailed(Image $image, bool $dryRun): void
+    {
+        if (! $dryRun) {
+            Image::query()->whereKey($image->id)->update(['refetch_failed_at' => now()]);
+        }
+    }
+
+    /** null = nepodarilo sa spojiť, odpoveď nie je známa. */
+    private function available(string $url): ?bool
     {
         try {
             return Http::timeout(8)->head($url)->successful();
         } catch (Throwable) {
-            return false;
+            return null;
         }
     }
 
@@ -182,6 +208,10 @@ class ImageRefetch extends Command
             ->whereNotNull('posts.video_id')
             ->where('posts.video_id', '<>', '')
             ->select('images.*');
+
+        if (! $this->option('retry')) {
+            $query->whereNull('images.refetch_failed_at');
+        }
 
         if ($years = array_filter((array) $this->option('year'))) {
             $query->whereIn(\DB::raw('YEAR(images.created_at)'), $years);

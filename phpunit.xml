@@ -21,6 +21,7 @@
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
+        <env name="CACHE_LIMITER" value="array"/>
         <!--
             Migrácie nesú MySQL-ové detaily (MyISAM číselníky, kolácie)
             a aplikácia sa o MySQL opiera aj inde (fulltext, window funkcie

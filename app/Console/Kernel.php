@@ -81,10 +81,10 @@ class Kernel extends ConsoleKernel
             ->dailyAt('03:25')
             ->withoutOverlapping(120);
 
-        // Súborová cache sama exspirované položky nemaže (throttle pre každú
-        // IP botov) – bez toho narástla na milióny súborov a desiatky GB.
-        // Hodinovo: za deň ich pribudne vyše milióna.
-        $schedule->command('cache:prune-files')->hourlyAt(50)->withoutOverlapping(55);
+        // Cache sama exspirované položky nemaže, kým ich niekto neprečíta –
+        // bez toho súborová narástla na milióny súborov a desiatky GB.
+        // Počítadlá throttle sú odvtedy v tabuľke `cache` (cache.limiter).
+        $schedule->command('cache:prune-expired')->hourlyAt(50)->withoutOverlapping(55);
 
         // Nečinné relácie hostí (boti) – inak ich je v tabuľke stovky tisíc.
         $schedule->command('sessions:prune-guests')->hourlyAt(52)->withoutOverlapping(55);
