@@ -81,6 +81,10 @@ class Kernel extends ConsoleKernel
             ->dailyAt('03:25')
             ->withoutOverlapping(120);
 
+        // Súborová cache sama exspirované položky nemaže (throttle pre každú
+        // IP botov) – bez toho narástla na milióny súborov a desiatky GB.
+        $schedule->command('cache:prune-files')->dailyAt('04:10')->withoutOverlapping(120);
+
         // IP posledného prihlásenia sa drží 90 dní od prihlásenia.
         $schedule->command('users:prune-login-ips')->dailyAt('03:30')->withoutOverlapping(120);
 
