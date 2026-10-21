@@ -64,7 +64,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'admin@hlascirkvi.sk'),
+        'address' => env('MAIL_FROM_ADDRESS', 'kontakt@hlascirkvi.sk'),
         'name' => env('MAIL_FROM_NAME', 'Hlas Cirkvi'),
     ],
 

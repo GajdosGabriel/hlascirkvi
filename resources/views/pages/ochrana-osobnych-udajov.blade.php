@@ -22,7 +22,7 @@
             <address class="not-italic">
                 <strong>Gabriel Gajdoš</strong><br>
                 Východná 3, 911 08 Trenčín, Slovensko<br>
-                E-mail: <a href="mailto:admin@hlascirkvi.sk" class="underline">admin@hlascirkvi.sk</a><br>
+                E-mail: <a href="mailto:kontakt@hlascirkvi.sk" class="underline">kontakt@hlascirkvi.sk</a><br>
                 Telefón: <a href="tel:+421905320616" class="underline">+421 905 320 616</a>
             </address>
             <p>
