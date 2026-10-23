@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Enums\ModelStatus;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Support\Facades\Auth;
@@ -20,14 +19,6 @@ use Tests\TestCase;
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // UserObserver::created volá assignRole('user').
-        $this->seed(RolesSeeder::class);
-    }
 
     public function test_formular_sa_zobrazi(): void
     {
@@ -159,5 +150,41 @@ class LoginTest extends TestCase
         ]);
 
         $this->assertNull($without->getCookie($recaller));
+    }
+
+    /**
+     * Relácia vyprší po SESSION_LIFETIME minútach. Kto zaškrtol "Zostať
+     * prihlásený", ostáva prihlásený len vďaka cookie pripomínača — preto ju
+     * test pošle samotnú, bez pôvodnej relácie.
+     */
+    public function test_cookie_pripominaca_prihlasi_aj_po_vyprsani_relacie(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'jan.novak@gmail.com',
+            'password' => Hash::make('kostolna-vez-2026'),
+        ]);
+
+        $guard = Auth::guard('web');
+        if (! $guard instanceof SessionGuard) {
+            $this->fail('Web guard musí používať session driver.');
+        }
+        $recaller = $guard->getRecallerName();
+
+        $cookie = $this->post('/login', [
+            'email' => 'jan.novak@gmail.com',
+            'password' => 'kostolna-vez-2026',
+            'remember' => 'on',
+        ])->getCookie($recaller);
+        $this->assertNotNull($cookie);
+
+        // Vypršaná relácia: prázdna session a guard bez prihláseného užívateľa.
+        $this->flushSession();
+        Auth::forgetGuards();
+
+        $this->withCookie($recaller, (string) $cookie->getValue())
+            ->get(route('profile.dashboard'))
+            ->assertOk();
+
+        $this->assertAuthenticatedAs($user);
     }
 }

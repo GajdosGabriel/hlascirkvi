@@ -6,7 +6,6 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use App\Services\Youtube\CommentSync;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Support\FakesYoutube;
 use Tests\TestCase;
@@ -21,7 +20,6 @@ class YoutubeCommentSyncTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
 
         // Zástupný používateľ komentárov z YouTube.
         User::factory()->create(['id' => CommentSync::USER_ID]);

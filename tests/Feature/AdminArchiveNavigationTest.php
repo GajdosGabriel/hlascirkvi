@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Canal;
 use App\Models\Prayer;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,7 +14,6 @@ class AdminArchiveNavigationTest extends TestCase
 
     private function admin(): User
     {
-        $this->seed(RolesSeeder::class);
         $admin = User::factory()->create();
         $admin->assignRole(['admin', 'superadmin']);
         return $admin;

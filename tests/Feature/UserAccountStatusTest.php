@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Enums\ModelStatus;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -12,12 +11,6 @@ use Tests\TestCase;
 class UserAccountStatusTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolesSeeder::class);
-    }
 
     private function superadmin(): User
     {

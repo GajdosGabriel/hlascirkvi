@@ -6,7 +6,6 @@ use App\Enums\AnnouncementPlacement;
 use App\Enums\AnnouncementVariant;
 use App\Models\Announcement;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,14 +17,6 @@ use Tests\TestCase;
 class AnnouncementTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Bez rolí sa nedá založiť ani jeden užívateľ (UserObserver::created).
-        $this->seed(RolesSeeder::class);
-    }
 
     private function superadmin(): User
     {

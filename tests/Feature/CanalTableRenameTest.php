@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Canal;
 use App\Models\Post;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -70,9 +69,6 @@ class CanalTableRenameTest extends TestCase
      */
     public function test_oblubeny_kanal_sa_uklada_pod_menom_modelu(): void
     {
-        // UserObserver novému užívateľovi prideľuje rolu `user`.
-        $this->seed(RolesSeeder::class);
-
         $canal = Canal::factory()->create();
         $user = User::factory()->create();
 

@@ -6,7 +6,6 @@ use App\Enums\PostSection;
 use App\Models\Canal;
 use App\Models\LiturgicalDay;
 use App\Models\Post;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Carbon;
@@ -26,7 +25,6 @@ class LiturgicalReadingsTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         Carbon::setTestNow('2026-09-14 10:00:00');
         config(['liturgy.pause_ms' => 0, 'liturgy.full_texts' => false]);
     }

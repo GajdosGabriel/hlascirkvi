@@ -6,7 +6,6 @@ use App\Models\Canal;
 use App\Models\Comment;
 use App\Models\SystemLog;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -20,7 +19,6 @@ class AdminUserShowTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(RolesSeeder::class);
         $this->admin = User::factory()->create();
         $this->admin->assignRole('superadmin');
     }

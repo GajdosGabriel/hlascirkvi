@@ -51,7 +51,7 @@
 
         <div>
             <label class="ar-label" for="email">E-mailová adresa</label>
-            <input id="email" name="email" type="email" autocomplete="email" inputmode="email"
+            <input id="email" name="email" type="email" autocomplete="username" inputmode="email"
                    value="{{ old('email') }}" maxlength="100" required
                    class="ar-input @error('email') ar-input--bad @enderror">
             @error('email')

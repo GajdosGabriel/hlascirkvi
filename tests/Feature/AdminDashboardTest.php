@@ -7,7 +7,6 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Prayer;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,7 +16,6 @@ class AdminDashboardTest extends TestCase
 
     public function test_superadmin_vidi_suhrnne_statistiky(): void
     {
-        $this->seed(RolesSeeder::class);
         $admin = User::factory()->create();
         $admin->assignRole(['admin', 'superadmin']);
         $canal = Canal::factory()->create();
@@ -34,7 +32,6 @@ class AdminDashboardTest extends TestCase
     }
     public function test_summary_matches_comment_list_and_counts_deleted_managers_as_missing(): void
     {
-        $this->seed(RolesSeeder::class);
         $manager = User::factory()->create();
         $canal = Canal::factory()->create();
         $manager->canals()->attach($canal);

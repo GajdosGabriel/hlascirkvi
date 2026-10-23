@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Canal;
 use App\Models\Post;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,7 +14,6 @@ class CanalOverviewTest extends TestCase
 
     public function test_both_details_share_counts_and_channel_information(): void
     {
-        $this->seed(RolesSeeder::class);
         $admin = User::factory()->create();
         $admin->assignRole(['admin', 'superadmin']);
         $canal = Canal::factory()->create(['email' => 'kontakt@example.org', 'youtube_disabled_at' => now(), 'youtube_disabled_reason' => 'Zdroj nie je dostupný']);
@@ -39,7 +37,6 @@ class CanalOverviewTest extends TestCase
 
     public function test_manager_sees_active_state_without_admin_links_and_outsider_is_denied(): void
     {
-        $this->seed(RolesSeeder::class);
         $canal = Canal::factory()->create();
         $manager = User::factory()->create();
         $canal->users()->attach($manager);
@@ -52,7 +49,6 @@ class CanalOverviewTest extends TestCase
 
     public function test_deleted_channel_has_no_unusable_edit_or_switch_actions(): void
     {
-        $this->seed(RolesSeeder::class);
         $admin = User::factory()->create();
         $admin->assignRole(['admin', 'superadmin']);
         $canal = Canal::factory()->create();

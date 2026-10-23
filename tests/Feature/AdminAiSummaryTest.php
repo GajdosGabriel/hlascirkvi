@@ -8,7 +8,6 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Services\PostSummarizer;
 use App\Services\YoutubeCaptions;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
@@ -22,7 +21,6 @@ class AdminAiSummaryTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         $this->withoutVite();
         config(['openai.api_key' => 'test-key']);
         $this->mock(YoutubeCaptions::class)->shouldReceive('text')->andReturn(str_repeat('titulky ', 200));

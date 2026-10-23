@@ -8,7 +8,6 @@ use App\Models\Seminar;
 use App\Models\User;
 use App\Services\VideoUploadSeminars;
 use App\Services\Youtube\YoutubeApi;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use Tests\TestCase;
@@ -20,7 +19,6 @@ class VideoCollectionsTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(RolesSeeder::class);
         $this->withoutVite();
     }
 
@@ -233,5 +231,4 @@ class VideoCollectionsTest extends TestCase
         $this->get(route('seminars.show', $collection))->assertNotFound();
         $this->assertFalse(Seminar::published()->whereKey($collection->id)->exists());
     }
-
 }

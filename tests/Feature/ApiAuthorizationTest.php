@@ -8,7 +8,6 @@ use App\Models\Canal;
 use App\Models\Post;
 use App\Models\Prayer;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -24,15 +23,6 @@ use Tests\TestCase;
 class ApiAuthorizationTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Bez rolí sa nedá založiť ani jeden užívateľ — UserObserver::created
-        // volá assignRole('user') a scope role('admin').
-        $this->seed(RolesSeeder::class);
-    }
 
     /**
      * Užívateľ so svojím kanálom. UserObserver mu jeden založí sám, ale ten má

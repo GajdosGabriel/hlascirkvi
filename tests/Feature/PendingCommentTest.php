@@ -11,7 +11,6 @@ use App\Models\Prayer;
 use App\Models\User;
 use App\Notifications\Comments\ConfirmComment;
 use App\Notifications\Comments\CreatedNewComment;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -32,7 +31,6 @@ class PendingCommentTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         Notification::fake();
 
         $this->owner = User::factory()->create();

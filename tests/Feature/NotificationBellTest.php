@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -17,13 +16,6 @@ use Tests\TestCase;
 class NotificationBellTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(RolesSeeder::class);
-    }
 
     private function notification(User $user, ?string $readAt = null, string $message = 'Správa'): string
     {

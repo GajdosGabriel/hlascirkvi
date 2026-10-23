@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Enums\CanalIdentityMode;
 use App\Models\User;
 use App\Notifications\User\NewRegistration;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,13 +17,6 @@ use Tests\TestCase;
 class UserActivationTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(RolesSeeder::class);
-    }
 
     protected function unverifiedUser(): User
     {

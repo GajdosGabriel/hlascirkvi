@@ -6,7 +6,6 @@ use App\Models\SystemLog;
 use App\Models\User;
 use App\Notifications\Admin\BufeerIsEmpty;
 use App\Notifications\User\ResetPassword;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,7 +18,6 @@ class SystemLogMailBodyTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(RolesSeeder::class);
         $this->admin = User::factory()->create();
         $this->admin->assignRole('superadmin');
     }

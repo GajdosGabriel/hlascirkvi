@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Canal;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -22,7 +21,6 @@ class CanalPublicationTest extends TestCase
 
     public function test_superadmin_can_change_and_clear_publication_date(): void
     {
-        $this->seed(RolesSeeder::class);
         $admin = User::factory()->create();
         $admin->assignRole(['admin', 'superadmin']);
         $canal = Canal::factory()->create();

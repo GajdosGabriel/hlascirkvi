@@ -12,7 +12,6 @@ use App\Notifications\Prayer\PrayerFulfilledOrNotYet;
 use App\Notifications\User\ConfirmEmail;
 use App\Notifications\User\NewRegistration;
 use App\Notifications\User\ResetPassword;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
@@ -25,13 +24,6 @@ use Tests\TestCase;
 class MailTemplatesTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(RolesSeeder::class);
-    }
 
     protected function assertPortalLayout(string $html): void
     {

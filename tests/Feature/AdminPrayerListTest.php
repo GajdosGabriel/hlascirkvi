@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Canal;
 use App\Models\Prayer;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -20,13 +19,6 @@ use Tests\TestCase;
 class AdminPrayerListTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(RolesSeeder::class);
-    }
 
     /**
      * Kanál dostáva každý nový užívateľ od App\Observers\UserObserver, takže

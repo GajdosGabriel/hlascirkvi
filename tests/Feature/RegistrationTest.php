@@ -6,7 +6,6 @@ use App\Models\PendingRegistration;
 use App\Models\User;
 use App\Notifications\User\ConfirmRegistration;
 use App\Support\HumanCheck;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -21,14 +20,6 @@ use Tests\TestCase;
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // UserObserver::created volá assignRole('user').
-        $this->seed(RolesSeeder::class);
-    }
 
     /**
      * @param  array<string, mixed>  $overrides

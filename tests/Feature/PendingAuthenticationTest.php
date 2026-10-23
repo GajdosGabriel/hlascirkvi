@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Notifications\User\ConfirmRegistration;
 use App\Services\PendingUsers;
 use App\Support\HumanCheck;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -23,8 +22,6 @@ class PendingAuthenticationTest extends TestCase
     {
         parent::setUp();
 
-        // UserObserver::created volá assignRole('user').
-        $this->seed(RolesSeeder::class);
         Http::fake(['api.pwnedpasswords.com/*' => Http::response('', 200)]);
     }
 

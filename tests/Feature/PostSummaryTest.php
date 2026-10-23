@@ -9,7 +9,6 @@ use App\Models\AiUsage;
 use App\Services\Buffer;
 use App\Services\PostSummarizer;
 use App\Services\YoutubeCaptions;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Laravel\Testing\OpenAIFake;
@@ -24,7 +23,6 @@ class PostSummaryTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         $this->withoutVite();
         config(['openai.api_key' => 'test-key']);
         // Automatické dávky sú predvolene vypnuté (administrácia /admin/ai).

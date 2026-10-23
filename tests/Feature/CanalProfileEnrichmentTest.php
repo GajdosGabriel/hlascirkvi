@@ -13,7 +13,6 @@ use App\Services\CanalContactPages;
 use App\Services\CanalProfileEnricher;
 use App\Services\CanalProfileResearch;
 use App\Services\PostSummarizer;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use OpenAI\Laravel\Facades\OpenAI;
@@ -27,7 +26,6 @@ class CanalProfileEnrichmentTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(RolesSeeder::class);
         config(['openai.api_key' => 'test-key']);
         Notification::fake();
         $this->mock(CanalContactPages::class)->shouldReceive('read')->andReturn([])->byDefault();

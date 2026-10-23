@@ -6,19 +6,12 @@ use App\Models\Canal;
 use App\Models\Post;
 use App\Models\Seminar;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class SeminarPagesTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolesSeeder::class);
-    }
 
     private function seminar(): array
     {

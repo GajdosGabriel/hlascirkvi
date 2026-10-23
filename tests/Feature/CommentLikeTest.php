@@ -6,20 +6,12 @@ use App\Models\Canal;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CommentLikeTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(RolesSeeder::class);
-    }
 
     protected function comment(): Comment
     {

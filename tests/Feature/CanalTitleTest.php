@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Canal;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,13 +14,6 @@ use Tests\TestCase;
 class CanalTitleTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(RolesSeeder::class);
-    }
 
     private function manager(Canal $canal): User
     {

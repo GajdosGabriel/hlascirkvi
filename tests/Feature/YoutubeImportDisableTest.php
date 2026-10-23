@@ -9,7 +9,6 @@ use App\Notifications\Admin\YoutubeImportIssue;
 use App\Notifications\Admin\YoutubeSourceMissing;
 use App\Repositories\Eloquent\EloquentCanalRepository;
 use App\Services\VideoUpload;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
@@ -29,14 +28,6 @@ class YoutubeImportDisableTest extends TestCase
     private const UPLOADS = 'UUtWheHmWwuokUASxXus4NBw';
 
     private const PLAYLIST = 'PLe026qiswQ_HMnmxNZ9IBBpO2ytIcP9HU';
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // UserObserver::created volá assignRole('user').
-        $this->seed(RolesSeeder::class);
-    }
 
     private function superadmin(): User
     {

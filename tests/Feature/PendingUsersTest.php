@@ -7,7 +7,6 @@ use App\Models\PendingRegistration;
 use App\Models\User;
 use App\Repositories\Eloquent\EloquentUserRepository;
 use App\Services\PendingUsers;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -21,7 +20,6 @@ class PendingUsersTest extends TestCase
     {
         parent::setUp();
         Notification::fake();
-        $this->seed(RolesSeeder::class);
     }
 
     public function test_move_preserves_content_and_confirmation_restores_original_identity(): void

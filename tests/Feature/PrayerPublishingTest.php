@@ -7,7 +7,6 @@ use App\Models\Prayer;
 use App\Models\User;
 use App\Notifications\Prayer\ConfirmPrayer;
 use App\Notifications\Prayer\NewPrayer;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -26,7 +25,6 @@ class PrayerPublishingTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         Notification::fake();
 
         $this->admin = User::factory()->create();

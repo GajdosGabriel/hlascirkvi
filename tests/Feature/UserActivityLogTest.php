@@ -6,7 +6,6 @@ use App\Models\Post;
 use App\Models\Prayer;
 use App\Models\SystemLog;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -24,7 +23,6 @@ class UserActivityLogTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         $this->withoutVite();
         $this->user = User::factory()->create();
     }

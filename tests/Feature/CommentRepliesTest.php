@@ -7,7 +7,6 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use App\Notifications\Comments\RepliedToComment;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -15,13 +14,6 @@ use Tests\TestCase;
 class CommentRepliesTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(RolesSeeder::class);
-    }
 
     protected function postWithComment(): array
     {

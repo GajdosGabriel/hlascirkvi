@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Post;
 use App\Models\SystemLog;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,7 +16,6 @@ class SavedPostTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         $this->withoutVite();
     }
 

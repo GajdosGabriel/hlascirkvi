@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Canal;
 use App\Models\Post;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,7 +22,6 @@ class AdminCanalListTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         $this->admin = User::factory()->create();
         $this->admin->assignRole(['admin', 'superadmin']);
     }

@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -21,8 +20,6 @@ class SocialLoginTest extends TestCase
     {
         parent::setUp();
 
-        // UserObserver::created volá assignRole('user').
-        $this->seed(RolesSeeder::class);
 
         config(['services.google.client_id' => 'test-client']);
     }

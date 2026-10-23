@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
@@ -54,8 +53,6 @@ class AdminRoutesTest extends TestCase
 
     public function test_superadmin_otvori_vsetky_hlavne_stranky_administracie(): void
     {
-        $this->seed(RolesSeeder::class);
-
         $admin = User::factory()->create();
         $admin->assignRole(['admin', 'superadmin']);
 

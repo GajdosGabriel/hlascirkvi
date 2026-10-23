@@ -7,7 +7,6 @@ use App\Models\Canal;
 use App\Models\Post;
 use App\Models\User;
 use App\Services\FrontList\FrontList;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -28,7 +27,6 @@ class FrontListTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         app(FrontList::class)->forget();
     }
 

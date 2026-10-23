@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Canal;
 use App\Models\User;
 use App\Services\FrontList\FrontList;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
@@ -13,12 +12,6 @@ use Tests\TestCase;
 class CanalVideoSettingsTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(RolesSeeder::class);
-    }
 
     private function actor(Canal $canal, string $role): User
     {

@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Canal;
 use App\Models\User;
 use App\Support\MediaUrl;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +17,6 @@ class CanalAvatarTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(RolesSeeder::class);
         config(['images.disk' => 'public', 'images.remote_base' => null]);
         Storage::fake('public');
     }

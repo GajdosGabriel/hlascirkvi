@@ -7,7 +7,6 @@ use App\Models\PendingFavorite;
 use App\Models\Prayer;
 use App\Models\User;
 use App\Notifications\User\ConfirmFavorite;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -25,7 +24,6 @@ class PendingFavoriteTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         Notification::fake();
     }
 

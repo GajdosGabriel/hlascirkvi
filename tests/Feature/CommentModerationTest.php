@@ -15,12 +15,6 @@ class CommentModerationTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(\Database\Seeders\RolesSeeder::class);
-    }
-
 
     public function test_hides_abuse_on_create_and_edit_and_notifies_once(): void
     {

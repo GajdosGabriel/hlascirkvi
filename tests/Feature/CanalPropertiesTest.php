@@ -7,7 +7,6 @@ use App\Enums\Denomination;
 use App\Models\Canal;
 use App\Models\User;
 use App\Models\Village;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -23,13 +22,6 @@ use Tests\TestCase;
 class CanalPropertiesTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(RolesSeeder::class);
-    }
 
     /** Správca kanála bez roly admin. */
     private function manager(Canal $canal): User

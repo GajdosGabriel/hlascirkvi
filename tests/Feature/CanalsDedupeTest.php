@@ -10,7 +10,6 @@ use App\Models\Post;
 use App\Models\Prayer;
 use App\Models\Seminar;
 use App\Models\User;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -22,14 +21,6 @@ use Tests\TestCase;
 class CanalsDedupeTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // UserObserver::created volá assignRole('user').
-        $this->seed(RolesSeeder::class);
-    }
 
     public function test_duplicitu_pod_tym_istym_spravcom_zlepi_do_zivsieho_kanala(): void
     {

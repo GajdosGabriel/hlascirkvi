@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Post;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -18,7 +17,6 @@ class PostViewBeaconTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolesSeeder::class);
         $this->withoutVite();
     }
 

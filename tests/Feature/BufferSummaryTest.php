@@ -8,7 +8,6 @@ use App\Models\Setting;
 use App\Services\Buffer;
 use App\Services\PostSummarizer;
 use App\Services\YoutubeCaptions;
-use Database\Seeders\RolesSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
@@ -21,7 +20,6 @@ class BufferSummaryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed(RolesSeeder::class);
         config(['openai.api_key' => 'test-key']);
         Setting::set(PostSummarizer::SETTING_ENABLED, 1);
     }
