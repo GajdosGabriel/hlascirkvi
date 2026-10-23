@@ -38,6 +38,7 @@ class SystemLogController extends Controller
         'YoutubeApiKeyFailed' => 'YouTube API odmieta kľúč',
         'YoutubeImportIssue' => 'Problém s importom z YouTube',
         'YoutubeSourceMissing' => 'Chýbajúci zdroj YouTube',
+        'LogErrorsFound' => 'Chyby v logu (pre správcu)',
         'PostNewsletter' => 'Mesačný newsletter',
     ];
 

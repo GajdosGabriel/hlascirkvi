@@ -105,6 +105,9 @@ class Kernel extends ConsoleKernel
         // stránka stiahne aj sama, ale výpadok KBS tak web neucíti.
         $schedule->command('liturgia:stiahnut')->dailyAt('03:35')->withoutOverlapping(120);
 
+        // Opraviteľné chyby z laravel.log e-mailom (config/logging.php → report).
+        $schedule->command('logs:report-errors')->everyTenMinutes()->withoutOverlapping(30);
+
         // Úvod administrácie počíta súhrny cez celé tabuľky; drží sa zahriaty
         // v cache, aby sa /admin/home neotváral sekundu a viac.
         $schedule->call(fn () => app(AdminDashboardStats::class)->warm())

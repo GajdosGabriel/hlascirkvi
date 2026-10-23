@@ -124,4 +124,39 @@ return [
         'error_days' => (int) env('SYSTEM_LOG_ERROR_DAYS', 90),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Hlásenie chýb z laravel.log e-mailom
+    |--------------------------------------------------------------------------
+    |
+    | Príkaz logs:report-errors číta každých 10 minút prírastok logu a chyby
+    | (ERROR a vyššie), ktoré sa dajú opraviť v systéme, pošle jedným
+    | súhrnným mailom. Bez LOG_REPORT_EMAIL idú superadminom.
+    |
+    | `ignore` je šum, s ktorým sa nedá nič urobiť — výpadky siete a cudzích
+    | služieb, preklepy v artisan príkazoch. Podreťazec sa hľadá v správe aj
+    | v triede výnimky (bez ohľadu na veľkosť písmen).
+    |
+    */
+
+    'report' => [
+        'enabled' => (bool) env('LOG_REPORT_ENABLED', true),
+        'email' => env('LOG_REPORT_EMAIL'),
+        'path' => storage_path('logs/laravel.log'),
+        'state' => storage_path('app/log-report.json'),
+        'max_bytes' => 5 * 1024 * 1024,
+        'ignore' => [
+            'Illuminate\Http\Client\ConnectionException',
+            'cURL error',
+            'Could not connect',
+            'timed out',
+            'nedostupn',
+            'quotaExceeded',
+            'Symfony\Component\Console\Exception\\',
+            'DebugBar\\',
+            // Návrat zo zastaraného OAuth prihlásenia (tlačidlo Späť, dva taby).
+            'Laravel\Socialite\Two\InvalidStateException',
+        ],
+    ],
+
 ];
