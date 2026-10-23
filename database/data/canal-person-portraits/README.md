@@ -12,4 +12,4 @@ Zdrojové stránky neuvádzajú otvorenú licenciu týchto fotografií; uvedenie
 
 Migrácia `2026_10_02_100000_fill_named_canal_portraits.php` nahráva súbory cez `images.disk` (na produkcii S3) do `organizations/{id}/portrait-2026-10-02.{ext}`. Vyžaduje zhodné ID aj meno, organizačný režim, nezmazaný kanál a prázdny avatar. Existujúce avatary zostávajú zachované. Pri chybe nahrávania sa zápis do databázy nevykoná; opakovanie migrácie preskočí už doplnené kanály.
 
-Nasadenie: priložiť migráciu aj tento adresár a spustiť bežné `php artisan migrate --force`. Migrácia nesťahuje nič z internetu.
+Migrácia nesťahuje nič z internetu, preto tento adresár musí zostať v repozitári.
