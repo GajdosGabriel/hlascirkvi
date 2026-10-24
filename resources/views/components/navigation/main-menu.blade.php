@@ -29,11 +29,8 @@
          stoja na `mx-auto max-w-6xl px-4` — logo si nesie vlastné px-2 navyše. --}}
     <div class="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-2">
 
-        {{-- Logo --}}
-        <a class="flex shrink-0 items-center rounded-md px-2 py-1 text-lg font-semibold tracking-wide text-white transition-colors hover:bg-blue-800"
-            href="{{ url('/') }}">
-            Hlas Cirkvi
-        </a>
+        {{-- Logo podľa ročného obdobia a liturgického roka --}}
+        <x-navigation.logo />
 
         {{-- Menu pre veľké obrazovky --}}
         <div class="hidden items-center gap-1 lg:flex">
