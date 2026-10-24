@@ -4,7 +4,7 @@
     // Šírka viewBoxu podľa toho, kam siahajú ozdoby; výška je vždy 56.
     $width = match ($logo) {
         SeasonalLogo::Plain => 0,
-        SeasonalLogo::Snowy => 205,
+        SeasonalLogo::Snowy => 190,
         SeasonalLogo::Snowman => 202,
         SeasonalLogo::Advent => 166,
         SeasonalLogo::Christmas => 150,
@@ -15,13 +15,10 @@
         SeasonalLogo::Autumn => 208,
     };
 
-    // textLength drží nápis rovnako široký v každom písme — ozdoby (sneh na
-    // písmenách, plamienky) sú rozmiestnené podľa neho.
+    // textLength drží nápis rovnako široký v každom písme — ozdoby (plamienky
+    // nad písmenami, kvety či lístie za nápisom) sú rozmiestnené podľa neho.
     $text = fn (int $x, int $y) => '<text x="'.$x.'" y="'.$y.'" font-size="20" fill="#fff" letter-spacing=".5" '
         .'textLength="106" lengthAdjust="spacingAndGlyphs">Hlas Cirkvi</text>';
-
-    $flake = fn (int $x, int $y, float $scale = 1) => '<g transform="translate('.$x.' '.$y.') scale('.$scale.')">'
-        .'<line y1="-6" y2="6"/><line x1="-5.2" y1="-3" x2="5.2" y2="3"/><line x1="-5.2" y1="3" x2="5.2" y2="-3"/></g>';
 
     $flame = fn (float $cx, float $top, float $h, string $fill) => sprintf(
         '<path d="M%1$s %2$s C%3$s %4$s %3$s %5$s %1$s %5$s C%6$s %5$s %6$s %4$s %1$s %2$sZ" fill="%7$s"/>',
@@ -44,25 +41,21 @@
             <title>Hlas Cirkvi – {{ $logo->label() }}</title>
             @switch($logo)
                 @case(SeasonalLogo::Snowy)
-                    {{-- Sneh leží tesne nad veľkými písmenami (výška verzálok ~14,5 px). --}}
-                    {!! $text(12, 41) !!}
-                    <g fill="#fff">
-                        <rect x="11" y="22" width="106" height="3" rx="1.5" />
-                        <circle cx="14" cy="22" r="3" /><circle cx="22" cy="21" r="3.6" />
-                        <circle cx="31" cy="22" r="2.8" /><circle cx="40" cy="21" r="3.4" />
-                        <circle cx="50" cy="22" r="2.6" /><circle cx="60" cy="21" r="3.5" />
-                        <circle cx="70" cy="22" r="2.8" /><circle cx="80" cy="20.8" r="3.6" />
-                        <circle cx="90" cy="22" r="2.7" /><circle cx="100" cy="21" r="3.4" />
-                        <circle cx="110" cy="22" r="3" />
+                    {{-- Zasnežená jedlička a závej pri spodnom okraji lišty. --}}
+                    <path d="M0 56 V50 Q14 45 30 48 T70 47 T120 49 T170 46 T190 48 V56Z" fill="#fff" opacity=".9" />
+                    <rect x="18.5" y="42" width="3" height="7" fill="#78350f" />
+                    <path d="M20 8 L27 19 H13Z M20 14 L30 29 H10Z M20 22 L33 41 H7Z" fill="#166534" />
+                    <g stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none">
+                        <path d="M13.5 19 q1.6-1.6 3.2 0 q1.6-1.6 3.2 0 q1.6-1.6 3.2 0 q1.6-1.6 3.2 0" />
+                        <path d="M10.5 29 q1.9-1.8 3.8 0 q1.9-1.8 3.8 0 q1.9-1.8 3.8 0 q1.9-1.8 3.8 0 q1.9-1.8 3.8 0" />
+                        <path d="M7.5 41 q2.1-2 4.2 0 q2.1-2 4.2 0 q2.1-2 4.2 0 q2.1-2 4.2 0 q2.1-2 4.2 0 q2.1-2 4.2 0" />
                     </g>
-                    <g fill="#fff" opacity=".85">
-                        <circle cx="135" cy="14" r="1.4" /><circle cx="160" cy="36" r="1.2" />
-                        <circle cx="178" cy="12" r="1.6" /><circle cx="198" cy="42" r="1.3" />
-                        <circle cx="45" cy="9" r="1.2" /><circle cx="85" cy="7" r="1.4" />
-                    </g>
-                    <g stroke="#fff" stroke-width="1.3" stroke-linecap="round">
-                        {!! $flake(150, 22) !!}
-                        {!! $flake(190, 28, .7) !!}
+                    <circle cx="20" cy="8" r="1.6" fill="#fff" />
+                    {!! $text(42, 34) !!}
+                    <g fill="#fff" opacity=".8">
+                        <circle cx="160" cy="12" r="1.3" /><circle cx="174" cy="30" r="1.1" />
+                        <circle cx="184" cy="16" r="1.5" /><circle cx="60" cy="9" r="1" />
+                        <circle cx="110" cy="11" r="1.2" /><circle cx="36" cy="18" r="1" />
                     </g>
                 @break
 
