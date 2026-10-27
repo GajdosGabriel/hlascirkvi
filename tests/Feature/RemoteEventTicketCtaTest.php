@@ -9,7 +9,7 @@ class RemoteEventTicketCtaTest extends TestCase
 {
     public function test_cta_from_portal_is_passed_through_with_registration_link(): void
     {
-        config(['eventportal.url' => 'https://event.hlascirkvi.sk']);
+        config(['eventportal.url' => 'https://tixio.eu']);
 
         $event = new RemoteEvent([
             'id' => 123,
@@ -18,7 +18,7 @@ class RemoteEventTicketCtaTest extends TestCase
         ]);
 
         $this->assertSame(['kind' => 'buy', 'label' => 'Kúpiť lístok'], $event->ticketCta());
-        $this->assertSame('https://event.hlascirkvi.sk/akcie/123/koncert#registracia', $event->ticketUrl());
+        $this->assertSame('https://tixio.eu/akcie/123/koncert#registracia', $event->ticketUrl());
     }
 
     public function test_missing_or_unknown_cta_shows_no_button(): void

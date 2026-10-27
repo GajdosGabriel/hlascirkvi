@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Event portál (event.hlascirkvi.sk)
+| Event portál (tixio.eu)
 |--------------------------------------------------------------------------
 |
 | Podujatia sa už nedržia v lokálnej databáze — verejný výpis aj detail
@@ -14,7 +14,7 @@
 return [
 
     // Základ verejného API. Bez lomítka na konci.
-    'url' => rtrim(env('EVENT_PORTAL_URL', 'https://event.hlascirkvi.sk'), '/'),
+    'url' => rtrim(env('EVENT_PORTAL_URL', 'https://tixio.eu'), '/'),
 
     // Koľko sekúnd čakáme na odpoveď. Radšej krátko: keď portál mlčí,
     // ukážeme poslednú známu odpoveď (viď `stale_ttl`) než aby sa stránka

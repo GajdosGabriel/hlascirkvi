@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 
 /**
- * Čítanie podujatí z verejného API portálu event.hlascirkvi.sk.
+ * Čítanie podujatí z verejného API portálu tixio.eu.
  *
  * Nič sa neukladá do databázy. Každá odpoveď ide do cache na pár minút
  * a súčasne do dlhšej záložnej kópie: keď portál vypadne, návštevník uvidí

@@ -90,7 +90,7 @@ Route::get('citania/{datum?}', 'Public\ReadingsController@show')
     ->where('datum', '\d{4}-\d{2}-\d{2}')
     ->name('readings.show');
 
-// Podujatia na /akcie sa ťahajú z portálu event.hlascirkvi.sk (App\Services\
+// Podujatia na /akcie sa ťahajú z portálu tixio.eu (App\Services\
 // EventPortal). Lokálna tabuľka `events` a celá agenda okolo nej (zakladanie,
 // prihlasovanie, admin) bola zrušená, takže toto sú jediné routy podujatí.
 Route::middleware('checkBanned')->group(function () {

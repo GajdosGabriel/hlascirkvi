@@ -9,7 +9,7 @@ class RemoteEventSchemaTest extends TestCase
 {
     public function test_known_prices_include_free_admission_and_ticket_link(): void
     {
-        config(['eventportal.url' => 'https://event.hlascirkvi.sk']);
+        config(['eventportal.url' => 'https://tixio.eu']);
 
         foreach (['0.00', '12.50'] as $price) {
             $event = new RemoteEvent([
@@ -24,9 +24,9 @@ class RemoteEventSchemaTest extends TestCase
             $offer = $event->schemaOrg()['offers'];
             $this->assertSame((float) $price, $offer['price']);
             $this->assertSame('EUR', $offer['priceCurrency']);
-            // Náš detail, nie portál — event.hlascirkvi.sk sa zatiaľ nemá indexovať.
+            // Náš detail, nie portál — odkaz má viesť na stránku hlascirkvi.sk.
             $this->assertSame($event->url(), $offer['url']);
-            $this->assertStringNotContainsString('event.hlascirkvi.sk', $offer['url']);
+            $this->assertStringNotContainsString('tixio.eu', $offer['url']);
             $this->assertArrayNotHasKey('availability', $offer);
         }
     }

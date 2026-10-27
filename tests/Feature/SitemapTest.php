@@ -62,7 +62,7 @@ class SitemapTest extends TestCase
 
     /**
      * Podujatia sa indexujú na hlascirkvi.sk (/akcie), nie na portáli
-     * event.hlascirkvi.sk, odkiaľ sa len ťahajú cez API.
+     * tixio.eu, odkiaľ sa len ťahajú cez API.
      */
     public function test_mapa_webu_ukazuje_podujatia_u_nas_nie_na_portali(): void
     {

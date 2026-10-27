@@ -645,8 +645,8 @@ class RemoteEvent implements Arrayable
             ];
 
             // website môže byť iba zdrojový článok, nie predaj vstupeniek.
-            // Odkazujeme na vlastný detail, nie na portál: event.hlascirkvi.sk
-            // ešte nie je na konečnej doméne a vyhľadávač ho nemá objavovať.
+            // Odkazujeme na vlastný detail, nie na portál tixio.eu: štruktúrované
+            // dáta tejto stránky majú ukazovať na stránku, ktorú vyhľadávač práve indexuje.
             if ($this->ticketsEnabled()) {
                 $schema['offers']['url'] = $this->url();
             }

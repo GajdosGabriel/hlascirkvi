@@ -464,7 +464,7 @@
                     @endif
 
                     {{-- Podujatia už nedržíme v tejto databáze, žijú na portáli
-                         event.hlascirkvi.sk. Panel preto neukazuje akcie práve
+                         tixio.eu. Panel preto neukazuje akcie práve
                          tohto kanála, len odkaz na celý výpis. --}}
                     <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
                         <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">

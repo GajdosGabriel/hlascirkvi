@@ -8,7 +8,7 @@
             <h2 class="border-b-2 border-blue-800 py-3 font-semibold text-white">O projekte</h2>
             <ul class="mt-2 space-y-1">
                 <li><a href="{{ route('register') }}">Založiť svoj blog</a></li>
-                {{-- Podujatia sa zakladajú na portáli event.hlascirkvi.sk, tu už nie. --}}
+                {{-- Podujatia sa zakladajú na portáli tixio.eu, tu už nie. --}}
                 <li><a href="{{ config('eventportal.url') }}/nahrat-plagat" target="_blank" rel="noopener nofollow">Pridať podujatie</a></li>
                 <li><a href="{{ route('gdpr') }}">Ochrana osobných údajov</a></li>
             </ul>

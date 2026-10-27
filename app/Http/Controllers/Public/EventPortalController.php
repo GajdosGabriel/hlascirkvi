@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 /**
  * Verejný výpis a detail podujatí na /akcie.
  *
- * Dáta neprichádzajú z našej databázy, ale z portálu event.hlascirkvi.sk —
+ * Dáta neprichádzajú z našej databázy, ale z portálu tixio.eu —
  * viď App\Services\EventPortal. Pôvodný Public\EventController nad lokálnou
  * tabuľkou `events` zostáva zatiaľ nedotknutý pre archív na /akcie-archiv.
  */
