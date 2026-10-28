@@ -3,6 +3,7 @@
 namespace App\Services\EventPortal;
 
 use App\Services\SystemLog\Recorder;
+use Illuminate\Database\DetectsConcurrencyErrors;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\RateLimiter;
  */
 class EventPortalClient
 {
+    use DetectsConcurrencyErrors;
+
     /** Prefix všetkých kľúčov v cache — dá sa tak vyprázdniť naraz. */
     protected const PREFIX = 'eventportal';
 
@@ -182,11 +185,11 @@ class EventPortalClient
                 return $this->fallback($staleKey);
             }
 
-            RateLimiter::hit($limiterKey, 60);
+            $this->hit($limiterKey);
         }
 
         if ($filterLimit > 0) {
-            RateLimiter::hit(self::PREFIX.':outbound:filters', 60);
+            $this->hit(self::PREFIX.':outbound:filters');
         }
 
         // Po skončení pauzy zavolajú portál všetky práve bežiace požiadavky
@@ -270,6 +273,23 @@ class EventPortalClient
         $this->unavailable = true;
 
         return [];
+    }
+
+    /**
+     * Započíta odchádzajúce volanie do limitu. Počítadlo je jeden riadok
+     * v DB cache, o ktorý sa súbežné požiadavky bijú, a MariaDB občas jednu
+     * z nich obetuje (deadlock). Strop je len poistka — jeden nezapočítaný
+     * zásah nič nepokazí, kým chyba 500 by návštevníkovi zhodila stránku.
+     */
+    protected function hit(string $key): void
+    {
+        try {
+            RateLimiter::hit($key, 60);
+        } catch (\Throwable $e) {
+            if (! $this->causedByConcurrencyError($e)) {
+                throw $e;
+            }
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Services\EventPortal\EventPortalClient;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -94,6 +95,20 @@ class EventPortalClientProtectionTest extends TestCase
         $client->event(15);
 
         Http::assertSentCount(4);
+    }
+
+    public function test_deadlock_on_the_outbound_counter_does_not_break_the_page(): void
+    {
+        Http::fake(['*' => Http::response(['id' => 15, 'title' => 'Púť'])]);
+
+        RateLimiter::shouldReceive('tooManyAttempts')->andReturn(false);
+        RateLimiter::shouldReceive('hit')
+            ->andThrow(new QueryException('mysql', 'insert ignore into `cache`', [], new \PDOException(
+                'SQLSTATE[40001]: Serialization failure: 1213 Deadlock found when trying to get lock'
+            )));
+
+        $this->assertSame(15, (new EventPortalClient)->event(15)?->id());
+        Http::assertSentCount(1);
     }
 
     public function test_event_detail_is_503_not_404_when_portal_fails_without_a_stale_copy(): void
