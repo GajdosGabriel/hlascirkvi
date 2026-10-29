@@ -4,21 +4,11 @@
     @csrf
     <input type="hidden" name="page_url" value="{{ old('page_url', url()->previous()) }}">
 
-    <div class="grid gap-4 sm:grid-cols-[14rem_1fr]">
-        <div>
-            <label class="ar-label" for="{{ $idPrefix }}-category">Téma</label>
-            <select id="{{ $idPrefix }}-category" name="category" class="ar-field" required>
-                @foreach (\App\Enums\SupportCategory::options() as $value => $label)
-                    <option value="{{ $value }}" @selected(old('category') === $value)>{{ $label }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            <label class="ar-label" for="{{ $idPrefix }}-subject">Predmet <span class="font-normal text-[color:var(--ar-muted)]">(nepovinné)</span></label>
-            <input id="{{ $idPrefix }}-subject" name="subject" type="text" maxlength="150" value="{{ old('subject') }}"
-                   class="ar-field" @error('subject') aria-invalid="true" @enderror>
-            @error('subject')<p class="ar-error">{{ $message }}</p>@enderror
-        </div>
+    <div>
+        <label class="ar-label" for="{{ $idPrefix }}-subject">Predmet</label>
+        <input id="{{ $idPrefix }}-subject" name="subject" type="text" minlength="3" maxlength="150" required
+               value="{{ old('subject') }}" class="ar-field" @error('subject') aria-invalid="true" @enderror>
+        @error('subject')<p class="ar-error">{{ $message }}</p>@enderror
     </div>
 
     <div>

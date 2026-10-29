@@ -34,7 +34,6 @@ class SupportTicketCreated extends Notification implements ShouldQueue
             ->line(($user?->adminName() ?? 'Používateľ').' napísal podpore portálu:')
             ->quote($ticket->messages()->first()?->body, $ticket->subject)
             ->details([
-                'Téma' => $ticket->category->label(),
                 'E-mail' => $user?->email,
                 'Stránka' => $ticket->page_url,
             ])

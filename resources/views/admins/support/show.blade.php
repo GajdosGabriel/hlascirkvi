@@ -42,8 +42,6 @@
                             <dd>{{ $ticket->reference() }}</dd>
                             <dt class="text-gray-500">Stav</dt>
                             <dd><x-dashboard.status-badge :label="$ticket->status->label()" :tone="$ticket->status->tone()" /></dd>
-                            <dt class="text-gray-500">Téma</dt>
-                            <dd>{{ $ticket->category->label() }}</dd>
                             <dt class="text-gray-500">Založené</dt>
                             <dd>{{ $ticket->created_at?->format('j. n. Y H:i') }}</dd>
                             @if ($ticket->page_url)

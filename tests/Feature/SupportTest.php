@@ -34,7 +34,7 @@ class SupportTest extends TestCase
 
     public function test_host_nemoze_napisat(): void
     {
-        $this->post(route('profile.support.store'), ['category' => 'question', 'body' => 'Ahoj'])
+        $this->post(route('profile.support.store'), ['subject' => 'Pozdrav', 'body' => 'Ahoj'])
             ->assertRedirect(route('login'));
 
         $this->assertDatabaseCount('support_tickets', 0);
@@ -46,7 +46,7 @@ class SupportTest extends TestCase
 
         $this->actingAs($this->user)
             ->post(route('profile.support.store'), [
-                'category' => 'problem',
+                'subject' => '  Nahrávanie videa ',
                 'body' => "Nejde mi nahrať video.\nĎakujem",
                 'page_url' => 'https://hlascirkvi.sk/dashboard',
             ])
@@ -55,8 +55,7 @@ class SupportTest extends TestCase
         $ticket = SupportTicket::sole();
         $this->assertSame($this->user->id, $ticket->user_id);
         $this->assertSame(SupportStatus::Open, $ticket->status);
-        // Päta predmet nemá — berie sa začiatok správy.
-        $this->assertSame('Nejde mi nahrať video. Ďakujem', $ticket->subject);
+        $this->assertSame('Nahrávanie videa', $ticket->subject);
         $this->assertSame(1, $ticket->messages()->count());
 
         Notification::assertSentTo($this->admin, SupportTicketCreated::class);
@@ -76,11 +75,46 @@ class SupportTest extends TestCase
     {
         $this->actingAs($this->user)
             ->post(route('profile.support.store'), [
-                'category' => 'question',
+                'subject' => 'Otázka',
                 'body' => 'Dobrý deň',
                 'page_url' => 'javascript:alert(1)',
             ])
             ->assertSessionHasErrors('page_url');
+    }
+
+    public function test_nova_sprava_aj_odpoved_sa_objavia_v_zvoncku(): void
+    {
+        $this->actingAs($this->user)->post(route('profile.support.store'), [
+            'subject' => 'Zvonček',
+            'body' => 'Prídem do zvončeka?',
+        ]);
+        $ticket = SupportTicket::sole();
+
+        $this->actingAs($this->admin)->getJson('/api/notifications')
+            ->assertOk()
+            ->assertJsonPath('meta.unread', 1)
+            ->assertJsonPath('data.0.data.message', 'Podpora #'.str_pad((string) $ticket->id, 4, '0', STR_PAD_LEFT).': Zvonček')
+            ->assertJsonPath('data.0.data.link', route('admin.support.show', $ticket));
+
+        $this->actingAs($this->admin)->post(route('admin.support.reply', $ticket), ['body' => 'Áno.']);
+
+        $this->actingAs($this->user)->getJson('/api/notifications')
+            ->assertOk()
+            ->assertJsonPath('meta.unread', 1)
+            ->assertJsonPath('data.0.data.link', route('profile.support.show', $ticket));
+
+        // Otvorenie vlákna upozornenie v zvončeku prečíta.
+        $this->actingAs($this->user)->get(route('profile.support.show', $ticket));
+        $this->assertSame(0, $this->user->unreadNotifications()->count());
+    }
+
+    public function test_predmet_je_povinny(): void
+    {
+        $this->actingAs($this->user)
+            ->post(route('profile.support.store'), ['body' => 'Dobrý deň'])
+            ->assertSessionHasErrors('subject');
+
+        $this->assertDatabaseCount('support_tickets', 0);
     }
 
     public function test_odpoved_spravcu_dostane_pouzivatel_a_vidi_ju_v_nastenke(): void
@@ -161,7 +195,6 @@ class SupportTest extends TestCase
         Notification::fake();
 
         $this->actingAs($this->user)->post(route('profile.support.store'), [
-            'category' => 'question',
             'subject' => 'Otázka k účtu',
             'body' => 'Prvá správa',
         ]);

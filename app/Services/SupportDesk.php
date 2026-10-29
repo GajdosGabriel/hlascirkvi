@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\SupportCategory;
 use App\Enums\SupportStatus;
 use App\Models\SupportMessage;
 use App\Models\SupportTicket;
@@ -36,19 +35,14 @@ class SupportDesk
     }
 
     /**
-     * @param  array{category: string, subject?: string|null, body: string, page_url?: string|null}  $data
+     * @param  array{subject: string, body: string, page_url?: string|null}  $data
      */
     public function open(User $user, array $data, ?string $userAgent = null): SupportTicket
     {
-        $body = trim($data['body']);
-        // Päta sa na predmet nepýta — stačí začiatok správy.
-        $subject = trim((string) ($data['subject'] ?? '')) ?: Str::limit(Str::squish($body), 80);
-
-        $ticket = DB::transaction(function () use ($user, $data, $body, $subject, $userAgent) {
+        $ticket = DB::transaction(function () use ($user, $data, $userAgent) {
             $ticket = SupportTicket::create([
                 'user_id' => $user->id,
-                'category' => SupportCategory::from($data['category']),
-                'subject' => $subject,
+                'subject' => trim($data['subject']),
                 'status' => SupportStatus::Open,
                 'page_url' => isset($data['page_url']) ? Str::limit($data['page_url'], 490, '') : null,
                 'user_agent' => $userAgent ? Str::limit($userAgent, 490, '') : null,
@@ -59,7 +53,7 @@ class SupportDesk
             $ticket->messages()->create([
                 'user_id' => $user->id,
                 'is_staff' => false,
-                'body' => $body,
+                'body' => trim($data['body']),
             ]);
 
             return $ticket;

@@ -38,13 +38,11 @@
             <form method="post" action="{{ route('profile.support.store') }}" class="my-4 space-y-2">
                 @csrf
                 <input type="hidden" name="page_url" value="{{ url()->full() }}">
-                <label class="sr-only" for="footer-support-category">Téma</label>
-                <select id="footer-support-category" name="category" required
-                        class="w-full rounded-md border-2 border-gray-500 bg-white p-2 text-gray-900">
-                    @foreach (\App\Enums\SupportCategory::options() as $value => $label)
-                        <option value="{{ $value }}" @selected(old('category') === $value)>{{ $label }}</option>
-                    @endforeach
-                </select>
+                <label class="sr-only" for="footer-support-subject">Predmet</label>
+                <input id="footer-support-subject" name="subject" type="text" minlength="3" maxlength="150" required
+                       value="{{ old('subject') }}" placeholder="Predmet"
+                       class="w-full rounded-md border-2 border-gray-500 bg-white p-2 text-gray-900">
+                @error('subject')<p class="text-sm text-red-300">{{ $message }}</p>@enderror
                 {{-- <textarea> atribút value ignoruje — text po chybe validácie mizol. --}}
                 <label class="sr-only" for="footer-support-body">Správa</label>
                 <textarea id="footer-support-body" class="border-2 border-gray-500 rounded-md w-full p-2 text-gray-900" name="body" rows="3"

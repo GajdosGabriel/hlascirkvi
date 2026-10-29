@@ -68,7 +68,7 @@ class UserActivityLogTest extends TestCase
     {
         // Formulár v päte zakladá vlákno podpory (SupportController).
         $this->actingAs($this->user)
-            ->post(route('profile.support.store'), ['category' => 'question', 'body' => 'Tajný text správy'])
+            ->post(route('profile.support.store'), ['subject' => 'Otázka', 'body' => 'Tajný text správy'])
             ->assertRedirect();
 
         $log = $this->logs('support')->sole();

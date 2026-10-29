@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\SupportCategory;
 use App\Enums\SupportStatus;
 use App\Models\SupportTicket;
 use App\Services\SupportDesk;
@@ -29,21 +28,19 @@ class SupportController extends Controller
             ->orderByDesc('id')
             ->paginate(20);
 
-        return view('support.index', [
-            'tickets' => $tickets,
-            'categories' => SupportCategory::options(),
-        ]);
+        return view('support.index', ['tickets' => $tickets]);
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'category' => ['required', Rule::enum(SupportCategory::class)],
-            'subject' => ['nullable', 'string', 'max:150'],
+            'subject' => ['required', 'string', 'min:3', 'max:150'],
             'body' => ['required', 'string', 'min:3', 'max:5000'],
             // Len http(s) — v administrácii z neho je odkaz.
             'page_url' => ['nullable', 'url:http,https', 'max:500'],
         ], [
+            'subject.required' => 'Doplňte predmet správy.',
+            'subject.min' => 'Predmet musí mať aspoň 3 znaky.',
             'body.required' => 'Napíšte, s čím vám môžeme pomôcť.',
             'body.min' => 'Správa musí mať aspoň 3 znaky.',
         ]);

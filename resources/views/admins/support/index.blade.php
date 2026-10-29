@@ -49,7 +49,7 @@
                                     <x-dashboard.status-badge label="Neprečítané" tone="red" />
                                 @endif
                                 <span class="text-xs text-[color:var(--ar-muted)]">
-                                    {{ $ticket->reference() }} · {{ $ticket->category->label() }}
+                                    {{ $ticket->reference() }}
                                 </span>
                             </div>
                             <a href="{{ route('admin.support.show', $ticket) }}" class="ar-item__title mt-1 block">{{ $ticket->subject }}</a>

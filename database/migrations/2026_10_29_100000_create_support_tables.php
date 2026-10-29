@@ -21,7 +21,6 @@ return new class extends Migration
         Schema::create('support_tickets', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
-            $table->string('category', 32);
             $table->string('subject', 150);
             $table->string('status', 16)->default('open')->index();
             // Kde človek písal — pri „nejde mi to" to rozhoduje.

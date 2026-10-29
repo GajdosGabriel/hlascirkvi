@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\SupportCategory;
 use App\Enums\SupportStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +13,6 @@ class SupportTicket extends Model
 {
     protected $fillable = [
         'user_id',
-        'category',
         'subject',
         'status',
         'page_url',
@@ -25,7 +23,6 @@ class SupportTicket extends Model
     ];
 
     protected $casts = [
-        'category' => SupportCategory::class,
         'status' => SupportStatus::class,
         'last_activity_at' => 'datetime',
         'user_seen_at' => 'datetime',
