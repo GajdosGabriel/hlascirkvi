@@ -28,7 +28,8 @@
             <p>
                 Otázky o súkromí a žiadosti o opravu či výmaz údajov môžete poslať priamo e-mailom,
                 aj bez používateľského účtu. Po prihlásení môžete použiť aj
-                <a href="#napiste-nam" class="underline">kontaktný formulár v pätičke</a>.
+                <a href="{{ route('profile.support.index') }}" class="underline">podporu v nástenke</a>
+                (alebo formulár „Napíšte nám" v pätičke).
                 Spracúvanie sa riadi
                 <a href="https://eur-lex.europa.eu/legal-content/SK/TXT/?uri=CELEX:32016R0679" class="underline" target="_blank" rel="noopener noreferrer">nariadením (EÚ) 2016/679 (GDPR)</a>
                 a zákonom č. 18/2018 Z. z. o ochrane osobných údajov.

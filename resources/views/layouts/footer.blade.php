@@ -24,8 +24,9 @@
 
         </div>
 
-        {{-- Kotva: jediný formulár na správu pre administrátora webu je tento,
-             odkazuje sem aj nástenka užívateľa bez kanála. --}}
+        {{-- Kotva #napiste-nam: odkazujú sem staršie e-maily. Správa ide do
+             podpory (SupportController) — ostane zaevidovaná a odpoveď príde
+             do nástenky aj e-mailom. --}}
         <div class="w-full" id="napiste-nam">
             <h2 class="border-b-2 border-blue-800 py-3 font-semibold text-white">Napíšte nám</h2>
             {{-- Neprihláseným sa formulár neukazuje, chodil cez neho spam. --}}
@@ -34,21 +35,28 @@
                     Správu nám môžete poslať po <a href="{{ route('login') }}" class="underline">prihlásení</a>.
                 </p>
             @else
-            <form method="post" action="{{ route('messengers.store') }}" class="my-4">
-                {{ csrf_field() }}
-                {{-- Bývalé „Som človek 7 plus 3" nahradila neviditeľná kontrola,
-                     vysvetlenie v App\Support\HumanCheck. --}}
-                <x-human-check/>
+            <form method="post" action="{{ route('profile.support.store') }}" class="my-4 space-y-2">
+                @csrf
+                <input type="hidden" name="page_url" value="{{ url()->full() }}">
+                <label class="sr-only" for="footer-support-category">Téma</label>
+                <select id="footer-support-category" name="category" required
+                        class="w-full rounded-md border-2 border-gray-500 bg-white p-2 text-gray-900">
+                    @foreach (\App\Enums\SupportCategory::options() as $value => $label)
+                        <option value="{{ $value }}" @selected(old('category') === $value)>{{ $label }}</option>
+                    @endforeach
+                </select>
                 {{-- <textarea> atribút value ignoruje — text po chybe validácie mizol. --}}
-                <textarea class="border-2 border-gray-500 rounded-md w-full p-2" name="body" rows="3"
-                          minlength="3" required placeholder="Napíšte nám svoje podnety ... Ďakujeme">{{ old('body') }}</textarea>
+                <label class="sr-only" for="footer-support-body">Správa</label>
+                <textarea id="footer-support-body" class="border-2 border-gray-500 rounded-md w-full p-2 text-gray-900" name="body" rows="3"
+                          minlength="3" maxlength="5000" required placeholder="Napíšte nám svoje podnety ... Ďakujeme">{{ old('body') }}</textarea>
+                @error('body')<p class="text-sm text-red-300">{{ $message }}</p>@enderror
 
-                <div class="form-group md:flex items-center mt-4">
-
+                <div class="flex flex-wrap items-center justify-between gap-2">
                     <button type="submit"
-                            class="px-2 p-1 border-2 text-sm rounded-sm mt-2 hover:bg-blue-900">Odoslať
-                        <span class="glyphicon glyphicon-envelope"></span>
+                            class="px-2 p-1 border-2 text-sm rounded-sm hover:bg-blue-900">Odoslať
+                        <span class="ph ph-paper-plane-tilt"></span>
                     </button>
+                    <a href="{{ route('profile.support.index') }}" class="text-sm underline">Moje správy podpore</a>
                 </div>
 
             </form>

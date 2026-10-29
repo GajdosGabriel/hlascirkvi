@@ -88,6 +88,11 @@ class AsideMenu extends Component
                 'name' => 'Články',
             ],
             ...$canalItems,
+            [
+                'url' => route('profile.support.index'),
+                'icon' => 'contact',
+                'name' => 'Podpora',
+            ],
         ];
     }
 
@@ -116,6 +121,7 @@ class AsideMenu extends Component
 
             $item('admin.user.index', 'user', 'Užívatelia', 'Ľudia a kanály'),
             $item('admin.canal.index', 'canal', 'Kanály', 'Ľudia a kanály'),
+            $item('admin.support.index', 'contact', 'Podpora', 'Ľudia a kanály'),
 
             $item('admin.announcement.index', 'announcement', 'Oznamy', 'Web'),
             // Do 10/2026 „Predný zoznam" — názov nehovoril, že ide o kartu

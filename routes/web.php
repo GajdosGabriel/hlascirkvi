@@ -151,6 +151,15 @@ Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () 
         Route::resource('canals.seminars', Canal\CanalSeminarController::class)->scoped();
         Route::post('canals/{canal}/seminars/{seminar}/posts', 'Canal\CanalSeminarController@posts')
             ->scopeBindings()->name('canals.seminars.posts');
+
+        // Podpora — nahradila formulár „Napíšte nám", ktorý len poslal e-mail.
+        // Len pre prihlásených: cez anonymný formulár chodil spam.
+        Route::get('podpora', 'SupportController@index')->name('support.index');
+        Route::post('podpora', 'SupportController@store')->middleware('throttle:5,10')->name('support.store');
+        Route::get('podpora/{supportTicket}', 'SupportController@show')->name('support.show');
+        Route::post('podpora/{supportTicket}/odpoved', 'SupportController@reply')
+            ->middleware('throttle:20,10')->name('support.reply');
+        Route::put('podpora/{supportTicket}/stav', 'SupportController@status')->name('support.status');
     });
 });
 
@@ -221,6 +230,12 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::resource('user', Admin\UserController::class)->only(['index', 'show', 'edit', 'update']);
     Route::resource('image', Admin\ImageController::class)->only(['index', 'destroy']);
     Route::resource('logs', Admin\SystemLogController::class)->only('index', 'show');
+
+    // Schránka podpory — odpovede používateľom (vlákna z nástenky a päty).
+    Route::get('podpora', 'Admin\SupportController@index')->name('support.index');
+    Route::get('podpora/{supportTicket}', 'Admin\SupportController@show')->name('support.show');
+    Route::post('podpora/{supportTicket}/odpoved', 'Admin\SupportController@reply')->name('support.reply');
+    Route::put('podpora/{supportTicket}/stav', 'Admin\SupportController@status')->name('support.status');
 });
 
 // Obe tieto routy sú odkazy z e-mailu, takže musia zostať GET. Autorizáciu
@@ -300,10 +315,6 @@ Route::middleware(['auth', 'checkSuperAdmin'])->group(function () {
     Route::post('/youtube/{user}/{channelId}/getvideo', 'YoutubeController@getNewVideoByChannel')->name('youtube.getNewVideoByChannel');
 });
 
-
-// Len pre prihlásených — cez anonymný formulár chodil spam aj napriek
-// neviditeľnej kontrole (App\Support\HumanCheck).
-Route::post('store/message', 'MessengerController@toAdmin')->middleware(['auth', 'throttle:5,10'])->name('messengers.store');
 
 // Správa kanálu z jeho stránky — e-mail ani telefón kanála sa verejne neukazujú.
 Route::post('organizations/{canal}/message', 'MessengerController@toCanal')

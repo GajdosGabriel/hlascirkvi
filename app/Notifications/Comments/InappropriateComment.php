@@ -27,7 +27,7 @@ class InappropriateComment extends Notification implements ShouldQueue
             ->subject('Váš komentár bol skrytý')
             ->line('Automatická kontrola označila váš komentár ako nevhodný: ' . $this->reason . '.')
             ->line('Komentár nie je verejne zobrazený. Prosíme, vyjadrite svoj názor bez urážok a vyhrážok. Ak ide o omyl, napíšte nám.')
-            ->action('Napísať správcovi', url('/#napiste-nam'))
+            ->action('Napísať správcovi', route('profile.support.index'))
             ->quote($this->body);
     }
 }

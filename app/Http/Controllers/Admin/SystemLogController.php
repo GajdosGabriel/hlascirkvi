@@ -33,6 +33,8 @@ class SystemLogController extends Controller
         'ComingNewMessage' => 'Nová súkromná správa',
         'PortalMail' => 'Správa z portálu',
         'CanalMessage' => 'Správa pre kanál',
+        'SupportTicketCreated' => 'Nová správa podpore (pre správcu)',
+        'SupportTicketReplied' => 'Odpoveď vo vlákne podpory',
         'CanalProfileCompleted' => 'Doplnený profil kanála',
         'BufeerIsEmpty' => 'Prázdny zásobník videí',
         'YoutubeApiKeyFailed' => 'YouTube API odmieta kľúč',

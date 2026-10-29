@@ -19,10 +19,8 @@
                 <a href="{{ route('profile.canals.index') }}" class="ar-btn ar-btn--accent">
                     <i class="ph ph-broadcast"></i> Moje kanály
                 </a>
-                {{-- Odkaz viedol na `userSupport.index`, čo je routa bez metódy
-                     v kontroleri — tlačidlo vracalo 500. Správa pre správcu
-                     webu sa píše formulárom v pätičke. --}}
-                <a href="#napiste-nam" class="ar-btn ar-btn--quiet">
+                {{-- Správa pre správcu webu ide do podpory (vlákno v nástenke). --}}
+                <a href="{{ route('profile.support.index') }}" class="ar-btn ar-btn--quiet">
                     <i class="ph ph-envelope-simple"></i> Napísať správcovi
                 </a>
             </div>
@@ -146,7 +144,7 @@
                             <li>
                                 <span class="ar-start__num">3</span>
                                 <span class="min-w-0">
-                                    <a href="#napiste-nam" class="ar-link font-semibold">Požiadajte o prepojenie s YouTube</a>
+                                    <a href="{{ route('profile.support.index') }}" class="ar-link font-semibold">Požiadajte o prepojenie s YouTube</a>
                                     <span class="ar-start__hint">Videá z vášho YouTube kanála potom pribúdajú samy. Prepojenie nastavuje správca webu.</span>
                                 </span>
                             </li>

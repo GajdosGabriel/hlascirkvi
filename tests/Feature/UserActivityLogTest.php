@@ -66,16 +66,13 @@ class UserActivityLogTest extends TestCase
 
     public function test_sprava_sa_zapise_bez_textu(): void
     {
-        // Správy z formulára v päte chodia správcovi s pevným ID 1
-        // (MessengerController::ADMIN_ID); v samostatnom behu ho má $this->user.
-        User::find(1) ?? User::factory()->create(['id' => 1]);
-
+        // Formulár v päte zakladá vlákno podpory (SupportController).
         $this->actingAs($this->user)
-            ->postJson(route('messengers.store'), ['body' => 'Tajný text správy'])
-            ->assertOk();
+            ->post(route('profile.support.store'), ['category' => 'question', 'body' => 'Tajný text správy'])
+            ->assertRedirect();
 
-        $log = $this->logs('message')->sole();
-        $this->assertSame('message.sent', $log->event);
+        $log = $this->logs('support')->sole();
+        $this->assertSame('support.created', $log->event);
         $this->assertStringNotContainsString('Tajný', json_encode($log->getAttributes(), JSON_UNESCAPED_UNICODE));
     }
 
