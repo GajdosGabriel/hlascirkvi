@@ -18,13 +18,16 @@ echo "==> migrácie"
 php artisan migrate --force
 
 echo "==> cache"
-php artisan config:clear
 php artisan cache:clear
-php artisan route:clear
 php artisan view:clear
 
-php artisan config:cache
-php artisan route:cache
+# config:cache aj route:cache najprv zmažú starý súbor a až potom zapíšu nový —
+# požiadavka v tej medzere spadne na „routes-v7.php: Failed to open stream".
+# Preto sa generujú bokom a na miesto sa presunú atomickým mv.
+APP_CONFIG_CACHE=bootstrap/cache/config.new.php php artisan config:cache
+mv -f bootstrap/cache/config.new.php bootstrap/cache/config.php
+APP_ROUTES_CACHE=bootstrap/cache/routes-v7.new.php php artisan route:cache
+mv -f bootstrap/cache/routes-v7.new.php bootstrap/cache/routes-v7.php
 
 echo "==> reštart queue workera"
 php artisan queue:restart
