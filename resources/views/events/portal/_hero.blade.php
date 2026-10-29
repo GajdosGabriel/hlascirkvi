@@ -99,7 +99,7 @@
                          bez neho registrácia s ?event= (ako v detaile). --}}
                     @if (! $featured->isPast())
                         @php $cta = $featured->ticketCta(); @endphp
-                        <a href="{{ $cta ? $featured->ticketUrl() : config('eventportal.url') . '/register?event=' . $featured->id() }}" target="_blank" rel="noopener nofollow"
+                        <a href="{{ $cta ? $featured->ticketUrl() : config('eventportal.url') . '/register?event=' . $featured->id() }}" target="_blank" rel="noopener"
                            data-ga-event="event_ticket_click" data-ga-label="{{ $featured->title() }}"
                            class="inline-flex items-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-5 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                             <i class="ph ph-ticket text-sm"></i>
