@@ -100,8 +100,8 @@
                             na YouTube
                         </p>
                         <p class="mt-0.5 text-amber-700">
-                            Príspevok sa stále zobrazuje, ale prehrávač je prázdny — video bolo na YouTube zmazané
-                            alebo skryté.
+                            Video bolo na YouTube zmazané alebo skryté. Príspevok sme skryli z výpisov, jeho stránka
+                            namiesto prehrávača oznamuje, že video je nedostupné.
                         </p>
                         <ul class="mt-2 space-y-1">
                             @foreach ($brokenPosts as $row)
