@@ -68,6 +68,32 @@ class PostShowTest extends TestCase
         }
     }
 
+    public function test_video_bez_nazvu_ma_v_schema_nahradny_name(): void
+    {
+        $canal = Canal::factory()->create(['title' => 'Godzone']);
+        // cleanTitle() emoji zahodí — z názvu ostane prázdny reťazec.
+        $post = Post::factory()->create([
+            'canal_id' => $canal->id,
+            'title' => '🤫🤫🤫',
+            'video_id' => 'abcdefghijk',
+            'video_available' => true,
+            'created_at' => '2026-11-05 10:28:14',
+        ]);
+        $this->assertSame('', $post->fresh()->title);
+
+        $html = $this->get(route('post.show', [$post->id]))->assertOk()->getContent();
+
+        preg_match_all('#<script type="application/ld\+json">(.*?)</script>#s', $html, $matches);
+        $schemas = collect($matches[1])->map(fn ($json) => json_decode($json, true));
+        $video = $schemas->firstWhere('@type', 'VideoObject');
+        $crumbs = $schemas->firstWhere('@type', 'BreadcrumbList');
+
+        $this->assertSame('Video z kanála Godzone z 5. 11. 2026', $video['name']);
+        $this->assertSame($video['name'], $video['headline']);
+        $this->assertSame($video['name'], end($crumbs['itemListElement'])['name']);
+        $this->assertStringContainsString('<title>Video z kanála Godzone z 5. 11. 2026', $html);
+    }
+
     public function test_bez_serie_sa_lista_nezobrazi(): void
     {
         $post = Post::factory()->create();

@@ -18,13 +18,29 @@
     // by sa v prehliadači zliali do jedného odseku.
     $plainBody = strip_tags($post->body) === $post->body;
 
+    /*
+     * cleanTitle() pri importe zahodí emoji aj hashtagy, takže z názvu
+     * „🤫🤫🤫“ či „#shorts“ ostane prázdny reťazec. Prázdny titulok by
+     * prázdne bolo aj pole name vo VideoObject — Google také video
+     * z výsledkov vyradí („Chýbajúce pole name“). Náhrada nesie kanál
+     * a dátum, aby sa takéto stránky od seba líšili.
+     */
+    $canalName = \App\Support\Seo::text($post->canal->title);
+    $title     = \App\Support\Seo::text($post->title);
+    $untitled  = $title === '';
+    if ($untitled) {
+        $title = ($post->video_id ? 'Video' : 'Príspevok') . ' z kanála ' . $canalName
+            . ($post->created_at ? ' z ' . $post->created_at->format('j. n. Y') : '');
+    }
+
     $plain    = \App\Support\Seo::text($post->body);
     // Nie každé importované video má popis. Náhrada používa iba údaje
     // zobrazené na stránke a objaví sa aj pod prehrávačom.
     $description = $plain;
     if ($post->video_id && $description === '') {
-        $description = 'Video „' . \App\Support\Seo::text($post->title)
-            . '“ z kanála ' . \App\Support\Seo::text($post->canal->title) . '.';
+        $description = $untitled
+            ? $title . '.'
+            : 'Video „' . $title . '“ z kanála ' . $canalName . '.';
     }
     $words    = $plain === '' ? 0 : count(preg_split('/\s+/u', $plain));
     // 180 slov za minútu je bežný odhad pre pomalšie, čítané texty.
@@ -52,8 +68,8 @@
     $schema = [
         '@context'      => 'https://schema.org',
         '@type'         => $playableVideo ? 'VideoObject' : 'Article',
-        'name'          => $post->title,
-        'headline'      => \Illuminate\Support\Str::limit($post->title, 110, ''),
+        'name'          => $title,
+        'headline'      => \Illuminate\Support\Str::limit($title, 110, ''),
         'description'   => \Illuminate\Support\Str::limit($description, 300),
         'url'           => $postUrl,
         'mainEntityOfPage' => $postUrl,
@@ -94,12 +110,12 @@
     }
 
     $seo = [
-        'title'       => $post->title,
+        'title'       => $title,
         'description' => $description,
         'canonical'   => $postUrl,
         'type'        => 'article',
         'image'       => $ogImage,
-        'image_alt'   => $post->title,
+        'image_alt'   => $title,
         'published'   => $post->created_at,
         'modified'    => $post->updated_at,
         'author'      => $post->canal->title,
@@ -114,7 +130,7 @@
             \App\Support\Seo::breadcrumbs([
                 ['Hlas Cirkvi', url('/')],
                 [$post->canal->title, $canalUrl],
-                [$post->title, $postUrl],
+                [$title, $postUrl],
             ]),
         ],
     ];
@@ -144,7 +160,7 @@
             <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
                 <div class="max-w-3xl">
                     <h1 class="ar-display text-3xl font-extrabold leading-tight md:text-[2.6rem]">
-                        {{ $post->title }}
+                        {{ $title }}
                     </h1>
 
                     <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
@@ -193,7 +209,7 @@
                     {{-- Systémové zdieľanie. Panel so zdieľaním je na mobile
                          až pod článkom, preto tlačidlo aj tu; skript ho odkryje
                          len tam, kde Web Share API existuje. --}}
-                    <button type="button" data-url="{{ $postUrl }}" data-title="{{ $post->title }}"
+                    <button type="button" data-url="{{ $postUrl }}" data-title="{{ $title }}"
                             class="js-native-share ar-btn ar-btn--quiet !hidden lg:!hidden"
                             title="Zdieľať" aria-label="Zdieľať">
                         <i class="ph ph-share-network"></i>
@@ -224,7 +240,7 @@
                 @php $poster = $images->first(); @endphp
                 <div class="ar-player">
                     <button type="button" class="ar-lite" data-yt-lite="{{ $post->video_id }}"
-                            aria-label="Prehrať video: {{ $post->title }}">
+                            aria-label="Prehrať video: {{ $title }}">
                         @if ($poster && $poster->variants)
                             <picture>
                                 @if ($posterWebp = $poster->srcset('webp'))
@@ -264,13 +280,13 @@
                             <img src="{{ url($lead->originalImageUrl) }}" srcset="{{ $lead->srcset('jpg') }}"
                                  sizes="(min-width: 1024px) 720px, 100vw"
                                  @if ($lead->width) width="{{ $lead->width }}" height="{{ $lead->height }}" @endif
-                                 alt="{{ $post->title }}" class="w-full">
+                                 alt="{{ $title }}" class="w-full">
                         </picture>
                     @else
                         {{-- Staršie záznamy majú jediný súbor a originál občas
                              v úložisku chýba, náhľad býva vždy — bez zálohy by
                              nad článkom ostal prázdny rám s alt textom. --}}
-                        <img src="{{ url($lead->originalImageUrl) }}" alt="{{ $post->title }}" class="w-full"
+                        <img src="{{ url($lead->originalImageUrl) }}" alt="{{ $title }}" class="w-full"
                              @if ($lead->width) width="{{ $lead->width }}" height="{{ $lead->height }}" @endif
                              data-img-fallback="{{ url($lead->thumbImageUrl) }}">
                     @endif
@@ -376,7 +392,7 @@
                                         <img data-src="{{ url($image->thumbImageUrl) }}"
                                              @if ($gallerySrcset = $image->srcset('jpg')) data-srcset="{{ $gallerySrcset }}" @endif
                                              data-sizes="auto"
-                                             alt="{{ $image->name ?? $post->title }}"
+                                             alt="{{ $image->name ?? $title }}"
                                              class="lazyload h-32 w-full object-cover transition hover:scale-105">
                                     </picture>
                                 </a>
@@ -405,12 +421,12 @@
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-blue-400 hover:text-blue-600">
                                 <i class="ph ph-facebook-logo" aria-hidden="true"></i>
                             </a>
-                            <a href="https://api.whatsapp.com/send?text={{ urlencode($post->title . ' ' . $postUrl) }}"
+                            <a href="https://api.whatsapp.com/send?text={{ urlencode($title . ' ' . $postUrl) }}"
                                target="_blank" rel="noopener" title="Poslať cez WhatsApp" aria-label="Poslať cez WhatsApp"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-green-400 hover:text-green-600">
                                 <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
                             </a>
-                            <a href="mailto:?subject={{ rawurlencode($post->title) }}&body={{ rawurlencode($postUrl) }}"
+                            <a href="mailto:?subject={{ rawurlencode($title) }}&body={{ rawurlencode($postUrl) }}"
                                title="Poslať e-mailom" aria-label="Poslať e-mailom"
                                class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
                                 <i class="ph ph-envelope-simple" aria-hidden="true"></i>
@@ -423,7 +439,7 @@
 
                         {{-- Systémová ponuka zdieľania (Messenger, Signal…).
                              Skript ho odkryje len tam, kde ju prehliadač má. --}}
-                        <button type="button" data-url="{{ $postUrl }}" data-title="{{ $post->title }}"
+                        <button type="button" data-url="{{ $postUrl }}" data-title="{{ $title }}"
                                 class="js-native-share mt-2 hidden h-9 w-full flex items-center justify-center gap-2 rounded-md border border-[color:var(--ar-line)] text-sm text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
                             <i class="ph ph-share-network"></i> Zdieľať cez…
                         </button>
