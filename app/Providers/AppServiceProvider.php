@@ -28,6 +28,13 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
 
+        // Webový PHP na Websupporte má zend.exception_ignore_args vypnuté, takže
+        // stack trace v laravel.log niesol argumenty volaní — aj začiatok hesla
+        // z registrácie (Password->passes('password', '…')).
+        if ($this->app->environment('production')) {
+            ini_set('zend.exception_ignore_args', '1');
+        }
+
     }
 
     /**
