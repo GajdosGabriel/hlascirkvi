@@ -26,7 +26,7 @@ class ViewRecorder
      * nemeralo crawlerov, nie neprestrelná ochrana. (Balík na to ťahal
      * jaybizzle/crawler-detect; kvôli jednému regexu to nestálo za závislosť.)
      */
-    private const BOT_PATTERN = '~bot|crawl|spider|slurp|headless|preview|monitor|curl|wget|python-requests|facebookexternalhit|whatsapp|telegram~i';
+    public const BOT_PATTERN = '~bot|crawl|spider|slurp|headless|preview|monitor|curl|wget|python-requests|facebookexternalhit|whatsapp|telegram~i';
 
     /**
      * @return bool  true, keď zobrazenie naozaj pribudlo

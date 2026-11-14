@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Oznam vypísaný superadminom. Na web ho vykresľuje App\View\Components\Announcements.
@@ -17,12 +18,13 @@ class Announcement extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['placement', 'variant', 'title', 'body', 'link_url', 'link_text', 'dismissible', 'active', 'sort_order', 'published_from', 'published_until'];
+    protected $fillable = ['placement', 'variant', 'title', 'body', 'link_url', 'link_text', 'image_path', 'image_width', 'image_height', 'mobile_image_path', 'mobile_image_width', 'mobile_image_height', 'dismissible', 'active', 'sort_order', 'published_from', 'published_until'];
 
     protected $casts = [
         'placement'       => AnnouncementPlacement::class,
         'variant'         => AnnouncementVariant::class,
         'active'          => 'boolean',
+        'clicks'          => 'integer',
         'dismissible'     => 'boolean',
         'published_from'  => 'datetime',
         'published_until' => 'datetime',
@@ -47,6 +49,43 @@ class Announcement extends Model
             'placement',
             $placement instanceof AnnouncementPlacement ? $placement->value : $placement
         );
+    }
+
+    /** Adresár na disku `public`, kam sa ukladajú obrázky banerov. */
+    public const IMAGE_DIR = 'announcements';
+
+    /** Má oznam obrázkový baner? Vtedy sa vykreslí obrázok namiesto textu. */
+    public function hasImage(): bool
+    {
+        return $this->image_path !== null && $this->image_path !== '';
+    }
+
+    public function imageUrl(): ?string
+    {
+        return $this->hasImage() ? Storage::disk('public')->url($this->image_path) : null;
+    }
+
+    public function mobileImageUrl(): ?string
+    {
+        return $this->mobile_image_path ? Storage::disk('public')->url($this->mobile_image_path) : null;
+    }
+
+    /**
+     * Adresa, na ktorú vedie odkaz na webe. Ide cez počítadlo preklikov,
+     * ktoré návštevníka hneď presmeruje na skutočný cieľ.
+     */
+    public function clickUrl(): ?string
+    {
+        return $this->link_url ? route('announcement.click', $this) : null;
+    }
+
+    /** Vedie odkaz mimo tohto webu? Baner sa potom otvára v novom okne. */
+    public function linkIsExternal(): bool
+    {
+        $host = parse_url((string) $this->link_url, PHP_URL_HOST);
+
+        return is_string($host)
+            && strcasecmp($host, (string) parse_url((string) config('app.url'), PHP_URL_HOST)) !== 0;
     }
 
     /**

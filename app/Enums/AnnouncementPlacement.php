@@ -50,6 +50,21 @@ enum AnnouncementPlacement: string
         };
     }
 
+    /**
+     * Odporúčané rozmery obrázkového baneru pre toto miesto (v px). Kvôli
+     * ostrosti na displejoch s vysokou hustotou môže mať súbor aj dvojnásobok
+     * pri rovnakom pomere strán — na webe sa zmenší do šírky stĺpca.
+     *
+     * @return array{desktop: string, mobile: string}
+     */
+    public function bannerSize(): array
+    {
+        return match ($this) {
+            self::Sidebar => ['desktop' => '300 × 250', 'mobile' => '300 × 250 (stačí jeden obrázok)'],
+            default       => ['desktop' => '728 × 90',  'mobile' => '300 × 250 alebo 320 × 100'],
+        };
+    }
+
     /** @return array<int, self> */
     public static function options(): array
     {

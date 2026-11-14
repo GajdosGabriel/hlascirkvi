@@ -16,6 +16,9 @@ Disallow: /user/
 # JSON s kurzorovým stránkovaním pásu článkov — nekonečná pasca bez meta značky.
 Disallow: /post/*/kanal/
 
+# Počítadlo preklikov z banerov — robot by len nafukoval čísla.
+Disallow: /oznam/
+
 Allow: /
 
 Sitemap: https://hlascirkvi.sk/sitemap.xml

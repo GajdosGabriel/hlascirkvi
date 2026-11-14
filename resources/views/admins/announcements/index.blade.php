@@ -40,6 +40,7 @@
                         <th>Stav</th>
                         <th>Zobrazovanie</th>
                         <th>Poradie</th>
+                        <th title="Počet preklikov z odkazu oznamu — jeden návštevník najviac raz za deň, bez robotov">Kliky</th>
                         <th>Akcia</th>
                     </tr>
                 </thead>
@@ -48,6 +49,10 @@
                     @forelse ($announcements as $announcement)
                         <tr>
                             <td>
+                                @if ($announcement->hasImage())
+                                    <img src="{{ $announcement->imageUrl() }}" alt="" loading="lazy"
+                                         class="mb-1 max-h-14 max-w-60 rounded-sm border border-(--ar-line)">
+                                @endif
                                 <div class="font-semibold">{{ $announcement->title }}</div>
                                 @if ($announcement->body)
                                     <div class="text-gray-500">{{ \Illuminate\Support\Str::limit($announcement->body, 90) }}</div>
@@ -85,6 +90,8 @@
 
                             <td>{{ $announcement->sort_order }}</td>
 
+                            <td>{{ $announcement->link_url ? number_format($announcement->clicks, 0, ',', ' ') : '—' }}</td>
+
                             <td class="whitespace-nowrap">
                                 <a class="ar-act" href="{{ route('admin.announcement.edit', $announcement) }}">
                                     <i class="ph ph-pencil-simple-line" aria-hidden="true"></i> Upraviť
@@ -103,7 +110,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 <x-dashboard.empty>Zatiaľ tu nie je žiadny oznam. <a class="ar-link" href="{{ route('admin.announcement.create') }}">Vytvoriť oznam</a></x-dashboard.empty>
                             </td>
                         </tr>

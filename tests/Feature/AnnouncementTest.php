@@ -7,6 +7,8 @@ use App\Enums\AnnouncementVariant;
 use App\Models\Announcement;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 /**
@@ -147,5 +149,112 @@ class AnnouncementTest extends TestCase
             ['Prvý', 'Druhý'],
             Announcement::visibleFor(AnnouncementPlacement::Top)->pluck('title')->all()
         );
+    }
+
+    // ------------------------------------------------------ obrázkový baner
+
+    public function test_superadmin_nahra_obrazkovy_baner_a_web_ho_vykresli(): void
+    {
+        Storage::fake('public');
+
+        $this->actingAs($this->superadmin())
+            ->post('/admin/announcement', [
+                'placement'    => AnnouncementPlacement::Top->value,
+                'variant'      => AnnouncementVariant::Neutral->value,
+                'title'        => 'Organizujete kresťanské podujatie?',
+                'link_url'     => 'https://tixio.eu',
+                'active'       => '1',
+                'image'        => UploadedFile::fake()->image('baner.gif', 728, 90),
+                'mobile_image' => UploadedFile::fake()->image('baner-mobil.gif', 300, 250),
+            ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect(route('admin.announcement.index'));
+
+        $announcement = Announcement::sole();
+
+        $this->assertTrue($announcement->hasImage());
+        Storage::disk('public')->assertExists($announcement->image_path);
+        Storage::disk('public')->assertExists($announcement->mobile_image_path);
+        $this->assertSame(728, $announcement->image_width);
+        $this->assertSame(90, $announcement->image_height);
+
+        $this->get('/gdpr')
+            ->assertOk()
+            ->assertSee($announcement->imageUrl(), false)
+            ->assertSee($announcement->mobileImageUrl(), false)
+            ->assertSee(route('announcement.click', $announcement), false)
+            ->assertSee('target="_blank"', false);
+    }
+
+    public function test_svg_sa_ako_baner_neulozi(): void
+    {
+        Storage::fake('public');
+
+        $this->actingAs($this->superadmin())
+            ->post('/admin/announcement', [
+                'placement' => AnnouncementPlacement::Top->value,
+                'variant'   => AnnouncementVariant::Info->value,
+                'title'     => 'Pokus',
+                'image'     => UploadedFile::fake()->createWithContent('x.svg', '<svg onload="alert(1)"/>'),
+            ])
+            ->assertSessionHasErrors('image');
+
+        $this->assertSame(0, Announcement::count());
+    }
+
+    public function test_odstranenie_obrazka_zmaze_subor(): void
+    {
+        Storage::fake('public');
+        $path = UploadedFile::fake()->image('a.png', 300, 250)->store(Announcement::IMAGE_DIR, 'public');
+        $announcement = Announcement::factory()->create(['image_path' => $path, 'image_width' => 300, 'image_height' => 250]);
+
+        $this->actingAs($this->superadmin())
+            ->put(route('admin.announcement.update', $announcement), [
+                'placement'    => $announcement->placement->value,
+                'variant'      => $announcement->variant->value,
+                'title'        => $announcement->title,
+                'active'       => '1',
+                'remove_image' => '1',
+            ])
+            ->assertRedirect(route('admin.announcement.index'));
+
+        $this->assertNull($announcement->fresh()->image_path);
+        Storage::disk('public')->assertMissing($path);
+    }
+
+    // ------------------------------------------------------------- kliky
+
+    public function test_preklik_zapocita_klik_raz_za_den_a_presmeruje(): void
+    {
+        $announcement = Announcement::factory()->create(['link_url' => 'https://tixio.eu']);
+        $headers = ['User-Agent' => 'Mozilla/5.0 Firefox/140', 'Sec-Fetch-Site' => 'same-origin'];
+
+        $this->withHeaders($headers)->get(route('announcement.click', $announcement))
+            ->assertRedirect('https://tixio.eu');
+        $this->withHeaders($headers)->get(route('announcement.click', $announcement))
+            ->assertRedirect('https://tixio.eu');
+
+        $this->assertSame(1, $announcement->fresh()->clicks);
+    }
+
+    public function test_robot_a_cudzi_web_klik_nenafuknu(): void
+    {
+        $announcement = Announcement::factory()->create(['link_url' => 'https://tixio.eu']);
+
+        $this->withHeaders(['User-Agent' => 'Googlebot/2.1'])
+            ->get(route('announcement.click', $announcement))
+            ->assertRedirect('https://tixio.eu');
+        $this->withHeaders(['User-Agent' => 'Mozilla/5.0', 'Sec-Fetch-Site' => 'cross-site'])
+            ->get(route('announcement.click', $announcement))
+            ->assertRedirect('https://tixio.eu');
+
+        $this->assertSame(0, $announcement->fresh()->clicks);
+    }
+
+    public function test_vypnuty_oznam_nepresmeruje_na_cudzi_web(): void
+    {
+        $announcement = Announcement::factory()->inactive()->create(['link_url' => 'https://tixio.eu']);
+
+        $this->get(route('announcement.click', $announcement))->assertRedirect('/');
     }
 }

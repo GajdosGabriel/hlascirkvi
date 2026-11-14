@@ -29,7 +29,29 @@
             $linkText = $item->link_text ?: 'Zistiť viac';
         @endphp
 
-        @if ($shape === 'bar')
+        @if ($item->hasImage())
+            {{-- Obrázkový baner: namiesto textu na farebnom pozadí obrázok
+                 (aj animovaný GIF/WebP). Názov oznamu slúži ako alt. Na úzkej
+                 obrazovke sa ukáže mobilná verzia, ak ju správca nahral. --}}
+            @if ($shape === 'bar')
+                <div class="relative {{ $placement === 'footer' ? 'border-t border-black/10' : '' }}"
+                     data-announcement="{{ $item->id }}">
+                    <div class="mx-auto flex max-w-6xl justify-center px-4 py-2">@include('partials.announcement-banner', ['item' => $item, 'eager' => $placement !== 'footer'])</div>
+                    @include('partials.announcement-close', ['item' => $item])
+                </div>
+            @elseif ($shape === 'card')
+                <section class="card relative overflow-hidden" data-announcement="{{ $item->id }}">
+                    <div class="flex justify-center">@include('partials.announcement-banner', ['item' => $item, 'eager' => $placement !== 'footer'])</div>
+                    @include('partials.announcement-close', ['item' => $item])
+                </section>
+            @else
+                <div class="relative mb-4 flex justify-center" data-announcement="{{ $item->id }}">
+                    @include('partials.announcement-banner', ['item' => $item, 'eager' => $placement !== 'footer'])
+                    @include('partials.announcement-close', ['item' => $item])
+                </div>
+            @endif
+
+        @elseif ($shape === 'bar')
             <div class="{{ $tone['bar'] }} {{ $placement === 'footer' ? 'border-t border-black/10' : '' }}"
                  data-announcement="{{ $item->id }}">
                 <div class="mx-auto flex max-w-6xl items-start gap-3 px-4 py-2.5 text-sm">
@@ -42,7 +64,7 @@
                         @endif
 
                         @if ($item->link_url)
-                            <a href="{{ $item->link_url }}"
+                            <a href="{{ $item->clickUrl() }}" rel="nofollow"
                                class="ml-2 whitespace-nowrap font-semibold underline underline-offset-2 hover:no-underline">
                                 {{ $linkText }} <i class="ph ph-caret-double-right" aria-hidden="true"></i>
                             </a>
@@ -70,7 +92,7 @@
 
                     @if ($item->link_url)
                         <p class="mt-2">
-                            <a href="{{ $item->link_url }}" class="{{ $tone['accent'] }} font-semibold">
+                            <a href="{{ $item->clickUrl() }}" rel="nofollow" class="{{ $tone['accent'] }} font-semibold">
                                 {{ $linkText }} <i class="ph ph-caret-double-right" aria-hidden="true"></i>
                             </a>
                         </p>
@@ -92,7 +114,7 @@
 
                     @if ($item->link_url)
                         <p class="mt-2">
-                            <a href="{{ $item->link_url }}" class="text-sm font-semibold underline underline-offset-2 hover:no-underline">
+                            <a href="{{ $item->clickUrl() }}" rel="nofollow" class="text-sm font-semibold underline underline-offset-2 hover:no-underline">
                                 {{ $linkText }} <i class="ph ph-caret-double-right" aria-hidden="true"></i>
                             </a>
                         </p>

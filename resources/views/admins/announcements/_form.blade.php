@@ -11,7 +11,7 @@
 
 {{-- Chyby validácie vypisuje layouts/app na začiatku <main>; pri poli sa
      ukáže len krátka hláška. --}}
-<form method="POST" action="{{ $action }}" class="space-y-5">
+<form method="POST" action="{{ $action }}" class="space-y-5" enctype="multipart/form-data">
     @csrf
     @if ($announcement->exists)
         @method('PUT')
@@ -54,6 +54,72 @@
                     @error('link_text') <p class="ar-error">{{ $message }}</p> @enderror
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="ar-panel">
+        <div class="ar-panel__head"><h2 class="ar-panel__title">Obrázkový baner</h2></div>
+        <div class="ar-panel__body ar-form">
+            <p class="ar-hint">
+                Keď nahráte obrázok, na webe sa namiesto textu na farebnom pozadí zobrazí tento obrázok
+                s odkazom vyššie. Názov oznamu sa použije ako popis obrázka pre čítačky. GIF a WebP
+                ostanú animované.
+            </p>
+
+            {{-- Odporúčané rozmery podľa umiestnenia (AnnouncementPlacement::bannerSize()). --}}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="text-(--ar-muted)">
+                        <tr>
+                            <th class="py-1 pr-4 font-semibold">Umiestnenie</th>
+                            <th class="py-1 pr-4 font-semibold">Obrázok</th>
+                            <th class="py-1 font-semibold">Obrázok pre mobil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($placements as $option)
+                            <tr class="border-t border-(--ar-line)" data-banner-size-row="{{ $option->value }}">
+                                <td class="py-1 pr-4">{{ $option->label() }}</td>
+                                <td class="py-1 pr-4 whitespace-nowrap">{{ $option->bannerSize()['desktop'] }} px</td>
+                                <td class="py-1">{{ $option->bannerSize()['mobile'] }} px</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <p class="ar-hint mt-1">
+                    Pre ostrosť na kvalitných displejoch môže mať obrázok aj dvojnásobnú veľkosť
+                    (napr. 1456 × 180 namiesto 728 × 90) — dôležitý je pomer strán. Širší obrázok
+                    sa na webe zmenší do šírky stĺpca.
+                </p>
+            </div>
+
+            @foreach ([
+                'image'        => ['label' => 'Obrázok', 'hint' => 'GIF, WebP, PNG alebo JPG, najviac 3 MB.', 'url' => $announcement->imageUrl(), 'w' => $announcement->image_width, 'h' => $announcement->image_height],
+                'mobile_image' => ['label' => 'Obrázok pre mobil (nepovinné)', 'hint' => 'Zobrazí sa na obrazovkách užších ako 640 px — napr. 300 × 250 px namiesto širokého 728 × 90.', 'url' => $announcement->mobileImageUrl(), 'w' => $announcement->mobile_image_width, 'h' => $announcement->mobile_image_height],
+            ] as $name => $cfg)
+                <div>
+                    <label class="ar-label" for="{{ $name }}">{{ $cfg['label'] }}</label>
+
+                    @if ($cfg['url'])
+                        <div class="mb-2 flex flex-wrap items-end gap-4">
+                            <img src="{{ $cfg['url'] }}" alt="" class="max-h-40 max-w-full rounded-sm border border-(--ar-line)">
+                            <div class="text-xs text-(--ar-muted)">
+                                @if ($cfg['w']) {{ $cfg['w'] }} × {{ $cfg['h'] }} px @endif
+                                <label class="ar-check mt-1">
+                                    <input type="checkbox" name="remove_{{ $name }}" value="1"> Odstrániť obrázok
+                                </label>
+                            </div>
+                        </div>
+                    @endif
+
+                    <input class="{{ $field($name) }}" type="file" id="{{ $name }}" name="{{ $name }}"
+                           accept="image/gif,image/webp,image/png,image/jpeg" aria-describedby="{{ $name }}-hint">
+                    <p class="ar-hint" id="{{ $name }}-hint">
+                        {{ $cfg['hint'] }} @if ($cfg['url']) Nový súbor nahradí súčasný. @endif
+                    </p>
+                    @error($name) <p class="ar-error">{{ $message }}</p> @enderror
+                </div>
+            @endforeach
         </div>
     </section>
 
@@ -155,7 +221,14 @@
             const hint = document.querySelector('[data-placement-hint]');
             if (!select || !hint) return;
             const hints = JSON.parse(hint.dataset.hints || '{}');
-            select.addEventListener('change', () => { hint.textContent = hints[select.value] ?? ''; });
+            // V tabuľke rozmerov banerov zvýrazní riadok vybraného miesta.
+            const markSizeRow = () => document.querySelectorAll('[data-banner-size-row]').forEach((row) => {
+                const on = row.dataset.bannerSizeRow === select.value;
+                row.classList.toggle('bg-amber-50', on);
+                row.classList.toggle('font-semibold', on);
+            });
+            markSizeRow();
+            select.addEventListener('change', () => { hint.textContent = hints[select.value] ?? ''; markSizeRow(); });
         });
     </script>
 @endpush

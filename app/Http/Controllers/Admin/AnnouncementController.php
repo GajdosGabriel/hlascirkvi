@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AnnouncementRequest;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Správa oznamov. Celá skupina `admin.` beží za middleware `checkSuperAdmin`
@@ -51,7 +53,9 @@ class AnnouncementController extends Controller
 
     public function store(AnnouncementRequest $request)
     {
-        $announcement = Announcement::create($request->payload());
+        $announcement = new Announcement($request->payload());
+        $this->syncImages($request, $announcement);
+        $announcement->save();
 
         return redirect()
             ->route('admin.announcement.index')
@@ -69,7 +73,9 @@ class AnnouncementController extends Controller
 
     public function update(AnnouncementRequest $request, Announcement $announcement)
     {
-        $announcement->update($request->payload());
+        $announcement->fill($request->payload());
+        $this->syncImages($request, $announcement);
+        $announcement->save();
 
         return redirect()
             ->route('admin.announcement.index')
@@ -88,6 +94,40 @@ class AnnouncementController extends Controller
             'flash',
             $announcement->active ? 'Oznam sa zobrazuje.' : 'Oznam je vypnutý.'
         );
+    }
+
+    /**
+     * Uloží nahraté banery a zmaže tie, ktoré správca nahradil alebo
+     * odstránil. Súbor ide na disk bez prepočítania — akékoľvek spracovanie
+     * cez GD by z animovaného GIF/WebP spravilo statický obrázok.
+     */
+    private function syncImages(AnnouncementRequest $request, Announcement $announcement): void
+    {
+        $disk = Storage::disk('public');
+
+        foreach (['image' => 'image', 'mobile_image' => 'mobile_image'] as $input => $prefix) {
+            $pathField = $prefix . '_path';
+            $old = $announcement->getOriginal($pathField);
+            $file = $request->file($input);
+
+            if ($file instanceof UploadedFile) {
+                $size = @getimagesize($file->getRealPath()) ?: [null, null];
+
+                $announcement->forceFill([
+                    $pathField          => $file->store(Announcement::IMAGE_DIR, 'public'),
+                    $prefix . '_width'  => $size[0],
+                    $prefix . '_height' => $size[1],
+                ]);
+            } elseif ($request->boolean('remove_' . $input)) {
+                $announcement->forceFill([$pathField => null, $prefix . '_width' => null, $prefix . '_height' => null]);
+            } else {
+                continue;
+            }
+
+            if ($old && $old !== $announcement->{$pathField}) {
+                $disk->delete($old);
+            }
+        }
     }
 
     public function destroy(Announcement $announcement)

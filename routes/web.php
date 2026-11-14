@@ -91,6 +91,12 @@ Route::post('/auth/google', 'Auth\AuthController@googleAuth')
 
 Route::get('zamyslenia/{slug?}', 'VerseController@index')->name('verses.index');
 
+// Preklik z oznamu/baneru — započíta klik a presmeruje na cieľ oznamu.
+Route::get('oznam/{announcement}/klik', \App\Http\Controllers\Public\AnnouncementClickController::class)
+    ->whereNumber('announcement')
+    ->middleware('throttle:60,1')
+    ->name('announcement.click');
+
 // Liturgické čítania na deň (App\Services\Liturgy). Bez dátumu dnes.
 Route::get('citania/{datum?}', 'Public\ReadingsController@show')
     ->where('datum', '\d{4}-\d{2}-\d{2}')
