@@ -23,7 +23,7 @@
                                 @if ($ticket->user_seen_at === null)
                                     <x-dashboard.status-badge label="Nová odpoveď" tone="red" />
                                 @endif
-                                <span class="text-xs text-[color:var(--ar-muted)]">
+                                <span class="text-xs text-(--ar-muted)">
                                     {{ $ticket->reference() }}
                                 </span>
                             </div>

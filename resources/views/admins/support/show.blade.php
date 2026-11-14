@@ -50,7 +50,7 @@
                             @endif
                             @if ($ticket->user_agent)
                                 <dt class="text-gray-500">Prehliadač</dt>
-                                <dd class="break-words text-xs text-gray-600">{{ $ticket->user_agent }}</dd>
+                                <dd class="wrap-break-word text-xs text-gray-600">{{ $ticket->user_agent }}</dd>
                             @endif
                         </dl>
 

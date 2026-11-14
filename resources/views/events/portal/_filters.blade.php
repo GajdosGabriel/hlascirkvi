@@ -2,12 +2,12 @@
      odrolovaní do polovice zoznamu. --}}
 {{-- Pozadie je plná farba, nie priehľadnosť s rozostrením: lišta prekrýva
      obrázky pri rolovaní a blur na nej stál viac výkonu, než koľko pridal. --}}
-<div class="sticky top-0 z-30 border-b border-[color:var(--ev-line)] bg-[color:var(--ev-paper)] shadow-sm">
+<div class="sticky top-0 z-30 border-b border-(--ev-line) bg-(--ev-paper) shadow-xs">
     <div class="mx-auto max-w-6xl px-4 py-3">
         <div class="flex flex-wrap items-center gap-3">
 
             {{-- Časové zoznamy --}}
-            <nav class="flex flex-wrap gap-1 rounded-lg border border-[color:var(--ev-line)] bg-white p-1">
+            <nav class="flex flex-wrap gap-1 rounded-lg border border-(--ev-line) bg-white p-1">
                 @php
                     $tabs = [
                         ['label' => 'Najbližšie', 'params' => ['list' => 'upcoming', 'range' => null]],
@@ -25,7 +25,7 @@
                     <a href="{{ $evUrl($tab['params']) }}"
                        class="rounded-md px-3 py-1.5 text-sm font-medium transition
                               {{ $isActive
-                                  ? 'bg-[color:var(--ev-night)] text-white'
+                                  ? 'bg-(--ev-night) text-white'
                                   : 'text-stone-600 hover:bg-stone-100' }}">
                         {{ $tab['label'] }}
                     </a>
@@ -34,7 +34,7 @@
 
             {{-- Hľadanie. Ostatné filtre idú so sebou v skrytých poliach, nech
                  sa vyhľadávaním nezruší vybraná obec ani štítky. --}}
-            <form action="{{ route('akcie.index') }}" method="GET" class="hidden flex-1 min-w-[14rem] sm:block">
+            <form action="{{ route('akcie.index') }}" method="GET" class="hidden flex-1 min-w-56 sm:block">
                 @foreach (['list', 'municipality', 'tags', 'range'] as $keep)
                     @if (! empty($filters[$keep]))
                         <input type="hidden" name="{{ $keep }}" value="{{ $filters[$keep] }}">
@@ -48,14 +48,14 @@
                     <input type="search" name="search" value="{{ $filters['search'] }}"
                            placeholder="Hľadať podujatie, mesto, organizátora…"
                            aria-label="Hľadať podujatie"
-                           class="w-full rounded-lg border border-[color:var(--ev-line)] bg-white py-2 pl-3 text-sm
-                                  placeholder:text-stone-500 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500">
+                           class="w-full rounded-lg border border-(--ev-line) bg-white py-2 pl-3 text-sm
+                                  placeholder:text-stone-500 focus:border-amber-500 focus:outline-hidden focus:ring-1 focus:ring-amber-500">
                     <x-search-button label="Hľadať podujatie" />
                 </div>
             </form>
 
             {{-- Podoba výpisu --}}
-            <div class="flex rounded-lg border border-[color:var(--ev-line)] bg-white p-1">
+            <div class="flex rounded-lg border border-(--ev-line) bg-white p-1">
                 @foreach ([['os', 'Časová os', 'ph-rows'], ['plagaty', 'Plagáty', 'ph-squares-four'], ['mapa', 'Mapa', 'ph-map-trifold']] as [$key, $label, $icon])
                     <a href="{{ $evUrl(['view' => $key === 'os' ? null : $key]) }}"
                        title="{{ $label }}"

@@ -26,18 +26,18 @@
                 -->
                 <component
                     :is="heading"
-                    class="ar-display truncate text-xl font-bold leading-tight text-[color:var(--ar-ink)] md:text-2xl"
+                    class="ar-display truncate text-xl font-bold leading-tight text-(--ar-ink) md:text-2xl"
                 >
                     <a v-if="profileUrl" :href="profileUrl" class="hover:underline focus:underline">{{ canal.title }}</a>
                     <template v-else>{{ canal.title }}</template>
                 </component>
 
-                <a v-if="profileUrl" :href="profileUrl" class="mt-0.5 inline-block text-xs font-semibold text-[color:var(--ar-accent)] hover:underline">Profil kanála</a>
+                <a v-if="profileUrl" :href="profileUrl" class="mt-0.5 inline-block text-xs font-semibold text-(--ar-accent) hover:underline">Profil kanála</a>
                 <button
                     v-if="canal.description && !profileUrl"
                     type="button"
                     @click.stop="toggle"
-                    class="mt-0.5 inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 transition-colors hover:text-[color:var(--ar-accent)]"
+                    class="mt-0.5 inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 transition-colors hover:text-(--ar-accent)"
                 >
                     <i
                         class="ph ph-caret-down text-[.6rem] transition-transform"
@@ -64,7 +64,7 @@
             <transition name="fade">
                 <div
                     v-if="open"
-                    class="absolute right-0 z-20 mt-2 w-56 rounded-lg border border-[color:var(--ar-line)] bg-white p-4 text-center shadow-lg"
+                    class="absolute right-0 z-20 mt-2 w-56 rounded-lg border border-(--ar-line) bg-white p-4 text-center shadow-lg"
                 >
                     <p class="mb-3 text-sm text-gray-600">
                         Na odber sa treba prihlásiť alebo zaregistrovať.
@@ -78,7 +78,7 @@
         <transition name="fade">
             <div
                 v-if="showDescription"
-                class="ar-canal-description w-full border-t border-[color:var(--ar-line)] pt-3 text-sm leading-relaxed text-gray-600"
+                class="ar-canal-description w-full border-t border-(--ar-line) pt-3 text-sm leading-relaxed text-gray-600"
                 v-html="canal.description_html"
             ></div>
         </transition>

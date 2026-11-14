@@ -36,7 +36,7 @@
                 @foreach ($section['lines'] as $line)
                     @continue($line['type'] === 'sequence')
 
-                    <li class="{{ $line['type'] === 'gospel' ? '-mx-2 rounded bg-gray-50 p-2' : '' }}">
+                    <li class="{{ $line['type'] === 'gospel' ? '-mx-2 rounded-sm bg-gray-50 p-2' : '' }}">
                         <span class="block text-xs font-semibold uppercase text-gray-500">{{ $line['label'] }}</span>
 
                         {{-- Klik na citáciu rozbalí text (details, bez JavaScriptu).

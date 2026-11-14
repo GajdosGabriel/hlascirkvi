@@ -66,7 +66,7 @@
                         <img src="{{ $user->avatarUrl() }}" alt="Profilová fotografia" class="h-16 w-16 rounded-full object-cover" loading="lazy">
                     @endif
                     <div class="min-w-0">
-                        <h2 class="text-xl font-semibold break-words">{{ $user->adminName() }}</h2>
+                        <h2 class="text-xl font-semibold wrap-break-word">{{ $user->adminName() }}</h2>
                         <p class="text-sm text-gray-500 break-all">{{ $user->email }}</p>
                     </div>
                     @if ($user->trashed())
@@ -84,7 +84,7 @@
                             @foreach ($fields as $label => $value)
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-3">
                                     <dt class="text-gray-500">{{ $label }}</dt>
-                                    <dd class="break-words whitespace-pre-wrap">{{ $value === null || $value === '' ? '—' : $value }}</dd>
+                                    <dd class="wrap-break-word whitespace-pre-wrap">{{ $value === null || $value === '' ? '—' : $value }}</dd>
                                 </div>
                             @endforeach
                         </dl>
@@ -133,7 +133,7 @@
                                 <span>#{{ $comment->id }} · {{ $date($comment->created_at) }}</span>
                                 <span>{{ $comment->trashed() ? 'Zrušený' : ($comment->published ? 'Zverejnený' : 'Nezverejnený') }}</span>
                             </div>
-                            <p class="text-sm whitespace-pre-wrap break-words mt-2">{{ $comment->body }}</p>
+                            <p class="text-sm whitespace-pre-wrap wrap-break-word mt-2">{{ $comment->body }}</p>
                         </div>
                     </article>
                 @empty
@@ -151,7 +151,7 @@
                                 <x-dashboard.status-badge :label="$log->event" :tone="['error' => 'red', 'warning' => 'amber'][$log->level] ?? 'gray'" />
                                 <span class="text-xs text-gray-500">{{ $date($log->created_at) }} · {{ $log->status ?? '—' }}</span>
                             </div>
-                            <p class="text-sm break-words mt-2">{{ $log->message }}</p>
+                            <p class="text-sm wrap-break-word mt-2">{{ $log->message }}</p>
                             @if ($log->ip)<p class="text-xs text-gray-500 mt-1">{{ $log->ip }}</p>@endif
                         </div>
                     </article>

@@ -74,11 +74,11 @@
                                 </form>
 
                                 @if ($announcement->active && ! $announcement->isRunning())
-                                    <div class="mt-1 text-xs text-[color:var(--ar-muted)]">mimo termínu</div>
+                                    <div class="mt-1 text-xs text-(--ar-muted)">mimo termínu</div>
                                 @endif
                             </td>
 
-                            <td class="whitespace-nowrap text-xs text-[color:var(--ar-ink-soft)]">
+                            <td class="whitespace-nowrap text-xs text-(--ar-ink-soft)">
                                 <div>Od: {{ $announcement->published_from?->format('d.m.Y H:i') ?? 'hneď' }}</div>
                                 <div>Do: {{ $announcement->published_until?->format('d.m.Y H:i') ?? 'bez konca' }}</div>
                             </td>

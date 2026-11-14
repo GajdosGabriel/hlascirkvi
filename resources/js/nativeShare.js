@@ -12,9 +12,9 @@ export function initNativeShare() {
     }
 
     document.querySelectorAll('.js-native-share').forEach(function (button) {
-        // `!hidden` nesú tlačidlá s triedou ar-btn, ktorej display by obyčajné
+        // `hidden!` nesú tlačidlá s triedou ar-btn, ktorej display by obyčajné
         // `hidden` prebilo (design-system sa načítava za Tailwindom).
-        button.classList.remove('hidden', '!hidden');
+        button.classList.remove('hidden', 'hidden!');
 
         button.addEventListener('click', function () {
             navigator

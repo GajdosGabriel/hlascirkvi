@@ -122,7 +122,7 @@
                     <div class="ar-panel__body ar-start">
                         <p class="ar-kicker">Začíname</p>
                         <h2 class="ar-display mt-1 text-xl font-bold">Kanál je pripravený, chýba mu prvý obsah</h2>
-                        <p class="mt-2 text-sm text-[color:var(--ar-ink-soft)]">
+                        <p class="mt-2 text-sm text-(--ar-ink-soft)">
                             Keď pribudnú príspevky, uvidíte tu zhliadnutia, komentáre a čo čaká na zverejnenie.
                         </p>
 

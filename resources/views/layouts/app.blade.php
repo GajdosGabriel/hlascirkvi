@@ -45,7 +45,7 @@
 {{-- Stránky, ktoré už nosia nový vzhľad, si sem doplnia `ar-body`; ostatné
      ostávajú na pôvodnom bielom podklade. --}}
 <body class="@yield('body-class')">
-    <a href="#obsah" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-blue-900 focus:shadow-lg">Preskočiť na obsah</a>
+    <a href="#obsah" class="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-100 focus:rounded-sm focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-semibold focus:text-blue-900 focus:shadow-lg">Preskočiť na obsah</a>
 
     @can('admin')
     {{-- Admin nesleduje smartlook a google statistick --}}

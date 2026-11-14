@@ -4,15 +4,15 @@
         @if ($event->hasPoster())
             <img src="{{ $event->thumb() ?: $event->poster() }}"
                  alt="" loading="lazy" width="56" height="56"
-                 class="h-14 w-14 shrink-0 rounded object-cover">
+                 class="h-14 w-14 shrink-0 rounded-sm object-cover">
         @else
-            <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded bg-gray-100 text-gray-400" aria-hidden="true">
+            <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-sm bg-gray-100 text-gray-400" aria-hidden="true">
                 <i class="ph ph-calendar-blank text-xl"></i>
             </span>
         @endif
 
         <span class="min-w-0 flex-1">
-            <span class="ar-clamp-2 text-sm font-semibold leading-snug text-gray-800 group-hover:text-[color:var(--ar-accent)]">
+            <span class="ar-clamp-2 text-sm font-semibold leading-snug text-gray-800 group-hover:text-(--ar-accent)">
                 {{ $event->title() }}
             </span>
 

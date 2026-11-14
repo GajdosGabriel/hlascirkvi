@@ -39,7 +39,7 @@
 
             {{-- Skupiny sú zbalené, aby nezaberali miesto; otvorená ostáva
                  len tá, v ktorej je aktívny filter. --}}
-            <div class="divide-y divide-[color:var(--ev-line)]">
+            <div class="divide-y divide-(--ev-line)">
                 @foreach ($tagGroups as $group)
                     @php
                         $groupTags = collect($group['tags'] ?? [])
@@ -62,7 +62,7 @@
                                    class="inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs transition
                                           {{ $isActive
                                               ? 'border-amber-500 bg-amber-100 font-semibold text-amber-900'
-                                              : 'border-[color:var(--ev-line)] bg-[color:var(--ev-paper)] text-stone-600 hover:border-amber-400 hover:bg-white' }}">
+                                              : 'border-(--ev-line) bg-(--ev-paper) text-stone-600 hover:border-amber-400 hover:bg-white' }}">
                                     @if (! empty($tag['emoji']))<span>{{ $tag['emoji'] }}</span>@endif
                                     {{ $tag['name'] ?? '' }}
                                     <span class="text-stone-600">{{ $tag['events_count'] ?? 0 }}</span>
@@ -83,7 +83,7 @@
             Stačí nahrať plagát, ostatné sa doplní samo.
         </p>
         <a href="{{ $portalUrl }}/nahrat-plagat" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 rounded-md bg-[color:var(--ev-night)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-stone-800">
+           class="inline-flex items-center gap-2 rounded-md bg-(--ev-night) px-4 py-2 text-sm font-semibold text-white transition hover:bg-stone-800">
             <i class="ph ph-plus text-xs"></i> Pridať podujatie
         </a>
     </section>

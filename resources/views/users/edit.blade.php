@@ -24,7 +24,7 @@
                         <img src="{{ $user->avatarUrl() }}" alt="Profilová fotografia" class="h-16 w-16 rounded-full object-cover">
                     @endif
                     <div class="min-w-0 flex-1">
-                        <h2 class="text-xl font-semibold break-words">{{ $user->adminName() }}</h2>
+                        <h2 class="text-xl font-semibold wrap-break-word">{{ $user->adminName() }}</h2>
                         <p class="text-sm text-gray-500 break-all">#{{ $user->id }} · {{ $user->email }}</p>
                     </div>
                     <x-dashboard.status-badge :badge="$user->accountBadge()" />
@@ -109,7 +109,7 @@
                             <dl class="space-y-4 text-sm">
                                 <div><dt class="text-gray-500">Registrácia</dt><dd>{{ $user->created_at?->format('d.m.Y H:i') ?? '—' }}</dd></div>
                                 <div><dt class="text-gray-500">Overenie e-mailu</dt><dd>{{ $user->email_verified_at?->format('d.m.Y H:i') ?? 'E-mail nie je overený' }}</dd></div>
-                                <div><dt class="text-gray-500">Roly</dt><dd class="break-words">{{ $user->roles->pluck('name')->join(', ') ?: 'Bez roly' }}</dd></div>
+                                <div><dt class="text-gray-500">Roly</dt><dd class="wrap-break-word">{{ $user->roles->pluck('name')->join(', ') ?: 'Bez roly' }}</dd></div>
                                 <div><dt class="text-gray-500">Posledná úprava</dt><dd>{{ $user->updated_at?->format('d.m.Y H:i') ?? '—' }}</dd></div>
                                 <div><dt class="text-gray-500">Posledná zmena stavu</dt><dd>{{ $user->status_changed_at?->format('d.m.Y H:i') ?? 'Bez záznamu' }}</dd></div>
                             </dl>

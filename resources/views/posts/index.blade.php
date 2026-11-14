@@ -71,7 +71,7 @@
     @endphp
 
     {{-- Hlavička výpisu --}}
-    <header class="border-b border-[color:var(--ar-line)] bg-white">
+    <header class="border-b border-(--ar-line) bg-white">
         <div class="mx-auto max-w-6xl px-4 py-7 md:py-10">
 
             <div class="max-w-2xl">
@@ -154,7 +154,7 @@
                     @forelse ($posts as $post)
                         @include('posts.card-front')
                     @empty
-                        <div class="col-span-full rounded-lg border border-dashed border-[color:var(--ar-line)] bg-white px-4 py-10 text-center text-sm text-gray-500">
+                        <div class="col-span-full rounded-lg border border-dashed border-(--ar-line) bg-white px-4 py-10 text-center text-sm text-gray-500">
                             <p>Pre tento výber sme nenašli žiadny príspevok.</p>
                             @if ($search !== '' || $active)
                                 <p class="mt-2">Skúste iný výraz alebo zrušte vybraný filter.</p>

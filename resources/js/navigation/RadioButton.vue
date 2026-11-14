@@ -37,7 +37,7 @@
             >
                 {{ radio.name }}
                 <span class="sr-only">(otvorí sa v novom okne)</span>
-                <img v-if="radio.flag" :src="radio.flag" class="h-4 rounded-sm" alt="" />
+                <img v-if="radio.flag" :src="radio.flag" class="h-4 rounded-xs" alt="" />
                 <i class="ph ph-arrow-square-out ml-auto opacity-60" aria-hidden="true"></i>
             </a>
         </div>
@@ -82,7 +82,7 @@
             >
                 {{ radio.name }}
                 <span class="sr-only">(otvorí sa v novom okne)</span>
-                <img v-if="radio.flag" :src="radio.flag" class="h-4 rounded-sm" alt="" />
+                <img v-if="radio.flag" :src="radio.flag" class="h-4 rounded-xs" alt="" />
                 <i class="ph ph-arrow-square-out ml-auto opacity-60" aria-hidden="true"></i>
             </a>
         </div>

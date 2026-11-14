@@ -23,11 +23,11 @@
                      (App\Services\UserActivation::publishPendingPrayers). -->
                 <div v-if="pending" class="px-5 py-5" role="status">
                     <p class="font-semibold">Ďakujeme, prosbu sme prijali.</p>
-                    <p class="mt-2 text-sm text-[color:var(--ar-ink-soft)]">
+                    <p class="mt-2 text-sm text-(--ar-ink-soft)">
                         Zverejní sa, keď potvrdíte svoju e-mailovú adresu. Poslali sme vám
                         na ňu odkaz — skontrolujte, prosím, aj priečinok so spamom.
                     </p>
-                    <div class="mt-6 flex justify-end border-t border-[color:var(--ar-line)] pt-4">
+                    <div class="mt-6 flex justify-end border-t border-(--ar-line) pt-4">
                         <button type="button" class="ar-btn ar-btn--accent" @click="close">Rozumiem</button>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                     </div>
 
                     <div
-                        class="mt-6 flex flex-col-reverse gap-2 border-t border-[color:var(--ar-line)] pt-4 sm:flex-row sm:justify-end"
+                        class="mt-6 flex flex-col-reverse gap-2 border-t border-(--ar-line) pt-4 sm:flex-row sm:justify-end"
                     >
                         <button type="button" class="ar-btn ar-btn--quiet" @click="close">
                             Zrušiť

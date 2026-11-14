@@ -52,7 +52,7 @@
                 </div>
 
                 <p class="ar-prayer__meta mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <span class="font-semibold text-[color:var(--ar-ink-soft)]">
+                    <span class="font-semibold text-(--ar-ink-soft)">
                         {{ prayer.user_name || "Anonym" }}
                     </span>
                     <span aria-hidden="true">·</span>
@@ -71,7 +71,7 @@
         </div>
 
         <p
-            class="mt-3 whitespace-pre-line text-sm leading-relaxed text-[color:var(--ar-ink-soft)]"
+            class="mt-3 whitespace-pre-line text-sm leading-relaxed text-(--ar-ink-soft)"
             :class="{ 'ar-clamp-3': !expanded }"
         >
             {{ prayer.body }}
@@ -82,7 +82,7 @@
         <button
             v-if="prayer.fulfilled_at && isLong"
             type="button"
-            class="mt-1 py-1 text-xs font-semibold text-[color:var(--ar-accent)] hover:underline"
+            class="mt-1 py-1 text-xs font-semibold text-(--ar-accent) hover:underline"
             @click.stop="expanded = !expanded"
         >
             {{ expanded ? "Zbaliť" : "Čítať celé" }}
@@ -90,7 +90,7 @@
 
         <div
             v-if="!prayer.fulfilled_at"
-            class="mt-4 flex items-center justify-between gap-3 border-t border-[color:var(--ar-line)] pt-3"
+            class="mt-4 flex items-center justify-between gap-3 border-t border-(--ar-line) pt-3"
         >
             <span class="ar-prayer__meta">{{ prayingLabel }}</span>
             <favorites-count :prayer="prayer"></favorites-count>

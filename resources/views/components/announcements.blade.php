@@ -51,7 +51,7 @@
 
                     @if ($item->dismissible)
                         <button type="button" data-announcement-close
-                                class="shrink-0 rounded px-1.5 text-base leading-none opacity-70 hover:opacity-100"
+                                class="shrink-0 rounded-sm px-1.5 text-base leading-none opacity-70 hover:opacity-100"
                                 title="Zavrieť oznam" aria-label="Zavrieť oznam">&times;</button>
                     @endif
                 </div>
@@ -101,7 +101,7 @@
 
                 @if ($item->dismissible)
                     <button type="button" data-announcement-close
-                            class="shrink-0 rounded px-1.5 text-lg leading-none opacity-60 hover:opacity-100"
+                            class="shrink-0 rounded-sm px-1.5 text-lg leading-none opacity-60 hover:opacity-100"
                             title="Zavrieť oznam" aria-label="Zavrieť oznam">&times;</button>
                 @endif
             </div>

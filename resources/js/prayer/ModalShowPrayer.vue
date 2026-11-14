@@ -36,7 +36,7 @@
                         </div>
                     </div>
 
-                    <p class="mt-4 whitespace-pre-line text-[.95rem] leading-relaxed text-[color:var(--ar-ink-soft)]">
+                    <p class="mt-4 whitespace-pre-line text-[.95rem] leading-relaxed text-(--ar-ink-soft)">
                         {{ prayer.body }}
                     </p>
 
@@ -44,11 +44,11 @@
                          (App\Models\PendingFavorite). -->
                     <div
                         v-if="pending"
-                        class="mt-5 border-t border-[color:var(--ar-line)] pt-4"
+                        class="mt-5 border-t border-(--ar-line) pt-4"
                         role="status"
                     >
                         <p class="font-semibold">Ďakujeme, že sa pripájate.</p>
-                        <p class="mt-1 text-sm text-[color:var(--ar-ink-soft)]">
+                        <p class="mt-1 text-sm text-(--ar-ink-soft)">
                             Započíta sa, keď potvrdíte svoju e-mailovú adresu. Poslali sme vám
                             na ňu odkaz — skontrolujte, prosím, aj priečinok so spamom.
                         </p>
@@ -59,7 +59,7 @@
 
                     <form
                         v-else
-                        class="mt-5 border-t border-[color:var(--ar-line)] pt-4"
+                        class="mt-5 border-t border-(--ar-line) pt-4"
                         @submit.prevent="saveFavorites"
                     >
                         <ul v-if="errors.length" class="mb-3" role="alert">

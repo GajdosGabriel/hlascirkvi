@@ -19,7 +19,7 @@
         <transition name="fade">
             <div
                 v-if="showLoginForm"
-                class="absolute right-0 top-full z-20 mt-2 w-56 rounded-lg border border-[color:var(--ar-line)] bg-white p-4 text-center shadow-lg"
+                class="absolute right-0 top-full z-20 mt-2 w-56 rounded-lg border border-(--ar-line) bg-white p-4 text-center shadow-lg"
             >
                 <p class="mb-3 text-sm text-gray-600">
                     Odporúčať môžu prihlásení čitatelia.
@@ -65,7 +65,7 @@ export default {
 
         buttonClass: function () {
             return this.isFavorite
-                ? "border-[color:var(--ar-accent)] bg-[color:var(--ar-accent-soft)] text-[color:var(--ar-accent)]"
+                ? "border-(--ar-accent) bg-(--ar-accent-soft) text-(--ar-accent)"
                 : "ar-btn--quiet";
         },
     },

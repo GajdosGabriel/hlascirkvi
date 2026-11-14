@@ -25,13 +25,13 @@
         ])
 
         @if ($isRecommended)
-            <span class="absolute left-2 top-2 whitespace-nowrap rounded-full bg-white/95 px-2 py-0.5 text-[.62rem] font-bold uppercase tracking-wide text-[color:var(--ar-accent)] shadow-sm">
+            <span class="absolute left-2 top-2 whitespace-nowrap rounded-full bg-white/95 px-2 py-0.5 text-[.62rem] font-bold uppercase tracking-wide text-(--ar-accent) shadow-xs">
                 <i class="ph-fill ph-thumbs-up mr-0.5"></i> Odporúčané
             </span>
         @endif
 
         @if ($duration)
-            <span class="absolute bottom-2 right-2 rounded bg-black/75 px-1.5 py-0.5 text-[.65rem] font-medium tabular-nums text-white">
+            <span class="absolute bottom-2 right-2 rounded-sm bg-black/75 px-1.5 py-0.5 text-[.65rem] font-medium tabular-nums text-white">
                 {{ $duration }}
             </span>
         @endif
@@ -41,14 +41,14 @@
     <div class="flex flex-1 flex-col p-3">
         <h2 class="contents">
             <a href="{{ $postUrl }}" title="{{ $post->title }}"
-               class="ar-display block text-[.8rem] font-semibold leading-snug transition-colors group-hover:text-[color:var(--ar-accent)] md:text-sm">
+               class="ar-display block text-[.8rem] font-semibold leading-snug transition-colors group-hover:text-(--ar-accent) md:text-sm">
                 <span class="ar-clamp-3">{{ $post->title }}</span>
             </a>
         </h2>
 
         {{-- py-1 dvíha odkaz kanála na 24 px, aby sa naň dalo trafiť prstom. --}}
         <div class="mt-auto pt-2 text-xs">
-            <a href="{{ $canalUrl }}" class="ar-link inline-block max-w-full truncate py-1 align-bottom font-medium text-gray-600 hover:text-[color:var(--ar-accent)]">
+            <a href="{{ $canalUrl }}" class="ar-link inline-block max-w-full truncate py-1 align-bottom font-medium text-gray-600 hover:text-(--ar-accent)">
                 {{ $post->canal->title }}
             </a>
             <time datetime="{{ $post->created_at->toIso8601String() }}" class="block text-gray-500">

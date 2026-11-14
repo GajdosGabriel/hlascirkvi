@@ -31,7 +31,7 @@
     {{-- Hlavička stránky. Tlačidlo je Vue komponent, lebo formulárové okno
          sa otvára cez zbernicu udalostí — obyčajný onclick v šablóne by
          Vue pri pripojení #app zahodilo. --}}
-    <header class="border-b border-[color:var(--ar-line)] bg-white">
+    <header class="border-b border-(--ar-line) bg-white">
         <div class="mx-auto max-w-6xl px-4 py-7 md:py-10">
             <div class="gap-8 md:flex md:items-end md:justify-between">
 

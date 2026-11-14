@@ -18,7 +18,7 @@
 
     @if (!is_null($badge) && $badge > 0)
         <span
-            class="ml-auto inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-semibold leading-none text-white">
+            class="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-semibold leading-none text-white">
             {{ $badge }}
         </span>
     @endif

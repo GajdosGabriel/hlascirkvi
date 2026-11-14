@@ -14,8 +14,8 @@
                 'border-indigo-200 bg-indigo-50' => $message->is_staff,
                 'border-gray-200 bg-white' => ! $message->is_staff,
             ])>
-                <p class="mb-1 flex flex-wrap items-center gap-x-2 text-xs text-[color:var(--ar-muted)]">
-                    <span class="font-semibold text-[color:var(--ar-ink)]">{{ $author }}</span>
+                <p class="mb-1 flex flex-wrap items-center gap-x-2 text-xs text-(--ar-muted)">
+                    <span class="font-semibold text-(--ar-ink)">{{ $author }}</span>
                     @if ($message->is_staff)
                         <span>· podpora</span>
                     @endif
@@ -23,7 +23,7 @@
                         · {{ $message->created_at?->format('j. n. Y H:i') }}
                     </time>
                 </p>
-                <div class="whitespace-pre-line break-words text-[color:var(--ar-ink)]">{{ $message->body }}</div>
+                <div class="whitespace-pre-line wrap-break-word text-(--ar-ink)">{{ $message->body }}</div>
             </div>
         </li>
     @endforeach

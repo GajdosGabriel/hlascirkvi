@@ -29,7 +29,7 @@
 @section('content')
 
     {{-- Drobčeky --}}
-    <div class="border-b border-[color:var(--ev-line)]">
+    <div class="border-b border-(--ev-line)">
         <div class="mx-auto max-w-6xl px-4 py-3 text-sm text-stone-600">
             <a href="{{ url('/') }}" class="hover:text-stone-800">Hlas Cirkvi</a>
             <span class="mx-2 text-stone-300">/</span>
@@ -43,7 +43,7 @@
     </div>
 
     {{-- Hlavička podujatia --}}
-    <header class="border-b border-[color:var(--ev-line)] bg-white">
+    <header class="border-b border-(--ev-line) bg-white">
         <div class="mx-auto max-w-6xl px-4 py-8 md:py-10">
 
             @if ($event->isOngoing() || $event->isPast() || $event->isToday())
@@ -71,7 +71,7 @@
             <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-stone-600">
                 @if ($event->startAt())
                     <span class="font-medium">
-                        <i class="ph ph-calendar-blank mr-2 text-[color:var(--ev-accent)]"></i>
+                        <i class="ph ph-calendar-blank mr-2 text-(--ev-accent)"></i>
                         {{ $event->dateLabel() }}
                         @if ($event->timeLabel())
                             <span class="text-stone-500">·</span> {{ $event->timeLabel() }}
@@ -80,7 +80,7 @@
                 @endif
 
                 @if ($event->address())
-                    <span><i class="ph ph-map-pin mr-2 text-[color:var(--ev-accent)]"></i>{{ $event->address() }}</span>
+                    <span><i class="ph ph-map-pin mr-2 text-(--ev-accent)"></i>{{ $event->address() }}</span>
                 @endif
             </div>
         </div>
@@ -94,7 +94,7 @@
 
                 @if ($event->hasPoster())
                     <a href="{{ $event->poster('original') ?: $event->poster() }}" target="_blank" rel="noopener"
-                       class="mb-8 block overflow-hidden rounded-lg border border-[color:var(--ev-line)] bg-white">
+                       class="mb-8 block overflow-hidden rounded-lg border border-(--ev-line) bg-white">
                         <img src="{{ $event->poster() }}" alt="{{ $event->title() }}" class="w-full">
                     </a>
                 @endif
@@ -116,7 +116,7 @@
                         <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
                             @foreach ($event->gallery() as $image)
                                 <a href="{{ $image['original_file_url'] ?? '#' }}" target="_blank" rel="noopener"
-                                   class="block overflow-hidden rounded-md border border-[color:var(--ev-line)]">
+                                   class="block overflow-hidden rounded-md border border-(--ev-line)">
                                     <img data-src="{{ $image['thumb_image_url'] ?? $image['original_file_url'] ?? '' }}"
                                          data-sizes="auto" alt="{{ $image['name'] ?? '' }}"
                                          class="lazyload h-32 w-full object-cover transition hover:scale-105">
@@ -136,7 +136,7 @@
                             @foreach ($event->attachments() as $file)
                                 <li>
                                     <a href="{{ $file['original_file_url'] ?? '#' }}" target="_blank" rel="noopener"
-                                       class="flex items-center gap-3 rounded-md border border-[color:var(--ev-line)] bg-white p-3 text-sm transition hover:border-amber-400">
+                                       class="flex items-center gap-3 rounded-md border border-(--ev-line) bg-white p-3 text-sm transition hover:border-amber-400">
                                         <i class="ph ph-file-text text-lg text-stone-500"></i>
                                         <span class="flex-1 truncate">{{ $file['name'] ?? $file['original_name'] ?? 'Príloha' }}</span>
                                         <span class="text-xs uppercase text-stone-500">{{ $file['extension'] ?? '' }}</span>
@@ -153,7 +153,7 @@
                         <h2 class="ev-rule ev-display mb-3 text-sm font-semibold uppercase tracking-wider text-stone-600">
                             Ďalšie termíny
                         </h2>
-                        <ul class="divide-y divide-[color:var(--ev-line)] overflow-hidden rounded-lg border border-[color:var(--ev-line)] bg-white">
+                        <ul class="divide-y divide-(--ev-line) overflow-hidden rounded-lg border border-(--ev-line) bg-white">
                             @foreach ($event->seriesOccurrences() as $occurrence)
                                 <li>
                                     <a href="{{ route('event.show', [$occurrence['id'], $occurrence['slug'] ?? 'podujatie']) }}"
@@ -175,7 +175,7 @@
 
                     {{-- Termín --}}
                     @if ($event->startAt())
-                        <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ev-line) bg-white p-4">
                             <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-stone-500">Termín</h2>
 
                             <div class="flex items-start gap-4">
@@ -201,13 +201,13 @@
                             </div>
 
                             @if ($event->calendarLinks() && ! $event->isPast())
-                                <div class="mt-4 flex flex-wrap gap-2 border-t border-[color:var(--ev-line)] pt-3 text-xs">
+                                <div class="mt-4 flex flex-wrap gap-2 border-t border-(--ev-line) pt-3 text-xs">
                                     <span class="text-stone-500">Do kalendára:</span>
                                     @foreach (['google' => 'Google', 'outlook' => 'Outlook', 'download' => '.ics'] as $key => $label)
                                         @if (! empty($event->calendarLinks()[$key]))
                                             <a href="{{ $event->calendarLinks()[$key] }}" target="_blank" rel="noopener"
                                                data-ga-event="event_calendar_add" data-ga-label="{{ $event->title() }}"
-                                               class="rounded border border-[color:var(--ev-line)] px-2 py-1 transition hover:border-amber-400 hover:text-amber-800">
+                                               class="rounded-sm border border-(--ev-line) px-2 py-1 transition hover:border-amber-400 hover:text-amber-800">
                                                 {{ $label }}
                                             </a>
                                         @endif
@@ -219,7 +219,7 @@
 
                     {{-- Prihlásenie beží na portáli, nie u nás --}}
                     @if (! $event->isPast())
-                        <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ev-line) bg-white p-4">
                             @if ($event->price())
                                 <div class="mb-3 flex items-baseline justify-between">
                                     <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Vstupné</span>
@@ -242,7 +242,7 @@
                             @if ($cta = $event->ticketCta())
                                 <a href="{{ $event->ticketUrl() }}" target="_blank" rel="noopener"
                                    data-ga-event="event_ticket_click" data-ga-label="{{ $event->title() }}"
-                                   class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
+                                   class="flex w-full items-center justify-center gap-2 rounded-md bg-(--ev-accent) px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                                     <i class="ph ph-ticket"></i> {{ $cta['label'] }}
                                 </a>
                             @else
@@ -251,7 +251,7 @@
                                      a organizátor dostane správu. Web organizátora je
                                      v sekcii Organizátor. --}}
                                 <a href="{{ config('eventportal.url') }}/register?event={{ $event->id() }}" target="_blank" rel="noopener"
-                                   class="flex w-full items-center justify-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
+                                   class="flex w-full items-center justify-center gap-2 rounded-md bg-(--ev-accent) px-4 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                                     Rezervovať miesto <i class="ph ph-arrow-square-out text-xs"></i>
                                 </a>
                             @endif
@@ -260,7 +260,7 @@
 
                     {{-- Miesto --}}
                     @if ($event->address())
-                        <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ev-line) bg-white p-4">
                             <h2 class="mb-2 text-xs font-semibold uppercase tracking-wider text-stone-500">Miesto</h2>
                             <div class="text-sm">
                                 @if ($event->venue())
@@ -276,7 +276,7 @@
 
                             @if ($event->mapUrl())
                                 <a href="{{ $event->mapUrl() }}" target="_blank" rel="noopener"
-                                   class="mt-3 inline-flex items-center gap-2 text-sm text-[color:var(--ev-accent)] hover:underline">
+                                   class="mt-3 inline-flex items-center gap-2 text-sm text-(--ev-accent) hover:underline">
                                     <i class="ph ph-navigation-arrow"></i> Zobraziť na mape
                                 </a>
                             @endif
@@ -285,55 +285,55 @@
 
                     {{-- Organizátor --}}
                     @if ($event->organizer())
-                        <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ev-line) bg-white p-4">
                             <h2 class="mb-2 text-xs font-semibold uppercase tracking-wider text-stone-500">Organizátor</h2>
                             <div class="text-sm font-semibold">{{ $event->organizer() }}</div>
                             @if ($event->organizerWebsite())
                                 <a href="{{ $event->organizerWebsite() }}" target="_blank" rel="noopener nofollow"
-                                   class="mt-1 inline-block break-all text-sm text-[color:var(--ev-accent)] hover:underline">
+                                   class="mt-1 inline-block break-all text-sm text-(--ev-accent) hover:underline">
                                     {{ parse_url($event->organizerWebsite(), PHP_URL_HOST) }}
                                 </a>
                             @endif
                             @if ($event->website())
                                 <a href="{{ $event->website() }}" target="_blank" rel="noopener nofollow"
-                                   class="mt-2 flex items-center gap-2 text-sm text-stone-600 hover:text-[color:var(--ev-accent)] hover:underline">
+                                   class="mt-2 flex items-center gap-2 text-sm text-stone-600 hover:text-(--ev-accent) hover:underline">
                                     <i class="ph ph-arrow-square-out text-xs"></i> Stránka podujatia u organizátora
                                 </a>
                             @endif
                         </section>
                     @elseif ($event->website())
-                        <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ev-line) bg-white p-4">
                             <h2 class="mb-2 text-xs font-semibold uppercase tracking-wider text-stone-500">Organizátor</h2>
                             <a href="{{ $event->website() }}" target="_blank" rel="noopener nofollow"
-                               class="flex items-center gap-2 text-sm text-stone-600 hover:text-[color:var(--ev-accent)] hover:underline">
+                               class="flex items-center gap-2 text-sm text-stone-600 hover:text-(--ev-accent) hover:underline">
                                 <i class="ph ph-arrow-square-out text-xs"></i> Stránka podujatia u organizátora
                             </a>
                         </section>
                     @endif
 
                     {{-- Zdieľanie --}}
-                    <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+                    <section class="rounded-lg border border-(--ev-line) bg-white p-4">
                         <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-stone-500">Zdieľať</h2>
                         <div class="flex gap-2">
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($event->url()) }}"
                                target="_blank" rel="noopener"
-                               class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ev-line)] text-stone-600 transition hover:border-blue-400 hover:text-blue-600"
+                               class="flex h-9 w-9 items-center justify-center rounded-md border border-(--ev-line) text-stone-600 transition hover:border-blue-400 hover:text-blue-600"
                                title="Zdieľať na Facebooku">
                                 <i class="ph ph-facebook-logo"></i>
                             </a>
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($event->title() . ' ' . $event->url()) }}"
                                target="_blank" rel="noopener"
-                               class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ev-line)] text-stone-600 transition hover:border-green-400 hover:text-green-600"
+                               class="flex h-9 w-9 items-center justify-center rounded-md border border-(--ev-line) text-stone-600 transition hover:border-green-400 hover:text-green-600"
                                title="Poslať cez WhatsApp">
                                 <i class="ph ph-whatsapp-logo"></i>
                             </a>
                             <a href="mailto:?subject={{ rawurlencode($event->title()) }}&body={{ rawurlencode($event->url()) }}"
-                               class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ev-line)] text-stone-600 transition hover:border-amber-400 hover:text-amber-700"
+                               class="flex h-9 w-9 items-center justify-center rounded-md border border-(--ev-line) text-stone-600 transition hover:border-amber-400 hover:text-amber-700"
                                title="Poslať e-mailom">
                                 <i class="ph ph-envelope-simple"></i>
                             </a>
                             <button type="button"
-                                    class="js-copy-link flex h-9 flex-1 items-center justify-center gap-2 rounded-md border border-[color:var(--ev-line)] text-sm text-stone-600 transition hover:border-amber-400 hover:text-amber-700"
+                                    class="js-copy-link flex h-9 flex-1 items-center justify-center gap-2 rounded-md border border-(--ev-line) text-sm text-stone-600 transition hover:border-amber-400 hover:text-amber-700"
                                     data-url="{{ $event->url() }}">
                                 <i class="ph ph-copy"></i> Kopírovať odkaz
                             </button>
@@ -342,12 +342,12 @@
 
                     {{-- Štítky --}}
                     @if ($event->tags())
-                        <section class="rounded-lg border border-[color:var(--ev-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ev-line) bg-white p-4">
                             <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-stone-500">Štítky</h2>
                             <div class="flex flex-wrap items-center gap-2">
                                 @foreach (array_slice($event->tags(), 0, 5) as $tag)
                                     <a href="{{ route('akcie.index', ['tags' => $tag['slug'] ?? '']) }}"
-                                       class="inline-flex items-center gap-1 rounded-full border border-[color:var(--ev-line)] px-2.5 py-1 text-xs text-stone-600 transition hover:border-amber-400 hover:text-amber-800">
+                                       class="inline-flex items-center gap-1 rounded-full border border-(--ev-line) px-2.5 py-1 text-xs text-stone-600 transition hover:border-amber-400 hover:text-amber-800">
                                         @if (! empty($tag['emoji']))<span>{{ $tag['emoji'] }}</span>@endif
                                         {{ $tag['name'] ?? '' }}
                                     </a>
@@ -378,7 +378,7 @@
                                 </div>
                             @endif
                             <div class="p-3">
-                                <div class="mb-1 text-xs font-semibold text-[color:var(--ev-accent)]">
+                                <div class="mb-1 text-xs font-semibold text-(--ev-accent)">
                                     {{ $other->dateRangeLabel() }}
                                 </div>
                                 <div class="ev-display text-sm font-semibold leading-snug">{{ $other->title() }}</div>
@@ -389,7 +389,7 @@
             </section>
         @endif
 
-        <div class="mt-12 border-t border-[color:var(--ev-line)] pt-6">
+        <div class="mt-12 border-t border-(--ev-line) pt-6">
             <a href="{{ route('akcie.index') }}" class="text-sm text-stone-600 hover:text-stone-800">
                 <i class="ph ph-arrow-left mr-2"></i> Späť na všetky podujatia
             </a>

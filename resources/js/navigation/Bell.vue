@@ -2,7 +2,7 @@
     <div class="relative">
         <button
             type="button"
-            class="relative flex h-9 w-9 items-center justify-center rounded-md text-blue-100 transition-colors hover:bg-blue-800 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+            class="relative flex h-9 w-9 items-center justify-center rounded-md text-blue-100 transition-colors hover:bg-blue-800 hover:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-300"
             :aria-expanded="open ? 'true' : 'false'"
             :aria-label="ariaLabel"
             @click="toggle"
@@ -26,7 +26,7 @@
 
             <span
                 v-if="unreadCount > 0"
-                class="absolute right-0.5 top-0.5 inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold leading-none text-white ring-2 ring-blue-900"
+                class="absolute right-0.5 top-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold leading-none text-white ring-2 ring-blue-900"
             >
                 {{ badgeLabel }}
             </span>
@@ -53,7 +53,7 @@
                 <button
                     v-if="unreadCount > 0"
                     type="button"
-                    class="shrink-0 whitespace-nowrap rounded px-1.5 py-1 text-xs font-medium text-blue-700 transition-colors hover:bg-blue-50 hover:text-blue-900 disabled:opacity-50"
+                    class="shrink-0 whitespace-nowrap rounded-sm px-1.5 py-1 text-xs font-medium text-blue-700 transition-colors hover:bg-blue-50 hover:text-blue-900 disabled:opacity-50"
                     aria-label="Označiť všetky notifikácie ako prečítané"
                     :disabled="busy"
                     @click="markAllAsRead"
@@ -121,7 +121,7 @@
                     >
                         <button
                             type="button"
-                            class="flex h-7 w-7 items-center justify-center rounded text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                            class="flex h-7 w-7 items-center justify-center rounded-sm text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                             :title="group.unread ? 'Označiť ako prečítané' : 'Označiť ako neprečítané'"
                             :aria-label="group.unread ? 'Označiť ako prečítané' : 'Označiť ako neprečítané'"
                             :disabled="busy"
@@ -135,7 +135,7 @@
 
                         <button
                             type="button"
-                            class="flex h-7 w-7 items-center justify-center rounded text-gray-500 transition-colors hover:bg-gray-100 hover:text-red-600 disabled:opacity-50"
+                            class="flex h-7 w-7 items-center justify-center rounded-sm text-gray-500 transition-colors hover:bg-gray-100 hover:text-red-600 disabled:opacity-50"
                             title="Zmazať"
                             aria-label="Zmazať notifikáciu"
                             :disabled="busy"

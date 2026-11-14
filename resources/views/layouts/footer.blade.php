@@ -51,7 +51,7 @@
 
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <button type="submit"
-                            class="px-2 p-1 border-2 text-sm rounded-sm hover:bg-blue-900">Odoslať
+                            class="px-2 p-1 border-2 text-sm rounded-xs hover:bg-blue-900">Odoslať
                         <span class="ph ph-paper-plane-tilt"></span>
                     </button>
                     <a href="{{ route('profile.support.index') }}" class="text-sm underline">Moje správy podpore</a>

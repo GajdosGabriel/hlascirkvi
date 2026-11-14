@@ -264,7 +264,7 @@
                                         {{ $row->user_name ?: 'Anonym' }}
                                         · {{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}
                                         @if ($row->post_title)
-                                            · pod <strong class="font-semibold text-[color:var(--ar-ink-soft)]">{{ \Illuminate\Support\Str::limit($row->post_title, 60) }}</strong>
+                                            · pod <strong class="font-semibold text-(--ar-ink-soft)">{{ \Illuminate\Support\Str::limit($row->post_title, 60) }}</strong>
                                         @endif
                                     </span>
                                 </span>
@@ -357,7 +357,7 @@
                                 <span>
                                     <i style="background: {{ $denominationColors[$key] ?? '#6b7280' }}"></i>
                                     {{ \App\Enums\Denomination::tryFrom($key)?->label() ?? 'nezaradené' }}
-                                    <strong class="text-[color:var(--ar-ink)]">{{ $num($count) }}</strong>
+                                    <strong class="text-(--ar-ink)">{{ $num($count) }}</strong>
                                 </span>
                             @endforeach
                         </div>
@@ -372,10 +372,10 @@
                         </div>
                         <div class="ar-split__legend">
                             @foreach ($favoriteParts as $part)
-                                <span><i style="background: {{ $part['color'] }}"></i>{{ $part['label'] }} <strong class="text-[color:var(--ar-ink)]">{{ $num($part['value']) }}</strong></span>
+                                <span><i style="background: {{ $part['color'] }}"></i>{{ $part['label'] }} <strong class="text-(--ar-ink)">{{ $num($part['value']) }}</strong></span>
                             @endforeach
                         </div>
-                        <p class="mt-3 text-xs text-[color:var(--ar-ink-soft)]">
+                        <p class="mt-3 text-xs text-(--ar-ink-soft)">
                             <i class="ph ph-bookmark-simple mr-1"></i> {{ $num($favorites->saved) }} článkov uložených na neskôr
                         </p>
                     </x-dashboard.panel>

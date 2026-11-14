@@ -27,7 +27,7 @@
 
         <p
             v-else-if="!prayers.length"
-            class="rounded-lg border border-dashed border-[color:var(--ar-line)] bg-white px-4 py-10 text-center text-sm text-gray-500"
+            class="rounded-lg border border-dashed border-(--ar-line) bg-white px-4 py-10 text-center text-sm text-gray-500"
         >
             Zatiaľ tu nie je žiadna prosba. Buďte prvý.
         </p>

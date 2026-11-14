@@ -22,7 +22,7 @@
 
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
                 @if ($event->timeLabel())
-                    <span class="font-semibold text-[color:var(--ev-accent)]">
+                    <span class="font-semibold text-(--ev-accent)">
                         <i class="ph ph-clock mr-1 text-xs"></i>{{ $event->timeLabel() }}
                     </span>
                 @endif
@@ -57,7 +57,7 @@
             <div class="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-1 text-xs text-stone-600">
                 @if ($event->municipality())
                     <a href="{{ $evUrl(['municipality' => $event->municipalitySlug()]) }}"
-                       class="hover:text-[color:var(--ev-accent)]">
+                       class="hover:text-(--ev-accent)">
                         <i class="ph ph-map-pin mr-1"></i>{{ $event->address() ?: $event->municipality() }}
                     </a>
                 @endif

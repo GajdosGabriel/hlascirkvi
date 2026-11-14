@@ -79,7 +79,7 @@
                     Portál s podujatiami je práve nedostupný, zobrazujeme poslednú načítanú verziu zoznamu.
                 </div>
                 <button type="button" aria-label="Zavrieť hlásenie" title="Zavrieť"
-                        class="-my-1 -mr-1 shrink-0 rounded px-2 py-1 leading-none text-amber-700 transition hover:bg-amber-100 hover:text-amber-900"
+                        class="-my-1 -mr-1 shrink-0 rounded-sm px-2 py-1 leading-none text-amber-700 transition hover:bg-amber-100 hover:text-amber-900"
                         data-dismiss-remember="ev-stale-closed">
                     <i class="ph ph-x"></i>
                 </button>
@@ -131,13 +131,13 @@
                 </div>
 
                 @if ($items->isEmpty())
-                    <div class="rounded-lg border border-dashed border-[color:var(--ev-line)] bg-white/60 p-10 text-center">
+                    <div class="rounded-lg border border-dashed border-(--ev-line) bg-white/60 p-10 text-center">
                         <div class="ev-display mb-2 text-lg font-semibold">Nič sa nenašlo</div>
                         <p class="mb-5 text-sm text-stone-600">
                             Skúste zrušiť niektorý z filtrov alebo sa pozrieť do archívu.
                         </p>
                         <a href="{{ route('akcie.index') }}"
-                           class="inline-flex items-center gap-2 rounded-md border border-[color:var(--ev-line)] bg-white px-4 py-2 text-sm font-medium transition hover:bg-stone-50">
+                           class="inline-flex items-center gap-2 rounded-md border border-(--ev-line) bg-white px-4 py-2 text-sm font-medium transition hover:bg-stone-50">
                             <i class="ph ph-arrow-counter-clockwise text-xs"></i> Zobraziť všetky podujatia
                         </a>
                     </div>
@@ -164,7 +164,7 @@
 
                             <section class="md:flex md:gap-6">
 
-                                <div class="mb-3 shrink-0 md:mb-0 md:w-[7.5rem]">
+                                <div class="mb-3 shrink-0 md:mb-0 md:w-30">
                                     <div class="ev-stamp inline-flex w-28 flex-col items-center rounded-lg px-2 py-2
                                                 {{ $first->isToday() ? 'ev-stamp-today' : '' }}">
                                         <span class="text-[.65rem] uppercase tracking-wide text-stone-600">
@@ -179,7 +179,7 @@
                                     </div>
 
                                     @if ($first->isToday())
-                                        <div class="mt-1.5 text-center text-xs font-semibold text-[color:var(--ev-accent)] md:text-left md:pl-1">
+                                        <div class="mt-1.5 text-center text-xs font-semibold text-(--ev-accent) md:text-left md:pl-1">
                                             dnes
                                         </div>
                                     @endif

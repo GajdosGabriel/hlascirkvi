@@ -5,7 +5,7 @@
      Blok bol znak po znaku rovnaký v posts/show.blade.php aj
      v canals/index.blade.php, líšil sa len nadpisom. --}}
 @if ($items->isNotEmpty())
-    <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+    <section class="rounded-lg border border-(--ar-line) bg-white p-4">
         <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
             {{ $title }}
         </h2>
@@ -18,7 +18,7 @@
                             {{ $index + 1 }}
                         </span>
                         <span class="min-w-0 flex-1">
-                            <span class="ar-clamp-2 text-sm leading-snug transition-colors group-hover:text-[color:var(--ar-accent)]">
+                            <span class="ar-clamp-2 text-sm leading-snug transition-colors group-hover:text-(--ar-accent)">
                                 {{ $item->title }}
                             </span>
                             <span class="mt-1 block text-xs text-gray-500">

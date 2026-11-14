@@ -10,7 +10,7 @@
         <x-slot name="page">
             <section class="ar-panel">
                 <div class="ar-panel__body">
-                    <p class="text-sm text-[color:var(--ar-ink-soft)]">Počet odstránených obrázkov: {{ $images->count() }}</p>
+                    <p class="text-sm text-(--ar-ink-soft)">Počet odstránených obrázkov: {{ $images->count() }}</p>
                     @if ($images->isNotEmpty())
                         <form class="mt-4" method="POST" action="{{ route('admin.image.destroy', ['image' => 'trashed']) }}"
                               data-confirm="Natrvalo vymazať všetky obrázky v koši? Túto akciu nie je možné vrátiť späť.">

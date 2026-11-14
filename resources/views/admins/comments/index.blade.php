@@ -62,9 +62,9 @@
                         <div class="ar-item__body">
                             <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
                                 @if (! $youtube && $comment->user_id)
-                                    <a href="{{ route('admin.user.edit', $comment->user_id) }}" class="text-sm font-semibold text-[color:var(--ar-ink)] hover:text-[color:var(--ar-accent)]">{{ $authorName }}</a>
+                                    <a href="{{ route('admin.user.edit', $comment->user_id) }}" class="text-sm font-semibold text-(--ar-ink) hover:text-(--ar-accent)">{{ $authorName }}</a>
                                 @else
-                                    <strong class="text-sm text-[color:var(--ar-ink)]">{{ $authorName }}</strong>
+                                    <strong class="text-sm text-(--ar-ink)">{{ $authorName }}</strong>
                                 @endif
 
                                 @if ($youtube)
@@ -80,7 +80,7 @@
                                     <span class="ar-badge ar-badge--warn">zmazaný</span>
                                 @endif
 
-                                <span class="text-xs text-[color:var(--ar-muted)]" title="{{ $comment->created_at?->format('j. n. Y H:i') }}">
+                                <span class="text-xs text-(--ar-muted)" title="{{ $comment->created_at?->format('j. n. Y H:i') }}">
                                     {{ $comment->created_at?->diffForHumans() }}
                                 </span>
                             </div>
@@ -101,12 +101,12 @@
                                 <div class="mt-2 flex flex-wrap items-center gap-2">
                                     <a href="{{ $postUrl($post) }}" class="ar-comment__post" target="_blank" rel="noopener" title="{{ $post->title }}">
                                         @if ($post->video_id)
-                                            <img src="https://i.ytimg.com/vi/{{ $post->video_id }}/default.jpg" alt="" class="h-5 w-8 flex-none rounded object-cover" loading="lazy">
+                                            <img src="https://i.ytimg.com/vi/{{ $post->video_id }}/default.jpg" alt="" class="h-5 w-8 flex-none rounded-sm object-cover" loading="lazy">
                                         @else
                                             <i class="ph ph-file-text"></i>
                                         @endif
                                         <span>{{ $post->title }}</span>
-                                        <i class="ph ph-arrow-square-out text-[10px] text-[color:var(--ar-muted)]"></i>
+                                        <i class="ph ph-arrow-square-out text-[10px] text-(--ar-muted)"></i>
                                     </a>
                                     @if ($post->deleted_at)
                                         <span class="ar-badge ar-badge--warn">článok je zmazaný</span>
@@ -116,7 +116,7 @@
 
                             <div class="ar-item__meta">
                                 @if ($post?->canal)
-                                    <a href="{{ route('organizations.show', [$post->canal_id]) }}" class="hover:text-[color:var(--ar-accent)]"><i class="ph ph-broadcast"></i>{{ $post->canal }}</a>
+                                    <a href="{{ route('organizations.show', [$post->canal_id]) }}" class="hover:text-(--ar-accent)"><i class="ph ph-broadcast"></i>{{ $post->canal }}</a>
                                 @endif
                                 @if ($post)
                                     <span title="Komentáre pod článkom"><i class="ph ph-chats-circle"></i>{{ $num($post->comments) }} v diskusii</span>

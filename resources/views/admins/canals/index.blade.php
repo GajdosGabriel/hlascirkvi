@@ -77,7 +77,7 @@
                     @endforeach
                 </select>
 
-                <span class="ml-auto text-xs text-[color:var(--ar-ink-soft)]">
+                <span class="ml-auto text-xs text-(--ar-ink-soft)">
                     {{ $num($canals->total()) }} {{ $canals->total() === 1 ? 'kanál' : ($canals->total() >= 2 && $canals->total() <= 4 ? 'kanály' : 'kanálov') }} vo výbere
 
                 </span>

@@ -28,7 +28,7 @@
                  stojí pod textom a zúžený: v plnej šírke zabral celú prvú
                  obrazovku a názov podujatia bol až pod ním. Odkaz duplikuje
                  titulok, preto je pre čítačky aj klávesnicu skrytý. --}}
-            <div class="order-last mx-auto w-full max-w-[14rem] md:order-none md:col-span-4 md:mx-0 md:max-w-none">
+            <div class="order-last mx-auto w-full max-w-56 md:order-0 md:col-span-4 md:mx-0 md:max-w-none">
                 <a href="{{ $featured->url() }}" class="block group" tabindex="-1" aria-hidden="true">
                     @if ($featured->hasPoster())
                         <img src="{{ $featured->poster() }}"
@@ -36,7 +36,7 @@
                              loading="eager"
                              class="w-full rounded-lg shadow-2xl ring-1 ring-white/10 transition duration-300 group-hover:scale-[1.02]">
                     @else
-                        <div class="ev-noposter aspect-[3/4] w-full rounded-lg shadow-2xl ring-1 ring-white/10 flex flex-col items-center justify-center">
+                        <div class="ev-noposter aspect-3/4 w-full rounded-lg shadow-2xl ring-1 ring-white/10 flex flex-col items-center justify-center">
                             <span class="ev-display text-5xl font-bold text-stone-600">{{ $featured->dayNumber() }}</span>
                             <span class="text-sm uppercase tracking-widest text-stone-600">{{ $featured->monthShort() }}</span>
                         </div>
@@ -101,7 +101,7 @@
                         @php $cta = $featured->ticketCta(); @endphp
                         <a href="{{ $cta ? $featured->ticketUrl() : config('eventportal.url') . '/register?event=' . $featured->id() }}" target="_blank" rel="noopener"
                            data-ga-event="event_ticket_click" data-ga-label="{{ $featured->title() }}"
-                           class="inline-flex items-center gap-2 rounded-md bg-[color:var(--ev-accent)] px-5 py-2.5 font-semibold text-white transition hover:bg-amber-700">
+                           class="inline-flex items-center gap-2 rounded-md bg-(--ev-accent) px-5 py-2.5 font-semibold text-white transition hover:bg-amber-700">
                             <i class="ph ph-ticket text-sm"></i>
                             {{ ($cta['kind'] ?? null) === 'buy' ?$cta['label'] : 'Rezervovať miesto' }}
                             <i class="ph ph-arrow-square-out text-xs"></i>

@@ -15,7 +15,7 @@
                 $limitUsed = $limit > 0 ? min(100, (int) round($month->cost / $limit * 100)) : null;
             @endphp
 
-            <p class="mb-6 text-sm text-[color:var(--ar-ink-soft)]">
+            <p class="mb-6 text-sm text-(--ar-ink-soft)">
                 Text približne na jednu A4 vytvára OpenAI (model <code>{{ $model }}</code>) výhradne z titulkov videa. Videá bez dostupných titulkov sa preskočia. Popis videa sa nepoužíva.
             </p>
 
@@ -59,7 +59,7 @@
                     </div>
                 @endif
 
-                <p class="mt-3 text-xs text-[color:var(--ar-muted)]">
+                <p class="mt-3 text-xs text-(--ar-muted)">
                     Cena zahŕňa všetky AI funkcie a odhad poplatkov za vyhľadávanie; vychádza z cenníka v <code>config/openai.php</code> a spotreby API.
                     Zostatok kreditu cez API zistiť nejde — skutočné čerpanie a kredit sú na
                     <a href="https://platform.openai.com/usage" target="_blank" rel="noopener" class="underline">platform.openai.com/usage</a>
@@ -138,7 +138,7 @@
                             <input class="ar-field" type="text" id="post" name="post" required
                                    value="{{ old('post') }}" placeholder="12345 alebo https://www.hlascirkvi.sk/post/12345/…">
                         </div>
-                        <p class="text-sm text-[color:var(--ar-muted)]">
+                        <p class="text-sm text-(--ar-muted)">
                             Vytvorí (alebo prepíše) zhrnutie hneď — aj keď sú automatické zhrnutia vypnuté a aj pri
                             krátkych titulkoch. Bez titulkov sa nič nevytvorí. Mesačný limit platí.
                         </p>
@@ -146,7 +146,7 @@
                     </form>
 
                     @if ($result = session('ai_result'))
-                        <div class="mt-6 rounded-lg border border-[color:var(--ar-line)] bg-[color:var(--ar-accent-soft)] p-4">
+                        <div class="mt-6 rounded-lg border border-(--ar-line) bg-(--ar-accent-soft) p-4">
                             <p class="ar-kicker mb-1">
                                 Výsledok · {{ $lengths[$result['length']]['label'] ?? $result['length'] }}
                             </p>
@@ -154,7 +154,7 @@
                                 <a href="{{ $result['url'] }}" target="_blank" rel="noopener" class="font-semibold underline">
                                     {{ \Illuminate\Support\Str::limit($result['title'], 80) }}
                                 </a>
-                                <span class="text-[color:var(--ar-muted)]">
+                                <span class="text-(--ar-muted)">
                                     · {{ ($result['source'] ?? null) === 'captions' ? 'z titulkov videa' : 'z popisu' }},
                                     {{ $num($result['words']) }} slov
                                     @if ($result['tokens'] !== null)
@@ -169,7 +169,7 @@
             </div>
 
             <x-dashboard.panel title="Dopĺňanie organizačných kanálov" class="mt-6" id="kanaly">
-                <p class="mb-4 text-sm text-[color:var(--ar-muted)]">Model pre nové vyhľadávania: {{ config('openai.enrichment_model') }}</p>
+                <p class="mb-4 text-sm text-(--ar-muted)">Model pre nové vyhľadávania: {{ config('openai.enrichment_model') }}</p>
                 @forelse ($enrichments as $enrichment)
                     <div class="mb-4 border-b border-gray-200 pb-4">
                         <p class="font-semibold">
@@ -179,7 +179,7 @@
                                 Odstránený kanál
                             @endif
                         </p>
-                        <p class="text-sm text-[color:var(--ar-muted)]">
+                        <p class="text-sm text-(--ar-muted)">
                             @if ($enrichment->completed_at)
                                 @if ($enrichment->changes)
                                     Doplnené údaje
@@ -199,7 +199,7 @@
                             @endif
                         </p>
                         @foreach ($enrichment->diagnostics['passes'] ?? [] as $pass)
-                            <p class="text-sm text-[color:var(--ar-muted)]">
+                            <p class="text-sm text-(--ar-muted)">
                                 @if (($pass['status'] ?? null) === 'follow_up_failed')
                                     Následné dohľadávanie zlyhalo.
                                 @else
@@ -210,7 +210,7 @@
                                 @endif
                             </p>
                             @foreach ($pass['rejection_reasons'] ?? [] as $field => $reason)
-                                <p class="text-sm text-[color:var(--ar-muted)]">{{ ['url_www' => 'Web', 'email' => 'E-mail', 'phone' => 'Telefón', 'street' => 'Ulica', 'description' => 'Popis'][$field] ?? $field }}: {{ $reason }}</p>
+                                <p class="text-sm text-(--ar-muted)">{{ ['url_www' => 'Web', 'email' => 'E-mail', 'phone' => 'Telefón', 'street' => 'Ulica', 'description' => 'Popis'][$field] ?? $field }}: {{ $reason }}</p>
                             @endforeach
                         @endforeach
                         @foreach ($enrichment->changes ?? [] as $field => $value)
@@ -224,7 +224,7 @@
                         @endforeach
                     </div>
                 @empty
-                    <p class="text-sm text-[color:var(--ar-muted)]">Zatiaľ žiadne kontroly profilov.</p>
+                    <p class="text-sm text-(--ar-muted)">Zatiaľ žiadne kontroly profilov.</p>
                 @endforelse
                 <div class="mt-4">{{ $enrichments->fragment('kanaly')->links() }}</div>
             </x-dashboard.panel>
@@ -261,7 +261,7 @@
                         <a href="{{ route('admin.ai.index') }}#spotreba" class="underline">Zrušiť filtre</a>
                     </div>
                 </form>
-                <p class="mb-4 text-sm text-[color:var(--ar-muted)]">Filtre platia pre nasledujúce prehľady a zoznam volaní. Mesačná spotreba a limit vyššie zahŕňajú všetky operácie.</p>
+                <p class="mb-4 text-sm text-(--ar-muted)">Filtre platia pre nasledujúce prehľady a zoznam volaní. Mesačná spotreba a limit vyššie zahŕňajú všetky operácie.</p>
                 <div class="grid gap-4 sm:grid-cols-3">
                     <x-dashboard.metric label="Cena za výber" :value="$usd($periodTotals->cost)" />
                     <x-dashboard.metric label="Volania za výber" :value="$num($periodTotals->calls)" />
@@ -295,7 +295,7 @@
 
             <x-dashboard.panel title="Spotreba po dňoch" class="mt-6">
                 @if ($daily->isEmpty())
-                    <p class="text-sm text-[color:var(--ar-muted)]">Zatiaľ žiadne volania.</p>
+                    <p class="text-sm text-(--ar-muted)">Zatiaľ žiadne volania.</p>
                 @else
                     <x-dashboard.table label="Spotreba po dňoch">
                         <thead>
@@ -318,7 +318,7 @@
             {{-- Posledné volania --}}
             <x-dashboard.panel title="AI volania" class="mt-6">
                 @if ($recent->isEmpty())
-                    <p class="text-sm text-[color:var(--ar-muted)]">Zatiaľ žiadne volania.</p>
+                    <p class="text-sm text-(--ar-muted)">Zatiaľ žiadne volania.</p>
                 @else
                     <x-dashboard.table label="Posledné volania OpenAI">
                         <thead>

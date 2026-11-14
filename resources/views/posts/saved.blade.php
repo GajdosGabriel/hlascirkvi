@@ -18,7 +18,7 @@
 @endsection
 
 @section('content')
-    <header class="border-b border-[color:var(--ar-line)] bg-white">
+    <header class="border-b border-(--ar-line) bg-white">
         <div class="mx-auto max-w-6xl px-4 py-8">
             <h1 class="ar-display text-3xl font-extrabold leading-tight">Uložené na neskôr</h1>
             <p class="mt-2 text-sm text-gray-500">
@@ -32,7 +32,7 @@
 
     <div class="mx-auto max-w-6xl px-4 py-8">
         @if ($posts->isEmpty())
-            <p class="rounded-lg border border-dashed border-[color:var(--ar-line)] bg-white px-4 py-10 text-center text-sm text-gray-500">
+            <p class="rounded-lg border border-dashed border-(--ar-line) bg-white px-4 py-10 text-center text-sm text-gray-500">
                 Zatiaľ nemáte nič uložené. Pri videu alebo článku kliknite na
                 <span class="whitespace-nowrap"><i class="ph ph-bookmark-simple"></i> Uložiť</span>.
             </p>

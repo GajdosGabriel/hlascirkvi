@@ -2,7 +2,7 @@
     <div class="lg:hidden">
         <button
             type="button"
-            class="inline-flex items-center justify-center rounded-md p-2 text-blue-100 transition-colors hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-300"
+            class="inline-flex items-center justify-center rounded-md p-2 text-blue-100 transition-colors hover:bg-blue-800 hover:text-white focus:outline-hidden focus:ring-2 focus:ring-blue-300"
             :aria-expanded="open ? 'true' : 'false'"
             aria-controls="mobile-menu"
             aria-label="Menu"

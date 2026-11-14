@@ -13,7 +13,7 @@
         </x-slot>
 
         <x-slot name="page">
-            <div class="mb-4 flex flex-wrap items-center gap-2 text-sm text-[color:var(--ar-muted)]">
+            <div class="mb-4 flex flex-wrap items-center gap-2 text-sm text-(--ar-muted)">
                 <x-dashboard.status-badge :label="$ticket->status->label()" :tone="$ticket->status->tone()" />
                 <span>{{ $ticket->reference() }} · založené {{ $ticket->created_at?->format('j. n. Y') }}</span>
             </div>

@@ -48,13 +48,13 @@
                                 @if ($ticket->staff_seen_at === null)
                                     <x-dashboard.status-badge label="Neprečítané" tone="red" />
                                 @endif
-                                <span class="text-xs text-[color:var(--ar-muted)]">
+                                <span class="text-xs text-(--ar-muted)">
                                     {{ $ticket->reference() }}
                                 </span>
                             </div>
                             <a href="{{ route('admin.support.show', $ticket) }}" class="ar-item__title mt-1 block">{{ $ticket->subject }}</a>
                             @if ($ticket->latestMessage)
-                                <p class="mt-1 text-sm text-[color:var(--ar-ink-soft)] break-words">
+                                <p class="mt-1 text-sm text-(--ar-ink-soft) wrap-break-word">
                                     {{ $ticket->latestMessage->is_staff ? 'Podpora: ' : '' }}{{ \Illuminate\Support\Str::limit($ticket->latestMessage->body, 140) }}
                                 </p>
                             @endif

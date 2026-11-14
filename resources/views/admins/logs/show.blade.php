@@ -39,7 +39,7 @@
                 <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
                     @foreach ($fields as $label => $value)
                         <dt class="text-gray-500">{{ $label }}</dt>
-                        <dd class="break-words text-[color:var(--ar-ink)]">{{ $value }}</dd>
+                        <dd class="wrap-break-word text-(--ar-ink)">{{ $value }}</dd>
                     @endforeach
                     @if ($statusLabel)
                         <dt class="text-gray-500">Stav</dt>

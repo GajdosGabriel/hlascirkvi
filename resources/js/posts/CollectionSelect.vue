@@ -5,7 +5,7 @@
         <p class="ar-hint mb-3">Nepovinné. Video môže zostať bez zaradenia alebo patriť do viacerých kolekcií.</p>
 
         <!-- Kanál bez kolekcií: jedna veta s odkazom namiesto prázdneho zoznamu a počtu „0". -->
-        <p v-if="!available.length" class="text-sm text-[color:var(--ar-ink-soft)]">
+        <p v-if="!available.length" class="text-sm text-(--ar-ink-soft)">
             Tento kanál zatiaľ nemá kolekcie.
             <a v-if="canal" :href="manageBase + '/' + canal + '/seminars/create'" target="_blank" rel="noopener" class="ar-link font-medium">Vytvoriť kolekciu</a>
         </p>
@@ -16,7 +16,7 @@
             <div class="ar-checks max-h-64 overflow-y-auto">
                 <label v-for="item in visible" :key="item.id" class="ar-check">
                     <input v-model="chosen" type="checkbox" name="collections[]" :value="String(item.id)">
-                    <span>{{ item.title }} <span class="text-[color:var(--ar-muted)]">· {{ item.kind === 'collection' ? 'kolekcia' : 'seminár' }}</span></span>
+                    <span>{{ item.title }} <span class="text-(--ar-muted)">· {{ item.kind === 'collection' ? 'kolekcia' : 'seminár' }}</span></span>
                 </label>
             </div>
             <p v-if="!visible.length" role="status" class="ar-hint">Žiadna kolekcia nezodpovedá vyhľadávaniu.</p>

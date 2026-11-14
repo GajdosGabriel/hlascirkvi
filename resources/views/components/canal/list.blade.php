@@ -66,7 +66,7 @@
                             @endif
                         </div>
 
-                        <p class="mt-1 text-sm text-[color:var(--ar-ink-soft)]">
+                        <p class="mt-1 text-sm text-(--ar-ink-soft)">
                             {{ collect([$canal->street, optional($canal->village)->fullname])->filter()->implode(', ') ?: 'Bez adresy' }}
                         </p>
 
@@ -105,7 +105,7 @@
                         @if ($admin)
                             @include('components.canal.admin-details', ['canal' => $canal, 'plural' => $plural])
                         @elseif ($canal->users->isNotEmpty())
-                            <p class="mt-2 text-xs text-[color:var(--ar-ink-soft)]">
+                            <p class="mt-2 text-xs text-(--ar-ink-soft)">
                                 {{ $plural($canal->users->count(), 'Správca', 'Správcovia', 'Správcovia') }}:
                                 {{ $canal->users->map->fullname->implode(', ') }}
                             </p>

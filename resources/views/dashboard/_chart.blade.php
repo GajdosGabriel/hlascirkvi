@@ -119,7 +119,7 @@
         </svg>
     </div>
 
-    <div class="border-t border-[color:var(--ar-line)] px-4 py-3">
+    <div class="border-t border-(--ar-line) px-4 py-3">
         <div class="mb-2 flex items-baseline justify-between">
             <span class="ar-panel__title">{{ $activityLabel ?? 'Vydané príspevky po mesiacoch' }}</span>
             <span class="ar-panel__note">{{ number_format($activity->sum('posts'), 0, ',', ' ') }} za rok</span>

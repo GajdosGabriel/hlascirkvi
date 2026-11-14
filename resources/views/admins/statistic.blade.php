@@ -53,25 +53,25 @@
                 <tbody>
                     @forelse($posts as $post)
                         <tr>
-                            <td class="text-center font-semibold text-[color:var(--ar-muted)]">{{ $posts->firstItem() + $loop->index }}</td>
+                            <td class="text-center font-semibold text-(--ar-muted)">{{ $posts->firstItem() + $loop->index }}</td>
                             <td>
-                                <a href="{{ route('post.show', [$post->id, $post->slug]) }}" class="font-semibold text-[color:var(--ar-ink)] transition-colors hover:text-[color:var(--ar-accent)]">
+                                <a href="{{ route('post.show', [$post->id, $post->slug]) }}" class="font-semibold text-(--ar-ink) transition-colors hover:text-(--ar-accent)">
                                     {{ Str::limit($post->title, 60) }}
                                 </a>
-                                <div class="mt-2 h-1.5 max-w-sm overflow-hidden rounded-full bg-[color:var(--ar-paper-deep)]" aria-hidden="true">
-                                    <span class="block h-full rounded-full bg-[color:var(--ar-accent)]" style="width: {{ round(($post->unique_view / $maxViews) * 100, 1) }}%"></span>
+                                <div class="mt-2 h-1.5 max-w-sm overflow-hidden rounded-full bg-(--ar-paper-deep)" aria-hidden="true">
+                                    <span class="block h-full rounded-full bg-(--ar-accent)" style="width: {{ round(($post->unique_view / $maxViews) * 100, 1) }}%"></span>
                                 </div>
                             </td>
-                            <td class="text-[color:var(--ar-ink-soft)]">{{ $post->canal }}</td>
-                            <td class="text-right font-bold tabular-nums text-[color:var(--ar-accent)]">{{ number_format($post->unique_view, 0, ',', ' ') }}</td>
-                            <td class="text-right tabular-nums text-[color:var(--ar-ink-soft)]">{{ number_format($post->count_view, 0, ',', ' ') }}</td>
+                            <td class="text-(--ar-ink-soft)">{{ $post->canal }}</td>
+                            <td class="text-right font-bold tabular-nums text-(--ar-accent)">{{ number_format($post->unique_view, 0, ',', ' ') }}</td>
+                            <td class="text-right tabular-nums text-(--ar-ink-soft)">{{ number_format($post->count_view, 0, ',', ' ') }}</td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="5">
                                 <div class="py-10 text-center">
-                                    <p class="font-semibold text-[color:var(--ar-ink)]">Zatiaľ bez návštev</p>
-                                    <p class="mt-1 text-xs text-[color:var(--ar-ink-soft)]">Skúste zvoliť dlhšie obdobie.</p>
+                                    <p class="font-semibold text-(--ar-ink)">Zatiaľ bez návštev</p>
+                                    <p class="mt-1 text-xs text-(--ar-ink-soft)">Skúste zvoliť dlhšie obdobie.</p>
                                 </div>
                             </td>
                         </tr>

@@ -1,16 +1,16 @@
-<div class="border-2 border-gray-400 rounded-md hover:shadow-md shadow-sm text-xs md:text-sm flex my-4">
+<div class="border-2 border-gray-400 rounded-md hover:shadow-md shadow-xs text-xs md:text-sm flex my-4">
 
     <section style="max-width: 160px;" class="p-2">
         {{-- `favorites` je na modeli v $with, takže sa tu nedopytujeme databázy
              pre každú kartu zvlášť — na to doplácal pôvodný favorites()->count(). --}}
         @if ($post->favorites->isNotEmpty())
-            <div class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200">
+            <div class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-xs text-xs text-gray-200">
                 Doporúčené
             </div>
         @endif
 
         @if ($post->video_duration)
-            <div class="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-sm text-xs text-gray-200">
+            <div class="absolute bottom-0 right-0 bg-gray-700 p-1 rounded-xs text-xs text-gray-200">
                 {{ $post->video_duration }}
             </div>
         @endif
@@ -64,7 +64,7 @@
             <div>
                 @if (!$post->isPublished)
                     <span
-                        class="px-1 text-xs bg-red-500 text-gray-100 rounded border-2 border-red-700">Nepublikované</span>
+                        class="px-1 text-xs bg-red-500 text-gray-100 rounded-sm border-2 border-red-700">Nepublikované</span>
                 @endif
             </div>
 

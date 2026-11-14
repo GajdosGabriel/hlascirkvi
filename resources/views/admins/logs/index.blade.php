@@ -69,21 +69,21 @@
                                 @if ($statusLabel)
                                     <x-dashboard.status-badge :label="$statusLabel" :tone="$statusTone" />
                                 @endif
-                                <span class="text-xs text-[color:var(--ar-muted)]" title="{{ $log->created_at?->format('j. n. Y H:i:s') }}">
+                                <span class="text-xs text-(--ar-muted)" title="{{ $log->created_at?->format('j. n. Y H:i:s') }}">
                                     {{ $log->created_at?->format('j. n. H:i') }} · {{ $log->created_at?->diffForHumans() }}
                                 </span>
                             </div>
 
-                            <p class="mt-1 text-sm text-[color:var(--ar-ink)] break-words">{{ $log->message }}</p>
+                            <p class="mt-1 text-sm text-(--ar-ink) wrap-break-word">{{ $log->message }}</p>
 
                             <div class="ar-item__meta">
                                 @if ($log->recipient)
-                                    <a href="{{ $filterUrl(['recipient' => $log->recipient]) }}" class="hover:text-[color:var(--ar-accent)] break-all" title="Všetky udalosti tohto príjemcu">
+                                    <a href="{{ $filterUrl(['recipient' => $log->recipient]) }}" class="hover:text-(--ar-accent) break-all" title="Všetky udalosti tohto príjemcu">
                                         <i class="ph ph-envelope-simple"></i>{{ $log->recipient }}
                                     </a>
                                 @endif
                                 @if ($log->user_id)
-                                    <a href="{{ route('admin.user.edit', $log->user_id) }}" class="hover:text-[color:var(--ar-accent)]">
+                                    <a href="{{ route('admin.user.edit', $log->user_id) }}" class="hover:text-(--ar-accent)">
                                         <i class="ph ph-user"></i>{{ $userName ?: '#' . $log->user_id }}
                                     </a>
                                 @endif
@@ -94,7 +94,7 @@
                                     <span><i class="ph ph-network"></i>{{ $log->ip }}</span>
                                 @endif
                                 @if ($log->channel === 'mail')
-                                    <a href="{{ route('admin.logs.show', $log->id) }}" class="font-medium text-[color:var(--ar-accent)] hover:underline">
+                                    <a href="{{ route('admin.logs.show', $log->id) }}" class="font-medium text-(--ar-accent) hover:underline">
                                         <i class="ph ph-eye"></i>Zobraziť e-mail
                                     </a>
                                 @endif
@@ -102,7 +102,7 @@
 
                             @if ($log->context)
                                 <details class="mt-2 text-xs">
-                                    <summary class="cursor-pointer text-[color:var(--ar-ink-soft)] hover:text-[color:var(--ar-accent)]">Podrobnosti</summary>
+                                    <summary class="cursor-pointer text-(--ar-ink-soft) hover:text-(--ar-accent)">Podrobnosti</summary>
                                     <pre class="mt-1 max-h-72 overflow-auto whitespace-pre-wrap break-all rounded-md bg-gray-50 p-2 text-gray-700">{{ json_encode($log->context, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) }}</pre>
                                 </details>
                             @endif

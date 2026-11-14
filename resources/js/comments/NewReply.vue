@@ -7,7 +7,7 @@
         role="status"
     >
         <p class="font-semibold">Ďakujeme, komentár sme prijali.</p>
-        <p class="mt-1 text-sm text-[color:var(--ar-ink-soft)]">
+        <p class="mt-1 text-sm text-(--ar-ink-soft)">
             Zverejní sa, keď potvrdíte svoju e-mailovú adresu. Poslali sme vám na ňu
             odkaz — skontrolujte, prosím, aj priečinok so spamom.
         </p>

@@ -5,7 +5,7 @@
             :alt="canal.title"
             width="48"
             height="48"
-            class="h-12 w-12 rounded-full object-cover ring-1 ring-[color:var(--ar-line)]"
+            class="h-12 w-12 rounded-full object-cover ring-1 ring-(--ar-line)"
             :src="canal.avatarUrl"
             @error="failed = true"
         />
@@ -14,7 +14,7 @@
              inak riadok pri každom kanáli poskočí. -->
         <div
             v-else
-            class="flex h-12 w-12 items-center justify-center rounded-full bg-[color:var(--ar-paper-deep)] text-xl font-semibold text-[color:var(--ar-ink-soft)]"
+            class="flex h-12 w-12 items-center justify-center rounded-full bg-(--ar-paper-deep) text-xl font-semibold text-(--ar-ink-soft)"
         >
             {{ canal.initialName }}
         </div>

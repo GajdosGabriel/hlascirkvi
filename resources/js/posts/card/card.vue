@@ -6,7 +6,7 @@
         <div style="max-height: 11rem; overflow: hidden; position: relative">
             <div
                 v-if="post.favoritesCount"
-                class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-sm text-xs text-gray-200"
+                class="absolute bottom-0 right-0 bg-red-600 p-1 rounded-xs text-xs text-gray-200"
             >
                 Doporúčené
             </div>

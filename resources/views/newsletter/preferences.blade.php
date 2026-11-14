@@ -17,7 +17,7 @@
 @endsection
 
 @section('content')
-    <header class="border-b border-[color:var(--ar-line)] bg-white">
+    <header class="border-b border-(--ar-line) bg-white">
         <div class="mx-auto max-w-6xl px-4 py-8">
             <h1 class="ar-display text-3xl font-extrabold leading-tight">Odber noviniek</h1>
             <p class="mt-2 text-sm text-gray-500">
@@ -32,7 +32,7 @@
             <p class="mb-4 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-800">{{ session('flash') }}</p>
         @endif
 
-        <div class="rounded-lg border border-[color:var(--ar-line)] bg-white p-6">
+        <div class="rounded-lg border border-(--ar-line) bg-white p-6">
             @if ($user->send_email)
                 <p class="text-sm">Novinky dostávate na <strong>{{ $user->email }}</strong>.</p>
             @else

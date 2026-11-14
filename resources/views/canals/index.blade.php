@@ -131,7 +131,7 @@
 @section('content')
 
     {{-- Hlavička kanála --}}
-    <header class="border-b border-[color:var(--ar-line)] bg-white">
+    <header class="border-b border-(--ar-line) bg-white">
         <div class="mx-auto max-w-6xl px-4">
 
             <div class="py-3 text-sm text-gray-500">
@@ -140,7 +140,7 @@
                 <span class="text-gray-700">{{ $canal->title }}</span>
             </div>
 
-            <div class="border-t border-[color:var(--ar-line)] pt-6">
+            <div class="border-t border-(--ar-line) pt-6">
 
                 {{-- Identita a odber. Vlastný Vue komponent, preto stojí
                      samostatne a čísla kanála idú až pod neho. --}}
@@ -194,7 +194,7 @@
                 @if ($contacts)
                     <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
                         @isset($contacts['obec'])
-                            <span><i class="ph ph-map-pin mr-1.5 text-[color:var(--ar-accent)]"></i>{{ $contacts['obec'] }}</span>
+                            <span><i class="ph ph-map-pin mr-1.5 text-(--ar-accent)"></i>{{ $contacts['obec'] }}</span>
                         @endisset
 
                         @isset($contacts['web'])
@@ -310,7 +310,7 @@
                             — {{ implode(', ', $selection) }}
                         </p>
                         <a href="{{ route('organizations.show', [$canal->id]) }}"
-                           class="shrink-0 text-xs text-gray-500 hover:text-[color:var(--ar-accent)]">
+                           class="shrink-0 text-xs text-gray-500 hover:text-(--ar-accent)">
                             <i class="ph ph-x mr-1"></i> zrušiť výber
                         </a>
                     </div>
@@ -320,7 +320,7 @@
                     @forelse ($posts as $post)
                         @include('posts.card-front')
                     @empty
-                        <p class="col-span-full rounded-lg border border-dashed border-[color:var(--ar-line)] bg-white px-4 py-10 text-center text-sm text-gray-500">
+                        <p class="col-span-full rounded-lg border border-dashed border-(--ar-line) bg-white px-4 py-10 text-center text-sm text-gray-500">
                             Pre tento výber sme v kanáli nenašli žiadny príspevok.
                         </p>
                     @endforelse
@@ -347,13 +347,13 @@
 
                     {{-- Posledné komentáre pod príspevkami kanála --}}
                     @if ($comments->isNotEmpty())
-                        <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ar-line) bg-white p-4">
                             <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
                                 Posledné komentáre
                             </h2>
                             <ul class="space-y-3">
                                 @foreach ($comments as $comment)
-                                    <li class="border-b border-[color:var(--ar-line)] pb-3 last:border-0 last:pb-0">
+                                    <li class="border-b border-(--ar-line) pb-3 last:border-0 last:pb-0">
                                         <a href="{{ route('post.show', [$comment->post_id, $comment->post_slug]) }}"
                                            title="{{ $comment->post_title }}" class="group block">
                                             <p class="ar-clamp-2 text-sm leading-snug text-gray-700">
@@ -365,7 +365,7 @@
                                                 <span class="font-medium text-gray-500">{{ ltrim((string) $comment->user_name, '@') ?: 'Anonym' }}</span>
                                                 · {{ \Carbon\Carbon::parse($comment->created_at)->locale('sk')->diffForHumans() }}
                                             </p>
-                                            <p class="mt-0.5 truncate text-xs text-gray-500 transition-colors group-hover:text-[color:var(--ar-accent)]">
+                                            <p class="mt-0.5 truncate text-xs text-gray-500 transition-colors group-hover:text-(--ar-accent)">
                                                 <i class="ph ph-chat-circle mr-1"></i>{{ $comment->post_title }}
                                             </p>
                                         </a>
@@ -403,14 +403,14 @@
                             $steps = max(1, count($levels) - 1);
                         @endphp
 
-                        <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ar-line) bg-white p-4">
                             <div class="mb-3 flex items-baseline justify-between">
                                 <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500">
                                     Archív kanála
                                 </h2>
                                 @if ($year)
                                     <a href="{{ $channelUrl(['rok' => null, 'mesiac' => null]) }}"
-                                       class="text-xs text-gray-500 hover:text-[color:var(--ar-accent)]">celý archív</a>
+                                       class="text-xs text-gray-500 hover:text-(--ar-accent)">celý archív</a>
                                 @endif
                             </div>
 
@@ -447,7 +447,7 @@
                             <p class="mt-3 flex items-center justify-end gap-1.5 text-[.65rem] text-gray-500">
                                 menej
                                 @foreach ([0.14, 0.4, 0.65, 1] as $shade)
-                                    <span class="inline-block h-2.5 w-2.5 rounded-sm"
+                                    <span class="inline-block h-2.5 w-2.5 rounded-xs"
                                           style="background: rgba(var(--ar-accent-rgb), {{ $shade }})"></span>
                                 @endforeach
                                 viac

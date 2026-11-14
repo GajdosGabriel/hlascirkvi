@@ -12,10 +12,10 @@
     $missing = max(0, $items->count() - $mapped);
 @endphp
 
-<div class="overflow-hidden rounded-lg border border-[color:var(--ev-line)] bg-white">
+<div class="overflow-hidden rounded-lg border border-(--ev-line) bg-white">
 
     @if ($mapPoints)
-        <div id="ev-map" class="h-[30rem] w-full md:h-[34rem]"></div>
+        <div id="ev-map" class="h-120 w-full md:h-136"></div>
     @else
         <div class="flex h-64 flex-col items-center justify-center px-6 text-center">
             <i class="ph ph-map-trifold mb-3 text-3xl text-stone-300"></i>
@@ -26,9 +26,9 @@
         </div>
     @endif
 
-    <div class="flex flex-wrap items-center justify-between gap-2 border-t border-[color:var(--ev-line)] px-4 py-2.5 text-xs text-stone-600">
+    <div class="flex flex-wrap items-center justify-between gap-2 border-t border-(--ev-line) px-4 py-2.5 text-xs text-stone-600">
         <span>
-            <i class="ph ph-map-pin mr-1 text-[color:var(--ev-accent)]"></i>
+            <i class="ph ph-map-pin mr-1 text-(--ev-accent)"></i>
             {{ $mapped }} z {{ $items->count() }} podujatí na
             {{ count($mapPoints) }} {{ count($mapPoints) === 1 ? 'mieste' : 'miestach' }}
         </span>

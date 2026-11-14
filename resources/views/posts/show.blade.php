@@ -141,7 +141,7 @@
     <div class="ar-progress js-reading-progress"></div>
 
     {{-- Drobčeky --}}
-    <div class="border-b border-[color:var(--ar-line)] bg-white">
+    <div class="border-b border-(--ar-line) bg-white">
         <div class="mx-auto max-w-6xl px-4 py-3 text-sm text-gray-500">
             <a href="{{ url('/') }}" class="hover:text-gray-900">Hlas Cirkvi</a>
             <span class="mx-2 text-gray-300">/</span>
@@ -150,7 +150,7 @@
     </div>
 
     {{-- Hlavička článku --}}
-    <header class="border-b border-[color:var(--ar-line)] bg-white">
+    <header class="border-b border-(--ar-line) bg-white">
         <div class="mx-auto max-w-6xl px-4 py-8 md:py-12">
             {{-- Názov kanála nesú drobčeky nad hlavičkou a lišta kanála pod
                  ňou; tretíkrát nad titulkom už len opakoval to isté.
@@ -165,7 +165,7 @@
 
                     <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
                         <time datetime="{{ $post->created_at->toIso8601String() }}">
-                            <i class="ph ph-calendar-blank mr-1.5 text-[color:var(--ar-accent)]"></i>
+                            <i class="ph ph-calendar-blank mr-1.5 text-(--ar-accent)"></i>
                             {{ $post->created_at->locale('sk')->isoFormat('D. MMMM YYYY') }}
                         </time>
 
@@ -210,7 +210,7 @@
                          až pod článkom, preto tlačidlo aj tu; skript ho odkryje
                          len tam, kde Web Share API existuje. --}}
                     <button type="button" data-url="{{ $postUrl }}" data-title="{{ $title }}"
-                            class="js-native-share ar-btn ar-btn--quiet !hidden lg:!hidden"
+                            class="js-native-share ar-btn ar-btn--quiet hidden! lg:hidden!"
                             title="Zdieľať" aria-label="Zdieľať">
                         <i class="ph ph-share-network"></i>
                     </button>
@@ -227,13 +227,13 @@
 
         {{-- Médium: prehrávač alebo úvodná fotka --}}
         @if ($videoUnavailable)
-            <section class="mb-8 rounded-lg border border-[color:var(--ar-line)] p-6" aria-labelledby="video-unavailable-title">
+            <section class="mb-8 rounded-lg border border-(--ar-line) p-6" aria-labelledby="video-unavailable-title">
                 <h2 id="video-unavailable-title" class="text-xl font-semibold">Video je momentálne nedostupné</h2>
                 <p class="mt-2">Toto video sa momentálne nedá prehrať na našom webe. Názov, popis a diskusia zostávajú dostupné.</p>
                 <a href="{{ $canalUrl }}" class="ar-btn mt-4">Pozrieť ďalšie videá z tohto kanála</a>
             </section>
         @elseif ($playableVideo)
-            <div class="mb-8 overflow-hidden rounded-lg border border-[color:var(--ar-line)] bg-black">
+            <div class="mb-8 overflow-hidden rounded-lg border border-(--ar-line) bg-black">
                 {{-- Náhľad s tlačidlom namiesto iframe: prehrávač YouTube pri
                      načítaní stiahne okolo megabajtu skriptov aj návštevníkovi,
                      ktorý video nespustí. Iframe vloží až klik (skript dole). --}}
@@ -267,7 +267,7 @@
             <figure class="mb-8">
                 <a href="{{ url($lead->originalImageUrl) }}" target="_blank" rel="noopener"
                    data-lightbox="post" data-lightbox-fallback="{{ url($lead->thumbImageUrl) }}"
-                   class="block cursor-zoom-in overflow-hidden rounded-lg border border-[color:var(--ar-line)] bg-white">
+                   class="block cursor-zoom-in overflow-hidden rounded-lg border border-(--ar-line) bg-white">
                     @if ($lead->variants)
                         {{-- Nové obrázky majú viac šírok aj WebP variant. Obrázok
                              nad článkom je nad ohybom, preto sa načíta rovno
@@ -306,11 +306,11 @@
         @endif
         @if ($series)
             <nav aria-label="Diely série"
-                 class="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[color:var(--ar-line)] bg-white px-4 py-3">
+                 class="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-(--ar-line) bg-white px-4 py-3">
                 <div class="min-w-0 text-sm">
                     <span class="ar-kicker block text-[.6rem]">Séria · časť {{ $series['index'] + 1 }} z {{ $series['parts']->count() }}</span>
                     <a href="{{ route('seminars.show', $series['seminar']) }}"
-                       class="ar-display font-semibold hover:text-[color:var(--ar-accent)]">
+                       class="ar-display font-semibold hover:text-(--ar-accent)">
                         {{ $series['seminar']->title }}
                     </a>
                 </div>
@@ -339,7 +339,7 @@
 
                 {{-- Lišta kanála: avatar, názov a odber. Vlastný Vue komponent,
                      preto stojí na plnú šírku článku a nie v úzkom paneli. --}}
-                <div class="mb-8 rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+                <div class="mb-8 rounded-lg border border-(--ar-line) bg-white p-4">
                     {{-- h1 na tejto stránke patrí titulku článku, kanál preto
                          dostane obyčajný riadok. --}}
                     <canal-page-header heading="div" profile-url="{{ route('organizations.show', $post->canal_id) }}"
@@ -349,10 +349,10 @@
                 {{-- Automatické zhrnutie dlhého popisu (príkaz posts:summarize).
                      Stojí nad textom, nie namiesto neho. --}}
                 @if ($post->summary && $plain !== '')
-                    <aside class="mb-8 rounded-lg border border-[color:var(--ar-line)] bg-[color:var(--ar-accent-soft)] p-4 md:p-5">
+                    <aside class="mb-8 rounded-lg border border-(--ar-line) bg-(--ar-accent-soft) p-4 md:p-5">
                         {{-- Body („• …“) = zhrnutie; súvislý text = rozsah „Text na A4“. --}}
                         <h2 class="ar-kicker mb-2 text-[.65rem]">{{ str_starts_with(ltrim($post->summary), '•') ? 'V skratke' : 'Z obsahu' }}</h2>
-                        <div class="text-[.95rem] leading-relaxed text-[color:var(--ar-ink)]">
+                        <div class="text-[.95rem] leading-relaxed text-(--ar-ink)">
                             {!! nl2br(e($post->summary)) !!}
                         </div>
                         <p class="mt-3 text-xs text-gray-500">
@@ -383,7 +383,7 @@
                                    {{-- Na čiernej ploche sa ukazuje originál (miniatúra by sa
                                         roztiahnutím rozmazala), náhľad z mriežky je záloha. --}}
                                    data-lightbox="post" data-lightbox-fallback="{{ url($image->thumbImageUrl) }}"
-                                   class="block cursor-zoom-in overflow-hidden rounded-md border border-[color:var(--ar-line)] bg-white">
+                                   class="block cursor-zoom-in overflow-hidden rounded-md border border-(--ar-line) bg-white">
                                     <picture class="block">
                                         @if ($galleryWebp = $image->srcset('webp'))
                                             <source type="image/webp" data-srcset="{{ $galleryWebp }}"
@@ -403,7 +403,7 @@
 
                 {{-- Odporúčanie a správa článku sú v hlavičke pri titulku;
                      pod textom tak nasledujú rovno komentáre. --}}
-                <div id="komentare" class="mt-10 scroll-mt-20 border-t border-[color:var(--ar-line)] pt-8">
+                <div id="komentare" class="mt-10 scroll-mt-20 border-t border-(--ar-line) pt-8">
                     <comments-post :post="{{ json_encode($post->only(['id'])) }}"></comments-post>
                 </div>
             </article>
@@ -413,26 +413,26 @@
                 <div class="space-y-4 lg:sticky lg:top-6">
 
                     {{-- Zdieľanie --}}
-                    <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+                    <section class="rounded-lg border border-(--ar-line) bg-white p-4">
                         <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">Zdieľať</h2>
                         <div class="flex gap-2">
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($postUrl) }}"
                                target="_blank" rel="noopener" title="Zdieľať na Facebooku" aria-label="Zdieľať na Facebooku"
-                               class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-blue-400 hover:text-blue-600">
+                               class="flex h-9 w-9 items-center justify-center rounded-md border border-(--ar-line) text-gray-500 transition hover:border-blue-400 hover:text-blue-600">
                                 <i class="ph ph-facebook-logo" aria-hidden="true"></i>
                             </a>
                             <a href="https://api.whatsapp.com/send?text={{ urlencode($title . ' ' . $postUrl) }}"
                                target="_blank" rel="noopener" title="Poslať cez WhatsApp" aria-label="Poslať cez WhatsApp"
-                               class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-green-400 hover:text-green-600">
+                               class="flex h-9 w-9 items-center justify-center rounded-md border border-(--ar-line) text-gray-500 transition hover:border-green-400 hover:text-green-600">
                                 <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
                             </a>
                             <a href="mailto:?subject={{ rawurlencode($title) }}&body={{ rawurlencode($postUrl) }}"
                                title="Poslať e-mailom" aria-label="Poslať e-mailom"
-                               class="flex h-9 w-9 items-center justify-center rounded-md border border-[color:var(--ar-line)] text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
+                               class="flex h-9 w-9 items-center justify-center rounded-md border border-(--ar-line) text-gray-500 transition hover:border-red-300 hover:text-(--ar-accent)">
                                 <i class="ph ph-envelope-simple" aria-hidden="true"></i>
                             </a>
                             <button type="button" data-url="{{ $postUrl }}"
-                                    class="js-copy-link flex h-9 flex-1 items-center justify-center gap-2 rounded-md border border-[color:var(--ar-line)] text-sm text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
+                                    class="js-copy-link flex h-9 flex-1 items-center justify-center gap-2 rounded-md border border-(--ar-line) text-sm text-gray-500 transition hover:border-red-300 hover:text-(--ar-accent)">
                                 <i class="ph ph-copy"></i> Kopírovať odkaz
                             </button>
                         </div>
@@ -440,7 +440,7 @@
                         {{-- Systémová ponuka zdieľania (Messenger, Signal…).
                              Skript ho odkryje len tam, kde ju prehliadač má. --}}
                         <button type="button" data-url="{{ $postUrl }}" data-title="{{ $title }}"
-                                class="js-native-share mt-2 hidden h-9 w-full flex items-center justify-center gap-2 rounded-md border border-[color:var(--ar-line)] text-sm text-gray-500 transition hover:border-red-300 hover:text-[color:var(--ar-accent)]">
+                                class="js-native-share mt-2 hidden h-9 w-full flex items-center justify-center gap-2 rounded-md border border-(--ar-line) text-sm text-gray-500 transition hover:border-red-300 hover:text-(--ar-accent)">
                             <i class="ph ph-share-network"></i> Zdieľať cez…
                         </button>
                     </section>
@@ -453,7 +453,7 @@
                             $from = max(0, min($series['index'] - 3, $partsTotal - 7));
                             $visibleParts = $series['parts']->slice($from, 7);
                         @endphp
-                        <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ar-line) bg-white p-4">
                             <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
                                 Diely série
                             </h2>
@@ -463,7 +463,7 @@
                                     <li>
                                         <a href="{{ route('post.show', [$part->id, $part->slug]) }}"
                                            @if ($current) aria-current="page" @endif
-                                           class="flex gap-2 rounded-md px-2 py-1.5 text-sm leading-snug transition-colors {{ $current ? 'bg-[color:var(--ar-accent-soft)] font-semibold text-[color:var(--ar-accent)]' : 'hover:bg-gray-50 hover:text-[color:var(--ar-accent)]' }}">
+                                           class="flex gap-2 rounded-md px-2 py-1.5 text-sm leading-snug transition-colors {{ $current ? 'bg-(--ar-accent-soft) font-semibold text-(--ar-accent)' : 'hover:bg-gray-50 hover:text-(--ar-accent)' }}">
                                             <span class="w-5 shrink-0 text-right tabular-nums text-gray-500">{{ $number + 1 }}.</span>
                                             <span class="ar-clamp-2 min-w-0 flex-1">{{ $part->title }}</span>
                                         </a>
@@ -472,7 +472,7 @@
                             </ol>
                             @if ($partsTotal > $visibleParts->count())
                                 <a href="{{ route('seminars.show', $series['seminar']) }}"
-                                   class="mt-3 block text-sm text-[color:var(--ar-accent)] hover:underline">
+                                   class="mt-3 block text-sm text-(--ar-accent) hover:underline">
                                     Celá séria ({{ $partsTotal }} dielov)
                                 </a>
                             @endif
@@ -482,13 +482,13 @@
                     {{-- Podujatia už nedržíme v tejto databáze, žijú na portáli
                          tixio.eu. Panel preto neukazuje akcie práve
                          tohto kanála, len odkaz na celý výpis. --}}
-                    <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+                    <section class="rounded-lg border border-(--ar-line) bg-white p-4">
                         <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
                             Podujatia
                         </h2>
                         <p class="text-sm text-gray-500">
                             Pozrite si
-                            <a href="{{ route('akcie.index') }}" class="text-[color:var(--ar-accent)] hover:underline">plánované podujatia</a>
+                            <a href="{{ route('akcie.index') }}" class="text-(--ar-accent) hover:underline">plánované podujatia</a>
                             z celého Slovenska.
                         </p>
                     </section>
@@ -504,7 +504,7 @@
                          ešte nemá. --}}
                     @php $archive = array_filter(['Pred rokom' => $yearAgo, 'Ako to začalo' => $firstPost]); @endphp
                     @if ($archive)
-                        <section class="rounded-lg border border-[color:var(--ar-line)] bg-white p-4">
+                        <section class="rounded-lg border border-(--ar-line) bg-white p-4">
                             <h2 class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">
                                 Z archívu
                             </h2>
@@ -514,10 +514,10 @@
                                         <a href="{{ route('post.show', [$item->id, $item->slug]) }}"
                                            title="{{ $item->title }}" class="group flex gap-3">
                                             <img data-src="{{ $item->thumbImage }}" data-sizes="auto" alt="" width="64" height="48"
-                                                 class="lazyload h-12 w-16 shrink-0 rounded object-cover">
+                                                 class="lazyload h-12 w-16 shrink-0 rounded-sm object-cover">
                                             <span class="min-w-0 flex-1">
                                                 <span class="ar-kicker block text-[.6rem]">{{ $label }}</span>
-                                                <span class="ar-clamp-2 mt-0.5 text-sm leading-snug transition-colors group-hover:text-[color:var(--ar-accent)]">
+                                                <span class="ar-clamp-2 mt-0.5 text-sm leading-snug transition-colors group-hover:text-(--ar-accent)">
                                                     {{ $item->title }}
                                                 </span>
                                                 <time datetime="{{ $item->created_at->toIso8601String() }}"
@@ -576,7 +576,7 @@
             @endif
         </section>
 
-        <div class="mt-12 border-t border-[color:var(--ar-line)] pt-6">
+        <div class="mt-12 border-t border-(--ar-line) pt-6">
             <a href="{{ $canalUrl }}" class="text-sm text-gray-500 hover:text-gray-900">
                 <i class="ph ph-arrow-left mr-2"></i> Späť na kanál {{ $post->canal->title }}
             </a>

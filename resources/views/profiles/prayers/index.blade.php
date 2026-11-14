@@ -36,7 +36,7 @@
                     <div class="ar-item__body">
                         <span class="ar-item__title">{{ $prayer->title }}</span>
 
-                        <p class="mt-1 text-sm text-[color:var(--ar-ink-soft)]">
+                        <p class="mt-1 text-sm text-(--ar-ink-soft)">
                             {{ \Illuminate\Support\Str::limit(strip_tags($prayer->body), 220) }}
                         </p>
 

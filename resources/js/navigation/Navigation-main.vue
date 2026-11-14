@@ -8,7 +8,7 @@
             :aria-expanded="open ? 'true' : 'false'"
             @click="toggle"
         >
-            <span class="max-w-[9rem] truncate">{{ canal?.title || user.full_name }}</span>
+            <span class="max-w-36 truncate">{{ canal?.title || user.full_name }}</span>
             <svg
                 class="h-4 w-4 shrink-0 transition-transform"
                 :class="{ 'rotate-180': open }"

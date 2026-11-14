@@ -21,8 +21,8 @@
             {{-- Vysvetlenie je potrebné raz, potom zavadzia — preto zbalené a v drobnom.
                  Väčším písmom ako zvyšok administrácie tlačilo tabuľku pod okraj. --}}
             <x-dashboard.panel class="mb-5">
-                <details class="text-sm text-[color:var(--ar-ink-soft)]">
-                    <summary class="cursor-pointer font-semibold text-[color:var(--ar-ink)]">Ako sa karta radí</summary>
+                <details class="text-sm text-(--ar-ink-soft)">
+                    <summary class="cursor-pointer font-semibold text-(--ar-ink)">Ako sa karta radí</summary>
                 <p class="mt-2">
                     Kartu „Kresťanské osobnosti" aj „Cirkvi a spoločenstvá" radí záujem návštevníkov, nie ručné
                     poradie. Skóre sú zhliadnutia príspevkov kanála a noví sledovatelia
@@ -75,7 +75,7 @@
                             </span>
                         </form>
                     @empty
-                        <p class="mt-3 text-[color:var(--ar-muted)]">Nič sa nenašlo — alebo je taký kanál v zozname už zaradený.</p>
+                        <p class="mt-3 text-(--ar-muted)">Nič sa nenašlo — alebo je taký kanál v zozname už zaradený.</p>
                     @endforelse
                 @endif
             </x-dashboard.panel>
@@ -103,7 +103,7 @@
                                     <span class="ml-1 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800"
                                           title="Dnes je na karte v bočnom paneli">na karte</span>
                                 @elseif ($canal->identity_mode)
-                                    <span class="ml-1 text-xs text-[color:var(--ar-muted)]">len v celom zozname</span>
+                                    <span class="ml-1 text-xs text-(--ar-muted)">len v celom zozname</span>
                                 @endif
                             </td>
 

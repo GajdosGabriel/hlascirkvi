@@ -28,7 +28,7 @@
         {{-- Týždeň okolo dňa. Bodka nesie liturgickú farbu dňa podľa kalendára. --}}
         <nav class="mb-6 flex items-center gap-2 text-sm" aria-label="Iné dni">
             @if ($prev)
-                <a href="{{ route('readings.show', [$prev->format('Y-m-d')]) }}" class="rounded px-2 py-1 hover:bg-gray-100" title="Predchádzajúci deň">
+                <a href="{{ route('readings.show', [$prev->format('Y-m-d')]) }}" class="rounded-sm px-2 py-1 hover:bg-gray-100" title="Predchádzajúci deň">
                     <i class="ph ph-caret-left" aria-hidden="true"></i><span class="sr-only">Predchádzajúci deň</span>
                 </a>
             @endif
@@ -40,7 +40,7 @@
                         <a href="{{ route('readings.show', [$other->date->format('Y-m-d')]) }}"
                            @if ($current) aria-current="date" @endif
                            title="{{ $other->title }}"
-                           class="flex flex-col items-center rounded py-1 {{ $current ? 'bg-gray-800 text-white' : 'hover:bg-gray-100' }} {{ $other->isSunday() && ! $current ? 'font-bold' : '' }}">
+                           class="flex flex-col items-center rounded-sm py-1 {{ $current ? 'bg-gray-800 text-white' : 'hover:bg-gray-100' }} {{ $other->isSunday() && ! $current ? 'font-bold' : '' }}">
                             <span class="text-[0.7rem] uppercase">{{ $other->date->translatedFormat('D') }}</span>
                             <span>{{ $other->date->day }}.</span>
                             <span class="mt-0.5 h-1.5 w-1.5 rounded-full" style="background: {{ $other->color->hex() }}"></span>
@@ -50,7 +50,7 @@
             </ol>
 
             @if ($next)
-                <a href="{{ route('readings.show', [$next->format('Y-m-d')]) }}" class="rounded px-2 py-1 hover:bg-gray-100" title="Nasledujúci deň">
+                <a href="{{ route('readings.show', [$next->format('Y-m-d')]) }}" class="rounded-sm px-2 py-1 hover:bg-gray-100" title="Nasledujúci deň">
                     <i class="ph ph-caret-right" aria-hidden="true"></i><span class="sr-only">Nasledujúci deň</span>
                 </a>
             @endif

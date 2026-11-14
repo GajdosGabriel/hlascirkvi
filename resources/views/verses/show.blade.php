@@ -33,10 +33,10 @@
                 <div class="ar-document__prose space-y-5">
                     {!! $post->zamyslenie !!}
                     @if ($post->autor)
-                        <p class="border-t border-[color:var(--ar-line)] pt-5 text-sm">{{ $post->autor }}</p>
+                        <p class="border-t border-(--ar-line) pt-5 text-sm">{{ $post->autor }}</p>
                     @endif
                 </div>
-                <nav class="mt-8 flex flex-wrap justify-between gap-3 border-t border-[color:var(--ar-line)] pt-6" aria-label="Ďalšie zamyslenia">
+                <nav class="mt-8 flex flex-wrap justify-between gap-3 border-t border-(--ar-line) pt-6" aria-label="Ďalšie zamyslenia">
                     @if ($previous)
                         <a class="ar-btn ar-btn--quiet" href="{{ URL::to('zamyslenia/' . $previous) }}">← Predchádzajúce</a>
                     @endif
@@ -50,14 +50,14 @@
                     <h2 class="ar-kicker">Biblický verš k zamysleniu</h2>
                     <blockquote class="mt-4 text-lg leading-relaxed">
                         <p>{{ $post->biblicky_vers }}</p>
-                        <footer class="mt-4 text-sm text-[color:var(--ar-ink-soft)]">{{ $post->biblicky_vers_ref }}</footer>
+                        <footer class="mt-4 text-sm text-(--ar-ink-soft)">{{ $post->biblicky_vers_ref }}</footer>
                     </blockquote>
                 </section>
                 <section class="ar-document__card">
                     <h2 class="ar-kicker">Verš starej zmluvy</h2>
                     <blockquote class="mt-4 text-lg leading-relaxed">
                         <p>{{ $post->szvers_text }}</p>
-                        <footer class="mt-4 text-sm text-[color:var(--ar-ink-soft)]">{{ $post->szvers_ref }}</footer>
+                        <footer class="mt-4 text-sm text-(--ar-ink-soft)">{{ $post->szvers_ref }}</footer>
                     </blockquote>
                 </section>
                 <img class="w-full rounded-xl" src="{{ asset('images/biblia1.jpg') }}" alt="Biblia" loading="lazy">

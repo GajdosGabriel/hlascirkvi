@@ -20,14 +20,14 @@
         ])
 
         @if ($duration)
-            <span class="absolute bottom-1.5 right-1.5 rounded bg-black/75 px-1.5 py-0.5 text-[.65rem] font-medium tabular-nums text-white">
+            <span class="absolute bottom-1.5 right-1.5 rounded-sm bg-black/75 px-1.5 py-0.5 text-[.65rem] font-medium tabular-nums text-white">
                 {{ $duration }}
             </span>
         @endif
     </span>
 
     <span class="block p-3">
-        <span class="ar-display block text-[.8rem] font-semibold leading-snug transition-colors group-hover:text-[color:var(--ar-accent)] md:text-sm">
+        <span class="ar-display block text-[.8rem] font-semibold leading-snug transition-colors group-hover:text-(--ar-accent) md:text-sm">
             <span class="ar-clamp-2">{{ $item->title }}</span>
         </span>
         <time datetime="{{ $item->created_at->toIso8601String() }}"

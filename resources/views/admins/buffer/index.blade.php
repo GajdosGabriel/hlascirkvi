@@ -42,7 +42,7 @@
                             </span>
                         </li>
                     @empty
-                        <li class="text-sm text-[color:var(--ar-ink-soft)]">Na dnes nie je naplánované nič.</li>
+                        <li class="text-sm text-(--ar-ink-soft)">Na dnes nie je naplánované nič.</li>
                     @endforelse
                 </ol>
             </x-dashboard.panel>

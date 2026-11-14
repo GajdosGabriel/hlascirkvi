@@ -26,8 +26,8 @@
                 @endif
             </x-slot>
 
-            <div class="ar-panel__body border-b border-[color:var(--ar-line)]">
-                <p class="mb-4 text-sm text-[color:var(--ar-ink-soft)]">
+            <div class="ar-panel__body border-b border-(--ar-line)">
+                <p class="mb-4 text-sm text-(--ar-ink-soft)">
                     Označte príspevky a pridajte ich do kolekcie alebo ich z nej odoberte. Odobratie príspevok nezmaže
                     a jeden príspevok môže patriť do viacerých kolekcií.
                 </p>
@@ -62,8 +62,8 @@
                 @csrf
 
                 @if ($posts->isNotEmpty())
-                    <label class="ar-row cursor-pointer bg-[color:var(--ar-paper)] text-sm font-semibold">
-                        <input type="checkbox" class="mt-0.5 accent-[color:var(--ar-accent)]" data-select-all>
+                    <label class="ar-row cursor-pointer bg-(--ar-paper) text-sm font-semibold">
+                        <input type="checkbox" class="mt-0.5 accent-(--ar-accent)" data-select-all>
                         <span>Označiť všetko na tejto strane</span>
                     </label>
                 @endif
@@ -71,7 +71,7 @@
                 @forelse ($posts as $post)
                     <div class="ar-row">
                         <input id="member-{{ $post->id }}" type="checkbox" name="posts[]" value="{{ $post->id }}"
-                               class="mt-1 accent-[color:var(--ar-accent)]" data-select-item
+                               class="mt-1 accent-(--ar-accent)" data-select-item
                                @checked(in_array($post->id, old('posts', [])))>
                         <span class="min-w-0">
                             <label for="member-{{ $post->id }}" class="ar-row__title ar-clamp-2 cursor-pointer">{{ $post->title }}</label>

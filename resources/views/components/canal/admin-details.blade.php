@@ -134,7 +134,7 @@
         @endif
     </div>
 
-    <p class="mt-2 text-xs text-[color:var(--ar-ink-soft)]">
+    <p class="mt-2 text-xs text-(--ar-ink-soft)">
         @if ($canal->users->isNotEmpty())
             {{ $plural($canal->users->count(), 'Správca', 'Správcovia', 'Správcovia') }}:
             @foreach ($canal->users as $user)
