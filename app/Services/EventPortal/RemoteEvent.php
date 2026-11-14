@@ -87,6 +87,34 @@ class RemoteEvent implements Arrayable
         return Str::limit($text, $length);
     }
 
+    /**
+     * Popis pre vyhľadávače: úryvok z popisu, a keď organizátor popis nevyplnil,
+     * veta z termínu, miesta a organizátora. Prázdny `description` hlási
+     * Search Console v štruktúrovaných dátach Udalosti ako chýbajúce pole.
+     */
+    public function seoDescription(int $length = 300): string
+    {
+        $excerpt = $this->excerpt($length);
+
+        if ($excerpt !== '') {
+            return $excerpt;
+        }
+
+        $parts = array_filter([
+            $this->title() !== '' ? $this->title() : 'Podujatie',
+            $this->startAt()?->locale('sk')->isoFormat('D. MMMM YYYY, H:mm'),
+            $this->address(),
+        ]);
+
+        $text = implode(' – ', $parts) . '.';
+
+        if ($this->organizer()) {
+            $text .= ' Organizátor: ' . $this->organizer() . '.';
+        }
+
+        return Str::limit($text, $length);
+    }
+
     /* ---------------------------------------------------------------- termín */
 
     /**
@@ -602,7 +630,7 @@ class RemoteEvent implements Arrayable
             '@context' => 'https://schema.org',
             '@type' => 'Event',
             'name' => $this->title(),
-            'description' => $this->excerpt(300),
+            'description' => $this->seoDescription(300),
             'url' => $this->url(),
             'eventStatus' => 'https://schema.org/EventScheduled',
         ];

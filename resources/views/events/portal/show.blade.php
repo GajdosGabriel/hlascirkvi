@@ -8,7 +8,7 @@
      */
     $seo = [
         'title' => $event->title(),
-        'description' => $event->excerpt(300),
+        'description' => $event->seoDescription(300),
         'canonical' => $event->url(),
         'type' => 'article',
         'image' => $event->hasPoster() ? $event->poster() : null,

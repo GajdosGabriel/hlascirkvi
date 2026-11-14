@@ -88,6 +88,29 @@ class RemoteEventSchemaTest extends TestCase
         }
     }
 
+    public function test_description_is_never_empty(): void
+    {
+        $event = new RemoteEvent(['name' => 'Koncert', 'body' => '<p>Večer chvál</p>']);
+        $this->assertSame('Večer chvál', $event->schemaOrg()['description']);
+
+        // Bez popisu — veta z termínu, miesta a organizátora, nie prázdne pole.
+        $event = new RemoteEvent([
+            'name' => 'Koncert',
+            'body' => '<p> </p>',
+            'start_at' => '2099-06-01T16:00:00Z',
+            'venue' => ['name' => 'Dóm sv. Martina'],
+            'municipality' => ['shortname' => 'Bratislava'],
+            'canal' => ['name' => 'Farnosť'],
+        ]);
+
+        $this->assertSame(
+            'Koncert – 1. júna 2099, 18:00 – Dóm sv. Martina, Bratislava. Organizátor: Farnosť.',
+            $event->schemaOrg()['description']
+        );
+
+        $this->assertNotSame('', (new RemoteEvent([]))->schemaOrg()['description']);
+    }
+
     public function test_organizer_always_has_a_url(): void
     {
         $event = new RemoteEvent([
