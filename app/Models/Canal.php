@@ -167,7 +167,7 @@ class Canal extends Model
 
     public function setTitleAttribute($value)
     {
-        $this->attributes['title'] = ucfirst($value);
+        $this->attributes['title'] = \Illuminate\Support\Str::ucfirst((string) $value);
         $this->attributes['slug']  = Str::slug($value);
     }
 

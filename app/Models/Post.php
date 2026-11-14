@@ -111,7 +111,7 @@ class Post extends Model
 
     public function setTitleAttribute($value)
     {
-        $this->attributes['title'] = cleanTitle(ucfirst($value));
+        $this->attributes['title'] = cleanTitle(\Illuminate\Support\Str::ucfirst((string) $value));
         $this->attributes['slug']  = Str::slug($value);
     }
 

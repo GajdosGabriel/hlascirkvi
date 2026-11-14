@@ -32,23 +32,18 @@ import CanalPageHeader from './canals/Canal-page-header.vue';
 import YoutubeDash from './youtube/YoutubeDash.vue';
 import Comments from './comments/Comments.vue';
 import CommentItem from './comments/Comment-Item.vue';
-import NewCanal from './canals/NewCanal.vue';
 import PrayersCard from './prayer/prayers-card.vue';
 import PrayersIndexPage from './prayer/prayers-index-page.vue';
 import PrayersIndexPage2 from './prayer/prayers-index-page2.vue';
 import NewPrayerButton from './prayer/components/NewPrayerButton.vue';
 import PostPublishButtons from './posts/card/buttons.vue';
-import PictureViewer from './posts/Picture-viewer.vue';
 import PostImages from './posts/PostImages.vue';
 import CanalSelect from './posts/CanalSelect.vue';
 import CollectionSelect from './posts/CollectionSelect.vue';
 import NavigationMain from './navigation/Navigation-main.vue';
 import MobileMenu from './navigation/MobileMenu.vue';
 import ArticleDropdown from './posts/Article-dropdown.vue';
-import CArticleDropdown from './components/c-article-dropdown.vue';
 import SeminarTitle from './seminars/seminar-title.vue';
-import SeminarInfo from './seminars/seminar-info.vue';
-import SeminarDescription from './seminars/seminar-description.vue';
 import CommentsCard from './comments/comments-card.vue';
 import DropdownSlot from './components/DropdownSlot.vue';
 
@@ -70,23 +65,18 @@ const components = {
     'youtube-dash': YoutubeDash,
     'comments-post': Comments,
     'comment-item': CommentItem,
-    'new-canal': NewCanal,
     'prayers-card': PrayersCard,
     'prayers-index-page': PrayersIndexPage,
     'prayers-index-page2': PrayersIndexPage2,
     'new-prayer-button': NewPrayerButton,
     'post-publish-buttons': PostPublishButtons,
-    'picture-viewer': PictureViewer,
     'post-images': PostImages,
     'canal-select': CanalSelect,
     'collection-select': CollectionSelect,
     'navigation-main': NavigationMain,
     'mobile-menu': MobileMenu,
     'article-dropdown': ArticleDropdown,
-    'c-article-dropdown': CArticleDropdown,
     'seminar-title': SeminarTitle,
-    'seminar-info': SeminarInfo,
-    'seminar-description': SeminarDescription,
     'comments-card': CommentsCard,
     'dropdown-slot': DropdownSlot,
 };

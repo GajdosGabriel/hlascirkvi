@@ -52,7 +52,7 @@ class PostController extends Controller
 
 
 
-    public function show(Post $post, CreditUser $creditUser, ?string $slug = null)
+    public function show(Post $post, ?string $slug = null)
     {
         // Vypnutý kanál odfiltruje middleware `bannedCanal` (routes/web.php).
 
@@ -73,8 +73,6 @@ class PostController extends Controller
 
             return redirect(route('post.show', [$post->id, $post->slug]) . ($query ? '?' . $query : ''), 301);
         }
-
-        $creditUser->setPostHistory($post);
 
         // Zobrazenie sa tu nezapisuje — pošle ho až prehliadač cez view()
         // (resources/js/article.js). Crawlery bez JS a session sa tak do

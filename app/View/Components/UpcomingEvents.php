@@ -56,7 +56,7 @@ class UpcomingEvents extends Component
         return match (true) {
             $this->day->isToday() => 'Dnes',
             $this->day->isTomorrow() => 'Zajtra',
-            default => ucfirst($this->day->locale('sk')->isoFormat('dddd D. MMMM')),
+            default => \Illuminate\Support\Str::ucfirst($this->day->locale('sk')->isoFormat('dddd D. MMMM')),
         };
     }
 

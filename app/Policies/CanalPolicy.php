@@ -41,7 +41,7 @@ class CanalPolicy
      */
     public function create(User $user)
     {
-        return auth();
+        return true;
     }
 
     /**

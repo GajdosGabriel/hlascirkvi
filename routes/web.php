@@ -187,8 +187,6 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::get('canal', 'Admin\CanalController@index')->name('canal.index');
     Route::get('canal/create', 'Admin\CanalController@create')->name('canal.create');
     Route::post('canal', 'Admin\CanalController@store')->name('canal.store');
-    Route::get('canal/create', 'Admin\CanalController@create')->name('canal.create');
-    Route::post('canal', 'Admin\CanalController@store')->name('canal.store');
     // Detail aj pre zrušený kanál — výpis ich vie ukázať (?deletedAt).
     Route::get('canal/{canal}', 'Admin\CanalController@show')->name('canal.show')->withTrashed();
     Route::permanentRedirect('organization', '/admin/canal');

@@ -124,11 +124,22 @@ class EventPortalController extends Controller
 
         return [
             'list' => in_array($list, self::LISTS, true) ? $list : 'upcoming',
-            'search' => trim((string) $request->query('search', '')) ?: null,
-            'municipality' => trim((string) $request->query('municipality', '')) ?: null,
+            'search' => $this->text($request, 'search'),
+            'municipality' => $this->text($request, 'municipality'),
             'tags' => $this->activeTags($request) !== [] ? implode(',', $this->activeTags($request)) : null,
             'range' => $request->query('range') === 'weekend' ? 'weekend' : null,
         ];
+    }
+
+    /**
+     * Textový parameter z adresy. Pole (?search[]=x posielajú skenery) sa
+     * berie ako nevyplnené — pretypovanie poľa na reťazec končilo 500-kou.
+     */
+    protected function text(Request $request, string $key): ?string
+    {
+        $value = $request->query($key);
+
+        return is_string($value) ? (trim($value) ?: null) : null;
     }
 
     /**
@@ -143,7 +154,7 @@ class EventPortalController extends Controller
         $raw = is_array($raw) ? $raw : explode(',', (string) $raw);
 
         return array_values(array_unique(array_filter(
-            array_map(static fn ($tag) => trim((string) $tag), $raw)
+            array_map(static fn ($tag) => is_string($tag) ? trim($tag) : '', $raw)
         )));
     }
 

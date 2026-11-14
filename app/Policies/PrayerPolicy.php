@@ -41,7 +41,7 @@ class PrayerPolicy
      */
     public function create(User $user)
     {
-        return $user;
+        return true;
     }
 
     /**

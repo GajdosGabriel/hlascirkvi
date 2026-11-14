@@ -26,6 +26,22 @@ class ReflectionDateTest extends TestCase
         $this->get(route('verses.index'))->assertOk()->assertSee('Zamyslenie na 4. októbra 2026');
     }
 
+    /**
+     * Zamyslení je 365. Posledný deň priestupného roka (deň 366) nemal svoj
+     * riadok a /zamyslenia vracali 404.
+     */
+    public function test_last_day_of_leap_year_still_has_a_reflection(): void
+    {
+        $this->travelTo(\Carbon\Carbon::parse('2028-12-31 12:00:00'));
+        DB::table('verses')->insert([
+            ['id' => 364, 'slug' => 'predposledne', 'title' => 'Predposledné zamyslenie'],
+            ['id' => 365, 'slug' => 'posledne', 'title' => 'Posledné zamyslenie'],
+        ]);
+
+        $this->assertSame(365, \App\Models\Verse::today()?->id);
+        $this->get(route('verses.index'))->assertOk()->assertSee('Posledné zamyslenie');
+    }
+
     public function test_day_number_uses_calendar_days_across_clock_changes(): void
     {
         $controller = app(\App\Http\Controllers\VerseController::class);

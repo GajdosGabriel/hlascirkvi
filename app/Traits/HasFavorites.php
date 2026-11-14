@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Notification;
 trait HasFavorites
 {
 
-    /**
-     * Boot the trait.
-     */
-    protected static function bootFavoritable()
-    {
-        static::deleting(function ($model) {
-            $model->favorites->each->delete();
-        });
-    }
+    // Hook `bootFavoritable()` (mazanie označení spolu s modelom) je preč:
+    // trait sa volá HasFavorites, takže ho Laravel nikdy nezavolal. Zapnúť ho
+    // pod správnym menom by pri soft delete príspevku označenia zmazalo
+    // natrvalo a obnovenie príspevku by ich už nevrátilo.
 
     public function favorites() {
         return $this->morphMany(Favorite::class, 'favorited');

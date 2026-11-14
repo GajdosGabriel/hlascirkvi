@@ -14,7 +14,7 @@ class VerseController extends Controller
         // vrátiť null a hneď sa na ňom čítalo ->id / ->slug. Podmienka pre
         // prvý záznam bola navyše `$id < 1`, čo pri ID z databázy nikdy neplatí.
         $verse = $slug === null
-            ? Verse::find(now()->dayOfYear)
+            ? Verse::today()
             : Verse::whereSlug($slug)->first();
 
         abort_if($verse === null, 404);
@@ -54,90 +54,6 @@ class VerseController extends Controller
         return Carbon::create($year ?? now()->year, 1, 1, 0)
             ->addDays($offset)->locale(config('app.locale'))
             ->translatedFormat($format ?? 'j. F Y');
-    }
-    /**
-     * Localized Date
-     *
-     * Translate date according to locale settings
-     *
-     * @param  	string 	$format
-     * @param  	string 	$date
-     * @return 	string
-     */
-    function localized_date($format, $date)
-    {
-        // Clasic date function - return English version of date
-        $result = date($format, strtotime($date));
-
-        // Format 'F' - A full textual representation of a month
-        // Format 'M' - A short textual representation of a month, three letters
-        // Format 'l' - A full textual representation of the day of the week
-        // Format 'D' - A textual representation of a day, three letters
-        // Format 'A' - Uppercase AM or PM
-        // Format 'a' - Lowercase am or pm
-
-        // Add space before format string
-        $format = ' ' . $format;
-
-        if (strpos($format, 'F') or strpos($format, 'M') or
-            strpos($format, 'l') or strpos($format, 'D') or
-            strpos($format, 'A') or strpos($format, 'a')
-        ) {
-            // Load date language lines
-            $keys = array(
-                'January'   => __('date.january'),
-                'February'  => __('date.february'),
-                'March'     => __('date.march'),
-                'April'     => __('date.april'),
-                'May'       => __('date.may'),
-                'June'      => __('date.june'),
-                'July'      => __('date.july'),
-                'August'    => __('date.august'),
-                'September' => __('date.september'),
-                'October'   => __('date.october'),
-                'November'  => __('date.november'),
-                'December'  => __('date.december'),
-
-                'Jan'       => __('date.jan'),
-                'Feb'       => __('date.feb'),
-                'Mar'       => __('date.mar'),
-                'Apr'       => __('date.apr'),
-                'May'       => __('date.may'),
-                'Jun'       => __('date.jun'),
-                'Jul'       => __('date.jul'),
-                'Aug'       => __('date.aug'),
-                'Sep'       => __('date.sep'),
-                'Oct'       => __('date.oct'),
-                'Nov'       => __('date.nov'),
-                'Dec'       => __('date.dec'),
-
-                'Monday'    => __('date.monday'),
-                'Tuesday'   => __('date.tuesday'),
-                'Wednesday' => __('date.wednesday'),
-                'Thursday'  => __('date.thursday'),
-                'Friday'    => __('date.friday'),
-                'Saturday'  => __('date.saturday'),
-                'Sunday'    => __('date.sunday'),
-
-                'Mon'       => __('date.mon'),
-                'Tue'       => __('date.tue'),
-                'Wed'       => __('date.wed'),
-                'Thu'       => __('date.thu'),
-                'Fri'       => __('date.fri'),
-                'Sat'       => __('date.sat'),
-                'Sun'       => __('date.sun'),
-
-                'AM'        => __('date.am_uppercase'),
-                'PM'        => __('date.pm_uppercase'),
-                'am'        => __('date.am_lowercase'),
-                'pm'        => __('date.pm_lowercase')
-            );
-
-            // Translate date
-            $result = strtr($result, $keys);
-        }
-
-        return trim($result);
     }
 
 }

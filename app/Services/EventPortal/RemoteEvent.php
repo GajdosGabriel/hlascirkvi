@@ -215,7 +215,7 @@ class RemoteEvent implements Arrayable
         $end = $this->endAt()?->locale('sk');
 
         if (! $end || ! $this->isMultiDay()) {
-            return ucfirst($start->isoFormat('dddd')) . ', ' . $start->isoFormat('D. MMMM YYYY');
+            return \Illuminate\Support\Str::ucfirst($start->isoFormat('dddd')) . ', ' . $start->isoFormat('D. MMMM YYYY');
         }
 
         $from = match (true) {
@@ -224,7 +224,7 @@ class RemoteEvent implements Arrayable
             default => $start->isoFormat('D.'),
         };
 
-        return ucfirst($start->isoFormat('dddd')) . ' – ' . $end->isoFormat('dddd') . ', '
+        return \Illuminate\Support\Str::ucfirst($start->isoFormat('dddd')) . ' – ' . $end->isoFormat('dddd') . ', '
             . $from . ' – ' . $end->isoFormat('D. MMMM YYYY');
     }
 

@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Repositories\Contracts\PostRepository;
-use App\Services\CreditUser;
 use Carbon\Carbon;
 use Closure;
 
@@ -24,9 +23,6 @@ class SetCache
      */
     public function handle($request, Closure $next)
     {
-        // Pripísanie bodov za dennú návštevu webu
-//        (new CreditUser())->setVisitPage();
-
         if( session()->has('lastVisit')) {
             $this->repository->countUnwatchedSundayServicesVideos();
         } else {

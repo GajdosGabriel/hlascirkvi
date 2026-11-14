@@ -51,13 +51,16 @@ class PrayerController extends Controller
 
     public function fulfilledAt(Prayer $prayer)
     {
-        $prayer->update([
-            'fulfilled_at' => Carbon::now()
-        ]);
+        session()->flash('flash', 'Modlitba bola označená ako vypočutá. Ďakujeme.');
 
-        session()->flash('flash', 'Modliba bola označená ako vypočutá. Ďakujeme.');
+        // Odkaz z e-mailu sa dá otvoriť opakovane (aj poštový skener ho
+        // otvára sám). Druhé otvorenie už nesmie prepísať dátum vypočutia
+        // ani znova rozposlať oznámenie administrátorom.
+        if ($prayer->fulfilled_at === null) {
+            $prayer->update(['fulfilled_at' => Carbon::now()]);
 
-        Notification::send(User::role('admin')->get(), new ConfirmFulfilledPrayer($prayer));
+            Notification::send(User::role('admin')->get(), new ConfirmFulfilledPrayer($prayer));
+        }
 
         return redirect()->route('modlitby.index');
     }
