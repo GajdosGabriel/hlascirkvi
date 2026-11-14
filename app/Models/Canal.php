@@ -16,6 +16,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Casts\Urlwww;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Canal extends Model
 {
@@ -135,32 +139,38 @@ class Canal extends Model
         return $query->where('post_section', '<>', \App\Enums\CanalSection::Paused->value);
     }
 
-    public function posts()
+    /** @return HasMany<Post, $this> */
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    public function prayers()
+    /** @return HasMany<Prayer, $this> */
+    public function prayers(): HasMany
     {
         return $this->hasMany(Prayer::class);
     }
 
-    public function users()
+    /** @return BelongsToMany<User, $this> */
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
 
-    public function user()
+    /** @return HasOne<User, $this> */
+    public function user(): HasOne
     {
         return $this->hasOne(User::class, 'canal_id');
     }
 
-    public function village()
+    /** @return BelongsTo<Village, $this> */
+    public function village(): BelongsTo
     {
         return $this->belongsTo(Village::class);
     }
 
-    public function seminars()
+    /** @return HasMany<Seminar, $this> */
+    public function seminars(): HasMany
     {
         return $this->hasMany(Seminar::class);
     }

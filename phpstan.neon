@@ -10,10 +10,14 @@ parameters:
         - routes
         - tests
 
-    # Začíname na 2. Kód nemá deklarované typy (0 zo 64 relačných metód), takže
+    # Začíname na 2. Relácie modelov majú typy, zvyšok kódu väčšinou nie, takže
     # vyššia úroveň by hlásila stovky vecí naraz. Baseline drží súčasný stav,
     # nové chyby prejdú. Úroveň sa dvíha až keď je baseline prázdny.
     level: 2
+
+    # Na Windows padajú paralelné workery na „Unable to create file mapping".
+    parallel:
+        maximumNumberOfProcesses: 1
 
     ignoreErrors:
         # Fasády balíka alaouy/youtube nemajú anotácie.

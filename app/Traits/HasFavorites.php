@@ -11,6 +11,7 @@ namespace App\Traits;
 use App\Models\Favorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasFavorites
 {
@@ -20,7 +21,8 @@ trait HasFavorites
     // pod správnym menom by pri soft delete príspevku označenia zmazalo
     // natrvalo a obnovenie príspevku by ich už nevrátilo.
 
-    public function favorites() {
+    /** @return MorphMany<Favorite, $this> */
+    public function favorites(): MorphMany {
         return $this->morphMany(Favorite::class, 'favorited');
     }
 

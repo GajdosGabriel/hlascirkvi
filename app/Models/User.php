@@ -16,6 +16,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property-read Canal|null $canal
@@ -122,12 +125,14 @@ class User extends Authenticatable implements MustVerifyEmail
         }, $value);
     }
 
-    public function commentss()
+    /** @return HasMany<Comment, $this> */
+    public function commentss(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function canals()
+    /** @return BelongsToMany<Canal, $this> */
+    public function canals(): BelongsToMany
     {
         return $this->belongsToMany(Canal::class);
     }
@@ -147,13 +152,18 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->update(['canal_id' => $this->canals()->min('canals.id')]);
     }
 
-    /** Príspevky uložené na neskôr (stránka /ulozene). */
-    public function savedPosts()
+    /**
+     * Príspevky uložené na neskôr (stránka /ulozene).
+     *
+     * @return BelongsToMany<Post, $this>
+     */
+    public function savedPosts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'saved_posts')->withTimestamps();
     }
 
-    public function canal()
+    /** @return BelongsTo<Canal, $this> */
+    public function canal(): BelongsTo
     {
         return $this->belongsTo(Canal::class, 'canal_id');
     }

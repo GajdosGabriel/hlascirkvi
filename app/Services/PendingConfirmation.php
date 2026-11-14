@@ -110,7 +110,7 @@ class PendingConfirmation
 
     /**
      * Uloží komentár pod príspevok a upovedomí autora komentára, na ktorý sa
-     * odpovedá, a správcu kanála.
+     * odpovedá, a všetkých správcov kanála.
      *
      * @param  array{body: string, parent_id?: int|null, reply_to_id?: int|null}  $data
      */
@@ -151,22 +151,24 @@ class PendingConfirmation
             $comment->forceFill(['reply_to_guest' => true])->save();
         }
 
-        // Pôvodne `if (!$comment->user_id == auth()->user()->canal_id)`. `!` sa
-        // vyhodnotí skôr než `==`, takže sa porovnávalo `false` s canal_id, a pre
-        // neprihláseného návštevníka to navyše siahalo na null. Zmysel je
-        // upovedomiť správcu kanála, ak nekomentoval sám sebe.
-        $owner = $post->canal?->user;
+        // Kto už o komentári vie — autor a ten, komu prišlo RepliedToComment.
+        $informed = [(int) $comment->user_id];
 
         // Autor komentára, na ktorý sa priamo odpovedá. Anonymné komentáre
         // patria spoločnému účtu, tomu nemá zmysel nič posielať.
         $parentAuthor = $target?->user;
 
-        if ($parentAuthor && $parentAuthor->id !== CommentSync::USER_ID && $parentAuthor->id !== (int) $comment->user_id) {
+        if ($parentAuthor && $parentAuthor->id !== CommentSync::USER_ID && ! in_array($parentAuthor->id, $informed, true)) {
             $parentAuthor->notify(new RepliedToComment($comment));
+            $informed[] = $parentAuthor->id;
         }
 
-        if ($owner && $owner->id !== (int) $comment->user_id && $owner->id !== $parentAuthor?->id) {
-            $owner->notify(new CreatedNewComment($comment));
+        // Všetci správcovia kanála (Canal::users()), nielen ten, kto má kanál
+        // práve aktívny (Canal::user() cez users.canal_id).
+        $admins = $post->canal?->users()->whereNotIn('users.id', $informed)->get() ?? collect();
+
+        foreach ($admins as $admin) {
+            $admin->notify(new CreatedNewComment($comment));
         }
 
         return $comment;

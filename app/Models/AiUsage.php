@@ -21,6 +21,7 @@ class AiUsage extends Model
         'cost_usd' => 'float',
     ];
 
+    /** @return BelongsTo<Post, $this> */
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);

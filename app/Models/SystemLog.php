@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Traits\HasFilter;
 use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * Záznam v denníku udalostí. Zapisuje sa cez App\Services\SystemLog\Recorder,
@@ -29,12 +31,14 @@ class SystemLog extends Model
         'context' => 'array',
     ];
 
-    public function user()
+    /** @return BelongsTo<User, $this> */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();
     }
 
-    public function subject()
+    /** @return MorphTo<\Illuminate\Database\Eloquent\Model, $this> */
+    public function subject(): MorphTo
     {
         return $this->morphTo();
     }

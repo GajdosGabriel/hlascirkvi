@@ -6,6 +6,7 @@ use App\Models\Concerns\ConfirmableByEmail;
 use App\Notifications\Comments\ConfirmComment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notification;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Komentár, ktorého autor ešte nepotvrdil e-mail.
@@ -20,7 +21,8 @@ class PendingComment extends Model
 
     protected $guarded = ['id'];
 
-    public function post()
+    /** @return BelongsTo<Post, $this> */
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }

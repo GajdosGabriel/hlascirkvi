@@ -7,14 +7,12 @@ use App\Models\User;
 use App\Models\Image;
 use App\Models\Prayer;
 use App\Models\Comment;
-use App\Models\Messenger;
 use App\Models\Canal;
 use App\Observers\PostObserver;
 use App\Observers\UserObserver;
 use App\Observers\ImageObserver;
 use App\Observers\PrayerObserver;
 use App\Observers\CommentObserver;
-use App\Observers\MessengerObserver;
 use App\Observers\CanalObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,7 +40,6 @@ class EloquentServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Post::observe(PostObserver::class);
         Comment::observe(CommentObserver::class);
-        Messenger::observe(MessengerObserver::class);
         Image::observe(ImageObserver::class);
         Canal::observe(CanalObserver::class);
         Prayer::observe(PrayerObserver::class);

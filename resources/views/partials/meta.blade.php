@@ -26,6 +26,9 @@
 @if ($meta['next'])
     <link rel="next" href="{{ $meta['next'] }}">
 @endif
+@if ($meta['feed'])
+    <link rel="alternate" type="application/atom+xml" title="{{ $meta['feed_title'] }}" href="{{ $meta['feed'] }}">
+@endif
 
 {{-- Open Graph — číta ho Facebook, Messenger, WhatsApp, LinkedIn aj Viber.
      Stránky s noindex (dashboard, administrácia, uložené) sa nezdieľajú, a

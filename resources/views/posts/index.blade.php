@@ -24,6 +24,8 @@
         'noindex' => \App\Support\Seo::hasQuery(['mostVisited', 'recomended', 'first', 'latestComments', 'trends', 'search']) ?: null,
         'prev' => $listPage > 1 ? $listUrl($listPage - 1) : null,
         'next' => $posts->hasMorePages() ? $listUrl($listPage + 1) : null,
+        'feed' => route('feed'),
+        'feed_title' => config('seo.site_name') . ' – nové príspevky',
         'jsonld' => [
             \App\Support\Seo::website(),
             \App\Support\Seo::publisher(),

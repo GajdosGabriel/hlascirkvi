@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Jeden riadok = jeden príspevok, ktorý pustil buffer publisher.
@@ -17,12 +18,14 @@ class BufferPublication extends Model
         'archive' => 'boolean',
     ];
 
-    public function post()
+    /** @return BelongsTo<Post, $this> */
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
 
-    public function canal()
+    /** @return BelongsTo<Canal, $this> */
+    public function canal(): BelongsTo
     {
         return $this->belongsTo(Canal::class);
     }

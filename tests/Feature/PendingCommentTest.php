@@ -152,4 +152,31 @@ class PendingCommentTest extends TestCase
 
         $this->assertNull(Comment::where('body', 'Odpoveď návštevníka.')->sole()->parent_id);
     }
+
+    public function test_oznamenie_dostanu_vsetci_spravcovia_kanala_okrem_autora_a_oslovenych(): void
+    {
+        $canal = $this->post->canal;
+        // Správca, ktorý má aktívny iný kanál — cez Canal::user() by nič nedostal.
+        $coAdmin = User::factory()->create();
+        $coAdmin->canals()->attach($canal);
+        $coAdmin->update(['canal_id' => Canal::factory()->create()->id]);
+        $replier = User::factory()->create();
+        $replier->canals()->attach($canal);
+        $author = User::factory()->create();
+        $author->canals()->attach($canal);
+        $outsider = User::factory()->create(['canal_id' => $canal->id]);
+
+        $parent = $this->post->comments()->create(['body' => 'Hlavný', 'user_id' => $replier->id]);
+
+        app(\App\Services\PendingConfirmation::class)->publishComment($this->post, $author, [
+            'body' => 'Odpoveď správcu.', 'parent_id' => $parent->id,
+        ]);
+
+        Notification::assertSentToTimes($this->owner, CreatedNewComment::class, 1);
+        Notification::assertSentToTimes($coAdmin, CreatedNewComment::class, 1);
+        Notification::assertSentTo($replier, \App\Notifications\Comments\RepliedToComment::class);
+        Notification::assertNotSentTo($replier, CreatedNewComment::class);
+        Notification::assertNotSentTo($author, CreatedNewComment::class);
+        Notification::assertNotSentTo($outsider, CreatedNewComment::class);
+    }
 }

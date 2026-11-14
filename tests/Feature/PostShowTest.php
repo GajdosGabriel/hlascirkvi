@@ -102,4 +102,23 @@ class PostShowTest extends TestCase
             ->assertOk()
             ->assertDontSee('Diely série');
     }
+
+    /**
+     * Slug vzniká z očisteného titulku, takže hashtagy z YouTube importu
+     * v adrese neostanú. Starý slug (s hashtagmi) presmeruje 301 na nový.
+     */
+    public function test_slug_vznika_z_ocisteneho_titulku_a_stary_presmeruje(): void
+    {
+        $post = Post::factory()->create(['title' => 'Ranná modlitba_Ivanka #ps#sr']);
+
+        $this->assertSame('Ranná modlitba Ivanka', $post->title);
+        $this->assertSame('ranna-modlitba-ivanka', $post->slug);
+
+        $oldSlug = \Illuminate\Support\Str::slug('Ranná modlitba_Ivanka #ps#sr');
+        $this->assertNotSame($post->slug, $oldSlug);
+
+        $this->get('/post/' . $post->id . '/' . $oldSlug . '?utm=x')
+            ->assertStatus(301)
+            ->assertRedirect(route('post.show', [$post->id, 'ranna-modlitba-ivanka']) . '?utm=x');
+    }
 }

@@ -9,6 +9,7 @@ use App\Models\PendingPrayer;
 use App\Services\PendingConfirmation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\URL;
 use App\Notifications\Prayer\ConfirmFulfilledPrayer;
 use App\Http\Controllers\Controller;
 
@@ -49,19 +50,32 @@ class PrayerController extends Controller
             ->with('flash', 'Ďakujeme, adresa je potvrdená a modlitba je zverejnená.');
     }
 
+    /**
+     * Odkaz z e-mailu (App\Notifications\Prayer\PrayerFulfilledOrNotYet) len
+     * ukáže potvrdzovaciu stránku — poštové skenery odkazy otvárajú samy
+     * a modlitbu by označili bez vedomia autora.
+     */
+    public function showFulfilled(Prayer $prayer)
+    {
+        return view('prayers.fulfilled', [
+            'prayer' => $prayer,
+            'action' => URL::signedRoute('prayer.fulfilledAt', ['prayer' => $prayer->getKey()]),
+        ]);
+    }
+
+    /**
+     * POST z potvrdzovacej stránky. Opakované potvrdenie už neprepíše dátum
+     * vypočutia ani znova nerozpošle oznámenie administrátorom.
+     */
     public function fulfilledAt(Prayer $prayer)
     {
-        session()->flash('flash', 'Modlitba bola označená ako vypočutá. Ďakujeme.');
-
-        // Odkaz z e-mailu sa dá otvoriť opakovane (aj poštový skener ho
-        // otvára sám). Druhé otvorenie už nesmie prepísať dátum vypočutia
-        // ani znova rozposlať oznámenie administrátorom.
         if ($prayer->fulfilled_at === null) {
             $prayer->update(['fulfilled_at' => Carbon::now()]);
 
             Notification::send(User::role('admin')->get(), new ConfirmFulfilledPrayer($prayer));
         }
 
-        return redirect()->route('modlitby.index');
+        return redirect()->route('modlitby.index')
+            ->with('flash', 'Modlitba bola označená ako vypočutá. Ďakujeme.');
     }
 }

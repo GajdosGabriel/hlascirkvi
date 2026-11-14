@@ -7,42 +7,6 @@ parameters:
 			path: app/Casts/Urlwww.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$posts_count\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Console/Commands/CanalsDedupe.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$prayers_count\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Console/Commands/CanalsDedupe.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$seminars_count\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Console/Commands/CanalsDedupe.php
-
-		-
-			message: '#^Relation ''posts'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Console/Commands/CanalsDedupe.php
-
-		-
-			message: '#^Relation ''prayers'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Console/Commands/CanalsDedupe.php
-
-		-
-			message: '#^Relation ''seminars'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Console/Commands/CanalsDedupe.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Image\:\:\$n\.$#'
 			identifier: property.notFound
 			count: 1
@@ -55,184 +19,10 @@ parameters:
 			path: app/Console/Commands/PrayerSluzobniceDuchaSvateho.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$canals\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Console/Commands/PruneUnverifiedUsers.php
-
-		-
-			message: '#^Relation ''canals'' is not found in App\\Models\\User model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Console/Commands/PruneUnverifiedUsers.php
-
-		-
-			message: '#^Relation ''commentss'' is not found in App\\Models\\User model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Console/Commands/PruneUnverifiedUsers.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$posts_max_created_at\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Console/Commands/YoutubeChannelsSync.php
-
-		-
-			message: '#^Relation ''posts'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Console/Commands/YoutubeChannelsSync.php
-
-		-
-			message: '#^Relation ''posts'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 2
-			path: app/Http/Controllers/Admin/BufferController.php
-
-		-
-			message: '#^Relation ''posts'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 3
-			path: app/Http/Controllers/Admin/CanalController.php
-
-		-
-			message: '#^Relation ''prayers'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Admin/CanalController.php
-
-		-
-			message: '#^Relation ''seminars'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Admin/CanalController.php
-
-		-
-			message: '#^Relation ''users'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 2
-			path: app/Http/Controllers/Admin/CanalController.php
-
-		-
-			message: '#^Relation ''village'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Admin/CanalController.php
-
-		-
-			message: '#^Relation ''parent'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Admin/CommentController.php
-
-		-
-			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Admin/CommentController.php
-
-		-
-			message: '#^Relation ''comments'' is not found in App\\Models\\Post model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Admin/PostController.php
-
-		-
-			message: '#^Relation ''canal'' is not found in App\\Models\\Prayer model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Admin/PrayerController.php
-
-		-
-			message: '#^Relation ''canal'' is not found in App\\Models\\Seminar model\.$#'
-			identifier: larastan.relationExistence
-			count: 3
-			path: app/Http/Controllers/Admin/SeminarController.php
-
-		-
-			message: '#^Relation ''posts'' is not found in App\\Models\\Seminar model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Admin/SeminarController.php
-
-		-
-			message: '#^Relation ''user'' is not found in App\\Models\\SystemLog model\.$#'
-			identifier: larastan.relationExistence
-			count: 2
-			path: app/Http/Controllers/Admin/SystemLogController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: app/Http/Controllers/Admin/UserController.php
-
-		-
-			message: '#^Relation ''commentable'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Api/CommentController.php
-
-		-
-			message: '#^Relation ''parent'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Api/CommentController.php
-
-		-
-			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Api/CommentController.php
-
-		-
-			message: '#^Relation ''canal'' is not found in App\\Models\\Prayer model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Api/PrayerController.php
-
-		-
-			message: '#^Relation ''users'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Canal/CanalController.php
-
-		-
-			message: '#^Relation ''seminars'' is not found in App\\Models\\Post model\.$#'
-			identifier: larastan.relationExistence
-			count: 4
-			path: app/Http/Controllers/Canal/CanalSeminarController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendingComment\:\:\$post\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Public/CommentConfirmationController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\PendingFavorite\:\:\$favorited\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Public/FavoriteConfirmationController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Seminar\>\:\:available\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Controllers/Public/HomeController.php
-
-		-
-			message: '#^Relation ''canal'' is not found in App\\Models\\Seminar model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Public/HomeController.php
-
-		-
-			message: '#^Relation ''posts'' is not found in App\\Models\\Seminar model\.$#'
-			identifier: larastan.relationExistence
-			count: 3
-			path: app/Http/Controllers/Public/HomeController.php
 
 		-
 			message: '#^Call to an undefined method App\\Repositories\\Contracts\\PostRepository\:\:canalRail\(\)\.$#'
@@ -265,22 +55,10 @@ parameters:
 			path: app/Http/Controllers/Public/PostController.php
 
 		-
-			message: '#^Relation ''canal'' is not found in App\\Models\\Post model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Http/Controllers/Public/SitemapController.php
-
-		-
 			message: '#^Method App\\Http\\Middleware\\Authenticate\:\:redirectTo\(\) should return string\|null but return statement is missing\.$#'
 			identifier: return.missing
 			count: 1
 			path: app/Http/Middleware/Authenticate.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Post\:\:\$canal\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Middleware/BannedCanal.php
 
 		-
 			message: '#^Access to an undefined property App\\Http\\Resources\\CanalResource\:\:\$avatar\.$#'
@@ -667,12 +445,6 @@ parameters:
 			path: app/Http/Resources/PrayerResource.php
 
 		-
-			message: '#^Access to an undefined property App\\Http\\Resources\\UserResource\:\:\$canals\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Resources/UserResource.php
-
-		-
 			message: '#^Variable \$aaa might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
@@ -703,14 +475,8 @@ parameters:
 			path: app/Models/Canal.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$favorites\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Canal.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$images\.$#'
-			identifier: property.notFound
+			message: '#^Property ''isFavorited'' does not exist in model\.$#'
+			identifier: rules.modelAppends
 			count: 1
 			path: app/Models/Canal.php
 
@@ -718,55 +484,7 @@ parameters:
 			message: '#^Property ''isFavorited'' does not exist in model\.$#'
 			identifier: rules.modelAppends
 			count: 1
-			path: app/Models/Canal.php
-
-		-
-			message: '#^Relation ''favorites'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Canal.php
-
-		-
-			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Canal.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$favorites\.$#'
-			identifier: property.notFound
-			count: 2
 			path: app/Models/Comment.php
-
-		-
-			message: '#^Property ''isFavorited'' does not exist in model\.$#'
-			identifier: rules.modelAppends
-			count: 1
-			path: app/Models/Comment.php
-
-		-
-			message: '#^Relation ''favorites'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Comment.php
-
-		-
-			message: '#^Relation ''replyTo'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Comment.php
-
-		-
-			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Comment.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Favorite\:\:\$favorited\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Favorite.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
@@ -775,58 +493,10 @@ parameters:
 			path: app/Models/Favorite.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Post\:\:\$canal\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Post.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Post\:\:\$favorites\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Post.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Post\:\:\$images\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Post.php
-
-		-
 			message: '#^Property ''isFavorited'' does not exist in model\.$#'
 			identifier: rules.modelAppends
 			count: 1
 			path: app/Models/Post.php
-
-		-
-			message: '#^Relation ''canal'' is not found in App\\Models\\Post model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Post.php
-
-		-
-			message: '#^Relation ''favorites'' is not found in App\\Models\\Post model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Post.php
-
-		-
-			message: '#^Relation ''images'' is not found in App\\Models\\Post model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Post.php
-
-		-
-			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Post.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Prayer\:\:\$favorites\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Prayer.php
 
 		-
 			message: '#^Property ''isFavorited'' does not exist in model\.$#'
@@ -835,26 +505,14 @@ parameters:
 			path: app/Models/Prayer.php
 
 		-
-			message: '#^Relation ''favorites'' is not found in App\\Models\\Prayer model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Prayer.php
-
-		-
-			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Prayer.php
-
-		-
-			message: '#^Relation ''canal'' is not found in App\\Models\\Seminar model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Models/Seminar.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$commentable\.$#'
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
 			identifier: property.notFound
+			count: 2
+			path: app/Notifications/Comments/GuestRepliedToComment.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:path\(\)\.$#'
+			identifier: method.notFound
 			count: 2
 			path: app/Notifications/Comments/GuestRepliedToComment.php
 
@@ -865,148 +523,10 @@ parameters:
 			path: app/Notifications/Messages/PortalMail.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$body\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/Support/SupportTicketCreated.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/Support/SupportTicketCreated.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:adminName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Notifications/Support/SupportTicketCreated.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$subject\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/Support/SupportTicketReplied.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:adminName\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Notifications/Support/SupportTicketReplied.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:reference\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: app/Notifications/Support/SupportTicketReplied.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$user\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Observers/CommentObserver.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Messenger\:\:\$requestedUser\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Observers/MessengerObserver.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$messenger with type App\\Messenger is not subtype of native type App\\Models\\Messenger\.$#'
-			identifier: parameter.phpDocType
-			count: 5
-			path: app/Observers/MessengerObserver.php
-
-		-
-			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:created\(\) has invalid type App\\Messenger\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Observers/MessengerObserver.php
-
-		-
-			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:deleted\(\) has invalid type App\\Messenger\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Observers/MessengerObserver.php
-
-		-
-			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:forceDeleted\(\) has invalid type App\\Messenger\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Observers/MessengerObserver.php
-
-		-
-			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:restored\(\) has invalid type App\\Messenger\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Observers/MessengerObserver.php
-
-		-
-			message: '#^Parameter \$messenger of method App\\Observers\\MessengerObserver\:\:updated\(\) has invalid type App\\Messenger\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Observers/MessengerObserver.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Post\:\:\$canal\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Observers/PostObserver.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$commentable\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Policies/CommentPolicy.php
-
-		-
 			message: '#^Call to an undefined method App\\Repositories\\AbstractRepository\:\:entity\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: app/Repositories/AbstractRepository.php
-
-		-
-			message: '#^Relation ''favorites'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Services/CanalOverview.php
-
-		-
-			message: '#^Relation ''posts'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 2
-			path: app/Services/CanalOverview.php
-
-		-
-			message: '#^Relation ''prayers'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Services/CanalOverview.php
-
-		-
-			message: '#^Relation ''seminars'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Services/CanalOverview.php
-
-		-
-			message: '#^Relation ''users'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Services/CanalOverview.php
-
-		-
-			message: '#^Relation ''village'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Services/CanalOverview.php
-
-		-
-			message: '#^Relation ''users'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Services/Dashboard/AdminDashboardStats.php
 
 		-
 			message: '#^PHPDoc tag @param has invalid value \(string  find_date\( '' some text 01/01/2012 some text'' \) or find_date\( '' some text October 5th 86 some text'' \)\)\: Unexpected token "find_date", expected variable at offset 65 on line 4$#'
@@ -1069,39 +589,15 @@ parameters:
 			path: app/Services/Extractor/Extractors.php
 
 		-
-			message: '#^Relation ''posts'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 2
-			path: app/Services/FrontList/FrontList.php
-
-		-
 			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$last_post_at\.$#'
 			identifier: property.notFound
 			count: 1
 			path: app/Services/FrontList/FrontListItem.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$commentable\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/GuestReplier.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$user\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/GuestReplier.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Support\\Collection\:\:modelKeys\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: app/Services/GuestReplier.php
-
-		-
-			message: '#^Relation ''user'' is not found in App\\Models\\Comment model\.$#'
-			identifier: larastan.relationExistence
-			count: 2
 			path: app/Services/GuestReplier.php
 
 		-
@@ -1117,34 +613,16 @@ parameters:
 			path: app/Services/Images/StoreImage.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Post\:\:\$canal\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/PendingConfirmation.php
-
-		-
 			message: '#^Cannot call method isFuture\(\) on string\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: app/Services/PendingConfirmation.php
 
 		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Services/SupportDesk.php
-
-		-
 			message: '#^Unsafe call to private method App\\Services\\SystemLog\\Recorder\:\:context\(\) through static\:\:\.$#'
 			identifier: staticClassAccess.privateMethod
 			count: 1
 			path: app/Services/SystemLog/Recorder.php
-
-		-
-			message: '#^Relation ''canal'' is not found in App\\Models\\Post model\.$#'
-			identifier: larastan.relationExistence
-			count: 1
-			path: app/Services/VideoUploadSeminars.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$canal_id\.$#'
@@ -1174,12 +652,6 @@ parameters:
 			message: '#^Class Api\\CommentController not found\.$#'
 			identifier: class.notFound
 			count: 2
-			path: routes/api.php
-
-		-
-			message: '#^Class Api\\DenominationController not found\.$#'
-			identifier: class.notFound
-			count: 1
 			path: routes/api.php
 
 		-
@@ -1213,12 +685,6 @@ parameters:
 			path: routes/api.php
 
 		-
-			message: '#^Class Api\\UserCanalController not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: routes/api.php
-
-		-
 			message: '#^Class Api\\UserController not found\.$#'
 			identifier: class.notFound
 			count: 1
@@ -1226,12 +692,6 @@ parameters:
 
 		-
 			message: '#^Class Api\\User\\UserCommentController not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: routes/api.php
-
-		-
-			message: '#^Class Api\\VillageController not found\.$#'
 			identifier: class.notFound
 			count: 1
 			path: routes/api.php
@@ -1381,30 +841,6 @@ parameters:
 			path: routes/web.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\Canal\:\:\$users\.$#'
-			identifier: property.notFound
-			count: 2
-			path: tests/Feature/AdminCanalCreateTest.php
-
-		-
-			message: '#^Relation ''users'' is not found in App\\Models\\Canal model\.$#'
-			identifier: larastan.relationExistence
-			count: 2
-			path: tests/Feature/AdminDashboardTest.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$commentable\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/Feature/CommentModerationTest.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Comment\:\:\$user\.$#'
-			identifier: property.notFound
-			count: 2
-			path: tests/Feature/CommentModerationTest.php
-
-		-
 			message: '#^Static method Illuminate\\Support\\Facades\\Notification\:\:assertNothingSentTo\(\) invoked with 2 parameters, 1 required\.$#'
 			identifier: arguments.count
 			count: 1
@@ -1415,12 +851,6 @@ parameters:
 			identifier: arguments.count
 			count: 1
 			path: tests/Feature/PrayerPublishingTest.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_staff\.$#'
-			identifier: property.notFound
-			count: 1
-			path: tests/Feature/SupportTest.php
 
 		-
 			message: '#^Cannot access property \$description on array\<mixed\>\|object\.$#'
@@ -1457,9 +887,3 @@ parameters:
 			identifier: property.nonObject
 			count: 2
 			path: tests/Feature/VerifiedCanalProfilesMigrationTest.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Post\:\:\$seminars\.$#'
-			identifier: property.notFound
-			count: 5
-			path: tests/Feature/VideoCollectionsTest.php

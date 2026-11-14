@@ -4,10 +4,12 @@ namespace App\Traits;
 
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait HasImages
 {
-    public function images()
+    /** @return MorphMany<Image, $this> */
+    public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'fileable');
     }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Image extends Model
 {
@@ -27,7 +28,8 @@ class Image extends Model
         'height' => 'integer',
     ];
 
-    public function fileable()
+    /** @return MorphTo<\Illuminate\Database\Eloquent\Model, $this> */
+    public function fileable(): MorphTo
     {
         return $this->morphTo();
     }

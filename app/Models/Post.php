@@ -19,6 +19,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
@@ -85,21 +86,30 @@ class Post extends Model
         return "/post/{$this->id}/{$this->slug}";
     }
 
-    public function seminars()
+    /** @return BelongsToMany<Seminar, $this> */
+    public function seminars(): BelongsToMany
     {
         return $this->belongsToMany(Seminar::class);
     }
 
 
-    /** Osoby bezpečne priradené pri importe metadát článkov. */
-    public function persons()
+    /**
+     * Osoby bezpečne priradené pri importe metadát článkov.
+     *
+     * @return BelongsToMany<Person, $this>
+     */
+    public function persons(): BelongsToMany
     {
         return $this->belongsToMany(Person::class)
             ->withPivot(['source', 'matched_text', 'confidence'])
             ->withTimestamps();
     }
-    /** Čitatelia, ktorí si príspevok uložili na neskôr. */
-    public function savedBy()
+    /**
+     * Čitatelia, ktorí si príspevok uložili na neskôr.
+     *
+     * @return BelongsToMany<User, $this>
+     */
+    public function savedBy(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'saved_posts')->withTimestamps();
     }
@@ -112,7 +122,9 @@ class Post extends Model
     public function setTitleAttribute($value)
     {
         $this->attributes['title'] = cleanTitle(\Illuminate\Support\Str::ucfirst((string) $value));
-        $this->attributes['slug']  = Str::slug($value);
+        // Slug z očisteného titulku — hashtagy a podčiarkovníky z YouTube
+        // importu (`Názov_Ivanka #ps#sr`) predtým ostávali v adrese.
+        $this->attributes['slug']  = Str::slug($this->attributes['title']);
     }
 
 

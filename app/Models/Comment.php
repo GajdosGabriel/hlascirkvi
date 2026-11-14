@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Comment extends Model
 {
@@ -56,29 +59,34 @@ class Comment extends Model
     protected $appends = ['favoritesCount', 'isFavorited', 'datetime'];
 
 
-    public function commentable()
+    /** @return MorphTo<\Illuminate\Database\Eloquent\Model, $this> */
+    public function commentable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function user()
+    /** @return BelongsTo<User, $this> */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function parent()
+    /** @return BelongsTo<Comment, $this> */
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Comment::class, 'parent_id');
     }
 
     // Komentár, na ktorý sa priamo odpovedalo (môže byť odpoveď v tom istom vlákne).
-    public function replyTo()
+    /** @return BelongsTo<Comment, $this> */
+    public function replyTo(): BelongsTo
     {
         return $this->belongsTo(Comment::class, 'reply_to_id');
     }
 
     // Vlákno má jednu úroveň, preto sa odpovede ďalej nevnárajú.
-    public function replies()
+    /** @return HasMany<Comment, $this> */
+    public function replies(): HasMany
     {
         return $this->hasMany(Comment::class, 'parent_id')->with('user', 'replyTo.user')->oldest();
     }

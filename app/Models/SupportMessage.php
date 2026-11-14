@@ -18,11 +18,13 @@ class SupportMessage extends Model
         'is_staff' => 'boolean',
     ];
 
+    /** @return BelongsTo<SupportTicket, $this> */
     public function ticket(): BelongsTo
     {
         return $this->belongsTo(SupportTicket::class, 'support_ticket_id');
     }
 
+    /** @return BelongsTo<User, $this> */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id')->withTrashed();

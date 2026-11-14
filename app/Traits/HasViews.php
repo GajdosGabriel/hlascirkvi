@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Počítadlo zobrazení. Nahradilo balík cyrildewit/eloquent-viewable.
@@ -31,7 +32,8 @@ trait HasViews
         return 'count_view';
     }
 
-    public function views()
+    /** @return MorphMany<View, $this> */
+    public function views(): MorphMany
     {
         return $this->morphMany(View::class, 'viewable');
     }

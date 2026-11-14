@@ -63,6 +63,12 @@ Route::get('sitemap-prispevky-{page}.xml', 'Public\SitemapController@posts')
     ->whereNumber('page')
     ->name('sitemap.posts');
 
+// Atom feed úvodnej stránky a kanálov (App\Http\Controllers\Public\FeedController).
+Route::get('feed.xml', 'Public\FeedController@index')->name('feed');
+Route::get('organizations/{canal}/feed.xml', 'Public\FeedController@canal')
+    ->whereNumber('canal')
+    ->name('organizations.feed');
+
 Route::get('/gdpr', 'Public\HomeController@gdpr')->name('gdpr');
 Route::get('/online-prenosy', 'Public\HomeController@zivePrenosy')->name('online-prenosy');
 Route::get('/konferencie-a-pute', 'Public\HomeController@seminare')->name('konferencie.pute');
@@ -93,34 +99,32 @@ Route::get('citania/{datum?}', 'Public\ReadingsController@show')
 // Podujatia na /akcie sa ťahajú z portálu tixio.eu (App\Services\
 // EventPortal). Lokálna tabuľka `events` a celá agenda okolo nej (zakladanie,
 // prihlasovanie, admin) bola zrušená, takže toto sú jediné routy podujatí.
-Route::middleware('checkBanned')->group(function () {
-    Route::get('akcie', 'Public\EventPortalController@index')
-        ->middleware('throttle:30,1')
-        ->name('akcie.index');
+// Zablokovaný účet na webových routách odchytí CheckBanned v skupine `web`
+// (app/Http/Kernel.php), samostatný alias `checkBanned` tu netreba.
+Route::get('akcie', 'Public\EventPortalController@index')
+    ->middleware('throttle:30,1')
+    ->name('akcie.index');
 
-    Route::get('akcie/{event}/{slug?}', 'Public\EventPortalController@show')
-        ->where('event', '[0-9]+')
-        ->name('event.show');
-});
+Route::get('akcie/{event}/{slug?}', 'Public\EventPortalController@show')
+    ->where('event', '[0-9]+')
+    ->name('event.show');
 
 // Front routes
-Route::middleware('checkBanned')->group(function () {
-    // Neprihlásený cez ňu posiela potvrdzovací e-mail — preto sadzba.
-    Route::resource('favorites', FavoriteController::class)->only('update')->middleware('throttle:favorites');
-    // URL ostáva /organizations/{id} — je zaindexovaná a rozposlaná v e-mailoch.
-    // Parameter sa volá {canal}, aby implicitná väzba trafila Canal $canal
-    // v Public\CanalController.
-    Route::resource('organizations', Public\CanalController::class)
-        ->only('show')
-        ->parameters(['organizations' => 'canal']);
-    Route::resource('seminars', Seminars\SeminarController::class)->only('show');
-    Route::resource('seminars.posts', Seminars\SeminarPostController::class)->only('show');
-    Route::resource('modlitby', Public\PrayerController::class)->only('index');
-});
+// Neprihlásený cez ňu posiela potvrdzovací e-mail — preto sadzba.
+Route::resource('favorites', FavoriteController::class)->only('update')->middleware('throttle:favorites');
+// URL ostáva /organizations/{id} — je zaindexovaná a rozposlaná v e-mailoch.
+// Parameter sa volá {canal}, aby implicitná väzba trafila Canal $canal
+// v Public\CanalController.
+Route::resource('organizations', Public\CanalController::class)
+    ->only('show')
+    ->parameters(['organizations' => 'canal']);
+Route::resource('seminars', Seminars\SeminarController::class)->only('show');
+Route::resource('seminars.posts', Seminars\SeminarPostController::class)->only('show');
+Route::resource('modlitby', Public\PrayerController::class)->only('index');
 
 // Meno skupiny musí ostať `profile.` — helper typePage() (app/Http/helpers.php)
 // podľa neho pozná stránky správcu kanála a vykresľuje im bočné menu.
-Route::name('profile.')->middleware(['auth', 'checkBanned'])->group(function () {
+Route::name('profile.')->middleware('auth')->group(function () {
     // Nástenka kanála. Resource z nej nikdy nemal viac ako index, preto je to
     // jediná routa.
     Route::get('dashboard', Canal\DashboardController::class)->name('dashboard');
@@ -183,7 +187,7 @@ Route::permanentRedirect('organization/{canal}/seminar/{rest?}', '/dashboard/can
     ->where('rest', '.*');
 
 
-Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 'checkBanned'])->group(function () {
+Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])->group(function () {
     Route::get('canal', 'Admin\CanalController@index')->name('canal.index');
     Route::get('canal/create', 'Admin\CanalController@create')->name('canal.create');
     Route::post('canal', 'Admin\CanalController@store')->name('canal.store');
@@ -236,12 +240,18 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin', 
     Route::put('podpora/{supportTicket}/stav', 'Admin\SupportController@status')->name('support.status');
 });
 
-// Obe tieto routy sú odkazy z e-mailu, takže musia zostať GET. Autorizáciu
-// nesie podpis v URL (URL::signedRoute v notifikácii) — bez neho stačilo
-// uhádnuť ID a označiť cudziu modlitbu za vypočutú, resp. overiť cudzí e-mail.
-Route::get('prayer/fulfilled_at/{prayer}', 'Public\PrayerController@fulfilledAt')
-    ->middleware('signed')
-    ->name('prayer.fulfilledAt');
+// Odkazy z e-mailu. Autorizáciu nesie podpis v URL (URL::signedRoute
+// v notifikácii) — bez neho stačilo uhádnuť ID a označiť cudziu modlitbu za
+// vypočutú, resp. overiť cudzí e-mail.
+//
+// „Modlitba bola vypočutá" (App\Notifications\Prayer\PrayerFulfilledOrNotYet):
+// GET len ukáže potvrdenie (poštové skenery odkazy otvárajú samy), označí až
+// POST na tú istú podpísanú adresu — už rozposlané odkazy ostávajú platné.
+Route::middleware('signed')->group(function () {
+    Route::get('prayer/fulfilled_at/{prayer}', 'Public\PrayerController@showFulfilled')
+        ->name('prayer.fulfilledAt');
+    Route::post('prayer/fulfilled_at/{prayer}', 'Public\PrayerController@fulfilledAt');
+});
 
 Route::get('/user/{user}/confirmEmail/confirmEmail', 'UserSupportController@confirmEmail')
     ->middleware('signed')
@@ -260,7 +270,7 @@ Route::middleware('signed')->group(function () {
 });
 
 // Nastavenie odberu pre prihláseného používateľa.
-Route::middleware(['auth', 'checkBanned'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('odber-noviniek', 'Public\NewsletterController@edit')->name('newsletter.preferences');
     Route::put('odber-noviniek', 'Public\NewsletterController@update')->name('newsletter.preferences.update');
 });
@@ -274,7 +284,7 @@ Route::post('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideo
 
 // Uložené na neskôr — súkromné záložky čitateľa (App\Http\Controllers\Public\
 // SavedPostController). Prepnutie je PUT, s GET detailom sa teda nebije.
-Route::middleware(['auth', 'checkBanned'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('ulozene', 'Public\SavedPostController@index')->name('saved.index');
     Route::put('post/{post}/ulozit', 'Public\SavedPostController@toggle')
         ->middleware('throttle:30,1')
@@ -316,5 +326,5 @@ Route::middleware(['auth', 'checkSuperAdmin'])->group(function () {
 
 // Správa kanálu z jeho stránky — e-mail ani telefón kanála sa verejne neukazujú.
 Route::post('organizations/{canal}/message', 'MessengerController@toCanal')
-    ->middleware(['auth', 'checkBanned', 'throttle:5,10'])
+    ->middleware(['auth', 'throttle:5,10'])
     ->name('organizations.message');

@@ -80,11 +80,6 @@ Route::middleware(['auth:sanctum', 'checkBanned'])->group(function () {
     Route::apiResource('notifications', Api\NotificationController::class)->only(['index', 'update', 'destroy']);
     Route::apiResource('users', Api\UserController::class)->only('update');
     Route::apiResource('users.comments', Api\User\UserCommentController::class)->only('index');
-    Route::apiResource('users.organizations', Api\UserCanalController::class)
-        ->only('store')
-        ->parameters(['organizations' => 'canal']);
-    Route::apiResource('villages', Api\VillageController::class)->only(['index', 'store', 'show']);
-    Route::apiResource('denominations', Api\DenominationController::class)->only('index');
 
     Route::apiResource('prayers', Api\PrayerController::class)->only(['update', 'destroy']);
     Route::apiResource('comments', Api\CommentController::class)->only(['destroy']);

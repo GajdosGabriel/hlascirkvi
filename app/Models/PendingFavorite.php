@@ -6,6 +6,7 @@ use App\Models\Concerns\ConfirmableByEmail;
 use App\Notifications\User\ConfirmFavorite;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notification;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * „Pripojiť sa k modlitbe" (alebo odber kanála) od neprihláseného, ktorý ešte
@@ -21,7 +22,8 @@ class PendingFavorite extends Model
 
     protected $guarded = ['id'];
 
-    public function favorited()
+    /** @return MorphTo<\Illuminate\Database\Eloquent\Model, $this> */
+    public function favorited(): MorphTo
     {
         return $this->morphTo();
     }

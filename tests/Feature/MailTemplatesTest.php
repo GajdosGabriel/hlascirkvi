@@ -3,11 +3,11 @@
 namespace Tests\Feature;
 
 use App\Mail\PostNewsletter;
-use App\Models\Messenger;
+use App\Models\Canal;
 use App\Models\Post;
 use App\Models\Prayer;
 use App\Models\User;
-use App\Notifications\Messengers\ComingNewMessage;
+use App\Notifications\Canals\CanalMessage;
 use App\Notifications\Prayer\PrayerFulfilledOrNotYet;
 use App\Notifications\User\ConfirmEmail;
 use App\Notifications\User\NewRegistration;
@@ -77,13 +77,12 @@ class MailTemplatesTest extends TestCase
 
     public function test_sprava_od_pouzivatela_ide_s_reply_to(): void
     {
+        // Súkromné správy medzi používateľmi (ComingNewMessage) už nie sú;
+        // Reply-To dnes nesie správa pre kanál z jeho verejnej stránky.
         $sender = User::factory()->create(['email' => 'odosielatel@example.com']);
-        $recipient = User::factory()->create();
+        $canal = Canal::factory()->create(['email' => 'kanal@example.com']);
 
-        $message = new Messenger(['body' => "Prvý riadok\nDruhý riadok"]);
-        $message->setRelation('senderUser', $sender);
-
-        $mail = (new ComingNewMessage($message))->toMail($recipient);
+        $mail = (new CanalMessage($canal, $sender, "Prvý riadok\nDruhý riadok"))->toMail($canal);
         $html = (string) $mail->render();
 
         $this->assertSame([['odosielatel@example.com', $sender->fullname]], $mail->replyTo);

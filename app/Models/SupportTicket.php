@@ -29,16 +29,19 @@ class SupportTicket extends Model
         'staff_seen_at' => 'datetime',
     ];
 
+    /** @return BelongsTo<User, $this> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();
     }
 
+    /** @return HasMany<SupportMessage, $this> */
     public function messages(): HasMany
     {
         return $this->hasMany(SupportMessage::class)->orderBy('id');
     }
 
+    /** @return HasOne<SupportMessage, $this> */
     public function latestMessage(): HasOne
     {
         return $this->hasOne(SupportMessage::class)->latestOfMany();

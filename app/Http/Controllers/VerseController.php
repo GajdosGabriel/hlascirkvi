@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Verse;
-use Illuminate\Http\Request;
 
 class VerseController extends Controller
 {
@@ -27,7 +25,11 @@ class VerseController extends Controller
         $next = optional(Verse::find($id + 1))->slug
             ?? optional(Verse::orderBy('id')->first())->slug;
 
-        $date = $this->date_from_day_of_year(null, $id);
+        // Dnešné zamyslenie nesie dnešný dátum (aj 29. február, ktorý zopakuje
+        // 28.); vybrané zamyslenie dátum svojho dňa (mesiac a deň) v tomto roku.
+        $date = ($slug === null ? now() : Verse::dateFor($id))
+            ->locale(config('app.locale'))
+            ->translatedFormat('j. F Y');
 
         return view('verses.show')
             ->with('previous', $previous)
@@ -35,25 +37,6 @@ class VerseController extends Controller
             ->with('post', $verse)
             ->with('date', $date)
             ->with('title', trans('web.daily_read'));
-    }
-
-
-    /**
-     * Create Localized Date from Day of Year
-     *
-     * Create custom date according to locale settings
-     *
-     * @param   string   $format
-     * @param   integer  $dayOfYear
-     * @return  string
-     */
-    function date_from_day_of_year($format = null, $dayOfYear = null, $year = null)
-    {
-        $offset = ($dayOfYear ?? now()->dayOfYear) - 1;
-
-        return Carbon::create($year ?? now()->year, 1, 1, 0)
-            ->addDays($offset)->locale(config('app.locale'))
-            ->translatedFormat($format ?? 'j. F Y');
     }
 
 }

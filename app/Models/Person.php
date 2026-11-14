@@ -23,6 +23,7 @@ class Person extends Model
         'email',
     ];
 
+    /** @return BelongsToMany<Post, $this> */
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class)

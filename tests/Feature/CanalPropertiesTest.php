@@ -186,13 +186,4 @@ class CanalPropertiesTest extends TestCase
             // Zaškrtávadlá updaterov vo formulári už nie sú.
             ->assertDontSee('name="updaters[]"', false);
     }
-
-    public function test_ciselnik_zaradeni_je_dostupny_pre_formular_vo_vue(): void
-    {
-        $this->actingAs(User::factory()->create())
-            ->getJson('/api/denominations')
-            ->assertOk()
-            ->assertJsonFragment(['value' => 'catholic', 'label' => 'Katolícka'])
-            ->assertJsonFragment(['value' => 'evangelical', 'label' => 'Protestantská']);
-    }
 }

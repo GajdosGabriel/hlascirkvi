@@ -97,6 +97,9 @@
         'prev' => $canalPage > 1 ? $canalListUrl($canalPage - 1) : null,
         'next' => $posts->hasMorePages() ? $canalListUrl($canalPage + 1) : null,
         'type' => 'profile',
+        // Skrytý kanál feed nemá (FeedController vráti 404).
+        'feed' => $canal->published ? route('organizations.feed', [$canal->id]) : null,
+        'feed_title' => $canal->title . ' – ' . config('seo.site_name'),
         'image' => $canalImage ? url($canalImage) : null,
         'image_alt' => $canal->title,
         'jsonld' => [

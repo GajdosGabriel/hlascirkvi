@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\SystemLog\Recorder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Favorite extends Model
 {
@@ -43,7 +44,8 @@ class Favorite extends Model
         );
     }
 
-    public function favorited()
+    /** @return MorphTo<\Illuminate\Database\Eloquent\Model, $this> */
+    public function favorited(): MorphTo
     {
         return $this->morphTo();
     }

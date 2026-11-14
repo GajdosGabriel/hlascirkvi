@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * Jedno zobrazenie príspevku. Zapisuje sa hromadne cez query builder
@@ -20,7 +21,8 @@ class View extends Model
         'created_at' => 'datetime',
     ];
 
-    public function viewable()
+    /** @return MorphTo<\Illuminate\Database\Eloquent\Model, $this> */
+    public function viewable(): MorphTo
     {
         return $this->morphTo();
     }

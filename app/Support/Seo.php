@@ -86,6 +86,10 @@ class Seo
             'next' => static::canonicalUrl($seo['next'] ?? null),
             'robots' => static::robots($seo['noindex'] ?? null),
 
+            // Atom feed stránky (Public\FeedController) pre <link rel="alternate">.
+            'feed' => static::canonicalUrl($seo['feed'] ?? null),
+            'feed_title' => static::text($seo['feed_title'] ?? null) ?: $title,
+
             'type' => $seo['type'] ?? 'website',
             'locale' => config('seo.locale'),
 

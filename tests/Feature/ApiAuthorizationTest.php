@@ -386,7 +386,15 @@ class ApiAuthorizationTest extends TestCase
     {
         $this->get('/favorites')->assertNotFound();
         $this->postJson('/api/users')->assertNotFound();
-        $this->deleteJson('/api/villages/1')->assertMethodNotAllowed();
+    }
+
+    public function test_endpointy_zmazaneho_formulara_kanala_vo_vue_uz_neexistuju(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->postJson("/api/users/{$user->id}/organizations")->assertNotFound();
+        $this->actingAs($user)->getJson('/api/villages')->assertNotFound();
+        $this->actingAs($user)->getJson('/api/denominations')->assertNotFound();
     }
 
     public function test_youtube_import_je_post_a_len_pre_superadmina(): void

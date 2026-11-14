@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CanalEnrichment extends Model
 {
+    /** @return BelongsTo<Canal, $this> */
     public function canal(): BelongsTo
     {
         return $this->belongsTo(Canal::class);
