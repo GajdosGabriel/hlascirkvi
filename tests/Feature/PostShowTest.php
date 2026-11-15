@@ -30,6 +30,20 @@ class PostShowTest extends TestCase
         $response->assertDontSee('&quot;body&quot;', false);
     }
 
+    public function test_detail_ukaze_oznam_bocneho_panela(): void
+    {
+        $announcement = \App\Models\Announcement::factory()->create([
+            'placement' => \App\Enums\AnnouncementPlacement::Sidebar,
+            'title'     => 'Baner do bočného panela',
+        ]);
+        $post = Post::factory()->create();
+
+        $this->get(route('post.show', [$post->id, $post->slug]))
+            ->assertOk()
+            ->assertSee('data-announcement="' . $announcement->id . '"', false)
+            ->assertSee('Baner do bočného panela');
+    }
+
     public function test_diel_serie_ukaze_polohu_a_susedne_diely(): void
     {
         $canal = Canal::factory()->create();

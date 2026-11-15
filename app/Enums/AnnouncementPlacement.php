@@ -17,7 +17,7 @@ enum AnnouncementPlacement: string
     /** Panel na úvodnej stránke nad výpisom príspevkov. */
     case Home = 'home';
 
-    /** Modul v bočnom paneli úvodnej stránky, medzi kartami. */
+    /** Modul v bočnom paneli úvodnej stránky a detailu príspevku. */
     case Sidebar = 'sidebar';
 
     /** Nástenka správcu kanála a administrácia — oznam len pre prihlásených. */
@@ -32,7 +32,7 @@ enum AnnouncementPlacement: string
             self::AboveMenu => 'Pruh nad hlavným menu (celý web)',
             self::Top       => 'Pruh pod menu (celý web)',
             self::Home      => 'Úvodná stránka nad príspevkami',
-            self::Sidebar   => 'Bočný panel úvodnej stránky',
+            self::Sidebar   => 'Bočný panel (úvod a detail príspevku)',
             self::Dashboard => 'Nástenka správcu kanála',
             self::Footer    => 'Pás nad pätičkou (celý web)',
         };
@@ -44,7 +44,7 @@ enum AnnouncementPlacement: string
             self::AboveMenu => 'Pás cez celú šírku nad hlavnou navigáciou. Zobrazuje sa na každej stránke webu.',
             self::Top       => 'Úzky farebný pruh hneď pod hlavným menu. Vidí ho každý návštevník na každej stránke, preto sem patria len krátke a dôležité oznamy.',
             self::Home      => 'Panel na titulnej stránke nad výpisom príspevkov. Unesie aj dlhší text a odkaz.',
-            self::Sidebar   => 'Karta v bočnom paneli titulnej stránky vedľa modlitieb a zamyslení.',
+            self::Sidebar   => 'Karta v bočnom paneli titulnej stránky vedľa modlitieb a zamyslení a v pravom paneli detailu príspevku.',
             self::Dashboard => 'Oznam pre správcov kanálov — zobrazí sa im v nástenke a v administrácii, návštevníci ho nevidia.',
             self::Footer    => 'Pás nad pätičkou. Vhodné na trvalejšie oznamy, ktoré nemusia byť hneď navrchu.',
         };

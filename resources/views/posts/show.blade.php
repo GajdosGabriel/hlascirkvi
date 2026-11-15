@@ -410,7 +410,8 @@
 
             {{-- Bočný panel --}}
             <aside class="lg:col-span-4">
-                <div class="space-y-4 lg:sticky lg:top-6">
+                {{-- Karta oznamu nesie .card s mb-8; tu medzery drží space-y-4. --}}
+                <div class="space-y-4 lg:sticky lg:top-6 [&_.ar-announce]:space-y-4 [&_.ar-announce_.card]:mb-0">
 
                     {{-- Zdieľanie --}}
                     <section class="rounded-lg border border-(--ar-line) bg-white p-4">
@@ -478,6 +479,11 @@
                             @endif
                         </section>
                     @endif
+
+                    {{-- Oznamy bočného panela — tie isté ako na úvodnej
+                         stránke. Bez obalu: keď nič nebeží, komponent nevypíše
+                         nič a space-y-4 nenechá prázdnu medzeru. --}}
+                    <x-announcements placement="sidebar" />
 
                     {{-- Podujatia už nedržíme v tejto databáze, žijú na portáli
                          tixio.eu. Panel preto neukazuje akcie práve
