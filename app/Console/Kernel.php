@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\QueueHeartbeat;
 use App\Models\PendingComment;
 use App\Models\PendingFavorite;
 use App\Models\PendingPrayer;
@@ -10,6 +11,7 @@ use App\Models\SystemLog;
 use App\Services\Dashboard\AdminDashboardStats;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Cache;
 
 class Kernel extends ConsoleKernel
 {
@@ -107,6 +109,22 @@ class Kernel extends ConsoleKernel
 
         // Opraviteľné chyby z laravel.log e-mailom (config/logging.php → report).
         $schedule->command('logs:report-errors')->everyTenMinutes()->withoutOverlapping(30);
+
+        // Prevádzkový monitor (config/operations.php): scheduler zapíše svoj
+        // čas a pošle do fronty malú úlohu, ktorej spracovanie zapíše čas
+        // workera. ops:check pri zastaranom heartbeate zaloguje chybu a tú
+        // odošle logs:report-errors e-mailom. Úplný výpadok schedulera tým
+        // odhalený nie je — ops:check spúšťa ten istý scheduler.
+        if (config('operations.enabled')) {
+            $schedule->call(function () {
+                Cache::put('ops:scheduler-heartbeat', now()->timestamp, now()->addDay());
+                // Najviac jeden probe za 5 minút; funguje aj pri viacerých scheduleroch.
+                if (Cache::add('ops:probe-dispatched', true, 290)) {
+                    QueueHeartbeat::dispatch();
+                }
+            })->name('operations-heartbeats')->everyFiveMinutes()->withoutOverlapping(10);
+            $schedule->command('ops:check')->everyFiveMinutes()->withoutOverlapping(10);
+        }
 
         // Úvod administrácie počíta súhrny cez celé tabuľky; drží sa zahriaty
         // v cache, aby sa /admin/home neotváral sekundu a viac.
