@@ -32,9 +32,11 @@ class OperationsHealth
         });
         $probe('scheduler', fn () => $this->fresh('ops:scheduler-heartbeat'));
         $connection = config('queue.default');
-        $driver = config('queue.connections.'.$connection.'.driver');
-        if (in_array($driver, ['sync', 'null', 'deferred', 'background'], true)) {
-            $checks['queue_worker'] = 'failed';
+        if (self::queueIsSynchronous()) {
+            // Produkcia zatiaľ beží bez workera (QUEUE_CONNECTION=sync): úlohy
+            // sa vykonajú hneď v požiadavke, takže nie je čo sledovať.
+            $checks['queue_worker'] = 'skipped';
+            $checks['queue_backlog'] = 'skipped';
         } else {
             $probe('queue_worker', fn () => $this->fresh('ops:worker-heartbeat'));
             $probe('queue_backlog', fn () => Queue::connection($connection)->size() <= config('operations.queue_max_size'));
@@ -49,6 +51,13 @@ class OperationsHealth
         });
 
         return $checks;
+    }
+
+    public static function queueIsSynchronous(): bool
+    {
+        $driver = config('queue.connections.'.config('queue.default').'.driver');
+
+        return in_array($driver, ['sync', 'null', 'deferred', 'background'], true);
     }
 
     private function fresh(string $key): bool

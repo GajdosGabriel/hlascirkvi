@@ -9,6 +9,7 @@ use App\Models\PendingPrayer;
 use App\Models\PendingRegistration;
 use App\Models\SystemLog;
 use App\Services\Dashboard\AdminDashboardStats;
+use App\Services\OperationsHealth;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Cache;
@@ -119,7 +120,8 @@ class Kernel extends ConsoleKernel
             $schedule->call(function () {
                 Cache::put('ops:scheduler-heartbeat', now()->timestamp, now()->addDay());
                 // Najviac jeden probe za 5 minút; funguje aj pri viacerých scheduleroch.
-                if (Cache::add('ops:probe-dispatched', true, 290)) {
+                // Pri sync fronte by probe len predstieral bežiaci worker.
+                if (! OperationsHealth::queueIsSynchronous() && Cache::add('ops:probe-dispatched', true, 290)) {
                     QueueHeartbeat::dispatch();
                 }
             })->name('operations-heartbeats')->everyFiveMinutes()->withoutOverlapping(10);

@@ -63,11 +63,21 @@ class OperationsHealthTest extends TestCase
         $this->assertSame('failed', app(OperationsHealth::class)->checks()['failed_jobs']);
     }
 
-    public function test_synchronous_queue_is_not_a_healthy_background_worker(): void
+    public function test_synchronous_queue_skips_worker_checks_and_stays_healthy(): void
     {
-        $this->heartbeat();
+        Cache::put('ops:scheduler-heartbeat', now()->timestamp);
         config(['queue.default' => 'sync']);
-        $this->assertSame('failed', app(OperationsHealth::class)->checks()['queue_worker']);
+        $checks = app(OperationsHealth::class)->checks();
+        $this->assertSame('skipped', $checks['queue_worker']);
+        $this->assertSame('skipped', $checks['queue_backlog']);
+        $this->assertNotContains('failed', $checks);
+        $this->artisan('ops:check', ['--json' => true])->assertExitCode(0);
+    }
+
+    public function test_synchronous_queue_does_not_mask_missing_scheduler(): void
+    {
+        config(['queue.default' => 'sync']);
+        $this->assertSame('failed', app(OperationsHealth::class)->checks()['scheduler']);
     }
 
     public function test_worker_consumes_queue_until_empty(): void
