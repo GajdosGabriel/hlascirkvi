@@ -410,8 +410,10 @@
 
             {{-- Bočný panel --}}
             <aside class="lg:col-span-4">
-                {{-- Karta oznamu nesie .card s mb-8; tu medzery drží space-y-4. --}}
-                <div class="space-y-4 lg:sticky lg:top-6 [&_.ar-announce]:space-y-4 [&_.ar-announce_.card]:mb-0">
+                {{-- Karta oznamu nesie .card s mb-8; tu medzery drží space-y-4.
+                     Výkričník je nutný: .card v app.css stojí mimo vrstiev
+                     Tailwindu, takže bežnú utilitu by prebil. --}}
+                <div class="space-y-4 lg:sticky lg:top-6 [&_.ar-announce]:space-y-4 [&_.ar-announce_.card]:mb-0!">
 
                     {{-- Zdieľanie --}}
                     <section class="rounded-lg border border-(--ar-line) bg-white p-4">
