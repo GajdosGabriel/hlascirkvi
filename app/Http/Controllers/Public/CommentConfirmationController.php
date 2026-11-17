@@ -35,6 +35,7 @@ class CommentConfirmationController extends Controller
 
         if (! $request->user()) {
             auth()->login($user, true);
+            $user->recordLogin('link', $request->ip());
         }
 
         return redirect($post ? $post->path() : route('posts.index'))

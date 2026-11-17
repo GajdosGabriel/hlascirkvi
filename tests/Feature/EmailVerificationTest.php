@@ -81,6 +81,8 @@ class EmailVerificationTest extends TestCase
         $this->get($this->verificationUrl($user));
 
         $this->assertAuthenticatedAs($user);
+        $this->assertSame('link', $user->fresh()->last_login_via);
+        $this->assertNotNull($user->fresh()->last_login_at);
     }
 
     /**
@@ -96,6 +98,7 @@ class EmailVerificationTest extends TestCase
 
         $this->assertAuthenticatedAs($niekto);
         $this->assertNotNull($user->fresh()->email_verified_at);
+        $this->assertNull($user->fresh()->last_login_at);
     }
 
     public function test_opatovne_poslanie_emailu(): void

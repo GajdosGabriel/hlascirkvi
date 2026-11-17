@@ -10,8 +10,7 @@
                     'name' => ['Meno', false],
                     'status' => ['Stav', false],
                     'created' => ['Registrácia', true],
-                    'login' => ['Posledné prihlásenie', true],
-                    'via' => ['Spôsob', false],
+                    'login' => ['Prihlásenie', true],
                 ];
                 $currentSort = (string) request('sort');
             @endphp
@@ -48,14 +47,16 @@
                 <td class="text-sm" title="{{ $user->last_login_at?->format('d.m.Y H:i:s') }}">
                     @if ($user->last_login_at)
                         {{ $user->last_login_at->diffForHumans() }}
-                        @if ($user->last_login_ip)
-                            <div class="text-xs text-gray-500">{{ $user->last_login_ip }}</div>
-                        @endif
                     @else
                         Nikdy
                     @endif
+                    @if ($user->last_login_via_label)
+                        <div class="text-xs text-gray-500">{{ $user->last_login_via_label }}</div>
+                        @if ($user->last_login_ip)
+                            <div class="text-xs text-gray-500 break-all">{{ $user->last_login_ip }}</div>
+                        @endif
+                    @endif
                 </td>
-                <td class="text-sm">{{ $user->last_login_via_label ?? '—' }}</td>
                 <td class="td">
                     <dropdown-slot label="Spravovať používateľa">
                         <a href="{{ route('admin.user.show', $user->id) }}">
@@ -70,7 +71,7 @@
                 </td>
             </tr>
         @empty
-            <tr><td colspan="7"><x-dashboard.empty>Výberu nezodpovedá žiadny užívateľ.</x-dashboard.empty></td></tr>
+            <tr><td colspan="6"><x-dashboard.empty>Výberu nezodpovedá žiadny užívateľ.</x-dashboard.empty></td></tr>
         @endforelse
     </tbody>
 </x-dashboard.table>

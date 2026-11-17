@@ -37,6 +37,7 @@ class FavoriteConfirmationController extends Controller
 
         if (! $request->user()) {
             auth()->login($user, true);
+            $user->recordLogin('link', $request->ip());
         }
 
         [$url, $message] = match (true) {

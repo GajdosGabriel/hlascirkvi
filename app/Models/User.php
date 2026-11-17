@@ -330,6 +330,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'E-mail a heslo',
             'google' => 'Google',
             'facebook' => 'Facebook',
+            'link' => 'Odkaz z e-mailu',
             default => $via,
         };
     }

@@ -44,6 +44,7 @@ class PrayerController extends Controller
 
         if (! $request->user()) {
             auth()->login($user, true);
+            $user->recordLogin('link', $request->ip());
         }
 
         return redirect()->route('modlitby.index')

@@ -60,6 +60,7 @@ class VerificationController extends Controller
         // prihláseného človeka na cudzí účet.
         if (! $request->user() && ! $user->banned()) {
             auth()->login($user, true);
+            $user->recordLogin('link', $request->ip());
         }
 
         return redirect()->route('posts.index')
