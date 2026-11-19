@@ -145,6 +145,18 @@ class Canal extends Model
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * Osoby, ktoré v kanáli pôsobia (kazatelia, kňazi, pravidelní hostia).
+     *
+     * @return BelongsToMany<Person, $this>
+     */
+    public function persons(): BelongsToMany
+    {
+        return $this->belongsToMany(Person::class)
+            ->withPivot(['role', 'source', 'posts_count'])
+            ->withTimestamps();
+    }
+
     /** @return HasMany<Prayer, $this> */
     public function prayers(): HasMany
     {

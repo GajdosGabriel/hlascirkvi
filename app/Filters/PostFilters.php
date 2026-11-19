@@ -68,7 +68,24 @@ class PostFilters extends Filters
     {
         session()->flash('search', mb_substr((string) $this->request->search, 0, self::MAX_SEARCH_LENGTH));
 
-        return $this->builder->where('title', 'LIKE', $this->likePattern($this->request->search));
+        $pattern = $this->likePattern($this->request->search);
+
+        // Okrem názvu videa aj meno osoby, ktorá vo videu vystupuje (aj jeho
+        // iné podoby a poradie „Priezvisko Meno“), a názov kanála. Kolácia
+        // utf8mb4_unicode_ci porovnáva bez ohľadu na diakritiku.
+        return $this->builder->where(function ($query) use ($pattern) {
+            $query->where('title', 'LIKE', $pattern)
+                ->orWhereIn('canal_id', fn ($canals) => $canals->select('id')->from('canals')
+                    ->whereNull('deleted_at')->where('title', 'LIKE', $pattern))
+                ->orWhereIn('id', fn ($links) => $links->select('person_post.post_id')->from('person_post')
+                    ->join('persons', 'persons.id', '=', 'person_post.person_id')
+                    ->whereNull('persons.deleted_at')
+                    ->where(fn ($match) => $match->where('persons.name', 'LIKE', $pattern)
+                        ->orWhereRaw("CONCAT_WS(' ', persons.last_name, persons.first_name) LIKE ?", [$pattern])
+                        ->orWhereExists(fn ($alias) => $alias->from('person_aliases')
+                            ->whereColumn('person_aliases.person_id', 'persons.id')
+                            ->where('person_aliases.name', 'LIKE', $pattern))));
+        });
     }
 
     /**
