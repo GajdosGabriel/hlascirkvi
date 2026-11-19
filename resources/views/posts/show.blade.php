@@ -193,6 +193,17 @@
                                 <a href="{{ route('person.show', $person) }}"
                                    class="ar-link font-medium text-gray-700 hover:text-(--ar-accent)">{{ $person->name }}</a>@if (! $loop->last)<span aria-hidden="true">,</span>@endif
                             @endforeach
+                            @if (auth()->user()?->hasRole('superadmin'))
+                                <a href="{{ route('admin.persons.post', $post) }}" class="ml-1 text-xs text-gray-400 hover:text-(--ar-accent)">
+                                    <i class="ph ph-pencil-simple-line"></i> upraviť
+                                </a>
+                            @endif
+                        </p>
+                    @elseif (auth()->user()?->hasRole('superadmin'))
+                        <p class="mt-3 text-sm">
+                            <a href="{{ route('admin.persons.post', $post) }}" class="text-gray-400 hover:text-(--ar-accent)">
+                                <i class="ph ph-user-plus mr-1.5"></i>Priradiť osoby k videu
+                            </a>
                         </p>
                     @endif
                 </div>

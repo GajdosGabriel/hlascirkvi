@@ -242,6 +242,24 @@ Route::prefix('admin/')->name('admin.')->middleware(['auth', 'checkSuperAdmin'])
     Route::resource('image', Admin\ImageController::class)->only(['index', 'destroy']);
     Route::resource('logs', Admin\SystemLogController::class)->only('index', 'show');
 
+    // Osoby vo videách: zoznam, úprava, zlúčenie, videá a kanály osoby.
+    Route::get('osoby', 'Admin\PersonController@index')->name('persons.index');
+    Route::get('osoby/nova', 'Admin\PersonController@create')->name('persons.create');
+    Route::post('osoby', 'Admin\PersonController@store')->name('persons.store');
+    Route::get('osoby/{person}', 'Admin\PersonController@edit')->name('persons.edit');
+    Route::put('osoby/{person}', 'Admin\PersonController@update')->name('persons.update');
+    Route::delete('osoby/{person}', 'Admin\PersonController@destroy')->name('persons.destroy');
+    Route::put('osoby/{person}/overenie', 'Admin\PersonController@verify')->name('persons.verify');
+    Route::post('osoby/{person}/zlucit', 'Admin\PersonController@merge')->name('persons.merge');
+    Route::post('osoby/{person}/videa', 'Admin\PersonController@attachPost')->name('persons.posts.attach');
+    Route::delete('osoby/{person}/videa/{post}', 'Admin\PersonController@detachPost')->name('persons.posts.detach');
+    Route::post('osoby/{person}/kanaly', 'Admin\PersonController@attachCanal')->name('persons.canals.attach');
+    Route::delete('osoby/{person}/kanaly/{canal}', 'Admin\PersonController@detachCanal')->name('persons.canals.detach');
+    // Osoby jedného videa (odkaz z detailu príspevku).
+    Route::get('post/{post}/osoby', 'Admin\PersonController@post')->name('persons.post');
+    Route::post('post/{post}/osoby', 'Admin\PersonController@attachToPost')->name('persons.post.attach');
+    Route::delete('post/{post}/osoby/{person}', 'Admin\PersonController@detachFromPost')->name('persons.post.detach');
+
     // Schránka podpory — odpovede používateľom (vlákna z nástenky a päty).
     Route::get('podpora', 'Admin\SupportController@index')->name('support.index');
     Route::get('podpora/{supportTicket}', 'Admin\SupportController@show')->name('support.show');

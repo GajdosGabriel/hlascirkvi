@@ -73,7 +73,14 @@
                 <div class="min-w-0">
                     <h1 class="ar-display text-2xl font-extrabold leading-tight md:text-[2.1rem]">
                         {{ $person->name }}
+                        @if (auth()->user()?->hasRole('superadmin'))
+                            <a href="{{ route('admin.persons.edit', $person) }}" class="align-middle text-sm font-normal text-gray-400 hover:text-(--ar-accent)"
+                               title="Upraviť v administrácii"><i class="ph ph-pencil-simple-line"></i></a>
+                        @endif
                     </h1>
+                    @if ($person->description)
+                        <p class="mt-1 text-gray-600">{{ $person->description }}</p>
+                    @endif
                     <p class="mt-1 text-sm text-gray-500">
                         {{ number_format($posts->total(), 0, ',', ' ') }}
                         {{ $plural($posts->total(), 'video', 'videá', 'videí') }} na Hlase Cirkvi
@@ -93,7 +100,7 @@
                         <span class="ml-1 text-sm text-gray-500">Pôsobí v:</span>
                         @foreach ($canals as $canal)
                             <a href="{{ route('organizations.show', [$canal->id]) }}" class="ar-tab">
-                                <i class="ph ph-church"></i> {{ $canal->title }}
+                                <i class="ph ph-church"></i> {{ $canal->title }}@if ($canal->pivot->role)<span class="text-gray-500">&nbsp;· {{ $canal->pivot->role }}</span>@endif
                             </a>
                         @endforeach
                     @endif

@@ -28,6 +28,7 @@
                     ['count' => $comments->unpublished, 'icon' => 'ph ph-chat-circle-dots', 'label' => 'komentárov čaká na schválenie', 'href' => route('admin.comment.index', ['unpublished' => 1])],
                     ['count' => $users->blocked, 'icon' => 'ph ph-prohibit', 'label' => 'zablokovaných účtov', 'href' => route('admin.user.index', ['status' => 'blocked']), 'info' => true],
                     ['count' => $posts->waiting, 'icon' => 'ph ph-clock', 'label' => 'článkov čaká v bufferi', 'href' => route('admin.buffer.index'), 'info' => true],
+                    ['count' => \App\Http\Controllers\Admin\PersonController::aiCount(), 'icon' => 'ph ph-user-focus', 'label' => 'osôb založila AI na kontrolu', 'href' => route('admin.persons.index', ['filter' => 'ai'])],
                 ], fn ($item) => (int) $item['count'] > 0);
 
                 $rhythmAlpha = fn ($value) => $rhythm->max > 0 ? round(sqrt($value / $rhythm->max), 3) : 0;

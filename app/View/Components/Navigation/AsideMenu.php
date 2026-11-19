@@ -121,6 +121,7 @@ class AsideMenu extends Component
 
             $item('admin.user.index', 'user', 'Užívatelia', 'Ľudia a kanály'),
             $item('admin.canal.index', 'canal', 'Kanály', 'Ľudia a kanály'),
+            $item('admin.persons.index', 'users', 'Osoby vo videách', 'Ľudia a kanály'),
             $item('admin.support.index', 'contact', 'Podpora', 'Ľudia a kanály'),
 
             $item('admin.announcement.index', 'announcement', 'Oznamy', 'Web'),
