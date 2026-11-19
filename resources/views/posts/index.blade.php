@@ -152,6 +152,29 @@
                      videl skôr než prvý príspevok. --}}
                 <x-announcements placement="home" />
 
+                {{-- Osoby, ktorých meno zodpovedá hľadaniu — rovno na ich stránku. --}}
+                @if ($persons->isNotEmpty())
+                    <section class="mb-6" aria-labelledby="search-persons">
+                        <h2 id="search-persons" class="mb-3 text-xs font-bold uppercase tracking-wider text-gray-500">Osoby</h2>
+                        <div class="grid gap-3 sm:grid-cols-2">
+                            @foreach ($persons as $person)
+                                <a href="{{ route('person.show', $person) }}"
+                                   class="group flex items-center gap-3 rounded-lg border border-(--ar-line) bg-white p-3 transition-colors hover:border-(--ar-accent)">
+                                    @include('persons._avatar', ['size' => 'h-11 w-11 text-sm'])
+                                    <span class="min-w-0">
+                                        <span class="block truncate font-semibold group-hover:text-(--ar-accent)">{{ $person->name }}</span>
+                                        <span class="block truncate text-xs text-gray-500">
+                                            {{ $person->posts_count }}
+                                            {{ $person->posts_count === 1 ? 'video' : ($person->posts_count <= 4 ? 'videá' : 'videí') }}
+                                        </span>
+                                    </span>
+                                    <i class="ph ph-caret-right ml-auto text-gray-400 group-hover:text-(--ar-accent)" aria-hidden="true"></i>
+                                </a>
+                            @endforeach
+                        </div>
+                    </section>
+                @endif
+
                 <div class="grid grid-cols-2 gap-4 lg:grid-cols-3" data-post-grid>
                     @forelse ($posts as $post)
                         @include('posts.card-front')

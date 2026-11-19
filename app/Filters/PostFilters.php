@@ -78,13 +78,7 @@ class PostFilters extends Filters
                 ->orWhereIn('canal_id', fn ($canals) => $canals->select('id')->from('canals')
                     ->whereNull('deleted_at')->where('title', 'LIKE', $pattern))
                 ->orWhereIn('id', fn ($links) => $links->select('person_post.post_id')->from('person_post')
-                    ->join('persons', 'persons.id', '=', 'person_post.person_id')
-                    ->whereNull('persons.deleted_at')
-                    ->where(fn ($match) => $match->where('persons.name', 'LIKE', $pattern)
-                        ->orWhereRaw("CONCAT_WS(' ', persons.last_name, persons.first_name) LIKE ?", [$pattern])
-                        ->orWhereExists(fn ($alias) => $alias->from('person_aliases')
-                            ->whereColumn('person_aliases.person_id', 'persons.id')
-                            ->where('person_aliases.name', 'LIKE', $pattern))));
+                    ->whereIn('person_post.person_id', \App\Models\Person::query()->select('persons.id')->matching($pattern)));
         });
     }
 

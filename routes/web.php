@@ -124,6 +124,8 @@ Route::resource('favorites', FavoriteController::class)->only('update')->middlew
 Route::resource('organizations', Public\CanalController::class)
     ->only('show')
     ->parameters(['organizations' => 'canal']);
+// Osoba (kazateľ, kňaz, hosť) a videá, v ktorých vystupuje.
+Route::get('osoba/{person:slug}', 'Public\PersonController@show')->name('person.show');
 Route::resource('seminars', Seminars\SeminarController::class)->only('show');
 Route::resource('seminars.posts', Seminars\SeminarPostController::class)->only('show');
 Route::resource('modlitby', Public\PrayerController::class)->only('index');

@@ -184,6 +184,17 @@
 
                         <span><i class="ph ph-eye mr-1.5"></i>{{ number_format($post->count_view, 0, ',', ' ') }}</span>
                     </div>
+
+                    {{-- Kto vo videu vystupuje — odkaz na ďalšie videá tej istej osoby. --}}
+                    @if ($persons->isNotEmpty())
+                        <p class="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-500">
+                            <span><i class="ph ph-user mr-1.5 text-(--ar-accent)"></i>Vo videu:</span>
+                            @foreach ($persons as $person)
+                                <a href="{{ route('person.show', $person) }}"
+                                   class="ar-link font-medium text-gray-700 hover:text-(--ar-accent)">{{ $person->name }}</a>@if (! $loop->last)<span aria-hidden="true">,</span>@endif
+                            @endforeach
+                        </p>
+                    @endif
                 </div>
 
                 {{-- Akcie článku. Stáli pod textom, kde ich čitateľ našiel až

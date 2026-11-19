@@ -45,6 +45,17 @@ class CanalController extends Controller
             'collections'   => $canal->seminars()->published()->orderBy('title')
                 ->withCount(['posts' => fn ($q) => $q->published()->available()])
                 ->paginate(12, ['*'], 'collections_page')->withQueryString(),
+            // Kto v kanáli pôsobí: vlastník osobného kanála a osoby, ktoré
+            // sa vo videách kanála objavujú najčastejšie.
+            'persons'       => \App\Models\Person::query()
+                ->where(fn ($q) => $q->where('persons.canal_id', $canal->id)
+                    ->orWhereIn('persons.id', fn ($ids) => $ids->select('person_id')->from('canal_person')->where('canal_id', $canal->id)))
+                ->leftJoin('canal_person', fn ($join) => $join->on('canal_person.person_id', '=', 'persons.id')
+                    ->where('canal_person.canal_id', $canal->id))
+                ->orderByRaw('persons.canal_id = ? desc', [$canal->id])
+                ->orderByDesc('canal_person.posts_count')
+                ->limit(12)
+                ->get(['persons.*']),
             'year'          => $year,
             'month'         => $month,
         ] + $this->channelPanels($canal));

@@ -46,6 +46,30 @@ class Person extends Model
         return Str::lower(Str::ascii(trim(preg_replace('/\s+/u', ' ', $name))));
     }
 
+    /**
+     * Osoby, ktorých meno, poradie „Priezvisko Meno" alebo iná podoba mena
+     * zodpovedá LIKE vzoru. Kolácia porovnáva bez ohľadu na diakritiku.
+     */
+    public function scopeMatching($query, string $pattern)
+    {
+        return $query->where(fn ($match) => $match->where('persons.name', 'LIKE', $pattern)
+            ->orWhereRaw("CONCAT_WS(' ', persons.last_name, persons.first_name) LIKE ?", [$pattern])
+            ->orWhereExists(fn ($alias) => $alias->from('person_aliases')
+                ->whereColumn('person_aliases.person_id', 'persons.id')
+                ->where('person_aliases.name', 'LIKE', $pattern)));
+    }
+
+    /** Počet zverejnených a dostupných videí osoby (pre karty a hlavičku). */
+    public function scopeWithPublicPostsCount($query)
+    {
+        return $query->withCount(['posts' => fn ($posts) => $posts->published()->available()]);
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     /** @return BelongsToMany<Post, $this> */
     public function posts(): BelongsToMany
     {

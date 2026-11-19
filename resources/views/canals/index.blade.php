@@ -182,6 +182,16 @@
                     </div>
                 @endif
 
+                {{-- Kto v kanáli pôsobí (kazatelia, kňazi, pravidelní hostia). --}}
+                @if ($persons->isNotEmpty())
+                    <div class="mt-5 flex flex-wrap items-center gap-2 text-sm">
+                        <span class="text-gray-500"><i class="ph ph-users mr-1.5 text-(--ar-accent)"></i>Pôsobia tu:</span>
+                        @foreach ($persons as $person)
+                            <a href="{{ route('person.show', $person) }}" class="ar-tab">{{ $person->name }}</a>
+                        @endforeach
+                    </div>
+                @endif
+
                 {{-- Kontakty kanála, ak ich profil má. Prázdny riadok sa
                      nevykreslí, nech pod číslami nezostane hluchá medzera.
                      E-mail ani telefón sa verejne neukazujú — s e-mailom

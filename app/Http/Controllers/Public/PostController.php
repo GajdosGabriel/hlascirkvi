@@ -47,7 +47,32 @@ class PostController extends Controller
             return redirect()->to(request()->fullUrlWithQuery(['page' => $last > 1 ? $last : null]), 302);
         }
 
-        return view('posts.index', compact('posts'));
+        return view('posts.index', [
+            'posts' => $posts,
+            'persons' => $posts->currentPage() === 1 ? $this->matchingPersons() : collect(),
+        ]);
+    }
+
+    /**
+     * Osoby, ktorých meno zodpovedá hľadanému výrazu — výsledky ich ukážu
+     * ako karty nad videami. Len osoby s aspoň jedným verejným videom.
+     */
+    protected function matchingPersons()
+    {
+        $search = request('search');
+        $search = is_string($search) ? mb_substr(trim($search), 0, 100) : '';
+        if (mb_strlen($search) < 3) {
+            return collect();
+        }
+
+        return \App\Models\Person::query()
+            ->matching('%' . addcslashes($search, '%_\\') . '%')
+            ->withPublicPostsCount()
+            ->with('canal')
+            ->having('posts_count', '>', 0)
+            ->orderByDesc('posts_count')
+            ->limit(6)
+            ->get();
     }
 
 
@@ -82,6 +107,7 @@ class PostController extends Controller
             'post'    => $post,
             'series'  => $this->series($post),
             'collections' => $post->seminars()->published()->orderBy('title')->get(),
+            'persons' => $post->persons()->orderByDesc('person_post.confidence')->orderBy('persons.name')->get(),
             'isSaved' => (bool) auth()->user()?->savedPosts()->whereKey($post->id)->exists(),
         ] + $this->cachedChannelPanels($post));
     }
