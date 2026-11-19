@@ -10,7 +10,8 @@ use Illuminate\Support\Str;
  * Zápis ručne prejdených dávok „kto vystupuje vo videu" z dátových migrácií.
  *
  * Súbor: {"persons": [{name, first_name, last_name, aliases[]}],
- *         "links": [{v: video_id, p: meno osoby, s: title|description|review|canal}]}
+ *         "links": [{v: video_id, p: meno osoby, s: title|description|review|canal}],
+ *         "remove": [{v, p, s}] (nepovinné, chybné väzby zo skorších dávok)}
  *
  * Osoby sa hľadajú podľa normalizovaného mena aj iných podôb, príspevky podľa
  * video_id. Čo v databáze nie je, sa preskočí; osoba bez jediného videa sa
@@ -43,7 +44,16 @@ class PersonLinkImport
         }
 
         $now = now();
-        DB::transaction(function () use ($byPerson, $definitions, $postIds, $now) {
+        DB::transaction(function () use ($data, $byPerson, $definitions, $postIds, $now) {
+            // Opravy skorších dávok: väzba, ktorá sa ukázala ako chybná.
+            foreach ($data['remove'] ?? [] as $wrong) {
+                DB::table('person_post')
+                    ->whereIn('post_id', DB::table('posts')->where('video_id', $wrong['v'])->select('id'))
+                    ->whereIn('person_id', DB::table('persons')->where('normalized_name', Person::normalize($wrong['p']))->select('id'))
+                    ->where('source', $wrong['s'])
+                    ->delete();
+            }
+
             $usedSlugs = DB::table('persons')->whereNotNull('slug')->pluck('slug')->flip()->all();
 
             foreach ($byPerson as $normalized => $links) {
