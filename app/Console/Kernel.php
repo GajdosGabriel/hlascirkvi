@@ -55,6 +55,10 @@ class Kernel extends ConsoleKernel
         }
 
         $schedule->command('youtube:comments')->hourlyAt(17)->withoutOverlapping(55);
+
+        // Kto vo videu vystupuje: nové príspevky (pravidlá, AI len keď je
+        // zapnutá v /admin/ai) a prepočet „kto v kanáli pôsobí".
+        $schedule->command('persons:detect')->hourlyAt(37)->withoutOverlapping(55);
         $schedule->command('comments:moderate')->dailyAt('03:45')->withoutOverlapping(120);
 
         // Zhrnutia sa automaticky kontrolujú iba pred vydaním z buffera.

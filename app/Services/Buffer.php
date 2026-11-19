@@ -287,6 +287,7 @@ class Buffer
 
         // Titulky a AI spracujeme pred vydaním, mimo databázovej transakcie.
         $this->prepareSummary($post);
+        $this->preparePersons($post);
 
         $post = DB::transaction(function () use ($post, $at, $archive, $arrivedAt) {
             $this->post->publishPost($post, $at);
@@ -314,6 +315,26 @@ class Buffer
     public function ifBufferIsEmpty(UserRepository $userRepository)
     {
         Notification::send($userRepository->usersHasRoleAdmin(), new BufeerIsEmpty);
+    }
+
+    /**
+     * Kto vo videu vystupuje — najneskôr pri vydaní, ak to ešte neurobil
+     * hodinový persons:detect. Chyba vydanie nezastaví.
+     */
+    protected function preparePersons(Post $post): void
+    {
+        if ($post->persons_checked_at !== null) {
+            return;
+        }
+
+        try {
+            app(\App\Services\Persons\PersonDetector::class)->detect($post);
+        } catch (Throwable $e) {
+            Log::warning('Buffer: rozpoznanie osôb zlyhalo', [
+                'post_id' => $post->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     protected function prepareSummary(Post $post): void

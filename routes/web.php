@@ -59,6 +59,7 @@ Route::get('/', 'Public\PostController@index')->name('posts.index');
 Route::get('sitemap.xml', 'Public\SitemapController@index')->name('sitemap');
 Route::get('sitemap-stranky.xml', 'Public\SitemapController@pages')->name('sitemap.pages');
 Route::get('sitemap-kanaly.xml', 'Public\SitemapController@canals')->name('sitemap.canals');
+Route::get('sitemap-osoby.xml', 'Public\SitemapController@persons')->name('sitemap.persons');
 Route::get('sitemap-prispevky-{page}.xml', 'Public\SitemapController@posts')
     ->whereNumber('page')
     ->name('sitemap.posts');

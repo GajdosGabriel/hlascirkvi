@@ -35,6 +35,7 @@ class SitemapController extends Controller
             $sitemaps = [
                 route('sitemap.pages'),
                 route('sitemap.canals'),
+                route('sitemap.persons'),
             ];
 
             $pages = (int) ceil($this->postsQuery()->count() / static::PER_FILE);
@@ -113,6 +114,29 @@ class SitemapController extends Controller
                     'lastmod' => $this->iso($canal->updated_at),
                     'changefreq' => 'daily',
                     'priority' => '0.7',
+                ])
+                ->all();
+
+            return $this->urlset($urls);
+        });
+
+        return $this->xml($xml);
+    }
+
+    /** Stránky osôb, ktoré majú aspoň jedno verejné video. */
+    public function persons(): Response
+    {
+        $xml = Cache::remember('sitemap:persons', static::TTL, function () {
+            $urls = \App\Models\Person::query()
+                ->withPublicPostsCount()
+                ->having('posts_count', '>', 0)
+                ->orderBy('id')
+                ->get(['id', 'slug', 'updated_at'])
+                ->map(fn ($person) => [
+                    'loc' => route('person.show', $person),
+                    'lastmod' => $this->iso($person->updated_at),
+                    'changefreq' => 'weekly',
+                    'priority' => '0.6',
                 ])
                 ->all();
 

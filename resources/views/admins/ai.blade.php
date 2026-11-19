@@ -102,6 +102,21 @@
                             Kontroluje aj staršie profily, po 5 každých 15 minút. Platí spoločný mesačný limit nižšie; vyhľadávanie sa účtuje navyše k tokenom.
                         </details>
 
+                        <input type="hidden" name="persons_enabled" value="0">
+                        <label class="flex items-start gap-2">
+                            <input type="checkbox" name="persons_enabled" value="1" class="mt-1" @checked(old('persons_enabled', $personsEnabled))>
+                            <span>
+                                <span class="font-semibold">Rozpoznávať osoby cez AI</span>
+                                <span class="ar-hint block">Ak pravidlá nenájdu v názve ani popise nového videa známe meno, určí rečníka AI.</span>
+                            </span>
+                        </label>
+                        <details class="ar-ai__more">
+                            <summary>Podrobnosti</summary>
+                            Pravidlá (známe mená, ich iné podoby a osobný kanál) bežia vždy a nič nestoja. AI sa volá len pri videách,
+                            kde pravidlá nič nenašli, s názvom a popisom videa (bez titulkov). Neznámu osobu založí ako neoverenú.
+                            Platí spoločný mesačný limit nižšie.
+                        </details>
+
                         <div class="grid gap-4 sm:grid-cols-2">
                             <div class="form-group" hidden>
                                 <label class="ar-label" for="batch">Príspevkov v doplnkovej hodinovej dávke</label>

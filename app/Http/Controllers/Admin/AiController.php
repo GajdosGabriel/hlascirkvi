@@ -68,7 +68,7 @@ class AiController extends Controller
             'filters' => $filters,
             'features' => AiUsage::query()->distinct()->orderBy('feature')->pluck('feature'),
             'models' => AiUsage::query()->distinct()->orderBy('model')->pluck('model'),
-            'featureLabels' => ['post_summary' => 'Zhrnutia príspevkov', 'canal_enrichment' => 'Dopĺňanie kanálov', 'guest_reply' => 'Odpovede návštevníkom'],
+            'featureLabels' => ['post_summary' => 'Zhrnutia príspevkov', 'canal_enrichment' => 'Dopĺňanie kanálov', 'guest_reply' => 'Odpovede návštevníkom', 'person_detect' => 'Rozpoznávanie osôb'],
             'periodTotals' => (clone $period)->selectRaw($sums)->first(),
             'groups' => $groups,
             'configured' => $summarizer->isConfigured(),
@@ -79,6 +79,7 @@ class AiController extends Controller
             'maxTokens' => $summarizer->maxTokens(),
             'enrichments' => CanalEnrichment::with('canal')->latest('updated_at')->paginate(10, ['*'], 'kanaly')->withQueryString(),
             'enrichmentEnabled' => app(CanalProfileEnricher::class)->enabled(),
+            'personsEnabled' => (bool) Setting::get(\App\Services\Persons\PersonDetector::SETTING_ENABLED, false),
             'lengths' => PostSummarizer::LENGTHS,
             'model' => config('openai.summary_model'),
             'month' => $month,
@@ -97,6 +98,7 @@ class AiController extends Controller
         $data = $request->validate([
             'enabled' => ['nullable', 'boolean'],
             'enrichment_enabled' => ['nullable', 'boolean'],
+            'persons_enabled' => ['nullable', 'boolean'],
             'batch' => ['required', 'integer', 'min:1', 'max:200'],
             'limit' => ['required', 'numeric', 'min:0', 'max:1000'],
             'max_tokens' => ['required', 'integer', 'min:1', 'max:100000'],
@@ -104,6 +106,10 @@ class AiController extends Controller
 
         if ($request->has('enrichment_enabled')) {
             Setting::set(CanalProfileEnricher::SETTING_ENABLED, $request->boolean('enrichment_enabled') ? 1 : 0);
+        }
+
+        if ($request->has('persons_enabled')) {
+            Setting::set(\App\Services\Persons\PersonDetector::SETTING_ENABLED, $request->boolean('persons_enabled') ? 1 : 0);
         }
 
         Setting::set(PostSummarizer::SETTING_ENABLED, $request->boolean('enabled') ? 1 : 0);
