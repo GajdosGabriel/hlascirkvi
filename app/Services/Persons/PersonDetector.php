@@ -36,6 +36,9 @@ class PersonDetector
     /** @var array<int, array{id: int, patterns: array<int, string>}>|null */
     protected ?array $matchers = null;
 
+    /** @var array<string, array<int, int>> koreň priezviska → indexy vzorov */
+    protected array $index = [];
+
     public function __construct(protected PostSummarizer $summarizer) {}
 
     public function aiEnabled(): bool
@@ -49,22 +52,29 @@ class PersonDetector
      *
      * @return array<int, string>
      */
-    public function detect(Post $post, bool $allowAi = true): array
+    public function detect(Post $post, bool $allowAi = true, bool $allowCanal = true, bool $allowDescription = true): array
     {
         $found = [];
 
         if (! DB::table('person_post')->where('post_id', $post->id)->exists()) {
             $title = (string) $post->title;
-            $description = $this->description($post);
+            $description = $allowDescription ? $this->description($post) : '';
 
             foreach ($this->match($title) as $id) {
                 $found[$id] = 'title';
+            }
+            // „O. Kodet", „vladykom P. Rusnákom", „Pasho Zsolnai": v názve
+            // býva len priezvisko s oslovením alebo s prezývkou.
+            if ($found === []) {
+                foreach ($this->matchSurname($title) as $id) {
+                    $found[$id] = 'title';
+                }
             }
             foreach ($this->match($description) as $id) {
                 $found[$id] ??= 'description';
             }
 
-            if ($found === [] && ($own = $this->canalPerson($post)) !== null) {
+            if ($found === [] && $allowCanal && ($own = $this->canalPerson($post)) !== null) {
                 $found[$own] = 'canal';
             }
 
@@ -90,8 +100,21 @@ class PersonDetector
             return [];
         }
 
+        // Kandidáti podľa koreňa slov v texte — overiť všetky vzory pri
+        // každom príspevku by pri tisícoch osôb trvalo príliš dlho.
+        $matchers = $this->matchers();
+        $candidates = [];
+        foreach (array_unique(preg_split('~\W+~u', $haystack, -1, PREG_SPLIT_NO_EMPTY)) as $word) {
+            for ($cut = 0; $cut <= 4 && mb_strlen($word) - $cut >= 3; $cut++) {
+                foreach ($this->index[$cut ? mb_substr($word, 0, -$cut) : $word] ?? [] as $i) {
+                    $candidates[$i] = true;
+                }
+            }
+        }
+
         $ids = [];
-        foreach ($this->matchers() as $matcher) {
+        foreach (array_keys($candidates) as $i) {
+            $matcher = $matchers[$i];
             foreach ($matcher['patterns'] as $pattern) {
                 if (preg_match($pattern, $haystack)) {
                     $ids[$matcher['id']] = $matcher['id'];
@@ -101,6 +124,132 @@ class PersonDetector
         }
 
         return array_values($ids);
+    }
+
+    /**
+     * Samotné priezvisko v názve: za oslovením („o.", „vladykom", „pastor")
+     * alebo za slovom s veľkým začiatočným písmenom (prezývka, skrátené
+     * meno). Platí len pre priezviská, ktoré má jediná osoba a ktoré nie sú
+     * zároveň krstným menom ani bežným slovom.
+     *
+     * @return array<int, int>
+     */
+    public function matchSurname(string $title): array
+    {
+        $surnames = $this->surnames();
+        if ($surnames === []) {
+            return [];
+        }
+
+        // Dvojice [slovo, krstné meno pred ním alebo null].
+        $words = [];
+        $normalized = ' '.$this->normalize($title).' ';
+        $prefixes = 'o|otec|otca|otcom|p|pater|patra|patrom|vladyka|vladyku|vladykom|biskup|biskupa|biskupom|arcibiskup|arcibiskupa|mons|kardinal|kardinala|pastor|pastora|pastorom|brat|sestra|dp|vdp|don|fr|kaz';
+        if (preg_match_all('~\b(?:'.$prefixes.')\.?\s+(?:\w\.\s*)?(\w{4,})~u', $normalized, $m)) {
+            foreach ($m[1] as $word) {
+                $words[] = [$word, null];
+            }
+        }
+        if (preg_match_all('~\b(\p{Lu}[\p{L}\'’]*)\.?\s+(\p{Lu}\p{Ll}[\p{Ll}\'’-]{2,})~u', $title, $m, PREG_SET_ORDER)) {
+            foreach ($m as $pair) {
+                $words[] = [$this->normalize($pair[2]), $this->normalize($pair[1])];
+            }
+        }
+
+        $ids = [];
+        foreach ($words as [$word, $before]) {
+            // Skloňované krstné meno („Mikuláša", „Jánovi") nie je priezvisko.
+            if ($this->isFirstName($word)) {
+                continue;
+            }
+
+            // Slovo = koreň priezviska + najviac 4 znaky koncovky pádu.
+            $hits = [];
+            for ($cut = 0; $cut <= 3 && mb_strlen($word) - $cut >= 4; $cut++) {
+                $stem = $cut ? mb_substr($word, 0, -$cut) : $word;
+                if (isset($surnames[$stem])) {
+                    $hits[$surnames[$stem]] = $this->surnameInfo[$surnames[$stem]];
+                }
+            }
+
+            $female = (bool) preg_match('~(ov[aeyu]|ovou|ovej|skej|skou)$~u', $word);
+            $hits = array_filter($hits, fn ($info) =>
+                // Ženský tvar („Samselyová") nepatrí mužovi s tým priezviskom.
+                (! $female || $info['female'])
+                // Slovo pred priezviskom je krstné meno alebo prezývka a musí
+                // sa začínať ako meno osoby: „Pasho" – Pavol, „Evka" – Eva;
+                // „Amanda Cook", „Honza Holub" či „Sv. Gorazda" sú iní ľudia.
+                && ($before === null || ($info['first'] !== '' && str_starts_with($before, mb_substr($info['first'], 0, 2)))));
+
+            // Slovo pasuje na viac osôb — nič neurčí.
+            if (count($hits) === 1) {
+                $id = array_key_first($hits);
+                $ids[$id] = $id;
+            }
+        }
+        return array_values($ids);
+    }
+
+    /** @var array<string, int>|null priezvisko (koreň) → osoba */
+    protected ?array $surnames = null;
+
+    /** @var array<string, true>|null */
+    protected ?array $firstNames = null;
+
+    /** @var array<int, array{first: string, female: bool}> */
+    protected array $surnameInfo = [];
+
+    /** @return array<string, int> */
+    protected function surnames(): array
+    {
+        if ($this->surnames !== null) {
+            return $this->surnames;
+        }
+
+        $ambiguous = array_flip(config('persons.ambiguous_surnames', []));
+        $byStem = [];
+        foreach (DB::table('persons')->whereNull('deleted_at')->get(['id', 'first_name', 'last_name']) as $person) {
+            $last = $this->normalize((string) $person->last_name);
+            $this->surnameInfo[$person->id] = [
+                'first' => (string) explode(' ', $this->normalize((string) $person->first_name))[0],
+                'female' => (bool) preg_match('~(ova|a)$~u', $last),
+            ];
+            if (mb_strlen($last) < 4 || str_contains($last, ' ') || isset($ambiguous[$last]) || isset($this->firstNames()[$last])) {
+                continue;
+            }
+            $stem = mb_strlen($last) > 4 ? preg_replace('~[aeiouy]$~', '', $last) : $last;
+            $byStem[$stem][$person->id] = true;
+        }
+
+        // Priezvisko viacerých osôb (Horváth, Tóth…) samo o sebe nič neurčí.
+        $this->surnames = [];
+        foreach ($byStem as $stem => $ids) {
+            if (count($ids) === 1) {
+                $this->surnames[$stem] = array_key_first($ids);
+            }
+        }
+
+        return $this->surnames;
+    }
+
+    /** Krstné meno aj v páde: „mikulasa", „janovi" → „mikulas", „jan". */
+    protected function isFirstName(string $word): bool
+    {
+        $names = $this->firstNames();
+        for ($cut = 0; $cut <= 3 && mb_strlen($word) - $cut >= 3; $cut++) {
+            if (isset($names[$cut ? mb_substr($word, 0, -$cut) : $word])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** @return array<string, true> */
+    protected function firstNames(): array
+    {
+        return $this->firstNames ??= DB::table('first_names')->where('count', '>=', 30)->pluck('name')
+            ->mapWithKeys(fn ($name) => [$this->normalize($name) => true])->all();
     }
 
     protected function canUseAi(): bool
@@ -158,9 +307,11 @@ class PersonDetector
 
         $aliases = DB::table('person_aliases')->get(['person_id', 'normalized_name'])->groupBy('person_id');
         $this->matchers = [];
+        $this->index = [];
 
         foreach (DB::table('persons')->whereNull('deleted_at')->get(['id', 'first_name', 'last_name']) as $person) {
             $patterns = [];
+            $keys = [];
             $first = $this->normalize((string) $person->first_name);
             $last = $this->normalize((string) $person->last_name);
 
@@ -170,21 +321,34 @@ class PersonDetector
                 $l = $this->stem($last);
                 $patterns[] = '~\b'.$f.'\w{0,4}\s+'.$l.'\w{0,4}\b~u';
                 $patterns[] = '~\b'.$l.'\w{0,4}\s+'.$f.'\w{0,4}\b~u';
+                $keys[] = $this->key($last);
             }
 
             // Iné podoby mena presne, ak majú aspoň dve slová.
             foreach ($aliases->get($person->id, []) as $alias) {
                 if (str_contains($alias->normalized_name, ' ')) {
                     $patterns[] = '~\b'.preg_quote($alias->normalized_name, '~').'\b~u';
+                    $keys[] = $this->key($alias->normalized_name);
                 }
             }
 
             if ($patterns !== []) {
                 $this->matchers[] = ['id' => $person->id, 'patterns' => $patterns];
+                foreach (array_unique($keys) as $key) {
+                    $this->index[$key][] = array_key_last($this->matchers);
+                }
             }
         }
 
         return $this->matchers;
+    }
+
+    /** Kľúč indexu: koreň posledného slova mena (bez úvodzoviek pre regex). */
+    protected function key(string $name): string
+    {
+        $word = (string) collect(explode(' ', $name))->last();
+
+        return mb_strlen($word) > 3 ? preg_replace('~[aeiouy]$~', '', $word) : $word;
     }
 
     /** Koreň slova bez koncovej samohlásky („kuffa" → „kuff"), aby sedeli aj pády. */

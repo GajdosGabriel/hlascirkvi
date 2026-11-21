@@ -15,6 +15,14 @@ return [
         'adam-emil',
     ],
 
+    // Priezviská, ktoré sú zároveň bežným slovom, menom národa či mesta.
+    // Samé (bez krstného mena) sa v názve videa za meno nepovažujú.
+    'ambiguous_surnames' => [
+        'slovak', 'moudry', 'kral', 'pastor', 'biskup', 'martin', 'petro', 'vasil',
+        'svoboda', 'novak', 'maly', 'velky', 'cerny', 'biely', 'sokol', 'kostka',
+        'king', 'jezisova', 'kniha', 'show', 'pastorka', 'koren', 'pastory', 'sarissky',
+    ],
+
     // Koľko videí v kanáli musí osoba mať, aby „pôsobila" v ňom
     // (canal_person so zdrojom derived).
     'canal_min_posts' => 5,

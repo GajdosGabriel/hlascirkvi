@@ -102,6 +102,50 @@ class PersonDetectorTest extends TestCase
         $this->assertDatabaseMissing('person_post', ['person_id' => $other->id]);
     }
 
+    public function test_priezvisko_s_oslovenim_alebo_prezyvkou_v_nazve(): void
+    {
+        $kodet = $this->person('Vojtěch Kodet');
+        $zsolnai = $this->person('Pavol Zsolnai');
+        $rusnak = $this->person('Peter Rusnák');
+
+        $this->assertSame([$kodet->id => 'title'], $this->detect(Post::factory()->create(['title' => 'O. Kodet - Prečo sa mám modliť?'])));
+        $this->assertSame([$zsolnai->id => 'title'], $this->detect(Post::factory()->create(['title' => 'Takí, ako my • Pasho Zsolnai • 5.7.2020'])));
+        $this->assertSame([$rusnak->id => 'title'], $this->detect(Post::factory()->create(['title' => 'Liturgia s vladykom P. Rusnákom z Katedrály'])));
+    }
+
+    public function test_samotne_priezvisko_neprida_inu_osobu(): void
+    {
+        $this->person('Adam Cook');
+        $this->person('Radovan Mikula');
+        $this->person('Rastislav Samsely');
+        $this->person('Jozef Gora');
+        $this->person('Stanislav Žiška');
+
+        foreach ([
+            'Amanda Cook - Tree of Life',                        // iné krstné meno
+            'Svätá omša z Konkatedrály Sv. Mikuláša v Prešove',  // krstné meno v páde
+            'Števka Samselyová: Hrdinovia viery',                // ženský tvar
+            'Spomienka na Sv. Gorazda',                           // svätý
+            'AKO ZÍSKAŤ POKOJ',                                   // verzálky
+        ] as $title) {
+            $this->assertSame([], $this->detect(Post::factory()->create(['title' => $title])), $title);
+        }
+    }
+
+    public function test_opakovana_kontrola_priradi_stare_videa_podla_nazvu(): void
+    {
+        $post = Post::factory()->create(['title' => 'EVANJELIUM NA DNES: VLADYKA JONÁŠ MAXIM', 'body' => '<p>Káže Ján Buc.</p>']);
+        DB::table('posts')->where('id', $post->id)->update(['persons_checked_at' => now()]);
+        $maxim = $this->person('Jonáš Maxim');
+        $buc = $this->person('Ján Buc');
+
+        $this->artisan('persons:detect', ['--recheck' => true])->assertSuccessful();
+
+        $this->assertDatabaseHas('person_post', ['post_id' => $post->id, 'person_id' => $maxim->id, 'source' => 'title']);
+        // Popis starých videí sa pri opakovanej kontrole nepoužíva.
+        $this->assertDatabaseMissing('person_post', ['post_id' => $post->id, 'person_id' => $buc->id]);
+    }
+
     public function test_ai_je_predvolene_vypnuta(): void
     {
         config(['openai.api_key' => 'test-key']);
