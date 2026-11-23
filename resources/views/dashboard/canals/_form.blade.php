@@ -250,24 +250,20 @@
                             </p>
                         @endif
 
-                        <div class="grid gap-x-5 gap-y-4 sm:grid-cols-2">
-                            <div>
-                                <label class="ar-label" for="youtube_channel">ID kanála YouTube</label>
-                                <input class="{{ $field('youtube_channel') }} font-mono text-sm" type="text" id="youtube_channel"
-                                       name="youtube_channel" value="{{ old('youtube_channel', $canal->youtube_channel) }}"
-                                       maxlength="191" inputmode="url" pattern="\S+" placeholder="UC… alebo adresa kanála" spellcheck="false" autocapitalize="off">
-                                <p class="ar-hint">Stačí vložiť adresu kanála, napr. https://www.youtube.com/@meno — ID sa doplní samo. Načítavajú sa všetky videá kanála.</p>
-                                @error('youtube_channel') <p class="ar-error">{{ $message }}</p> @enderror
-                            </div>
-
-                            <div>
-                                <label class="ar-label" for="youtube_playlist">ID playlistu YouTube</label>
-                                <input class="{{ $field('youtube_playlist') }} font-mono text-sm" type="text" id="youtube_playlist"
-                                       name="youtube_playlist" value="{{ old('youtube_playlist', $canal->youtube_playlist) }}"
-                                       maxlength="191" inputmode="url" pattern="\S+" placeholder="PL… alebo adresa playlistu" spellcheck="false" autocapitalize="off">
-                                <p class="ar-hint">Nepovinné. Vyplňte, len ak majú videá chodiť (aj) z jedného konkrétneho playlistu.</p>
-                                @error('youtube_playlist') <p class="ar-error">{{ $message }}</p> @enderror
-                            </div>
+                        @php
+                            // Jedno pole pre kanál aj playlist (App\Services\Youtube\YoutubeSource).
+                            // Kanál s oboma zdrojmi sa už nezakladá; keby nejaký bol, ukáže sa kanál.
+                            $sourceError = $errors->first('youtube_source') ?: $errors->first('youtube_channel') ?: $errors->first('youtube_playlist');
+                        @endphp
+                        <div class="sm:max-w-xl" data-youtube-source data-check-url="{{ route('canal.youtubeSource') }}">
+                            <label class="ar-label" for="youtube_source">YouTube kanál alebo playlist</label>
+                            <input class="ar-field{{ $sourceError ? ' ar-field--error' : '' }} font-mono text-sm" type="text" id="youtube_source"
+                                   name="youtube_source" value="{{ old('youtube_source', $canal->youtube_channel ?: $canal->youtube_playlist) }}"
+                                   maxlength="300" inputmode="url" placeholder="https://www.youtube.com/@meno" spellcheck="false" autocapitalize="off"
+                                   aria-describedby="youtube_source-hint youtube_source-status">
+                            <p class="ar-hint" id="youtube_source-hint">Vložte adresu z YouTube tak, ako je — kanál (@meno, aj s /videos), playlist alebo odkaz na hocijaké video z kanála. Kanál = všetky jeho videá, playlist = len videá z neho. Prázdne pole = videá sa nesťahujú.</p>
+                            <p class="ar-hint" id="youtube_source-status" data-source-status aria-live="polite"></p>
+                            @if ($sourceError) <p class="ar-error">{{ $sourceError }}</p> @endif
                         </div>
 
                         <div class="sm:max-w-xs">
@@ -294,17 +290,18 @@
                             @error('post_section') <p class="ar-error">{{ $message }}</p> @enderror
                         </div>
 
-                        <div class="sm:max-w-md" data-video-schedule @if (! (filled(old('youtube_channel', $canal->youtube_channel)) || filled(old('youtube_playlist', $canal->youtube_playlist)))) hidden @endif>
+                        @php $hasSource = filled(old('youtube_source', $canal->youtube_channel ?: $canal->youtube_playlist)); @endphp
+                        <div class="sm:max-w-md" data-video-schedule @if (! $hasSource) hidden @endif>
                             <label class="ar-label" for="import_day">Deň kontroly videí</label>
                             <select class="{{ $field('import_day') }}" id="import_day" name="import_day"
-                                    @disabled(! (filled(old('youtube_channel', $canal->youtube_channel)) || filled(old('youtube_playlist', $canal->youtube_playlist))))>
+                                    @disabled(! $hasSource)>
                                 <option value="" @selected($importDay === null || $importDay === '')>Denne</option>
                                 <option value="auto" @selected($importDay === 'auto')>Automaticky rozložiť — {{ $importDays[$suggestedImportDay] }}</option>
                                 @foreach ($importDays as $cislo => $nazov)
                                     <option value="{{ $cislo }}" @selected((string) $importDay === (string) $cislo)>{{ $nazov }}</option>
                                 @endforeach
                             </select>
-                            <p class="ar-hint">Kontroluje nové videá zo zadaného YouTube kanála aj pripojeného playlistu. Vybraný deň znamená raz týždenne o 16:24. Pri pridaní YouTube zdroja sa automaticky vyberie najmenej obsadený deň. Môžete zvoliť aj konkrétny deň.</p>
+                            <p class="ar-hint">Vybraný deň znamená raz týždenne o 16:24. Pri zadaní alebo zmene YouTube zdroja sa sám vyberie najmenej obsadený deň, ak tu nezvolíte inak.</p>
                             @error('import_day') <p class="ar-error">{{ $message }}</p> @enderror
                         </div>
                         @endunless
@@ -320,9 +317,6 @@
                                 <p class="ar-hint">Čaká na najbližší denný beh{{ $canal->video_check_attempted_at?->isToday() ? ' zajtra' : '' }}.</p>
                             @else
                                 <p class="ar-hint">Najbližšia kontrola: {{ ($canal->video_check_next_at ?? \App\Services\Youtube\VideoImportSchedule::nextDate($canal))?->format('d. m. Y H:i') ?? 'Nie je naplánovaná' }}.</p>
-                            @endif
-                            @if ($canal->name_search_window_end)
-                                <p class="ar-hint">Vyhľadávanie je rozpracované, pokračovať bude pri ďalšom dennom behu.</p>
                             @endif
                             @if ($canal->video_check_error)
                                 <p class="ar-error">{{ $canal->video_check_error }}</p>
@@ -343,20 +337,69 @@
         @push('scripts')
             <script nonce="{{ csp_nonce() }}">
                 window.arReady(() => {
-                    const source = document.getElementById('youtube_channel');
-                    const playlist = document.getElementById('youtube_playlist');
+                    const source = document.getElementById('youtube_source');
                     const schedule = document.querySelector('[data-video-schedule]');
-                    if (!source || !schedule) return;
-                    const refresh = () => {
-                        const visible = source.value.trim() !== '' || (playlist?.value.trim() ?? '') !== '';
-                        schedule.hidden = !visible;
-                        schedule.querySelector('select').disabled = !visible;
-                    };
-                    source.addEventListener('input', refresh);
-                    source.addEventListener('change', refresh);
-                    playlist?.addEventListener('input', refresh);
-                    playlist?.addEventListener('change', refresh);
-                    refresh();
+                    const box = document.querySelector('[data-youtube-source]');
+                    const status = box?.querySelector('[data-source-status]');
+                    if (source && schedule) {
+                        const day = schedule.querySelector('select');
+                        const initial = source.value.trim();
+                        // Nový zdroj bez vybraného dňa dostane automatický deň,
+                        // kým ho správca sám nezmení. Už vybraný deň ostáva.
+                        let dayTouched = false;
+                        day.addEventListener('change', () => { dayTouched = true; });
+                        const refresh = () => {
+                            const value = source.value.trim();
+                            schedule.hidden = value === '';
+                            day.disabled = value === '';
+                            if (!dayTouched && value !== '' && value !== initial && day.value === '') day.value = 'auto';
+                        };
+                        source.addEventListener('input', refresh);
+                        source.addEventListener('change', refresh);
+                        refresh();
+                    }
+
+                    // Kontrola zdroja pod poľom: nájde sa kanál či playlist?
+                    if (source && box && status) {
+                        let timer = null;
+                        let seq = 0;
+                        const show = (text, ok, url) => {
+                            status.textContent = '';
+                            status.className = ok === false ? 'ar-error' : 'ar-hint';
+                            if (ok === true) status.append('✓ ');
+                            if (ok === false) status.append('✗ ');
+                            status.append(text);
+                            if (url) {
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.target = '_blank';
+                                link.rel = 'noopener noreferrer';
+                                link.className = 'ar-link';
+                                link.textContent = 'Otvoriť na YouTube';
+                                status.append(' ', link);
+                            }
+                        };
+                        const check = async () => {
+                            const value = source.value.trim();
+                            const mine = ++seq;
+                            if (value === '') { show('', null); return; }
+                            show('Overujem…', null);
+                            try {
+                                const url = new URL(box.dataset.checkUrl, window.location.origin);
+                                url.searchParams.set('value', value);
+                                const response = await fetch(url, { headers: { Accept: 'application/json' }, credentials: 'same-origin' });
+                                if (mine !== seq) return;
+                                if (!response.ok) { show('Overiť sa to teraz nedalo. Uložiť sa dá aj tak.', null); return; }
+                                const data = await response.json();
+                                show(data.message, data.ok, data.url);
+                            } catch (e) {
+                                if (mine === seq) show('Overiť sa to teraz nedalo. Uložiť sa dá aj tak.', null);
+                            }
+                        };
+                        source.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(check, 700); });
+                        source.addEventListener('change', () => { clearTimeout(timer); check(); });
+                        if (source.value.trim() !== '') check();
+                    }
 
                     const section = document.getElementById('post_section');
                     const sectionHint = document.querySelector('[data-section-hint]');

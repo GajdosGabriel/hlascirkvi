@@ -309,6 +309,11 @@ Route::post('seminars/{seminar}/upload', 'Seminars\SeminarController@uploadVideo
     ->name('seminars.uploadVideos');
 
 
+// Kontrola zdroja videí vo formulári kanála (len admin, overuje controller).
+Route::get('dashboard/youtube-source', 'Canal\YoutubeSourceController')
+    ->middleware(['auth', 'throttle:30,1'])
+    ->name('canal.youtubeSource');
+
 // Uložené na neskôr — súkromné záložky čitateľa (App\Http\Controllers\Public\
 // SavedPostController). Prepnutie je PUT, s GET detailom sa teda nebije.
 Route::middleware('auth')->group(function () {

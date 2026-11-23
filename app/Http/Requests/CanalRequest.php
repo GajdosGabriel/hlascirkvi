@@ -9,6 +9,7 @@ use App\Models\Canal;
 use App\Services\Youtube\ChannelId;
 use App\Services\Youtube\PlaylistId;
 use App\Services\Youtube\VideoImportSchedule;
+use App\Services\Youtube\YoutubeSource;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -112,7 +113,7 @@ class CanalRequest extends FormRequest
             'street.max' => 'Ulica môže mať najviac 191 znakov.',
             'phone.max' => 'Telefón môže mať najviac 20 znakov.',
             'phone.regex' => 'Telefón môže obsahovať len číslice, medzery, zátvorky, pomlčky a úvodné +.',
-            'youtube_channel.regex' => 'Kanál sa nedal určiť. Zadajte ID kanála (UC…) alebo adresu kanála na YouTube.',
+            'youtube_channel.regex' => 'Kanál ani playlist sa nedal určiť. Vložte adresu kanála (napr. youtube.com/@meno), playlistu alebo videa z kanála.',
             'youtube_playlist.regex' => 'Playlist sa nedal určiť. Zadajte ID playlistu (PL…) alebo jeho adresu na YouTube.',
             'youtube_channel.unique' => 'Tento kanál YouTube už má priradený iný kanál na portáli.',
             'youtube_playlist.unique' => 'Tento playlist YouTube už má priradený iný kanál na portáli.',
@@ -153,11 +154,15 @@ class CanalRequest extends FormRequest
             $this->merge(['url_www' => $web === '' ? null : $web]);
         }
 
-        if ($this->has('youtube_channel')) {
+        // Formulár posiela jedno pole; kanál a playlist sa z neho rozdelia.
+        // Staré dvojpolíčkové volanie (youtube_channel/youtube_playlist) platí ďalej.
+        if ($this->has('youtube_source')) {
+            $this->merge($this->youtubeSource($this->input('youtube_source')));
+        } elseif ($this->has('youtube_channel')) {
             $this->merge(['youtube_channel' => $this->channelId($this->input('youtube_channel'))]);
         }
 
-        if ($this->has('youtube_playlist')) {
+        if (! $this->has('youtube_source') && $this->has('youtube_playlist')) {
             $playlist = trim((string) $this->input('youtube_playlist'));
 
             $this->merge([
@@ -166,6 +171,32 @@ class CanalRequest extends FormRequest
                     : (PlaylistId::fromInput($playlist) ?? $playlist),
             ]);
         }
+    }
+
+    /**
+     * @return array{youtube_channel: ?string, youtube_playlist: ?string}
+     */
+    private function youtubeSource($value): array
+    {
+        $value = trim((string) $value);
+
+        try {
+            $source = YoutubeSource::resolve($value);
+        } catch (\Throwable $e) {
+            Log::warning('Preklad zdroja YouTube na ID zlyhal: ' . $e->getMessage(), ['value' => $value]);
+
+            // Bez API prejde aj tak ID či adresa, z ktorej sa dá vyčítať priamo.
+            $playlist = PlaylistId::fromInput($value);
+            $channel = $playlist ? null : ChannelId::fromInput($value);
+            $source = ($playlist || $channel) ? ['channel' => $channel, 'playlist' => $playlist] : null;
+        }
+
+        // Nerozlúsknutý vstup ide do kanála nezmenený — pravidlo regex na ňom
+        // vypíše hlášku, ktorú správca uvidí pri poli.
+        return [
+            'youtube_channel' => $source === null ? $value : $source['channel'],
+            'youtube_playlist' => $source['playlist'] ?? null,
+        ];
     }
 
     private function channelId($value): ?string

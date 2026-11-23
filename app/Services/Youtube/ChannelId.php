@@ -83,9 +83,12 @@ class ChannelId
      * Doplní ID aj pre handle. `channels.list?forHandle` stojí jednu jednotku
      * kvóty, `search` až sto — preto je až poslednou možnosťou.
      *
+     * Formulár kanála hľadanie podľa mena vypína (`$search = false`): prvý
+     * výsledok fulltextu môže byť cudzí kanál a uložil by sa bez povšimnutia.
+     *
      * @throws YoutubeApiException keď YouTube API odpovie chybou
      */
-    public static function resolve(?string $value): ?string
+    public static function resolve(?string $value, bool $search = true): ?string
     {
         if ($id = self::fromInput($value)) {
             return $id;
@@ -102,7 +105,7 @@ class ChannelId
         $lookups = [
             fn () => $api->channelIdByHandle($handle),
             fn () => $api->channelIdByUsername($handle),
-            fn () => $api->searchChannelId($handle),
+            ...($search ? [fn () => $api->searchChannelId($handle)] : []),
         ];
 
         foreach ($lookups as $lookup) {

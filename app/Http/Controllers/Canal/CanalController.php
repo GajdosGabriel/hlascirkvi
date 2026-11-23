@@ -158,9 +158,6 @@ class CanalController extends Controller
         VideoImportSchedule::assignDayForNewSource($canal);
         if ($canal->isDirty(['import_day', 'youtube_channel', 'youtube_playlist', 'title', 'post_section'])) {
             VideoImportSchedule::reset($canal);
-            if ($canal->isDirty(['title', 'youtube_channel', 'youtube_playlist'])) {
-                $canal->name_search_completed_until = null;
-            }
         }
         app(\App\Services\Canal\StoreAvatar::class)->save(
             $canal, $request->file('avatar_file'), $request->boolean('remove_avatar')

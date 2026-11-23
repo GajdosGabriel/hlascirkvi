@@ -17,7 +17,14 @@ class VideoImportSchedule
     {
         // Pridaný YouTube zdroj dostane týždenný termín aj bez výberu vo
         // formulári. Už nastavený deň ani existujúci denný import nemeníme.
-        if (self::hasSource($canal)
+        // Bez zdroja sa nekontroluje nič — hľadanie podľa mena je zrušené.
+        if (! self::hasSource($canal)) {
+            $canal->import_day = null;
+
+            return;
+        }
+
+        if ($canal->import_day === null
             && $canal->import_day === null
             && (! $canal->exists || $canal->isDirty(['youtube_channel', 'youtube_playlist']))) {
             $canal->import_day = self::suggestedDay($canal->id);
@@ -26,12 +33,12 @@ class VideoImportSchedule
 
     public static function nextDate(Canal $canal, ?CarbonInterface $after = null): ?Carbon
     {
-        if ($canal->import_day === null && ! self::hasSource($canal)) {
+        if (! self::hasSource($canal)) {
             return null;
         }
 
         $after ??= now();
-        $next = Carbon::instance($after)->setTime(...(self::hasSource($canal) ? [16, 24] : [6, 55]));
+        $next = Carbon::instance($after)->setTime(16, 24);
         if ($canal->import_day === null) {
             return $next->lte($after) ? $next->addDay() : $next;
         }
@@ -56,8 +63,12 @@ class VideoImportSchedule
 
     public static function due(Canal $canal): bool
     {
+        if (! self::hasSource($canal)) {
+            return false;
+        }
+
         if ($canal->import_day === null) {
-            return self::hasSource($canal);
+            return true;
         }
 
         // Opakovaný denný príkaz nespotrebuje kvótu znova. Výpadok dobehneme zajtra.
@@ -76,9 +87,6 @@ class VideoImportSchedule
             'video_check_next_at' => self::nextDate($canal),
             'video_check_attempted_at' => null,
             'video_check_error' => null,
-            'name_search_page_token' => null,
-            'name_search_window_start' => null,
-            'name_search_window_end' => null,
         ]);
     }
 

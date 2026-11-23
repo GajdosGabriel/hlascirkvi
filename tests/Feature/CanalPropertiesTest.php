@@ -91,7 +91,8 @@ class CanalPropertiesTest extends TestCase
 
     public function test_admin_ulozi_den_importu_aj_smerovanie_videi(): void
     {
-        $canal = Canal::factory()->create();
+        // Deň kontroly má len kanál s YouTube zdrojom.
+        $canal = Canal::factory()->create(['youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw']);
 
         $this->actingAs($this->admin($canal))
             ->put('/dashboard/canals/' . $canal->id, $this->payload($canal, [

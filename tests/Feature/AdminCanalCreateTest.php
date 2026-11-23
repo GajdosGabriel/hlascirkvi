@@ -31,7 +31,7 @@ class AdminCanalCreateTest extends TestCase
             ->assertSee('name="published"', false)
             ->assertSee('name="front_listed"', false)
             ->assertSee('Kresťanské osobnosti')
-            ->assertSee('name="youtube_channel"', false)
+            ->assertSee('name="youtube_source"', false)
             ->assertDontSee('name="_method"', false);
 
         $this->get(route('admin.canal.index'))

@@ -48,9 +48,6 @@ class Canal extends Model
         'video_check_next_at' => 'datetime',
         'video_check_attempted_at' => 'datetime',
         'video_check_succeeded_at' => 'datetime',
-        'name_search_window_start' => 'datetime',
-        'name_search_window_end' => 'datetime',
-        'name_search_completed_until' => 'datetime',
     ];
 
     protected static function booted(): void

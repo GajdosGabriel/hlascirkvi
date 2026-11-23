@@ -27,9 +27,19 @@ class CanalController extends Controller
         $month = (int) request('mesiac');
         $month = $year && $month >= 1 && $month <= 12 ? $month : null;
 
+        // Osobný kanál kedysi dopĺňalo hľadanie podľa mena (zrušené 11/2026,
+        // ťahalo aj cudzie videá). Namiesto neho ukáže popri vlastných aj
+        // videá z iných kanálov, v ktorých osobu rozpoznalo
+        // App\Services\Persons\PersonDetector — s YouTube zdrojom aj bez neho.
+        $personId = \App\Models\Person::where('canal_id', $canal->id)->value('id');
+
         // Len zverejnené — video čakajúce v bufferi sa inak objavilo na
         // kanáli skôr ako na titulke.
-        $posts = $canal->posts()
+        $posts = \App\Models\Post::query()
+            ->where(fn ($query) => $query->where('posts.canal_id', $canal->id)
+                ->when($personId, fn ($q) => $q->orWhereIn('posts.id',
+                    fn ($ids) => $ids->select('post_id')->from('person_post')->where('person_id', $personId))))
+            ->when($personId, fn ($query) => $query->whereHas('canal'))
             ->published()->available()
             ->when($year, fn ($query) => $query->whereYear('created_at', $year))
             ->when($month, fn ($query) => $query->whereMonth('created_at', $month))

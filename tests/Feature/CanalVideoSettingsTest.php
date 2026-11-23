@@ -58,7 +58,7 @@ class CanalVideoSettingsTest extends TestCase
         }
         $canal = Canal::factory()->create([
             'youtube_channel' => 'UCtWheHmWwuokUASxXus4NBw', 'import_day' => 2,
-            'name_search_page_token' => 'obsolete', 'video_check_error' => 'old error',
+            'video_check_error' => 'old error',
         ]);
         $this->actingAs($this->actor($canal, 'admin'))
             ->put('/dashboard/canals/'.$canal->id, $this->payload($canal, ['import_day' => 'auto']))
@@ -67,7 +67,6 @@ class CanalVideoSettingsTest extends TestCase
         $this->assertSame(0, $canal->import_day);
         $this->assertSame(0, $canal->video_check_next_at->dayOfWeek);
         $this->assertSame('16:24', $canal->video_check_next_at->format('H:i'));
-        $this->assertNull($canal->name_search_page_token);
         $this->assertNull($canal->video_check_error);
     }
 
@@ -112,13 +111,14 @@ class CanalVideoSettingsTest extends TestCase
         $this->assertNull($canal->fresh()->import_day);
     }
 
-    public function test_hidden_field_does_not_erase_legacy_name_search_day(): void
+    public function test_canal_without_source_has_no_check_day(): void
     {
         $canal = Canal::factory()->create(['import_day' => 3]);
         $this->actingAs($this->actor($canal, 'admin'))
             ->put('/dashboard/canals/'.$canal->id, $this->payload($canal, ['description' => 'Nový popis']))
             ->assertSessionHasNoErrors()->assertRedirect();
-        $this->assertSame(3, $canal->fresh()->import_day);
+        $this->assertNull($canal->fresh()->import_day);
+        $this->assertNull($canal->fresh()->video_check_next_at);
     }
 
     public function test_form_hides_schedule_without_channel_and_offers_front_list_to_superadmin(): void

@@ -34,9 +34,6 @@ class Kernel extends ConsoleKernel
          */
         $schedule->command('UserSearchByChannelAndPlaylist')->dailyAt('16:24')->withoutOverlapping(120);
 
-        // Týždenná zostava podľa import_day a zameškané kontroly.
-        $schedule->command('UserSearchByName')->dailyAt('06:55')->withoutOverlapping(120);
-
         // Buffer sa vypúšťa po jednom počas celého dňa. Príkaz beží často, ale
         // väčšina behov len skončí — sám si drží denný plán nepravidelných
         // časov (config/buffer.php), aby to nevyzeralo ako dávka o 16:24.
