@@ -62,6 +62,14 @@ class PersonDetectorTest extends TestCase
         $this->assertSame([$elko->id => 'description'], $this->detect($post));
     }
 
+    public function test_meno_v_riadku_s_odkazom(): void
+    {
+        $kodet = $this->person('Vojtěch Kodet');
+
+        $post = Post::factory()->create(['title' => 'Milosrdný Ježíš', 'body' => 'Duchovní obnova s P. Vojtěchem Kodetem (5. promluva) www.vojtechkodet.cz.']);
+        $this->assertSame([$kodet->id => 'description'], $this->detect($post));
+    }
+
     public function test_riadok_opakovany_pod_kazdym_videom_kanala_sa_ignoruje(): void
     {
         $this->person('Alois Boháček');
@@ -111,6 +119,40 @@ class PersonDetectorTest extends TestCase
         $this->assertSame([$kodet->id => 'title'], $this->detect(Post::factory()->create(['title' => 'O. Kodet - Prečo sa mám modliť?'])));
         $this->assertSame([$zsolnai->id => 'title'], $this->detect(Post::factory()->create(['title' => 'Takí, ako my • Pasho Zsolnai • 5.7.2020'])));
         $this->assertSame([$rusnak->id => 'title'], $this->detect(Post::factory()->create(['title' => 'Liturgia s vladykom P. Rusnákom z Katedrály'])));
+    }
+
+    public function test_oslovenie_bez_medzery_iniciala_a_farar(): void
+    {
+        $kuffa = $this->person('Marián Kuffa');
+
+        foreach ([
+            'O.Kuffa - kázeň PRUSKÉ 9.6.2018',
+            'Kázeň o.Kuffu - Hrdí na rodinu',
+            'O.KUFFA - Čo je vlastne advent?',
+            'M.Kuffa, kázeň v Piešťanoch',
+            'Boží prorok M. Kuffa pozýva na modlitbu',
+            'Farár Kuffa vysvetľuje LGBTI a gender agendu',
+            'o kuffa prednaška 2 zakotvený vo viere',
+            'Páter-Kuffa---kňaz',
+            'Sermon by father Kuffa',
+            'O M Kuffa Studnička Pozba prednáška',
+        ] as $title) {
+            $this->assertSame([$kuffa->id => 'title'], $this->detect(Post::factory()->create(['title' => $title])), $title);
+        }
+    }
+
+    public function test_oslovenie_pred_beznym_slovom_nie_je_meno(): void
+    {
+        $this->person('Tomáš Surovec');
+        $this->person('Marián Kuffa');
+
+        foreach ([
+            'Može syn zbiť otca, keď je otec surovec? - Kázeň v Roškovciach',
+            'A Kuffa nič nepovedal',
+            'K. Kuffa o politike',
+        ] as $title) {
+            $this->assertSame([], $this->detect(Post::factory()->create(['title' => $title])), $title);
+        }
     }
 
     public function test_samotne_priezvisko_neprida_inu_osobu(): void

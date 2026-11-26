@@ -143,16 +143,27 @@ class PersonDetector
 
         // Dvojice [slovo, krstné meno pred ním alebo null].
         $words = [];
-        $normalized = ' '.$this->normalize($title).' ';
-        $prefixes = 'o|otec|otca|otcom|p|pater|patra|patrom|vladyka|vladyku|vladykom|biskup|biskupa|biskupom|arcibiskup|arcibiskupa|mons|kardinal|kardinala|pastor|pastora|pastorom|brat|sestra|dp|vdp|don|fr|kaz';
-        if (preg_match_all('~\b(?:'.$prefixes.')\.?\s+(?:\w\.\s*)?(\w{4,})~u', $normalized, $m)) {
+        // Bez diakritiky, ale s pôvodnou veľkosťou písmen: priezvisko za
+        // oslovením musí začínať veľkým písmenom — „keď je otec surovec" nie je
+        // meno. Za bodkou nemusí byť medzera („O.Kuffa", „o.Kuffu").
+        $ascii = Str::ascii(preg_replace('/\s+/u', ' ', $title));
+        // Názov celý malými písmenami („O kodet prednaška" — prvé písmeno je
+        // veľké vždy, Post::setTitleAttribute) veľkosť nerozlíši.
+        $initial = preg_match('~[A-Z]~', substr($ascii, 1)) ? 'A-Z' : 'a-z';
+        $prefixes = 'o|otec|otca|otcom|p|pater|patra|patrom|vladyka|vladyku|vladykom|biskup|biskupa|biskupom|arcibiskup|arcibiskupa|mons|kardinal|kardinala|pastor|pastora|pastorom|brat|sestra|dp|vdp|don|fr|kaz|farar|farara|fararom|fararovi|knaz|knaza|knazom|knazi|father';
+        if (preg_match_all('~\b(?i:'.$prefixes.')(?:\.\s*|[\s-]+)(?:[A-Za-z](?:\.\s*|\s+))?(['.$initial.'][A-Za-z\']{3,}(?:-[A-Z][A-Za-z\']+)?)~', $ascii, $m)) {
             foreach ($m[1] as $word) {
-                $words[] = [$word, null];
+                $words[] = [$this->normalize($word), null];
             }
         }
-        if (preg_match_all('~\b(\p{Lu}[\p{L}\'’]*)\.?\s+(\p{Lu}\p{Ll}[\p{Ll}\'’-]{2,})~u', $title, $m, PREG_SET_ORDER)) {
+        // Krstné meno, prezývka alebo iniciála s bodkou („M. Kuffa", „M.Kuffa").
+        if (preg_match_all('~\b(\p{Lu}[\p{L}\'’]*)(\.?)(?:(?<=\.)\s*|\s+)(\p{Lu}\p{Ll}[\p{Ll}\'’-]{2,})~u', $title, $m, PREG_SET_ORDER)) {
             foreach ($m as $pair) {
-                $words[] = [$this->normalize($pair[2]), $this->normalize($pair[1])];
+                // Samotné písmeno bez bodky je skôr spojka („A Kuffa…").
+                if (mb_strlen($pair[1]) === 1 && $pair[2] === '') {
+                    continue;
+                }
+                $words[] = [$this->normalize($pair[3]), $this->normalize($pair[1])];
             }
         }
 
@@ -179,7 +190,9 @@ class PersonDetector
                 // Slovo pred priezviskom je krstné meno alebo prezývka a musí
                 // sa začínať ako meno osoby: „Pasho" – Pavol, „Evka" – Eva;
                 // „Amanda Cook", „Honza Holub" či „Sv. Gorazda" sú iní ľudia.
-                && ($before === null || ($info['first'] !== '' && str_starts_with($before, mb_substr($info['first'], 0, 2)))));
+                // Iniciála („M.") sa porovná len s prvým písmenom.
+                && ($before === null || ($info['first'] !== ''
+                    && str_starts_with($before, mb_substr($info['first'], 0, min(2, mb_strlen($before)))))));
 
             // Slovo pasuje na viac osôb — nič neurčí.
             if (count($hits) === 1) {
@@ -264,7 +277,12 @@ class PersonDetector
      */
     protected function description(Post $post): string
     {
-        $lines = array_filter($this->lines((string) $post->body), fn ($line) => ! preg_match('~https?://|www\.|@~u', $line));
+        // Odkazy a @adresy preč, zvyšok riadku ostáva: „Duchovní obnova
+        // s P. Vojtěchem Kodetem (7. promluva) www.vojtechkodet.cz."
+        $lines = array_filter(array_map(
+            fn ($line) => trim(preg_replace('~(?:https?://|www\.)\S+|\S*@\S+~u', '', $line)),
+            $this->lines((string) $post->body),
+        ), fn ($line) => $line !== '');
 
         $repeated = [];
         $others = DB::table('posts')->where('canal_id', $post->canal_id)->where('id', '<>', $post->id)
